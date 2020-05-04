@@ -17,6 +17,7 @@ from course_catalog.api import (
     parse_bootcamp_json_data,
     sync_ocw_courses,
     sync_ocw_course_files,
+    sync_oll_course_files,
     sync_xpro_course_files,
 )
 from course_catalog.etl import pipelines, youtube
@@ -52,12 +53,10 @@ def get_ocw_data(
     Task to sync OCW course data with database
     """
     if not (
-        settings.OCW_CONTENT_ACCESS_KEY
-        and settings.OCW_CONTENT_SECRET_ACCESS_KEY
+        settings.AWS_ACCESS_KEY_ID
+        and settings.AWS_SECRET_ACCESS_KEY
         and settings.OCW_CONTENT_BUCKET_NAME
         and settings.OCW_LEARNING_COURSE_BUCKET_NAME
-        and settings.OCW_LEARNING_COURSE_ACCESS_KEY
-        and settings.OCW_LEARNING_COURSE_SECRET_ACCESS_KEY
     ):
         log.warning("Required settings missing for get_ocw_data")
         return
@@ -68,8 +67,8 @@ def get_ocw_data(
     # get all the courses prefixes we care about
     raw_data_bucket = boto3.resource(
         "s3",
-        aws_access_key_id=settings.OCW_CONTENT_ACCESS_KEY,
-        aws_secret_access_key=settings.OCW_CONTENT_SECRET_ACCESS_KEY,
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
     ).Bucket(name=settings.OCW_CONTENT_BUCKET_NAME)
     ocw_courses = generate_course_prefix_list(raw_data_bucket)
 
@@ -99,8 +98,8 @@ def get_ocw_files(ids=None):
     """
     if not (
         settings.OCW_LEARNING_COURSE_BUCKET_NAME
-        and settings.OCW_LEARNING_COURSE_ACCESS_KEY
-        and settings.OCW_LEARNING_COURSE_SECRET_ACCESS_KEY
+        and settings.AWS_ACCESS_KEY_ID
+        and settings.AWS_SECRET_ACCESS_KEY
     ):
         log.warning("Required settings missing for get_ocw_files")
         return
@@ -134,8 +133,8 @@ def get_xpro_files(ids):
     """
     if not (
         settings.XPRO_LEARNING_COURSE_BUCKET_NAME
-        and settings.XPRO_LEARNING_COURSE_ACCESS_KEY
-        and settings.XPRO_LEARNING_COURSE_SECRET_ACCESS_KEY
+        and settings.AWS_ACCESS_KEY_ID
+        and settings.AWS_SECRET_ACCESS_KEY
     ):
         log.warning("Required settings missing for get_xpro_files")
         return
@@ -174,8 +173,8 @@ def upload_ocw_master_json():
     """
     s3_bucket = boto3.resource(
         "s3",
-        aws_access_key_id=settings.OCW_LEARNING_COURSE_ACCESS_KEY,
-        aws_secret_access_key=settings.OCW_LEARNING_COURSE_SECRET_ACCESS_KEY,
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
     ).Bucket(settings.OCW_LEARNING_COURSE_BUCKET_NAME)
 
     for course in Course.objects.filter(platform=PlatformType.ocw.value).iterator(
@@ -315,3 +314,44 @@ def get_podcast_data():
     results = pipelines.podcast_etl()
 
     return len(list(results))
+
+
+@app.task
+def get_oll_files(ids):
+    """
+    Task to sync OLL OLX files with database
+    """
+    if not (
+        settings.OLL_OLX_BUCKET_NAME
+        and settings.AWS_ACCESS_KEY_ID
+        and settings.AWS_SECRET_ACCESS_KEY
+    ):
+        log.warning("Required settings missing for get_oll_files")
+        return
+
+    sync_oll_course_files(ids)
+
+
+@app.task(bind=True)
+def import_all_oll_files(self, chunk_size=None):
+    """Ingest OLL OLX files from the S3 bucket"""
+    if chunk_size is None:
+        chunk_size = settings.OLL_ITERATOR_CHUNK_SIZE
+
+    blacklisted_ids = load_course_blacklist()
+    tasks = celery.group(
+        [
+            get_oll_files.si(ids)
+            for ids in chunks(
+                Course.objects.filter(published=True)
+                .filter(platform__in=(PlatformType.oll.value, PlatformType.mitx.value))
+                .exclude(course_id__in=blacklisted_ids)
+                .order_by("id")
+                .values_list("id", flat=True),
+                chunk_size=chunk_size,
+            )
+        ]
+    )
+
+    # to reduce the risk of triggering these multiple times, we trigger and replace this task all at once
+    raise self.replace(tasks)
