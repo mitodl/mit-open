@@ -109,4 +109,4 @@ celerybeat-schedule
 # docs/bundler/jekyll
 docs/_site
 
-tsconfig.tsbuildinfo
+.tsbuildinfo
