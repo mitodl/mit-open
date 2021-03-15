@@ -8,10 +8,10 @@ const { config, babelSharedLoader } = require(path.resolve(
 
 const prodBabelConfig = Object.assign({}, babelSharedLoader)
 
-prodBabelConfig.query.plugins.push(
-  "@babel/plugin-transform-react-constant-elements",
-  "@babel/plugin-transform-react-inline-elements"
-)
+// prodBabelConfig.use[0].options.plugins.push(
+//   "@babel/plugin-transform-react-constant-elements",
+//   "@babel/plugin-transform-react-inline-elements"
+// )
 
 const prodConfig = Object.assign({}, config)
 prodConfig.module.rules = [
