@@ -98,7 +98,7 @@ def test_transform_content_files(mock_tika_functions, mocker):
     youtube_inputs = [EMBEDDED_MEDIA[item] for item in EMBEDDED_MEDIA]
 
     transformed_files = transform_content_files(OCW_COURSE_JSON)
-    # assert len(transformed_files) == len(all_inputs) + len(youtube_inputs) - 1
+    assert len(transformed_files) == len(all_inputs) + len(youtube_inputs) - 1
     assert mock_tika_functions.mock_extract_text.call_count == len(text_inputs)
     mock_tika_functions.mock_extract_text.assert_any_call(
         mocker.ANY,
