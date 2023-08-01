@@ -46,6 +46,7 @@ from search.search_index_helpers import (
     upsert_staff_list,
     upsert_user_list,
 )
+from drf_spectacular.utils import extend_schema_field
 
 COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
 
@@ -643,15 +644,15 @@ class BaseListSerializer(serializers.Serializer):
     audience = serializers.ReadOnlyField()
     certification = serializers.ReadOnlyField()
 
-    def get_author_name(self, instance):
+    def get_author_name(self, instance) -> str:
         """get author name for userlist"""
         return instance.author.profile.name
 
-    def get_item_count(self, instance):
+    def get_item_count(self, instance) -> int:
         """Return the number of items in the list"""
         return getattr(instance, "item_count", None) or instance.items.count()
 
-    def get_image_src(self, instance):
+    def get_image_src(self, instance) -> str:
         """Return the user list's image or the image of the first item"""
         if instance.image_src:
             return instance.image_src.url
@@ -682,6 +683,7 @@ class BaseListSerializer(serializers.Serializer):
                 raise ValidationError(f"Invalid topic ids: {missing}")
         return {"topics": topics}
 
+    @extend_schema_field(CourseTopicSerializer(many=True))
     def get_topics(self, instance):
         """Returns the list of topics"""
         return [CourseTopicSerializer(topic).data for topic in instance.topics.all()]

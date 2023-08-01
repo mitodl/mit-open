@@ -18,6 +18,7 @@ from course_catalog.models import UserList
 from course_catalog.serializers import UserListSerializer
 from open_discussions.serializers import WriteableSerializerMethodField
 from profiles.models import Profile
+from drf_spectacular.utils import extend_schema_field
 
 User = get_user_model()
 
@@ -48,13 +49,14 @@ class FieldChannelSerializer(ChannelAppearanceMixin, serializers.ModelSerializer
     subfields = SubfieldSerializer(many=True, read_only=True)
     is_moderator = serializers.SerializerMethodField()
 
-    def get_is_moderator(self, instance):
+    def get_is_moderator(self, instance) -> bool:
         """Return true if user is a moderator for the channel"""
         request = self.context.get("request")
         if request and is_moderator(request.user, instance.name):
             return True
         return False
 
+    @extend_schema_field(UserListSerializer(many=True))
     def get_lists(self, instance):
         """Returns the field's list of UserLists"""
         return [
@@ -128,6 +130,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
                 raise ValidationError(f"Invalid list ids: {missing}")
         return {"lists": lists}
 
+    @extend_schema_field(UserListSerializer(many=True))
     def get_lists(self, instance):
         """Returns the field's list of UserLists"""
         return [
@@ -153,6 +156,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
                 raise ValidationError("Subfields must be strings")
         return {"subfields": subfields}
 
+    @extend_schema_field(SubfieldSerializer(many=True))
     def get_subfields(self, instance):
         """Returns the list of topics"""
         return [
@@ -269,11 +273,11 @@ class FieldModeratorSerializer(serializers.Serializer):
     email = WriteableSerializerMethodField()
     full_name = serializers.SerializerMethodField()
 
-    def get_moderator_name(self, instance):
+    def get_moderator_name(self, instance) -> str:
         """Returns the name for the moderator"""
         return instance.username
 
-    def get_email(self, instance):
+    def get_email(self, instance) -> str:
         """Get the email from the associated user"""
         return (
             User.objects.filter(username=instance.username)
@@ -281,7 +285,7 @@ class FieldModeratorSerializer(serializers.Serializer):
             .first()
         )
 
-    def get_full_name(self, instance):
+    def get_full_name(self, instance) -> str:
         """Get the full name of the associated user"""
         return (
             Profile.objects.filter(user__username=instance.username)
