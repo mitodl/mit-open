@@ -28,7 +28,7 @@ class SubfieldSerializer(serializers.ModelSerializer):
     """Serializer for Subfields"""
 
     parent_field = serializers.SlugRelatedField(
-        many=False, read_only=True, slug_field="name"
+        many=False, read_only=True, slug_field="name", source="parent_channel"
     )
 
     field_channel = serializers.SlugRelatedField(
