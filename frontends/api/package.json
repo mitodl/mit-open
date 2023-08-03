@@ -1,0 +1,12 @@
+{
+  "name": "api",
+  "packageManager": "yarn@3.2.0",
+  "exports": {
+    ".": "./src/axios/api.ts"
+  },
+  "dependencies": {
+    "@openapi-codegen/cli": "^2.0.0",
+    "@openapi-codegen/typescript": "^7.0.0",
+    "orval": "^6.17.0"
+  }
+}
