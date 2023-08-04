@@ -73,8 +73,6 @@ target/
 static/bundles
 node_modules
 
-# JS directories
-!frontends/open-discussions/src/lib
 
 # Editor stuff
 *.swp
