@@ -7,6 +7,8 @@
   "dependencies": {
     "@openapi-codegen/cli": "^2.0.0",
     "@openapi-codegen/typescript": "^7.0.0",
+    "openapi-fetch": "^0.7.1",
+    "openapi-typescript": "^6.4.0",
     "orval": "^6.17.0"
   }
 }
