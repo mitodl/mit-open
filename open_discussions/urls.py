@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from rest_framework_jwt.views import refresh_jwt_token
 
-from open_discussions.views import index, saml_metadata, channel_redirect, channel_post
+from open_discussions.views import saml_metadata, index
 
 # Post slugs can contain unicode characters, so a letter-matching pattern like [A-Za-z] doesn't work.
 # "[^\W]" Matches any character that is NOT a non-alphanumeric character, including underscores.
@@ -37,7 +37,6 @@ urlpatterns = [
     re_path(r"", include("social_django.urls", namespace="social")),
     re_path(r"", include("channels.urls")),
     re_path(r"", include("channels_fields.urls")),
-    re_path(r"", include("infinite_example.urls"), name="infinite_example"),
     re_path(r"", include("profiles.urls")),
     re_path(r"", include("mail.urls")),
     re_path(r"", include("notifications.urls")),
@@ -51,21 +50,21 @@ urlpatterns = [
     re_path(r"^api/token/refresh/", refresh_jwt_token),
     # React App
     re_path(r"^$", index, name="open_discussions-index"),
-    re_path(r"^auth_required/$", index),
-    re_path(r"^content_policy/$", index),
+    re_path(r"^infinite/", index),
+    re_path(r"^saml/metadata/", saml_metadata, name="saml-metadata"),
     re_path(
         r"^c/(?P<channel_name>[A-Za-z0-9_]+)/(?P<post_id>[A-Za-z0-9_]+)/"
         r"(?P<post_slug>{post_slug_pattern})/comment/(?P<comment_id>[A-Za-z0-9_]+)/?$".format(
             post_slug_pattern=POST_SLUG_PATTERN
         ),
-        channel_post,
+        index,
         name="channel-post-comment",
     ),
     re_path(
         r"^c/(?P<channel_name>[A-Za-z0-9_]+)/(?P<post_id>[A-Za-z0-9_]+)/(?P<post_slug>{post_slug_pattern})/?$".format(
             post_slug_pattern=POST_SLUG_PATTERN
         ),
-        channel_post,
+        index,
         name="channel-post",
     ),
     re_path(r"^c/(?P<channel_name>[A-Za-z0-9_]+)/$", index, name="channel"),
@@ -75,12 +74,6 @@ urlpatterns = [
         name="manage-channel",
     ),
     re_path(r"^settings/(?P<token>[^/]+)/$", index, name="settings-anon"),
-    re_path(r"^c/", index),
-    re_path(r"^channel/", channel_redirect),
-    re_path(r"^manage/", index),
-    re_path(r"^create_post/", index),
-    re_path(r"^settings/", index),
-    re_path(r"^saml/metadata/", saml_metadata, name="saml-metadata"),
     re_path(r"^profile/(?P<username>[A-Za-z0-9_]+)/", index, name="profile"),
     re_path(r"^login/", index, name="login"),
     re_path(r"^signup/", index, name="signup"),
