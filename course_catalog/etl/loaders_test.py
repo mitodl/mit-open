@@ -152,7 +152,9 @@ def test_load_program(
         after_course_count += 1
         ProgramItem.objects.create(
             program=program,
-            content_type=ContentType.objects.get(model="course"),
+            content_type=ContentType.objects.get(
+                model="course", app_label="course_catalog"
+            ),
             object_id=course.id,
             position=1,
         )

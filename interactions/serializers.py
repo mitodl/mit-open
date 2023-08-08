@@ -17,6 +17,7 @@ class ContentTypeInteractionSerializer(serializers.ModelSerializer):
     content_type = serializers.SlugRelatedField(
         slug_field="model",
         queryset=ContentType.objects.filter(
+            app_label="course_catalog",
             model__in=(
                 "course",
                 "userlist",
@@ -24,7 +25,7 @@ class ContentTypeInteractionSerializer(serializers.ModelSerializer):
                 "video",
                 "podcast",
                 "podcastepisode",
-            )
+            ),
         ),
     )
 
