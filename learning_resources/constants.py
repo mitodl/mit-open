@@ -1,3 +1,5 @@
+"""Constants for learning_resources"""
+
 from enum import Enum
 
 OPEN = "Open Content"

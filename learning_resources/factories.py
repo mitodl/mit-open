@@ -8,10 +8,12 @@ import pytz
 from django.contrib.contenttypes.models import ContentType
 from factory import Faker
 from factory.django import DjangoModelFactory
-from factory.fuzzy import FuzzyChoice, FuzzyText
+from factory.fuzzy import FuzzyChoice
 
 from learning_resources import models
 from learning_resources.constants import AvailabilityType, LearningResourceType
+
+# pylint:disable=unused-argument
 
 
 class OfferedByChoice(Enum):
@@ -206,18 +208,17 @@ class CourseFactory(DjangoModelFactory):
     @factory.post_generation
     def runs(self, create, extracted, **kwargs):
         """Create run for program.learning_resource"""
-        if self.learning_resource.id is None:
-            raise Exception
-
         if not create:
             return
 
         if extracted is None:
             extracted = LearningResourceRunFactory.create(
-                learning_resource=self.learning_resource
+                content_object=self,
+                object_id=self.id,
+                content_type=ContentType.objects.get_for_model(models.Program),
             )
 
-        self.learning_resource.runs.set([extracted])
+        self.runs.set([extracted])
 
     class Meta:
         model = models.Course
@@ -226,7 +227,11 @@ class CourseFactory(DjangoModelFactory):
 class LearningResourceRunFactory(DjangoModelFactory):
     """Factory for LearningResourceRuns"""
 
-    learning_resource = factory.SubFactory(LearningResourceFactory)
+    content_object = factory.SubFactory(CourseFactory)
+    object_id = factory.SelfAttribute("content_object.id")
+    content_type = factory.LazyAttribute(
+        lambda o: ContentType.objects.get_for_model(o.content_object)
+    )
     run_id = factory.Sequence(lambda n: "COURSEN%03d.MIT_run" % n)
     title = factory.Faker("word")
     description = factory.Faker("sentence")
@@ -267,7 +272,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
 
         if extracted is None:
             extracted = LearningResourceInstructorFactory.create_batch(
-                random.randint(0, 3)
+                random.randint(1, 3)
             )
 
         self.instructors.set(extracted)
@@ -301,18 +306,17 @@ class ProgramFactory(DjangoModelFactory):
     @factory.post_generation
     def runs(self, create, extracted, **kwargs):
         """Create run for program.learning_resource"""
-        if self.learning_resource.id is None:
-            raise Exception
-
         if not create:
             return
 
         if extracted is None:
             extracted = LearningResourceRunFactory.create(
-                learning_resource=self.learning_resource
+                content_object=self,
+                object_id=self.id,
+                content_type=ContentType.objects.get_for_model(models.Program),
             )
 
-        self.learning_resource.runs.set([extracted])
+        self.runs.set([extracted])
 
     class Meta:
         model = models.Program

@@ -1,15 +1,10 @@
 """Models for learning resources and related entities"""
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from learning_resources.constants import (
-    CERTIFICATE,
-    OPEN,
-    PROFESSIONAL,
-    AvailabilityType,
-)
+from learning_resources import constants
 from open_discussions.models import TimestampedModel
 
 
@@ -19,7 +14,11 @@ class LearningResourcePlatform(TimestampedModel):
     platform = models.CharField(max_length=12, primary_key=True)
     url = models.URLField(null=True, blank=True)
     audience = models.CharField(
-        max_length=24, choices=((OPEN, OPEN), (PROFESSIONAL, PROFESSIONAL))
+        max_length=24,
+        choices=(
+            (constants.OPEN, constants.OPEN),
+            (constants.PROFESSIONAL, constants.PROFESSIONAL),
+        ),
     )
     is_edx = models.BooleanField(default=False)
     has_content_files = models.BooleanField(default=False)
@@ -144,16 +143,24 @@ class LearningResource(TimestampedModel):
         return self.platform.audience
 
     @property
+    def runs(self):
+        """Get runs if any for a program or course"""
+        if hasattr(self, "course"):
+            return self.course.runs
+        elif hasattr(self, "program"):
+            return self.program.runs
+
+    @property
     def certification(self):
         """Returns the certification for the course"""
-        if self.platform.audience == PROFESSIONAL or (
+        if self.platform.audience == constants.PROFESSIONAL or (
             self.platform.platform == "mitx"
             and any(
-                availability != AvailabilityType.archived.value
+                availability != constants.AvailabilityType.archived.value
                 for availability in self.runs.values_list("availability", flat=True)
             )
         ):
-            return [CERTIFICATE]
+            return [constants.CERTIFICATE]
         else:
             return []
 
@@ -166,12 +173,6 @@ class LearningResourceRun(TimestampedModel):
     Model for course and program runs
     """
 
-    learning_resource = models.ForeignKey(
-        LearningResource,
-        related_name="runs",
-        null=False,
-        on_delete=models.deletion.CASCADE,
-    )
     run_id = models.CharField(max_length=128)
     title = models.CharField(max_length=256)
     description = models.TextField(null=True, blank=True)
@@ -196,13 +197,22 @@ class LearningResourceRun(TimestampedModel):
         LearningResourceInstructor, blank=True, related_name="runs"
     )
     prices = models.ManyToManyField(LearningResourcePrice, blank=True)
+    content_type = models.ForeignKey(
+        ContentType,
+        null=True,
+        limit_choices_to={"model__in": ("course", "program")},
+        on_delete=models.CASCADE,
+        related_name="runs",
+    )
+    object_id = models.PositiveIntegerField(null=True)
+    content_object = GenericForeignKey("content_type", "object_id")
     checksum = models.CharField(max_length=32, null=True, blank=True)
 
     def __str__(self):
-        return f"LearningResourceRun parent={self.learning_resource.object_id}, platform={self.learning_resource.platform.platform} run_id={self.run_id}"
+        return f"LearningResourceRun platform={self.content_object.platform.platform} run_id={self.run_id}"
 
     class Meta:
-        unique_together = (("learning_resource", "run_id"),)
+        unique_together = (("content_type", "object_id", "run_id"),)
 
 
 class Program(TimestampedModel):
@@ -211,6 +221,7 @@ class Program(TimestampedModel):
     learning_resource = models.OneToOneField(
         LearningResource, related_name="program", on_delete=models.deletion.CASCADE
     )
+    runs = GenericRelation(LearningResourceRun)
 
 
 class Course(TimestampedModel):
@@ -219,6 +230,7 @@ class Course(TimestampedModel):
     learning_resource = models.OneToOneField(
         LearningResource, related_name="course", on_delete=models.deletion.CASCADE
     )
+    runs = GenericRelation(LearningResourceRun)
     extra_course_numbers = ArrayField(
         models.CharField(max_length=128), null=True, blank=True
     )
