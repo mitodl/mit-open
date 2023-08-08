@@ -71,14 +71,6 @@ OPEN_DISCUSSIONS_TOS_URL = get_string(
 )
 
 WEBPACK_LOADER = {
-    "OPEN_DISCUSSIONS": {
-        "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "open-discussions/",
-        "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats/open-discussions.json"),
-        "POLL_INTERVAL": 0.1,
-        "TIMEOUT": None,
-        "IGNORE": [r".+\.hot-update\.+", r".+\.js\.map"],
-    },
     "INFINITE_CORRIDOR": {
         "CACHE": not DEBUG,
         "BUNDLE_DIR_NAME": "infinite-corridor/",
@@ -116,7 +108,6 @@ INSTALLED_APPS = (
     # Put our apps after this point
     "open_discussions",
     "authentication",
-    "infinite_example",
     "channels",
     "channels_fields",
     "profiles",
