@@ -1,0 +1,82 @@
+[
+  {
+    "model": "learning_resources.LearningResourceOfferor",
+    "fields": {
+      "name": "MITx",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceOfferor",
+    "fields": {
+      "name": "OCW",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceOfferor",
+    "fields": {
+      "name": "Bootcamps",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceOfferor",
+    "fields": {
+      "name": "xPRO",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceOfferor",
+    "fields": {
+      "name": "Open Learning Library",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceOfferor",
+    "fields": {
+      "name": "CSAIL",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceOfferor",
+    "fields": {
+      "name": "Professional Education",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceOfferor",
+    "fields": {
+      "name": "Sloan Executive Education",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceOfferor",
+    "fields": {
+      "name": "Schwarzman College of Computing",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceOfferor",
+    "fields": {
+      "name": "Center for Transportation & Logistics",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  }
+]
