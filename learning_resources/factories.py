@@ -307,5 +307,16 @@ class ProgramFactory(DjangoModelFactory):
 
         self.runs.set([extracted])
 
+    @factory.post_generation
+    def courses(self, create, extracted, **kwargs):
+        """Create courses for program"""
+        if not create:
+            return
+
+        if extracted is None:
+            extracted = CourseFactory.create_batch(random.randint(1, 3))
+
+        self.courses.set(extracted)
+
     class Meta:
         model = models.Program

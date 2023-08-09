@@ -14,6 +14,7 @@ def test_program_creation():
     assert resource.image.url is not None
     assert resource.resource_type == LearningResourceType.program.value
     assert resource.program == program
+    assert program.courses.count() >= 1
     run = program.runs.first()
     assert run.start_date is not None
     assert run.image.url is not None

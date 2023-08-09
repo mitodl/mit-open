@@ -1,5 +1,4 @@
 """Models for learning resources and related entities"""
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
@@ -199,6 +198,22 @@ class LearningResourceRun(TimestampedModel):
         unique_together = (("learning_resource", "run_id"),)
 
 
+class Course(TimestampedModel):
+    """Model for representing a course"""
+
+    learning_resource = models.OneToOneField(
+        LearningResource, related_name="course", on_delete=models.deletion.CASCADE
+    )
+    extra_course_numbers = ArrayField(
+        models.CharField(max_length=128), null=True, blank=True
+    )
+
+    @property
+    def runs(self):
+        """Get the parent LearningResource runs"""
+        return self.learning_resource.runs
+
+
 class Program(TimestampedModel):
     """
     A program is essentially a list of courses.
@@ -209,22 +224,7 @@ class Program(TimestampedModel):
     learning_resource = models.OneToOneField(
         LearningResource, related_name="program", on_delete=models.deletion.CASCADE
     )
-
-    @property
-    def runs(self):
-        """Get the parent LearningResource runs"""
-        return self.learning_resource.runs
-
-
-class Course(TimestampedModel):
-    """Model for representing a course"""
-
-    learning_resource = models.OneToOneField(
-        LearningResource, related_name="course", on_delete=models.deletion.CASCADE
-    )
-    extra_course_numbers = ArrayField(
-        models.CharField(max_length=128), null=True, blank=True
-    )
+    courses = models.ManyToManyField(Course, related_name="programs")
 
     @property
     def runs(self):
