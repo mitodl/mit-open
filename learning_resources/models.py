@@ -151,9 +151,7 @@ class LearningResource(TimestampedModel):
                 for availability in self.runs.values_list("availability", flat=True)
             )
         ):
-            return [constants.CERTIFICATE]
-        else:
-            return []
+            return constants.CERTIFICATE
 
     class Meta:
         unique_together = (("platform", "object_id"),)
