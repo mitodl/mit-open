@@ -33,7 +33,7 @@ def test_course_creation():
     assert resource.title is not None
     assert resource.image.url is not None
     assert resource.course == course
-    run = course.runs.first()
+    run = resource.runs.first()
     assert run.start_date is not None
     assert run.image.url is not None
     assert run.prices.count() > 0

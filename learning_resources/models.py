@@ -1,11 +1,9 @@
 """Models for learning resources and related entities"""
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from learning_resources import constants
-from learning_resources.constants import LearningResourceType
 from open_discussions.models import TimestampedModel
 
 
@@ -144,16 +142,6 @@ class LearningResource(TimestampedModel):
         return self.platform.audience
 
     @property
-    def runs(self):
-        """Shortcut to getting runs if any for a program or course"""
-        for resource_type in (
-            LearningResourceType.course.value,
-            LearningResourceType.program.value,
-        ):
-            if self.resource_type == resource_type and hasattr(self, resource_type):
-                return getattr(self, resource_type).runs
-
-    @property
     def certification(self):
         """Returns the certification for the course"""
         if self.platform.audience == constants.PROFESSIONAL or (
@@ -176,6 +164,9 @@ class LearningResourceRun(TimestampedModel):
     Model for course and program runs
     """
 
+    learning_resource = models.ForeignKey(
+        LearningResource, related_name="runs", on_delete=models.deletion.CASCADE
+    )
     run_id = models.CharField(max_length=128)
     title = models.CharField(max_length=256)
     description = models.TextField(null=True, blank=True)
@@ -200,40 +191,42 @@ class LearningResourceRun(TimestampedModel):
         LearningResourceInstructor, blank=True, related_name="runs"
     )
     prices = models.ManyToManyField(LearningResourcePrice, blank=True)
-    content_type = models.ForeignKey(
-        ContentType,
-        null=True,
-        limit_choices_to={"model__in": ("course", "program")},
-        on_delete=models.CASCADE,
-        related_name="runs",
-    )
-    object_id = models.PositiveIntegerField(null=True)
-    content_object = GenericForeignKey("content_type", "object_id")
-    checksum = models.CharField(max_length=32, null=True, blank=True)
 
     def __str__(self):
-        return f"LearningResourceRun platform={self.content_object.platform.platform} run_id={self.run_id}"
+        return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"
 
     class Meta:
-        unique_together = (("content_type", "object_id", "run_id"),)
+        unique_together = (("learning_resource", "run_id"),)
 
 
 class Program(TimestampedModel):
-    """A program is essentially a list of courses"""
+    """
+    A program is essentially a list of courses.
+    There is nothing specific to programs at this point, but the relationship between
+    programs and courses may end up being Program->Courses instead of an LR-LR relationship.
+    """
 
     learning_resource = models.OneToOneField(
         LearningResource, related_name="program", on_delete=models.deletion.CASCADE
     )
-    runs = GenericRelation(LearningResourceRun)
+
+    @property
+    def runs(self):
+        """Get the parent LearningResource runs"""
+        return self.learning_resource.runs
 
 
 class Course(TimestampedModel):
-    """Model for representing a course, which will have 1+ LearningResourceRuns"""
+    """Model for representing a course"""
 
     learning_resource = models.OneToOneField(
         LearningResource, related_name="course", on_delete=models.deletion.CASCADE
     )
-    runs = GenericRelation(LearningResourceRun)
     extra_course_numbers = ArrayField(
         models.CharField(max_length=128), null=True, blank=True
     )
+
+    @property
+    def runs(self):
+        """Get the parent LearningResource runs"""
+        return self.learning_resource.runs

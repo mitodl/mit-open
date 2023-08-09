@@ -5,7 +5,6 @@ from enum import Enum
 
 import factory
 import pytz
-from django.contrib.contenttypes.models import ContentType
 from factory import Faker
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice
@@ -212,13 +211,11 @@ class CourseFactory(DjangoModelFactory):
             return
 
         if extracted is None:
-            extracted = LearningResourceRunFactory.create(
-                content_object=self,
-                object_id=self.id,
-                content_type=ContentType.objects.get_for_model(models.Program),
+            extracted = LearningResourceRunFactory.create_batch(
+                2, learning_resource=self.learning_resource
             )
 
-        self.runs.set([extracted])
+        self.runs.set(extracted)
 
     class Meta:
         model = models.Course
@@ -227,11 +224,7 @@ class CourseFactory(DjangoModelFactory):
 class LearningResourceRunFactory(DjangoModelFactory):
     """Factory for LearningResourceRuns"""
 
-    content_object = factory.SubFactory(CourseFactory)
-    object_id = factory.SelfAttribute("content_object.id")
-    content_type = factory.LazyAttribute(
-        lambda o: ContentType.objects.get_for_model(o.content_object)
-    )
+    learning_resource = factory.SubFactory(LearningResourceFactory)
     run_id = factory.Sequence(lambda n: "COURSEN%03d.MIT_run" % n)
     title = factory.Faker("word")
     description = factory.Faker("sentence")
@@ -309,9 +302,7 @@ class ProgramFactory(DjangoModelFactory):
 
         if extracted is None:
             extracted = LearningResourceRunFactory.create(
-                content_object=self,
-                object_id=self.id,
-                content_type=ContentType.objects.get_for_model(models.Program),
+                learning_resource=self.learning_resource
             )
 
         self.runs.set([extracted])
