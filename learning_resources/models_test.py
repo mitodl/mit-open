@@ -11,10 +11,12 @@ def test_program_creation():
     program = ProgramFactory.create()
     resource = program.learning_resource
     assert resource.title is not None
+    assert resource.image.url is not None
     assert resource.resource_type == LearningResourceType.program.value
     assert resource.program == program
     run = program.runs.first()
     assert run.start_date is not None
+    assert run.image.url is not None
     assert run.prices.count() > 0
     assert run.instructors.count() > 0
     assert resource.topics.count() > 0
@@ -29,9 +31,11 @@ def test_course_creation():
     resource = course.learning_resource
     assert resource.resource_type == LearningResourceType.course.value
     assert resource.title is not None
+    assert resource.image.url is not None
     assert resource.course == course
     run = course.runs.first()
     assert run.start_date is not None
+    assert run.image.url is not None
     assert run.prices.count() > 0
     assert run.instructors.count() > 0
     assert resource.topics.count() > 0

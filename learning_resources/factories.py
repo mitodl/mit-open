@@ -239,9 +239,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
     url = factory.Faker("url")
     languages = [factory.Faker("word")]
     year = factory.Faker("year")
-    image = factory.RelatedFactory(
-        "learning_resources.factories.LearningResourceImageFactory"
-    )
+    image = factory.SubFactory(LearningResourceImageFactory)
     availability = FuzzyChoice(
         (
             AvailabilityType.current.value,
