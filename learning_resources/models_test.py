@@ -2,7 +2,11 @@
 import pytest
 
 from learning_resources.constants import LearningResourceType
-from learning_resources.factories import CourseFactory, ProgramFactory
+from learning_resources.factories import (
+    CourseFactory,
+    ProgramFactory,
+    LearningResourceFactory,
+)
 
 
 @pytest.mark.django_db

@@ -314,7 +314,10 @@ class ProgramFactory(DjangoModelFactory):
             return
 
         if extracted is None:
-            extracted = CourseFactory.create_batch(random.randint(1, 3))
+            extracted = [
+                course.learning_resource
+                for course in CourseFactory.create_batch(random.randint(1, 3))
+            ]
 
         self.courses.set(extracted)
 

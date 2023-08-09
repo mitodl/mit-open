@@ -3,6 +3,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from learning_resources import constants
+from learning_resources.constants import LearningResourceType
 from open_discussions.models import TimestampedModel
 
 
@@ -224,7 +225,13 @@ class Program(TimestampedModel):
     learning_resource = models.OneToOneField(
         LearningResource, related_name="program", on_delete=models.deletion.CASCADE
     )
-    courses = models.ManyToManyField(Course, related_name="programs")
+    courses = models.ManyToManyField(
+        LearningResource,
+        related_name="programs",
+        limit_choices_to={
+            "learning_resource__resource_type": LearningResourceType.course.value
+        },
+    )
 
     @property
     def runs(self):
