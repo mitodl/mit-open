@@ -5,6 +5,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from learning_resources import constants
+from learning_resources.constants import LearningResourceType
 from open_discussions.models import TimestampedModel
 
 
@@ -144,11 +145,13 @@ class LearningResource(TimestampedModel):
 
     @property
     def runs(self):
-        """Get runs if any for a program or course"""
-        if hasattr(self, "course"):
-            return self.course.runs
-        elif hasattr(self, "program"):
-            return self.program.runs
+        """Shortcut to getting runs if any for a program or course"""
+        for resource_type in (
+            LearningResourceType.course.value,
+            LearningResourceType.program.value,
+        ):
+            if self.resource_type == resource_type and hasattr(self, resource_type):
+                return getattr(self, resource_type).runs
 
     @property
     def certification(self):
