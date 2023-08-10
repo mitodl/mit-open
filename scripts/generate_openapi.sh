@@ -6,12 +6,6 @@ then
     exit 1
 fi
 
-SCRIPT_DIR=$(dirname "$0")
-
-cd $SCRIPT_DIR/../
-
-echo "pwd is $PWD"
-
 ##################################################
 # Generate OpenAPI Schema
 ##################################################
@@ -24,15 +18,14 @@ docker compose run --rm web \
 ##################################################
 # Generate API Client
 ##################################################
-cd ./frontends/api
-cp ../../openapi.yaml ./openapi.yaml
 
 GENERATOR_VERSION=v6.6.0
-docker run --rm -v ".:/local" openapitools/openapi-generator-cli:${GENERATOR_VERSION} generate \
+
+docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli:${GENERATOR_VERSION} \
+    generate \
     -i /local/openapi.yaml \
     -g typescript-axios \
-    -o /local/src/generated
+    -o /local/frontends/api/src/generated \
+    --ignore-file-override /local/frontends/api/.openapi-generator-ignore
 
-rm ./openapi.yaml
-
-docker compose run --rm watch yarn workspace @mit-open/api global:fmt-fix
+docker compose run --rm watch yarn workspace api global:fmt-fix

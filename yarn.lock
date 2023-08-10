@@ -1744,12 +1744,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mit-open/api@workspace:frontends/api":
-  version: 0.0.0-use.local
-  resolution: "@mit-open/api@workspace:frontends/api"
-  languageName: unknown
-  linkType: soft
-
 "@mitodl/course-search-utils@npm:^2.3.0":
   version: 2.3.2
   resolution: "@mitodl/course-search-utils@npm:2.3.2"
@@ -3758,6 +3752,12 @@ __metadata:
   checksum: 985163db2292fac9e5a1e072bf99f1b5baccf196e4de25a0b0b81865ebddeb3b3eb4480734ef0a2ac8c002845396b91aa89121f5b84f93981a4658164a9ec6e9
   languageName: node
   linkType: hard
+
+"api@workspace:frontends/api":
+  version: 0.0.0-use.local
+  resolution: "api@workspace:frontends/api"
+  languageName: unknown
+  linkType: soft
 
 "aproba@npm:^1.0.3 || ^2.0.0":
   version: 2.0.0

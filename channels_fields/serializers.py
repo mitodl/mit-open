@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from drf_spectacular.utils import extend_schema_field
 
 from channels.serializers.channels import ChannelAppearanceMixin
 from channels.serializers.validators import validate_email, validate_username
@@ -18,7 +19,6 @@ from course_catalog.models import UserList
 from course_catalog.serializers import UserListSerializer
 from open_discussions.serializers import WriteableSerializerMethodField
 from profiles.models import Profile
-from drf_spectacular.utils import extend_schema_field
 
 User = get_user_model()
 

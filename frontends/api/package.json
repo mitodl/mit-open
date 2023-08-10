@@ -1,5 +1,5 @@
 {
-  "name": "@mit-open/api",
+  "name": "api",
   "packageManager": "yarn@3.2.0",
   "sideEffects": false,
   "exports": {

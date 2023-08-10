@@ -11,6 +11,7 @@ from django.db import transaction
 from django.db.models import F, Max, prefetch_related_objects
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from drf_spectacular.utils import extend_schema_field
 
 from course_catalog import utils
 from course_catalog.constants import (
@@ -46,7 +47,6 @@ from search.search_index_helpers import (
     upsert_staff_list,
     upsert_user_list,
 )
-from drf_spectacular.utils import extend_schema_field
 
 COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
 
