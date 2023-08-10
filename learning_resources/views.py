@@ -3,8 +3,8 @@ from django.db.models import Prefetch
 from rest_framework import viewsets
 
 from learning_resources.constants import LearningResourceType
-from learning_resources.models import LearningResourceRun, LearningResource
-from learning_resources.serializers import CourseSerializer, LearningResourceSerializer
+from learning_resources.models import LearningResource, LearningResourceRun
+from learning_resources.serializers import LearningResourceSerializer
 from open_discussions.permissions import AnonymousAccessReadonlyPermission
 
 
@@ -18,7 +18,6 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet):
 
     def _get_base_queryset(self, *args, **kwargs):
         """Return the base queryset for all actions"""
-        user = self.request.user
         return (
             LearningResource.objects.filter(
                 *args,
@@ -59,7 +58,6 @@ class ProgramViewSet(viewsets.ReadOnlyModelViewSet):
 
     def _get_base_queryset(self, *args, **kwargs):
         """Return the base queryset for all actions"""
-        user = self.request.user
         return (
             LearningResource.objects.filter(
                 *args,
@@ -100,7 +98,6 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
 
     def _get_base_queryset(self, *args, **kwargs):
         """Return the base queryset for all actions"""
-        user = self.request.user
         return (
             LearningResource.objects.filter(
                 *args,

@@ -3,8 +3,8 @@ from django.urls import include, re_path
 from rest_framework.routers import DefaultRouter
 
 from learning_resources.views import (
-    LearningResourceViewSet,
     CourseViewSet,
+    LearningResourceViewSet,
     ProgramViewSet,
 )
 
