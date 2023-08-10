@@ -44,6 +44,7 @@ urlpatterns = [
     re_path(r"", include("search.urls")),
     re_path(r"", include("ckeditor.urls")),
     re_path(r"", include("widgets.urls")),
+    re_path(r"", include("learning_resources.urls")),
     re_path(r"", include("course_catalog.urls")),
     re_path(r"", include("livestream.urls")),
     re_path(r"", include("interactions.urls")),
