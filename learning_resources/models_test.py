@@ -27,7 +27,7 @@ def test_program_creation():
     run = program.runs.first()
     assert run.start_date is not None
     assert run.image.url is not None
-    assert run.prices.count() > 0
+    assert len(run.prices) > 0
     assert run.instructors.count() > 0
     assert resource.topics.count() > 0
     assert resource.offered_by.count() > 0
@@ -41,11 +41,12 @@ def test_course_creation():
     assert resource.resource_type == LearningResourceType.course.value
     assert resource.title is not None
     assert resource.image.url is not None
+    assert 0 <= len(resource.prices) <= 3
     assert resource.course == course
     run = resource.runs.first()
     assert run.start_date is not None
     assert run.image.url is not None
-    assert run.prices.count() > 0
+    assert len(run.prices) > 0
     assert run.instructors.count() > 0
     assert resource.topics.count() > 0
     assert resource.offered_by.count() > 0

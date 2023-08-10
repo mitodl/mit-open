@@ -1,4 +1,5 @@
 """Factories for making test data"""
+import decimal
 import random
 from datetime import timedelta
 from enum import Enum
@@ -44,17 +45,6 @@ class PlatformTypeChoice(Enum):
     bootcamps = "bootcamps"
     xpro = "xpro"
     oll = "oll"
-
-
-def _post_gen_prices(obj, create, extracted, **kwarg):
-    """PostGeneration function for prices"""
-    if not create:
-        return
-
-    if extracted is None:
-        extracted = LearningResourcePriceFactory.create_batch(random.randint(1, 3))
-
-    obj.prices.set(extracted)
 
 
 def _post_gen_topics(obj, create, extracted, **kwargs):
@@ -134,18 +124,6 @@ class LearningResourceImageFactory(DjangoModelFactory):
         django_get_or_create = ("alt", "description", "url")
 
 
-class LearningResourcePriceFactory(DjangoModelFactory):
-    """Factory for course prices"""
-
-    price = factory.Sequence(lambda n: 0.00 + float(n))
-    mode = factory.Faker("word")
-    upgrade_deadline = None
-
-    class Meta:
-        model = models.LearningResourcePrice
-        django_get_or_create = ("price", "mode", "upgrade_deadline")
-
-
 class LearningResourcePlatformFactory(DjangoModelFactory):
     """Factory for LearningResourcePlatform"""
 
@@ -188,6 +166,7 @@ class LearningResourceFactory(DjangoModelFactory):
     offered_by = factory.PostGeneration(_post_gen_offered_by)
     topics = factory.PostGeneration(_post_gen_topics)
     resource_content_tags = factory.PostGeneration(_post_gen_tags)
+    prices = [decimal.Decimal(random.uniform(100, 200)) for _ in range(random.randint(1, 3))]
 
     class Meta:
         model = models.LearningResource
@@ -253,7 +232,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
     end_date = factory.LazyAttribute(
         lambda obj: obj.start_date + timedelta(days=90) if obj.start_date else None
     )
-    prices = factory.PostGeneration(_post_gen_prices)
+    prices = [decimal.Decimal(random.uniform(100, 200)) for _ in range(random.randint(1,3))]
 
     @factory.post_generation
     def instructors(self, create, extracted, **kwargs):

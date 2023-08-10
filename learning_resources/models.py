@@ -76,19 +76,6 @@ class LearningResourceContentTag(TimestampedModel):
         return self.name
 
 
-class LearningResourcePrice(TimestampedModel):
-    """
-    Price model for all learning resources (e.g. "price": 0.00, "mode": "audit")
-    """
-
-    price = models.DecimalField(decimal_places=2, max_digits=12)
-    mode = models.CharField(max_length=128)
-    upgrade_deadline = models.DateTimeField(null=True, blank=True)
-
-    def __str__(self):
-        return "${:,.2f}".format(self.price)
-
-
 class LearningResourceInstructor(TimestampedModel):
     """
     Instructors for learning resources
@@ -135,6 +122,7 @@ class LearningResource(TimestampedModel):
     topics = models.ManyToManyField(LearningResourceTopic)
     offered_by = models.ManyToManyField(LearningResourceOfferor)
     resource_content_tags = models.ManyToManyField(LearningResourceContentTag)
+    prices = ArrayField(models.DecimalField(decimal_places=2, max_digits=12), null=True, blank=True)
 
     @property
     def audience(self):
@@ -188,7 +176,7 @@ class LearningResourceRun(TimestampedModel):
     instructors = models.ManyToManyField(
         LearningResourceInstructor, blank=True, related_name="runs"
     )
-    prices = models.ManyToManyField(LearningResourcePrice, blank=True)
+    prices = ArrayField(models.DecimalField(decimal_places=2, max_digits=12), null=True, blank=True)
 
     def __str__(self):
         return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"
