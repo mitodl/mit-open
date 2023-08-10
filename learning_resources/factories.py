@@ -156,7 +156,7 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
 class LearningResourceFactory(DjangoModelFactory):
     """Factory for LearningResource subclasses"""
 
-    object_id = factory.Sequence(lambda n: "RESOURCEN%03d.MIT_run" % n)
+    readable_id = factory.Sequence(lambda n: "RESOURCEN%03d.MIT_run" % n)
     title = factory.Faker("word")
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
@@ -166,7 +166,9 @@ class LearningResourceFactory(DjangoModelFactory):
     offered_by = factory.PostGeneration(_post_gen_offered_by)
     topics = factory.PostGeneration(_post_gen_topics)
     resource_content_tags = factory.PostGeneration(_post_gen_tags)
-    prices = [decimal.Decimal(random.uniform(100, 200)) for _ in range(random.randint(1, 3))]
+    prices = [
+        decimal.Decimal(random.uniform(100, 200)) for _ in range(random.randint(1, 3))
+    ]
 
     class Meta:
         model = models.LearningResource
@@ -232,7 +234,9 @@ class LearningResourceRunFactory(DjangoModelFactory):
     end_date = factory.LazyAttribute(
         lambda obj: obj.start_date + timedelta(days=90) if obj.start_date else None
     )
-    prices = [decimal.Decimal(random.uniform(100, 200)) for _ in range(random.randint(1,3))]
+    prices = [
+        decimal.Decimal(random.uniform(100, 200)) for _ in range(random.randint(1, 3))
+    ]
 
     @factory.post_generation
     def instructors(self, create, extracted, **kwargs):

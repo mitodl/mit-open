@@ -5,11 +5,11 @@ from learning_resources import constants
 from learning_resources.constants import LearningResourceType
 from learning_resources.factories import (
     CourseFactory,
-    ProgramFactory,
     LearningResourceFactory,
-    PlatformTypeChoice,
     LearningResourcePlatformFactory,
     LearningResourceRunFactory,
+    PlatformTypeChoice,
+    ProgramFactory,
 )
 
 pytestmark = [pytest.mark.django_db]

@@ -95,7 +95,7 @@ class LearningResourceInstructor(TimestampedModel):
 class LearningResource(TimestampedModel):
     """Core model for all learning resources"""
 
-    object_id = models.CharField(max_length=128, null=False, blank=False)
+    readable_id = models.CharField(max_length=128, null=False, blank=False)
     title = models.CharField(max_length=256)
     description = models.TextField(null=True, blank=True)
     full_description = models.TextField(null=True, blank=True)
@@ -122,7 +122,9 @@ class LearningResource(TimestampedModel):
     topics = models.ManyToManyField(LearningResourceTopic)
     offered_by = models.ManyToManyField(LearningResourceOfferor)
     resource_content_tags = models.ManyToManyField(LearningResourceContentTag)
-    prices = ArrayField(models.DecimalField(decimal_places=2, max_digits=12), null=True, blank=True)
+    prices = ArrayField(
+        models.DecimalField(decimal_places=2, max_digits=12), null=True, blank=True
+    )
 
     @property
     def audience(self):
@@ -142,7 +144,7 @@ class LearningResource(TimestampedModel):
             return constants.CERTIFICATE
 
     class Meta:
-        unique_together = (("platform", "object_id"),)
+        unique_together = (("platform", "readable_id"),)
 
 
 class LearningResourceRun(TimestampedModel):
@@ -176,7 +178,9 @@ class LearningResourceRun(TimestampedModel):
     instructors = models.ManyToManyField(
         LearningResourceInstructor, blank=True, related_name="runs"
     )
-    prices = ArrayField(models.DecimalField(decimal_places=2, max_digits=12), null=True, blank=True)
+    prices = ArrayField(
+        models.DecimalField(decimal_places=2, max_digits=12), null=True, blank=True
+    )
 
     def __str__(self):
         return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"
