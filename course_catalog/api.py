@@ -112,7 +112,9 @@ def digest_ocw_course(
                     "description": master_json.get("image_description"),
                 },
                 "max_modified": last_modified,
-                "content_type": ContentType.objects.get(model="course").id,
+                "content_type": ContentType.objects.get(
+                    model="course", app_label="course_catalog"
+                ).id,
                 "object_id": course.id,
                 "url": get_course_url(
                     master_json.get("uid"), master_json, PlatformType.ocw.value
@@ -202,7 +204,9 @@ def digest_ocw_next_course(course_json, last_modified, uid, url_path):
                     ),
                 },
                 "max_modified": last_modified,
-                "content_type": ContentType.objects.get(model="course").id,
+                "content_type": ContentType.objects.get(
+                    model="course", app_label="course_catalog"
+                ).id,
                 "object_id": course.id,
                 "raw_json": course_json,
                 "title": course_json.get("course_title"),

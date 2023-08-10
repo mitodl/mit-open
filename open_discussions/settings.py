@@ -115,10 +115,11 @@ INSTALLED_APPS = (
     "notifications",
     "search",
     "widgets",
-    "course_catalog",
     "interactions",
     "moira_lists",
     "discussions",
+    "learning_resources",  # to replace below when ready
+    "course_catalog",
 )
 
 MIDDLEWARE = (

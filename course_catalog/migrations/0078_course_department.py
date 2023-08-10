@@ -18,7 +18,9 @@ class Migration(migrations.Migration):
 
         for course in Course.objects.filter(platform=PlatformType.ocw.value).iterator():
             course_run = LearningResourceRun.objects.filter(
-                content_type=ContentType.objects.get(model="course").id,
+                content_type=ContentType.objects.get(
+                    model="course", app_label="course_catalog"
+                ).id,
                 object_id=course.id,
                 raw_json__isnull=False,
             ).last()

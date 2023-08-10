@@ -1,0 +1,335 @@
+[
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "1",
+      "name": "Civil and Environmental Engineering",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "2",
+      "name": "Mechanical Engineering",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "3",
+      "name": "Materials Science and Engineering",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "4",
+      "name": "Architecture",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "5",
+      "name": "Chemistry",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "6",
+      "name": "Electrical Engineering and Computer Science",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "7",
+      "name": "Biology",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "8",
+      "name": "Physics",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "9",
+      "name": "Brain and Cognitive Sciences",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "10",
+      "name": "Chemical Engineering",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "11",
+      "name": "Urban Studies and Planning",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "12",
+      "name": "Earth, Atmospheric, and Planetary Sciences",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "14",
+      "name": "Economics",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "15",
+      "name": "Sloan School of Management",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "16",
+      "name": "Aeronautics and Astronautics",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "17",
+      "name": "Political Science",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "18",
+      "name": "Mathematics",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "20",
+      "name": "Biological Engineering",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "21A",
+      "name": "Anthropology",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "21G",
+      "name": "Global Studies and Languages",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "21H",
+      "name": "History",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "21L",
+      "name": "Literature",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "21M",
+      "name": "Music and Theater Arts",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "22",
+      "name": "Nuclear Science and Engineering",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "24",
+      "name": "Linguistics and Philosophy",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "CC",
+      "name": "Concourse",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "CMS-W",
+      "name": "Comparative Media Studies/Writing",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "EC",
+      "name": "Edgerton Center",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "ES",
+      "name": "Experimental Study Group",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "ESD",
+      "name": "Engineering Systems Division",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "HST",
+      "name": "Health Sciences and Technology",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "IDS",
+      "name": "Institute for Data, Systems, and Society",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "MAS",
+      "name": "Media Arts and Sciences",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "PE",
+      "name": "Athletics, Physical Education and Recreation",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "RES",
+      "name": "Supplemental Resources",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "STS",
+      "name": "Science, Technology, and Society",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "WGS",
+      "name": "Women's and Gender Studies",
+      "created_on": "2023-08-07T00:00:00Z",
+      "updated_on": "2023-08-07T00:00:00Z"
+    }
+  }
+]

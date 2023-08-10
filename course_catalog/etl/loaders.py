@@ -340,7 +340,9 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
             load_run(program, run_data, config=config.runs)
 
         courses = []
-        course_content_type = ContentType.objects.get(model="course")
+        course_content_type = ContentType.objects.get(
+            model="course", app_label="course_catalog"
+        )
 
         for position, course_data in enumerate(courses_data):
             # skip courses that don't define a course_id

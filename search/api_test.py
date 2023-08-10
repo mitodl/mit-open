@@ -546,12 +546,16 @@ def test_find_similar_resources(settings, is_anonymous, opensearch, user):
     if not is_anonymous:
         FavoriteItem.objects.create(
             user=user,
-            content_type=ContentType.objects.get(model=COURSE_TYPE),
+            content_type=ContentType.objects.get(
+                model=COURSE_TYPE, app_label="course_catalog"
+            ),
             object_id=favorited_course.id,
         )
         item = UserListItemFactory.create(
             user_list=user_list,
-            content_type=ContentType.objects.get(model=COURSE_TYPE),
+            content_type=ContentType.objects.get(
+                model=COURSE_TYPE, app_label="course_catalog"
+            ),
             object_id=saved_course.id,
         )
 
@@ -630,12 +634,16 @@ def test_transform_results(
     if not is_anonymous:
         FavoriteItem.objects.create(
             user=user,
-            content_type=ContentType.objects.get(model=COURSE_TYPE),
+            content_type=ContentType.objects.get(
+                model=COURSE_TYPE, app_label="course_catalog"
+            ),
             object_id=favorited_course.id,
         )
         item = UserListItemFactory.create(
             user_list=user_list,
-            content_type=ContentType.objects.get(model=USER_LIST_TYPE),
+            content_type=ContentType.objects.get(
+                model=USER_LIST_TYPE, app_label="course_catalog"
+            ),
             object_id=listed_learningpath.id,
         )
     else:

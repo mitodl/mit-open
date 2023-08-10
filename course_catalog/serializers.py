@@ -591,7 +591,7 @@ class UserListItemSerializer(
         item, _ = UserListItem.objects.get_or_create(
             user_list=validated_data["user_list"],
             content_type=ContentType.objects.get(
-                model=validated_data["content_type"]["name"]
+                model=validated_data["content_type"]["name"], app_label="course_catalog"
             ),
             object_id=validated_data["object_id"],
             defaults={"position": position},
@@ -841,7 +841,7 @@ class StaffListItemSerializer(BaseListItemSerializer, serializers.ModelSerialize
         item, _ = StaffListItem.objects.get_or_create(
             staff_list=validated_data["staff_list"],
             content_type=ContentType.objects.get(
-                model=validated_data["content_type"]["name"]
+                model=validated_data["content_type"]["name"], app_label="course_catalog"
             ),
             object_id=validated_data["object_id"],
             defaults={"position": position},
