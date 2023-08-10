@@ -33,7 +33,7 @@ class LearningResourceOfferorField(serializers.Field):
 
 
 class LearningResourcePlatformSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResourceDepartment"""
+    """Serializer for LearningResourcePlatform"""
 
     class Meta:
         model = models.LearningResourcePlatform
@@ -73,7 +73,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 class LearningResourceBaseSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResource"""
+    """Serializer for LearningResource, minus program, course"""
 
     topics = LearningResourceTopicSerializer(read_only=True, many=True, allow_null=True)
     offered_by = LearningResourceOfferorField(read_only=True, allow_null=True)
@@ -96,7 +96,7 @@ class ProgramSerializer(serializers.ModelSerializer):
 
 
 class LearningResourceSerializer(LearningResourceBaseSerializer):
-    """Serializer for LearningResource"""
+    """Full serializer for LearningResource"""
 
     course = CourseSerializer(allow_null=True)
     program = ProgramSerializer(allow_null=True)
