@@ -193,7 +193,10 @@ class Course(TimestampedModel):
     """Model for representing a course"""
 
     learning_resource = models.OneToOneField(
-        LearningResource, related_name="course", on_delete=models.deletion.CASCADE
+        LearningResource,
+        related_name="course",
+        on_delete=models.deletion.CASCADE,
+        primary_key=True,
     )
     extra_course_numbers = ArrayField(
         models.CharField(max_length=128), null=True, blank=True
@@ -213,7 +216,10 @@ class Program(TimestampedModel):
     """
 
     learning_resource = models.OneToOneField(
-        LearningResource, related_name="program", on_delete=models.deletion.CASCADE
+        LearningResource,
+        related_name="program",
+        on_delete=models.deletion.CASCADE,
+        primary_key=True,
     )
     courses = models.ManyToManyField(
         LearningResource,
