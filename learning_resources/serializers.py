@@ -37,7 +37,7 @@ class LearningResourcePlatformSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourcePlatform
-        fields = "__all__"
+        exclude = ["updated_on", "created_on"]
 
 
 class LearningResourceDepartmentSerializer(serializers.ModelSerializer):
@@ -45,7 +45,7 @@ class LearningResourceDepartmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourceDepartment
-        fields = "__all__"
+        exclude = ["updated_on", "created_on"]
 
 
 class LearningResourceImageSerializer(serializers.ModelSerializer):
@@ -53,11 +53,14 @@ class LearningResourceImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourceImage
-        fields = "__all__"
+        exclude = ["updated_on", "created_on"]
 
 
 class LearningResourceRunSerializer(serializers.ModelSerializer):
     """Serializer for the LearningResourceRun model"""
+
+    instructors = LearningResourceInstructorSerializer(allow_null=True, many=True)
+    image = LearningResourceImageSerializer(allow_null=True)
 
     class Meta:
         model = models.LearningResourceRun
@@ -77,7 +80,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
 
     topics = LearningResourceTopicSerializer(read_only=True, many=True, allow_null=True)
     offered_by = LearningResourceOfferorField(read_only=True, allow_null=True)
-    runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
     image = LearningResourceImageSerializer(read_only=True, allow_null=True)
 
     class Meta:
@@ -92,7 +94,7 @@ class ProgramSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Program
-        fields = "__all__"
+        exclude = ("learning_resource",)
 
 
 class LearningResourceSerializer(LearningResourceBaseSerializer):
@@ -100,6 +102,8 @@ class LearningResourceSerializer(LearningResourceBaseSerializer):
 
     course = CourseSerializer(allow_null=True)
     program = ProgramSerializer(allow_null=True)
+    department = LearningResourceDepartmentSerializer(allow_null=True)
+    runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
 
     class Meta:
         model = models.LearningResource

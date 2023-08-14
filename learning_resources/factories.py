@@ -8,7 +8,7 @@ import factory
 import pytz
 from factory import Faker
 from factory.django import DjangoModelFactory
-from factory.fuzzy import FuzzyChoice
+from factory.fuzzy import FuzzyChoice, FuzzyInteger
 
 from learning_resources import models
 from learning_resources.constants import AvailabilityType, LearningResourceType
@@ -136,6 +136,17 @@ class LearningResourcePlatformFactory(DjangoModelFactory):
         django_get_or_create = ("platform",)
 
 
+class LearningResourceDepartmentFactory(DjangoModelFactory):
+    """Factory for LearningResourcePlatform"""
+
+    department_id = FuzzyInteger(1, 20)
+    name = Faker("word")
+
+    class Meta:
+        model = models.LearningResourceDepartment
+        django_get_or_create = ("department_id",)
+
+
 class LearningResourceOfferorFactory(DjangoModelFactory):
     """Factory for LearningResourceOfferor"""
 
@@ -163,6 +174,7 @@ class LearningResourceFactory(DjangoModelFactory):
     url = factory.Faker("url")
     image = factory.SubFactory(LearningResourceImageFactory)
     platform = factory.SubFactory(LearningResourcePlatformFactory)
+    department = factory.SubFactory(LearningResourceDepartmentFactory)
     offered_by = factory.PostGeneration(_post_gen_offered_by)
     topics = factory.PostGeneration(_post_gen_topics)
     resource_content_tags = factory.PostGeneration(_post_gen_tags)
@@ -211,7 +223,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
     url = factory.Faker("url")
-    languages = [factory.Faker("word")]
+    languages = factory.List(random.choices(["en", "es"]))
     year = factory.Faker("year")
     image = factory.SubFactory(LearningResourceImageFactory)
     availability = FuzzyChoice(
