@@ -28,7 +28,8 @@ class LearningResourceType(Enum):
 
     program = "program"
     course = "course"
-    video = "video"
-    podcast = "podcast"
-    podcast_episode = "podcast_episode"
-    staff_list = "stafflist"
+    # uncomment the following as models are added
+    # video = "video"
+    # podcast = "podcast"
+    # podcast_episode = "podcast_episode"
+    # staff_list = "stafflist"
