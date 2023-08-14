@@ -67,8 +67,10 @@ class LearningResourceImageSerializer(serializers.ModelSerializer):
 class LearningResourceRunSerializer(serializers.ModelSerializer):
     """Serializer for the LearningResourceRun model"""
 
-    instructors = LearningResourceInstructorSerializer(allow_null=True, many=True)
-    image = LearningResourceImageSerializer(allow_null=True)
+    instructors = LearningResourceInstructorSerializer(
+        read_only=True, allow_null=True, many=True
+    )
+    image = LearningResourceImageSerializer(read_only=True, allow_null=True)
 
     class Meta:
         model = models.LearningResourceRun
@@ -92,7 +94,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
         read_only=True, allow_null=True
     )
     image = LearningResourceImageSerializer(read_only=True, allow_null=True)
-    department = LearningResourceDepartmentSerializer(allow_null=True)
+    department = LearningResourceDepartmentSerializer(read_only=True, allow_null=True)
 
     class Meta:
         model = models.LearningResource
@@ -102,7 +104,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
 class ProgramSerializer(serializers.ModelSerializer):
     """Serializer for the Program model"""
 
-    courses = LearningResourceBaseSerializer(many=True, allow_null=True)
+    courses = LearningResourceBaseSerializer(read_only=True, many=True, allow_null=True)
 
     class Meta:
         model = models.Program
@@ -112,8 +114,8 @@ class ProgramSerializer(serializers.ModelSerializer):
 class LearningResourceSerializer(LearningResourceBaseSerializer):
     """Full serializer for LearningResource"""
 
-    course = CourseSerializer(allow_null=True)
-    program = ProgramSerializer(allow_null=True)
+    course = CourseSerializer(read_only=True, allow_null=True)
+    program = ProgramSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
 
     class Meta:

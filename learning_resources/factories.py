@@ -189,6 +189,8 @@ class LearningResourceFactory(DjangoModelFactory):
 
     class Params:
         no_topics = factory.Trait(topics=[])
+        is_course = factory.Trait(resource_type=LearningResourceType.course.value)
+        is_program = factory.Trait(resource_type=LearningResourceType.program.value)
 
 
 class CourseFactory(DjangoModelFactory):
@@ -214,6 +216,9 @@ class CourseFactory(DjangoModelFactory):
 
     class Meta:
         model = models.Course
+
+    class Params:
+        is_unpublished = factory.Trait(learning_resource__published=False)
 
 
 class LearningResourceRunFactory(DjangoModelFactory):
@@ -273,6 +278,8 @@ class LearningResourceRunFactory(DjangoModelFactory):
         no_prices = factory.Trait(prices=[])
         no_instructors = factory.Trait(instructors=[])
 
+        is_unpublished = factory.Trait(learning_resource__published=False)
+
         in_past = factory.Trait(
             enrollment_start=factory.Faker(
                 "date_time_between", end_date="-270d", tzinfo=pytz.utc
@@ -321,3 +328,6 @@ class ProgramFactory(DjangoModelFactory):
 
     class Meta:
         model = models.Program
+
+    class Params:
+        is_unpublished = factory.Trait(learning_resource__published=False)

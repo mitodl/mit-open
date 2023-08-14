@@ -1,11 +1,12 @@
 """Views for learning_resources"""
 import logging
-from typing import Dict
 
 from django.db.models import Q, QuerySet
+from django.utils import timezone
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.request import Request
 
 from learning_resources.constants import LearningResourceType
 from learning_resources.models import LearningResource
@@ -33,34 +34,6 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (AnonymousAccessReadonlyPermission,)
     pagination_class = DefaultPagination
 
-    # Shortcuts for querying certain nested fields
-    lr_attributes = {
-        "start_date": "runs__start_date",
-        "enrollment_start_date": "runs__enrollment_start_date",
-        "level": "runs__level",
-        "availability": "runs__availability",
-        "topics": "topics__name",
-        "department": "department__name",
-        "platform": "platform__platform",
-        "run_id": "runs__run_id",
-    }
-
-    def _convert_query_params_to_filters(self) -> Dict:
-        """
-        Convert query parameters to appropriate model filters
-
-        Returns:
-            Dict of model filters for a query
-        """
-        filters = {}
-        for query_param in self.request.query_params:
-            filter_key = query_param
-            for attribute, replacement in self.lr_attributes.items():
-                if query_param.startswith(attribute):
-                    filter_key = query_param.replace(attribute, replacement)
-            filters[filter_key] = self.request.query_params[query_param]
-        return filters
-
     def _get_base_queryset(self, resource_type: str = None) -> QuerySet:
         """
         Return learning resources based on query parameters
@@ -76,10 +49,6 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         )
         if resource_type:
             lr_query = lr_query.filter(resource_type=resource_type)
-        if self.request.query_params:
-            lr_query = lr_query.filter(
-                Q(**self._convert_query_params_to_filters()),
-            )
         prefetches = [
             "topics",
             "offered_by",
@@ -106,7 +75,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         lr_query = lr_query.prefetch_related(*prefetches).distinct()
         return lr_query
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         """
         Generate a QuerySet for fetching valid learning resources
 
@@ -116,11 +85,40 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         return self._get_base_queryset()
 
     @action(methods=["GET"], detail=False)
-    def new(self, request):
+    def new(self, request: Request) -> QuerySet:
         """
-        Get new resources
+        Get new LearningResources
+
+        Returns:
+            QuerySet of LearningResource objects ordered by reverse created_on
         """
         page = self.paginate_queryset(self.get_queryset().order_by("-created_on"))
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+
+    @action(methods=["GET"], detail=False)
+    def upcoming(self, request: Request) -> QuerySet:
+        """
+        Get upcoming LearningResources
+
+        Args:
+            request(Request): The request object
+
+        Returns:
+            QuerySet of LearningResource objects with future runs
+
+        """
+        page = self.paginate_queryset(
+            self._get_base_queryset()
+            .filter(
+                Q(runs__published=True)
+                & (
+                    Q(runs__start_date__gt=timezone.now())
+                    | Q(runs__enrollment_start__gt=timezone.now())
+                )
+            )
+            .order_by("runs__start_date")
+        )
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 
@@ -130,7 +128,7 @@ class CourseViewSet(LearningResourceViewSet):
     Viewset for Courses
     """
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         """
         Generate a QuerySet for fetching valid Course objects
 
