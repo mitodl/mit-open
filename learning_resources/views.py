@@ -4,6 +4,7 @@ from typing import Dict
 
 from django.db.models import Q, QuerySet
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
 
 from learning_resources.constants import LearningResourceType
@@ -38,7 +39,6 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         "enrollment_start_date": "runs__enrollment_start_date",
         "level": "runs__level",
         "availability": "runs__availability",
-        "offered_by": "offered_by__name",
         "topics": "topics__name",
         "department": "department__name",
         "platform": "platform__platform",
@@ -114,6 +114,15 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
             QuerySet of LearningResource objects
         """
         return self._get_base_queryset()
+
+    @action(methods=["GET"], detail=False)
+    def new(self, request):
+        """
+        Get new resources
+        """
+        page = self.paginate_queryset(self.get_queryset().order_by("-created_on"))
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
 
 
 class CourseViewSet(LearningResourceViewSet):

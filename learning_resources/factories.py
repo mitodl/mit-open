@@ -83,7 +83,7 @@ def _post_gen_offered_by(obj, create, extracted, **kwargs):
 class LearningResourceContentTagFactory(DjangoModelFactory):
     """Factory for LearningResourceContentTag objects"""
 
-    name = factory.Sequence(lambda n: "Topic %03d" % n)
+    name = factory.Sequence(lambda n: "Tag %03d" % n)
 
     class Meta:
         model = models.LearningResourceContentTag
@@ -172,6 +172,8 @@ class LearningResourceFactory(DjangoModelFactory):
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
     url = factory.Faker("url")
+    languages = factory.List(random.choices(["en", "es"]))
+    last_modified = factory.Faker("date_time", tzinfo=pytz.utc)
     image = factory.SubFactory(LearningResourceImageFactory)
     platform = factory.SubFactory(LearningResourcePlatformFactory)
     department = factory.SubFactory(LearningResourceDepartmentFactory)
@@ -223,6 +225,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
     url = factory.Faker("url")
+    level = FuzzyChoice(("Undergraduate", "Graduate"))
     languages = factory.List(random.choices(["en", "es"]))
     year = factory.Faker("year")
     image = factory.SubFactory(LearningResourceImageFactory)

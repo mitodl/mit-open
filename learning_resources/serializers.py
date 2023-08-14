@@ -32,6 +32,14 @@ class LearningResourceOfferorField(serializers.Field):
         return [offeror.name for offeror in value.all()]
 
 
+class LearningResourceContentTagField(serializers.Field):
+    """Serializer for LearningResourceContentTag"""
+
+    def to_representation(self, value):
+        """Serializes resource_content_tags as a list of OfferedBy names"""
+        return [tag.name for tag in value.all()]
+
+
 class LearningResourcePlatformSerializer(serializers.ModelSerializer):
     """Serializer for LearningResourcePlatform"""
 
@@ -45,7 +53,7 @@ class LearningResourceDepartmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourceDepartment
-        exclude = ["updated_on", "created_on"]
+        fields = ["department_id", "name"]
 
 
 class LearningResourceImageSerializer(serializers.ModelSerializer):
@@ -80,7 +88,11 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
 
     topics = LearningResourceTopicSerializer(read_only=True, many=True, allow_null=True)
     offered_by = LearningResourceOfferorField(read_only=True, allow_null=True)
+    resource_content_tags = LearningResourceContentTagField(
+        read_only=True, allow_null=True
+    )
     image = LearningResourceImageSerializer(read_only=True, allow_null=True)
+    department = LearningResourceDepartmentSerializer(allow_null=True)
 
     class Meta:
         model = models.LearningResource
@@ -102,7 +114,6 @@ class LearningResourceSerializer(LearningResourceBaseSerializer):
 
     course = CourseSerializer(allow_null=True)
     program = ProgramSerializer(allow_null=True)
-    department = LearningResourceDepartmentSerializer(allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
 
     class Meta:
