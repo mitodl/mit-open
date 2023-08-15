@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eo pipefail
 
 echohighlight() {
   echo -e "\x1b[32;1m$@\x1b[0m"
