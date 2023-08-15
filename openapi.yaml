@@ -1,0 +1,610 @@
+openapi: 3.0.3
+info:
+  title: MIT Open Discussions Course Catalog API
+  version: 0.0.1
+  description: Open Discussions public API
+paths:
+  /api/v0/fields/:
+    get:
+      operationId: root_list
+      description: Viewset for Field Channels
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFieldChannelList'
+          description: ''
+    post:
+      operationId: root_create
+      description: Viewset for Field Channels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldChannelCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FieldChannelCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FieldChannelCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldChannelCreate'
+          description: ''
+  /api/v0/fields/{field_name}/:
+    get:
+      operationId: root_retrieve
+      description: Viewset for Field Channels
+      parameters:
+      - in: path
+        name: field_name
+        schema:
+          type: string
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldChannel'
+          description: ''
+    put:
+      operationId: root_update
+      description: Viewset for Field Channels
+      parameters:
+      - in: path
+        name: field_name
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldChannelWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FieldChannelWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FieldChannelWrite'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldChannelWrite'
+          description: ''
+    patch:
+      operationId: root_partial_update
+      description: Viewset for Field Channels
+      parameters:
+      - in: path
+        name: field_name
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFieldChannelWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFieldChannelWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFieldChannelWrite'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldChannelWrite'
+          description: ''
+    delete:
+      operationId: root_destroy
+      description: Viewset for Field Channels
+      parameters:
+      - in: path
+        name: field_name
+        schema:
+          type: string
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v0/fields/{field_name}/moderators/:
+    get:
+      operationId: moderators_list
+      description: View for listing and adding moderators
+      parameters:
+      - in: path
+        name: field_name
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+        required: true
+      tags:
+      - moderators
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FieldModerator'
+          description: ''
+    post:
+      operationId: moderators_create
+      description: View for listing and adding moderators
+      parameters:
+      - in: path
+        name: field_name
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+        required: true
+      tags:
+      - moderators
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldModerator'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FieldModerator'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FieldModerator'
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldModerator'
+          description: ''
+  /api/v0/fields/{field_name}/moderators/{moderator_name}/:
+    delete:
+      operationId: moderators_destroy
+      description: Remove the user from the moderator groups for this website
+      parameters:
+      - in: path
+        name: field_name
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+        required: true
+      - in: path
+        name: moderator_name
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+        required: true
+      tags:
+      - moderators
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    CourseTopic:
+      type: object
+      description: Serializer for CourseTopic model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+      required:
+      - id
+      - name
+    FieldChannel:
+      type: object
+      description: Serializer for FieldChannel
+      properties:
+        name:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          readOnly: true
+        about:
+          type: object
+          additionalProperties: {}
+          readOnly: true
+          nullable: true
+        public_description:
+          type: string
+          readOnly: true
+        subfields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subfield'
+          readOnly: true
+        featured_list:
+          allOf:
+          - $ref: '#/components/schemas/UserList'
+          readOnly: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserList'
+          readOnly: true
+        avatar:
+          type: string
+          description: Get the avatar image URL
+        avatar_medium:
+          type: string
+          description: Get the avatar image medium URL
+          readOnly: true
+        avatar_small:
+          type: string
+          description: Get the avatar image small URL
+          readOnly: true
+        banner:
+          type: string
+          description: Get the banner image URL
+        widget_list:
+          type: integer
+          readOnly: true
+          nullable: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+        ga_tracking_id:
+          type: string
+          readOnly: true
+          nullable: true
+        is_moderator:
+          type: boolean
+          description: Return true if user is a moderator for the channel
+          readOnly: true
+      required:
+      - about
+      - avatar_medium
+      - avatar_small
+      - created_on
+      - featured_list
+      - ga_tracking_id
+      - id
+      - is_moderator
+      - lists
+      - name
+      - public_description
+      - subfields
+      - title
+      - updated_on
+      - widget_list
+    FieldChannelCreate:
+      type: object
+      description: Write serializer for FieldChannel
+      properties:
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+          maxLength: 100
+        title:
+          type: string
+          maxLength: 100
+        public_description:
+          type: string
+        subfields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subfield'
+        featured_list:
+          type: integer
+          nullable: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserList'
+        about:
+          type: object
+          additionalProperties: {}
+          nullable: true
+      required:
+      - name
+      - title
+    FieldChannelWrite:
+      type: object
+      description: Similar to FieldChannelCreateSerializer, with read-only name
+      properties:
+        name:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          maxLength: 100
+        public_description:
+          type: string
+        subfields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subfield'
+        featured_list:
+          type: integer
+          nullable: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserList'
+        about:
+          type: object
+          additionalProperties: {}
+          nullable: true
+        avatar:
+          type: string
+          description: Get the avatar image URL
+        banner:
+          type: string
+          description: Get the banner image URL
+      required:
+      - name
+      - title
+    FieldModerator:
+      type: object
+      description: Serializer for moderators
+      properties:
+        moderator_name:
+          type: string
+          description: Returns the name for the moderator
+        email:
+          type: string
+          description: Get the email from the associated user
+        full_name:
+          type: string
+          description: Get the full name of the associated user
+          readOnly: true
+      required:
+      - full_name
+    MicroStaffListItem:
+      type: object
+      description: Serializer for UserListItem containing only the item id and userlist
+        id.
+      properties:
+        item_id:
+          type: integer
+        list_id:
+          type: integer
+        object_id:
+          type: integer
+        content_type:
+          type: string
+      required:
+      - content_type
+      - item_id
+      - list_id
+      - object_id
+    MicroUserListItem:
+      type: object
+      description: Serializer for UserListItem containing only the item id and userlist
+        id.
+      properties:
+        item_id:
+          type: integer
+        list_id:
+          type: integer
+        object_id:
+          type: integer
+        content_type:
+          type: string
+      required:
+      - content_type
+      - item_id
+      - list_id
+      - object_id
+    PaginatedFieldChannelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldChannel'
+    PatchedFieldChannelWrite:
+      type: object
+      description: Similar to FieldChannelCreateSerializer, with read-only name
+      properties:
+        name:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          maxLength: 100
+        public_description:
+          type: string
+        subfields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subfield'
+        featured_list:
+          type: integer
+          nullable: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserList'
+        about:
+          type: object
+          additionalProperties: {}
+          nullable: true
+        avatar:
+          type: string
+          description: Get the avatar image URL
+        banner:
+          type: string
+          description: Get the banner image URL
+    Subfield:
+      type: object
+      description: Serializer for Subfields
+      properties:
+        parent_field:
+          type: string
+          readOnly: true
+        field_channel:
+          type: string
+          readOnly: true
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+      required:
+      - field_channel
+      - parent_field
+    UserList:
+      type: object
+      description: Simplified serializer for UserList model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        item_count:
+          type: integer
+          description: Return the number of items in the list
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseTopic'
+        author_name:
+          type: string
+          description: get author name for userlist
+          readOnly: true
+        object_type:
+          type: string
+          readOnly: true
+        image_src:
+          type: string
+          description: Return the user list's image or the image of the first item
+          readOnly: true
+        audience:
+          type: array
+          items:
+            type: string
+          description: Returns the audience for the user list
+          readOnly: true
+        certification:
+          type: array
+          items:
+            type: string
+          description: Returns the certification for the user list
+          readOnly: true
+        is_favorite:
+          type: boolean
+          readOnly: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroUserListItem'
+          readOnly: true
+        stafflists:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroStaffListItem'
+          readOnly: true
+        title:
+          type: string
+          maxLength: 256
+        short_description:
+          type: string
+          nullable: true
+        image_description:
+          type: string
+          nullable: true
+          maxLength: 1024
+        privacy_level:
+          type: string
+          maxLength: 32
+        list_type:
+          type: string
+          maxLength: 128
+        author:
+          type: integer
+          readOnly: true
+        offered_by:
+          type: array
+          items:
+            type: integer
+      required:
+      - audience
+      - author
+      - author_name
+      - certification
+      - id
+      - image_src
+      - is_favorite
+      - item_count
+      - list_type
+      - lists
+      - object_type
+      - stafflists
+      - title
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

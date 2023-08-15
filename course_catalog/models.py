@@ -442,7 +442,7 @@ class LearningList(List, LearningResourceGenericRelationsMixin):
     list_type = models.CharField(max_length=128)
 
     @property
-    def audience(self):
+    def audience(self) -> list[str]:
         """Returns the audience for the user list"""
         for list_item in self.items.all():
             if OPEN not in list_item.item.audience:
@@ -451,7 +451,7 @@ class LearningList(List, LearningResourceGenericRelationsMixin):
         return [OPEN]
 
     @property
-    def certification(self):
+    def certification(self) -> list[str]:
         """Returns the certification for the user list"""
         return []
 

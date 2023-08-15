@@ -133,7 +133,7 @@ A reddit instance at the URL indicated by `OPEN_DISCUSSIONS_REDDIT_URL` will nee
 to work properly.
 
 
-# Testing and Formatting
+# Testing, Formatting, & Code Generation
 
 [The commands outlined in the common ODL web app guide](https://github.com/mitodl/handbook/blob/master/common-web-app-guide.md#testing-and-formatting)
 are all relevant to Open Discussions.
@@ -147,6 +147,11 @@ docker-compose run --rm web black .
 docker-compose run -p 9001:9001 watch npm run storybook
 ```
 
+## Code Generation
+MIT Open uses [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest/) to generate and OpenAPI spec from Django views. Additionally, we use [OpenAPITools/openapi-generator](https://github.com/OpenAPITools/openapi-generator) to generate Typescript declarations and an API Client. These generated files are checked into source control; CI checks that they are up-to-date. To regenerate these files, run
+```bash
+./scripts/generate_openapi.sh
+```
 
 # Optional Setup
 

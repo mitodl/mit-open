@@ -3753,6 +3753,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"api@workspace:frontends/api":
+  version: 0.0.0-use.local
+  resolution: "api@workspace:frontends/api"
+  languageName: unknown
+  linkType: soft
+
 "aproba@npm:^1.0.3 || ^2.0.0":
   version: 2.0.0
   resolution: "aproba@npm:2.0.0"

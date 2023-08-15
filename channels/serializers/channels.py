@@ -18,19 +18,19 @@ class ChannelAppearanceMixin(serializers.Serializer):
     avatar_medium = serializers.SerializerMethodField()
     banner = WriteableSerializerMethodField()
 
-    def get_avatar(self, channel):
+    def get_avatar(self, channel) -> str:
         """Get the avatar image URL"""
         return channel.avatar.url if channel.avatar else None
 
-    def get_avatar_small(self, channel):
+    def get_avatar_small(self, channel) -> str:
         """Get the avatar image small URL"""
         return channel.avatar_small.url if channel.avatar_small else None
 
-    def get_avatar_medium(self, channel):
+    def get_avatar_medium(self, channel) -> str:
         """Get the avatar image medium URL"""
         return channel.avatar_medium.url if channel.avatar_medium else None
 
-    def get_banner(self, channel):
+    def get_banner(self, channel) -> str:
         """Get the banner image URL"""
         return channel.banner.url if channel.banner else None
 
@@ -77,21 +77,21 @@ class ChannelSerializer(ChannelAppearanceMixin, serializers.Serializer):
     about = serializers.JSONField(allow_null=True, default=None)
     moderator_notifications = WriteableSerializerMethodField()
 
-    def get_user_is_contributor(self, channel):
+    def get_user_is_contributor(self, channel) -> bool:
         """
         Get is_contributor from reddit object.
         For some reason reddit returns None instead of False so an explicit conversion is done here.
         """
         return bool(channel.user_is_contributor)
 
-    def get_user_is_moderator(self, channel):
+    def get_user_is_moderator(self, channel) -> bool:
         """
         Get is_moderator from reddit object.
         For some reason reddit returns None instead of False so an explicit conversion is done here.
         """
         return bool(channel.user_is_moderator)
 
-    def get_user_is_subscriber(self, channel):
+    def get_user_is_subscriber(self, channel) -> bool:
         """
         Get user_is_subscriber from reddit object.
         For some reason reddit returns None instead of False so an explicit conversion is done here.
@@ -104,7 +104,7 @@ class ChannelSerializer(ChannelAppearanceMixin, serializers.Serializer):
             channel._self_channel.moderator_notifications  # pylint: disable=protected-access
         )
 
-    def get_ga_tracking_id(self, channel):
+    def get_ga_tracking_id(self, channel) -> str:
         """Get google analytics tracking id"""
         return channel.ga_tracking_id
 
@@ -120,7 +120,7 @@ class ChannelSerializer(ChannelAppearanceMixin, serializers.Serializer):
             raise ValidationError("Expected ga_tracking_id to be a string")
         return {"ga_tracking_id": value}
 
-    def get_allowed_post_types(self, channel):
+    def get_allowed_post_types(self, channel) -> list[str]:
         """Returns a dictionary of allowed post types"""
         from channels.api import get_allowed_post_types_from_link_type
 
