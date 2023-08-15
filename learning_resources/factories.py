@@ -8,10 +8,15 @@ import factory
 import pytz
 from factory import Faker
 from factory.django import DjangoModelFactory
-from factory.fuzzy import FuzzyChoice
+from factory.fuzzy import FuzzyChoice, FuzzyInteger
 
 from learning_resources import models
-from learning_resources.constants import AvailabilityType, LearningResourceType
+from learning_resources.constants import (
+    OPEN,
+    PROFESSIONAL,
+    AvailabilityType,
+    LearningResourceType,
+)
 
 # pylint:disable=unused-argument
 
@@ -83,7 +88,7 @@ def _post_gen_offered_by(obj, create, extracted, **kwargs):
 class LearningResourceContentTagFactory(DjangoModelFactory):
     """Factory for LearningResourceContentTag objects"""
 
-    name = factory.Sequence(lambda n: "Topic %03d" % n)
+    name = factory.Sequence(lambda n: "Tag %03d" % n)
 
     class Meta:
         model = models.LearningResourceContentTag
@@ -128,12 +133,24 @@ class LearningResourcePlatformFactory(DjangoModelFactory):
     """Factory for LearningResourcePlatform"""
 
     platform = FuzzyChoice([platform.value for platform in PlatformTypeChoice])
+    audience = FuzzyChoice([OPEN, PROFESSIONAL])
     is_edx = Faker("boolean")
     has_content_files = Faker("boolean")
 
     class Meta:
         model = models.LearningResourcePlatform
         django_get_or_create = ("platform",)
+
+
+class LearningResourceDepartmentFactory(DjangoModelFactory):
+    """Factory for LearningResourcePlatform"""
+
+    department_id = FuzzyInteger(1, 20)
+    name = Faker("word")
+
+    class Meta:
+        model = models.LearningResourceDepartment
+        django_get_or_create = ("department_id",)
 
 
 class LearningResourceOfferorFactory(DjangoModelFactory):
@@ -161,8 +178,11 @@ class LearningResourceFactory(DjangoModelFactory):
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
     url = factory.Faker("url")
+    languages = factory.List(random.choices(["en", "es"]))
+    last_modified = factory.Faker("date_time", tzinfo=pytz.utc)
     image = factory.SubFactory(LearningResourceImageFactory)
     platform = factory.SubFactory(LearningResourcePlatformFactory)
+    department = factory.SubFactory(LearningResourceDepartmentFactory)
     offered_by = factory.PostGeneration(_post_gen_offered_by)
     topics = factory.PostGeneration(_post_gen_topics)
     resource_content_tags = factory.PostGeneration(_post_gen_tags)
@@ -175,6 +195,8 @@ class LearningResourceFactory(DjangoModelFactory):
 
     class Params:
         no_topics = factory.Trait(topics=[])
+        is_course = factory.Trait(resource_type=LearningResourceType.course.value)
+        is_program = factory.Trait(resource_type=LearningResourceType.program.value)
 
 
 class CourseFactory(DjangoModelFactory):
@@ -201,6 +223,9 @@ class CourseFactory(DjangoModelFactory):
     class Meta:
         model = models.Course
 
+    class Params:
+        is_unpublished = factory.Trait(learning_resource__published=False)
+
 
 class LearningResourceRunFactory(DjangoModelFactory):
     """Factory for LearningResourceRuns"""
@@ -211,7 +236,8 @@ class LearningResourceRunFactory(DjangoModelFactory):
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
     url = factory.Faker("url")
-    languages = [factory.Faker("word")]
+    level = FuzzyChoice(("Undergraduate", "Graduate"))
+    languages = factory.List(random.choices(["en", "es"]))
     year = factory.Faker("year")
     image = factory.SubFactory(LearningResourceImageFactory)
     availability = FuzzyChoice(
@@ -258,6 +284,8 @@ class LearningResourceRunFactory(DjangoModelFactory):
         no_prices = factory.Trait(prices=[])
         no_instructors = factory.Trait(instructors=[])
 
+        is_unpublished = factory.Trait(learning_resource__published=False)
+
         in_past = factory.Trait(
             enrollment_start=factory.Faker(
                 "date_time_between", end_date="-270d", tzinfo=pytz.utc
@@ -285,7 +313,8 @@ class ProgramFactory(DjangoModelFactory):
 
         if extracted is None:
             extracted = LearningResourceRunFactory.create(
-                learning_resource=self.learning_resource
+                learning_resource=self.learning_resource,
+                run_id=f"{self.learning_resource.resource_type}_{self.learning_resource.readable_id}.MIT_run",
             )
 
         self.runs.set([extracted])
@@ -306,3 +335,6 @@ class ProgramFactory(DjangoModelFactory):
 
     class Meta:
         model = models.Program
+
+    class Params:
+        is_unpublished = factory.Trait(learning_resource__published=False)
