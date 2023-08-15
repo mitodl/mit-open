@@ -12,7 +12,7 @@ paths:
       - name: limit
         required: false
         in: query
-        description: Number of results to return per page.
+        description: Numbers of results to return per page.
         schema:
           type: integer
       - name: offset
