@@ -8,5 +8,5 @@ open_spectacular_settings = {
     "DESCRIPTION": "Open Discussions public API",
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
-    "SERVE_URLCONF": "course_catalog.urls",
+    "SERVE_URLCONF": "open_discussions.urls_spectacular",
 }
