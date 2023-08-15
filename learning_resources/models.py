@@ -118,7 +118,7 @@ class LearningResource(TimestampedModel):
         blank=True,
         on_delete=models.deletion.SET_NULL,
     )
-    resource_type = models.CharField(max_length=24)
+    resource_type = models.CharField(max_length=24, db_index=True)
     topics = models.ManyToManyField(LearningResourceTopic)
     offered_by = models.ManyToManyField(LearningResourceOfferor)
     resource_content_tags = models.ManyToManyField(LearningResourceContentTag)
