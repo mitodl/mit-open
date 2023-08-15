@@ -3,6 +3,8 @@ from rest_framework import serializers
 
 from learning_resources import models
 
+COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
+
 
 class LearningResourceInstructorSerializer(serializers.ModelSerializer):
     """
@@ -45,7 +47,7 @@ class LearningResourcePlatformSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourcePlatform
-        exclude = ["updated_on", "created_on"]
+        exclude = COMMON_IGNORED_FIELDS
 
 
 class LearningResourceDepartmentSerializer(serializers.ModelSerializer):
@@ -61,7 +63,7 @@ class LearningResourceImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourceImage
-        exclude = ["updated_on", "created_on"]
+        exclude = COMMON_IGNORED_FIELDS
 
 
 class LearningResourceRunSerializer(serializers.ModelSerializer):
@@ -74,7 +76,7 @@ class LearningResourceRunSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourceRun
-        fields = "__all__"
+        exclude = COMMON_IGNORED_FIELDS
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -82,7 +84,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Course
-        exclude = ("learning_resource",)
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
 class LearningResourceBaseSerializer(serializers.ModelSerializer):
@@ -95,6 +97,8 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
     )
     image = LearningResourceImageSerializer(read_only=True, allow_null=True)
     department = LearningResourceDepartmentSerializer(read_only=True, allow_null=True)
+    audience = serializers.ReadOnlyField()
+    certification = serializers.ReadOnlyField()
 
     class Meta:
         model = models.LearningResource
@@ -108,7 +112,7 @@ class ProgramSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Program
-        exclude = ("learning_resource",)
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
 class LearningResourceSerializer(LearningResourceBaseSerializer):
@@ -120,4 +124,4 @@ class LearningResourceSerializer(LearningResourceBaseSerializer):
 
     class Meta:
         model = models.LearningResource
-        fields = "__all__"
+        exclude = COMMON_IGNORED_FIELDS

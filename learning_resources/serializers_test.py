@@ -38,6 +38,26 @@ def test_serialize_course_model():
     assert serializer.data["program"] is None
 
 
+def test_serialize_dupe_model():
+    """A dupe course should fail validation, a non-dupe course should pass"""
+    course = factories.CourseFactory.create()
+    serialized_data = serializers.LearningResourceSerializer(
+        instance=course.learning_resource
+    ).data
+    serialized_data.pop("id")
+
+    dupe_course_serializer = serializers.LearningResourceSerializer(
+        data=serialized_data
+    )
+    assert not dupe_course_serializer.is_valid()
+
+    serialized_data["readable_id"] = "new-unique-id"
+    non_dupe_course_serializer = serializers.LearningResourceSerializer(
+        data=serialized_data
+    )
+    assert non_dupe_course_serializer.is_valid(raise_exception=True)
+
+
 def test_serialize_program_model():
     """
     Verify that a serialized program contains attributes for related objects

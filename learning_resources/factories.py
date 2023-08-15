@@ -11,7 +11,12 @@ from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyInteger
 
 from learning_resources import models
-from learning_resources.constants import AvailabilityType, LearningResourceType
+from learning_resources.constants import (
+    OPEN,
+    PROFESSIONAL,
+    AvailabilityType,
+    LearningResourceType,
+)
 
 # pylint:disable=unused-argument
 
@@ -128,6 +133,7 @@ class LearningResourcePlatformFactory(DjangoModelFactory):
     """Factory for LearningResourcePlatform"""
 
     platform = FuzzyChoice([platform.value for platform in PlatformTypeChoice])
+    audience = FuzzyChoice([OPEN, PROFESSIONAL])
     is_edx = Faker("boolean")
     has_content_files = Faker("boolean")
 

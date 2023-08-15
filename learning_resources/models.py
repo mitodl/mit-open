@@ -144,7 +144,7 @@ class LearningResource(TimestampedModel):
             return constants.CERTIFICATE
 
     class Meta:
-        unique_together = (("platform", "readable_id"),)
+        unique_together = (("platform", "readable_id", "resource_type"),)
 
 
 class LearningResourceRun(TimestampedModel):
