@@ -313,7 +313,8 @@ class ProgramFactory(DjangoModelFactory):
 
         if extracted is None:
             extracted = LearningResourceRunFactory.create(
-                learning_resource=self.learning_resource
+                learning_resource=self.learning_resource,
+                run_id=f"{self.learning_resource.resource_type}_{self.learning_resource.readable_id}.MIT_run",
             )
 
         self.runs.set([extracted])

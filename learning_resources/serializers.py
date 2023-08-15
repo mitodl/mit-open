@@ -13,7 +13,7 @@ class LearningResourceInstructorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourceInstructor
-        fields = "__all__"
+        exclude = COMMON_IGNORED_FIELDS
 
 
 class LearningResourceTopicSerializer(serializers.ModelSerializer):

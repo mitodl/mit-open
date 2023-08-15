@@ -44,9 +44,19 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         Returns:
             QuerySet of LearningResource objects matching the query parameters
         """
+        # Valid fields to filter by, just resource_type for now
+        valid_params = ["resource_type"]
+
         lr_query = LearningResource.objects.filter(
             published=True,
         )
+        query_params_filter = {}
+        for param in self.request.query_params:
+            for valid_param in valid_params:
+                if param.startswith(valid_param):
+                    query_params_filter[param] = self.request.query_params[param]
+        if query_params_filter != {}:
+            lr_query = lr_query.filter(Q(**query_params_filter))
         if resource_type:
             lr_query = lr_query.filter(resource_type=resource_type)
         prefetches = [
