@@ -40,7 +40,7 @@ describe("HomePage", () => {
     setMockResponse.get(urls.video.new(), [])
     setMockResponse.get(urls.popularContent.listing(), [])
 
-    const { history } = renderTestApp()
+    const { history } = renderTestApp({ url: "/infinite" })
 
     const textInput = getSearchTextInput()
     await user.type(textInput, "Physics or math{Enter}")
@@ -65,7 +65,7 @@ describe("HomePage", () => {
     setMockResponse.get(urls.video.new(), [])
     setMockResponse.get(urls.popularContent.listing(), [])
 
-    renderTestApp()
+    renderTestApp({ url: "/infinite" })
 
     const title = await screen.findByText("Upcoming Courses")
     assertNotNil(title)
@@ -100,7 +100,7 @@ describe("HomePage", () => {
     setMockResponse.get(urls.video.new(), videosResult)
     setMockResponse.get(urls.popularContent.listing(), [])
 
-    renderTestApp()
+    renderTestApp({ url: "/infinite" })
 
     const title = await screen.findByText("New Videos From MIT")
     assertNotNil(title)
@@ -135,7 +135,7 @@ describe("HomePage", () => {
     setMockResponse.get(urls.video.new(), [])
     setMockResponse.get(urls.popularContent.listing(), popularResult)
 
-    renderTestApp()
+    renderTestApp({ url: "/infinite" })
 
     const title = await screen.findByText("Popular Learning Resources")
     assertNotNil(title)

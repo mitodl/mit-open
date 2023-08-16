@@ -30,7 +30,7 @@ describe("FavoritesPage", () => {
     const favorites = factories.makeFavorites({ count })
     setMockResponse.get(lrUrls.favorite.listing(), favorites)
 
-    const { history } = renderTestApp({ url: `/lists/favorites` })
+    const { history } = renderTestApp({ url: `/infinite/lists/favorites` })
     return { history, favorites }
   }
 

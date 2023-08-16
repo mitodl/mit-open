@@ -51,7 +51,9 @@ describe("EditFieldBasicForm", () => {
   })
 
   it("Displays a 'featured list' autocomplete form field and draggable list widgets", async () => {
-    renderTestApp({ url: `${urls.fieldDetails(field.name)}manage/#basic` })
+    renderTestApp({
+      url: `/infinite${urls.fieldDetails(field.name)}manage/#basic`
+    })
 
     const featuredListSelector = (await screen.findByLabelText(
       "Featured learning resources"
@@ -88,7 +90,7 @@ describe("EditFieldBasicForm", () => {
 
   it("updates field values on form submission", async () => {
     const { history } = renderTestApp({
-      url: `${urls.fieldDetails(field.name)}manage/#basic`
+      url: `/infinite${urls.fieldDetails(field.name)}manage/#basic`
     })
     const featuredListSelector = (await screen.findByLabelText(
       "Featured learning resources"

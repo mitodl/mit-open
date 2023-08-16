@@ -58,7 +58,7 @@ const setup = (
 
   const PageComponent =
     mode === "userlist" ? UserListsListingPage : StaffListsListingPage
-  const url = mode === "userlist" ? "/lists" : "/stafflists"
+  const url = mode === "userlist" ? "/infinite/lists" : "/infinite/stafflists"
   const lists = mode === "userlist" ? userLists : staffLists
 
   const { history } = renderWithProviders(<PageComponent />, { url })

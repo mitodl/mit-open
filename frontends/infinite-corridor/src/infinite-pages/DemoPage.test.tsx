@@ -44,7 +44,7 @@ describe("DemoPage", () => {
     setMockResponse.post("search/", {
       hits: { hits: [], total: 0 }
     })
-    await renderTestApp({ url: "/demo" })
+    await renderTestApp({ url: "/infinite/demo" })
 
     const textInput = getSearchTextInput()
     await user.type(textInput, "New Search Text{Enter}")

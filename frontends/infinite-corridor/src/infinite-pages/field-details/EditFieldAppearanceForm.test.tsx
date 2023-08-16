@@ -28,7 +28,9 @@ describe("EditFieldAppearanceForm", () => {
   it("Displays the field title, appearance inputs with current field values", async () => {
     const field = setupApis()
     expect(field.is_moderator).toBeTruthy()
-    renderTestApp({ url: `${urls.fieldDetails(field.name)}manage/#appearance` })
+    renderTestApp({
+      url: `/infinite${urls.fieldDetails(field.name)}manage/#appearance`
+    })
     const descInput = (await screen.findByLabelText(
       "Description"
     )) as HTMLInputElement
@@ -41,7 +43,9 @@ describe("EditFieldAppearanceForm", () => {
 
   it("Shows an error if a required field is blank", async () => {
     const field = setupApis()
-    renderTestApp({ url: `${urls.fieldDetails(field.name)}manage/#appearance` })
+    renderTestApp({
+      url: `/infinite${urls.fieldDetails(field.name)}manage/#appearance`
+    })
     const titleInput = (await screen.findByLabelText(
       "Title"
     )) as HTMLInputElement
@@ -69,7 +73,7 @@ describe("EditFieldAppearanceForm", () => {
     }
     setMockResponse.patch(urls.fieldDetails(field.name), updatedValues)
     const { history } = renderTestApp({
-      url: `${urls.fieldDetails(field.name)}manage/#appearance`
+      url: `/infinite${urls.fieldDetails(field.name)}manage/#appearance`
     })
     const titleInput = (await screen.findByLabelText(
       "Title"
