@@ -49,7 +49,7 @@ class LearningResourceOfferor(TimestampedModel):
 class LearningResourceImage(TimestampedModel):
     """Represent image metadata for a learning resource"""
 
-    url = models.TextField(max_length=2048, null=True, blank=True)
+    url = models.TextField(max_length=2048, blank=True)
     description = models.CharField(max_length=1024, null=True, blank=True)
     alt = models.CharField(max_length=1024, null=True, blank=True)
 
