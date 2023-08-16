@@ -18,7 +18,6 @@ from open_discussions.settings import SITE_BASE_URL
 from open_discussions.serializers import WriteableSerializerMethodField
 from open_discussions.utils import markdown_to_plain_text
 from profiles.utils import image_uri
-from notifications.tasks import notify_moderators
 
 User = get_user_model()
 
@@ -203,6 +202,7 @@ class PostSerializer(BasePostSerializer):
     def create(self, validated_data):
         """Create a post"""
         from channels import task_helpers
+        from notifications.tasks import notify_moderators
 
         title = validated_data["title"]
         text = validated_data.get("text", None)

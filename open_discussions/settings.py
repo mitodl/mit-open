@@ -214,45 +214,18 @@ USE_TZ = True
 
 # social auth
 AUTHENTICATION_BACKENDS = (
-    "authentication.backends.micromasters.MicroMastersAuth",
-    "social_core.backends.email.EmailAuth",
-    "social_core.backends.saml.SAMLAuth",
     # the following needs to stay here to allow login of local users
     "django.contrib.auth.backends.ModelBackend",
     "guardian.backends.ObjectPermissionBackend",
 )
 
-SOCIAL_AUTH_STRATEGY = "authentication.strategy.OpenDiscussionsStrategy"
-
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = "login-complete"
 SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
 SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [urlparse(SITE_BASE_URL).netloc]
 
-# Micromasters backend settings
-SOCIAL_AUTH_MICROMASTERS_LOGIN_URL = get_string(
-    "SOCIAL_AUTH_MICROMASTERS_LOGIN_URL", None
-)
-
-# Email backend settings
-SOCIAL_AUTH_EMAIL_FORM_URL = "login"
-SOCIAL_AUTH_EMAIL_FORM_HTML = "login.html"
-
-# SAML backend settings
-SOCIAL_AUTH_SAML_LOGIN_URL = get_string("SOCIAL_AUTH_SAML_LOGIN_URL", None)
-
-# Only validate emails for the email backend
-SOCIAL_AUTH_EMAIL_FORCE_EMAIL_VALIDATION = True
-
-# Configure social_core.pipeline.mail.mail_validation
-SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = "mail.verification_api.send_verification_email"
-SOCIAL_AUTH_EMAIL_VALIDATION_URL = "/"
-
 SOCIAL_AUTH_PIPELINE = (
     # Checks if an admin user attempts to login/register while hijacking another user.
     "authentication.pipeline.user.forbid_hijack",
-    # Checks if the user is attempting to log in with an email and has authenticated via SAML,
-    # in which case we want to force them to log in via SAML
-    "authentication.pipeline.user.require_touchstone_login",
     # Get the information we can about the user and return it in a simple
     # format to create the user instance later. On some cases the details are
     # already part of the auth response from the provider, but sometimes this
@@ -269,12 +242,6 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_user",
     # Associates the current social details with another user account with the same email address.
     "social_core.pipeline.social_auth.associate_by_email",
-    # validate an incoming email auth request
-    "authentication.pipeline.user.validate_email_auth_request",
-    # if the user only has micromasters auth but is trying to login via email
-    "authentication.pipeline.user.require_micromasters_provider",
-    # require a password and profile if they're not set
-    "authentication.pipeline.user.validate_password",
     # Send a validation email to the user to verify its email address.
     # Disabled by default.
     "social_core.pipeline.mail.mail_validation",
@@ -283,10 +250,6 @@ SOCIAL_AUTH_PIPELINE = (
     "authentication.pipeline.user.get_username",
     # Create a user account if we haven't found one yet.
     "social_core.pipeline.user.create_user",
-    # require a password and profile if they're not set via Email
-    "authentication.pipeline.user.require_password_and_profile_via_email",
-    # require a profile if they're not set via SAML
-    "authentication.pipeline.user.require_profile_update_user_via_saml",
     # Create the record that associates the social account with the user.
     "social_core.pipeline.social_auth.associate_user",
     # Populate the extra_data field in the social record with the values
@@ -294,12 +257,6 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.load_extra_data",
     # Update the user record with any changed info from the auth service.
     "social_core.pipeline.user.user_details",
-    # Resolve outstanding channel invitations
-    "authentication.pipeline.invite.resolve_outstanding_channel_invites",
-    # Create the moira list associations for the user if any.
-    "authentication.pipeline.user.update_moira_lists",
-    # update the user's managed channels
-    "authentication.pipeline.user.update_managed_channel_memberships",
 )
 
 # Static files (CSS, JavaScript, Images)
@@ -378,63 +335,6 @@ NOTIFICATION_ATTEMPT_CHUNK_SIZE = get_int(
 NOTIFICATION_SEND_CHUNK_SIZE = get_int(
     "OPEN_DISCUSSIONS_NOTIFICATION_SEND_CHUNK_SIZE", 100
 )
-
-# SAML settings
-SOCIAL_AUTH_SAML_SP_ENTITY_ID = get_string(
-    "SOCIAL_AUTH_SAML_SP_ENTITY_ID", SITE_BASE_URL
-)
-SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = get_string("SOCIAL_AUTH_SAML_SP_PUBLIC_CERT", None)
-SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = get_string("SOCIAL_AUTH_SAML_SP_PRIVATE_KEY", None)
-SOCIAL_AUTH_SAML_ORG_DISPLAYNAME = get_string(
-    "SOCIAL_AUTH_SAML_ORG_DISPLAYNAME", "Open Discussions"
-)
-SOCIAL_AUTH_SAML_CONTACT_NAME = get_string(
-    "SOCIAL_AUTH_SAML_CONTACT_NAME", "Open Discussions Support"
-)
-SOCIAL_AUTH_SAML_IDP_ENTITY_ID = get_string("SOCIAL_AUTH_SAML_IDP_ENTITY_ID", None)
-SOCIAL_AUTH_SAML_IDP_URL = get_string("SOCIAL_AUTH_SAML_IDP_URL", None)
-SOCIAL_AUTH_SAML_IDP_X509 = get_string("SOCIAL_AUTH_SAML_IDP_X509", False)
-SOCIAL_AUTH_SAML_IDP_ATTRIBUTE_PERM_ID = get_string(
-    "SOCIAL_AUTH_SAML_IDP_ATTRIBUTE_PERM_ID", None
-)
-SOCIAL_AUTH_SAML_IDP_ATTRIBUTE_NAME = get_string(
-    "SOCIAL_AUTH_SAML_IDP_ATTRIBUTE_NAME", None
-)
-SOCIAL_AUTH_SAML_IDP_ATTRIBUTE_EMAIL = get_string(
-    "SOCIAL_AUTH_SAML_IDP_ATTRIBUTE_EMAIL", None
-)
-SOCIAL_AUTH_SAML_SECURITY_ENCRYPTED = get_bool(
-    "SOCIAL_AUTH_SAML_SECURITY_ENCRYPTED", False
-)
-
-SOCIAL_AUTH_SAML_ORG_INFO = {
-    "en-US": {
-        "name": urlparse(SITE_BASE_URL).netloc,
-        "displayname": SOCIAL_AUTH_SAML_ORG_DISPLAYNAME,
-        "url": SITE_BASE_URL,
-    }
-}
-SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
-    "givenName": SOCIAL_AUTH_SAML_CONTACT_NAME,
-    "emailAddress": EMAIL_SUPPORT,
-}
-SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT
-SOCIAL_AUTH_DEFAULT_IDP_KEY = "default"
-SOCIAL_AUTH_SAML_ENABLED_IDPS = {
-    SOCIAL_AUTH_DEFAULT_IDP_KEY: {
-        "entity_id": SOCIAL_AUTH_SAML_IDP_ENTITY_ID,
-        "url": SOCIAL_AUTH_SAML_IDP_URL,
-        "attr_user_permanent_id": SOCIAL_AUTH_SAML_IDP_ATTRIBUTE_PERM_ID,
-        "attr_username": SOCIAL_AUTH_SAML_IDP_ATTRIBUTE_PERM_ID,
-        "attr_email": SOCIAL_AUTH_SAML_IDP_ATTRIBUTE_EMAIL,
-        "x509cert": SOCIAL_AUTH_SAML_IDP_X509,
-    }
-}
-
-SOCIAL_AUTH_SAML_SECURITY_CONFIG = {
-    "wantAssertionsEncrypted": SOCIAL_AUTH_SAML_SECURITY_ENCRYPTED,
-    "requestedAuthnContext": False,
-}
 
 # embed.ly configuration
 EMBEDLY_KEY = get_string("EMBEDLY_KEY", None)
@@ -641,8 +541,6 @@ JWT_AUTH = {
     "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=7),
     "JWT_AUTH_COOKIE": OPEN_DISCUSSIONS_COOKIE_NAME,
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
-    # custom username lookup to handle python-social-auth authentication
-    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "authentication.utils.jwt_get_username_from_payload_handler",
 }
 
 OPEN_DISCUSSIONS_FRONTPAGE_DIGEST_MAX_POSTS = get_int(
@@ -728,20 +626,6 @@ REST_FRAMEWORK = {
 
 USE_X_FORWARDED_PORT = get_bool("USE_X_FORWARDED_PORT", False)
 USE_X_FORWARDED_HOST = get_bool("USE_X_FORWARDED_HOST", False)
-
-# Relative URL to be used by Djoser for the link in the password reset email
-# (see: http://djoser.readthedocs.io/en/stable/settings.html#password-reset-confirm-url)
-PASSWORD_RESET_CONFIRM_URL = "password_reset/confirm/{uid}/{token}/"
-
-# Djoser library settings (see: http://djoser.readthedocs.io/en/stable/settings.html)
-DJOSER = {
-    "PASSWORD_RESET_CONFIRM_URL": PASSWORD_RESET_CONFIRM_URL,
-    "SET_PASSWORD_RETYPE": False,
-    "LOGOUT_ON_PASSWORD_CHANGE": False,
-    "PASSWORD_RESET_CONFIRM_RETYPE": True,
-    "PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND": True,
-    "EMAIL": {"password_reset": "authentication.views.CustomPasswordResetEmail"},
-}
 
 # Hijack
 HIJACK_ALLOW_GET_REQUESTS = True

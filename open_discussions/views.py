@@ -2,18 +2,13 @@
 open_discussions views
 """
 from django.http import (
-    Http404,
-    HttpResponse,
     HttpResponseNotFound,
     HttpResponseForbidden,
     HttpResponseBadRequest,
 )
 from django.conf import settings
 from django.shortcuts import render
-from django.urls import reverse
-from social_django.utils import load_strategy, load_backend
 
-from open_discussions import features
 from open_discussions.permissions import is_admin_user
 
 from course_catalog.permissions import is_staff_list_editor
@@ -60,15 +55,3 @@ def handle_403(request, exception=None):  # pylint:disable=unused-argument
 def handle_404(request, exception=None):  # pylint:disable=unused-argument
     """404 error handler"""
     return HttpResponseNotFound(index(request))
-
-
-def saml_metadata(request):
-    """Display SAML configuration metadata as XML"""
-    if not features.is_enabled(features.SAML_AUTH):
-        raise Http404("Page not found")
-    complete_url = reverse("social:complete", args=("saml",))
-    saml_backend = load_backend(
-        load_strategy(request), "saml", redirect_uri=complete_url
-    )
-    metadata, _ = saml_backend.generate_metadata_xml()
-    return HttpResponse(content=metadata, content_type="text/xml")

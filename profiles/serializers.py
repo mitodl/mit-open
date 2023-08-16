@@ -211,7 +211,6 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for User"""
 
-    uid = serializers.CharField(write_only=True, required=False)
     # username cannot be set but a default is generated on create using ulid.new
     username = serializers.CharField(read_only=True)
     email = serializers.CharField(write_only=True)
@@ -221,32 +220,20 @@ class UserSerializer(serializers.ModelSerializer):
         profile_data = validated_data.pop("profile") or {}
         username = ulid.new()
         email = validated_data.get("email")
-        uid = validated_data.get("uid", None)
 
         with transaction.atomic():
             user = auth_api.create_user(username, email, profile_data)
-
-            if uid:
-                auth_api.create_or_update_micromasters_social_auth(
-                    user, uid, {"email": email}
-                )
 
         return user
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop("profile", None)
-        uid = validated_data.get("uid", None)
         email = validated_data.get("email", None)
 
         with transaction.atomic():
             if email:
                 instance.email = email
                 instance.save()
-
-            if uid:
-                auth_api.create_or_update_micromasters_social_auth(
-                    instance, uid, {"email": email}
-                )
 
             if profile_data:
                 profile = instance.profile
@@ -263,5 +250,5 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "username", "profile", "email", "uid")
+        fields = ("id", "username", "profile", "email")
         read_only_fields = ("id", "username")
