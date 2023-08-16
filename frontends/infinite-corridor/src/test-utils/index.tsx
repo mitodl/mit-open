@@ -1,5 +1,5 @@
 import React from "react"
-import App, { AppProviders, BASE_URL } from "../App"
+import App, { AppProviders } from "../App"
 import { render } from "@testing-library/react"
 import { createMemoryHistory } from "history"
 import { setMockResponse } from "./mockAxios"
@@ -16,6 +16,7 @@ interface TestAppOptions {
 const defaultTestAppOptions = {
   url: "/"
 }
+const BASE_URL = "/infinite"
 
 /**
  * Render the app for integration testing.

@@ -13,7 +13,7 @@ import IconButton from "@mui/material/IconButton"
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
 import BookmarkIcon from "@mui/icons-material/Bookmark"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
-import AddToListDialog from "../pages/resource-lists/AddToListDialog"
+import AddToListDialog from "../infinite-pages/resource-lists/AddToListDialog"
 
 type TemplateProps = LearningResourceCardTemplateProps<
   LearningResource | LearningResourceSearchResult
