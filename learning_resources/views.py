@@ -7,6 +7,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.request import Request
+from drf_spectacular.utils import extend_schema, extend_schema_view
 
 from learning_resources.constants import LearningResourceType
 from learning_resources.models import LearningResource
@@ -25,6 +26,24 @@ class DefaultPagination(LimitOffsetPagination):
     max_limit = 100
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="List",
+        description="Get a paginated list of learning resources.",
+    ),
+    retrieve=extend_schema(
+        summary="Retrieve",
+        description="Retrieve a single learning resource.",
+    ),
+    new=extend_schema(
+        summary="List New",
+        description="Get a paginated list of newly released resources.",
+    ),
+    upcoming=extend_schema(
+        summary="List Upcoming",
+        description="Get a paginated list of upcoming resources.",
+    ),
+)
 class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Viewset for LearningResources
@@ -94,7 +113,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         """
         return self._get_base_queryset()
 
-    @action(methods=["GET"], detail=False)
+    @action(methods=["GET"], detail=False, name="New Resources")
     def new(self, request: Request) -> QuerySet:
         """
         Get new LearningResources
@@ -106,7 +125,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 
-    @action(methods=["GET"], detail=False)
+    @action(methods=["GET"], detail=False, name="Upcoming Resources")
     def upcoming(self, request: Request) -> QuerySet:
         """
         Get upcoming LearningResources

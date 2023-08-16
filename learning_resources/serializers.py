@@ -1,5 +1,6 @@
 """Serializers for learning_resources"""
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_field
 
 from learning_resources import models
 
@@ -26,6 +27,7 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
+@extend_schema_field({"type": "array", "items": {"type": "string"}})
 class LearningResourceOfferorField(serializers.Field):
     """Serializer for LearningResourceOfferor"""
 
@@ -34,6 +36,7 @@ class LearningResourceOfferorField(serializers.Field):
         return [offeror.name for offeror in value.all()]
 
 
+@extend_schema_field({"type": "array", "items": {"type": "string"}})
 class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 

@@ -49,7 +49,7 @@ class LearningResourceOfferor(TimestampedModel):
 class LearningResourceImage(TimestampedModel):
     """Represent image metadata for a learning resource"""
 
-    url = models.TextField(max_length=2048, null=True, blank=True)
+    url = models.TextField(max_length=2048, blank=True)
     description = models.CharField(max_length=1024, null=True, blank=True)
     alt = models.CharField(max_length=1024, null=True, blank=True)
 
@@ -127,12 +127,13 @@ class LearningResource(TimestampedModel):
     )
 
     @property
-    def audience(self):
+    def audience(self) -> str | None:
         """Returns the audience for the course"""
-        return self.platform.audience
+        if self.platform:
+            return self.platform.audience
 
     @property
-    def certification(self):
+    def certification(self) -> str | None:
         """Returns the certification for the course"""
         if self.platform.audience == constants.PROFESSIONAL or (
             self.platform.platform == "mitx"

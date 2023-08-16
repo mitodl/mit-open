@@ -34,682 +34,596 @@ import type { RequestArgs } from "./base"
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from "./base"
 
 /**
- * Serializer for CourseTopic model
+ * Serializer for the Course model
  * @export
- * @interface CourseTopic
+ * @interface Course
  */
-export interface CourseTopic {
+export interface Course {
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof Course
+   */
+  extra_course_numbers?: Array<string> | null
+}
+/**
+ * Full serializer for LearningResource
+ * @export
+ * @interface LearningResource
+ */
+export interface LearningResource {
   /**
    *
    * @type {number}
-   * @memberof CourseTopic
+   * @memberof LearningResource
    */
   id: number
   /**
    *
-   * @type {string}
-   * @memberof CourseTopic
+   * @type {Array<LearningResourceTopic>}
+   * @memberof LearningResource
    */
-  name: string
-}
-/**
- * Serializer for FieldChannel
- * @export
- * @interface FieldChannel
- */
-export interface FieldChannel {
+  topics: Array<LearningResourceTopic> | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResource
+   */
+  offered_by: Array<string> | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResource
+   */
+  resource_content_tags: Array<string> | null
+  /**
+   *
+   * @type {LearningResourceImage}
+   * @memberof LearningResource
+   */
+  image: LearningResourceImage | null
+  /**
+   *
+   * @type {LearningResourceDepartment}
+   * @memberof LearningResource
+   */
+  department: LearningResourceDepartment | null
+  /**
+   * Returns the audience for the course
+   * @type {string}
+   * @memberof LearningResource
+   */
+  audience: string | null
+  /**
+   * Returns the certification for the course
+   * @type {string}
+   * @memberof LearningResource
+   */
+  certification: string | null
+  /**
+   *
+   * @type {Course}
+   * @memberof LearningResource
+   */
+  course: Course | null
+  /**
+   *
+   * @type {Program}
+   * @memberof LearningResource
+   */
+  program: Program | null
+  /**
+   *
+   * @type {Array<LearningResourceRun>}
+   * @memberof LearningResource
+   */
+  runs: Array<LearningResourceRun> | null
   /**
    *
    * @type {string}
-   * @memberof FieldChannel
+   * @memberof LearningResource
    */
-  name: string
+  readable_id: string
   /**
    *
    * @type {string}
-   * @memberof FieldChannel
+   * @memberof LearningResource
    */
   title: string
   /**
    *
-   * @type {{ [key: string]: any; }}
-   * @memberof FieldChannel
+   * @type {string}
+   * @memberof LearningResource
    */
-  about: { [key: string]: any } | null
+  description?: string | null
   /**
    *
    * @type {string}
-   * @memberof FieldChannel
+   * @memberof LearningResource
    */
-  public_description: string
+  full_description?: string | null
   /**
    *
-   * @type {Array<Subfield>}
-   * @memberof FieldChannel
+   * @type {string}
+   * @memberof LearningResource
    */
-  subfields: Array<Subfield>
+  last_modified?: string | null
   /**
    *
-   * @type {UserList}
-   * @memberof FieldChannel
+   * @type {boolean}
+   * @memberof LearningResource
    */
-  featured_list: UserList
+  published?: boolean
   /**
    *
-   * @type {Array<UserList>}
-   * @memberof FieldChannel
+   * @type {Array<string>}
+   * @memberof LearningResource
    */
-  lists: Array<UserList>
+  languages?: Array<string> | null
   /**
-   * Get the avatar image URL
+   *
    * @type {string}
-   * @memberof FieldChannel
+   * @memberof LearningResource
    */
-  avatar?: string
+  url?: string | null
   /**
-   * Get the avatar image medium URL
+   *
    * @type {string}
-   * @memberof FieldChannel
+   * @memberof LearningResource
    */
-  avatar_medium: string
+  resource_type: string
   /**
-   * Get the avatar image small URL
-   * @type {string}
-   * @memberof FieldChannel
+   *
+   * @type {Array<string>}
+   * @memberof LearningResource
    */
-  avatar_small: string
+  prices?: Array<string> | null
   /**
-   * Get the banner image URL
+   *
    * @type {string}
-   * @memberof FieldChannel
+   * @memberof LearningResource
    */
-  banner?: string
+  platform: string | null
+}
+/**
+ * Serializer for LearningResource, minus program, course
+ * @export
+ * @interface LearningResourceBase
+ */
+export interface LearningResourceBase {
   /**
    *
    * @type {number}
-   * @memberof FieldChannel
+   * @memberof LearningResourceBase
    */
-  widget_list: number | null
+  id: number
+  /**
+   *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof LearningResourceBase
+   */
+  topics: Array<LearningResourceTopic> | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceBase
+   */
+  offered_by: Array<string> | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceBase
+   */
+  resource_content_tags: Array<string> | null
+  /**
+   *
+   * @type {LearningResourceImage}
+   * @memberof LearningResourceBase
+   */
+  image: LearningResourceImage | null
+  /**
+   *
+   * @type {LearningResourceDepartment}
+   * @memberof LearningResourceBase
+   */
+  department: LearningResourceDepartment | null
+  /**
+   * Returns the audience for the course
+   * @type {string}
+   * @memberof LearningResourceBase
+   */
+  audience: string | null
+  /**
+   * Returns the certification for the course
+   * @type {string}
+   * @memberof LearningResourceBase
+   */
+  certification: string | null
   /**
    *
    * @type {string}
-   * @memberof FieldChannel
+   * @memberof LearningResourceBase
+   */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBase
    */
   updated_on: string
   /**
    *
    * @type {string}
-   * @memberof FieldChannel
+   * @memberof LearningResourceBase
    */
-  created_on: string
+  readable_id: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBase
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBase
+   */
+  description?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBase
+   */
+  full_description?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBase
+   */
+  last_modified?: string | null
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourceBase
+   */
+  published?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceBase
+   */
+  languages?: Array<string> | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBase
+   */
+  url?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBase
+   */
+  resource_type: string
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceBase
+   */
+  prices?: Array<string> | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBase
+   */
+  platform: string | null
+}
+/**
+ * Serializer for LearningResourceDepartment
+ * @export
+ * @interface LearningResourceDepartment
+ */
+export interface LearningResourceDepartment {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceDepartment
+   */
+  department_id: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceDepartment
+   */
+  name: string
+}
+/**
+ * Serializer for LearningResourceImage
+ * @export
+ * @interface LearningResourceImage
+ */
+export interface LearningResourceImage {
   /**
    *
    * @type {number}
-   * @memberof FieldChannel
+   * @memberof LearningResourceImage
    */
   id: number
   /**
    *
    * @type {string}
-   * @memberof FieldChannel
+   * @memberof LearningResourceImage
    */
-  ga_tracking_id: string | null
+  url?: string
   /**
-   * Return true if user is a moderator for the channel
+   *
+   * @type {string}
+   * @memberof LearningResourceImage
+   */
+  description?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceImage
+   */
+  alt?: string | null
+}
+/**
+ * Serializer for LearningResourceInstructor model
+ * @export
+ * @interface LearningResourceInstructor
+ */
+export interface LearningResourceInstructor {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceInstructor
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceInstructor
+   */
+  first_name?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceInstructor
+   */
+  last_name?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceInstructor
+   */
+  full_name?: string | null
+}
+/**
+ * Serializer for the LearningResourceRun model
+ * @export
+ * @interface LearningResourceRun
+ */
+export interface LearningResourceRun {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceRun
+   */
+  id: number
+  /**
+   *
+   * @type {Array<LearningResourceInstructor>}
+   * @memberof LearningResourceRun
+   */
+  instructors: Array<LearningResourceInstructor> | null
+  /**
+   *
+   * @type {LearningResourceImage}
+   * @memberof LearningResourceRun
+   */
+  image: LearningResourceImage | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  run_id: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  description?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  full_description?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  last_modified?: string | null
+  /**
+   *
    * @type {boolean}
-   * @memberof FieldChannel
+   * @memberof LearningResourceRun
    */
-  is_moderator: boolean
-}
-/**
- * Write serializer for FieldChannel
- * @export
- * @interface FieldChannelCreate
- */
-export interface FieldChannelCreate {
+  published?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceRun
+   */
+  languages?: Array<string> | null
   /**
    *
    * @type {string}
-   * @memberof FieldChannelCreate
+   * @memberof LearningResourceRun
+   */
+  url?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  level?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  slug?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  availability?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  semester?: string | null
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceRun
+   */
+  year?: number | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  start_date?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  end_date?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  enrollment_start?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  enrollment_end?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceRun
+   */
+  prices?: Array<string> | null
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceRun
+   */
+  learning_resource: number
+}
+/**
+ * Serializer for LearningResourceTopic model
+ * @export
+ * @interface LearningResourceTopic
+ */
+export interface LearningResourceTopic {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceTopic
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceTopic
    */
   name: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<Subfield>}
-   * @memberof FieldChannelCreate
-   */
-  subfields?: Array<Subfield>
-  /**
-   *
-   * @type {number}
-   * @memberof FieldChannelCreate
-   */
-  featured_list?: number | null
-  /**
-   *
-   * @type {Array<UserList>}
-   * @memberof FieldChannelCreate
-   */
-  lists?: Array<UserList>
-  /**
-   *
-   * @type {{ [key: string]: any; }}
-   * @memberof FieldChannelCreate
-   */
-  about?: { [key: string]: any } | null
-}
-/**
- * Similar to FieldChannelCreateSerializer, with read-only name
- * @export
- * @interface FieldChannelWrite
- */
-export interface FieldChannelWrite {
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<Subfield>}
-   * @memberof FieldChannelWrite
-   */
-  subfields?: Array<Subfield>
-  /**
-   *
-   * @type {number}
-   * @memberof FieldChannelWrite
-   */
-  featured_list?: number | null
-  /**
-   *
-   * @type {Array<UserList>}
-   * @memberof FieldChannelWrite
-   */
-  lists?: Array<UserList>
-  /**
-   *
-   * @type {{ [key: string]: any; }}
-   * @memberof FieldChannelWrite
-   */
-  about?: { [key: string]: any } | null
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  avatar?: string
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  banner?: string
-}
-/**
- * Serializer for moderators
- * @export
- * @interface FieldModerator
- */
-export interface FieldModerator {
-  /**
-   * Returns the name for the moderator
-   * @type {string}
-   * @memberof FieldModerator
-   */
-  moderator_name?: string
-  /**
-   * Get the email from the associated user
-   * @type {string}
-   * @memberof FieldModerator
-   */
-  email?: string
-  /**
-   * Get the full name of the associated user
-   * @type {string}
-   * @memberof FieldModerator
-   */
-  full_name: string
-}
-/**
- * Serializer for UserListItem containing only the item id and userlist id.
- * @export
- * @interface MicroStaffListItem
- */
-export interface MicroStaffListItem {
-  /**
-   *
-   * @type {number}
-   * @memberof MicroStaffListItem
-   */
-  item_id: number
-  /**
-   *
-   * @type {number}
-   * @memberof MicroStaffListItem
-   */
-  list_id: number
-  /**
-   *
-   * @type {number}
-   * @memberof MicroStaffListItem
-   */
-  object_id: number
-  /**
-   *
-   * @type {string}
-   * @memberof MicroStaffListItem
-   */
-  content_type: string
-}
-/**
- * Serializer for UserListItem containing only the item id and userlist id.
- * @export
- * @interface MicroUserListItem
- */
-export interface MicroUserListItem {
-  /**
-   *
-   * @type {number}
-   * @memberof MicroUserListItem
-   */
-  item_id: number
-  /**
-   *
-   * @type {number}
-   * @memberof MicroUserListItem
-   */
-  list_id: number
-  /**
-   *
-   * @type {number}
-   * @memberof MicroUserListItem
-   */
-  object_id: number
-  /**
-   *
-   * @type {string}
-   * @memberof MicroUserListItem
-   */
-  content_type: string
 }
 /**
  *
  * @export
- * @interface PaginatedFieldChannelList
+ * @interface PaginatedLearningResourceList
  */
-export interface PaginatedFieldChannelList {
+export interface PaginatedLearningResourceList {
   /**
    *
    * @type {number}
-   * @memberof PaginatedFieldChannelList
+   * @memberof PaginatedLearningResourceList
    */
   count?: number
   /**
    *
    * @type {string}
-   * @memberof PaginatedFieldChannelList
+   * @memberof PaginatedLearningResourceList
    */
   next?: string | null
   /**
    *
    * @type {string}
-   * @memberof PaginatedFieldChannelList
+   * @memberof PaginatedLearningResourceList
    */
   previous?: string | null
   /**
    *
-   * @type {Array<FieldChannel>}
-   * @memberof PaginatedFieldChannelList
+   * @type {Array<LearningResource>}
+   * @memberof PaginatedLearningResourceList
    */
-  results?: Array<FieldChannel>
+  results?: Array<LearningResource>
 }
 /**
- * Similar to FieldChannelCreateSerializer, with read-only name
+ * Serializer for the Program model
  * @export
- * @interface PatchedFieldChannelWrite
+ * @interface Program
  */
-export interface PatchedFieldChannelWrite {
+export interface Program {
   /**
    *
-   * @type {string}
-   * @memberof PatchedFieldChannelWrite
+   * @type {Array<LearningResourceBase>}
+   * @memberof Program
    */
-  name?: string
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedFieldChannelWrite
-   */
-  title?: string
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedFieldChannelWrite
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<Subfield>}
-   * @memberof PatchedFieldChannelWrite
-   */
-  subfields?: Array<Subfield>
-  /**
-   *
-   * @type {number}
-   * @memberof PatchedFieldChannelWrite
-   */
-  featured_list?: number | null
-  /**
-   *
-   * @type {Array<UserList>}
-   * @memberof PatchedFieldChannelWrite
-   */
-  lists?: Array<UserList>
-  /**
-   *
-   * @type {{ [key: string]: any; }}
-   * @memberof PatchedFieldChannelWrite
-   */
-  about?: { [key: string]: any } | null
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof PatchedFieldChannelWrite
-   */
-  avatar?: string
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof PatchedFieldChannelWrite
-   */
-  banner?: string
-}
-/**
- * Serializer for Subfields
- * @export
- * @interface Subfield
- */
-export interface Subfield {
-  /**
-   *
-   * @type {string}
-   * @memberof Subfield
-   */
-  parent_field: string
-  /**
-   *
-   * @type {string}
-   * @memberof Subfield
-   */
-  field_channel: string
-  /**
-   *
-   * @type {number}
-   * @memberof Subfield
-   */
-  position?: number
-}
-/**
- * Simplified serializer for UserList model.
- * @export
- * @interface UserList
- */
-export interface UserList {
-  /**
-   *
-   * @type {number}
-   * @memberof UserList
-   */
-  id: number
-  /**
-   * Return the number of items in the list
-   * @type {number}
-   * @memberof UserList
-   */
-  item_count: number
-  /**
-   *
-   * @type {Array<CourseTopic>}
-   * @memberof UserList
-   */
-  topics?: Array<CourseTopic>
-  /**
-   * get author name for userlist
-   * @type {string}
-   * @memberof UserList
-   */
-  author_name: string
-  /**
-   *
-   * @type {string}
-   * @memberof UserList
-   */
-  object_type: string
-  /**
-   * Return the user list\'s image or the image of the first item
-   * @type {string}
-   * @memberof UserList
-   */
-  image_src: string
-  /**
-   * Returns the audience for the user list
-   * @type {Array<string>}
-   * @memberof UserList
-   */
-  audience: Array<string>
-  /**
-   * Returns the certification for the user list
-   * @type {Array<string>}
-   * @memberof UserList
-   */
-  certification: Array<string>
-  /**
-   *
-   * @type {boolean}
-   * @memberof UserList
-   */
-  is_favorite: boolean
-  /**
-   *
-   * @type {Array<MicroUserListItem>}
-   * @memberof UserList
-   */
-  lists: Array<MicroUserListItem>
-  /**
-   *
-   * @type {Array<MicroStaffListItem>}
-   * @memberof UserList
-   */
-  stafflists: Array<MicroStaffListItem>
-  /**
-   *
-   * @type {string}
-   * @memberof UserList
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof UserList
-   */
-  short_description?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof UserList
-   */
-  image_description?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof UserList
-   */
-  privacy_level?: string
-  /**
-   *
-   * @type {string}
-   * @memberof UserList
-   */
-  list_type: string
-  /**
-   *
-   * @type {number}
-   * @memberof UserList
-   */
-  author: number
-  /**
-   *
-   * @type {Array<number>}
-   * @memberof UserList
-   */
-  offered_by?: Array<number>
+  courses: Array<LearningResourceBase> | null
 }
 
 /**
- * DefaultApi - axios parameter creator
+ * CoursesApi - axios parameter creator
  * @export
  */
-export const DefaultApiAxiosParamCreator = function (
+export const CoursesApiAxiosParamCreator = function (
   configuration?: Configuration
 ) {
   return {
     /**
-     * Viewset for Field Channels
-     * @param {FieldChannelCreate} fieldChannelCreate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    rootCreate: async (
-      fieldChannelCreate: FieldChannelCreate,
-      options: AxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'fieldChannelCreate' is not null or undefined
-      assertParamExists("rootCreate", "fieldChannelCreate", fieldChannelCreate)
-      const localVarPath = `/api/v0/fields/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "POST",
-        ...baseOptions,
-        ...options
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        fieldChannelCreate,
-        localVarRequestOptions,
-        configuration
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
-    },
-    /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    rootDestroy: async (
-      fieldName: string,
-      options: AxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'fieldName' is not null or undefined
-      assertParamExists("rootDestroy", "fieldName", fieldName)
-      const localVarPath = `/api/v0/fields/{field_name}/`.replace(
-        `{${"field_name"}}`,
-        encodeURIComponent(String(fieldName))
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "DELETE",
-        ...baseOptions,
-        ...options
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
-    },
-    /**
-     * Viewset for Field Channels
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    rootList: async (
+    coursesList: async (
       limit?: number,
       offset?: number,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/fields/`
+      const localVarPath = `/api/v1/courses/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -750,23 +664,15 @@ export const DefaultApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
-     * @param {PatchedFieldChannelWrite} [patchedFieldChannelWrite]
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    rootPartialUpdate: async (
-      fieldName: string,
-      patchedFieldChannelWrite?: PatchedFieldChannelWrite,
+    coursesNewRetrieve: async (
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'fieldName' is not null or undefined
-      assertParamExists("rootPartialUpdate", "fieldName", fieldName)
-      const localVarPath = `/api/v0/fields/{field_name}/`.replace(
-        `{${"field_name"}}`,
-        encodeURIComponent(String(fieldName))
-      )
+      const localVarPath = `/api/v1/courses/new/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -775,7 +681,7 @@ export const DefaultApiAxiosParamCreator = function (
       }
 
       const localVarRequestOptions = {
-        method: "PATCH",
+        method: "GET",
         ...baseOptions,
         ...options
       }
@@ -783,8 +689,6 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -794,11 +698,6 @@ export const DefaultApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers
       }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        patchedFieldChannelWrite,
-        localVarRequestOptions,
-        configuration
-      )
 
       return {
         url: toPathString(localVarUrlObj),
@@ -806,20 +705,21 @@ export const DefaultApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    rootRetrieve: async (
-      fieldName: string,
+    coursesRetrieve: async (
+      id: number,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'fieldName' is not null or undefined
-      assertParamExists("rootRetrieve", "fieldName", fieldName)
-      const localVarPath = `/api/v0/fields/{field_name}/`.replace(
-        `{${"field_name"}}`,
-        encodeURIComponent(String(fieldName))
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("coursesRetrieve", "id", id)
+      const localVarPath = `/api/v1/courses/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -853,25 +753,15 @@ export const DefaultApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
-     * @param {FieldChannelWrite} fieldChannelWrite
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    rootUpdate: async (
-      fieldName: string,
-      fieldChannelWrite: FieldChannelWrite,
+    coursesUpcomingRetrieve: async (
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'fieldName' is not null or undefined
-      assertParamExists("rootUpdate", "fieldName", fieldName)
-      // verify required parameter 'fieldChannelWrite' is not null or undefined
-      assertParamExists("rootUpdate", "fieldChannelWrite", fieldChannelWrite)
-      const localVarPath = `/api/v0/fields/{field_name}/`.replace(
-        `{${"field_name"}}`,
-        encodeURIComponent(String(fieldName))
-      )
+      const localVarPath = `/api/v1/courses/upcoming/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -880,7 +770,7 @@ export const DefaultApiAxiosParamCreator = function (
       }
 
       const localVarRequestOptions = {
-        method: "PUT",
+        method: "GET",
         ...baseOptions,
         ...options
       }
@@ -888,8 +778,6 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -899,11 +787,6 @@ export const DefaultApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers
       }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        fieldChannelWrite,
-        localVarRequestOptions,
-        configuration
-      )
 
       return {
         url: toPathString(localVarUrlObj),
@@ -914,69 +797,21 @@ export const DefaultApiAxiosParamCreator = function (
 }
 
 /**
- * DefaultApi - functional programming interface
+ * CoursesApi - functional programming interface
  * @export
  */
-export const DefaultApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
+export const CoursesApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = CoursesApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for Field Channels
-     * @param {FieldChannelCreate} fieldChannelCreate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async rootCreate(
-      fieldChannelCreate: FieldChannelCreate,
-      options?: AxiosRequestConfig
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string
-      ) => AxiosPromise<FieldChannelCreate>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.rootCreate(
-        fieldChannelCreate,
-        options
-      )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration
-      )
-    },
-    /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async rootDestroy(
-      fieldName: string,
-      options?: AxiosRequestConfig
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.rootDestroy(
-        fieldName,
-        options
-      )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration
-      )
-    },
-    /**
-     * Viewset for Field Channels
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async rootList(
+    async coursesList(
       limit?: number,
       offset?: number,
       options?: AxiosRequestConfig
@@ -984,9 +819,9 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<PaginatedFieldChannelList>
+      ) => AxiosPromise<PaginatedLearningResourceList>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.rootList(
+      const localVarAxiosArgs = await localVarAxiosParamCreator.coursesList(
         limit,
         offset,
         options
@@ -999,28 +834,21 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
-     * @param {PatchedFieldChannelWrite} [patchedFieldChannelWrite]
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async rootPartialUpdate(
-      fieldName: string,
-      patchedFieldChannelWrite?: PatchedFieldChannelWrite,
+    async coursesNewRetrieve(
       options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<FieldChannelWrite>
+      ) => AxiosPromise<LearningResource>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.rootPartialUpdate(
-          fieldName,
-          patchedFieldChannelWrite,
-          options
-        )
+        await localVarAxiosParamCreator.coursesNewRetrieve(options)
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -1029,50 +857,48 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async rootRetrieve(
-      fieldName: string,
-      options?: AxiosRequestConfig
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.rootRetrieve(
-        fieldName,
-        options
-      )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration
-      )
-    },
-    /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
-     * @param {FieldChannelWrite} fieldChannelWrite
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async rootUpdate(
-      fieldName: string,
-      fieldChannelWrite: FieldChannelWrite,
+    async coursesRetrieve(
+      id: number,
       options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<FieldChannelWrite>
+      ) => AxiosPromise<LearningResource>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.rootUpdate(
-        fieldName,
-        fieldChannelWrite,
+      const localVarAxiosArgs = await localVarAxiosParamCreator.coursesRetrieve(
+        id,
         options
       )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async coursesUpcomingRetrieve(
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.coursesUpcomingRetrieve(options)
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -1084,233 +910,159 @@ export const DefaultApiFp = function (configuration?: Configuration) {
 }
 
 /**
- * DefaultApi - factory interface
+ * CoursesApi - factory interface
  * @export
  */
-export const DefaultApiFactory = function (
+export const CoursesApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance
 ) {
-  const localVarFp = DefaultApiFp(configuration)
+  const localVarFp = CoursesApiFp(configuration)
   return {
     /**
-     * Viewset for Field Channels
-     * @param {FieldChannelCreate} fieldChannelCreate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    rootCreate(
-      fieldChannelCreate: FieldChannelCreate,
-      options?: any
-    ): AxiosPromise<FieldChannelCreate> {
-      return localVarFp
-        .rootCreate(fieldChannelCreate, options)
-        .then(request => request(axios, basePath))
-    },
-    /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    rootDestroy(fieldName: string, options?: any): AxiosPromise<void> {
-      return localVarFp
-        .rootDestroy(fieldName, options)
-        .then(request => request(axios, basePath))
-    },
-    /**
-     * Viewset for Field Channels
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    rootList(
+    coursesList(
       limit?: number,
       offset?: number,
       options?: any
-    ): AxiosPromise<PaginatedFieldChannelList> {
+    ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
-        .rootList(limit, offset, options)
+        .coursesList(limit, offset, options)
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
-     * @param {PatchedFieldChannelWrite} [patchedFieldChannelWrite]
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    rootPartialUpdate(
-      fieldName: string,
-      patchedFieldChannelWrite?: PatchedFieldChannelWrite,
-      options?: any
-    ): AxiosPromise<FieldChannelWrite> {
+    coursesNewRetrieve(options?: any): AxiosPromise<LearningResource> {
       return localVarFp
-        .rootPartialUpdate(fieldName, patchedFieldChannelWrite, options)
+        .coursesNewRetrieve(options)
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    rootRetrieve(fieldName: string, options?: any): AxiosPromise<FieldChannel> {
+    coursesRetrieve(id: number, options?: any): AxiosPromise<LearningResource> {
       return localVarFp
-        .rootRetrieve(fieldName, options)
+        .coursesRetrieve(id, options)
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for Field Channels
-     * @param {string} fieldName
-     * @param {FieldChannelWrite} fieldChannelWrite
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    rootUpdate(
-      fieldName: string,
-      fieldChannelWrite: FieldChannelWrite,
-      options?: any
-    ): AxiosPromise<FieldChannelWrite> {
+    coursesUpcomingRetrieve(options?: any): AxiosPromise<LearningResource> {
       return localVarFp
-        .rootUpdate(fieldName, fieldChannelWrite, options)
+        .coursesUpcomingRetrieve(options)
         .then(request => request(axios, basePath))
     }
   }
 }
 
 /**
- * DefaultApi - object-oriented interface
+ * CoursesApi - object-oriented interface
  * @export
- * @class DefaultApi
+ * @class CoursesApi
  * @extends {BaseAPI}
  */
-export class DefaultApi extends BaseAPI {
+export class CoursesApi extends BaseAPI {
   /**
-   * Viewset for Field Channels
-   * @param {FieldChannelCreate} fieldChannelCreate
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public rootCreate(
-    fieldChannelCreate: FieldChannelCreate,
-    options?: AxiosRequestConfig
-  ) {
-    return DefaultApiFp(this.configuration)
-      .rootCreate(fieldChannelCreate, options)
-      .then(request => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for Field Channels
-   * @param {string} fieldName
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public rootDestroy(fieldName: string, options?: AxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .rootDestroy(fieldName, options)
-      .then(request => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for Field Channels
+   * Get a paginated list of learning resources.
+   * @summary List
    * @param {number} [limit] Number of results to return per page.
    * @param {number} [offset] The initial index from which to return the results.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof DefaultApi
+   * @memberof CoursesApi
    */
-  public rootList(
+  public coursesList(
     limit?: number,
     offset?: number,
     options?: AxiosRequestConfig
   ) {
-    return DefaultApiFp(this.configuration)
-      .rootList(limit, offset, options)
+    return CoursesApiFp(this.configuration)
+      .coursesList(limit, offset, options)
       .then(request => request(this.axios, this.basePath))
   }
 
   /**
-   * Viewset for Field Channels
-   * @param {string} fieldName
-   * @param {PatchedFieldChannelWrite} [patchedFieldChannelWrite]
+   * Get a paginated list of newly released resources.
+   * @summary List New
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof DefaultApi
+   * @memberof CoursesApi
    */
-  public rootPartialUpdate(
-    fieldName: string,
-    patchedFieldChannelWrite?: PatchedFieldChannelWrite,
-    options?: AxiosRequestConfig
-  ) {
-    return DefaultApiFp(this.configuration)
-      .rootPartialUpdate(fieldName, patchedFieldChannelWrite, options)
+  public coursesNewRetrieve(options?: AxiosRequestConfig) {
+    return CoursesApiFp(this.configuration)
+      .coursesNewRetrieve(options)
       .then(request => request(this.axios, this.basePath))
   }
 
   /**
-   * Viewset for Field Channels
-   * @param {string} fieldName
+   * Retrieve a single learning resource.
+   * @summary Retrieve
+   * @param {number} id A unique integer value identifying this learning resource.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof DefaultApi
+   * @memberof CoursesApi
    */
-  public rootRetrieve(fieldName: string, options?: AxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .rootRetrieve(fieldName, options)
+  public coursesRetrieve(id: number, options?: AxiosRequestConfig) {
+    return CoursesApiFp(this.configuration)
+      .coursesRetrieve(id, options)
       .then(request => request(this.axios, this.basePath))
   }
 
   /**
-   * Viewset for Field Channels
-   * @param {string} fieldName
-   * @param {FieldChannelWrite} fieldChannelWrite
+   * Get a paginated list of upcoming resources.
+   * @summary List Upcoming
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof DefaultApi
+   * @memberof CoursesApi
    */
-  public rootUpdate(
-    fieldName: string,
-    fieldChannelWrite: FieldChannelWrite,
-    options?: AxiosRequestConfig
-  ) {
-    return DefaultApiFp(this.configuration)
-      .rootUpdate(fieldName, fieldChannelWrite, options)
+  public coursesUpcomingRetrieve(options?: AxiosRequestConfig) {
+    return CoursesApiFp(this.configuration)
+      .coursesUpcomingRetrieve(options)
       .then(request => request(this.axios, this.basePath))
   }
 }
 
 /**
- * ModeratorsApi - axios parameter creator
+ * LearningResourcesApi - axios parameter creator
  * @export
  */
-export const ModeratorsApiAxiosParamCreator = function (
+export const LearningResourcesApiAxiosParamCreator = function (
   configuration?: Configuration
 ) {
   return {
     /**
-     * View for listing and adding moderators
-     * @param {string} fieldName
-     * @param {FieldModerator} [fieldModerator]
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    moderatorsCreate: async (
-      fieldName: string,
-      fieldModerator?: FieldModerator,
+    learningResourcesList: async (
+      limit?: number,
+      offset?: number,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'fieldName' is not null or undefined
-      assertParamExists("moderatorsCreate", "fieldName", fieldName)
-      const localVarPath = `/api/v0/fields/{field_name}/moderators/`.replace(
-        `{${"field_name"}}`,
-        encodeURIComponent(String(fieldName))
-      )
+      const localVarPath = `/api/v1/learning_resources/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -1319,7 +1071,7 @@ export const ModeratorsApiAxiosParamCreator = function (
       }
 
       const localVarRequestOptions = {
-        method: "POST",
+        method: "GET",
         ...baseOptions,
         ...options
       }
@@ -1328,7 +1080,13 @@ export const ModeratorsApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -1338,11 +1096,6 @@ export const ModeratorsApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers
       }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        fieldModerator,
-        localVarRequestOptions,
-        configuration
-      )
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1350,28 +1103,15 @@ export const ModeratorsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Remove the user from the moderator groups for this website
-     * @param {string} fieldName
-     * @param {string} moderatorName
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    moderatorsDestroy: async (
-      fieldName: string,
-      moderatorName: string,
+    learningResourcesNewRetrieve: async (
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'fieldName' is not null or undefined
-      assertParamExists("moderatorsDestroy", "fieldName", fieldName)
-      // verify required parameter 'moderatorName' is not null or undefined
-      assertParamExists("moderatorsDestroy", "moderatorName", moderatorName)
-      const localVarPath =
-        `/api/v0/fields/{field_name}/moderators/{moderator_name}/`
-          .replace(`{${"field_name"}}`, encodeURIComponent(String(fieldName)))
-          .replace(
-            `{${"moderator_name"}}`,
-            encodeURIComponent(String(moderatorName))
-          )
+      const localVarPath = `/api/v1/learning_resources/new/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -1380,7 +1120,7 @@ export const ModeratorsApiAxiosParamCreator = function (
       }
 
       const localVarRequestOptions = {
-        method: "DELETE",
+        method: "GET",
         ...baseOptions,
         ...options
       }
@@ -1404,21 +1144,63 @@ export const ModeratorsApiAxiosParamCreator = function (
       }
     },
     /**
-     * View for listing and adding moderators
-     * @param {string} fieldName
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    moderatorsList: async (
-      fieldName: string,
+    learningResourcesRetrieve: async (
+      id: number,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'fieldName' is not null or undefined
-      assertParamExists("moderatorsList", "fieldName", fieldName)
-      const localVarPath = `/api/v0/fields/{field_name}/moderators/`.replace(
-        `{${"field_name"}}`,
-        encodeURIComponent(String(fieldName))
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningResourcesRetrieve", "id", id)
+      const localVarPath = `/api/v1/learning_resources/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
       )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUpcomingRetrieve: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/learning_resources/upcoming/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -1454,84 +1236,481 @@ export const ModeratorsApiAxiosParamCreator = function (
 }
 
 /**
- * ModeratorsApi - functional programming interface
+ * LearningResourcesApi - functional programming interface
  * @export
  */
-export const ModeratorsApiFp = function (configuration?: Configuration) {
+export const LearningResourcesApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator =
-    ModeratorsApiAxiosParamCreator(configuration)
+    LearningResourcesApiAxiosParamCreator(configuration)
   return {
     /**
-     * View for listing and adding moderators
-     * @param {string} fieldName
-     * @param {FieldModerator} [fieldModerator]
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async moderatorsCreate(
-      fieldName: string,
-      fieldModerator?: FieldModerator,
-      options?: AxiosRequestConfig
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldModerator>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.moderatorsCreate(
-          fieldName,
-          fieldModerator,
-          options
-        )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration
-      )
-    },
-    /**
-     * Remove the user from the moderator groups for this website
-     * @param {string} fieldName
-     * @param {string} moderatorName
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async moderatorsDestroy(
-      fieldName: string,
-      moderatorName: string,
-      options?: AxiosRequestConfig
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.moderatorsDestroy(
-          fieldName,
-          moderatorName,
-          options
-        )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration
-      )
-    },
-    /**
-     * View for listing and adding moderators
-     * @param {string} fieldName
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async moderatorsList(
-      fieldName: string,
+    async learningResourcesList(
+      limit?: number,
+      offset?: number,
       options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<Array<FieldModerator>>
+      ) => AxiosPromise<PaginatedLearningResourceList>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.moderatorsList(
-        fieldName,
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesList(
+          limit,
+          offset,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesNewRetrieve(
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesNewRetrieve(options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesRetrieve(
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesUpcomingRetrieve(
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesUpcomingRetrieve(
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    }
+  }
+}
+
+/**
+ * LearningResourcesApi - factory interface
+ * @export
+ */
+export const LearningResourcesApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  const localVarFp = LearningResourcesApiFp(configuration)
+  return {
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesList(
+      limit?: number,
+      offset?: number,
+      options?: any
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .learningResourcesList(limit, offset, options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesNewRetrieve(
+      options?: any
+    ): AxiosPromise<LearningResource> {
+      return localVarFp
+        .learningResourcesNewRetrieve(options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesRetrieve(
+      id: number,
+      options?: any
+    ): AxiosPromise<LearningResource> {
+      return localVarFp
+        .learningResourcesRetrieve(id, options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUpcomingRetrieve(
+      options?: any
+    ): AxiosPromise<LearningResource> {
+      return localVarFp
+        .learningResourcesUpcomingRetrieve(options)
+        .then(request => request(axios, basePath))
+    }
+  }
+}
+
+/**
+ * LearningResourcesApi - object-oriented interface
+ * @export
+ * @class LearningResourcesApi
+ * @extends {BaseAPI}
+ */
+export class LearningResourcesApi extends BaseAPI {
+  /**
+   * Get a paginated list of learning resources.
+   * @summary List
+   * @param {number} [limit] Number of results to return per page.
+   * @param {number} [offset] The initial index from which to return the results.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesList(
+    limit?: number,
+    offset?: number,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesList(limit, offset, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of newly released resources.
+   * @summary List New
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesNewRetrieve(options?: AxiosRequestConfig) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesNewRetrieve(options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a single learning resource.
+   * @summary Retrieve
+   * @param {number} id A unique integer value identifying this learning resource.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesRetrieve(id: number, options?: AxiosRequestConfig) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesRetrieve(id, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of upcoming resources.
+   * @summary List Upcoming
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesUpcomingRetrieve(options?: AxiosRequestConfig) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesUpcomingRetrieve(options)
+      .then(request => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * ProgramsApi - axios parameter creator
+ * @export
+ */
+export const ProgramsApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programsList: async (
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/programs/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programsNewRetrieve: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/programs/new/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programsRetrieve: async (
+      id: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("programsRetrieve", "id", id)
+      const localVarPath = `/api/v1/programs/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programsUpcomingRetrieve: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/programs/upcoming/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    }
+  }
+}
+
+/**
+ * ProgramsApi - functional programming interface
+ * @export
+ */
+export const ProgramsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = ProgramsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async programsList(
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.programsList(
+        limit,
+        offset,
         options
       )
       return createRequestFunction(
@@ -1540,123 +1719,212 @@ export const ModeratorsApiFp = function (configuration?: Configuration) {
         BASE_PATH,
         configuration
       )
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async programsNewRetrieve(
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.programsNewRetrieve(options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async programsRetrieve(
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.programsRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async programsUpcomingRetrieve(
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.programsUpcomingRetrieve(options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
     }
   }
 }
 
 /**
- * ModeratorsApi - factory interface
+ * ProgramsApi - factory interface
  * @export
  */
-export const ModeratorsApiFactory = function (
+export const ProgramsApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance
 ) {
-  const localVarFp = ModeratorsApiFp(configuration)
+  const localVarFp = ProgramsApiFp(configuration)
   return {
     /**
-     * View for listing and adding moderators
-     * @param {string} fieldName
-     * @param {FieldModerator} [fieldModerator]
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    moderatorsCreate(
-      fieldName: string,
-      fieldModerator?: FieldModerator,
+    programsList(
+      limit?: number,
+      offset?: number,
       options?: any
-    ): AxiosPromise<FieldModerator> {
+    ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
-        .moderatorsCreate(fieldName, fieldModerator, options)
+        .programsList(limit, offset, options)
         .then(request => request(axios, basePath))
     },
     /**
-     * Remove the user from the moderator groups for this website
-     * @param {string} fieldName
-     * @param {string} moderatorName
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    moderatorsDestroy(
-      fieldName: string,
-      moderatorName: string,
-      options?: any
-    ): AxiosPromise<void> {
+    programsNewRetrieve(options?: any): AxiosPromise<LearningResource> {
       return localVarFp
-        .moderatorsDestroy(fieldName, moderatorName, options)
+        .programsNewRetrieve(options)
         .then(request => request(axios, basePath))
     },
     /**
-     * View for listing and adding moderators
-     * @param {string} fieldName
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    moderatorsList(
-      fieldName: string,
+    programsRetrieve(
+      id: number,
       options?: any
-    ): AxiosPromise<Array<FieldModerator>> {
+    ): AxiosPromise<LearningResource> {
       return localVarFp
-        .moderatorsList(fieldName, options)
+        .programsRetrieve(id, options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programsUpcomingRetrieve(options?: any): AxiosPromise<LearningResource> {
+      return localVarFp
+        .programsUpcomingRetrieve(options)
         .then(request => request(axios, basePath))
     }
   }
 }
 
 /**
- * ModeratorsApi - object-oriented interface
+ * ProgramsApi - object-oriented interface
  * @export
- * @class ModeratorsApi
+ * @class ProgramsApi
  * @extends {BaseAPI}
  */
-export class ModeratorsApi extends BaseAPI {
+export class ProgramsApi extends BaseAPI {
   /**
-   * View for listing and adding moderators
-   * @param {string} fieldName
-   * @param {FieldModerator} [fieldModerator]
+   * Get a paginated list of learning resources.
+   * @summary List
+   * @param {number} [limit] Number of results to return per page.
+   * @param {number} [offset] The initial index from which to return the results.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ModeratorsApi
+   * @memberof ProgramsApi
    */
-  public moderatorsCreate(
-    fieldName: string,
-    fieldModerator?: FieldModerator,
+  public programsList(
+    limit?: number,
+    offset?: number,
     options?: AxiosRequestConfig
   ) {
-    return ModeratorsApiFp(this.configuration)
-      .moderatorsCreate(fieldName, fieldModerator, options)
+    return ProgramsApiFp(this.configuration)
+      .programsList(limit, offset, options)
       .then(request => request(this.axios, this.basePath))
   }
 
   /**
-   * Remove the user from the moderator groups for this website
-   * @param {string} fieldName
-   * @param {string} moderatorName
+   * Get a paginated list of newly released resources.
+   * @summary List New
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ModeratorsApi
+   * @memberof ProgramsApi
    */
-  public moderatorsDestroy(
-    fieldName: string,
-    moderatorName: string,
-    options?: AxiosRequestConfig
-  ) {
-    return ModeratorsApiFp(this.configuration)
-      .moderatorsDestroy(fieldName, moderatorName, options)
+  public programsNewRetrieve(options?: AxiosRequestConfig) {
+    return ProgramsApiFp(this.configuration)
+      .programsNewRetrieve(options)
       .then(request => request(this.axios, this.basePath))
   }
 
   /**
-   * View for listing and adding moderators
-   * @param {string} fieldName
+   * Retrieve a single learning resource.
+   * @summary Retrieve
+   * @param {number} id A unique integer value identifying this learning resource.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ModeratorsApi
+   * @memberof ProgramsApi
    */
-  public moderatorsList(fieldName: string, options?: AxiosRequestConfig) {
-    return ModeratorsApiFp(this.configuration)
-      .moderatorsList(fieldName, options)
+  public programsRetrieve(id: number, options?: AxiosRequestConfig) {
+    return ProgramsApiFp(this.configuration)
+      .programsRetrieve(id, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of upcoming resources.
+   * @summary List Upcoming
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProgramsApi
+   */
+  public programsUpcomingRetrieve(options?: AxiosRequestConfig) {
+    return ProgramsApiFp(this.configuration)
+      .programsUpcomingRetrieve(options)
       .then(request => request(this.axios, this.basePath))
   }
 }
