@@ -611,7 +611,8 @@ export const CoursesApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for Courses
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -663,7 +664,8 @@ export const CoursesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -703,7 +705,8 @@ export const CoursesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Courses
+     * Retrieve a single learning resource.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -750,7 +753,8 @@ export const CoursesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -800,7 +804,8 @@ export const CoursesApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CoursesApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for Courses
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -829,7 +834,8 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -851,7 +857,8 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Courses
+     * Retrieve a single learning resource.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -877,7 +884,8 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -913,7 +921,8 @@ export const CoursesApiFactory = function (
   const localVarFp = CoursesApiFp(configuration)
   return {
     /**
-     * Viewset for Courses
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -929,7 +938,8 @@ export const CoursesApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -939,7 +949,8 @@ export const CoursesApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for Courses
+     * Retrieve a single learning resource.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -950,7 +961,8 @@ export const CoursesApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -970,7 +982,8 @@ export const CoursesApiFactory = function (
  */
 export class CoursesApi extends BaseAPI {
   /**
-   * Viewset for Courses
+   * Get a paginated list of learning resources.
+   * @summary List
    * @param {number} [limit] Number of results to return per page.
    * @param {number} [offset] The initial index from which to return the results.
    * @param {*} [options] Override http request option.
@@ -988,7 +1001,8 @@ export class CoursesApi extends BaseAPI {
   }
 
   /**
-   * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+   * Get a paginated list of newly released resources.
+   * @summary List New
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CoursesApi
@@ -1000,7 +1014,8 @@ export class CoursesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Courses
+   * Retrieve a single learning resource.
+   * @summary Retrieve
    * @param {number} id A unique integer value identifying this learning resource.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -1013,7 +1028,8 @@ export class CoursesApi extends BaseAPI {
   }
 
   /**
-   * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+   * Get a paginated list of upcoming resources.
+   * @summary List Upcoming
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CoursesApi
@@ -1034,7 +1050,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for LearningResources
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -1086,7 +1103,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1126,7 +1144,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningResources
+     * Retrieve a single learning resource.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1173,7 +1192,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1224,7 +1244,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     LearningResourcesApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for LearningResources
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -1254,7 +1275,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1276,7 +1298,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningResources
+     * Retrieve a single learning resource.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1300,7 +1323,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1338,7 +1362,8 @@ export const LearningResourcesApiFactory = function (
   const localVarFp = LearningResourcesApiFp(configuration)
   return {
     /**
-     * Viewset for LearningResources
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -1354,7 +1379,8 @@ export const LearningResourcesApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1366,7 +1392,8 @@ export const LearningResourcesApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for LearningResources
+     * Retrieve a single learning resource.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1380,7 +1407,8 @@ export const LearningResourcesApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1402,7 +1430,8 @@ export const LearningResourcesApiFactory = function (
  */
 export class LearningResourcesApi extends BaseAPI {
   /**
-   * Viewset for LearningResources
+   * Get a paginated list of learning resources.
+   * @summary List
    * @param {number} [limit] Number of results to return per page.
    * @param {number} [offset] The initial index from which to return the results.
    * @param {*} [options] Override http request option.
@@ -1420,7 +1449,8 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+   * Get a paginated list of newly released resources.
+   * @summary List New
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LearningResourcesApi
@@ -1432,7 +1462,8 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningResources
+   * Retrieve a single learning resource.
+   * @summary Retrieve
    * @param {number} id A unique integer value identifying this learning resource.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -1445,7 +1476,8 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+   * Get a paginated list of upcoming resources.
+   * @summary List Upcoming
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LearningResourcesApi
@@ -1466,7 +1498,8 @@ export const ProgramsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for Programs
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -1518,7 +1551,8 @@ export const ProgramsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1558,7 +1592,8 @@ export const ProgramsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Programs
+     * Retrieve a single learning resource.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1605,7 +1640,8 @@ export const ProgramsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1655,7 +1691,8 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ProgramsApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for Programs
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -1684,7 +1721,8 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1706,7 +1744,8 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Programs
+     * Retrieve a single learning resource.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1730,7 +1769,8 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1766,7 +1806,8 @@ export const ProgramsApiFactory = function (
   const localVarFp = ProgramsApiFp(configuration)
   return {
     /**
-     * Viewset for Programs
+     * Get a paginated list of learning resources.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -1782,7 +1823,8 @@ export const ProgramsApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released resources.
+     * @summary List New
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1792,7 +1834,8 @@ export const ProgramsApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for Programs
+     * Retrieve a single learning resource.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1806,7 +1849,8 @@ export const ProgramsApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1826,7 +1870,8 @@ export const ProgramsApiFactory = function (
  */
 export class ProgramsApi extends BaseAPI {
   /**
-   * Viewset for Programs
+   * Get a paginated list of learning resources.
+   * @summary List
    * @param {number} [limit] Number of results to return per page.
    * @param {number} [offset] The initial index from which to return the results.
    * @param {*} [options] Override http request option.
@@ -1844,7 +1889,8 @@ export class ProgramsApi extends BaseAPI {
   }
 
   /**
-   * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+   * Get a paginated list of newly released resources.
+   * @summary List New
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ProgramsApi
@@ -1856,7 +1902,8 @@ export class ProgramsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Programs
+   * Retrieve a single learning resource.
+   * @summary Retrieve
    * @param {number} id A unique integer value identifying this learning resource.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -1869,7 +1916,8 @@ export class ProgramsApi extends BaseAPI {
   }
 
   /**
-   * Get upcoming LearningResources  Args:     request(Request): The request object  Returns:     QuerySet of LearningResource objects with future runs
+   * Get a paginated list of upcoming resources.
+   * @summary List Upcoming
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ProgramsApi

@@ -7,7 +7,8 @@ paths:
   /api/v1/courses/:
     get:
       operationId: courses_list
-      description: Viewset for Courses
+      description: Get a paginated list of learning resources.
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -35,7 +36,8 @@ paths:
   /api/v1/courses/{id}/:
     get:
       operationId: courses_retrieve
-      description: Viewset for Courses
+      description: Retrieve a single learning resource.
+      summary: Retrieve
       parameters:
       - in: path
         name: id
@@ -57,11 +59,8 @@ paths:
   /api/v1/courses/new/:
     get:
       operationId: courses_new_retrieve
-      description: |-
-        Get new LearningResources
-
-        Returns:
-            QuerySet of LearningResource objects ordered by reverse created_on
+      description: Get a paginated list of newly released resources.
+      summary: List New
       tags:
       - courses
       security:
@@ -76,14 +75,8 @@ paths:
   /api/v1/courses/upcoming/:
     get:
       operationId: courses_upcoming_retrieve
-      description: |-
-        Get upcoming LearningResources
-
-        Args:
-            request(Request): The request object
-
-        Returns:
-            QuerySet of LearningResource objects with future runs
+      description: Get a paginated list of upcoming resources.
+      summary: List Upcoming
       tags:
       - courses
       security:
@@ -98,7 +91,8 @@ paths:
   /api/v1/learning_resources/:
     get:
       operationId: learning_resources_list
-      description: Viewset for LearningResources
+      description: Get a paginated list of learning resources.
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -126,7 +120,8 @@ paths:
   /api/v1/learning_resources/{id}/:
     get:
       operationId: learning_resources_retrieve
-      description: Viewset for LearningResources
+      description: Retrieve a single learning resource.
+      summary: Retrieve
       parameters:
       - in: path
         name: id
@@ -148,11 +143,8 @@ paths:
   /api/v1/learning_resources/new/:
     get:
       operationId: learning_resources_new_retrieve
-      description: |-
-        Get new LearningResources
-
-        Returns:
-            QuerySet of LearningResource objects ordered by reverse created_on
+      description: Get a paginated list of newly released resources.
+      summary: List New
       tags:
       - learning_resources
       security:
@@ -167,14 +159,8 @@ paths:
   /api/v1/learning_resources/upcoming/:
     get:
       operationId: learning_resources_upcoming_retrieve
-      description: |-
-        Get upcoming LearningResources
-
-        Args:
-            request(Request): The request object
-
-        Returns:
-            QuerySet of LearningResource objects with future runs
+      description: Get a paginated list of upcoming resources.
+      summary: List Upcoming
       tags:
       - learning_resources
       security:
@@ -189,7 +175,8 @@ paths:
   /api/v1/programs/:
     get:
       operationId: programs_list
-      description: Viewset for Programs
+      description: Get a paginated list of learning resources.
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -217,7 +204,8 @@ paths:
   /api/v1/programs/{id}/:
     get:
       operationId: programs_retrieve
-      description: Viewset for Programs
+      description: Retrieve a single learning resource.
+      summary: Retrieve
       parameters:
       - in: path
         name: id
@@ -239,11 +227,8 @@ paths:
   /api/v1/programs/new/:
     get:
       operationId: programs_new_retrieve
-      description: |-
-        Get new LearningResources
-
-        Returns:
-            QuerySet of LearningResource objects ordered by reverse created_on
+      description: Get a paginated list of newly released resources.
+      summary: List New
       tags:
       - programs
       security:
@@ -258,14 +243,8 @@ paths:
   /api/v1/programs/upcoming/:
     get:
       operationId: programs_upcoming_retrieve
-      description: |-
-        Get upcoming LearningResources
-
-        Args:
-            request(Request): The request object
-
-        Returns:
-            QuerySet of LearningResource objects with future runs
+      description: Get a paginated list of upcoming resources.
+      summary: List Upcoming
       tags:
       - programs
       security:
