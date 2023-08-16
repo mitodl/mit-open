@@ -125,7 +125,7 @@ const setupApis = (fieldPatch?: Partial<FieldChannel>) => {
 describe("FieldPage", () => {
   it("Displays the field title, banner, and avatar", async () => {
     const { field } = setupApis()
-    renderTestApp({ url: `/fields/${field.name}` })
+    renderTestApp({ url: `/infinite/fields/${field.name}` })
 
     const title = await screen.findByText(field.title)
     const header = title.closest("header")
@@ -145,7 +145,7 @@ describe("FieldPage", () => {
 
   it("renders the featured list with items", async () => {
     const { field, featured } = setupApis()
-    renderTestApp({ url: `/fields/${field.name}` })
+    renderTestApp({ url: `/infinite/fields/${field.name}` })
 
     const title = await screen.findByText(featured.list.title)
     const section = title.closest("section")
@@ -171,7 +171,7 @@ describe("FieldPage", () => {
     "renders subfield lists (index: $index) with items",
     async ({ index }) => {
       const { field, lists } = setupApis()
-      renderTestApp({ url: `/fields/${field.name}` })
+      renderTestApp({ url: `/infinite/fields/${field.name}` })
       const { list, items } = lists[index]
 
       const title = await screen.findByText(list.title)
@@ -186,7 +186,7 @@ describe("FieldPage", () => {
 
   it("Does not render a carousel if no featured_list", async () => {
     const { field, lists } = setupApis({ featured_list: null })
-    renderTestApp({ url: `/fields/${field.name}` })
+    renderTestApp({ url: `/infinite/fields/${field.name}` })
 
     // wait for page to be ready
     await screen.findByText(lists[0].list.title)
@@ -196,12 +196,13 @@ describe("FieldPage", () => {
 
   it.each([
     {
-      getUrl:    (field: FieldChannel) => `/fields/${field.name}`,
+      getUrl:    (field: FieldChannel) => `/infinite/fields/${field.name}`,
       isEditing: false,
       urlDesc:   "/fields/:name/"
     },
     {
-      getUrl:    (field: FieldChannel) => `/fields/${field.name}/manage/widgets/`,
+      getUrl: (field: FieldChannel) =>
+        `/infinite/fields/${field.name}/manage/widgets/`,
       isEditing: true,
       urlDesc:   "/fields/:name/manage/widgets/"
     }
@@ -233,7 +234,7 @@ describe("FieldPage", () => {
     "When managing widgets, $text returns to field page",
     async ({ btnName }) => {
       const { field } = setupApis()
-      const url = `/fields/${field.name}/manage/widgets/`
+      const url = `/infinite/fields/${field.name}/manage/widgets/`
       const { history } = renderTestApp({ url })
       // click done without an edit
       await user.click(await screen.findByRole("button", { name: btnName }))

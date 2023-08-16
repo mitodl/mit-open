@@ -17,7 +17,7 @@ describe("Header", () => {
     setMockResponse.get(lrUrls.video.new(), [])
     setMockResponse.get(lrUrls.popularContent.listing(), [])
 
-    renderTestApp()
+    renderTestApp({ url: "/infinite" })
     const header = screen.getByRole("banner")
     within(header).getByTitle("MIT Homepage", { exact: false })
   })

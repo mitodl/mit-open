@@ -8,7 +8,6 @@ import type { User } from "../types/settings"
 import { makeUserSettings } from "./factories"
 
 interface TestAppOptions {
-  /** This will be prefixed with the baseUrl */
   url: string
   user: Partial<User>
 }
@@ -16,7 +15,6 @@ interface TestAppOptions {
 const defaultTestAppOptions = {
   url: "/"
 }
-const BASE_URL = "/infinite"
 
 /**
  * Render the app for integration testing.
@@ -27,7 +25,7 @@ const renderTestApp = (options: Partial<TestAppOptions> = {}) => {
   // window.SETTINGS is reset during tests via afterEach hook.
   window.SETTINGS.user = makeUserSettings(options.user)
 
-  const history = createMemoryHistory({ initialEntries: [`${BASE_URL}${url}`] })
+  const history = createMemoryHistory({ initialEntries: [url] })
   const queryClient = createQueryClient(history)
   render(<App queryClient={queryClient} history={history} />)
   return { history, queryClient }
@@ -47,7 +45,7 @@ const renderWithProviders = (
   // window.SETTINGS is reset during tests via afterEach hook.
   window.SETTINGS.user = makeUserSettings(options.user)
 
-  const history = createMemoryHistory({ initialEntries: [`${BASE_URL}${url}`] })
+  const history = createMemoryHistory({ initialEntries: [url] })
   const queryClient = createQueryClient(history)
   const view = render(
     <AppProviders queryClient={queryClient} history={history}>
