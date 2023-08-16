@@ -127,12 +127,13 @@ class LearningResource(TimestampedModel):
     )
 
     @property
-    def audience(self):
+    def audience(self) -> str | None:
         """Returns the audience for the course"""
-        return self.platform.audience
+        if self.platform:
+            return self.platform.audience
 
     @property
-    def certification(self):
+    def certification(self) -> str | None:
         """Returns the certification for the course"""
         if self.platform.audience == constants.PROFESSIONAL or (
             self.platform.platform == "mitx"
