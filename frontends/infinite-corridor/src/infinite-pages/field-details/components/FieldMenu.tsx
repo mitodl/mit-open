@@ -4,10 +4,7 @@ import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 
 import { FieldChannel } from "../../../api/fields"
-import {
-  makeFieldEditPath,
-  makeFieldManageWidgetsPath
-} from "../../../pages/urls"
+import { makeFieldEditPath, makeFieldManageWidgetsPath } from "../../urls"
 
 type SettingsMenuProps = {
   field: FieldChannel

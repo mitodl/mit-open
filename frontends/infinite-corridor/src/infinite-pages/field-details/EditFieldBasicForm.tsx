@@ -11,7 +11,7 @@ import { FieldChannelBasicForm, useMutateField } from "../../api/fields"
 import type { FieldChannel } from "../../api/fields/interfaces"
 import type { UserList } from "ol-search-ui"
 import { useUserListsListing } from "../../api/learning-resources"
-import { makeFieldViewPath } from "../../pages/urls"
+import { makeFieldViewPath } from "../urls"
 
 type FormProps = {
   field: FieldChannel
