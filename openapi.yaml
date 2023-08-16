@@ -4,10 +4,10 @@ info:
   version: 0.0.1
   description: Open Discussions public API
 paths:
-  /api/v0/fields/:
+  /api/v1/courses/:
     get:
-      operationId: root_list
-      description: Viewset for Field Channels
+      operationId: courses_list
+      description: Viewset for Courses
       parameters:
       - name: limit
         required: false
@@ -21,6 +21,8 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
+      tags:
+      - courses
       security:
       - cookieAuth: []
       responses:
@@ -28,42 +30,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedFieldChannelList'
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
-    post:
-      operationId: root_create
-      description: Viewset for Field Channels
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FieldChannelCreate'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/FieldChannelCreate'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/FieldChannelCreate'
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FieldChannelCreate'
-          description: ''
-  /api/v0/fields/{field_name}/:
+  /api/v1/courses/{id}/:
     get:
-      operationId: root_retrieve
-      description: Viewset for Field Channels
+      operationId: courses_retrieve
+      description: Viewset for Courses
       parameters:
       - in: path
-        name: field_name
+        name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this learning resource.
         required: true
+      tags:
+      - courses
       security:
       - cookieAuth: []
       responses:
@@ -71,94 +52,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannel'
+                $ref: '#/components/schemas/LearningResource'
           description: ''
-    put:
-      operationId: root_update
-      description: Viewset for Field Channels
-      parameters:
-      - in: path
-        name: field_name
-        schema:
-          type: string
-        required: true
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FieldChannelWrite'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/FieldChannelWrite'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/FieldChannelWrite'
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FieldChannelWrite'
-          description: ''
-    patch:
-      operationId: root_partial_update
-      description: Viewset for Field Channels
-      parameters:
-      - in: path
-        name: field_name
-        schema:
-          type: string
-        required: true
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedFieldChannelWrite'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedFieldChannelWrite'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedFieldChannelWrite'
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FieldChannelWrite'
-          description: ''
-    delete:
-      operationId: root_destroy
-      description: Viewset for Field Channels
-      parameters:
-      - in: path
-        name: field_name
-        schema:
-          type: string
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '204':
-          description: No response body
-  /api/v0/fields/{field_name}/moderators/:
+  /api/v1/courses/new/:
     get:
-      operationId: moderators_list
-      description: View for listing and adding moderators
-      parameters:
-      - in: path
-        name: field_name
-        schema:
-          type: string
-          pattern: ^[A-Za-z0-9_]+$
-        required: true
+      operationId: courses_new_retrieve
+      description: |-
+        Get new LearningResources
+
+        Returns:
+            QuerySet of LearningResource objects ordered by reverse created_on
       tags:
-      - moderators
+      - courses
       security:
       - cookieAuth: []
       responses:
@@ -166,71 +71,610 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/FieldModerator'
+                $ref: '#/components/schemas/LearningResource'
           description: ''
-    post:
-      operationId: moderators_create
-      description: View for listing and adding moderators
-      parameters:
-      - in: path
-        name: field_name
-        schema:
-          type: string
-          pattern: ^[A-Za-z0-9_]+$
-        required: true
+  /api/v1/courses/upcoming/:
+    get:
+      operationId: courses_upcoming_retrieve
+      description: |-
+        Get upcoming LearningResources
+
+        Args:
+            request(Request): The request object
+
+        Returns:
+            QuerySet of LearningResource objects with future runs
       tags:
-      - moderators
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FieldModerator'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/FieldModerator'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/FieldModerator'
+      - courses
       security:
       - cookieAuth: []
       responses:
-        '201':
+        '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldModerator'
+                $ref: '#/components/schemas/LearningResource'
           description: ''
-  /api/v0/fields/{field_name}/moderators/{moderator_name}/:
-    delete:
-      operationId: moderators_destroy
-      description: Remove the user from the moderator groups for this website
+  /api/v1/learning_resources/:
+    get:
+      operationId: learning_resources_list
+      description: Viewset for LearningResources
       parameters:
-      - in: path
-        name: field_name
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
         schema:
-          type: string
-          pattern: ^[A-Za-z0-9_]+$
-        required: true
-      - in: path
-        name: moderator_name
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
         schema:
-          type: string
-          pattern: ^[A-Za-z0-9_]+$
-        required: true
+          type: integer
       tags:
-      - moderators
+      - learning_resources
       security:
       - cookieAuth: []
       responses:
-        '204':
-          description: No response body
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
+          description: ''
+  /api/v1/learning_resources/{id}/:
+    get:
+      operationId: learning_resources_retrieve
+      description: Viewset for LearningResources
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - learning_resources
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResource'
+          description: ''
+  /api/v1/learning_resources/new/:
+    get:
+      operationId: learning_resources_new_retrieve
+      description: |-
+        Get new LearningResources
+
+        Returns:
+            QuerySet of LearningResource objects ordered by reverse created_on
+      tags:
+      - learning_resources
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResource'
+          description: ''
+  /api/v1/learning_resources/upcoming/:
+    get:
+      operationId: learning_resources_upcoming_retrieve
+      description: |-
+        Get upcoming LearningResources
+
+        Args:
+            request(Request): The request object
+
+        Returns:
+            QuerySet of LearningResource objects with future runs
+      tags:
+      - learning_resources
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResource'
+          description: ''
+  /api/v1/programs/:
+    get:
+      operationId: programs_list
+      description: Viewset for Programs
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - programs
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
+          description: ''
+  /api/v1/programs/{id}/:
+    get:
+      operationId: programs_retrieve
+      description: Viewset for Programs
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - programs
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResource'
+          description: ''
+  /api/v1/programs/new/:
+    get:
+      operationId: programs_new_retrieve
+      description: |-
+        Get new LearningResources
+
+        Returns:
+            QuerySet of LearningResource objects ordered by reverse created_on
+      tags:
+      - programs
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResource'
+          description: ''
+  /api/v1/programs/upcoming/:
+    get:
+      operationId: programs_upcoming_retrieve
+      description: |-
+        Get upcoming LearningResources
+
+        Args:
+            request(Request): The request object
+
+        Returns:
+            QuerySet of LearningResource objects with future runs
+      tags:
+      - programs
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResource'
+          description: ''
 components:
   schemas:
-    CourseTopic:
+    Course:
       type: object
-      description: Serializer for CourseTopic model
+      description: Serializer for the Course model
+      properties:
+        extra_course_numbers:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+          nullable: true
+    LearningResource:
+      type: object
+      description: Full serializer for LearningResource
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+          readOnly: true
+          nullable: true
+        offered_by:
+          type: array
+          items:
+            type: string
+          readOnly: true
+          nullable: true
+        resource_content_tags:
+          type: array
+          items:
+            type: string
+          readOnly: true
+          nullable: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          readOnly: true
+          nullable: true
+        department:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceDepartment'
+          readOnly: true
+          nullable: true
+        audience:
+          type: string
+          nullable: true
+          description: Returns the audience for the course
+          readOnly: true
+        certification:
+          type: string
+          nullable: true
+          description: Returns the certification for the course
+          readOnly: true
+        course:
+          allOf:
+          - $ref: '#/components/schemas/Course'
+          readOnly: true
+          nullable: true
+        program:
+          allOf:
+          - $ref: '#/components/schemas/Program'
+          readOnly: true
+          nullable: true
+        runs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceRun'
+          readOnly: true
+          nullable: true
+        readable_id:
+          type: string
+          maxLength: 128
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 2048
+        resource_type:
+          type: string
+          maxLength: 24
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        platform:
+          type: string
+          nullable: true
+      required:
+      - audience
+      - certification
+      - course
+      - department
+      - id
+      - image
+      - offered_by
+      - platform
+      - program
+      - readable_id
+      - resource_content_tags
+      - resource_type
+      - runs
+      - title
+      - topics
+    LearningResourceBase:
+      type: object
+      description: Serializer for LearningResource, minus program, course
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+          readOnly: true
+          nullable: true
+        offered_by:
+          type: array
+          items:
+            type: string
+          readOnly: true
+          nullable: true
+        resource_content_tags:
+          type: array
+          items:
+            type: string
+          readOnly: true
+          nullable: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          readOnly: true
+          nullable: true
+        department:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceDepartment'
+          readOnly: true
+          nullable: true
+        audience:
+          type: string
+          nullable: true
+          description: Returns the audience for the course
+          readOnly: true
+        certification:
+          type: string
+          nullable: true
+          description: Returns the certification for the course
+          readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        readable_id:
+          type: string
+          maxLength: 128
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 2048
+        resource_type:
+          type: string
+          maxLength: 24
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        platform:
+          type: string
+          nullable: true
+      required:
+      - audience
+      - certification
+      - created_on
+      - department
+      - id
+      - image
+      - offered_by
+      - platform
+      - readable_id
+      - resource_content_tags
+      - resource_type
+      - title
+      - topics
+      - updated_on
+    LearningResourceDepartment:
+      type: object
+      description: Serializer for LearningResourceDepartment
+      properties:
+        department_id:
+          type: string
+          maxLength: 6
+        name:
+          type: string
+          maxLength: 256
+      required:
+      - department_id
+      - name
+    LearningResourceImage:
+      type: object
+      description: Serializer for LearningResourceImage
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          maxLength: 2048
+        description:
+          type: string
+          nullable: true
+          maxLength: 1024
+        alt:
+          type: string
+          nullable: true
+          maxLength: 1024
+      required:
+      - id
+    LearningResourceInstructor:
+      type: object
+      description: Serializer for LearningResourceInstructor model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          nullable: true
+          maxLength: 128
+        last_name:
+          type: string
+          nullable: true
+          maxLength: 128
+        full_name:
+          type: string
+          nullable: true
+          maxLength: 256
+      required:
+      - id
+    LearningResourceRun:
+      type: object
+      description: Serializer for the LearningResourceRun model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        instructors:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceInstructor'
+          readOnly: true
+          nullable: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          readOnly: true
+          nullable: true
+        run_id:
+          type: string
+          maxLength: 128
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 2048
+        level:
+          type: string
+          nullable: true
+          maxLength: 128
+        slug:
+          type: string
+          nullable: true
+          maxLength: 1024
+        availability:
+          type: string
+          nullable: true
+          maxLength: 128
+        semester:
+          type: string
+          nullable: true
+          maxLength: 20
+        year:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        start_date:
+          type: string
+          format: date-time
+          nullable: true
+        end_date:
+          type: string
+          format: date-time
+          nullable: true
+        enrollment_start:
+          type: string
+          format: date-time
+          nullable: true
+        enrollment_end:
+          type: string
+          format: date-time
+          nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        learning_resource:
+          type: integer
+      required:
+      - id
+      - image
+      - instructors
+      - learning_resource
+      - run_id
+      - title
+    LearningResourceTopic:
+      type: object
+      description: Serializer for LearningResourceTopic model
       properties:
         id:
           type: integer
@@ -241,211 +685,7 @@ components:
       required:
       - id
       - name
-    FieldChannel:
-      type: object
-      description: Serializer for FieldChannel
-      properties:
-        name:
-          type: string
-          readOnly: true
-        title:
-          type: string
-          readOnly: true
-        about:
-          type: object
-          additionalProperties: {}
-          readOnly: true
-          nullable: true
-        public_description:
-          type: string
-          readOnly: true
-        subfields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subfield'
-          readOnly: true
-        featured_list:
-          allOf:
-          - $ref: '#/components/schemas/UserList'
-          readOnly: true
-        lists:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserList'
-          readOnly: true
-        avatar:
-          type: string
-          description: Get the avatar image URL
-        avatar_medium:
-          type: string
-          description: Get the avatar image medium URL
-          readOnly: true
-        avatar_small:
-          type: string
-          description: Get the avatar image small URL
-          readOnly: true
-        banner:
-          type: string
-          description: Get the banner image URL
-        widget_list:
-          type: integer
-          readOnly: true
-          nullable: true
-        updated_on:
-          type: string
-          format: date-time
-          readOnly: true
-        created_on:
-          type: string
-          format: date-time
-          readOnly: true
-        id:
-          type: integer
-          readOnly: true
-        ga_tracking_id:
-          type: string
-          readOnly: true
-          nullable: true
-        is_moderator:
-          type: boolean
-          description: Return true if user is a moderator for the channel
-          readOnly: true
-      required:
-      - about
-      - avatar_medium
-      - avatar_small
-      - created_on
-      - featured_list
-      - ga_tracking_id
-      - id
-      - is_moderator
-      - lists
-      - name
-      - public_description
-      - subfields
-      - title
-      - updated_on
-      - widget_list
-    FieldChannelCreate:
-      type: object
-      description: Write serializer for FieldChannel
-      properties:
-        name:
-          type: string
-          pattern: ^[A-Za-z0-9_]+$
-          maxLength: 100
-        title:
-          type: string
-          maxLength: 100
-        public_description:
-          type: string
-        subfields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subfield'
-        featured_list:
-          type: integer
-          nullable: true
-        lists:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserList'
-        about:
-          type: object
-          additionalProperties: {}
-          nullable: true
-      required:
-      - name
-      - title
-    FieldChannelWrite:
-      type: object
-      description: Similar to FieldChannelCreateSerializer, with read-only name
-      properties:
-        name:
-          type: string
-          readOnly: true
-        title:
-          type: string
-          maxLength: 100
-        public_description:
-          type: string
-        subfields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subfield'
-        featured_list:
-          type: integer
-          nullable: true
-        lists:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserList'
-        about:
-          type: object
-          additionalProperties: {}
-          nullable: true
-        avatar:
-          type: string
-          description: Get the avatar image URL
-        banner:
-          type: string
-          description: Get the banner image URL
-      required:
-      - name
-      - title
-    FieldModerator:
-      type: object
-      description: Serializer for moderators
-      properties:
-        moderator_name:
-          type: string
-          description: Returns the name for the moderator
-        email:
-          type: string
-          description: Get the email from the associated user
-        full_name:
-          type: string
-          description: Get the full name of the associated user
-          readOnly: true
-      required:
-      - full_name
-    MicroStaffListItem:
-      type: object
-      description: Serializer for UserListItem containing only the item id and userlist
-        id.
-      properties:
-        item_id:
-          type: integer
-        list_id:
-          type: integer
-        object_id:
-          type: integer
-        content_type:
-          type: string
-      required:
-      - content_type
-      - item_id
-      - list_id
-      - object_id
-    MicroUserListItem:
-      type: object
-      description: Serializer for UserListItem containing only the item id and userlist
-        id.
-      properties:
-        item_id:
-          type: integer
-        list_id:
-          type: integer
-        object_id:
-          type: integer
-        content_type:
-          type: string
-      required:
-      - content_type
-      - item_id
-      - list_id
-      - object_id
-    PaginatedFieldChannelList:
+    PaginatedLearningResourceList:
       type: object
       properties:
         count:
@@ -464,145 +704,19 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/FieldChannel'
-    PatchedFieldChannelWrite:
+            $ref: '#/components/schemas/LearningResource'
+    Program:
       type: object
-      description: Similar to FieldChannelCreateSerializer, with read-only name
+      description: Serializer for the Program model
       properties:
-        name:
-          type: string
-          readOnly: true
-        title:
-          type: string
-          maxLength: 100
-        public_description:
-          type: string
-        subfields:
+        courses:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
-        featured_list:
-          type: integer
-          nullable: true
-        lists:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserList'
-        about:
-          type: object
-          additionalProperties: {}
-          nullable: true
-        avatar:
-          type: string
-          description: Get the avatar image URL
-        banner:
-          type: string
-          description: Get the banner image URL
-    Subfield:
-      type: object
-      description: Serializer for Subfields
-      properties:
-        parent_field:
-          type: string
+            $ref: '#/components/schemas/LearningResourceBase'
           readOnly: true
-        field_channel:
-          type: string
-          readOnly: true
-        position:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
+          nullable: true
       required:
-      - field_channel
-      - parent_field
-    UserList:
-      type: object
-      description: Simplified serializer for UserList model.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        item_count:
-          type: integer
-          description: Return the number of items in the list
-          readOnly: true
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseTopic'
-        author_name:
-          type: string
-          description: get author name for userlist
-          readOnly: true
-        object_type:
-          type: string
-          readOnly: true
-        image_src:
-          type: string
-          description: Return the user list's image or the image of the first item
-          readOnly: true
-        audience:
-          type: array
-          items:
-            type: string
-          description: Returns the audience for the user list
-          readOnly: true
-        certification:
-          type: array
-          items:
-            type: string
-          description: Returns the certification for the user list
-          readOnly: true
-        is_favorite:
-          type: boolean
-          readOnly: true
-        lists:
-          type: array
-          items:
-            $ref: '#/components/schemas/MicroUserListItem'
-          readOnly: true
-        stafflists:
-          type: array
-          items:
-            $ref: '#/components/schemas/MicroStaffListItem'
-          readOnly: true
-        title:
-          type: string
-          maxLength: 256
-        short_description:
-          type: string
-          nullable: true
-        image_description:
-          type: string
-          nullable: true
-          maxLength: 1024
-        privacy_level:
-          type: string
-          maxLength: 32
-        list_type:
-          type: string
-          maxLength: 128
-        author:
-          type: integer
-          readOnly: true
-        offered_by:
-          type: array
-          items:
-            type: integer
-      required:
-      - audience
-      - author
-      - author_name
-      - certification
-      - id
-      - image_src
-      - is_favorite
-      - item_count
-      - list_type
-      - lists
-      - object_type
-      - stafflists
-      - title
+      - courses
   securitySchemes:
     cookieAuth:
       type: apiKey
