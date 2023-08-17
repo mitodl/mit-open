@@ -923,18 +923,16 @@ export const CoursesApiFactory = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
+     * @param {CoursesApiCoursesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     coursesList(
-      limit?: number,
-      offset?: number,
-      options?: any
+      requestParameters: CoursesApiCoursesListRequest = {},
+      options?: AxiosRequestConfig
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
-        .coursesList(limit, offset, options)
+        .coursesList(requestParameters.limit, requestParameters.offset, options)
         .then(request => request(axios, basePath))
     },
     /**
@@ -943,7 +941,9 @@ export const CoursesApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    coursesNewRetrieve(options?: any): AxiosPromise<LearningResource> {
+    coursesNewRetrieve(
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningResource> {
       return localVarFp
         .coursesNewRetrieve(options)
         .then(request => request(axios, basePath))
@@ -951,13 +951,16 @@ export const CoursesApiFactory = function (
     /**
      * Retrieve a single learning resource.
      * @summary Retrieve
-     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {CoursesApiCoursesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    coursesRetrieve(id: number, options?: any): AxiosPromise<LearningResource> {
+    coursesRetrieve(
+      requestParameters: CoursesApiCoursesRetrieveRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningResource> {
       return localVarFp
-        .coursesRetrieve(id, options)
+        .coursesRetrieve(requestParameters.id, options)
         .then(request => request(axios, basePath))
     },
     /**
@@ -966,12 +969,49 @@ export const CoursesApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    coursesUpcomingRetrieve(options?: any): AxiosPromise<LearningResource> {
+    coursesUpcomingRetrieve(
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningResource> {
       return localVarFp
         .coursesUpcomingRetrieve(options)
         .then(request => request(axios, basePath))
     }
   }
+}
+
+/**
+ * Request parameters for coursesList operation in CoursesApi.
+ * @export
+ * @interface CoursesApiCoursesListRequest
+ */
+export interface CoursesApiCoursesListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for coursesRetrieve operation in CoursesApi.
+ * @export
+ * @interface CoursesApiCoursesRetrieveRequest
+ */
+export interface CoursesApiCoursesRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof CoursesApiCoursesRetrieve
+   */
+  readonly id: number
 }
 
 /**
@@ -984,19 +1024,17 @@ export class CoursesApi extends BaseAPI {
   /**
    * Get a paginated list of learning resources.
    * @summary List
-   * @param {number} [limit] Number of results to return per page.
-   * @param {number} [offset] The initial index from which to return the results.
+   * @param {CoursesApiCoursesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CoursesApi
    */
   public coursesList(
-    limit?: number,
-    offset?: number,
+    requestParameters: CoursesApiCoursesListRequest = {},
     options?: AxiosRequestConfig
   ) {
     return CoursesApiFp(this.configuration)
-      .coursesList(limit, offset, options)
+      .coursesList(requestParameters.limit, requestParameters.offset, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -1016,14 +1054,17 @@ export class CoursesApi extends BaseAPI {
   /**
    * Retrieve a single learning resource.
    * @summary Retrieve
-   * @param {number} id A unique integer value identifying this learning resource.
+   * @param {CoursesApiCoursesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CoursesApi
    */
-  public coursesRetrieve(id: number, options?: AxiosRequestConfig) {
+  public coursesRetrieve(
+    requestParameters: CoursesApiCoursesRetrieveRequest,
+    options?: AxiosRequestConfig
+  ) {
     return CoursesApiFp(this.configuration)
-      .coursesRetrieve(id, options)
+      .coursesRetrieve(requestParameters.id, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -1364,18 +1405,20 @@ export const LearningResourcesApiFactory = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
+     * @param {LearningResourcesApiLearningResourcesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesList(
-      limit?: number,
-      offset?: number,
-      options?: any
+      requestParameters: LearningResourcesApiLearningResourcesListRequest = {},
+      options?: AxiosRequestConfig
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
-        .learningResourcesList(limit, offset, options)
+        .learningResourcesList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options
+        )
         .then(request => request(axios, basePath))
     },
     /**
@@ -1385,7 +1428,7 @@ export const LearningResourcesApiFactory = function (
      * @throws {RequiredError}
      */
     learningResourcesNewRetrieve(
-      options?: any
+      options?: AxiosRequestConfig
     ): AxiosPromise<LearningResource> {
       return localVarFp
         .learningResourcesNewRetrieve(options)
@@ -1394,16 +1437,16 @@ export const LearningResourcesApiFactory = function (
     /**
      * Retrieve a single learning resource.
      * @summary Retrieve
-     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {LearningResourcesApiLearningResourcesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesRetrieve(
-      id: number,
-      options?: any
+      requestParameters: LearningResourcesApiLearningResourcesRetrieveRequest,
+      options?: AxiosRequestConfig
     ): AxiosPromise<LearningResource> {
       return localVarFp
-        .learningResourcesRetrieve(id, options)
+        .learningResourcesRetrieve(requestParameters.id, options)
         .then(request => request(axios, basePath))
     },
     /**
@@ -1413,13 +1456,48 @@ export const LearningResourcesApiFactory = function (
      * @throws {RequiredError}
      */
     learningResourcesUpcomingRetrieve(
-      options?: any
+      options?: AxiosRequestConfig
     ): AxiosPromise<LearningResource> {
       return localVarFp
         .learningResourcesUpcomingRetrieve(options)
         .then(request => request(axios, basePath))
     }
   }
+}
+
+/**
+ * Request parameters for learningResourcesList operation in LearningResourcesApi.
+ * @export
+ * @interface LearningResourcesApiLearningResourcesListRequest
+ */
+export interface LearningResourcesApiLearningResourcesListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for learningResourcesRetrieve operation in LearningResourcesApi.
+ * @export
+ * @interface LearningResourcesApiLearningResourcesRetrieveRequest
+ */
+export interface LearningResourcesApiLearningResourcesRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesRetrieve
+   */
+  readonly id: number
 }
 
 /**
@@ -1432,19 +1510,21 @@ export class LearningResourcesApi extends BaseAPI {
   /**
    * Get a paginated list of learning resources.
    * @summary List
-   * @param {number} [limit] Number of results to return per page.
-   * @param {number} [offset] The initial index from which to return the results.
+   * @param {LearningResourcesApiLearningResourcesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LearningResourcesApi
    */
   public learningResourcesList(
-    limit?: number,
-    offset?: number,
+    requestParameters: LearningResourcesApiLearningResourcesListRequest = {},
     options?: AxiosRequestConfig
   ) {
     return LearningResourcesApiFp(this.configuration)
-      .learningResourcesList(limit, offset, options)
+      .learningResourcesList(
+        requestParameters.limit,
+        requestParameters.offset,
+        options
+      )
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -1464,14 +1544,17 @@ export class LearningResourcesApi extends BaseAPI {
   /**
    * Retrieve a single learning resource.
    * @summary Retrieve
-   * @param {number} id A unique integer value identifying this learning resource.
+   * @param {LearningResourcesApiLearningResourcesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LearningResourcesApi
    */
-  public learningResourcesRetrieve(id: number, options?: AxiosRequestConfig) {
+  public learningResourcesRetrieve(
+    requestParameters: LearningResourcesApiLearningResourcesRetrieveRequest,
+    options?: AxiosRequestConfig
+  ) {
     return LearningResourcesApiFp(this.configuration)
-      .learningResourcesRetrieve(id, options)
+      .learningResourcesRetrieve(requestParameters.id, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -1808,18 +1891,20 @@ export const ProgramsApiFactory = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
+     * @param {ProgramsApiProgramsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     programsList(
-      limit?: number,
-      offset?: number,
-      options?: any
+      requestParameters: ProgramsApiProgramsListRequest = {},
+      options?: AxiosRequestConfig
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
-        .programsList(limit, offset, options)
+        .programsList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options
+        )
         .then(request => request(axios, basePath))
     },
     /**
@@ -1828,7 +1913,9 @@ export const ProgramsApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    programsNewRetrieve(options?: any): AxiosPromise<LearningResource> {
+    programsNewRetrieve(
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningResource> {
       return localVarFp
         .programsNewRetrieve(options)
         .then(request => request(axios, basePath))
@@ -1836,16 +1923,16 @@ export const ProgramsApiFactory = function (
     /**
      * Retrieve a single learning resource.
      * @summary Retrieve
-     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {ProgramsApiProgramsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     programsRetrieve(
-      id: number,
-      options?: any
+      requestParameters: ProgramsApiProgramsRetrieveRequest,
+      options?: AxiosRequestConfig
     ): AxiosPromise<LearningResource> {
       return localVarFp
-        .programsRetrieve(id, options)
+        .programsRetrieve(requestParameters.id, options)
         .then(request => request(axios, basePath))
     },
     /**
@@ -1854,12 +1941,49 @@ export const ProgramsApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    programsUpcomingRetrieve(options?: any): AxiosPromise<LearningResource> {
+    programsUpcomingRetrieve(
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningResource> {
       return localVarFp
         .programsUpcomingRetrieve(options)
         .then(request => request(axios, basePath))
     }
   }
+}
+
+/**
+ * Request parameters for programsList operation in ProgramsApi.
+ * @export
+ * @interface ProgramsApiProgramsListRequest
+ */
+export interface ProgramsApiProgramsListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for programsRetrieve operation in ProgramsApi.
+ * @export
+ * @interface ProgramsApiProgramsRetrieveRequest
+ */
+export interface ProgramsApiProgramsRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof ProgramsApiProgramsRetrieve
+   */
+  readonly id: number
 }
 
 /**
@@ -1872,19 +1996,17 @@ export class ProgramsApi extends BaseAPI {
   /**
    * Get a paginated list of learning resources.
    * @summary List
-   * @param {number} [limit] Number of results to return per page.
-   * @param {number} [offset] The initial index from which to return the results.
+   * @param {ProgramsApiProgramsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ProgramsApi
    */
   public programsList(
-    limit?: number,
-    offset?: number,
+    requestParameters: ProgramsApiProgramsListRequest = {},
     options?: AxiosRequestConfig
   ) {
     return ProgramsApiFp(this.configuration)
-      .programsList(limit, offset, options)
+      .programsList(requestParameters.limit, requestParameters.offset, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -1904,14 +2026,17 @@ export class ProgramsApi extends BaseAPI {
   /**
    * Retrieve a single learning resource.
    * @summary Retrieve
-   * @param {number} id A unique integer value identifying this learning resource.
+   * @param {ProgramsApiProgramsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ProgramsApi
    */
-  public programsRetrieve(id: number, options?: AxiosRequestConfig) {
+  public programsRetrieve(
+    requestParameters: ProgramsApiProgramsRetrieveRequest,
+    options?: AxiosRequestConfig
+  ) {
     return ProgramsApiFp(this.configuration)
-      .programsRetrieve(id, options)
+      .programsRetrieve(requestParameters.id, options)
       .then(request => request(this.axios, this.basePath))
   }
 
