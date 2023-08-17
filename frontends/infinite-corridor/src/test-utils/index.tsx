@@ -1,5 +1,5 @@
 import React from "react"
-import App, { AppProviders, BASE_URL } from "../App"
+import App, { AppProviders } from "../App"
 import { render } from "@testing-library/react"
 import { createMemoryHistory } from "history"
 import { setMockResponse } from "./mockAxios"
@@ -8,7 +8,6 @@ import type { User } from "../types/settings"
 import { makeUserSettings } from "./factories"
 
 interface TestAppOptions {
-  /** This will be prefixed with the baseUrl */
   url: string
   user: Partial<User>
 }
@@ -26,7 +25,7 @@ const renderTestApp = (options: Partial<TestAppOptions> = {}) => {
   // window.SETTINGS is reset during tests via afterEach hook.
   window.SETTINGS.user = makeUserSettings(options.user)
 
-  const history = createMemoryHistory({ initialEntries: [`${BASE_URL}${url}`] })
+  const history = createMemoryHistory({ initialEntries: [url] })
   const queryClient = createQueryClient(history)
   render(<App queryClient={queryClient} history={history} />)
   return { history, queryClient }
@@ -46,7 +45,7 @@ const renderWithProviders = (
   // window.SETTINGS is reset during tests via afterEach hook.
   window.SETTINGS.user = makeUserSettings(options.user)
 
-  const history = createMemoryHistory({ initialEntries: [`${BASE_URL}${url}`] })
+  const history = createMemoryHistory({ initialEntries: [url] })
   const queryClient = createQueryClient(history)
   const view = render(
     <AppProviders queryClient={queryClient} history={history}>

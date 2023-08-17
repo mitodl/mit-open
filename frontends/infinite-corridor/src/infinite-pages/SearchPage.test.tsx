@@ -90,7 +90,7 @@ describe("SearchPage", () => {
         status: 200
       })
 
-    await renderTestApp({ url: "/search" })
+    await renderTestApp({ url: "/infinite/search" })
 
     await enableInfiniteScrollerScrolling()
     fireEvent.scroll(window)
@@ -134,7 +134,7 @@ describe("SearchPage", () => {
       window.matchMedia = createMatchMediaForJsDom({ width })
 
       setMockResponse.post("search/", makeSearchResponse())
-      await renderTestApp({ url: "/search" })
+      await renderTestApp({ url: "/infinite/search" })
 
       await screen.findByRole("list", { name: "Search Results" })
 
@@ -150,7 +150,7 @@ describe("SearchPage", () => {
 
   test("should filter by facets", async () => {
     setMockResponse.post("search/", makeSearchResponse())
-    const { history } = await renderTestApp({ url: "/search" })
+    const { history } = await renderTestApp({ url: "/infinite/search" })
 
     assertLastSearchRequest(
       {
@@ -184,7 +184,7 @@ describe("SearchPage", () => {
 
   test("Clearing facets issues a new request", async () => {
     setMockResponse.post("search/", makeSearchResponse())
-    const { history } = await renderTestApp({ url: "/search?o=MITx" })
+    const { history } = await renderTestApp({ url: "/infinite/search?o=MITx" })
 
     assertLastSearchRequest(
       {
@@ -229,7 +229,7 @@ describe("SearchPage", () => {
     setMockResponse.post("search/", {
       hits: { hits: [], total: 0 }
     })
-    await renderTestApp({ url: "/search" })
+    await renderTestApp({ url: "/infinite/search" })
 
     const textInput = getSearchTextInput()
     await user.type(textInput, "New Search Text{Enter}")
@@ -262,7 +262,7 @@ describe("SearchPage", () => {
   it("render a <LearningResourceCard /> for each search result", async () => {
     const results = makeSearchResponse(2)
     setMockResponse.post("search/", results)
-    await renderTestApp({ url: "/search" })
+    await renderTestApp({ url: "/infinite/search" })
     const list = await screen.findByRole("list", { name: "Search Results" })
     const items = await within(list).findAllByRole("listitem")
     expect(items).toHaveLength(2)

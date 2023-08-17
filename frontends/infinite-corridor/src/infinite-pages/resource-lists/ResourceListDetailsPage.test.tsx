@@ -62,8 +62,8 @@ const setup = ({
   setMockResponse.get(lrUrls.topics.listing, topics)
 
   const url = isUserListOrPath(list) ?
-    `/lists/${list.id}` :
-    `/stafflists/${list.id}`
+    `/infinite/lists/${list.id}` :
+    `/infinite/stafflists/${list.id}`
   const { history, queryClient } = renderTestApp({ url, user: userSettings })
   return { history, items, paginatedItems, queryClient }
 }
