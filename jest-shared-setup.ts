@@ -1,6 +1,7 @@
 import failOnConsole from "jest-fail-on-console"
 import '@testing-library/jest-dom'
 import { configure } from "@testing-library/dom"
+import { resetAllWhenMocks } from "jest-when"
 
 failOnConsole()
 
@@ -19,4 +20,14 @@ configure({
     error.name = "TestingLibraryElementError"
     return error
   },
+})
+
+afterEach(() => {
+  /**
+   * Clear all mock call counts between tests.
+   * This does NOT clear mock implementations.
+   * Mock implementations are always cleared between test files.
+   */
+  jest.clearAllMocks()
+  resetAllWhenMocks()
 })
