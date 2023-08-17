@@ -212,14 +212,23 @@ USE_L10N = True
 
 USE_TZ = True
 
-# social auth
+# Social Auth configurations - [START]
 AUTHENTICATION_BACKENDS = (
     "authentication.backends.micromasters.MicroMastersAuth",
     "social_core.backends.email.EmailAuth",
     "social_core.backends.saml.SAMLAuth",
+    "authentication.backends.ol_open_id_connect.OlOpenIdConnectAuth",
     # the following needs to stay here to allow login of local users
     "django.contrib.auth.backends.ModelBackend",
     "guardian.backends.ObjectPermissionBackend",
+)
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
+SOCIAL_AUTH_LOGIN_URL = "/signin"
+SOCIAL_AUTH_LOGIN_ERROR_URL = "/error"
+SOCIAL_AUTH_LOGOUT_REDIRECT_URL = get_string(
+    name="LOGOUT_REDIRECT_URL",
+    default="/",
 )
 
 SOCIAL_AUTH_STRATEGY = "authentication.strategy.OpenDiscussionsStrategy"
@@ -301,6 +310,38 @@ SOCIAL_AUTH_PIPELINE = (
     # update the user's managed channels
     "authentication.pipeline.user.update_managed_channel_memberships",
 )
+
+SOCIAL_AUTH_ODL_OIDC_OIDC_ENDPOINT = get_string(
+    name="SOCIAL_AUTH_ODL_OIDC_OIDC_ENDPOINT",
+    default=None,
+)
+
+SOCIAL_AUTH_ODL_OIDC_KEY = get_string(
+    name="SOCIAL_AUTH_ODL_OIDC_KEY",
+    default="some available client id",
+)
+
+SOCIAL_AUTH_ODL_OIDC_SECRET = get_string(
+    name="SOCIAL_AUTH_ODL_OIDC_SECRET",
+    default="some super secret key",
+)
+
+USERINFO_URL = get_string(
+    name="USERINFO_URL",
+    default=None,
+)
+
+ACCESS_TOKEN_URL = get_string(
+    name="ACCESS_TOKEN_URL",
+    default=None,
+)
+
+AUTHORIZATION_URL = get_string(
+    name="AUTHORIZATION_URL",
+    default=None,
+)
+
+# Social Auth configurations - [END]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
