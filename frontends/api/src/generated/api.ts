@@ -89,17 +89,23 @@ export interface LearningResource {
    */
   department: LearningResourceDepartment | null
   /**
-   * Returns the audience for the course
+   * Returns the audience for the learning resource
    * @type {string}
    * @memberof LearningResource
    */
   audience: string | null
   /**
-   * Returns the certification for the course
+   * Returns the certification for the learning resource
    * @type {string}
    * @memberof LearningResource
    */
   certification: string | null
+  /**
+   * Returns the prices for the learning resource
+   * @type {string}
+   * @memberof LearningResource
+   */
+  prices: string | null
   /**
    *
    * @type {Course}
@@ -174,12 +180,6 @@ export interface LearningResource {
   resource_type: string
   /**
    *
-   * @type {Array<string>}
-   * @memberof LearningResource
-   */
-  prices?: Array<string> | null
-  /**
-   *
    * @type {string}
    * @memberof LearningResource
    */
@@ -228,17 +228,23 @@ export interface LearningResourceBase {
    */
   department: LearningResourceDepartment | null
   /**
-   * Returns the audience for the course
+   * Returns the audience for the learning resource
    * @type {string}
    * @memberof LearningResourceBase
    */
   audience: string | null
   /**
-   * Returns the certification for the course
+   * Returns the certification for the learning resource
    * @type {string}
    * @memberof LearningResourceBase
    */
   certification: string | null
+  /**
+   * Returns the prices for the learning resource
+   * @type {string}
+   * @memberof LearningResourceBase
+   */
+  prices: string | null
   /**
    *
    * @type {string}
@@ -305,12 +311,6 @@ export interface LearningResourceBase {
    * @memberof LearningResourceBase
    */
   resource_type: string
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceBase
-   */
-  prices?: Array<string> | null
   /**
    *
    * @type {string}

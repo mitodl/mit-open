@@ -104,12 +104,12 @@ def test_lr_audience(platform, audience):
 )
 def test_lr_certification(platform, audience, availability, has_cert):
     """The certification property should return the expected value"""
+    platform_object = LearningResourcePlatformFactory.create(
+        platform=platform, audience=audience
+    )
+
     course = CourseFactory.create(
-        learning_resource=LearningResourceFactory.create(
-            platform=LearningResourcePlatformFactory.create(
-                platform=platform, audience=audience
-            )
-        ),
+        platform=platform_object,
         runs=[],
     )
     course.learning_resource.runs.set(

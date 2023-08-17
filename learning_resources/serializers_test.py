@@ -77,7 +77,7 @@ def test_serialize_program_model():
     ]
     assert serializer.data["department"]["name"] is not None
     assert serializer.data["platform"] is not None
-    assert serializer.data["prices"][0].replace(".", "").isnumeric()
+    assert str(serializer.data["prices"][0]).replace(".", "").isnumeric()
     assert (
         serializer.data["program"]
         == serializers.ProgramSerializer(instance=program).data
@@ -99,7 +99,7 @@ def test_serialize_run_related_models():
     run = factories.LearningResourceRunFactory()
     serializer = serializers.LearningResourceRunSerializer(run)
     assert len(serializer.data["prices"]) > 0
-    assert serializer.data["prices"][0].replace(".", "").isnumeric()
+    assert str(serializer.data["prices"][0].replace(".", "")).isnumeric()
     assert len(serializer.data["instructors"]) > 0
     for attr in ("first_name", "last_name", "full_name"):
         assert attr in serializer.data["instructors"][0].keys()
