@@ -2,7 +2,7 @@ import "jest-extended"
 import "jest-extended/all"
 
 import { setupMockEditors } from "ol-ckeditor/test_utils"
-import { mockAxiosInstance, resetApi } from "./mockAxios"
+import { mockAxiosInstance } from "./mockAxios"
 import { makeUserSettings } from "./factories"
 
 setupMockEditors()
@@ -26,13 +26,6 @@ const _createSettings = () => ({
 global.SETTINGS = _createSettings()
 
 afterEach(() => {
-  /**
-   * Clear all mock call counts between tests.
-   * This does NOT clear mock implementations.
-   * Mock implementations are always cleared between test files.
-   */
-  jest.clearAllMocks()
-  resetApi()
   global.SETTINGS = _createSettings()
 })
 
