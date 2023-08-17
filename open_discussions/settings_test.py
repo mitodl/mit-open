@@ -11,7 +11,6 @@ from django.conf import settings
 from django.core import mail
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
-from django.urls import reverse
 
 REQUIRED_SETTINGS = {
     "OPENSEARCH_URL": "http://localhost:9300/",
@@ -164,21 +163,6 @@ class TestSettings(TestCase):
             with mock.patch.dict("os.environ", required_settings, clear=True):
                 with self.assertRaises(ImproperlyConfigured):
                     self.reload_settings()
-
-    def test_djoser_confirm_url(self):
-        """
-        Assert that the PASSWORD_RESET_CONFIRM_URL setting value produces a
-        URL that
-        """
-        token = "4xj-8aa0d06b40f1c067b464"
-        uid = "AA"
-        template_generated_url = settings.PASSWORD_RESET_CONFIRM_URL.format(
-            uid=uid, token=token
-        )
-        reverse_url = reverse(
-            "password-reset-confirm", kwargs=dict(uid=uid, token=token)
-        )
-        assert reverse_url == "/{}".format(template_generated_url)
 
     def test_server_side_cursors_disabled(self):
         """DISABLE_SERVER_SIDE_CURSORS should be true by default"""

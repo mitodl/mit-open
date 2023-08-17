@@ -181,11 +181,9 @@ def test_es_profile_serializer(mocker, user):
     """
     Test that OSProfileSerializer correctly serializes a profile object
     """
-    mocker.patch(
-        "search.serializers.get_channels", return_value={"channel01", "channel02"}
-    )
+    mocker.patch("profiles.api.get_channels", return_value={"channel01", "channel02"})
     return_value = [("channel01", datetime.now()), ("channel02", datetime.now())]
-    mocker.patch("search.serializers.get_channel_join_dates", return_value=return_value)
+    mocker.patch("profiles.api.get_channel_join_dates", return_value=return_value)
     serialized = serializers.OSProfileSerializer().serialize(user.profile)
     assert serialized == {
         "object_type": constants.PROFILE_TYPE,

@@ -7,9 +7,7 @@ from types import SimpleNamespace
 from django.contrib.auth.models import User
 from django.urls import reverse
 import pytest
-from social_django.models import UserSocialAuth
 
-from authentication.backends.micromasters import MicroMastersAuth
 from channels.serializers.posts import BasePostSerializer
 from channels.serializers.comments import BaseCommentSerializer
 from channels.constants import LINK_TYPE_SELF
@@ -69,11 +67,10 @@ def test_list_users(staff_client, staff_user):
 
 
 # These can be removed once all clients have been updated and are sending both these fields
-@pytest.mark.parametrize("uid", [None, "abc123"])
 @pytest.mark.parametrize("email_optin", [None, True, False])
 @pytest.mark.parametrize("toc_optin", [None, True, False])
 def test_create_user(
-    staff_client, staff_user, mocker, uid, email_optin, toc_optin
+    staff_client, staff_user, mocker, email_optin, toc_optin
 ):  # pylint: disable=too-many-arguments
     """
     Create a user and assert the response
@@ -96,22 +93,10 @@ def test_create_user(
             "placename": "",
         },
     }
-    if uid:
-        payload["uid"] = uid
     if email_optin is not None:
         payload["profile"]["email_optin"] = email_optin
     if toc_optin is not None:
         payload["profile"]["toc_optin"] = toc_optin
-    assert (
-        UserSocialAuth.objects.filter(provider=MicroMastersAuth.name, uid=uid).exists()
-        is False
-    )
-    get_or_create_auth_tokens_stub = mocker.patch(
-        "channels.api.get_or_create_auth_tokens"
-    )
-    ensure_notifications_stub = mocker.patch(
-        "notifications.api.ensure_notification_settings"
-    )
 
     resp = staff_client.post(url, data=payload)
     user = User.objects.get(username=resp.json()["username"])
@@ -130,14 +115,9 @@ def test_create_user(
         }
     )
     assert resp.json()["profile"] == payload["profile"]
-    get_or_create_auth_tokens_stub.assert_called_once_with(user)
-    ensure_notifications_stub.assert_called_once_with(user, skip_moderator_setting=True)
     assert user.email == email
     assert user.profile.email_optin is email_optin
     assert user.profile.toc_optin is toc_optin
-    assert UserSocialAuth.objects.filter(
-        provider=MicroMastersAuth.name, uid=uid
-    ).exists() is (uid is not None)
 
 
 def test_get_user(staff_client, user):
@@ -200,11 +180,10 @@ def test_get_profile(logged_in, user, user_client):
     }
 
 
-@pytest.mark.parametrize("uid", [None, "abc123"])
 @pytest.mark.parametrize("email", ["", "test.email@example.com"])
 @pytest.mark.parametrize("email_optin", [None, True, False])
 @pytest.mark.parametrize("toc_optin", [None, True, False])
-def test_patch_user(staff_client, user, uid, email, email_optin, toc_optin):
+def test_patch_user(staff_client, user, email, email_optin, toc_optin):
     """
     Update a users' profile
     """
@@ -216,16 +195,10 @@ def test_patch_user(staff_client, user, uid, email, email_optin, toc_optin):
     payload = {"profile": {"name": "othername"}}
     if email:
         payload["email"] = email
-    if uid:
-        payload["uid"] = uid
     if email_optin is not None:
         payload["profile"]["email_optin"] = email_optin
     if toc_optin is not None:
         payload["profile"]["toc_optin"] = toc_optin
-    assert (
-        UserSocialAuth.objects.filter(provider=MicroMastersAuth.name, uid=uid).exists()
-        is False
-    )
     url = reverse("user_api-detail", kwargs={"username": user.username})
     resp = staff_client.patch(url, data=payload)
     assert resp.status_code == 200
@@ -257,9 +230,6 @@ def test_patch_user(staff_client, user, uid, email, email_optin, toc_optin):
     assert user.email == email
     assert profile.email_optin is email_optin
     assert profile.toc_optin is toc_optin
-    assert UserSocialAuth.objects.filter(
-        provider=MicroMastersAuth.name, uid=uid
-    ).exists() is (uid is not None)
 
 
 def test_patch_username(staff_client, user):
