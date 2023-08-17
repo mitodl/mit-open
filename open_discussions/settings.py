@@ -311,18 +311,18 @@ SOCIAL_AUTH_PIPELINE = (
     "authentication.pipeline.user.update_managed_channel_memberships",
 )
 
-SOCIAL_AUTH_ODL_OIDC_OIDC_ENDPOINT = get_string(
-    name="SOCIAL_AUTH_ODL_OIDC_OIDC_ENDPOINT",
+SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT = get_string(
+    name="SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT",
     default=None,
 )
 
-SOCIAL_AUTH_ODL_OIDC_KEY = get_string(
-    name="SOCIAL_AUTH_ODL_OIDC_KEY",
+SOCIAL_AUTH_OL_OIDC_KEY = get_string(
+    name="SOCIAL_AUTH_OL_OIDC_KEY",
     default="some available client id",
 )
 
-SOCIAL_AUTH_ODL_OIDC_SECRET = get_string(
-    name="SOCIAL_AUTH_ODL_OIDC_SECRET",
+SOCIAL_AUTH_OL_OIDC_SECRET = get_string(
+    name="SOCIAL_AUTH_OL_OIDC_SECRET",
     default="some super secret key",
 )
 
