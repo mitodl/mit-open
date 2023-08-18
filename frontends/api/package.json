@@ -4,7 +4,6 @@
   "sideEffects": false,
   "exports": {
     ".": "./src/generated/api.ts",
-    "./clients": "./src/clients.ts",
     "./hooks/*": "./src/hooks/*.ts",
     "./test-utils/factories": "./src/test-utils/factories/index.ts",
     "./test-utils": "./src/test-utils/index.ts"
