@@ -220,7 +220,7 @@ AUTHENTICATION_BACKENDS = (
     "guardian.backends.ObjectPermissionBackend",
 )
 
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = "login-complete"
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
 SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
 SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [urlparse(SITE_BASE_URL).netloc]
 
@@ -246,9 +246,9 @@ SOCIAL_AUTH_PIPELINE = (
     # Send a validation email to the user to verify its email address.
     # Disabled by default.
     "social_core.pipeline.mail.mail_validation",
-    # Generate a username for the user
-    # NOTE: needs to be right before create_user so nothing overrides the username
-    "authentication.pipeline.user.get_username",
+    # # Generate a username for the user
+    # # NOTE: needs to be right before create_user so nothing overrides the username
+    # "authentication.pipeline.user.get_username",
     # Create a user account if we haven't found one yet.
     "social_core.pipeline.user.create_user",
     # Create the record that associates the social account with the user.
