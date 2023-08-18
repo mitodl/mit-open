@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from rest_framework_jwt.views import refresh_jwt_token
 
-from open_discussions.views import saml_metadata, index
+from open_discussions.views import index
 
 # Post slugs can contain unicode characters, so a letter-matching pattern like [A-Za-z] doesn't work.
 # "[^\W]" Matches any character that is NOT a non-alphanumeric character, including underscores.
@@ -52,7 +52,6 @@ urlpatterns = [
     # React App
     re_path(r"^$", index, name="open_discussions-index"),
     re_path(r"^infinite/", index),
-    re_path(r"^saml/metadata/", saml_metadata, name="saml-metadata"),
     re_path(
         r"^c/(?P<channel_name>[A-Za-z0-9_]+)/(?P<post_id>[A-Za-z0-9_]+)/"
         r"(?P<post_slug>{post_slug_pattern})/comment/(?P<comment_id>[A-Za-z0-9_]+)/?$".format(
@@ -76,16 +75,7 @@ urlpatterns = [
     ),
     re_path(r"^settings/(?P<token>[^/]+)/$", index, name="settings-anon"),
     re_path(r"^profile/(?P<username>[A-Za-z0-9_]+)/", index, name="profile"),
-    re_path(r"^login/", index, name="login"),
     re_path(r"^signup/", index, name="signup"),
-    re_path(r"^signup/confirm/$", index, name="register-confirm"),
-    re_path(r"^account/inactive/$", index, name="account-inactive"),
-    re_path(r"^password_reset/", index, name="password-reset"),
-    re_path(
-        r"^password_reset/confirm/(?P<uid>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,36})/$",
-        index,
-        name="password-reset-confirm",
-    ),
     re_path(r"^privacy-statement/", index, name="privacy-statement"),
     re_path(r"^search/", index, name="site-search"),
     re_path(r"^courses/", index, name="courses"),

@@ -25,6 +25,7 @@ def test_process_exception_no_strategy(mocker, rf, settings):
     assert middleware.process_exception(request, None) is None
 
 
+@pytest.mark.skip("No auths for now")
 def test_process_exception(mocker, rf, settings):
     """Tests that a process_exception handles auth exceptions correctly"""
     settings.DEBUG = False
@@ -46,6 +47,7 @@ def test_process_exception(mocker, rf, settings):
     )
 
 
+@pytest.mark.skip("No auths for now")
 def test_process_exception_non_auth_error(mocker, rf, settings):
     """Tests that a process_exception handles non-auth exceptions correctly"""
     settings.DEBUG = False

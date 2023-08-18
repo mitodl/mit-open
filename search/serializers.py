@@ -26,7 +26,6 @@ from course_catalog.models import (
     Video,
 )
 from open_discussions.utils import filter_dict_keys, filter_dict_with_renamed_keys
-from profiles.api import get_channel_join_dates, get_channels
 from profiles.models import Profile
 from profiles.utils import image_uri
 from search.api import (
@@ -137,9 +136,13 @@ class OSProfileSerializer(OSProxySerializer):
         return ProfileSerializer
 
     def postprocess_fields(self, discussions_obj, serialized_data):
-        join_data = get_channel_join_dates(discussions_obj.user)
+        from profiles import api as channel_api
+
+        join_data = channel_api.get_channel_join_dates(discussions_obj.user)
         return {
-            "author_channel_membership": sorted(get_channels(discussions_obj.user)),
+            "author_channel_membership": sorted(
+                channel_api.get_channels(discussions_obj.user)
+            ),
             "author_channel_join_data": [
                 {"name": name, "joined": created_on} for name, created_on in join_data
             ],

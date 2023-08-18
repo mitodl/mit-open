@@ -1253,17 +1253,6 @@ libcloud = ["apache-libcloud"]
 sftp = ["paramiko (>=1.10.0)"]
 
 [[package]]
-name = "django-templated-mail"
-version = "1.1.1"
-description = "Send emails using Django template system."
-optional = false
-python-versions = "*"
-files = [
-    {file = "django-templated-mail-1.1.1.tar.gz", hash = "sha256:8db807effebb42a532622e2d142dfd453dafcd0d7794c4c3332acb90656315f9"},
-    {file = "django_templated_mail-1.1.1-py3-none-any.whl", hash = "sha256:f7127e1e31d7cad4e6c4b4801d25814d4b8782627ead76f4a75b3b7650687556"},
-]
-
-[[package]]
 name = "django-webpack-loader"
 version = "1.8.1"
 description = "Transparently use webpack with django"
@@ -1288,51 +1277,6 @@ files = [
 [package.dependencies]
 django = ">=3.0"
 pytz = "*"
-
-[[package]]
-name = "djangorestframework-simplejwt"
-version = "5.2.2"
-description = "A minimal JSON Web Token authentication plugin for Django REST Framework"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "djangorestframework_simplejwt-5.2.2-py3-none-any.whl", hash = "sha256:4c0d2e2513e12587d93501ac091781684a216c3ee614eb3b5a10586aef5ca845"},
-    {file = "djangorestframework_simplejwt-5.2.2.tar.gz", hash = "sha256:d27d4bcac2c6394f678dea8b4d0d511c6e18a7f2eb8aaeeb8a7de601aeb77c42"},
-]
-
-[package.dependencies]
-django = "*"
-djangorestframework = "*"
-pyjwt = ">=1.7.1,<3"
-
-[package.extras]
-crypto = ["cryptography (>=3.3.1)"]
-dev = ["Sphinx (>=1.6.5,<2)", "cryptography", "flake8", "ipython", "isort", "pep8", "pytest", "pytest-cov", "pytest-django", "pytest-watch", "pytest-xdist", "python-jose (==3.3.0)", "sphinx-rtd-theme (>=0.1.9)", "tox", "twine", "wheel"]
-doc = ["Sphinx (>=1.6.5,<2)", "sphinx-rtd-theme (>=0.1.9)"]
-lint = ["flake8", "isort", "pep8"]
-python-jose = ["python-jose (==3.3.0)"]
-test = ["cryptography", "pytest", "pytest-cov", "pytest-django", "pytest-xdist", "tox"]
-
-[[package]]
-name = "djoser"
-version = "2.2.0"
-description = "REST implementation of Django authentication system."
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "djoser-2.2.0-py3-none-any.whl", hash = "sha256:7b24718cdc51b4294b0abcf6bf0ead11aa3ca83652e351dfb04b7b8b15afa3b0"},
-    {file = "djoser-2.2.0.tar.gz", hash = "sha256:4aa48502df870c8b5f07109ad4a749cc881c37bb5efa85cf5462ea695a0dca8c"},
-]
-
-[package.dependencies]
-django = ">=3.0.0"
-django-templated-mail = ">=1.1.1,<2.0.0"
-djangorestframework-simplejwt = ">=5.0,<6.0"
-social-auth-app-django = ">=5.0.0,<6.0.0"
-
-[package.extras]
-djet = ["djet (>=0.3.0,<0.4.0)"]
-webauthn = ["webauthn (<1.0)"]
 
 [[package]]
 name = "docopt"
@@ -3289,26 +3233,6 @@ mysql = ["mysql-connector-python"]
 postgresql = ["psycopg2"]
 
 [[package]]
-name = "python3-saml"
-version = "1.15.0"
-description = "Saml Python Toolkit. Add SAML support to your Python software using this library"
-optional = false
-python-versions = "*"
-files = [
-    {file = "python3-saml-1.15.0.tar.gz", hash = "sha256:8c68b31739471faffb93dcdfe3bcab375b9d6a0459cab7fa9cb0d7d874ecf0b0"},
-    {file = "python3_saml-1.15.0-py2-none-any.whl", hash = "sha256:3a76a17c6a2384313c5cdb450ea8b2e6d098f30836ee3dddbfe8e870903971d2"},
-    {file = "python3_saml-1.15.0-py3-none-any.whl", hash = "sha256:cc0458351ddaa08270ebe29ffaf9e1a41dbd285ba43a176cbd70907af5944c66"},
-]
-
-[package.dependencies]
-isodate = ">=0.6.1"
-lxml = ">=4.6.5,<4.7.0 || >4.7.0"
-xmlsec = ">=1.3.9"
-
-[package.extras]
-test = ["coverage (>=4.5.2)", "flake8 (>=3.6.0,<=5.0.0)", "freezegun (>=0.3.11,<=1.1.0)", "pytest (>=4.6)"]
-
-[[package]]
 name = "pytube"
 version = "9.7.3"
 description = "Python 3 library for downloading YouTube Videos."
@@ -4326,31 +4250,6 @@ docopt = "*"
 lxml = "*"
 
 [[package]]
-name = "xmlsec"
-version = "1.3.13"
-description = "Python bindings for the XML Security Library"
-optional = false
-python-versions = ">=3.5"
-files = [
-    {file = "xmlsec-1.3.13-cp310-cp310-win32.whl", hash = "sha256:2174e8c88555383322d8b7d3927490a92ef72ad72a6ddaf4fa1b96a3f27c3e90"},
-    {file = "xmlsec-1.3.13-cp310-cp310-win_amd64.whl", hash = "sha256:46d1daf16a8f4430efca5bb9c6a15776f2671f69f48a1941d6bb335e6f8cb29d"},
-    {file = "xmlsec-1.3.13-cp35-cp35m-win32.whl", hash = "sha256:d47062c42775a025aa94fb8b15de97c1db86e301e549d3168157e0b1223d51b1"},
-    {file = "xmlsec-1.3.13-cp35-cp35m-win_amd64.whl", hash = "sha256:7c7e8ef52688ddaf5b66750cc8d901f61716f46727014ff012f41d8858cedeb0"},
-    {file = "xmlsec-1.3.13-cp36-cp36m-win32.whl", hash = "sha256:1725d70ee2bb2cd8dd66c7a7451be02bb59dc8280103db4f68e731f00135b1e0"},
-    {file = "xmlsec-1.3.13-cp36-cp36m-win_amd64.whl", hash = "sha256:1f8c41162152d7086fd459926e61bc7cb2d52ffc829e760bf8b2c221a645d568"},
-    {file = "xmlsec-1.3.13-cp37-cp37m-win32.whl", hash = "sha256:ff1c61f296e75cba5bac802d0000bfde09143eed946ced1a5162211867c335f8"},
-    {file = "xmlsec-1.3.13-cp37-cp37m-win_amd64.whl", hash = "sha256:d249c0a2bf3ff13a231bca6a588e7d276b3f1e2cf09316b542f470a63855799e"},
-    {file = "xmlsec-1.3.13-cp38-cp38-win32.whl", hash = "sha256:56cfcf3487b6ad269eb1fb543c04dee2c101f1bc91e06d6cf7bfab9ac486efd8"},
-    {file = "xmlsec-1.3.13-cp38-cp38-win_amd64.whl", hash = "sha256:e6626bece0e97a8598b5df28c27bc6f2ae1e97d29dca3c1a4910a7598a4d1d0f"},
-    {file = "xmlsec-1.3.13-cp39-cp39-win32.whl", hash = "sha256:091f23765729df6f3b3a55c8a6a96f9c713fa86e76b86a19cdb756aaa6dc0646"},
-    {file = "xmlsec-1.3.13-cp39-cp39-win_amd64.whl", hash = "sha256:5162f416179350587c4ff64737af68a846a9b86f95fd465df4e68b589ce56618"},
-    {file = "xmlsec-1.3.13.tar.gz", hash = "sha256:916f5d78e8041f6cd9391abba659da8c94a4fef7196d126d40af1ff417f2cf86"},
-]
-
-[package.dependencies]
-lxml = ">=3.8"
-
-[[package]]
 name = "xmltodict"
 version = "0.13.0"
 description = "Makes working with XML feel like you are working with JSON"
@@ -4406,4 +4305,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.4"
-content-hash = "8fe4956fd037f0f1c71960e9cd6464fa547b15ac83c0ecb483ac9a342609966f"
+content-hash = "fd3eff4c337d3f0efa0cf6d4d86485a7e56a919318571dfe6e3b9a88dbe83298"

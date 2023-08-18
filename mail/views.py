@@ -44,11 +44,7 @@ class EmailDebuggerView(View):
         }
 
         # static, dummy data
-        if email_type == "password_reset":
-            context.update({"uid": "abc-def", "token": "abc-def"})
-        elif email_type == "verification":
-            context.update({"confirmation_url": "http://www.example.com/comfirm/url"})
-        elif email_type == "comments":
+        if email_type == "comments":
             context.update(
                 {
                     "post": SimpleNamespace(
