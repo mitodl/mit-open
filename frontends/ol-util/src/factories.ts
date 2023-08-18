@@ -15,14 +15,14 @@ const makePaginatedFactory =
       next?: string | null
       previous?: string | null
     } = {}
-    ): PaginatedResult<T> => {
+    ) => {
       const results = times(pageSize ?? count, () => makeResult())
       return {
         results,
         count,
         next,
         previous
-      }
+      } satisfies PaginatedResult<T>
     }
 
 /**
