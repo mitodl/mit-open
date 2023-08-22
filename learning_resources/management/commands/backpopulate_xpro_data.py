@@ -1,11 +1,10 @@
 """Management command for populating xpro course data"""
 from django.core.management import BaseCommand
 
-from course_catalog.constants import PlatformType
-from course_catalog.models import Course
-from course_catalog.tasks import get_xpro_data
+from learning_resources.constants import PlatformType
+from learning_resources.models import Course
+from learning_resources.tasks import get_xpro_data
 from open_discussions.utils import now_in_utc
-from search.search_index_helpers import deindex_course
 
 
 class Command(BaseCommand):
@@ -28,9 +27,10 @@ class Command(BaseCommand):
             self.stdout.write(
                 "Deleting all existing xPro courses from database and opensearch"
             )
-            for course in Course.objects.filter(platform=PlatformType.xpro.value):
-                course.delete()
-                deindex_course(course)
+            for learning_resources in LearningResource.objects.filter(
+                platform__platform=PlatformType.xpro.value
+            ):
+                learning_resources.delete()
         else:
             task = get_xpro_data.delay()
             self.stdout.write(f"Started task {task} to get xpro course data")

@@ -102,6 +102,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
     department = LearningResourceDepartmentSerializer(read_only=True, allow_null=True)
     audience = serializers.ReadOnlyField()
     certification = serializers.ReadOnlyField()
+    prices = serializers.ReadOnlyField()
 
     class Meta:
         model = models.LearningResource

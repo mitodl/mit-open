@@ -33,3 +33,48 @@ class LearningResourceType(Enum):
     # podcast = "podcast"
     # podcast_episode = "podcast_episode"
     # staff_list = "stafflist"
+
+
+class OfferedBy(Enum):
+    """
+    Enum for our Offered By labels. They are our MIT "brands" for LearningResources
+    (Courses, Bootcamps, Programs) and are independent of what platform.
+    User generated lists UserLists (like a learning path) don't have offered by "brand".
+    Values are user-facing.
+    """
+
+    mitx = "MITx"
+    ocw = "OCW"
+    micromasters = "MicroMasters"
+    bootcamps = "Bootcamps"
+    xpro = "xPRO"
+    oll = "Open Learning Library"
+    csail = "CSAIL"
+    mitpe = "Professional Education"
+    see = "Sloan Executive Education"
+    scc = "Schwarzman College of Computing"
+    ctl = "Center for Transportation & Logistics"
+
+
+class PlatformType(Enum):
+    """
+    Enum for platforms
+    """
+
+    ocw = "ocw"
+    mitx = "mitx"
+    mitxonline = "mitxonline"
+    micromasters = "micromasters"
+    bootcamps = "bootcamps"
+    xpro = "xpro"
+    oll = "oll"
+    youtube = "youtube"
+    podcast = "podcast"
+    csail = "csail"
+    mitpe = "mitpe"
+    see = "see"
+    scc = "scc"
+    ctl = "ctl"
+
+
+semester_mapping = {"1T": "spring", "2T": "summer", "3T": "fall"}

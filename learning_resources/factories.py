@@ -186,9 +186,6 @@ class LearningResourceFactory(DjangoModelFactory):
     offered_by = factory.PostGeneration(_post_gen_offered_by)
     topics = factory.PostGeneration(_post_gen_topics)
     resource_content_tags = factory.PostGeneration(_post_gen_tags)
-    prices = [
-        decimal.Decimal(random.uniform(100, 200)) for _ in range(random.randint(1, 3))
-    ]
 
     class Meta:
         model = models.LearningResource
@@ -219,6 +216,15 @@ class CourseFactory(DjangoModelFactory):
             )
 
         self.runs.set(extracted)
+
+    @factory.post_generation
+    def platform(self, create, extracted, **kwargs):
+        """Create platform for course.learning_resource"""
+        if not create or not extracted:
+            return
+
+        self.learning_resource.platform = extracted
+        self.learning_resource.save()
 
     class Meta:
         model = models.Course
@@ -318,6 +324,15 @@ class ProgramFactory(DjangoModelFactory):
             )
 
         self.runs.set([extracted])
+
+    @factory.post_generation
+    def platform(self, create, extracted, **kwargs):
+        """Create platform for program.learning_resource"""
+        if not create or not extracted:
+            return
+
+        self.learning_resource.platform = extracted
+        self.learning_resource.save()
 
     @factory.post_generation
     def courses(self, create, extracted, **kwargs):

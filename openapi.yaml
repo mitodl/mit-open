@@ -306,12 +306,17 @@ components:
         audience:
           type: string
           nullable: true
-          description: Returns the audience for the course
+          description: Returns the audience for the learning resource
           readOnly: true
         certification:
           type: string
           nullable: true
-          description: Returns the certification for the course
+          description: Returns the certification for the learning resource
+          readOnly: true
+        prices:
+          type: string
+          nullable: true
+          description: Returns the prices for the learning resource
           readOnly: true
         course:
           allOf:
@@ -361,13 +366,6 @@ components:
         resource_type:
           type: string
           maxLength: 24
-        prices:
-          type: array
-          items:
-            type: string
-            format: decimal
-            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
-          nullable: true
         platform:
           type: string
           nullable: true
@@ -380,6 +378,7 @@ components:
       - image
       - offered_by
       - platform
+      - prices
       - program
       - readable_id
       - resource_content_tags
@@ -425,12 +424,17 @@ components:
         audience:
           type: string
           nullable: true
-          description: Returns the audience for the course
+          description: Returns the audience for the learning resource
           readOnly: true
         certification:
           type: string
           nullable: true
-          description: Returns the certification for the course
+          description: Returns the certification for the learning resource
+          readOnly: true
+        prices:
+          type: string
+          nullable: true
+          description: Returns the prices for the learning resource
           readOnly: true
         created_on:
           type: string
@@ -472,13 +476,6 @@ components:
         resource_type:
           type: string
           maxLength: 24
-        prices:
-          type: array
-          items:
-            type: string
-            format: decimal
-            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
-          nullable: true
         platform:
           type: string
           nullable: true
@@ -491,6 +488,7 @@ components:
       - image
       - offered_by
       - platform
+      - prices
       - readable_id
       - resource_content_tags
       - resource_type

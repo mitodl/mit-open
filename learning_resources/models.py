@@ -1,5 +1,6 @@
 """Models for learning resources and related entities"""
 from django.contrib.postgres.fields import ArrayField
+from django.contrib.admin.utils import flatten
 from django.db import models
 
 from learning_resources import constants
@@ -122,19 +123,29 @@ class LearningResource(TimestampedModel):
     topics = models.ManyToManyField(LearningResourceTopic)
     offered_by = models.ManyToManyField(LearningResourceOfferor)
     resource_content_tags = models.ManyToManyField(LearningResourceContentTag)
-    prices = ArrayField(
-        models.DecimalField(decimal_places=2, max_digits=12), null=True, blank=True
-    )
 
     @property
     def audience(self) -> str | None:
-        """Returns the audience for the course"""
+        """Returns the audience for the learning resource"""
         if self.platform:
             return self.platform.audience
 
     @property
+    def prices(self) -> str | None:
+        """Returns the prices for the learning resource"""
+        if self.resource_type in [
+            LearningResourceType.course.value,
+            LearningResourceType.program.value,
+        ]:
+            return list(
+                set(flatten([run.prices for run in self.runs.all() if run.prices]))
+            )
+        else:
+            return 0
+
+    @property
     def certification(self) -> str | None:
-        """Returns the certification for the course"""
+        """Returns the certification for the learning resource"""
         if self.platform.audience == constants.PROFESSIONAL or (
             self.platform.platform == "mitx"
             and any(
