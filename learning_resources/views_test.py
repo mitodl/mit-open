@@ -118,14 +118,23 @@ def test_program_endpoint(client, url, params):
 def test_program_detail_endpoint(client, url):
     """Test program endpoint"""
     program = ProgramFactory.create()
-    courses = sorted(program.courses.all(), key=lambda lr: lr.id)
     resp = client.get(reverse(url, args=[program.learning_resource.id]))
     assert resp.data.get("title") == program.learning_resource.title
     assert resp.data.get("resource_type") == LearningResourceType.program.value
-    response_courses = sorted(resp.data["program"]["courses"], key=lambda i: i["id"])
+
+
+@pytest.mark.parametrize(
+    "url", ["lr_learning_resource_items_api-list", "lr_program_courses_api-list"]
+)
+def test_program_children_endpoint(client, url):
+    """Test program endpoint"""
+    program = ProgramFactory.create()
+    courses = sorted(program.courses.all(), key=lambda lr: lr.child.id)
+    resp = client.get(reverse(url, args=[program.learning_resource.id]))
+    response_courses = sorted(resp.data["results"], key=lambda i: i["id"])
     assert len(response_courses) == len(courses)
     for idx, course in enumerate(courses):
-        assert course.id == response_courses[idx]["id"]
+        assert course.child.id == response_courses[idx]["id"]
         assert (
             response_courses[idx]["resource_type"] == LearningResourceType.course.value
         )
@@ -138,7 +147,7 @@ def test_list_resources_endpoint(client):
     resource_ids = [resource.learning_resource.id for resource in [*courses, *programs]]
     resource_ids.extend(
         [
-            course.id
+            course.child.id
             for sublist in [program.courses.all() for program in programs]
             for course in sublist
         ]
@@ -156,12 +165,12 @@ def test_list_resources_endpoint(client):
 @pytest.mark.parametrize("course_count", [1, 5, 10])
 def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
     """
-    There should only be 7 queries made (based on number of related models),
+    There should only be 8 queries made (based on number of related models),
     regardless of number of results returned.
     """
     CourseFactory.create_batch(course_count)
 
-    with django_assert_num_queries(7):
+    with django_assert_num_queries(8):
         view = CourseViewSet(request=mocker.Mock(query_params=[]))
         results = view.get_queryset().all()
         assert len(results) == course_count

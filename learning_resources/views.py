@@ -1,18 +1,36 @@
 """Views for learning_resources"""
 import logging
+from uuid import uuid4
 
 from django.db.models import Q, QuerySet
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework_extensions.mixins import NestedViewSetMixin
 
-from learning_resources.constants import LearningResourceType
-from learning_resources.models import LearningResource
-from learning_resources.serializers import LearningResourceSerializer
-from open_discussions.permissions import AnonymousAccessReadonlyPermission
+from learning_resources import permissions
+from learning_resources.constants import (
+    LearningResourceRelationTypes,
+    LearningResourceType,
+)
+from learning_resources.models import LearningResource, LearningResourceRelationship
+from learning_resources.permissions import is_learning_path_editor
+from learning_resources.serializers import (
+    LearningPathResourceSerializer,
+    LearningResourceChildSerializer,
+    LearningResourceRelationshipSerializer,
+    LearningResourceSerializer,
+)
+from open_discussions.permissions import (
+    AnonymousAccessReadonlyPermission,
+    is_admin_user,
+)
+from open_discussions.settings import DRF_NESTED_PARENT_LOOKUP_PREFIX
 
 log = logging.getLogger(__name__)
 
@@ -52,6 +70,8 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceSerializer
     permission_classes = (AnonymousAccessReadonlyPermission,)
     pagination_class = DefaultPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["resource_type", "department", "platform"]
 
     def _get_base_queryset(self, resource_type: str = None) -> QuerySet:
         """
@@ -64,20 +84,14 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
             QuerySet of LearningResource objects matching the query parameters
         """
         # Valid fields to filter by, just resource_type for now
-        valid_params = ["resource_type"]
 
-        lr_query = LearningResource.objects.filter(
-            published=True,
-        )
+        lr_query = LearningResource.objects.all()
         query_params_filter = {}
-        for param in self.request.query_params:
-            for valid_param in valid_params:
-                if param.startswith(valid_param):
-                    query_params_filter[param] = self.request.query_params[param]
         if query_params_filter != {}:
             lr_query = lr_query.filter(Q(**query_params_filter))
         if resource_type:
             lr_query = lr_query.filter(resource_type=resource_type)
+
         prefetches = [
             "topics",
             "offered_by",
@@ -85,20 +99,20 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
             "runs",
             "runs__instructors",
             "runs__image",
+            "children",
+            "children__child",
+            "children__child__department",
+            "children__child__platform",
+            "children__child__topics",
+            "children__child__image",
+            "children__child__offered_by",
+            "children__child__resource_content_tags",
         ]
-        if resource_type == LearningResourceType.program.value:
-            prefetches.extend(
-                [
-                    "program__courses__topics",
-                    "program__courses__image",
-                    "program__courses__offered_by",
-                    "program__courses__resource_content_tags",
-                ]
-            )
 
         lr_query = lr_query.select_related(
             "image",
             "department",
+            "platform",
             *([item.value for item in LearningResourceType]),
         )
         lr_query = lr_query.prefetch_related(*prefetches).distinct()
@@ -111,7 +125,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         Returns:
             QuerySet of LearningResource objects
         """
-        return self._get_base_queryset()
+        return self._get_base_queryset().filter(published=True)
 
     @action(methods=["GET"], detail=False, name="New Resources")
     def new(self, request: Request) -> QuerySet:
@@ -164,7 +178,9 @@ class CourseViewSet(LearningResourceViewSet):
         Returns:
             QuerySet of LearningResource objects that are Courses
         """
-        return self._get_base_queryset(resource_type=LearningResourceType.course.value)
+        return self._get_base_queryset(
+            resource_type=LearningResourceType.course.value
+        ).filter(published=True)
 
 
 class ProgramViewSet(LearningResourceViewSet):
@@ -179,4 +195,103 @@ class ProgramViewSet(LearningResourceViewSet):
         Returns:
             QuerySet of LearningResource objects that are Programs
         """
-        return self._get_base_queryset(resource_type=LearningResourceType.program.value)
+        return self._get_base_queryset(
+            resource_type=LearningResourceType.program.value
+        ).filter(published=True)
+
+
+class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
+    """
+    Viewset for LearningPaths
+    """
+
+    serializer_class = LearningPathResourceSerializer
+    permission_classes = (permissions.HasLearningPathPermissions,)
+
+    def get_queryset(self):
+        """
+        Generate a QuerySet for fetching valid Programs
+
+        Returns:
+            QuerySet of LearningResource objects that are Programs
+        """
+        return self._get_base_queryset(
+            resource_type=LearningResourceType.learning_path.value,
+        )
+
+    def list(self, request, *args, **kwargs):
+        """Get all learningpaths for learningpath editors, public learningpaths for all others"""
+
+        if is_learning_path_editor(request) or is_admin_user(request):
+            queryset = self.get_queryset()
+        else:
+            queryset = self.get_queryset().filter(published=True)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        request.data["readable_id"] = uuid4().hex
+        request.data["resource_type"] = LearningResourceType.learning_path.value
+        return super().create(request, *args, **kwargs)
+
+    def perform_destroy(self, instance):
+        # deindex_staff_list(instance.learning_resource)
+        instance.delete()
+
+
+class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    """
+    Viewset for LearningPath Details
+    """
+
+    permission_classes = (AnonymousAccessReadonlyPermission,)
+    serializer_class = LearningResourceChildSerializer
+    queryset = (
+        LearningResourceRelationship.objects.select_related("child")
+        .prefetch_related(
+            "child__runs",
+            "child__runs__instructors",
+        )
+        .order_by("position")
+    )
+    pagination_class = DefaultPagination
+
+
+class LearningPathItemsViewSet(ResourceListItemsViewSet):
+    """
+    Viewset for LearningPath Item Details
+    """
+
+    serializer_class = LearningResourceRelationshipSerializer
+    permission_classes = (permissions.HasLearningPathItemPermissions,)
+
+    def create(self, request, *args, **kwargs):
+        parent_id = kwargs[f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}parent_id"]
+        request.data["parent"] = parent_id
+        request.data[
+            "relation_type"
+        ] = LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        parent_id = kwargs[f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}parent_id"]
+        request.data["parent"] = parent_id
+        request.data[
+            "relation_type"
+        ] = LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+        return super().update(request, *args, **kwargs)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+        # learning_path = instance.parent
+        # if learning_path.items.count() > 0:
+        #     upsert_staff_list(staff_list.id)
+        # else:
+        #     deindex_staff_list(staff_list)

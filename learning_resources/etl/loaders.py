@@ -21,6 +21,7 @@ from learning_resources.models import (
     LearningResourceRun,
     Program,
     LearningResourceImage,
+    LearningResourceRelationship,
 )
 from learning_resources.utils import load_course_blocklist, load_course_duplicates
 
@@ -354,8 +355,7 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
                 course_data, blocklist, duplicates, config=config.courses
             )
             course_resources.append(course_resource)
-
-        program.courses.set(course_resources)
+        program.learning_resource.resources.set(course_resources)
 
     # if not created and not program.published:
     #    search_index_helpers.deindex_program(program)

@@ -10,6 +10,10 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: integer
       - name: limit
         required: false
         in: query
@@ -22,6 +26,14 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - courses
       security:
@@ -94,6 +106,10 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: integer
       - name: limit
         required: false
         in: query
@@ -106,6 +122,14 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - learning_resources
       security:
@@ -117,6 +141,195 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
+  /api/v1/learning_resources/{parent_id}/children/:
+    get:
+      operationId: learning_resources_children_list
+      description: Viewset for LearningPath Details
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learning_resources
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceChildList'
+          description: ''
+    post:
+      operationId: learning_resources_children_create
+      description: Viewset for LearningPath Details
+      parameters:
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learning_resources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceChild'
+          description: ''
+  /api/v1/learning_resources/{parent_id}/children/{id}/:
+    get:
+      operationId: learning_resources_children_retrieve
+      description: Viewset for LearningPath Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learning_resources
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceChild'
+          description: ''
+    put:
+      operationId: learning_resources_children_update
+      description: Viewset for LearningPath Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learning_resources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceChild'
+          description: ''
+    patch:
+      operationId: learning_resources_children_partial_update
+      description: Viewset for LearningPath Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learning_resources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceChild'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceChild'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceChild'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceChild'
+          description: ''
+    delete:
+      operationId: learning_resources_children_destroy
+      description: Viewset for LearningPath Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learning_resources
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/learning_resources/{id}/:
     get:
       operationId: learning_resources_retrieve
@@ -172,11 +385,77 @@ paths:
               schema:
                 $ref: '#/components/schemas/LearningResource'
           description: ''
-  /api/v1/programs/:
+  /api/v1/learningpaths/:
     get:
-      operationId: programs_list
-      description: Get a paginated list of learning resources.
-      summary: List
+      operationId: learningpaths_list
+      description: Get all learningpaths for learningpath editors, public learningpaths
+        for all others
+      parameters:
+      - in: query
+        name: department
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
+      tags:
+      - learningpaths
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningPathResourceList'
+          description: ''
+    post:
+      operationId: learningpaths_create
+      description: Viewset for LearningPaths
+      tags:
+      - learningpaths
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningPathResource'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LearningPathResource'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LearningPathResource'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPathResource'
+          description: ''
+  /api/v1/learningpaths/{parent_id}/resources/:
+    get:
+      operationId: learningpaths_resources_list
+      description: Viewset for LearningPath Item Details
       parameters:
       - name: limit
         required: false
@@ -190,6 +469,345 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learningpaths
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceRelationshipList'
+          description: ''
+    post:
+      operationId: learningpaths_resources_create
+      description: Viewset for LearningPath Item Details
+      parameters:
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learningpaths
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningResourceRelationship'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LearningResourceRelationship'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LearningResourceRelationship'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceRelationship'
+          description: ''
+  /api/v1/learningpaths/{parent_id}/resources/{id}/:
+    get:
+      operationId: learningpaths_resources_retrieve
+      description: Viewset for LearningPath Item Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learningpaths
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceRelationship'
+          description: ''
+    put:
+      operationId: learningpaths_resources_update
+      description: Viewset for LearningPath Item Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learningpaths
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningResourceRelationship'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LearningResourceRelationship'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LearningResourceRelationship'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceRelationship'
+          description: ''
+    patch:
+      operationId: learningpaths_resources_partial_update
+      description: Viewset for LearningPath Item Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learningpaths
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceRelationship'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceRelationship'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceRelationship'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceRelationship'
+          description: ''
+    delete:
+      operationId: learningpaths_resources_destroy
+      description: Viewset for LearningPath Item Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learningpaths
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/learningpaths/{id}/:
+    get:
+      operationId: learningpaths_retrieve
+      description: Retrieve a single learning resource.
+      summary: Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - learningpaths
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPathResource'
+          description: ''
+    put:
+      operationId: learningpaths_update
+      description: Viewset for LearningPaths
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - learningpaths
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningPathResource'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LearningPathResource'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LearningPathResource'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPathResource'
+          description: ''
+    patch:
+      operationId: learningpaths_partial_update
+      description: Viewset for LearningPaths
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - learningpaths
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningPathResource'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningPathResource'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningPathResource'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPathResource'
+          description: ''
+    delete:
+      operationId: learningpaths_destroy
+      description: Viewset for LearningPaths
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - learningpaths
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/learningpaths/new/:
+    get:
+      operationId: learningpaths_new_retrieve
+      description: Get a paginated list of newly released resources.
+      summary: List New
+      tags:
+      - learningpaths
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPathResource'
+          description: ''
+  /api/v1/learningpaths/upcoming/:
+    get:
+      operationId: learningpaths_upcoming_retrieve
+      description: Get a paginated list of upcoming resources.
+      summary: List Upcoming
+      tags:
+      - learningpaths
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPathResource'
+          description: ''
+  /api/v1/programs/:
+    get:
+      operationId: programs_list
+      description: Get a paginated list of learning resources.
+      summary: List
+      parameters:
+      - in: query
+        name: department
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - programs
       security:
@@ -201,6 +819,195 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
+  /api/v1/programs/{parent_id}/courses/:
+    get:
+      operationId: programs_courses_list
+      description: Viewset for LearningPath Details
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - programs
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceChildList'
+          description: ''
+    post:
+      operationId: programs_courses_create
+      description: Viewset for LearningPath Details
+      parameters:
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - programs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceChild'
+          description: ''
+  /api/v1/programs/{parent_id}/courses/{id}/:
+    get:
+      operationId: programs_courses_retrieve
+      description: Viewset for LearningPath Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - programs
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceChild'
+          description: ''
+    put:
+      operationId: programs_courses_update
+      description: Viewset for LearningPath Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - programs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LearningResourceChild'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceChild'
+          description: ''
+    patch:
+      operationId: programs_courses_partial_update
+      description: Viewset for LearningPath Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - programs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceChild'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceChild'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceChild'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceChild'
+          description: ''
+    delete:
+      operationId: programs_courses_destroy
+      description: Viewset for LearningPath Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - programs
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/programs/{id}/:
     get:
       operationId: programs_retrieve
@@ -268,19 +1075,67 @@ components:
             type: string
             maxLength: 128
           nullable: true
-    LearningResource:
+    LearningPath:
       type: object
-      description: Full serializer for LearningResource
+      description: Serializer for the LearningPath model
       properties:
         id:
           type: integer
           readOnly: true
+        item_count:
+          type: integer
+          description: Return the number of items in the list
+          readOnly: true
+        author:
+          type: integer
+      required:
+      - author
+      - id
+      - item_count
+    LearningPathResource:
+      type: object
+      description: Serlializer for LearningResource of type LearningPath
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        readable_id:
+          type: string
+          maxLength: 128
         topics:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
+          nullable: true
+        resource_type:
+          type: string
+          maxLength: 24
+        learning_path:
+          allOf:
+          - $ref: '#/components/schemas/LearningPath'
           readOnly: true
           nullable: true
+        published:
+          type: boolean
+      required:
+      - id
+      - learning_path
+      - readable_id
+      - resource_type
+      - title
+    LearningResource:
+      type: object
+      description: Serializer for LearningResource, minus program, course
+      properties:
+        id:
+          type: integer
+          readOnly: true
         offered_by:
           type: array
           items:
@@ -318,14 +1173,19 @@ components:
           nullable: true
           description: Returns the prices for the learning resource
           readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+          nullable: true
         course:
           allOf:
           - $ref: '#/components/schemas/Course'
           readOnly: true
           nullable: true
-        program:
+        learning_path:
           allOf:
-          - $ref: '#/components/schemas/Program'
+          - $ref: '#/components/schemas/LearningPath'
           readOnly: true
           nullable: true
         runs:
@@ -376,125 +1236,23 @@ components:
       - department
       - id
       - image
+      - learning_path
       - offered_by
       - platform
       - prices
-      - program
       - readable_id
       - resource_content_tags
       - resource_type
       - runs
       - title
-      - topics
-    LearningResourceBase:
+    LearningResourceChild:
       type: object
-      description: Serializer for LearningResource, minus program, course
+      description: Serializer for LearningResourceRelationship children
       properties:
-        id:
+        child:
           type: integer
-          readOnly: true
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceTopic'
-          readOnly: true
-          nullable: true
-        offered_by:
-          type: array
-          items:
-            type: string
-          readOnly: true
-          nullable: true
-        resource_content_tags:
-          type: array
-          items:
-            type: string
-          readOnly: true
-          nullable: true
-        image:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceImage'
-          readOnly: true
-          nullable: true
-        department:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceDepartment'
-          readOnly: true
-          nullable: true
-        audience:
-          type: string
-          nullable: true
-          description: Returns the audience for the learning resource
-          readOnly: true
-        certification:
-          type: string
-          nullable: true
-          description: Returns the certification for the learning resource
-          readOnly: true
-        prices:
-          type: string
-          nullable: true
-          description: Returns the prices for the learning resource
-          readOnly: true
-        created_on:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_on:
-          type: string
-          format: date-time
-          readOnly: true
-        readable_id:
-          type: string
-          maxLength: 128
-        title:
-          type: string
-          maxLength: 256
-        description:
-          type: string
-          nullable: true
-        full_description:
-          type: string
-          nullable: true
-        last_modified:
-          type: string
-          format: date-time
-          nullable: true
-        published:
-          type: boolean
-        languages:
-          type: array
-          items:
-            type: string
-            maxLength: 24
-          nullable: true
-        url:
-          type: string
-          format: uri
-          nullable: true
-          maxLength: 2048
-        resource_type:
-          type: string
-          maxLength: 24
-        platform:
-          type: string
-          nullable: true
       required:
-      - audience
-      - certification
-      - created_on
-      - department
-      - id
-      - image
-      - offered_by
-      - platform
-      - prices
-      - readable_id
-      - resource_content_tags
-      - resource_type
-      - title
-      - topics
-      - updated_on
+      - child
     LearningResourceDepartment:
       type: object
       description: Serializer for LearningResourceDepartment
@@ -528,6 +1286,7 @@ components:
           maxLength: 1024
       required:
       - id
+      - url
     LearningResourceInstructor:
       type: object
       description: Serializer for LearningResourceInstructor model
@@ -549,6 +1308,34 @@ components:
           maxLength: 256
       required:
       - id
+    LearningResourceRelationship:
+      type: object
+      description: Serializer for LearningResourceRelationship
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        resource:
+          allOf:
+          - $ref: '#/components/schemas/LearningResource'
+          readOnly: true
+          nullable: true
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        relation_type:
+          $ref: '#/components/schemas/RelationTypeEnum'
+        parent:
+          type: integer
+        child:
+          type: integer
+      required:
+      - child
+      - id
+      - parent
+      - relation_type
+      - resource
     LearningResourceRun:
       type: object
       description: Serializer for the LearningResourceRun model
@@ -640,13 +1427,10 @@ components:
             format: decimal
             pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           nullable: true
-        learning_resource:
-          type: integer
       required:
       - id
       - image
       - instructors
-      - learning_resource
       - run_id
       - title
     LearningResourceTopic:
@@ -662,6 +1446,46 @@ components:
       required:
       - id
       - name
+    PaginatedLearningPathResourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningPathResource'
+    PaginatedLearningResourceChildList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceChild'
     PaginatedLearningResourceList:
       type: object
       properties:
@@ -682,18 +1506,95 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResource'
-    Program:
+    PaginatedLearningResourceRelationshipList:
       type: object
-      description: Serializer for the Program model
       properties:
-        courses:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/LearningResourceBase'
+            $ref: '#/components/schemas/LearningResourceRelationship'
+    PatchedLearningPathResource:
+      type: object
+      description: Serlializer for LearningResource of type LearningPath
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        readable_id:
+          type: string
+          maxLength: 128
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+          nullable: true
+        resource_type:
+          type: string
+          maxLength: 24
+        learning_path:
+          allOf:
+          - $ref: '#/components/schemas/LearningPath'
           readOnly: true
           nullable: true
-      required:
-      - courses
+        published:
+          type: boolean
+    PatchedLearningResourceChild:
+      type: object
+      description: Serializer for LearningResourceRelationship children
+      properties:
+        child:
+          type: integer
+    PatchedLearningResourceRelationship:
+      type: object
+      description: Serializer for LearningResourceRelationship
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        resource:
+          allOf:
+          - $ref: '#/components/schemas/LearningResource'
+          readOnly: true
+          nullable: true
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        relation_type:
+          $ref: '#/components/schemas/RelationTypeEnum'
+        parent:
+          type: integer
+        child:
+          type: integer
+    RelationTypeEnum:
+      enum:
+      - PROGRAM_COURSES
+      - LEARNING_PATH_ITEMS
+      - PODCAST_EPISODES
+      type: string
+      description: |-
+        * `PROGRAM_COURSES` - Program Courses
+        * `LEARNING_PATH_ITEMS` - Learning Path Items
+        * `PODCAST_EPISODES` - Podcast Episodes
   securitySchemes:
     cookieAuth:
       type: apiKey

@@ -1,10 +1,14 @@
 """Models for learning resources and related entities"""
-from django.contrib.postgres.fields import ArrayField
 from django.contrib.admin.utils import flatten
+from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from learning_resources import constants
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import (
+    LearningResourceRelationTypes,
+    LearningResourceType,
+)
 from open_discussions.models import TimestampedModel
 
 
@@ -50,7 +54,7 @@ class LearningResourceOfferor(TimestampedModel):
 class LearningResourceImage(TimestampedModel):
     """Represent image metadata for a learning resource"""
 
-    url = models.TextField(max_length=2048, blank=True)
+    url = models.TextField(max_length=2048)
     description = models.CharField(max_length=1024, null=True, blank=True)
     alt = models.CharField(max_length=1024, null=True, blank=True)
 
@@ -123,6 +127,9 @@ class LearningResource(TimestampedModel):
     topics = models.ManyToManyField(LearningResourceTopic)
     offered_by = models.ManyToManyField(LearningResourceOfferor)
     resource_content_tags = models.ManyToManyField(LearningResourceContentTag)
+    resources = models.ManyToManyField(
+        "self", through="LearningResourceRelationship", symmetrical=False, blank=True
+    )
 
     @property
     def audience(self) -> str | None:
@@ -233,15 +240,54 @@ class Program(TimestampedModel):
         on_delete=models.deletion.CASCADE,
         primary_key=True,
     )
-    courses = models.ManyToManyField(
-        LearningResource,
-        related_name="programs",
-        limit_choices_to={
-            "learning_resource__resource_type": LearningResourceType.course.value
-        },
-    )
 
     @property
     def runs(self):
         """Get the parent LearningResource runs"""
         return self.learning_resource.runs
+
+    @property
+    def courses(self):
+        """Get the associated resources (should all be courses)"""
+        return self.learning_resource.children
+
+
+class LearningPath(TimestampedModel):
+    """
+    Model for representing a publishable list of  learning resources
+    The LearningResource readable_id should probably be something like an auto-generated UUID.
+    """
+
+    learning_resource = models.OneToOneField(
+        LearningResource,
+        null=True,
+        blank=True,
+        related_name="learning_path",
+        on_delete=models.CASCADE,
+    )
+    author = models.ForeignKey(
+        User, related_name="learning_paths", on_delete=models.PROTECT
+    )
+
+    def __str__(self):
+        return f"Staff List: {self.learning_resource.title}"
+
+
+class LearningResourceRelationship(TimestampedModel):
+    """
+    LearningResourceRelationship model tracks the relationships between learning resources,
+    for example: course LR's in a program LR, all LR's included in a LearningList LR, etc.
+    """
+
+    parent = models.ForeignKey(
+        LearningResource, on_delete=models.deletion.CASCADE, related_name="children"
+    )
+    child = models.ForeignKey(
+        LearningResource, related_name="parents", on_delete=models.deletion.CASCADE
+    )
+    position = models.PositiveIntegerField(default=0)
+
+    relation_type = models.CharField(
+        max_length=max(map(len, LearningResourceRelationTypes.values)),
+        choices=LearningResourceRelationTypes.choices,
+    )

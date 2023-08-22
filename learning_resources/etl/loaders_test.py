@@ -120,8 +120,8 @@ def test_load_program(
         course = CourseFactory.create(platform=platform)
         before_course_count += 1
         after_course_count += 1
-        program.courses.set([course.learning_resource])
-        assert program.courses.count() == 1
+        program.learning_resource.resources.set([course.learning_resource])
+        assert program.learning_resource.children.count() == 1
 
     assert Program.objects.count() == (1 if program_exists else 0)
     assert Course.objects.count() == before_course_count
@@ -168,6 +168,7 @@ def test_load_program(
     # assert we got a program back and that each course is in a program
     assert isinstance(result, LearningResource)
 
+    assert result.children.count() == len(courses)
     assert result.program.courses.count() == len(courses)
     assert result.runs.filter(published=True).count() == 1
 
@@ -175,12 +176,16 @@ def test_load_program(
         run_data["start_date"]
     )
 
-    for learning_resource, data in zip(
-        sorted(result.program.courses.all(), key=lambda item: item.readable_id),
+    for relationship, data in zip(
+        sorted(
+            result.program.learning_resource.children.all(),
+            key=lambda item: item.child.readable_id,
+        ),
         sorted(courses, key=lambda course: course.learning_resource.readable_id),
     ):
-        assert isinstance(learning_resource, LearningResource)
-        assert learning_resource.readable_id == data.learning_resource.readable_id
+        assert isinstance(relationship.child, LearningResource)
+        assert relationship.child.readable_id == data.learning_resource.readable_id
+
 
 
 @pytest.mark.parametrize("course_exists", [True, False])
