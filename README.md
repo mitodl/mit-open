@@ -128,13 +128,13 @@ The MIT Open application can be configured to utilize an OpenID Connect provider
 
 
 The following environment variables must be defined:
-    * SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT
+    * SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT - The base URI for OpenID Connect discovery, https://<OIDC_ENDPOINT>/ without .well-known/openid-configuration.
     * OIDC_ENDPOINT
-    * SOCIAL_AUTH_OL_OIDC_KEY
-    * SOCIAL_AUTH_OL_OIDC_SECRET
-    * AUTHORIZATION_URL
-    * ACCESS_TOKEN_URL
-    * USERINFO_URL
+    * SOCIAL_AUTH_OL_OIDC_KEY - The client ID provided by the OpenID Connect provider.
+    * SOCIAL_AUTH_OL_OIDC_SECRET - The client secret provided by the OpenID Connect provider.
+    * AUTHORIZATION_URL - Provider endpoint where the user is asked to authenticate.
+    * ACCESS_TOKEN_URL - Provider endpoint where client exchanges the authorization code for tokens.
+    * USERINFO_URL - Provder endpoint where client sends requests for identity claims.
 
 To authenticate with an existing MIT Open user via an OpenID Connect provider, open http://od.odl.local:8063/login/ol-oidc in your browser.
 
