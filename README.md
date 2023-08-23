@@ -19,6 +19,11 @@ Run through those steps **including the addition of `/etc/hosts` aliases and the
 
 The following settings must be configured before running the app:
 
+- `INDEXING_API_USERNAME`
+
+    At least to start out, this should be set to the username of the superuser
+    you created above.
+
 - `MAILGUN_KEY` and `MAILGUN_SENDER_DOMAIN`
 
     You can set these values to any non-empty string value if email-sending functionality
