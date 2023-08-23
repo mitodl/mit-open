@@ -7,6 +7,7 @@ from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
 )
+from learning_resources.models import LearningResource
 from learning_resources.serializers import LearningPathResourceSerializer
 
 pytestmark = pytest.mark.django_db
@@ -85,6 +86,12 @@ def test_serialize_program_model():
         serializer.data["program"]
         == serializers.ProgramSerializer(instance=program).data
     )
+    program_course_serializer = serializers.LearningResourceSerializer(
+        instance=LearningResource.objects.get(
+            id=serializer.data["program"]["courses"][0]["id"]
+        )
+    )
+    assert program_course_serializer.data == serializer.data["program"]["courses"][0]
 
 
 def test_serialize_run_related_models():

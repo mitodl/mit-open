@@ -14,19 +14,9 @@ router.register(
     r"learning_resources",
     views.LearningResourceViewSet,
     basename="learning_resources_api",
-).register(
-    r"children",
-    views.ResourceListItemsViewSet,
-    basename="lr_learning_resource_items_api",
-    parents_query_lookups=["parent_id"],
 )
 router.register(r"courses", views.CourseViewSet, basename="lr_courses_api")
-router.register(r"programs", views.ProgramViewSet, basename="lr_programs_api").register(
-    r"courses",
-    views.ResourceListItemsViewSet,
-    basename="lr_program_courses_api",
-    parents_query_lookups=["parent_id"],
-)
+router.register(r"programs", views.ProgramViewSet, basename="lr_programs_api")
 router.register(
     r"learningpaths", views.LearningPathViewSet, basename="lr_learningpaths_api"
 ).register(

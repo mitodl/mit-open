@@ -187,7 +187,6 @@ def test_load_program(
         assert relationship.child.readable_id == data.learning_resource.readable_id
 
 
-
 @pytest.mark.parametrize("course_exists", [True, False])
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("is_run_published", [True, False])

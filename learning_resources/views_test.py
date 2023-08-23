@@ -121,20 +121,17 @@ def test_program_detail_endpoint(client, url):
     resp = client.get(reverse(url, args=[program.learning_resource.id]))
     assert resp.data.get("title") == program.learning_resource.title
     assert resp.data.get("resource_type") == LearningResourceType.program.value
+    response_courses = sorted(resp.data["program"]["courses"], key=lambda i: i["id"])
 
-
-@pytest.mark.parametrize(
-    "url", ["lr_learning_resource_items_api-list", "lr_program_courses_api-list"]
-)
-def test_program_children_endpoint(client, url):
-    """Test program endpoint"""
-    program = ProgramFactory.create()
-    courses = sorted(program.courses.all(), key=lambda lr: lr.child.id)
-    resp = client.get(reverse(url, args=[program.learning_resource.id]))
-    response_courses = sorted(resp.data["results"], key=lambda i: i["id"])
+    courses = sorted(
+        [relation.child for relation in program.courses.all()], key=lambda lr: lr.id
+    )
     assert len(response_courses) == len(courses)
+    assert [course.id for course in courses] == [
+        course["id"] for course in response_courses
+    ]
     for idx, course in enumerate(courses):
-        assert course.child.id == response_courses[idx]["id"]
+        assert course.id == response_courses[idx]["id"]
         assert (
             response_courses[idx]["resource_type"] == LearningResourceType.course.value
         )

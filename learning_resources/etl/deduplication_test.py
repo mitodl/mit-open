@@ -1,5 +1,6 @@
 """Tests for the deduplication ETL functions"""
 from datetime import datetime
+
 import pytest
 import pytz
 from learning_resources.etl.deduplication import (

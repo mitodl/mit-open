@@ -4,24 +4,24 @@ import logging
 from django.contrib.auth import get_user_model
 from django.db import transaction
 
+from learning_resources.constants import LearningResourceType
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
     OfferedByLoaderConfig,
     ProgramLoaderConfig,
 )
-from learning_resources.constants import LearningResourceType
 from learning_resources.etl.deduplication import get_most_relevant_run
 from learning_resources.models import (
-    LearningResource,
     Course,
-    LearningResourceInstructor,
-    LearningResourceTopic,
-    LearningResourcePlatform,
-    LearningResourceOfferor,
-    LearningResourceRun,
-    Program,
+    LearningResource,
     LearningResourceImage,
+    LearningResourceInstructor,
+    LearningResourceOfferor,
+    LearningResourcePlatform,
     LearningResourceRelationship,
+    LearningResourceRun,
+    LearningResourceTopic,
+    Program,
 )
 from learning_resources.utils import load_course_blocklist, load_course_duplicates
 

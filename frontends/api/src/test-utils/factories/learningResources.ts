@@ -104,6 +104,7 @@ const learningResource: Factory<LearningResource> = (
     offered_by:            [],
     platform:              null,
     prices:                null,
+    program:               null,
     learning_path:         null,
     readable_id:           faker.lorem.slug(),
     resource_content_tags: repeat(faker.lorem.word),

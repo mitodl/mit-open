@@ -93,22 +93,6 @@ class LearningResourceRunSerializer(serializers.ModelSerializer):
         exclude = ["learning_resource", *COMMON_IGNORED_FIELDS]
 
 
-class CourseSerializer(serializers.ModelSerializer):
-    """Serializer for the Course model"""
-
-    class Meta:
-        model = models.Course
-        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
-
-
-class ProgramSerializer(serializers.ModelSerializer):
-    """Serializer for the Program model"""
-
-    class Meta:
-        model = models.Program
-        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
-
-
 class ResourceListMixin(serializers.Serializer):
     """Common fields for staff and user lists"""
 
@@ -122,6 +106,14 @@ class ResourceListMixin(serializers.Serializer):
         )
 
 
+class CourseSerializer(serializers.ModelSerializer):
+    """Serializer for the Course model"""
+
+    class Meta:
+        model = models.Course
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
+
+
 class LearningPathSerializer(serializers.ModelSerializer, ResourceListMixin):
     """Serializer for the LearningPath model"""
 
@@ -130,8 +122,8 @@ class LearningPathSerializer(serializers.ModelSerializer, ResourceListMixin):
         exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
-class LearningResourceSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResource, minus program, course"""
+class LearningResourceBaseSerializer(serializers.ModelSerializer):
+    """Serializer for LearningResource, minus program"""
 
     offered_by = LearningResourceOfferorField(read_only=True, allow_null=True)
     resource_content_tags = LearningResourceContentTagField(
@@ -144,7 +136,6 @@ class LearningResourceSerializer(serializers.ModelSerializer):
     prices = serializers.ReadOnlyField()
     topics = WriteableSerializerMethodField()
     course = CourseSerializer(read_only=True, allow_null=True)
-    program = ProgramSerializer(read_only=True, allow_null=True)
     learning_path = LearningPathSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
 
@@ -177,6 +168,29 @@ class LearningResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LearningResource
         exclude = ["resources", *COMMON_IGNORED_FIELDS]
+
+
+class ProgramSerializer(serializers.ModelSerializer):
+    """Serializer for the Program model"""
+
+    courses = serializers.SerializerMethodField()
+
+    @extend_schema_field(LearningResourceBaseSerializer(many=True, allow_null=True))
+    def get_courses(self, obj):
+        """Get the learning resource courses for a program"""
+        return LearningResourceRelationshipChildField(
+            obj.learning_resource.children.all(), many=True
+        ).data
+
+    class Meta:
+        model = models.Program
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
+
+
+class LearningResourceSerializer(LearningResourceBaseSerializer):
+    """Serializer for LearningResource, with program iuncluded"""
+
+    program = ProgramSerializer(read_only=True, allow_null=True)
 
 
 class LearningResourceRelationshipChildField(serializers.ModelSerializer):
