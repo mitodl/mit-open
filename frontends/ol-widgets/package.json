@@ -10,7 +10,7 @@
     "@mui/material": "^5.9.0",
     "@types/js-beautify": "^1.13.3",
     "@types/validator": "^13.7.6",
-    "classnames": "^2.3.1",
+    "classnames": "^2.3.2",
     "formik": "^2.2.9",
     "js-beautify": "^1.14.6",
     "ol-ckeditor": "workspace:^",
