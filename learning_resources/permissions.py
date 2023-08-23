@@ -28,18 +28,6 @@ def is_learning_path_editor(request: HttpRequest) -> bool:
     )
 
 
-class HasUserListPermissions(BasePermission):
-    """Permission to view/modify UserLists"""
-
-    def has_permission(self, request, view):
-        return not request.user.is_anonymous
-
-    def has_object_permission(self, request, view, obj):
-        if request.method in SAFE_METHODS:
-            return obj.learning_resource.published or request.user == obj.author
-        return request.user == obj.author
-
-
 class HasLearningPathPermissions(BasePermission):
     """
     Permission to view/create/modify LearningPaths

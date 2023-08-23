@@ -20,6 +20,28 @@ class LearningResourceTopicAdmin(admin.ModelAdmin):
     search_fields = ("name",)
 
 
+class LearningResourceDepartmentAdmin(admin.ModelAdmin):
+    """Department Admin"""
+
+    model = models.LearningResourceDepartment
+    list_display = ("name", "department_id")
+    search_fields = ("name", "department_id")
+
+
+class LearningResourcePlatformAdmin(admin.ModelAdmin):
+    """Platform Admin"""
+
+    model = models.LearningResourcePlatform
+    search_fields = ("platform",)
+
+
+class LearningResourceOfferorAdmin(admin.ModelAdmin):
+    """Offeror Admin"""
+
+    model = models.LearningResourceOfferor
+    search_fields = ("name",)
+
+
 class LearningResourceRunAdmin(admin.ModelAdmin):
     """LearningResourceRun Admin"""
 
@@ -53,7 +75,7 @@ class LearningResourceRunInline(TabularInline):
 
 
 class CourseInline(TabularInline):
-    """Inline list items for courses"""
+    """Inline list items for Courses"""
 
     model = models.Course
     extra = 0
@@ -61,7 +83,7 @@ class CourseInline(TabularInline):
 
 
 class LearningPathInline(TabularInline):
-    """Inline list items for staff lists"""
+    """Inline list items for LearningPaths"""
 
     model = models.LearningPath
     extra = 0
@@ -69,7 +91,7 @@ class LearningPathInline(TabularInline):
 
 
 class LearningResourceAdmin(admin.ModelAdmin):
-    """Course Admin"""
+    """LearningResource Admin"""
 
     model = models.LearningResource
     search_fields = ("readable_id", "title")
@@ -83,3 +105,6 @@ admin.site.register(models.LearningResourceTopic, LearningResourceTopicAdmin)
 admin.site.register(models.LearningResourceInstructor, LearningResourceInstructorAdmin)
 admin.site.register(models.LearningResource, LearningResourceAdmin)
 admin.site.register(models.LearningResourceRun, LearningResourceRunAdmin)
+admin.site.register(models.LearningResourceDepartment, LearningResourceDepartmentAdmin)
+admin.site.register(models.LearningResourcePlatform, LearningResourcePlatformAdmin)
+admin.site.register(models.LearningResourceOfferor, LearningResourceOfferorAdmin)

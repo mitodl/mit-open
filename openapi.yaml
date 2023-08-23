@@ -11,7 +11,7 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: department
+        name: department__id
         schema:
           type: integer
       - name: limit
@@ -20,6 +20,10 @@ paths:
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
@@ -107,7 +111,7 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: department
+        name: department__id
         schema:
           type: integer
       - name: limit
@@ -116,6 +120,10 @@ paths:
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
@@ -203,7 +211,7 @@ paths:
         for all others
       parameters:
       - in: query
-        name: department
+        name: department__id
         schema:
           type: integer
       - name: limit
@@ -212,6 +220,10 @@ paths:
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
@@ -266,7 +278,7 @@ paths:
   /api/v1/learningpaths/{parent_id}/resources/:
     get:
       operationId: learningpaths_resources_list
-      description: Viewset for LearningPath Item Details
+      description: Viewset for LearningPath related resources
       parameters:
       - name: limit
         required: false
@@ -298,7 +310,7 @@ paths:
           description: ''
     post:
       operationId: learningpaths_resources_create
-      description: Viewset for LearningPath Item Details
+      description: Viewset for LearningPath related resources
       parameters:
       - in: path
         name: parent_id
@@ -331,7 +343,7 @@ paths:
   /api/v1/learningpaths/{parent_id}/resources/{id}/:
     get:
       operationId: learningpaths_resources_retrieve
-      description: Viewset for LearningPath Item Details
+      description: Viewset for LearningPath related resources
       parameters:
       - in: path
         name: id
@@ -357,7 +369,7 @@ paths:
           description: ''
     put:
       operationId: learningpaths_resources_update
-      description: Viewset for LearningPath Item Details
+      description: Viewset for LearningPath related resources
       parameters:
       - in: path
         name: id
@@ -395,7 +407,7 @@ paths:
           description: ''
     patch:
       operationId: learningpaths_resources_partial_update
-      description: Viewset for LearningPath Item Details
+      description: Viewset for LearningPath related resources
       parameters:
       - in: path
         name: id
@@ -432,7 +444,7 @@ paths:
           description: ''
     delete:
       operationId: learningpaths_resources_destroy
-      description: Viewset for LearningPath Item Details
+      description: Viewset for LearningPath related resources
       parameters:
       - in: path
         name: id
@@ -596,7 +608,7 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: department
+        name: department__id
         schema:
           type: integer
       - name: limit
@@ -605,6 +617,10 @@ paths:
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
@@ -716,7 +732,7 @@ components:
       - item_count
     LearningPathResource:
       type: object
-      description: Serlializer for LearningResource of type LearningPath
+      description: CRUD serializer for LearningPath resources
       properties:
         id:
           type: integer
@@ -753,7 +769,7 @@ components:
       - title
     LearningResource:
       type: object
-      description: Serializer for LearningResource, with program iuncluded
+      description: Serializer for LearningResource, with program included
       properties:
         id:
           type: integer
@@ -1046,7 +1062,7 @@ components:
       - id
     LearningResourceRelationship:
       type: object
-      description: Serializer for LearningResourceRelationship
+      description: CRUD serializer for LearningResourceRelationship
       properties:
         id:
           type: integer
@@ -1244,7 +1260,7 @@ components:
             $ref: '#/components/schemas/LearningResourceRelationship'
     PatchedLearningPathResource:
       type: object
-      description: Serlializer for LearningResource of type LearningPath
+      description: CRUD serializer for LearningPath resources
       properties:
         id:
           type: integer
@@ -1275,7 +1291,7 @@ components:
           type: boolean
     PatchedLearningResourceRelationship:
       type: object
-      description: Serializer for LearningResourceRelationship
+      description: CRUD serializer for LearningResourceRelationship
       properties:
         id:
           type: integer

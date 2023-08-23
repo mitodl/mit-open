@@ -72,7 +72,7 @@ export interface LearningPath {
   author: number
 }
 /**
- * Serlializer for LearningResource of type LearningPath
+ * CRUD serializer for LearningPath resources
  * @export
  * @interface LearningPathResource
  */
@@ -127,7 +127,7 @@ export interface LearningPathResource {
   published?: boolean
 }
 /**
- * Serializer for LearningResource, with program iuncluded
+ * Serializer for LearningResource, with program included
  * @export
  * @interface LearningResource
  */
@@ -492,7 +492,7 @@ export interface LearningResourceInstructor {
   full_name?: string | null
 }
 /**
- * Serializer for LearningResourceRelationship
+ * CRUD serializer for LearningResourceRelationship
  * @export
  * @interface LearningResourceRelationship
  */
@@ -781,7 +781,7 @@ export interface PaginatedLearningResourceRelationshipList {
   results?: Array<LearningResourceRelationship>
 }
 /**
- * Serlializer for LearningResource of type LearningPath
+ * CRUD serializer for LearningPath resources
  * @export
  * @interface PatchedLearningPathResource
  */
@@ -836,7 +836,7 @@ export interface PatchedLearningPathResource {
   published?: boolean
 }
 /**
- * Serializer for LearningResourceRelationship
+ * CRUD serializer for LearningResourceRelationship
  * @export
  * @interface PatchedLearningResourceRelationship
  */
@@ -918,8 +918,9 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {number} [department]
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
      * @param {string} [resourceType]
@@ -927,8 +928,9 @@ export const CoursesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     coursesList: async (
-      department?: number,
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
       platform?: string,
       resourceType?: string,
@@ -952,12 +954,16 @@ export const CoursesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      if (department !== undefined) {
-        localVarQueryParameter["department"] = department
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
       }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
       }
 
       if (offset !== undefined) {
@@ -1129,8 +1135,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {number} [department]
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
      * @param {string} [resourceType]
@@ -1138,8 +1145,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async coursesList(
-      department?: number,
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
       platform?: string,
       resourceType?: string,
@@ -1151,8 +1159,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesList(
-        department,
+        departmentId,
         limit,
+        offeredByName,
         offset,
         platform,
         resourceType,
@@ -1265,8 +1274,9 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .coursesList(
-          requestParameters.department,
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resourceType,
@@ -1329,7 +1339,7 @@ export interface CoursesApiCoursesListRequest {
    * @type {number}
    * @memberof CoursesApiCoursesList
    */
-  readonly department?: number
+  readonly departmentId?: number
 
   /**
    * Number of results to return per page.
@@ -1337,6 +1347,13 @@ export interface CoursesApiCoursesListRequest {
    * @memberof CoursesApiCoursesList
    */
   readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly offeredByName?: string
 
   /**
    * The initial index from which to return the results.
@@ -1395,8 +1412,9 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesList(
-        requestParameters.department,
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resourceType,
@@ -1460,8 +1478,9 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {number} [department]
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
      * @param {string} [resourceType]
@@ -1469,8 +1488,9 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesList: async (
-      department?: number,
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
       platform?: string,
       resourceType?: string,
@@ -1494,12 +1514,16 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      if (department !== undefined) {
-        localVarQueryParameter["department"] = department
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
       }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
       }
 
       if (offset !== undefined) {
@@ -1672,8 +1696,9 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {number} [department]
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
      * @param {string} [resourceType]
@@ -1681,8 +1706,9 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesList(
-      department?: number,
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
       platform?: string,
       resourceType?: string,
@@ -1695,8 +1721,9 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesList(
-          department,
+          departmentId,
           limit,
+          offeredByName,
           offset,
           platform,
           resourceType,
@@ -1809,8 +1836,9 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesList(
-          requestParameters.department,
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resourceType,
@@ -1873,7 +1901,7 @@ export interface LearningResourcesApiLearningResourcesListRequest {
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesList
    */
-  readonly department?: number
+  readonly departmentId?: number
 
   /**
    * Number of results to return per page.
@@ -1881,6 +1909,13 @@ export interface LearningResourcesApiLearningResourcesListRequest {
    * @memberof LearningResourcesApiLearningResourcesList
    */
   readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly offeredByName?: string
 
   /**
    * The initial index from which to return the results.
@@ -1939,8 +1974,9 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesList(
-        requestParameters.department,
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resourceType,
@@ -2105,8 +2141,9 @@ export const LearningpathsApiAxiosParamCreator = function (
     },
     /**
      * Get all learningpaths for learningpath editors, public learningpaths for all others
-     * @param {number} [department]
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
      * @param {string} [resourceType]
@@ -2114,8 +2151,9 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningpathsList: async (
-      department?: number,
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
       platform?: string,
       resourceType?: string,
@@ -2139,12 +2177,16 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      if (department !== undefined) {
-        localVarQueryParameter["department"] = department
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
       }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
       }
 
       if (offset !== undefined) {
@@ -2271,7 +2313,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} parentId
      * @param {LearningResourceRelationship} learningResourceRelationship
      * @param {*} [options] Override http request option.
@@ -2334,7 +2376,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parentId
      * @param {*} [options] Override http request option.
@@ -2384,7 +2426,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} parentId
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -2444,7 +2486,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parentId
      * @param {PatchedLearningResourceRelationship} [patchedLearningResourceRelationship]
@@ -2507,7 +2549,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parentId
      * @param {*} [options] Override http request option.
@@ -2557,7 +2599,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parentId
      * @param {LearningResourceRelationship} learningResourceRelationship
@@ -2833,8 +2875,9 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Get all learningpaths for learningpath editors, public learningpaths for all others
-     * @param {number} [department]
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
      * @param {string} [resourceType]
@@ -2842,8 +2885,9 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningpathsList(
-      department?: number,
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
       platform?: string,
       resourceType?: string,
@@ -2856,8 +2900,9 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsList(
-          department,
+          departmentId,
           limit,
+          offeredByName,
           offset,
           platform,
           resourceType,
@@ -2924,7 +2969,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} parentId
      * @param {LearningResourceRelationship} learningResourceRelationship
      * @param {*} [options] Override http request option.
@@ -2954,7 +2999,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parentId
      * @param {*} [options] Override http request option.
@@ -2981,7 +3026,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} parentId
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -3014,7 +3059,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parentId
      * @param {PatchedLearningResourceRelationship} [patchedLearningResourceRelationship]
@@ -3047,7 +3092,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parentId
      * @param {*} [options] Override http request option.
@@ -3077,7 +3122,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parentId
      * @param {LearningResourceRelationship} learningResourceRelationship
@@ -3241,8 +3286,9 @@ export const LearningpathsApiFactory = function (
     ): AxiosPromise<PaginatedLearningPathResourceList> {
       return localVarFp
         .learningpathsList(
-          requestParameters.department,
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resourceType,
@@ -3282,7 +3328,7 @@ export const LearningpathsApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {LearningpathsApiLearningpathsResourcesCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3300,7 +3346,7 @@ export const LearningpathsApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {LearningpathsApiLearningpathsResourcesDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3318,7 +3364,7 @@ export const LearningpathsApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {LearningpathsApiLearningpathsResourcesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3337,7 +3383,7 @@ export const LearningpathsApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3356,7 +3402,7 @@ export const LearningpathsApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {LearningpathsApiLearningpathsResourcesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3374,7 +3420,7 @@ export const LearningpathsApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPath Item Details
+     * Viewset for LearningPath related resources
      * @param {LearningpathsApiLearningpathsResourcesUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3480,7 +3526,7 @@ export interface LearningpathsApiLearningpathsListRequest {
    * @type {number}
    * @memberof LearningpathsApiLearningpathsList
    */
-  readonly department?: number
+  readonly departmentId?: number
 
   /**
    * Number of results to return per page.
@@ -3488,6 +3534,13 @@ export interface LearningpathsApiLearningpathsListRequest {
    * @memberof LearningpathsApiLearningpathsList
    */
   readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly offeredByName?: string
 
   /**
    * The initial index from which to return the results.
@@ -3766,8 +3819,9 @@ export class LearningpathsApi extends BaseAPI {
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsList(
-        requestParameters.department,
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resourceType,
@@ -3810,7 +3864,7 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPath Item Details
+   * Viewset for LearningPath related resources
    * @param {LearningpathsApiLearningpathsResourcesCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -3830,7 +3884,7 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPath Item Details
+   * Viewset for LearningPath related resources
    * @param {LearningpathsApiLearningpathsResourcesDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -3850,7 +3904,7 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPath Item Details
+   * Viewset for LearningPath related resources
    * @param {LearningpathsApiLearningpathsResourcesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -3871,7 +3925,7 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPath Item Details
+   * Viewset for LearningPath related resources
    * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -3892,7 +3946,7 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPath Item Details
+   * Viewset for LearningPath related resources
    * @param {LearningpathsApiLearningpathsResourcesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -3912,7 +3966,7 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPath Item Details
+   * Viewset for LearningPath related resources
    * @param {LearningpathsApiLearningpathsResourcesUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -3994,8 +4048,9 @@ export const ProgramsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {number} [department]
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
      * @param {string} [resourceType]
@@ -4003,8 +4058,9 @@ export const ProgramsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     programsList: async (
-      department?: number,
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
       platform?: string,
       resourceType?: string,
@@ -4028,12 +4084,16 @@ export const ProgramsApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      if (department !== undefined) {
-        localVarQueryParameter["department"] = department
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
       }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
       }
 
       if (offset !== undefined) {
@@ -4205,8 +4265,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {number} [department]
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
      * @param {string} [resourceType]
@@ -4214,8 +4275,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async programsList(
-      department?: number,
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
       platform?: string,
       resourceType?: string,
@@ -4227,8 +4289,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsList(
-        department,
+        departmentId,
         limit,
+        offeredByName,
         offset,
         platform,
         resourceType,
@@ -4339,8 +4402,9 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .programsList(
-          requestParameters.department,
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resourceType,
@@ -4403,7 +4467,7 @@ export interface ProgramsApiProgramsListRequest {
    * @type {number}
    * @memberof ProgramsApiProgramsList
    */
-  readonly department?: number
+  readonly departmentId?: number
 
   /**
    * Number of results to return per page.
@@ -4411,6 +4475,13 @@ export interface ProgramsApiProgramsListRequest {
    * @memberof ProgramsApiProgramsList
    */
   readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly offeredByName?: string
 
   /**
    * The initial index from which to return the results.
@@ -4469,8 +4540,9 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsList(
-        requestParameters.department,
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resourceType,

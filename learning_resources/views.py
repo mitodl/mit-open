@@ -71,7 +71,12 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (AnonymousAccessReadonlyPermission,)
     pagination_class = DefaultPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["resource_type", "department", "platform"]
+    filterset_fields = [
+        "resource_type",
+        "department__id",
+        "platform",
+        "offered_by__name",
+    ]
 
     def _get_base_queryset(self, resource_type: str = None) -> QuerySet:
         """
@@ -252,7 +257,7 @@ class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
 
 class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     """
-    Viewset for LearningPath Details
+    Viewset for LearningResource related resources
     """
 
     permission_classes = (AnonymousAccessReadonlyPermission,)
@@ -270,7 +275,7 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
 class LearningPathItemsViewSet(ResourceListItemsViewSet):
     """
-    Viewset for LearningPath Item Details
+    Viewset for LearningPath related resources
     """
 
     serializer_class = LearningResourceRelationshipSerializer
@@ -295,6 +300,7 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet):
 
     def perform_destroy(self, instance):
         instance.delete()
+        # Uncomment when search is ready
         # learning_path = instance.parent
         # if learning_path.items.count() > 0:
         #     upsert_staff_list(staff_list.id)

@@ -94,7 +94,7 @@ class LearningResourceRunSerializer(serializers.ModelSerializer):
 
 
 class ResourceListMixin(serializers.Serializer):
-    """Common fields for staff and user lists"""
+    """Common fields for LearningPath and other future resource lists"""
 
     item_count = serializers.SerializerMethodField()
 
@@ -188,13 +188,16 @@ class ProgramSerializer(serializers.ModelSerializer):
 
 
 class LearningResourceSerializer(LearningResourceBaseSerializer):
-    """Serializer for LearningResource, with program iuncluded"""
+    """Serializer for LearningResource, with program included"""
 
     program = ProgramSerializer(read_only=True, allow_null=True)
 
 
 class LearningResourceRelationshipChildField(serializers.ModelSerializer):
-    """Serializer for the LearningResourceRelationship model"""
+    """
+    Serializer field for the LearningResourceRelationship model that uses
+    the LearningResourceSerializer to serialize the child resources
+    """
 
     def to_representation(self, instance):
         """Serializes child as a LearningResource"""
@@ -206,7 +209,7 @@ class LearningResourceRelationshipChildField(serializers.ModelSerializer):
 
 
 class LearningPathResourceSerializer(LearningResourceSerializer):
-    """Serlializer for LearningResource of type LearningPath"""
+    """CRUD serializer for LearningPath resources"""
 
     def validate_resource_type(self, value):
         """Only allow LearningPath resources to be CRUDed"""
@@ -217,7 +220,7 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
         return value
 
     def create(self, validated_data):
-        """Ensure that the LearningPath is created by the requesting user; set topics & readable_id"""
+        """Ensure that the LearningPath is created by the requesting user; set topics"""
         request = self.context.get("request")
         if request and hasattr(request, "user") and isinstance(request.user, User):
             topics_data = validated_data.pop("topics", [])
@@ -266,18 +269,6 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
         )
 
 
-@extend_schema_field({"type": "array", "items": {"type": "string"}})
-class LearningResourceChildField(serializers.Field):
-    """Serializer for displaying child resources without other relationship info"""
-
-    def to_representation(self, value):
-        """Serializes offered_by as a list of OfferedBy names"""
-        return [
-            LearningResourceSerializer(relationship.child)
-            for relationship in value.all()
-        ]
-
-
 class LearningResourceChildSerializer(serializers.ModelSerializer):
     """Serializer for LearningResourceRelationship children"""
 
@@ -291,7 +282,7 @@ class LearningResourceChildSerializer(serializers.ModelSerializer):
 
 
 class LearningResourceRelationshipSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResourceRelationship"""
+    """CRUD serializer for LearningResourceRelationship"""
 
     resource = LearningResourceSerializer(
         read_only=True, allow_null=True, source="child"

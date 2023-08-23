@@ -80,7 +80,7 @@ def test_learning_path_endpoint_create(  # pylint: disable=too-many-arguments
     is_super,
     is_editor,
 ):
-    """Test stafflist endpoint for creating a StaffList"""
+    """Test learningpath endpoint for creating a LearningPath"""
     user = UserFactory.create(is_staff=is_staff, is_superuser=is_super)
     update_editor_group(user, is_editor)
 
@@ -106,7 +106,7 @@ def test_learning_path_endpoint_create(  # pylint: disable=too-many-arguments
 @pytest.mark.parametrize("is_editor", [True, False])
 @pytest.mark.parametrize("update_topics", [True, False])
 def test_learning_path_endpoint_patch(client, update_topics, is_public, is_editor):
-    """Test stafflist endpoint for updating a StaffList"""
+    """Test learningpath endpoint for updating a LearningPath"""
     [original_topic, new_topic] = factories.LearningResourceTopicFactory.create_batch(2)
     user = UserFactory.create()
     update_editor_group(user, is_editor)
@@ -262,7 +262,7 @@ def test_learning_path_items_endpoint_update_items_wrong_list(client, user):
 @pytest.mark.parametrize("num_items", [1, 2])
 @pytest.mark.parametrize("is_editor", [True, False])
 def test_learning_path_items_endpoint_delete_items(client, user, is_editor, num_items):
-    """Test stafflistitems endpoint for deleting StaffListItems"""
+    """Test learningpathitems endpoint for deleting LearningPathItems"""
     learning_path = factories.LearningPathFactory.create()
     list_items = sorted(
         learning_path.learning_resource.children.all(),
@@ -280,6 +280,7 @@ def test_learning_path_items_endpoint_delete_items(client, user, is_editor, num_
         format="json",
     )
     assert resp.status_code == (204 if is_editor else 403)
+    # Uncomment when search is ready
     # if is_editor:
     #     assert mock_learning_path_index.delete_learning_path_view.call_count == (
     #         0 if num_items == 2 else 1
@@ -291,7 +292,7 @@ def test_learning_path_items_endpoint_delete_items(client, user, is_editor, num_
 
 @pytest.mark.parametrize("is_editor", [True, False])
 def test_learning_path_endpoint_delete(client, user, is_editor):
-    """Test stafflist endpoint for deleting a StaffList"""
+    """Test learningpath endpoint for deleting a LearningPath"""
     learning_path = factories.LearningPathFactory.create()
 
     update_editor_group(user, is_editor)
@@ -313,6 +314,7 @@ def test_learning_path_endpoint_delete(client, user, is_editor):
         ).exists()
         is not is_editor
     )
+    # Uncomment when search is ready
     # assert mock_learning_path_index.delete_learning_path_view.call_count == (
     #     1 if is_editor else 0
     # )
