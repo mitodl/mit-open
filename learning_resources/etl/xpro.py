@@ -1,7 +1,6 @@
 """xPro course catalog ETL"""
 import copy
 import logging
-from datetime import datetime
 from dateutil.parser import parse
 
 import pytz
@@ -33,14 +32,14 @@ def _parse_datetime(value):
 def extract_programs():
     """Loads the xPro catalog data"""
     if settings.XPRO_CATALOG_API_URL:
-        return requests.get(settings.XPRO_CATALOG_API_URL).json()
+        return requests.get(settings.XPRO_CATALOG_API_URL, timeout=20).json()
     return []
 
 
 def extract_courses():
     """Loads the xPro catalog data"""
     if settings.XPRO_COURSES_API_URL:
-        return requests.get(settings.XPRO_COURSES_API_URL).json()
+        return requests.get(settings.XPRO_COURSES_API_URL, timeout=20).json()
     return []
 
 

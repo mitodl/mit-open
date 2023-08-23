@@ -1,7 +1,6 @@
 """ETL pipelines"""
-from typing import List
 
-from toolz import compose, curry, curried
+from toolz import compose, curry
 
 from learning_resources.etl import (
     loaders,
@@ -9,7 +8,6 @@ from learning_resources.etl import (
 )
 
 from learning_resources.constants import PlatformType
-from learning_resources.models import Program, Course
 
 
 load_programs = curry(loaders.load_programs)

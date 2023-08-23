@@ -1,3 +1,5 @@
+"""Keycloak Authentication Configuration"""
+
 from social_core.backends.open_id_connect import OpenIdConnectAuth
 
 

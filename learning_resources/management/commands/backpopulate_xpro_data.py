@@ -2,7 +2,7 @@
 from django.core.management import BaseCommand
 
 from learning_resources.constants import PlatformType
-from learning_resources.models import Course
+from learning_resources.models import LearningResource
 from learning_resources.tasks import get_xpro_data
 from open_discussions.utils import now_in_utc
 

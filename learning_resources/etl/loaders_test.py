@@ -3,10 +3,8 @@
 from types import SimpleNamespace
 
 import pytest
-from django.contrib.contenttypes.models import ContentType
 from django.forms.models import model_to_dict
 
-from learning_resources.constants import PlatformType
 from learning_resources.etl.constants import CourseLoaderConfig, OfferedByLoaderConfig
 from learning_resources.etl.loaders import (
     load_course,
@@ -25,7 +23,6 @@ from learning_resources.factories import (
     LearningResourceTopicFactory,
     LearningResourceOfferorFactory,
     LearningResourceRunFactory,
-    LearningResourceFactory,
     ProgramFactory,
     LearningResourcePlatformFactory,
 )
@@ -86,7 +83,7 @@ def mock_upsert_tasks(mocker):
 @pytest.mark.parametrize("courses_exist", [True, False])
 @pytest.mark.parametrize("has_retired_course", [True, False])
 def test_load_program(
-    mock_upsert_tasks,
+    # mock_upsert_tasks,
     program_exists,
     is_published,
     courses_exist,
@@ -191,8 +188,8 @@ def test_load_program(
 @pytest.mark.parametrize("is_run_published", [True, False])
 @pytest.mark.parametrize("blocklisted", [True, False])
 def test_load_course(  # pylint:disable=too-many-arguments
-    mocker,
-    mock_upsert_tasks,
+    # mocker,
+    # mock_upsert_tasks,
     course_exists,
     is_published,
     is_run_published,
@@ -278,7 +275,10 @@ def test_load_course(  # pylint:disable=too-many-arguments
 @pytest.mark.parametrize("course_id_is_duplicate", [True, False])
 @pytest.mark.parametrize("duplicate_course_exists", [True, False])
 def test_load_duplicate_course(
-    mock_upsert_tasks, course_exists, course_id_is_duplicate, duplicate_course_exists
+    # mock_upsert_tasks,
+    course_exists,
+    course_id_is_duplicate,
+    duplicate_course_exists,
 ):
     """Test that load_course loads the course"""
     platform = LearningResourcePlatformFactory.create()
@@ -356,7 +356,7 @@ def test_load_duplicate_course(
 
 
 @pytest.mark.parametrize("run_exists", [True, False])
-def test_load_run(mocker, run_exists):
+def test_load_run(run_exists):
     """Test that load_run loads the course run"""
     # mock_load_content_files = mocker.patch(
     #    "learning_resources.etl.loaders.load_content_files"

@@ -1,8 +1,6 @@
 """Constants for course catalog ETL processes"""
 from collections import namedtuple
 
-from django.conf import settings
-
 
 OfferedByLoaderConfig = namedtuple(
     "OfferedByLoaderConfig", ["additive"], defaults=[False]

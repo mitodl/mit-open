@@ -1,11 +1,6 @@
 """Functions to combine duplicate courses"""
-import yaml
-import requests
-from django.conf import settings
-from django.db.models import Count
 
-from learning_resources.constants import AvailabilityType, PlatformType
-from learning_resources.models import Course
+from learning_resources.constants import AvailabilityType
 
 
 def get_most_relevant_run(runs):

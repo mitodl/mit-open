@@ -6,11 +6,7 @@ from learning_resources.etl.deduplication import (
     get_most_relevant_run,
 )
 from learning_resources.constants import AvailabilityType
-from learning_resources.factories import (
-    LearningResourceRunFactory,
-    CourseFactory,
-    LearningResourceOfferorFactory,
-)
+from learning_resources.factories import LearningResourceRunFactory
 from learning_resources.models import LearningResourceRun
 
 
