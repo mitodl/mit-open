@@ -8,8 +8,11 @@ $link-min-size: 100px;
 $link-max-size: 120px;
 
 .homepage {
-  .MuiGrid-item {
+  margin-bottom: 3.5rem;
+
+  .top-container {
     margin-top: 3.5rem;
+    margin-bottom: 3.5rem;
   }
 
   .page-title {
@@ -31,18 +34,10 @@ $link-max-size: 120px;
     margin-bottom: $spacer;
   }
 
-  h2 {
-    font-size: 22px;
-    max-width: 430px;
-    margin: 0;
-    font-weight: theme.$font-weight-semi-bold;
-    color: theme.$color-blue-5;
-  }
-
   .search-buttons-container {
     max-width: $max-width;
 
-    a.homepage-button {
+    a.homepage-button-chip {
       color: black;
       font-size: 13px;
       border-color: theme.$color-blue-5;
@@ -52,7 +47,7 @@ $link-max-size: 120px;
       margin-right: 16px;
     }
 
-    a.homepage-button:hover {
+    a.homepage-button-chip:hover {
       background-color: theme.$color-blue-5;
       color: white;
     }
@@ -64,38 +59,8 @@ $link-max-size: 120px;
     margin-bottom: 8px;
   }
 
-  .courses-nav {
-    max-width: 500px;
-
-    button {
-      align-items: start;
-      color: theme.$color-blue-5;
-      min-width: 0;
-      padding: 0;
-      margin-right: 30px;
-      font-weight: normal;
-    }
-  }
-
-  .courses-carusel {
-    margin-top: 20px;
-  }
-
-  .ic-carousel-header {
-    float: right;
-    margin-top: -45px;
-    margin-bottom: 20px;
-  }
-
-  .MuiTabPanel-root {
-    padding: 0;
-
-    .ic-carousel-header {
-        margin-top: -75px;
-    }
-  }
-
-  .ic-carousel-button-next, .ic-carousel-button-prev {
+  .ic-carousel-button-next,
+  .ic-carousel-button-prev {
     padding: 10px;
     padding-left: 15px;
     padding-right: 15px;
@@ -111,60 +76,7 @@ $link-max-size: 120px;
     width: 100%;
   }
 
-  .professional-box {
-    background-color: theme.$color-blue-4;
-    width: 100vw;
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 636px;
-    z-index: -100;
-
-    img {
-      width: 50%;
-      float: right;
-    }
-
-    margin-top: 60px;
-  }
-
-  .professional-title {
-    color: white;
-    font-weight: bold;
-    margin-top: 50px;
-    margin-bottom: 40px;
-  }
-
   .ic-resource-card {
-    color: theme.$color-blue-5;
     font-size: 14px;
-
-    .ol-lrc-type {
-      color: theme.$color-blue-5;
-      text-transform: none;
-      margin-right: 10px;
-    }
-
-    .clickable-title {
-      color: theme.$color-blue-5;
-    }
-  }
-
-  .professional-carusel {
-    margin-top: 20px;
-  }
-
-  .professional-button-container {
-    display: flex;
-    margin-top: 35px;
-  }
-
-  .professional-button {
-    color: white;
-    margin: auto;
-    border-color: white;
-    padding: 10px;
-    padding-left: 50px;
-    padding-right: 50px;
   }
 }

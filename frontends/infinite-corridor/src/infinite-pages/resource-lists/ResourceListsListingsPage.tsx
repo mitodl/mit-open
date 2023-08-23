@@ -20,7 +20,7 @@ import {
 import Container from "@mui/material/Container"
 import { LearningResourceCardTemplate, TYPE_FAVORITES } from "ol-search-ui"
 import type { UserList, StaffList, Favorites } from "ol-search-ui"
-import { imgConfigs } from "../../util/constants"
+import { deprecatedImgConfig, imgConfigs } from "../../util/constants"
 import { useHistory } from "react-router"
 import {
   FAVORITES_VIEW,
@@ -106,7 +106,7 @@ const ListCard = <L extends UserList | StaffList | Favorites>({
       variant="row-reverse"
       className="ic-resource-card"
       resource={list}
-      imgConfig={imgConfigs["row-reverse-small"]}
+      imgConfig={deprecatedImgConfig(imgConfigs["row-reverse-small"])}
       footerActionSlot={
         list.object_type === TYPE_FAVORITES ? undefined : (
           <EditListMenu resource={list} />

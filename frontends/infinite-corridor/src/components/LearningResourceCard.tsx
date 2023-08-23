@@ -1,28 +1,54 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
 import * as NiceModal from "@ebay/nice-modal-react"
-import { LearningResourceCardTemplate } from "ol-search-ui"
+import { LearningResourceCardTemplate as LearningResourceCardTemplateOld } from "ol-search-ui"
 import type {
-  LearningResourceCardTemplateProps,
-  LearningResource,
+  LearningResourceCardTemplateProps as LearningResourceCardTemplatePropsOld,
+  LearningResource as LearningResourceOld,
   LearningResourceSearchResult
 } from "ol-search-ui"
+import { LearningResourceCard as CardTemplate } from "ol-learning-resources"
+import type { LearningResourceCardProps as CardTemplateProps } from "ol-learning-resources"
 import { useActivateResourceDrawer } from "./LearningResourceDrawer"
-import { imgConfigs } from "../util/constants"
+import { deprecatedImgConfig, imgConfigs } from "../util/constants"
 import IconButton from "@mui/material/IconButton"
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
 import BookmarkIcon from "@mui/icons-material/Bookmark"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import AddToListDialog from "../infinite-pages/resource-lists/AddToListDialog"
 
-type TemplateProps = LearningResourceCardTemplateProps<
-  LearningResource | LearningResourceSearchResult
+type CardTemplatePropsOld = LearningResourceCardTemplatePropsOld<
+  LearningResourceOld | LearningResourceSearchResult
 >
-type LearningResourceCardProps = Pick<
-  TemplateProps,
+type LearningResourceCardPropsOld = Pick<
+  CardTemplatePropsOld,
   "variant" | "resource" | "className" | "sortable" | "suppressImage"
 >
+type LearningResourceCardPropsNew = Pick<
+  CardTemplateProps,
+  "variant" | "resource" | "className" | "sortable" | "suppressImage"
+>
+type LearningResourceCardProps =
+  | LearningResourceCardPropsOld
+  | LearningResourceCardPropsNew
 
+const isNewStyleResource = (
+  resource: LearningResourceCardProps["resource"]
+): resource is CardTemplateProps["resource"] => {
+  if ("object_type" in resource) return false
+  return true
+}
+
+/**
+ * Our standard LearningResourceCard component for MIT Open.
+ *
+ * This is mostly a wrapper around {@link CardTemplate } that connects it to app
+ * features like the userlist dialogs and the resource drawer.
+ *
+ * NOTE: This component is currently a bridge between our old and new API formats
+ * and *currently* accepts either format in the `resource` prop. Support for the
+ * old resource format will be removed in the future.
+ */
 const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   resource,
   variant,
@@ -32,25 +58,44 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
 }) => {
   const activateResource = useActivateResourceDrawer()
   const showAddToListDialog = useCallback(() => {
+    if (isNewStyleResource(resource)) {
+      throw new Error("Not implemented")
+    }
     NiceModal.show(AddToListDialog, { resourceKey: resource, mode: "userlist" })
   }, [resource])
   const showAddToStaffListDialog = useCallback(() => {
+    if (isNewStyleResource(resource)) {
+      throw new Error("Not implemented")
+    }
     NiceModal.show(AddToListDialog, {
       resourceKey: resource,
       mode:        "stafflist"
     })
   }, [resource])
-  const { user } = SETTINGS
-  const isInList = (resource.lists?.length ?? 0) > 0 || resource.is_favorite
-  return (
-    <>
-      <LearningResourceCardTemplate
+  if (isNewStyleResource(resource)) {
+    return (
+      <CardTemplate
         variant={variant}
         sortable={sortable}
         suppressImage={suppressImage}
         className={classNames("ic-resource-card", className)}
         resource={resource}
         imgConfig={imgConfigs[variant]}
+        onActivate={console.log}
+      />
+    )
+  }
+  const { user } = SETTINGS
+  const isInList = (resource.lists?.length ?? 0) > 0 || resource.is_favorite
+  return (
+    <>
+      <LearningResourceCardTemplateOld
+        variant={variant}
+        sortable={sortable}
+        suppressImage={suppressImage}
+        className={classNames("ic-resource-card", className)}
+        resource={resource}
+        imgConfig={deprecatedImgConfig(imgConfigs[variant])}
         onActivate={activateResource}
         footerActionSlot={
           <div>
@@ -80,4 +125,8 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
 }
 
 export default LearningResourceCard
-export type { LearningResourceCardProps }
+export type {
+  LearningResourceCardProps,
+  LearningResourceCardPropsOld,
+  LearningResourceCardPropsNew
+}

@@ -186,7 +186,7 @@ const LearningResourceCardTemplate = <R extends CardMinimalResource>({
   )
 
   return (
-    <Card className={classNames(className, "ol-lrc-root")}>
+    <Card className={classNames(className, "ol-lrc-root-old")}>
       {variant === "column" ? (
         <LRCImage
           variant={variant}
