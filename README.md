@@ -136,7 +136,7 @@ The following environment variables must be defined:
     * ACCESS_TOKEN_URL
     * USERINFO_URL
 
-To authenticate via OpenID Connect, open http://od.odl.local:8063/login/ol-oidc in your browser.
+To authenticate with an existing MIT Open user via an OpenID Connect provider, open http://od.odl.local:8063/login/ol-oidc in your browser.
 
 
 ## Commits
