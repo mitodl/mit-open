@@ -296,6 +296,7 @@ class LearningResourceRelationshipSerializer(serializers.ModelSerializer):
         item, _ = models.LearningResourceRelationship.objects.get_or_create(
             parent=validated_data["parent"],
             child=validated_data["child"],
+            relation_type=validated_data["relation_type"],
             defaults={"position": position},
         )
         # self.update_index(item.staff_list)

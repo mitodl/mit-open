@@ -4,7 +4,10 @@ import logging
 from django.contrib.auth import get_user_model
 from django.db import transaction
 
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import (
+    LearningResourceRelationTypes,
+    LearningResourceType,
+)
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
     OfferedByLoaderConfig,
@@ -355,7 +358,12 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
                 course_data, blocklist, duplicates, config=config.courses
             )
             course_resources.append(course_resource)
-        program.learning_resource.resources.set(course_resources)
+        program.learning_resource.resources.set(
+            course_resources,
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.PROGRAM_COURSES
+            },
+        )
 
     # if not created and not program.published:
     #    search_index_helpers.deindex_program(program)

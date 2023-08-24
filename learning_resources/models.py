@@ -288,4 +288,5 @@ class LearningResourceRelationship(TimestampedModel):
     relation_type = models.CharField(
         max_length=max(map(len, LearningResourceRelationTypes.values)),
         choices=LearningResourceRelationTypes.choices,
+        default=None,
     )

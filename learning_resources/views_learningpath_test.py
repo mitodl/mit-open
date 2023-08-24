@@ -3,7 +3,10 @@ import pytest
 from django.urls import reverse
 
 from learning_resources import factories, models
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import (
+    LearningResourceRelationTypes,
+    LearningResourceType,
+)
 from learning_resources.utils import update_editor_group
 from open_discussions.factories import UserFactory
 
@@ -169,6 +172,16 @@ def test_learning_path_items_endpoint_create_item(client, user, is_editor):
     if resp.status_code == 201:
         assert resp.json().get("child") == course.learning_resource.id
         assert resp.json().get("position") == initial_count + 1
+        assert (
+            resp.json().get("relation_type")
+            == LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+        )
+
+        item = models.LearningResourceRelationship.objects.get(id=resp.json().get("id"))
+        assert (
+            item.relation_type
+            == LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+        )
 
 
 def test_learning_path_items_endpoint_create_item_bad_data(client, user):
@@ -233,6 +246,10 @@ def test_learning_path_items_endpoint_update_item_position(
         ):
             item.refresh_from_db()
             assert item.position == expected_pos
+            assert (
+                item.relation_type
+                == LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+            )
             # mock_learning_path_index.upsert_learning_path.assert_called_once_with(
             #     learning_path.id
             # )

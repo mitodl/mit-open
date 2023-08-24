@@ -416,6 +416,7 @@ class LearningPathItemFactory(DjangoModelFactory):
     )
 
     position = factory.Sequence(lambda n: n)
+    relation_type = LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
 
     class Meta:
         model = models.LearningResourceRelationship

@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import pytest
 from django.forms.models import model_to_dict
 
+from learning_resources.constants import LearningResourceRelationTypes
 from learning_resources.etl.constants import CourseLoaderConfig, OfferedByLoaderConfig
 from learning_resources.etl.loaders import (
     load_course,
@@ -120,7 +121,12 @@ def test_load_program(
         course = CourseFactory.create(platform=platform)
         before_course_count += 1
         after_course_count += 1
-        program.learning_resource.resources.set([course.learning_resource])
+        program.learning_resource.resources.set(
+            [course.learning_resource],
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.PROGRAM_COURSES.value
+            },
+        )
         assert program.learning_resource.children.count() == 1
 
     assert Program.objects.count() == (1 if program_exists else 0)
