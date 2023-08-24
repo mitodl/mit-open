@@ -13,18 +13,15 @@ from rest_framework.request import Request
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from learning_resources import permissions
-from learning_resources.constants import (
-    LearningResourceType,
-)
+from learning_resources.constants import LearningResourceType
 from learning_resources.models import LearningResource, LearningResourceRelationship
 from learning_resources.permissions import is_learning_path_editor
 from learning_resources.serializers import (
+    LearningPathRelationshipSerializer,
     LearningPathResourceSerializer,
     LearningResourceChildSerializer,
     LearningResourceSerializer,
-    LearningPathRelationshipSerializer,
 )
-from learning_resources.utils import get_drf_nested_parent_id
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
@@ -257,6 +254,10 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     )
     pagination_class = DefaultPagination
 
+    def get_parent_id(self):
+        """Get the parent id for the nesteed view request"""
+        return self.get_parents_query_dict()["parent_id"]
+
 
 class LearningPathItemsViewSet(ResourceListItemsViewSet):
     """
@@ -267,11 +268,11 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet):
     permission_classes = (permissions.HasLearningPathItemPermissions,)
 
     def create(self, request, *args, **kwargs):
-        request.data["parent"] = get_drf_nested_parent_id(kwargs)
+        request.data["parent"] = self.get_parent_id()
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        request.data["parent"] = get_drf_nested_parent_id(kwargs)
+        request.data["parent"] = self.get_parent_id()
         return super().update(request, *args, **kwargs)
 
     def perform_destroy(self, instance):

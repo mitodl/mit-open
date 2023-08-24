@@ -9,8 +9,8 @@ from rest_framework.exceptions import ValidationError
 
 from learning_resources import models
 from learning_resources.constants import (
-    LearningResourceType,
     LearningResourceRelationTypes,
+    LearningResourceType,
 )
 from learning_resources.models import LearningPath, LearningResourceTopic
 from open_discussions.serializers import WriteableSerializerMethodField

@@ -16,7 +16,6 @@ from learning_resources.constants import (
     PlatformType,
     semester_mapping,
 )
-from open_discussions.settings import DRF_NESTED_PARENT_LOOKUP_PREFIX
 from open_discussions.utils import generate_filepath
 
 log = logging.getLogger()
@@ -284,16 +283,3 @@ def update_editor_group(user: User, is_editor: False):
         user.groups.add(group)
     else:
         user.groups.remove(group)
-
-
-def get_drf_nested_parent_id(kwargs: dict) -> int:
-    """
-    Return the parent LearningResource id placed in kwargs by DRF nested router functionality
-
-    Args:
-        kwargs (dict): kwargs passed to a DRF viewset
-
-    Returns:
-        int: parent LearningResource id
-    """
-    return kwargs[f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}parent_id"]
