@@ -8,6 +8,7 @@ $small-font-size: 0.75em !default;
 .ol-lrc-root {
   display: flex;
   flex-direction: column;
+
   // Ensure the resource image borders match card borders
   .MuiCardMedia-root,
   > .MuiCardContent-root {
