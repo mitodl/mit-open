@@ -68,8 +68,7 @@ jobs:
         run: poetry run black --check .
 
       - name: Lint
-        run: poetry run pylint ./**/*.py
-
+        run:  poetry run pylint $(git ls-files '*.py')
       - name: Create test local state
         run: ./scripts/test/stub-data.sh
       - name: Tests

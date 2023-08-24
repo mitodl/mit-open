@@ -1,11 +1,8 @@
 """Course catalog data loaders"""
 import logging
 
-from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
-from django.db.models import Exists, OuterRef
 
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
@@ -70,9 +67,7 @@ def load_instructors(resource, instructors_data):
 
 
 def load_image(resource, image_data):
-    """Load the instructors for a resource into the database"""
-    instructors = []
-
+    """Load the image for a resource into the database"""
     if image_data:
         image, _ = LearningResourceImage.objects.get_or_create(**image_data)
 
@@ -129,8 +124,6 @@ def load_run(learning_resource, run_data):
     """
     run_id = run_data.pop("run_id")
     instructors_data = run_data.pop("instructors", [])
-    offered_bys_data = run_data.pop("offered_by", [])
-    content_files = run_data.pop("content_files", [])
 
     with transaction.atomic():
         (
@@ -323,7 +316,7 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
 
         (
             learning_resource,
-            created,
+            created,  # pylint: disable=unused-variable
         ) = LearningResource.objects.select_for_update().update_or_create(
             readable_id=readable_id,
             platform=platform,

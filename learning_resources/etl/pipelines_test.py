@@ -3,8 +3,6 @@ from contextlib import contextmanager
 from importlib import reload
 from unittest.mock import patch
 
-import pytest
-
 from learning_resources.constants import PlatformType
 from learning_resources.etl import pipelines
 

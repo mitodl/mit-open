@@ -10,7 +10,6 @@ import pytest
 from learning_resources.constants import PlatformType, LearningResourceType
 from learning_resources.etl import xpro
 from learning_resources.etl.utils import UCC_TOPIC_MAPPINGS
-from learning_resources.etl.xpro import _parse_datetime
 from open_discussions.test_utils import any_instance_of
 
 pytestmark = pytest.mark.django_db

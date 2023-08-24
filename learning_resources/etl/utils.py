@@ -1,6 +1,8 @@
+"""Helper functions for ETL"""
+
+import csv
 from itertools import chain
 from django.utils.functional import SimpleLazyObject
-import csv
 
 
 def _load_ucc_topic_mappings():

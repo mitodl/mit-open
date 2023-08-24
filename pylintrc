@@ -1,6 +1,6 @@
 [MASTER]
 ignore=.git
-ignore-paths=^.*/migrations/.*$, ^node_modules
+ignore-paths=^.*/migrations/.*$, ^node_modules, ^course_catalog, ^channels
 load-plugins = pylint_django
 
 [BASIC]
