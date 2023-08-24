@@ -268,7 +268,7 @@ class LearningPath(TimestampedModel):
     )
 
     def __str__(self):
-        return f"Staff List: {self.learning_resource.title}"
+        return f"Learning Path: {self.learning_resource.title}"
 
 
 class LearningResourceRelationship(TimestampedModel):
