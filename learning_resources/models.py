@@ -260,8 +260,6 @@ class LearningPath(TimestampedModel):
 
     learning_resource = models.OneToOneField(
         LearningResource,
-        null=True,
-        blank=True,
         related_name="learning_path",
         on_delete=models.CASCADE,
     )

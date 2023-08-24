@@ -207,8 +207,8 @@ paths:
   /api/v1/learningpaths/:
     get:
       operationId: learningpaths_list
-      description: Get all learningpaths for learningpath editors, public learningpaths
-        for all others
+      description: Get a paginated list of learning resources.
+      summary: List
       parameters:
       - in: query
         name: department__id
@@ -306,7 +306,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceRelationshipList'
+                $ref: '#/components/schemas/PaginatedLearningPathRelationshipList'
           description: ''
     post:
       operationId: learningpaths_resources_create
@@ -323,13 +323,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningResourceRelationship'
+              $ref: '#/components/schemas/LearningPathRelationship'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/LearningResourceRelationship'
+              $ref: '#/components/schemas/LearningPathRelationship'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/LearningResourceRelationship'
+              $ref: '#/components/schemas/LearningPathRelationship'
         required: true
       security:
       - cookieAuth: []
@@ -338,7 +338,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResourceRelationship'
+                $ref: '#/components/schemas/LearningPathRelationship'
           description: ''
   /api/v1/learningpaths/{parent_id}/resources/{id}/:
     get:
@@ -365,7 +365,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResourceRelationship'
+                $ref: '#/components/schemas/LearningPathRelationship'
           description: ''
     put:
       operationId: learningpaths_resources_update
@@ -388,13 +388,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningResourceRelationship'
+              $ref: '#/components/schemas/LearningPathRelationship'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/LearningResourceRelationship'
+              $ref: '#/components/schemas/LearningPathRelationship'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/LearningResourceRelationship'
+              $ref: '#/components/schemas/LearningPathRelationship'
         required: true
       security:
       - cookieAuth: []
@@ -403,7 +403,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResourceRelationship'
+                $ref: '#/components/schemas/LearningPathRelationship'
           description: ''
     patch:
       operationId: learningpaths_resources_partial_update
@@ -426,13 +426,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedLearningResourceRelationship'
+              $ref: '#/components/schemas/PatchedLearningPathRelationship'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedLearningResourceRelationship'
+              $ref: '#/components/schemas/PatchedLearningPathRelationship'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedLearningResourceRelationship'
+              $ref: '#/components/schemas/PatchedLearningPathRelationship'
       security:
       - cookieAuth: []
       responses:
@@ -440,7 +440,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResourceRelationship'
+                $ref: '#/components/schemas/LearningPathRelationship'
           description: ''
     delete:
       operationId: learningpaths_resources_destroy
@@ -730,6 +730,34 @@ components:
       - author
       - id
       - item_count
+    LearningPathRelationship:
+      type: object
+      description: Specialized serializer for a LearningPath relationship
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        resource:
+          allOf:
+          - $ref: '#/components/schemas/LearningResource'
+          readOnly: true
+          nullable: true
+        relation_type:
+          type: string
+          default: LEARNING_PATH_ITEMS
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        parent:
+          type: integer
+        child:
+          type: integer
+      required:
+      - child
+      - id
+      - parent
+      - resource
     LearningPathResource:
       type: object
       description: CRUD serializer for LearningPath resources
@@ -1060,34 +1088,6 @@ components:
           maxLength: 256
       required:
       - id
-    LearningResourceRelationship:
-      type: object
-      description: CRUD serializer for LearningResourceRelationship
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        resource:
-          allOf:
-          - $ref: '#/components/schemas/LearningResource'
-          readOnly: true
-          nullable: true
-        position:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        relation_type:
-          $ref: '#/components/schemas/RelationTypeEnum'
-        parent:
-          type: integer
-        child:
-          type: integer
-      required:
-      - child
-      - id
-      - parent
-      - relation_type
-      - resource
     LearningResourceRun:
       type: object
       description: Serializer for the LearningResourceRun model
@@ -1198,6 +1198,26 @@ components:
       required:
       - id
       - name
+    PaginatedLearningPathRelationshipList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningPathRelationship'
     PaginatedLearningPathResourceList:
       type: object
       properties:
@@ -1238,26 +1258,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResource'
-    PaginatedLearningResourceRelationshipList:
+    PatchedLearningPathRelationship:
       type: object
+      description: Specialized serializer for a LearningPath relationship
       properties:
-        count:
+        id:
           type: integer
-          example: 123
-        next:
-          type: string
+          readOnly: true
+        resource:
+          allOf:
+          - $ref: '#/components/schemas/LearningResource'
+          readOnly: true
           nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
+        relation_type:
           type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceRelationship'
+          default: LEARNING_PATH_ITEMS
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        parent:
+          type: integer
+        child:
+          type: integer
     PatchedLearningPathResource:
       type: object
       description: CRUD serializer for LearningPath resources
@@ -1289,28 +1312,6 @@ components:
           nullable: true
         published:
           type: boolean
-    PatchedLearningResourceRelationship:
-      type: object
-      description: CRUD serializer for LearningResourceRelationship
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        resource:
-          allOf:
-          - $ref: '#/components/schemas/LearningResource'
-          readOnly: true
-          nullable: true
-        position:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        relation_type:
-          $ref: '#/components/schemas/RelationTypeEnum'
-        parent:
-          type: integer
-        child:
-          type: integer
     Program:
       type: object
       description: Serializer for the Program model
@@ -1323,16 +1324,6 @@ components:
           readOnly: true
       required:
       - courses
-    RelationTypeEnum:
-      enum:
-      - PROGRAM_COURSES
-      - LEARNING_PATH_ITEMS
-      - PODCAST_EPISODES
-      type: string
-      description: |-
-        * `PROGRAM_COURSES` - Program Courses
-        * `LEARNING_PATH_ITEMS` - Learning Path Items
-        * `PODCAST_EPISODES` - Podcast Episodes
   securitySchemes:
     cookieAuth:
       type: apiKey

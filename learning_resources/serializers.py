@@ -1,7 +1,6 @@
 """Serializers for learning_resources"""
 import logging
 
-from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import F, Max
 from drf_spectacular.utils import extend_schema_field
@@ -9,7 +8,10 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from learning_resources import models
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import (
+    LearningResourceType,
+    LearningResourceRelationTypes,
+)
 from learning_resources.models import LearningPath, LearningResourceTopic
 from open_discussions.serializers import WriteableSerializerMethodField
 
@@ -222,38 +224,35 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
     def create(self, validated_data):
         """Ensure that the LearningPath is created by the requesting user; set topics"""
         request = self.context.get("request")
-        if request and hasattr(request, "user") and isinstance(request.user, User):
-            topics_data = validated_data.pop("topics", [])
-            with transaction.atomic():
-                path_resource = super().create(validated_data)
-                path_resource.topics.set(
-                    LearningResourceTopic.objects.filter(id__in=topics_data)
-                )
-                LearningPath.objects.create(
-                    learning_resource=path_resource, author=request.user
-                )
-            return path_resource
+        topics_data = validated_data.pop("topics", [])
+        with transaction.atomic():
+            path_resource = super().create(validated_data)
+            path_resource.topics.set(
+                LearningResourceTopic.objects.filter(id__in=topics_data)
+            )
+            LearningPath.objects.create(
+                learning_resource=path_resource, author=request.user
+            )
+        return path_resource
 
     def update(self, instance, validated_data):
         """Set learning path topics and update the model object"""
-        request = self.context.get("request")
-        if request and hasattr(request, "user") and isinstance(request.user, User):
-            topics_data = validated_data.pop("topics", None)
-            with transaction.atomic():
-                resource = super().update(instance, validated_data)
-                if topics_data is not None:
-                    resource.topics.set(
-                        LearningResourceTopic.objects.filter(id__in=topics_data)
-                    )
-                # Uncomment when search indexing is ready
-                # if (
-                #     instance.items.exists()
-                #     and instance.published
-                # ):
-                #     upsert_staff_list(stafflist.id)
-                # else:
-                #     deindex_staff_list(stafflist)
-                return resource
+        topics_data = validated_data.pop("topics", None)
+        with transaction.atomic():
+            resource = super().update(instance, validated_data)
+            if topics_data is not None:
+                resource.topics.set(
+                    LearningResourceTopic.objects.filter(id__in=topics_data)
+                )
+            # Uncomment when search indexing is ready
+            # if (
+            #     instance.items.exists()
+            #     and instance.published
+            # ):
+            #     upsert_staff_list(stafflist.id)
+            # else:
+            #     deindex_staff_list(stafflist)
+            return resource
 
     class Meta:
         model = models.LearningResource
@@ -333,3 +332,11 @@ class LearningResourceRelationshipSerializer(serializers.ModelSerializer):
         model = models.LearningResourceRelationship
         extra_kwargs = {"position": {"required": False}}
         exclude = COMMON_IGNORED_FIELDS
+
+
+class LearningPathRelationshipSerializer(LearningResourceRelationshipSerializer):
+    """Specialized serializer for a LearningPath relationship"""
+
+    relation_type = serializers.CharField(
+        default=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+    )

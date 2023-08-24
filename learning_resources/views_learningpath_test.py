@@ -47,7 +47,7 @@ def test_learning_path_endpoint_get(client, is_public, is_editor, user):
             "lr_learningpaths_api-detail", args=[learning_path.learning_resource.id]
         )
     )
-    assert resp.status_code == (403 if not (is_public or is_editor) else 200)
+    assert resp.status_code == (404 if not (is_public or is_editor) else 200)
     if resp.status_code == 200:
         assert resp.data["title"] == learning_path.learning_resource.title
         assert (
@@ -62,7 +62,7 @@ def test_learning_path_endpoint_get(client, is_public, is_editor, user):
             args=[another_learning_path.learning_resource.id],
         )
     )
-    assert resp.status_code == (403 if not is_public and not is_editor else 200)
+    assert resp.status_code == (404 if not is_public and not is_editor else 200)
     if resp.status_code == 200:
         assert resp.data.get("title") == another_learning_path.learning_resource.title
 

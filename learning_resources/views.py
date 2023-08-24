@@ -10,12 +10,10 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.request import Request
-from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from learning_resources import permissions
 from learning_resources.constants import (
-    LearningResourceRelationTypes,
     LearningResourceType,
 )
 from learning_resources.models import LearningResource, LearningResourceRelationship
@@ -23,14 +21,14 @@ from learning_resources.permissions import is_learning_path_editor
 from learning_resources.serializers import (
     LearningPathResourceSerializer,
     LearningResourceChildSerializer,
-    LearningResourceRelationshipSerializer,
     LearningResourceSerializer,
+    LearningPathRelationshipSerializer,
 )
+from learning_resources.utils import get_drf_nested_parent_id
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
 )
-from open_discussions.settings import DRF_NESTED_PARENT_LOOKUP_PREFIX
 
 log = logging.getLogger(__name__)
 
@@ -225,25 +223,12 @@ class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
         Returns:
             QuerySet of LearningResource objects that are Programs
         """
-        return self._get_base_queryset(
+        queryset = self._get_base_queryset(
             resource_type=LearningResourceType.learning_path.value,
         )
-
-    def list(self, request, *args, **kwargs):
-        """Get all learningpaths for learningpath editors, public learningpaths for all others"""
-
-        if is_learning_path_editor(request) or is_admin_user(request):
-            queryset = self.get_queryset()
-        else:
-            queryset = self.get_queryset().filter(published=True)
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        if not (is_learning_path_editor(self.request) or is_admin_user(self.request)):
+            queryset = queryset.filter(published=True)
+        return queryset
 
     def create(self, request, *args, **kwargs):
         request.data["readable_id"] = uuid4().hex
@@ -278,24 +263,15 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet):
     Viewset for LearningPath related resources
     """
 
-    serializer_class = LearningResourceRelationshipSerializer
+    serializer_class = LearningPathRelationshipSerializer
     permission_classes = (permissions.HasLearningPathItemPermissions,)
 
     def create(self, request, *args, **kwargs):
-        parent_id = kwargs[f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}parent_id"]
-        request.data["parent"] = parent_id
-        request.data[
-            "relation_type"
-        ] = LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
-
+        request.data["parent"] = get_drf_nested_parent_id(kwargs)
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        parent_id = kwargs[f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}parent_id"]
-        request.data["parent"] = parent_id
-        request.data[
-            "relation_type"
-        ] = LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+        request.data["parent"] = get_drf_nested_parent_id(kwargs)
         return super().update(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
