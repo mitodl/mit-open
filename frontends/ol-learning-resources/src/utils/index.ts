@@ -1,4 +1,5 @@
-import type { LearningResource } from "api"
+import type { LearningResource, LearningResourceRun } from "api"
+import moment from "moment"
 
 const readableResourceTypes: Record<string, string> = {
   course:  "Course",
@@ -40,5 +41,53 @@ const resourceThumbnailSrc = (
   config: EmbedlyConfig
 ) => embedlyThumbnail(resource.image?.url ?? DEFAULT_RESOURCE_IMG, config)
 
-export { resourceThumbnailSrc, getReadableResourceType }
+const DATE_FORMAT = "YYYY-MM-DD[T]HH:mm:ss[Z]"
+/**
+ * Parse date string into a moment object.
+ *
+ * If date is null or undefined, a Moment<Invalid date> object is returned.
+ * Invalid dates return false for all comparisons.
+ */
+const asMoment = (date?: string | null) => moment(date, DATE_FORMAT)
+const isCurrent = (run: LearningResourceRun) =>
+  asMoment(run.start_date).isSameOrBefore() && asMoment(run.end_date).isAfter()
+
+/**
+ * Sort dates descending, with invalid dates last.
+ */
+const datesDescendingSort = (
+  aString: string | null | undefined,
+  bString: string | null | undefined
+) => {
+  const a = asMoment(aString)
+  const b = asMoment(bString)
+  // if both invalid, tie
+  if (!a.isValid() && !b.isValid()) return 0
+  // if only one invalid, the other is better
+  if (!a.isValid()) return 1
+  if (!b.isValid()) return -1
+  // if both valid, sort descending
+  return -a.diff(b)
+}
+
+const findBestRun = (
+  runs: LearningResourceRun[]
+): LearningResourceRun | undefined => {
+  const sorted = runs.sort((a, b) =>
+    datesDescendingSort(a.start_date, b.start_date)
+  )
+
+  const current = sorted.find(isCurrent)
+  if (current) return current
+
+  // Closest to now will be last in the sorted array
+  const future = sorted.filter(run => asMoment(run.start_date).isSameOrAfter())
+  if (future.length > 0) return future[future.length - 1]
+
+  // Closest to now will be first in the sorted array
+  const past = sorted.filter(run => asMoment(run.start_date).isBefore())
+  return past[0] ?? sorted[0]
+}
+
+export { resourceThumbnailSrc, getReadableResourceType, findBestRun }
 export type { EmbedlyConfig }

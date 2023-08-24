@@ -57,10 +57,9 @@ const learningResourceDepartment: Factory<LearningResourceDepartment> = (
 }
 
 const learningResourceRun: Factory<LearningResourceRun> = (overrides = {}) => {
-  const start = faker.helpers.arrayElement([
-    faker.date.past(),
-    faker.date.future()
-  ])
+  const start = overrides.start_date ?
+    new Date(overrides.start_date) :
+    faker.helpers.arrayElement([faker.date.past(), faker.date.future()])
   const end = faker.date.future(1, start)
 
   const run: LearningResourceRun = {

@@ -12,7 +12,11 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import CardMedia from "@mui/material/CardMedia"
 import moment from "moment"
 
-import { resourceThumbnailSrc, getReadableResourceType } from "../utils"
+import {
+  resourceThumbnailSrc,
+  getReadableResourceType,
+  findBestRun
+} from "../utils"
 import type { EmbedlyConfig } from "../utils"
 
 type CardResource = Pick<
@@ -73,7 +77,7 @@ const CardBody: React.FC<Pick<LearningResourceCardProps, "resource">> = ({
 const ResourceFooterDetails: React.FC<
   Pick<LearningResourceCardProps, "resource">
 > = ({ resource }) => {
-  const bestRun = resource.runs?.[0]
+  const bestRun = findBestRun(resource.runs ?? [])
   const startDate = bestRun?.start_date
   const formattedDate = startDate ?
     moment(startDate).format("MMMM DD, YYYY") :
