@@ -57,7 +57,7 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
       }
       showNavigationButtons={showNavigationButtons}
     >
-      {query?.data?.results.map(resource => (
+      {query.data?.results?.map(resource => (
         <LearningResourceCard
           key={resource.id}
           className="ic-resource-card ic-carousel-card"
