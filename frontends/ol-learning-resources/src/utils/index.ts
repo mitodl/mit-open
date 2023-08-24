@@ -70,6 +70,9 @@ const datesDescendingSort = (
   return -a.diff(b)
 }
 
+/**
+ * Find "best" running: prefer current, then nearest future, then nearest past.
+ */
 const findBestRun = (
   runs: LearningResourceRun[]
 ): LearningResourceRun | undefined => {
