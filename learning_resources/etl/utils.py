@@ -2,6 +2,7 @@
 
 import csv
 from itertools import chain
+
 from django.utils.functional import SimpleLazyObject
 
 

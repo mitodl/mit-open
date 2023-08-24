@@ -21,17 +21,17 @@ from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.factories import (
     CourseFactory,
     LearningResourceInstructorFactory,
-    LearningResourceTopicFactory,
     LearningResourceOfferorFactory,
-    LearningResourceRunFactory,
-    ProgramFactory,
     LearningResourcePlatformFactory,
+    LearningResourceRunFactory,
+    LearningResourceTopicFactory,
+    ProgramFactory,
 )
 from learning_resources.models import (
     Course,
+    LearningResource,
     LearningResourceRun,
     Program,
-    LearningResource,
 )
 
 pytestmark = pytest.mark.django_db
