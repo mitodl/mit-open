@@ -38,7 +38,7 @@ The following settings must be configured before running the app:
 
 ### Load initial data
 
-Run the following to load platforms, departments, and offererors into the database:
+Run the following to load platforms, departments, and offerors into the database:
 
 ```bash
 docker compose run --rm web python manage.py loaddata platforms departments offered_by
