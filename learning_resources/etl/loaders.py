@@ -21,7 +21,6 @@ from learning_resources.models import (
     LearningResourceInstructor,
     LearningResourceOfferor,
     LearningResourcePlatform,
-    LearningResourceRelationship,
     LearningResourceRun,
     LearningResourceTopic,
     Program,
