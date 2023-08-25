@@ -2,7 +2,6 @@ import { RouteProps } from "react-router"
 import * as urls from "./urls"
 import ArticlePage from "./ArticlePage"
 import DemoPage from "./DemoPage"
-import HomePage from "./HomePage"
 import SearchPage from "./SearchPage"
 import FieldAdminApp from "./field-details/FieldAdminApp"
 import FieldPage from "./field-details/FieldPage"
@@ -18,9 +17,8 @@ import {
 
 const routes: RouteProps[] = [
   {
-    path:      urls.HOME,
-    exact:     true,
-    component: HomePage
+    path:  urls.HOME,
+    exact: true
   },
   {
     path:      urls.SEARCH,

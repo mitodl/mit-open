@@ -5,7 +5,10 @@ $spacer: 0.75rem !default;
 $bold-weight: bold !default;
 $small-font-size: 0.75em !default;
 
-.ol-lrc-root-old {
+.ol-lrc-root {
+  display: flex;
+  flex-direction: column;
+
   // Ensure the resource image borders match card borders
   .MuiCardMedia-root,
   > .MuiCardContent-root {
@@ -15,6 +18,7 @@ $small-font-size: 0.75em !default;
   .ol-lrc-col {
     display: flex;
     flex-direction: column;
+    flex: 1;
   }
 
   .ol-lrc-row {
@@ -38,6 +42,7 @@ $small-font-size: 0.75em !default;
   .ol-lrc-content .clickable-title {
     border: none;
     background-color: white;
+    color: inherit;
     display: block;
     text-align: left;
     padding: 0;
@@ -94,11 +99,6 @@ $small-font-size: 0.75em !default;
     justify-content: space-between;
     align-items: center;
     min-height: 1.5em; // ensure consistent height even if no certificate
-  }
-
-  .ol-lrc-type {
-    text-transform: uppercase;
-    color: $light-text;
   }
 
   .ol-lrc-cert {

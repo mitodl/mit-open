@@ -8,8 +8,12 @@ import {
 import { renderWithProviders, user, screen, within } from "../test-utils"
 import type { User } from "../test-utils"
 import LearningResourceCard from "./LearningResourceCard"
-import type { LearningResourceCardProps } from "./LearningResourceCard"
+import type {
+  LearningResourceCardPropsOld,
+  LearningResourceCardPropsNew
+} from "./LearningResourceCard"
 import AddToListDialog from "../infinite-pages/resource-lists/AddToListDialog"
+import * as factories from "api/test-utils/factories"
 
 jest.mock("@ebay/nice-modal-react", () => {
   const actual = jest.requireActual("@ebay/nice-modal-react")
@@ -20,25 +24,25 @@ jest.mock("@ebay/nice-modal-react", () => {
   }
 })
 
-type SetupOptions = {
-  userSettings?: Partial<User>
-  props?: Partial<LearningResourceCardProps>
-}
-const setup = ({ userSettings: user, props = {} }: SetupOptions = {}) => {
-  const { resource = makeLearningResource(), variant = "column" } = props
-  const { view, history } = renderWithProviders(
-    <LearningResourceCard {...props} resource={resource} variant={variant} />,
-    { user }
-  )
-  return { resource, view, history }
-}
+describe("LearningResourceCard (old interface)", () => {
+  type SetupOptions = {
+    userSettings?: Partial<User>
+    props?: Partial<LearningResourceCardPropsOld>
+  }
+  const setup = ({ userSettings: user, props = {} }: SetupOptions = {}) => {
+    const { resource = makeLearningResource(), variant = "column" } = props
+    const { view, history } = renderWithProviders(
+      <LearningResourceCard {...props} resource={resource} variant={variant} />,
+      { user }
+    )
+    return { resource, view, history }
+  }
 
-const labels = {
-  addToUserLists:  "Add to my lists",
-  addToStaffLists: "Add to MIT lists"
-}
+  const labels = {
+    addToUserLists:  "Add to my lists",
+    addToStaffLists: "Add to MIT lists"
+  }
 
-describe("LearningResourceCard", () => {
   test("Clicking resource title routes to LearningResourceDrawer", async () => {
     const { resource, history } = setup()
     expect(history.location.search).toBe("") // Drawer is closed
@@ -181,5 +185,26 @@ describe("LearningResourceCard", () => {
       resourceKey: resource,
       mode:        "stafflist"
     })
+  })
+})
+
+describe("LearningResourceCard (new interface)", () => {
+  const makeResource = factories.learningResources.resource
+  type SetupOptions = {
+    userSettings?: Partial<User>
+    props?: Partial<LearningResourceCardPropsNew>
+  }
+  const setup = ({ userSettings: user, props = {} }: SetupOptions = {}) => {
+    const { resource = makeResource(), variant = "column" } = props
+    const { view, history } = renderWithProviders(
+      <LearningResourceCard {...props} resource={resource} variant={variant} />,
+      { user }
+    )
+    return { resource, view, history }
+  }
+
+  test("Applies className to the resource card", () => {
+    const { view } = setup({ props: { className: "test-class" } })
+    expect(view.container.firstChild).toHaveClass("test-class")
   })
 })

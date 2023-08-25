@@ -1,77 +1,67 @@
 import React, { useCallback } from "react"
 import Dotdotdot from "react-dotdotdot"
 import invariant from "tiny-invariant"
-import { toQueryString, pluralize } from "ol-util"
 import classNames from "classnames"
+import type { LearningResource } from "api"
 
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import Chip from "@mui/material/Chip"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
-
 import CardMedia from "@mui/material/CardMedia"
+import moment from "moment"
+
 import {
-  CardMinimalResource,
-  EmbedlyConfig,
-  LearningResourceType,
-  TYPE_FAVORITES
-} from "../interfaces"
-import {
-  findBestRun,
-  getReadableResourceType,
-  getStartDate,
   resourceThumbnailSrc,
-  CertificateIcon
-} from "../util"
+  getReadableResourceType,
+  findBestRun
+} from "../utils"
+import type { EmbedlyConfig } from "../utils"
+
+type CardResource = Pick<
+  LearningResource,
+  | "runs"
+  | "certification"
+  | "title"
+  | "offered_by"
+  | "platform"
+  | "image"
+  | "resource_type"
+>
 
 type CardVariant = "column" | "row" | "row-reverse"
-type OnActivateCard<R extends CardMinimalResource = CardMinimalResource> = (
+type OnActivateCard<R extends CardResource = CardResource> = (
   resource: R
 ) => void
-type LearningResourceCardTemplateProps<
-  R extends CardMinimalResource = CardMinimalResource
-> = {
-  /**
-   * Whether the course picture and info display as a column or row.
-   */
-  variant: CardVariant
-  resource: R
-  sortable?: boolean
-  className?: string
-  /**
-   * Config used to generate embedly urls.
-   */
-  imgConfig: EmbedlyConfig
-  onActivate?: OnActivateCard<R>
-  /**
-   * Suppress the image.
-   */
-  suppressImage?: boolean
-  footerActionSlot?: React.ReactNode
-}
+type LearningResourceCardTemplateProps<R extends CardResource = CardResource> =
+  {
+    /**
+     * Whether the course picture and info display as a column or row.
+     */
+    variant: CardVariant
+    resource: R
+    sortable?: boolean
+    className?: string
+    /**
+     * Config used to generate embedly urls.
+     */
+    imgConfig: EmbedlyConfig
+    onActivate?: OnActivateCard<R>
+    /**
+     * Suppress the image.
+     */
+    suppressImage?: boolean
+    footerActionSlot?: React.ReactNode
+  }
 
-type OffererProps = {
-  offerers: string[]
-}
-
-const Offerers: React.FC<OffererProps> = ({ offerers }) => {
-  return (
-    <>
-      {offerers.map((offerer, i) => {
-        const isLast = i === offerers.length - 1
-        return (
-          <React.Fragment key={`${offerer}-${i}`}>
-            <a href={`/infinite/search?${toQueryString({ o: offerer })}`}>
-              {offerer}
-            </a>
-            {!isLast && ", "}
-          </React.Fragment>
-        )
-      })}
-    </>
-  )
-}
+const CertificateIcon = () => (
+  <img
+    className="ol-lrc-cert"
+    alt="Receive a certificate upon completion"
+    src="/static/images/certificate_icon_infinite.png"
+  />
+)
 
 const CardBody: React.FC<
   Pick<LearningResourceCardTemplateProps, "resource">
@@ -80,7 +70,7 @@ const CardBody: React.FC<
   return offerers.length > 0 ? (
     <div>
       <span className="ol-lrc-offered-by">Offered by &ndash;</span>
-      <Offerers offerers={offerers} />
+      {offerers.join(", ")}
     </div>
   ) : null
 }
@@ -88,39 +78,21 @@ const CardBody: React.FC<
 const ResourceFooterDetails: React.FC<
   Pick<LearningResourceCardTemplateProps, "resource">
 > = ({ resource }) => {
-  const isList = [
-    LearningResourceType.Userlist,
-    LearningResourceType.LearningPath,
-    LearningResourceType.StaffList,
-    LearningResourceType.StaffPath,
-    TYPE_FAVORITES
-  ].includes(resource.object_type)
-  if (isList && resource.item_count !== undefined) {
-    return (
-      <span>
-        {resource.item_count} {pluralize("item", resource.item_count)}
-      </span>
-    )
-  }
+  const bestRun = findBestRun(resource.runs ?? [])
+  const startDate = bestRun?.start_date
+  const formattedDate = startDate ?
+    moment(startDate).format("MMMM DD, YYYY") :
+    null
 
-  const bestAvailableRun = findBestRun(resource.runs ?? [])
-  const hasCertificate =
-    resource.certification && resource.certification.length > 0
-  const startDate =
-    hasCertificate && bestAvailableRun ?
-      getStartDate(resource.platform ?? "", bestAvailableRun) :
-      null
-  if (startDate) {
-    return (
-      <Chip
-        className="ol-lrc-chip"
-        avatar={<CalendarTodayIcon />}
-        label={startDate}
-      />
-    )
-  }
+  if (!startDate) return null
 
-  return null
+  return (
+    <Chip
+      className="ol-lrc-chip"
+      avatar={<CalendarTodayIcon />}
+      label={formattedDate}
+    />
+  )
 }
 
 type LRCImageProps = Pick<
@@ -163,7 +135,7 @@ const variantClasses: Record<CardVariant, string> = {
  * does accept props to build user interaction (e.g., `onActivate` and
  * `footerActionSlot`).
  */
-const LearningResourceCardTemplate = <R extends CardMinimalResource>({
+const LearningResourceCardTemplate = <R extends CardResource>({
   variant,
   resource,
   imgConfig,
@@ -186,7 +158,7 @@ const LearningResourceCardTemplate = <R extends CardMinimalResource>({
   )
 
   return (
-    <Card className={classNames(className, "ol-lrc-root-old")}>
+    <Card className={classNames(className, "ol-lrc-root")}>
       {variant === "column" ? (
         <LRCImage
           variant={variant}
@@ -211,7 +183,7 @@ const LearningResourceCardTemplate = <R extends CardMinimalResource>({
         <div className="ol-lrc-details">
           <div className="ol-lrc-type-row">
             <span className="ol-lrc-type">
-              {getReadableResourceType(resource.object_type)}
+              {getReadableResourceType(resource)}
             </span>
             {hasCertificate && <CertificateIcon />}
           </div>
@@ -251,10 +223,4 @@ const LearningResourceCardTemplate = <R extends CardMinimalResource>({
 }
 
 export default LearningResourceCardTemplate
-
-export type {
-  LearningResourceCardTemplateProps,
-  CardMinimalResource,
-  CardVariant,
-  OnActivateCard
-}
+export type { LearningResourceCardTemplateProps }
