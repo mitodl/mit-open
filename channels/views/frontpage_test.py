@@ -96,7 +96,7 @@ def test_frontpage_pagination(
     mocker, client, logged_in_profile, settings, params, expected
 ):  # pylint: disable=too-many-arguments
     """Test that post pagination works"""
-    settings.OPEN_DISCUSSIONS_CHANNEL_POST_LIMIT = 5
+    settings.MITOPEN_CHANNEL_POST_LIMIT = 5
     url = reverse("frontpage")
     with raise_error_on_submission_fetch(mocker), raise_error_on_subreddit_fetch(
         mocker

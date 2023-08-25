@@ -30,11 +30,10 @@ The following settings must be configured before running the app:
     is not needed. It's recommended that you eventually configure the site to be able
     to send emails. Those configuration steps can be found [below](#enabling-email).
 
-- `OPEN_DISCUSSIONS_HOSTNAME`
+- `MITOPEN_HOSTNAME`
     
     Sets the hostname required by webpack for building the frontend. Should likely be whatever you set 
     the host to in your /etc/hosts or the hostname that you're accessing it from. Likely `od.odl.local`.
-
 
 # Testing, Formatting, & Code Generation
 
@@ -75,6 +74,58 @@ MAILGUN_KEY
 
 Additionally, you'll need to set `MAILGUN_RECIPIENT_OVERRIDE` to your own email address so
 any emails sent from the app will be delivered to you.
+
+### Enabling article posts
+It is based on text posts but allows the user to add a cover image, provides richer editing capabilities, etc.
+To enable it, run through these steps:
+
+1. Adjust channel settings to allow article posts. This can be done in one of two ways:
+    1. Visit the channel settings page in the running app when logged in as a moderator user.
+        Select the article checkbox under "Allowed Post Types" and save. 
+        (There should be an option in the channel page header to visit the settings page, or
+        you can navigate there directly: `/c/<channel_name>/settings/`).
+    1. Update the channel directly in a Django shell:
+        
+        ```python
+        from channels.models import Channel
+        # To allow all post types for the channel...
+        Channel.objects.filter(name="SOME_CHANNEL_NAME").update(
+           allowed_post_types=Channel.allowed_post_types.link | Channel.allowed_post_types.self | Channel.allowed_post_types.article
+        )        
+        ```
+1. Set up environment variables for the article UI. In `.env`, add:
+    ```python
+    FEATURE_ARTICLE_UI=True
+    # Ask a fellow developer for the following values...
+    CKEDITOR_ENVIRONMENT_ID=...
+    CKEDITOR_SECRET_KEY=...
+    CKEDITOR_UPLOAD_URL=...
+    ```
+
+### Enabling image uploads to S3
+
+:warning: **NOTE: Article cover image thumbnails will be broken unless this is configured** :warning:
+
+Article posts give users the option to upload a cover image, and we show a thumbnail for that 
+image in post listings. We use Embedly to generate that thumbnail, so they will appear as 
+broken images unless you configure your app to upload to S3. Steps:
+
+1. Set `MITOPEN_USE_S3=True` in `.env`
+1. Also in `.env`, set these AWS variables: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, 
+    `AWS_STORAGE_BUCKET_NAME` 
+    
+    These values can be copied directly from the Open Discussions CI Heroku settings, or a 
+    fellow dev can provide them.
+    
+### Enabling widgets
+
+To enable channel widgets, run through these steps:
+
+1. Run the management command to ensure that your channels are properly configured
+    ```bash
+    docker-compose run --rm web ./manage.py backpopulate_channel_widget_lists
+    ```
+1. Add `FEATURE_WIDGETS_UI=True` to your `.env`
 
 ### Enabling searching the course catalog on opensearch
 

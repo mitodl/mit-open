@@ -129,7 +129,7 @@ def _get_refresh_token(username):
     # one does not exist, then obtains an OAuth refresh token for that user. This is then used
     # with praw to authenticate.
     refresh_token_url = urljoin(
-        settings.OPEN_DISCUSSIONS_REDDIT_URL, "/api/v1/generate_refresh_token"
+        settings.MITOPEN_REDDIT_URL, "/api/v1/generate_refresh_token"
     )
 
     session = _get_session()
@@ -226,14 +226,14 @@ def _get_client_base_kwargs():
         dict: set of client kwargs
     """
     return {
-        "reddit_url": settings.OPEN_DISCUSSIONS_REDDIT_URL,
-        "oauth_url": settings.OPEN_DISCUSSIONS_REDDIT_URL,
-        "short_url": settings.OPEN_DISCUSSIONS_REDDIT_URL,
+        "reddit_url": settings.MITOPEN_REDDIT_URL,
+        "oauth_url": settings.MITOPEN_REDDIT_URL,
+        "short_url": settings.MITOPEN_REDDIT_URL,
         "user_agent": _get_user_agent(),
         "requestor_kwargs": _get_requester_kwargs(),
         "check_for_updates": False,
-        "client_id": settings.OPEN_DISCUSSIONS_REDDIT_CLIENT_ID,
-        "client_secret": settings.OPEN_DISCUSSIONS_REDDIT_SECRET,
+        "client_id": settings.MITOPEN_REDDIT_CLIENT_ID,
+        "client_secret": settings.MITOPEN_REDDIT_SECRET,
     }
 
 
@@ -245,9 +245,9 @@ def _get_session():
         requests.Session: A session
     """
     session = requests.Session()
-    session.verify = settings.OPEN_DISCUSSIONS_REDDIT_VALIDATE_SSL
+    session.verify = settings.MITOPEN_REDDIT_VALIDATE_SSL
     session.headers.update(
-        {ACCESS_TOKEN_HEADER_NAME: settings.OPEN_DISCUSSIONS_REDDIT_ACCESS_TOKEN}
+        {ACCESS_TOKEN_HEADER_NAME: settings.MITOPEN_REDDIT_ACCESS_TOKEN}
     )
     return session
 
@@ -1052,7 +1052,7 @@ class Api:
             params["count"] = count
 
         kwargs = {
-            "limit": settings.OPEN_DISCUSSIONS_CHANNEL_POST_LIMIT,
+            "limit": settings.MITOPEN_CHANNEL_POST_LIMIT,
             "params": params,
         }
 
@@ -1351,7 +1351,7 @@ class Api:
 
         post = self.get_post(post_id)
         post.comment_sort = sort
-        post.comment_limit = settings.OPEN_DISCUSSIONS_REDDIT_COMMENTS_LIMIT
+        post.comment_limit = settings.MITOPEN_REDDIT_COMMENTS_LIMIT
         return post.comments
 
     def more_comments(self, parent_id, post_id, children, sort):
@@ -1430,9 +1430,7 @@ class Api:
             },
         )
         more_comments.submission = self.reddit.submission(post_id)
-        more_comments.submission.comment_limit = (
-            settings.OPEN_DISCUSSIONS_REDDIT_COMMENTS_LIMIT
-        )
+        more_comments.submission.comment_limit = settings.MITOPEN_REDDIT_COMMENTS_LIMIT
         more_comments.submission.comment_sort = sort
 
         more_comments._load_comment = (

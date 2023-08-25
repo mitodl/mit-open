@@ -12,10 +12,8 @@ const STATS_FILEPATH = path.resolve(
 )
 
 const getPublicPath = isProduction => {
-  const {
-    OPEN_DISCUSSIONS_HOSTNAME: hostname,
-    WEBPACK_PORT_INFINITE_CORRIDOR: port
-  } = process.env
+  const { MITOPEN_HOSTNAME: hostname, WEBPACK_PORT_INFINITE_CORRIDOR: port } =
+    process.env
   const buildPath = "/static/infinite-corridor/"
   if (isProduction) return buildPath
   if (!hostname || !port) {

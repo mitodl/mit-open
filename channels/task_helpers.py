@@ -19,7 +19,7 @@ def maybe_repair_post_in_host_listing(post_obj):
 
     tasks.maybe_repair_post_in_host_listing.apply_async(
         args=[post.channel.name, post.post_id],
-        countdown=settings.OPEN_DISCUSSIONS_HOT_POST_REPAIR_DELAY,
+        countdown=settings.MITOPEN_HOT_POST_REPAIR_DELAY,
     )
 
 

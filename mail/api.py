@@ -85,7 +85,7 @@ def context_for_user(*, user=None, extra_context=None):
 
     context = {
         "base_url": settings.SITE_BASE_URL,
-        "site_name": settings.OPEN_DISCUSSIONS_TITLE,
+        "site_name": settings.MITOPEN_TITLE,
     }
 
     if user:

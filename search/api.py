@@ -575,7 +575,7 @@ def find_related_documents(*, user, post_id):
         )
     )
     # Limit results to the number indicated in settings
-    search = search[0 : settings.OPEN_DISCUSSIONS_RELATED_POST_COUNT]
+    search = search[0 : settings.MITOPEN_RELATED_POST_COUNT]
     return search.execute().to_dict()
 
 
@@ -633,7 +633,7 @@ def find_similar_resources(*, user, value_doc):
                         user, object_type, object_id
                     )
             objects.append(hit.to_dict())
-    return objects[0 : settings.OPEN_DISCUSSIONS_SIMILAR_RESOURCES_COUNT]
+    return objects[0 : settings.MITOPEN_SIMILAR_RESOURCES_COUNT]
 
 
 def get_similar_topics(value_doc, num_topics, min_term_freq, min_doc_freq):

@@ -59,8 +59,8 @@ def jwt_token(db, user, client, rf, settings):
     jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
     payload = jwt_payload_handler(user)
     token = jwt_encode_handler(payload)
-    client.cookies[settings.OPEN_DISCUSSIONS_COOKIE_NAME] = token
-    rf.cookies.load({settings.OPEN_DISCUSSIONS_COOKIE_NAME: token})
+    client.cookies[settings.MITOPEN_COOKIE_NAME] = token
+    rf.cookies.load({settings.MITOPEN_COOKIE_NAME: token})
     return token
 
 

@@ -15,11 +15,11 @@ from channels.utils import render_article_text
 def praw_settings(settings, cassette_exists):
     """Settings needed to use Api client"""
     if cassette_exists:
-        settings.OPEN_DISCUSSIONS_REDDIT_CLIENT_ID = "client_id"
-        settings.OPEN_DISCUSSIONS_REDDIT_SECRET = "secret"
-        settings.OPEN_DISCUSSIONS_REDDIT_URL = "https://reddit.local"
-    settings.OPEN_DISCUSSIONS_REDDIT_VALIDATE_SSL = False
-    settings.OPEN_DISCUSSIONS_CHANNEL_POST_LIMIT = 25
+        settings.MITOPEN_REDDIT_CLIENT_ID = "client_id"
+        settings.MITOPEN_REDDIT_SECRET = "secret"
+        settings.MITOPEN_REDDIT_URL = "https://reddit.local"
+    settings.MITOPEN_REDDIT_VALIDATE_SSL = False
+    settings.MITOPEN_CHANNEL_POST_LIMIT = 25
     return settings
 
 
