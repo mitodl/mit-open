@@ -67,6 +67,6 @@ We have a number of configuration options available to control our sending:
 
 | Environment Variable | Description | Examples |
 |---|---|
-| `OPEN_DISCUSSIONS_NOTIFICATION_ATTEMPT_RATE_LIMIT` | The per-worker rate limit at which to generate pending `EmailNotification` frontpage records | `100/s`, `2/h`, etc<br/>[See Celery Docs](https://docs.celeryproject.org/en/latest/reference/celery.app.task.html#celery.app.task.Task.rate_limit)|
-| `OPEN_DISCUSSIONS_NOTIFICATION_ATTEMPT_CHUNK_SIZE` | The size of each attempt batch |`100`, `150`, etc|
-| `OPEN_DISCUSSIONS_NOTIFICATION_SEND_CHUNK_SIZE` | The size of each sending batch |`100`, `150`, etc|
+| `MITOPEN_NOTIFICATION_ATTEMPT_RATE_LIMIT` | The per-worker rate limit at which to generate pending `EmailNotification` frontpage records | `100/s`, `2/h`, etc<br/>[See Celery Docs](https://docs.celeryproject.org/en/latest/reference/celery.app.task.html#celery.app.task.Task.rate_limit)|
+| `MITOPEN_NOTIFICATION_ATTEMPT_CHUNK_SIZE` | The size of each attempt batch |`100`, `150`, etc|
+| `MITOPEN_NOTIFICATION_SEND_CHUNK_SIZE` | The size of each sending batch |`100`, `150`, etc|

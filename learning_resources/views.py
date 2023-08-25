@@ -3,11 +3,11 @@ import logging
 
 from django.db.models import Q, QuerySet
 from django.utils import timezone
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.request import Request
-from drf_spectacular.utils import extend_schema, extend_schema_view
 
 from learning_resources.constants import LearningResourceType
 from learning_resources.models import LearningResource

@@ -508,7 +508,7 @@ def test_execute_learn_search_podcasts(settings, user, opensearch):
 def test_find_related_documents(settings, opensearch, user, gen_query_filters_mock):
     """find_related_documents should execute a more-like-this query"""
     posts_to_return = 7
-    settings.OPEN_DISCUSSIONS_RELATED_POST_COUNT = posts_to_return
+    settings.MITOPEN_RELATED_POST_COUNT = posts_to_return
     post_id = "abc"
 
     assert (
@@ -534,7 +534,7 @@ def test_find_related_documents(settings, opensearch, user, gen_query_filters_mo
 def test_find_similar_resources(settings, is_anonymous, opensearch, user):
     """find_similar_resources should execute a more-like-this query and not include input resource"""
     resources_to_return = 5
-    settings.OPEN_DISCUSSIONS_SIMILAR_RESOURCES_COUNT = resources_to_return
+    settings.MITOPEN_SIMILAR_RESOURCES_COUNT = resources_to_return
     settings.OPEN_RESOURCES_MIN_TERM_FREQ = 3
     settings.OPEN_RESOURCES_MIN_DOC_FREQ = 4
 

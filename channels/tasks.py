@@ -62,7 +62,7 @@ def subscribe_all_users_to_channels(self, *, channel_names):
     Args:
         channel_names (list of str): the names of the channels to subscribe to
     """
-    chunk_size = settings.OPEN_DISCUSSIONS_DEFAULT_CHANNEL_BACKPOPULATE_BATCH_SIZE
+    chunk_size = settings.MITOPEN_DEFAULT_CHANNEL_BACKPOPULATE_BATCH_SIZE
     query = (
         User.objects.exclude(username=settings.INDEXING_API_USERNAME)
         .order_by("username")
@@ -421,7 +421,7 @@ def maybe_repair_post_in_host_listing(channel_name, reddit_post_id):
     """
     admin_api = get_admin_api()
 
-    limit = settings.OPEN_DISCUSSIONS_HOT_POST_REPAIR_LIMIT
+    limit = settings.MITOPEN_HOT_POST_REPAIR_LIMIT
 
     def _find_missing_submission():
         """Find the missing submission"""

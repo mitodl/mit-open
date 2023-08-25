@@ -14,7 +14,7 @@ def test_maybe_repair_post_in_host_listing(mocker, settings, delay):
         "channels.tasks.maybe_repair_post_in_host_listing"
     )
 
-    settings.OPEN_DISCUSSIONS_HOT_POST_REPAIR_DELAY = delay
+    settings.MITOPEN_HOT_POST_REPAIR_DELAY = delay
     settings.FEATURES[HOT_POST_REPAIR] = True
 
     task_helpers.maybe_repair_post_in_host_listing(post)

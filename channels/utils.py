@@ -74,7 +74,7 @@ def get_pagination_and_reddit_obj_list(reddit_obj_listing, listing_params):
     # pylint: disable=protected-access
     listing = reddit_obj_listing._listing
 
-    per_page = settings.OPEN_DISCUSSIONS_CHANNEL_POST_LIMIT
+    per_page = settings.MITOPEN_CHANNEL_POST_LIMIT
     count = count or 0
 
     if before:

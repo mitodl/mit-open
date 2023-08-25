@@ -600,7 +600,7 @@ def test_list_posts_pagination_first_page_no_params(
     mocker, user_client, settings, private_channel_and_contributor, reddit_factories
 ):
     """Test that post pagination works for the first page if no params"""
-    settings.OPEN_DISCUSSIONS_CHANNEL_POST_LIMIT = 5
+    settings.MITOPEN_CHANNEL_POST_LIMIT = 5
     channel, user = private_channel_and_contributor
     posts = list(
         reversed(
@@ -629,7 +629,7 @@ def test_list_posts_pagination_first_page_with_params(
     mocker, user_client, settings, private_channel_and_contributor, reddit_factories
 ):
     """Test that post pagination works for the first page with params"""
-    settings.OPEN_DISCUSSIONS_CHANNEL_POST_LIMIT = 5
+    settings.MITOPEN_CHANNEL_POST_LIMIT = 5
     channel, user = private_channel_and_contributor
     posts = list(
         reversed(
@@ -658,7 +658,7 @@ def test_list_posts_pagination_non_first_page(
     mocker, user_client, settings, private_channel_and_contributor, reddit_factories
 ):
     """Test that post pagination works for a page that's not the first one"""
-    settings.OPEN_DISCUSSIONS_CHANNEL_POST_LIMIT = 5
+    settings.MITOPEN_CHANNEL_POST_LIMIT = 5
     channel, user = private_channel_and_contributor
     posts = list(
         reversed(
@@ -689,7 +689,7 @@ def test_list_posts_pagination_non_offset_page(
     mocker, user_client, settings, private_channel_and_contributor, reddit_factories
 ):
     """Test that post pagination works for a page that doesn't align to the number of results"""
-    settings.OPEN_DISCUSSIONS_CHANNEL_POST_LIMIT = 5
+    settings.MITOPEN_CHANNEL_POST_LIMIT = 5
     channel, user = private_channel_and_contributor
     posts = list(
         reversed(

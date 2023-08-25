@@ -31,9 +31,7 @@ def is_enabled(name, default=None):
     Returns:
         bool: True if the feature flag is enabled
     """
-    return settings.FEATURES.get(
-        name, default or settings.OPEN_DISCUSSIONS_FEATURES_DEFAULT
-    )
+    return settings.FEATURES.get(name, default or settings.MITOPEN_FEATURES_DEFAULT)
 
 
 def if_feature_enabled(name, default=None):

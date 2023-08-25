@@ -92,7 +92,7 @@ def _posts_since_notification(notification_settings, notification):
     posts = list(
         filter(lambda post: not post._self_post.exclude_from_frontpage_emails, posts)
     )
-    posts = posts[: settings.OPEN_DISCUSSIONS_FRONTPAGE_DIGEST_MAX_POSTS]
+    posts = posts[: settings.MITOPEN_FRONTPAGE_DIGEST_MAX_POSTS]
 
     return posts
 
@@ -114,7 +114,7 @@ def _podcast_episodes_since_notification(notification):
         episodes = episodes.filter(last_modified__gt=notification.created_on)
     else:
         episodes = episodes.all()
-    return episodes[: settings.OPEN_DISCUSSIONS_FRONTPAGE_DIGEST_MAX_EPISODES]
+    return episodes[: settings.MITOPEN_FRONTPAGE_DIGEST_MAX_EPISODES]
 
 
 class FrontpageDigestNotifier(EmailNotifier):

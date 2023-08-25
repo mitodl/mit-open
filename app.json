@@ -26,12 +26,8 @@
   ],
   "description": "open-discussions",
   "env": {
-    "AKISMET_API_KEY": {
-      "description": "API key for Akismet",
-      "required": false
-    },
-    "AKISMET_BLOG_URL": {
-      "description": "Blog urlfor Akismet",
+    "ALLOWED_HOSTS": {
+      "description": "",
       "required": false
     },
     "AWS_ACCESS_KEY_ID": {
@@ -307,147 +303,128 @@
       "description": "Base default URL for OLL courses",
       "required": false
     },
-    "OPEN_DISCUSSIONS_ADMIN_EMAIL": {
+    "MITOPEN_ADMIN_EMAIL": {
       "description": "E-mail to send 500 reports to."
     },
-    "OPEN_DISCUSSIONS_BASE_URL": {
+    "MITOPEN_BASE_URL": {
       "description": "Base url to link users to in emails"
     },
-    "OPEN_DISCUSSIONS_CHANNEL_POST_LIMIT": {
+    "MITOPEN_CHANNEL_POST_LIMIT": {
       "description": "Number of posts to display on the frontpage and channels",
       "required": false
     },
-    "OPEN_DISCUSSIONS_COOKIE_NAME": {
+    "MITOPEN_COOKIE_NAME": {
       "description": "Name of the cookie for the JWT auth token"
     },
-    "OPEN_DISCUSSIONS_COOKIE_DOMAIN": {
+    "MITOPEN_COOKIE_DOMAIN": {
       "description": "Domain for the cookie for the JWT auth token"
     },
-    "OPEN_DISCUSSIONS_DEFAULT_CHANNEL_BACKPOPULATE_BATCH_SIZE": {
+    "MITOPEN_DEFAULT_CHANNEL_BACKPOPULATE_BATCH_SIZE": {
       "description": "Number of users to sync per backpopulate batch",
       "required": false
     },
-    "OPEN_DISCUSSIONS_RELATED_POST_COUNT": {
+    "MITOPEN_RELATED_POST_COUNT": {
       "description": "Number of related posts to fetch",
       "required": false
     },
-    "OPEN_DISCUSSIONS_DB_CONN_MAX_AGE": {
+    "MITOPEN_DB_CONN_MAX_AGE": {
       "value": "0"
     },
-    "OPEN_DISCUSSIONS_DB_DISABLE_SSL": {
+    "MITOPEN_DB_DISABLE_SSL": {
       "value": "True"
     },
-    "OPEN_DISCUSSIONS_DB_DISABLE_SS_CURSORS": {
+    "MITOPEN_DB_DISABLE_SS_CURSORS": {
       "description": "Disable server-side cursors",
       "required": false
     },
-    "OPEN_DISCUSSIONS_EMAIL_HOST": {
+    "MITOPEN_EMAIL_HOST": {
       "description": "Outgoing e-mail settings"
     },
-    "OPEN_DISCUSSIONS_EMAIL_PASSWORD": {
+    "MITOPEN_EMAIL_PASSWORD": {
       "description": "Outgoing e-mail settings"
     },
-    "OPEN_DISCUSSIONS_EMAIL_PORT": {
+    "MITOPEN_EMAIL_PORT": {
       "description": "Outgoing e-mail settings",
       "value": "587"
     },
-    "OPEN_DISCUSSIONS_EMAIL_TLS": {
+    "MITOPEN_EMAIL_TLS": {
       "description": "Outgoing e-mail settings",
       "value": "True"
     },
-    "OPEN_DISCUSSIONS_EMAIL_USER": {
+    "MITOPEN_EMAIL_USER": {
       "description": "Outgoing e-mail settings"
     },
-    "OPEN_DISCUSSIONS_ENVIRONMENT": {
+    "MITOPEN_ENVIRONMENT": {
       "description": "The execution environment that the app is in (e.g. dev, staging, prod)"
     },
-    "OPEN_DISCUSSIONS_FROM_EMAIL": {
+    "MITOPEN_FROM_EMAIL": {
       "description": "E-mail to use for the from field"
     },
-    "OPEN_DISCUSSIONS_FRONTPAGE_DIGEST_MAX_EPISODES": {
+    "MITOPEN_FRONTPAGE_DIGEST_MAX_EPISODES": {
       "description": "Max podcast episodes in open digest emails",
       "required": false
     },
-    "OPEN_DISCUSSIONS_FRONTPAGE_DIGEST_MAX_POSTS": {
+    "MITOPEN_FRONTPAGE_DIGEST_MAX_POSTS": {
       "description": "Max posts in open digest emails",
       "required": false
     },
-    "OPEN_DISCUSSIONS_LOG_LEVEL": {
+    "MITOPEN_LOG_LEVEL": {
       "description": "The log level for the application",
       "required": true,
       "value": "INFO"
     },
-    "OPEN_DISCUSSIONS_HOT_POST_REPAIR_DELAY": {
+    "MITOPEN_HOT_POST_REPAIR_DELAY": {
       "description": "How many second to wait until attempting to repair a missing post",
       "required": false
     },
-    "OPEN_DISCUSSIONS_HOT_POST_REPAIR_LIMIT": {
+    "MITOPEN_HOT_POST_REPAIR_LIMIT": {
       "description": "Maximum number of posts in the history to check for a missing post",
       "required": false
     },
-    "OPEN_DISCUSSIONS_JWT_SECRET": {
+    "MITOPEN_JWT_SECRET": {
       "description": "Shared secret for JWT auth tokens",
       "required": true
     },
-    "OPEN_DISCUSSIONS_MAX_COMMENT_DEPTH": {
+    "MITOPEN_MAX_COMMENT_DEPTH": {
       "description": "Maximum depth of a comment",
       "required": false
     },
-    "OPEN_DISCUSSIONS_NOTIFICATION_ATTEMPT_RATE_LIMIT": {
+    "MITOPEN_NOTIFICATION_ATTEMPT_RATE_LIMIT": {
       "description": "The per-worker rate limit at which to generate pending EmailNotification frontpage records",
       "required": false
     },
-    "OPEN_DISCUSSIONS_NOTIFICATION_ATTEMPT_CHUNK_SIZE": {
+    "MITOPEN_NOTIFICATION_ATTEMPT_CHUNK_SIZE": {
       "description": "The size of each attempt batch",
       "required": false
     },
-    "OPEN_DISCUSSIONS_NOTIFICATION_SEND_CHUNK_SIZE": {
+    "MITOPEN_NOTIFICATION_SEND_CHUNK_SIZE": {
       "description": "The size of each sending batch",
       "required": false
     },
-    "OPEN_DISCUSSIONS_REDDIT_ACCESS_TOKEN": {
-      "description": "Access token for securing trusted APIs to reddit",
-      "required": false
-    },
-    "OPEN_DISCUSSIONS_REDDIT_CLIENT_ID": {
-      "description": "OAuth client ID for authentication with reddit",
-      "required": true
-    },
-    "OPEN_DISCUSSIONS_REDDIT_SECRET": {
-      "description": "OAuth secret for authentication with reddit",
-      "required": true
-    },
-    "OPEN_DISCUSSIONS_REDDIT_URL": {
-      "description": "URL including protocol to reddit host (e.g. https://reddit.local)",
-      "required": true
-    },
-    "OPEN_DISCUSSIONS_REDDIT_VALIDATE_SSL": {
-      "description": "If false, disables validation of Reddit's SSL certificate"
-    },
-    "OPEN_DISCUSSIONS_SECURE_SSL_REDIRECT": {
+    "MITOPEN_SECURE_SSL_REDIRECT": {
       "description": "Application-level SSL redirect setting.",
       "value": "True"
     },
-    "OPEN_DISCUSSIONS_SIMILAR_RESOURCES_COUNT": {
+    "MITOPEN_SIMILAR_RESOURCES_COUNT": {
       "description": "Number of similar resources to return",
       "required": false
     },
-    "OPEN_DISCUSSIONS_TITLE": {
+    "MITOPEN_TITLE": {
       "description": "Title of the open discussions site",
       "required": false
     },
-    "OPEN_DISCUSSIONS_TOS_URL": {
+    "MITOPEN_TOS_URL": {
       "description": "URL to the Terms of Service",
       "required": false
     },
-    "OPEN_DISCUSSIONS_SUPPORT_EMAIL": {
+    "MITOPEN_SUPPORT_EMAIL": {
       "description": "Email address listed for customer support"
     },
-    "OPEN_DISCUSSIONS_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS": {
+    "MITOPEN_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS": {
       "description": "Maximum age of unsubscribe tokens in seconds",
       "required": false
     },
-    "OPEN_DISCUSSIONS_USE_S3": {
+    "MITOPEN_USE_S3": {
       "description": "Use S3 for storage backend (required on Heroku)",
       "value": "False"
     },

@@ -32,7 +32,7 @@ def test_is_enabled(
 ):
     """Tests that is_enabled returns expected values"""
     key = "feature_key_we_will_never_use"
-    settings.OPEN_DISCUSSIONS_FEATURES_DEFAULT = default_in_settings
+    settings.MITOPEN_FEATURES_DEFAULT = default_in_settings
     if value_in_settings is not None:
         settings.FEATURES[key] = value_in_settings
 

@@ -64,7 +64,7 @@ def test_evict_expired_access_tokens():
 
 def test_subscribe_all_users_to_channels(settings, mocker, mocked_celery):
     """Test that the main task batches out smaller tasks correctly"""
-    settings.OPEN_DISCUSSIONS_DEFAULT_CHANNEL_BACKPOPULATE_BATCH_SIZE = 2
+    settings.MITOPEN_DEFAULT_CHANNEL_BACKPOPULATE_BATCH_SIZE = 2
     users = sorted(UserFactory.create_batch(4), key=lambda user: user.username)
     channel_names = ["nochannel_1", "nochannel_2"]
 
@@ -431,7 +431,7 @@ def test_maybe_repair_post_in_host_listing(
         ([] if will_fail_repair else [missing_post]) + posts,
     ]
 
-    settings.OPEN_DISCUSSIONS_HOT_POST_REPAIR_LIMIT = 4
+    settings.MITOPEN_HOT_POST_REPAIR_LIMIT = 4
 
     tasks.maybe_repair_post_in_host_listing.delay(channel_name, post_id)
 

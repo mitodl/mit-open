@@ -6,13 +6,13 @@ x-environment:
   DEV_ENV: 'True'  # necessary to have nginx connect to web container
   NODE_ENV: 'production'
   DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
-  OPEN_DISCUSSIONS_SECURE_SSL_REDIRECT: 'False'
-  OPEN_DISCUSSIONS_DB_DISABLE_SSL: 'True'
-  OPEN_DISCUSSIONS_REDDIT_URL: https://reddit.local
-  OPEN_DISCUSSIONS_REDDIT_VALIDATE_SSL: 'False'
-  OPEN_DISCUSSIONS_REDDIT_CLIENT_ID: od_client_id
-  OPEN_DISCUSSIONS_REDDIT_SECRET: od_client_secret
-  OPEN_DISCUSSIONS_FEATURES_DEFAULT: 'True'
+  MITOPEN_SECURE_SSL_REDIRECT: 'False'
+  MITOPEN_DB_DISABLE_SSL: 'True'
+  MITOPEN_REDDIT_URL: https://reddit.local
+  MITOPEN_REDDIT_VALIDATE_SSL: 'False'
+  MITOPEN_REDDIT_CLIENT_ID: od_client_id
+  MITOPEN_REDDIT_SECRET: od_client_secret
+  MITOPEN_FEATURES_DEFAULT: 'True'
   OPENSEARCH_URL: opensearch-node-mitopen:9200
   CELERY_TASK_ALWAYS_EAGER: 'False'
   CELERY_BROKER_URL: redis://redis:6379/4
@@ -101,7 +101,7 @@ services:
     environment:
       DOCKER_HOST: ${DOCKER_HOST:-missing}
       CONTAINER_NAME: 'watch'
-      WEBPACK_PORT_OPEN_DISCUSSIONS: 8062
+      WEBPACK_PORT_MITOPEN: 8062
       WEBPACK_PORT_INFINITE_CORRIDOR: 8072
     env_file: .env
     volumes:
@@ -116,8 +116,8 @@ services:
     command: >
       /bin/bash -c '
       sleep 3;
-      celery -A open_discussions.celery:app worker -Q spam,digest_emails,default -B -l ${OPEN_DISCUSSIONS_LOG_LEVEL:-INFO} &
-      celery -A open_discussions.celery:app worker -Q spam,digest_emails,edx_content,default -l ${OPEN_DISCUSSIONS_LOG_LEVEL:-INFO}'
+      celery -A open_discussions.celery:app worker -Q spam,digest_emails,default -B -l ${MITOPEN_LOG_LEVEL:-INFO} &
+      celery -A open_discussions.celery:app worker -Q spam,digest_emails,edx_content,default -l ${MITOPEN_LOG_LEVEL:-INFO}'
     links:
       - db
       - opensearch-node-mitopen

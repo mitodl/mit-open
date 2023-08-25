@@ -40,7 +40,7 @@ class EmailDebuggerView(View):
         context = {
             "base_url": settings.SITE_BASE_URL,
             "anon_token": "abc123",
-            "site_name": settings.OPEN_DISCUSSIONS_TITLE,
+            "site_name": settings.MITOPEN_TITLE,
         }
 
         # static, dummy data

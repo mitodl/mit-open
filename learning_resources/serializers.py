@@ -1,6 +1,6 @@
 """Serializers for learning_resources"""
-from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
+from rest_framework import serializers
 
 from learning_resources import models
 

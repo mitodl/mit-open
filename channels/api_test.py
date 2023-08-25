@@ -265,7 +265,7 @@ def test_vote_indexing(
 
 def test_get_session(settings):
     """Test that _get_session uses the access token from settings"""
-    settings.OPEN_DISCUSSIONS_REDDIT_ACCESS_TOKEN = "ACCESS_TOKEN"
+    settings.MITOPEN_REDDIT_ACCESS_TOKEN = "ACCESS_TOKEN"
     # pylint: disable=protected-access
     assert api._get_session().headers[api.ACCESS_TOKEN_HEADER_NAME] == "ACCESS_TOKEN"
 
@@ -1290,20 +1290,20 @@ def test_api_constructor(mocker, settings, verify_ssl):
     }
     session_stub.return_value.headers = {}
 
-    settings.OPEN_DISCUSSIONS_REDDIT_CLIENT_ID = "client_id"
-    settings.OPEN_DISCUSSIONS_REDDIT_SECRET = "secret"
-    settings.OPEN_DISCUSSIONS_REDDIT_VALIDATE_SSL = verify_ssl
-    settings.OPEN_DISCUSSIONS_REDDIT_URL = "http://fake_url"
+    settings.MITOPEN_REDDIT_CLIENT_ID = "client_id"
+    settings.MITOPEN_REDDIT_SECRET = "secret"
+    settings.MITOPEN_REDDIT_VALIDATE_SSL = verify_ssl
+    settings.MITOPEN_REDDIT_URL = "http://fake_url"
     settings.VERSION = "1.2.3"
 
     client = api.Api(client_user)
     config = client.reddit.config
-    assert config.short_url == settings.OPEN_DISCUSSIONS_REDDIT_URL
-    assert config.reddit_url == settings.OPEN_DISCUSSIONS_REDDIT_URL
-    assert config.oauth_url == settings.OPEN_DISCUSSIONS_REDDIT_URL
+    assert config.short_url == settings.MITOPEN_REDDIT_URL
+    assert config.reddit_url == settings.MITOPEN_REDDIT_URL
+    assert config.oauth_url == settings.MITOPEN_REDDIT_URL
     assert config.user_agent == "MIT-Open: {}".format(settings.VERSION)
-    assert config.client_id == settings.OPEN_DISCUSSIONS_REDDIT_CLIENT_ID
-    assert config.client_secret == settings.OPEN_DISCUSSIONS_REDDIT_SECRET
+    assert config.client_id == settings.MITOPEN_REDDIT_CLIENT_ID
+    assert config.client_secret == settings.MITOPEN_REDDIT_SECRET
     assert config.refresh_token == refresh_token
 
 
@@ -1397,9 +1397,9 @@ def test_get_or_create_auth_tokens(mocker, settings, user):
     """
     get_or_create_auth_tokens will contact our plugin's API to get a refresh token for a user, or to create one
     """
-    settings.OPEN_DISCUSSIONS_REDDIT_URL = "http://fake"
+    settings.MITOPEN_REDDIT_URL = "http://fake"
     refresh_token_url = urljoin(
-        settings.OPEN_DISCUSSIONS_REDDIT_URL, "/api/v1/generate_refresh_token"
+        settings.MITOPEN_REDDIT_URL, "/api/v1/generate_refresh_token"
     )
     get_session_stub = mocker.patch("channels.api._get_session", autospec=True)
     refresh_token_value = "refresh_token"

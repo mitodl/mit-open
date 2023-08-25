@@ -49,7 +49,7 @@ def test_context_for_user(settings, test_user, extra_context):
 
     assert context_for_user(user=test_user, extra_context=extra_context) == {
         "base_url": settings.SITE_BASE_URL,
-        "site_name": settings.OPEN_DISCUSSIONS_TITLE,
+        "site_name": settings.MITOPEN_TITLE,
         **(extra_context or {}),
         **user_ctx,
     }

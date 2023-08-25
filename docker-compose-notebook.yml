@@ -6,13 +6,13 @@ x-environment:
   DEV_ENV: 'True'  # necessary to have nginx connect to web container
   NODE_ENV: 'production'
   DATABASE_URL: postgres://postgres@db:5432/postgres
-  OPEN_DISCUSSIONS_SECURE_SSL_REDIRECT: 'False'
-  OPEN_DISCUSSIONS_DB_DISABLE_SSL: 'True'
-  OPEN_DISCUSSIONS_REDDIT_URL: https://reddit.local
-  OPEN_DISCUSSIONS_REDDIT_VALIDATE_SSL: 'False'
-  OPEN_DISCUSSIONS_REDDIT_CLIENT_ID: od_client_id
-  OPEN_DISCUSSIONS_REDDIT_SECRET: od_client_secret
-  OPEN_DISCUSSIONS_FEATURES_DEFAULT: 'True'
+  MITOPEN_SECURE_SSL_REDIRECT: 'False'
+  MITOPEN_DB_DISABLE_SSL: 'True'
+  MITOPEN_REDDIT_URL: https://reddit.local
+  MITOPEN_REDDIT_VALIDATE_SSL: 'False'
+  MITOPEN_REDDIT_CLIENT_ID: od_client_id
+  MITOPEN_REDDIT_SECRET: od_client_secret
+  MITOPEN_FEATURES_DEFAULT: 'True'
   OPENSEARCH_URL: elastic:9200
   CELERY_TASK_ALWAYS_EAGER: 'False'
   CELERY_BROKER_URL: redis://redis:6379/4
