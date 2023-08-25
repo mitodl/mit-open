@@ -7,8 +7,8 @@ import type {
   LearningResource as LearningResourceOld,
   LearningResourceSearchResult
 } from "ol-search-ui"
-import { LearningResourceCard as CardTemplate } from "ol-learning-resources"
-import type { LearningResourceCardProps as CardTemplateProps } from "ol-learning-resources"
+import { LearningResourceCardTemplate } from "ol-learning-resources"
+import type { LearningResourceCardTemplateProps } from "ol-learning-resources"
 import { useActivateResourceDrawer } from "./LearningResourceDrawer"
 import { deprecatedImgConfig, imgConfigs } from "../util/constants"
 import IconButton from "@mui/material/IconButton"
@@ -17,15 +17,14 @@ import BookmarkIcon from "@mui/icons-material/Bookmark"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import AddToListDialog from "../infinite-pages/resource-lists/AddToListDialog"
 
-type CardTemplatePropsOld = LearningResourceCardTemplatePropsOld<
-  LearningResourceOld | LearningResourceSearchResult
->
 type LearningResourceCardPropsOld = Pick<
-  CardTemplatePropsOld,
+  LearningResourceCardTemplatePropsOld<
+    LearningResourceOld | LearningResourceSearchResult
+  >,
   "variant" | "resource" | "className" | "sortable" | "suppressImage"
 >
 type LearningResourceCardPropsNew = Pick<
-  CardTemplateProps,
+  LearningResourceCardTemplateProps,
   "variant" | "resource" | "className" | "sortable" | "suppressImage"
 >
 type LearningResourceCardProps =
@@ -34,7 +33,7 @@ type LearningResourceCardProps =
 
 const isNewStyleResource = (
   resource: LearningResourceCardProps["resource"]
-): resource is CardTemplateProps["resource"] => {
+): resource is LearningResourceCardTemplateProps["resource"] => {
   if ("object_type" in resource) return false
   return true
 }
@@ -42,8 +41,10 @@ const isNewStyleResource = (
 /**
  * Our standard LearningResourceCard component for MIT Open.
  *
- * This is mostly a wrapper around {@link CardTemplate } that connects it to app
- * features like the userlist dialogs and the resource drawer.
+ * This is mostly a wrapper around {@link LearningResourceCardTemplate }, which
+ * provides no meaningful user interactions on its own. This component connects
+ * {@link LearningResourceCardTemplate } to app features like the resource
+ * drawer and userlist dialogs.
  *
  * NOTE: This component is currently a bridge between our old and new API formats
  * and *currently* accepts either format in the `resource` prop. Support for the
@@ -74,7 +75,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   }, [resource])
   if (isNewStyleResource(resource)) {
     return (
-      <CardTemplate
+      <LearningResourceCardTemplate
         variant={variant}
         sortable={sortable}
         suppressImage={suppressImage}

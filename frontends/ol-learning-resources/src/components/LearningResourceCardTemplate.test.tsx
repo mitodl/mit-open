@@ -1,7 +1,7 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
 import { assertInstanceOf } from "ol-util"
-import LearningResourceCard from "./LearningResourceCard"
+import LearningResourceCardTemplate from "./LearningResourceCardTemplate"
 import { makeImgConfig } from "../test-utils/factories"
 import { resourceThumbnailSrc } from "../utils"
 import { allowConsoleErrors } from "ol-util/test-utils"
@@ -15,7 +15,7 @@ describe("LearningResourceCard", () => {
     const resource = makeResource({ resource_type: "course" })
     const imgConfig = makeImgConfig()
     render(
-      <LearningResourceCard
+      <LearningResourceCardTemplate
         variant="column"
         resource={resource}
         imgConfig={imgConfig}
@@ -39,7 +39,7 @@ describe("LearningResourceCard", () => {
     allowConsoleErrors()
     const shouldThrow = () =>
       render(
-        <LearningResourceCard
+        <LearningResourceCardTemplate
           variant="column"
           resource={resource}
           imgConfig={imgConfig}
@@ -54,7 +54,7 @@ describe("LearningResourceCard", () => {
     })
     const imgConfig = makeImgConfig()
     const { rerender } = render(
-      <LearningResourceCard
+      <LearningResourceCardTemplate
         variant="column"
         resource={resource}
         imgConfig={imgConfig}
@@ -62,7 +62,7 @@ describe("LearningResourceCard", () => {
     )
     const images = screen.queryAllByRole("img")
     rerender(
-      <LearningResourceCard
+      <LearningResourceCardTemplate
         variant="column"
         resource={resource}
         imgConfig={imgConfig}
@@ -79,7 +79,7 @@ describe("LearningResourceCard", () => {
     const imgConfig = makeImgConfig()
     const onActivate = jest.fn()
     render(
-      <LearningResourceCard
+      <LearningResourceCardTemplate
         variant="column"
         resource={resource}
         imgConfig={imgConfig}
@@ -103,7 +103,7 @@ describe("LearningResourceCard", () => {
       const imgConfig = makeImgConfig()
 
       render(
-        <LearningResourceCard
+        <LearningResourceCardTemplate
           variant="column"
           resource={resource}
           imgConfig={imgConfig}
@@ -123,7 +123,7 @@ describe("LearningResourceCard", () => {
     const resource = makeResource()
     const imgConfig = makeImgConfig()
     render(
-      <LearningResourceCard
+      <LearningResourceCardTemplate
         variant="row-reverse"
         resource={resource}
         imgConfig={imgConfig}
@@ -141,7 +141,7 @@ describe("LearningResourceCard", () => {
       const imgConfig = makeImgConfig()
       const shouldThrow = () => {
         render(
-          <LearningResourceCard
+          <LearningResourceCardTemplate
             variant={variant}
             resource={resource}
             imgConfig={imgConfig}

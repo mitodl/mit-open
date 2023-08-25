@@ -34,25 +34,26 @@ type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard<R extends CardResource = CardResource> = (
   resource: R
 ) => void
-type LearningResourceCardProps<R extends CardResource = CardResource> = {
-  /**
-   * Whether the course picture and info display as a column or row.
-   */
-  variant: CardVariant
-  resource: R
-  sortable?: boolean
-  className?: string
-  /**
-   * Config used to generate embedly urls.
-   */
-  imgConfig: EmbedlyConfig
-  onActivate?: OnActivateCard<R>
-  /**
-   * Suppress the image.
-   */
-  suppressImage?: boolean
-  footerActionSlot?: React.ReactNode
-}
+type LearningResourceCardTemplateProps<R extends CardResource = CardResource> =
+  {
+    /**
+     * Whether the course picture and info display as a column or row.
+     */
+    variant: CardVariant
+    resource: R
+    sortable?: boolean
+    className?: string
+    /**
+     * Config used to generate embedly urls.
+     */
+    imgConfig: EmbedlyConfig
+    onActivate?: OnActivateCard<R>
+    /**
+     * Suppress the image.
+     */
+    suppressImage?: boolean
+    footerActionSlot?: React.ReactNode
+  }
 
 const CertificateIcon = () => (
   <img
@@ -62,9 +63,9 @@ const CertificateIcon = () => (
   />
 )
 
-const CardBody: React.FC<Pick<LearningResourceCardProps, "resource">> = ({
-  resource
-}) => {
+const CardBody: React.FC<
+  Pick<LearningResourceCardTemplateProps, "resource">
+> = ({ resource }) => {
   const offerers = resource.offered_by ?? []
   return offerers.length > 0 ? (
     <div>
@@ -75,7 +76,7 @@ const CardBody: React.FC<Pick<LearningResourceCardProps, "resource">> = ({
 }
 
 const ResourceFooterDetails: React.FC<
-  Pick<LearningResourceCardProps, "resource">
+  Pick<LearningResourceCardTemplateProps, "resource">
 > = ({ resource }) => {
   const bestRun = findBestRun(resource.runs ?? [])
   const startDate = bestRun?.start_date
@@ -95,7 +96,7 @@ const ResourceFooterDetails: React.FC<
 }
 
 type LRCImageProps = Pick<
-  LearningResourceCardProps,
+  LearningResourceCardTemplateProps,
   "resource" | "imgConfig" | "suppressImage" | "variant"
 >
 const LRCImage: React.FC<LRCImageProps> = ({
@@ -134,7 +135,7 @@ const variantClasses: Record<CardVariant, string> = {
  * does accept props to build user interaction (e.g., `onActivate` and
  * `footerActionSlot`).
  */
-const LearningResourceCard = <R extends CardResource>({
+const LearningResourceCardTemplate = <R extends CardResource>({
   variant,
   resource,
   imgConfig,
@@ -143,7 +144,7 @@ const LearningResourceCard = <R extends CardResource>({
   onActivate,
   footerActionSlot,
   sortable
-}: LearningResourceCardProps<R>) => {
+}: LearningResourceCardTemplateProps<R>) => {
   const hasCertificate =
     resource.certification && resource.certification.length > 0
   const handleActivate = useCallback(
@@ -221,5 +222,5 @@ const LearningResourceCard = <R extends CardResource>({
   )
 }
 
-export default LearningResourceCard
-export type { LearningResourceCardProps }
+export default LearningResourceCardTemplate
+export type { LearningResourceCardTemplateProps }

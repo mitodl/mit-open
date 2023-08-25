@@ -1,3 +1,3 @@
-export { default as LearningResourceCard } from "./components/LearningResourceCard"
-export type { LearningResourceCardProps } from "./components/LearningResourceCard"
+export { default as LearningResourceCardTemplate } from "./components/LearningResourceCardTemplate"
+export type { LearningResourceCardTemplateProps } from "./components/LearningResourceCardTemplate"
 export type { EmbedlyConfig } from "./utils"
