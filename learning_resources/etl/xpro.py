@@ -60,7 +60,6 @@ def _transform_run(course_run):
         "end_date": _parse_datetime(course_run["end_date"]),
         "enrollment_start": _parse_datetime(course_run["enrollment_start"]),
         "enrollment_end": _parse_datetime(course_run["enrollment_end"]),
-        "offered_by": copy.deepcopy(OFFERED_BY),
         "published": bool(course_run["current_price"]),
         "prices": [course_run["current_price"]]
         if course_run.get("current_price", None)
@@ -142,7 +141,6 @@ def transform_programs(programs):
                     "enrollment_start": _parse_datetime(program["enrollment_start"]),
                     "start_date": _parse_datetime(program["start_date"]),
                     "end_date": _parse_datetime(program["end_date"]),
-                    "offered_by": copy.deepcopy(OFFERED_BY),
                     "description": program["description"],
                     "instructors": [
                         {"full_name": instructor["name"]}
