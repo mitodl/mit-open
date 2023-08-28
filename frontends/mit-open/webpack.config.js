@@ -8,13 +8,12 @@ const { withCKEditor } = require("ol-ckeditor/webpack-utils")
 
 const STATS_FILEPATH = path.resolve(
   __dirname,
-  "../../webpack-stats/infinite-corridor.json"
+  "../../webpack-stats/mit-open.json"
 )
 
 const getPublicPath = isProduction => {
-  const { MITOPEN_HOSTNAME: hostname, WEBPACK_PORT_INFINITE_CORRIDOR: port } =
-    process.env
-  const buildPath = "/static/infinite-corridor/"
+  const { MITOPEN_HOSTNAME: hostname, WEBPACK_PORT_MITOPEN: port } = process.env
+  const buildPath = "/static/mit-open/"
   if (isProduction) return buildPath
   if (!hostname || !port) {
     throw new Error(
@@ -24,8 +23,16 @@ const getPublicPath = isProduction => {
   return `http://${hostname}:${port}/`
 }
 
+const validateEnv = isPorduction => {
+  if (isPorduction) return
+  if (!process.env.WEBPACK_PORT_MITOPEN) {
+    throw new Error("WEBPACK_PORT_MITOPEN should be defined")
+  }
+}
+
 const getWebpackConfig = ({ mode, analyzeBundle }) => {
   const isProduction = mode === "production"
+  validateEnv(isProduction)
   const publicPath = getPublicPath(isProduction)
   const config = {
     mode,
@@ -136,7 +143,8 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       headers:      {
         "Access-Control-Allow-Origin": "*"
       },
-      host: "::"
+      host: "::",
+      port: process.env.WEBPACK_PORT_MITOPEN
     }
   }
   return withCKEditor(config)

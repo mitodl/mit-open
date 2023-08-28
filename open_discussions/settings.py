@@ -71,10 +71,10 @@ MITOPEN_TOS_URL = get_string(
 )
 
 WEBPACK_LOADER = {
-    "INFINITE_CORRIDOR": {
+    "DEFAULT": {
         "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "infinite-corridor/",
-        "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats/infinite-corridor.json"),
+        "BUNDLE_DIR_NAME": "mit-open/",
+        "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats/mit-open.json"),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,
         "IGNORE": [r".+\.hot-update\.+", r".+\.js\.map"],
@@ -306,8 +306,7 @@ if CLOUDFRONT_DIST:
 STATIC_ROOT = "staticfiles"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 for name, path in [
-    ("open-discussions", os.path.join(BASE_DIR, "frontends/open-discussions/build")),
-    ("infinite-corridor", os.path.join(BASE_DIR, "frontends/infinite-corridor/build")),
+    ("mit-open", os.path.join(BASE_DIR, "frontends/mit-open/build")),
 ]:
     if os.path.exists(path):
         STATICFILES_DIRS.append((name, path))
@@ -674,8 +673,6 @@ SPAM_EXEMPT_EMAILS = get_list_of_str("SPAM_EXEMPT_EMAILS", ["[@\\.]mit\\.edu"])
 
 RSS_FEED_EPISODE_LIMIT = get_int("RSS_FEED_EPISODE_LIMIT", 100)
 RSS_FEED_CACHE_MINUTES = get_int("RSS_FEED_CACHE_MINUTES", 15)
-
-ENABLE_INFINITE_CORRIDOR = get_bool("ENABLE_INFINITE_CORRIDOR", False)
 
 REQUESTS_TIMEOUT = get_int("REQUESTS_TIMEOUT", 30)
 

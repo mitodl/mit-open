@@ -5,9 +5,8 @@ This project uses [yarn workspaces](https://yarnpkg.com/features/workspaces) to 
 Each subdirectory of `/frontends` is a yarn workspace:
 ```
 frontends/
-├─ open-discussions/         ... built by webpack and served by django
-├─ infinite-corridor/        ... built by webpack and served by django
-├─ package1/                 ... a (potentially shared) dependency
+├─ mit-open/                 ... built by webpack and served by django
+├─ package1/                 ... a dependency of app/
 ├─ package2/
 ├─ etc...  
 ```

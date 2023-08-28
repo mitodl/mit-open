@@ -1,5 +1,5 @@
 {
-  "name": "infinite-corridor",
+  "name": "mit-open",
   "version": "0.0.0",
   "license": "BSD-3-Clause",
   "repository": {
@@ -61,7 +61,7 @@
     "node": "16"
   },
   "scripts": {
-    "start-dev": "webpack serve --port ${WEBPACK_PORT_INFINITE_CORRIDOR}",
+    "start-dev": "webpack serve",
     "build": "webpack --config webpack.config.js --bail"
   }
 }
