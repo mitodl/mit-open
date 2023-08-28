@@ -113,7 +113,6 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                         for instructor in program_data.get("instructors", [])
                     ],
                     "description": program_data["description"],
-                    "offered_by": xpro.OFFERED_BY,
                 }
             ],
             "courses": [
@@ -149,7 +148,6 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                             "end_date": any_instance_of(datetime, type(None)),
                             "enrollment_start": any_instance_of(datetime, type(None)),
                             "enrollment_end": any_instance_of(datetime, type(None)),
-                            "offered_by": xpro.OFFERED_BY,
                             "published": bool(course_run_data["current_price"]),
                             "prices": [course_run_data["current_price"]]
                             if course_run_data["current_price"]
@@ -206,7 +204,6 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                     "end_date": any_instance_of(datetime, type(None)),
                     "enrollment_start": any_instance_of(datetime, type(None)),
                     "enrollment_end": any_instance_of(datetime, type(None)),
-                    "offered_by": xpro.OFFERED_BY,
                     "published": bool(course_run_data["current_price"]),
                     "prices": [course_run_data["current_price"]]
                     if course_run_data["current_price"]
