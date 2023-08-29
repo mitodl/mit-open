@@ -164,3 +164,10 @@ def test_learningpathitem_serializer_validation(child_exists):
     }
     serializer = serializers.LearningResourceRelationshipSerializer(data=data)
     assert serializer.is_valid() is child_exists
+    if child_exists:
+        serializer.save()
+        saved_item = learning_path.learning_resource.children.all().first()
+        assert (
+            saved_item.relation_type
+            == LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+        )

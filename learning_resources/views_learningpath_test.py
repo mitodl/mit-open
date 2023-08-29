@@ -172,10 +172,6 @@ def test_learning_path_items_endpoint_create_item(client, user, is_editor):
     if resp.status_code == 201:
         assert resp.json().get("child") == course.learning_resource.id
         assert resp.json().get("position") == initial_count + 1
-        assert (
-            resp.json().get("relation_type")
-            == LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
-        )
 
         item = models.LearningResourceRelationship.objects.get(id=resp.json().get("id"))
         assert (

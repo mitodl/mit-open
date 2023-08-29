@@ -338,6 +338,6 @@ class LearningResourceRelationshipSerializer(serializers.ModelSerializer):
 class LearningPathRelationshipSerializer(LearningResourceRelationshipSerializer):
     """Specialized serializer for a LearningPath relationship"""
 
-    relation_type = serializers.CharField(
+    relation_type = serializers.HiddenField(
         default=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
     )
