@@ -310,7 +310,8 @@ class LearningResourceRelationshipSerializer(serializers.ModelSerializer):
         # this operation gets slower the further the item is moved, but it is sufficient for now
         with transaction.atomic():
             path_items = models.LearningResourceRelationship.objects.filter(
-                parent=instance.parent
+                parent=instance.parent,
+                relation_type=instance.relation_type,
             )
             if position > instance.position:
                 # move items between the old and new positions up, inclusive of the new position

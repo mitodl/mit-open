@@ -2,7 +2,8 @@
 import logging
 from uuid import uuid4
 
-from django.db.models import Q, QuerySet
+from django.db import transaction
+from django.db.models import F, Q, QuerySet
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
@@ -276,7 +277,14 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet):
         return super().update(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
-        instance.delete()
+        """Delete the relationship and update the positions of the remaining items"""
+        with transaction.atomic():
+            LearningResourceRelationship.objects.filter(
+                parent=instance.parent,
+                relation_type=instance.relation_type,
+                position__gt=instance.position,
+            ).update(position=F("position") - 1)
+            instance.delete()
         # Uncomment when search is ready
         # learning_path = instance.parent
         # if learning_path.items.count() > 0:
