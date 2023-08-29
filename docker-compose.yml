@@ -97,12 +97,10 @@ services:
     ports:
       - "8052:8052"
       - "8062:8062"
-      - "8072:8072"
     environment:
       DOCKER_HOST: ${DOCKER_HOST:-missing}
       CONTAINER_NAME: 'watch'
       WEBPACK_PORT_MITOPEN: 8062
-      WEBPACK_PORT_INFINITE_CORRIDOR: 8072
     env_file: .env
     volumes:
       - .:/src
