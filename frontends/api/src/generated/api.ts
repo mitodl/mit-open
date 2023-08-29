@@ -91,12 +91,6 @@ export interface LearningPathRelationship {
   resource: LearningResource | null
   /**
    *
-   * @type {string}
-   * @memberof LearningPathRelationship
-   */
-  relation_type?: string
-  /**
-   *
    * @type {number}
    * @memberof LearningPathRelationship
    */
@@ -797,12 +791,6 @@ export interface PatchedLearningPathRelationship {
    * @memberof PatchedLearningPathRelationship
    */
   resource?: LearningResource | null
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedLearningPathRelationship
-   */
-  relation_type?: string
   /**
    *
    * @type {number}

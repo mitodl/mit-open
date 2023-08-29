@@ -742,9 +742,6 @@ components:
           - $ref: '#/components/schemas/LearningResource'
           readOnly: true
           nullable: true
-        relation_type:
-          type: string
-          default: LEARNING_PATH_ITEMS
         position:
           type: integer
           maximum: 2147483647
@@ -1270,9 +1267,6 @@ components:
           - $ref: '#/components/schemas/LearningResource'
           readOnly: true
           nullable: true
-        relation_type:
-          type: string
-          default: LEARNING_PATH_ITEMS
         position:
           type: integer
           maximum: 2147483647
