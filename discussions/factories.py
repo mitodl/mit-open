@@ -1,9 +1,7 @@
 """Discussions factories"""
 import factory
 from factory.django import DjangoModelFactory
-from factory.fuzzy import FuzzyChoice, FuzzyText
-import faker
-from open_discussions.utils import now_in_utc
+from factory.fuzzy import FuzzyChoice
 
 from discussions import api
 from discussions.constants import ChannelTypes

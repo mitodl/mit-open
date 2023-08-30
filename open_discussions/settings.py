@@ -23,7 +23,6 @@ from open_discussions.envs import (
     get_any,
     get_bool,
     get_int,
-    get_key,
     get_list_of_str,
     get_string,
 )

@@ -44,7 +44,6 @@ def test_es_profile_serializer(mocker, user):
     """
     Test that OSProfileSerializer correctly serializes a profile object
     """
-    return_value = [("channel01", datetime.now()), ("channel02", datetime.now())]
     serialized = serializers.OSProfileSerializer().serialize(user.profile)
     assert serialized == {
         "object_type": constants.PROFILE_TYPE,

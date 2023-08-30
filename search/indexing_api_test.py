@@ -12,12 +12,12 @@ from course_catalog.factories import (
     CourseFactory,
     LearningResourceRunFactory,
 )
-from search.connection import get_default_alias_name
 from course_catalog.models import ContentFile
 from open_discussions.factories import UserFactory
 from open_discussions.utils import chunks
 from search import indexing_api
 from search.api import gen_course_id
+from search.connection import get_default_alias_name
 from search.constants import (
     GLOBAL_DOC_TYPE,
     PROFILE_TYPE,

@@ -226,7 +226,7 @@ def relevant_indexes(query):
     return map(get_default_alias_name, object_types)
 
 
-def execute_search(*, user, query):
+def execute_search(*, query):
     """
     Execute a search based on the query
 
