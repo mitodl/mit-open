@@ -9,7 +9,5 @@ class EmailDebuggerForm(forms.Form):
         choices=(
             ("verification", "Verify Email"),
             ("password_reset", "Password Reset"),
-            ("frontpage", "Frontpage"),
-            ("comments", "Comments"),
         )
     )

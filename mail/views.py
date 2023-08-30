@@ -43,66 +43,6 @@ class EmailDebuggerView(View):
             "site_name": settings.MITOPEN_TITLE,
         }
 
-        # static, dummy data
-        if email_type == "comments":
-            context.update(
-                {
-                    "post": SimpleNamespace(
-                        id="abc",
-                        title="Batman Rules!",
-                        slug="batman_rules",
-                        channel_name="channel_name",
-                        channel_title="Favorite Superheros",
-                    ),
-                    "comment": SimpleNamespace(
-                        id="def", text="Your post is really awesome!"
-                    ),
-                }
-            )
-        elif email_type == "frontpage":
-            context.update(
-                {
-                    "posts": [
-                        SimpleNamespace(
-                            id="abc",
-                            author_name="Steve Brown",
-                            author_headline="Physics Professor",
-                            author_id="njksdfg",
-                            title="Batman Rules!",
-                            url="http://example.com/batman.jpg",
-                            url_domain="example.com",
-                            slug="batman_rules",
-                            created="2018-09-19T18:50:32+00:00",
-                            channel_name="channel_name",
-                            channel_title="Favorite Superheros",
-                        ),
-                        SimpleNamespace(
-                            id="def",
-                            author_name="Casey Adams",
-                            author_headline="Graduate Student",
-                            author_id="ghjkl",
-                            title="I, however, do not concur",
-                            slug="i_however_do_not_concur",
-                            created="2018-09-19T18:50:32+00:00",
-                            channel_name="channel_name",
-                            channel_title="Favorite Superheros",
-                        ),
-                    ],
-                    "episodes": [
-                        SimpleNamespace(
-                            title="Pasta is tasty!",
-                            last_modified="2018-09-19T18:50:32+00:00",
-                            podcast_title="cooking podcast",
-                        ),
-                        SimpleNamespace(
-                            title="Superman is better",
-                            last_modified="2018-09-19T18:50:32+00:00",
-                            podcast_title="Favorite Superheros",
-                        ),
-                    ],
-                }
-            )
-
         subject, text_body, html_body = api.render_email_templates(email_type, context)
 
         return JsonResponse(

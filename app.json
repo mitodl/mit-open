@@ -366,11 +366,7 @@
       "required": false
     },
     "MITOPEN_TITLE": {
-      "description": "Title of the open discussions site",
-      "required": false
-    },
-    "MITOPEN_TOS_URL": {
-      "description": "URL to the Terms of Service",
+      "description": "Title of the MIT Open site",
       "required": false
     },
     "MITOPEN_SUPPORT_EMAIL": {

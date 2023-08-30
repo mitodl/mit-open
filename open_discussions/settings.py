@@ -65,9 +65,6 @@ SITE_BASE_URL = get_string("MITOPEN_BASE_URL", None)
 if not SITE_BASE_URL:
     raise ImproperlyConfigured("MITOPEN_BASE_URL is not set")
 MITOPEN_TITLE = get_string("MITOPEN_TITLE", "MIT Open")
-MITOPEN_TOS_URL = get_string(
-    "MITOPEN_TOS_URL", urljoin(SITE_BASE_URL, "/terms-and-conditions/")
-)
 
 WEBPACK_LOADER = {
     "INFINITE_CORRIDOR": {
@@ -612,11 +609,6 @@ LIVESTREAM_ACCOUNT_ID = get_string("LIVESTREAM_ACCOUNT_ID", None)
 # x509 filenames
 MIT_WS_CERTIFICATE_FILE = os.path.join(STATIC_ROOT, "mit_x509.cert")
 MIT_WS_PRIVATE_KEY_FILE = os.path.join(STATIC_ROOT, "mit_x509.key")
-
-AKISMET_API_KEY = get_string("AKISMET_API_KEY", None)
-AKISMET_BLOG_URL = get_string("AKISMET_BLOG_URL", None)
-AKISMET_IS_TESTING = get_string("AKISMET_IS_TESTING", False)
-SPAM_EXEMPT_EMAILS = get_list_of_str("SPAM_EXEMPT_EMAILS", ["[@\\.]mit\\.edu"])
 
 RSS_FEED_EPISODE_LIMIT = get_int("RSS_FEED_EPISODE_LIMIT", 100)
 RSS_FEED_CACHE_MINUTES = get_int("RSS_FEED_CACHE_MINUTES", 15)

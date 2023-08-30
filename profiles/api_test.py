@@ -51,7 +51,6 @@ def test_after_profile_created_or_updated(mocker, user):
     after_profile_created_or_updated(user.profile)
 
     mock_search_tasks.upsert_profile.assert_not_called()
-    mock_search_tasks.update_author_posts_comments.assert_not_called()
 
     mock_transaction.on_commit.assert_called_once()
 
@@ -60,9 +59,6 @@ def test_after_profile_created_or_updated(mocker, user):
     on_commit()
 
     mock_search_tasks.upsert_profile.assert_called_once_with(user.profile.id)
-    mock_search_tasks.update_author_posts_comments.assert_called_once_with(
-        user.profile.id
-    )
 
 
 @pytest.mark.parametrize(

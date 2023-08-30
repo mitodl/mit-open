@@ -45,7 +45,6 @@ def after_profile_created_or_updated(profile):
         Operations that should be run after the profile create or update is committed
         """
         search_index_helpers.upsert_profile(profile.id)
-        search_index_helpers.update_author_posts_comments(profile.id)
 
     # this will either get called when the outermost transaction commits or otherwise immediately
     # this avoids race conditions where the async tasks may not see the record or the updated values

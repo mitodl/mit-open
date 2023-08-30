@@ -17,7 +17,6 @@ x-environment:
 
   TIKA_SERVER_ENDPOINT: ${TIKA_SERVER_ENDPOINT:-http://tika:9998/}
   TIKA_CLIENT_ONLY: 'True'
-  AKISMET_IS_TESTING: 'True'
 
 services:
   db:
@@ -107,8 +106,8 @@ services:
     command: >
       /bin/bash -c '
       sleep 3;
-      celery -A open_discussions.celery:app worker -Q spam,digest_emails,default -B -l ${MITOPEN_LOG_LEVEL:-INFO} &
-      celery -A open_discussions.celery:app worker -Q spam,digest_emails,edx_content,default -l ${MITOPEN_LOG_LEVEL:-INFO}'
+      celery -A open_discussions.celery:app worker -Q default -B -l ${MITOPEN_LOG_LEVEL:-INFO} &
+      celery -A open_discussions.celery:app worker -Q edx_content,default -l ${MITOPEN_LOG_LEVEL:-INFO}'
     links:
       - db
       - opensearch-node-mitopen
