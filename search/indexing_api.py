@@ -71,7 +71,7 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
     Args:
         index_name (str): The name of the index to clear
         skip_mapping (bool): If true, don't set any mapping
-        object_type(str): The type of document (post, comment)
+        object_type(str): The type of document.
     """
     if object_type not in VALID_OBJECT_TYPES:
         raise ValueError(
@@ -161,7 +161,7 @@ def update_field_values_by_query(query, field_dict, object_types=None):
     Args:
         query (dict): A dict representing an ES query
         field_dict (dict): dictionary of fields with values to update
-        object_types (list of str): The object types to query (post, comment, etc)
+        object_types (list of str): The object types to query.
     """
     sources = []
     params = {}
@@ -205,7 +205,7 @@ def _update_document_by_id(doc_id, body, object_type, *, retry_on_conflict=0, **
     Args:
         doc_id (str): The ES document id
         body (dict): ES update operation body
-        object_type (str): The object type to update (post, comment, etc)
+        object_type (str): The object type to update.
         retry_on_conflict (int): Number of times to retry if there's a conflict (default=0)
         kwargs (dict): Optional kwargs to be passed to opensearch
     """
@@ -236,7 +236,7 @@ def update_document_with_partial(doc_id, doc, object_type, *, retry_on_conflict=
     Args:
         doc_id (str): The ES document id
         doc (dict): Full or partial ES document
-        object_type (str): The object type to update (post, comment, etc)
+        object_type (str): The object type to update.
         retry_on_conflict (int): Number of times to retry if there's a conflict (default=0)
     """
     _update_document_by_id(
@@ -251,7 +251,7 @@ def upsert_document(doc_id, doc, object_type, *, retry_on_conflict=0, **kwargs):
     Args:
         doc_id (str): The ES document id
         doc (dict): Full ES document
-        object_type (str): The object type to update (post, comment, etc)
+        object_type (str): The object type to update.
         retry_on_conflict (int): Number of times to retry if there's a conflict (default=0)
         kwargs (dict): Optional kwargs to be passed to opensearch
     """
@@ -270,7 +270,7 @@ def increment_document_integer_field(doc_id, field_name, incr_amount, object_typ
 
     Args:
         doc_id (str): The ES document id
-        object_type (str): The object type to update (post, comment, etc)
+        object_type (str): The object type to update.
         field_name (str): The name of the field to increment
         incr_amount (int): The amount to increment by
     """
@@ -642,7 +642,7 @@ def create_backing_index(object_type):
     Start the reindexing process by creating a new backing index and pointing the reindex alias toward it
 
     Args:
-        object_type (str): The object type for the index (post, comment, etc)
+        object_type (str): The object type for the index.
 
     Returns:
         str: The new backing index
@@ -673,7 +673,7 @@ def switch_indices(backing_index, object_type):
 
     Args:
         backing_index (str): The backing index of the reindex alias
-        object_type (str): The object type for the index (post, comment, etc)
+        object_type (str): The object type for the index.
     """
     conn = get_conn()
     actions = []

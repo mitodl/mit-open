@@ -48,7 +48,7 @@ def make_backing_index_name(object_type):
     Make a unique name for use for a backing index
 
     Args:
-        object_type(str): The object type (post, comment, profile)
+        object_type(str): The object type.
 
     Returns:
         str: A new name for a backing index
@@ -65,7 +65,7 @@ def make_alias_name(is_reindexing, object_type):
     Make the name used for the Opensearch alias
 
     Args:
-        object_type(str): The object type of the index (post, comment, etc)
+        object_type(str): The object type of the index.
         is_reindexing (bool): If true, use the alias name meant for reindexing
 
     Returns:
@@ -88,7 +88,7 @@ def get_active_aliases(conn, *, object_types=None, include_reindexing=True):
 
     Args:
         conn(opensearch.client.Opensearch): An Opensearch client
-        object_types(list of str): list of object types (post, comment, etc)
+        object_types(list of str): list of object types.
         include_reindexing(boolean): include reindexing indexes if true
 
     Returns:
@@ -112,7 +112,7 @@ def active_aliases_with_reindexing(conn, object_types):
 
     Args:
         conn(opensearch.client.Opensearch): An Opensearch client
-        object_types(list of str): list of object types (post, comment, etc)
+        object_types(list of str): list of object types.
     """
 
     return [

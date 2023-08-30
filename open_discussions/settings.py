@@ -147,6 +147,10 @@ LOGIN_ERROR_URL = "/login"
 LOGOUT_URL = "/logout"
 LOGOUT_REDIRECT_URL = "/"
 
+MITOPEN_TOS_URL = get_string(
+    "MITOPEN_TOS_URL", urljoin(SITE_BASE_URL, "/terms-and-conditions/")
+)
+
 ROOT_URLCONF = "open_discussions.urls"
 
 TEMPLATES = [

@@ -50,12 +50,6 @@ urlpatterns = [
     # React App
     re_path(r"^$", index, name="open_discussions-index"),
     re_path(r"^infinite/", index),
-    re_path(r"^c/(?P<channel_name>[A-Za-z0-9_]+)/$", index, name="channel"),
-    re_path(
-        r"^manage/c/edit/(?P<channel_name>[A-Za-z0-9_]+)/basic/$",
-        index,
-        name="manage-channel",
-    ),
     re_path(r"^settings/(?P<token>[^/]+)/$", index, name="settings-anon"),
     re_path(r"^profile/(?P<username>[A-Za-z0-9_]+)/", index, name="profile"),
     re_path(r"^signup/", index, name="signup"),

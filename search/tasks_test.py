@@ -640,8 +640,6 @@ def test_bulk_deletion_tasks(
     [
         (
             [
-                "post",
-                "comment",
                 "profile",
                 "program",
                 "video",
