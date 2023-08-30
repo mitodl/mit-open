@@ -43,7 +43,7 @@ def test_search_es_exception(mocker, client, search_view, status_code, raise_err
     if not raise_error:
         resp = client.post(search_view.url, query)
         assert resp.status_code == status_code
-        search_mock.assert_called_once_with(user=AnonymousUser(), query=query)
+        search_mock.assert_called_once_with(query=query)
         log_mock.assert_called_once_with("Received a 4xx error from OpenSearch")
     else:
         with pytest.raises(TransportError):
@@ -58,7 +58,7 @@ def test_search(mocker, client, search_view):
     query = {"query": {"match": {"title": "Search"}}}
     resp = client.post(search_view.url, query)
     assert resp.json() == FAKE_SEARCH_RESPONSE
-    search_mock.assert_called_once_with(user=AnonymousUser(), query=query)
+    search_mock.assert_called_once_with(query=query)
 
 
 def test_learn_search(mocker, client, search_view):
