@@ -1,6 +1,5 @@
 """Factories for channels_fields"""
 import factory
-from factory.fuzzy import FuzzyText
 
 from channels_fields.api import create_field_groups_and_roles
 from channels_fields.models import FieldChannel, FieldList, Subfield

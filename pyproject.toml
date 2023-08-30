@@ -65,7 +65,6 @@ drf-extensions = "^0.7.1"
 drf-jwt = "^1.19.2"
 drf-spectacular = "^0.26.2"
 feedparser = "^6.0.10"
-mit-moira = {git = "https://github.com/mitodl/mit-moira", tag = "v0.0.4"}
 google-api-python-client = "^2.89.0"
 html5lib = "^1.1"
 importlib_metadata = "^6.6.0"

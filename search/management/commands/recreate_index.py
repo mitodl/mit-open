@@ -26,7 +26,7 @@ class Command(BaseCommand):
         super().add_arguments(parser)
 
     def handle(self, *args, **options):
-        """Index the comments and posts for the channels the user is subscribed to"""
+        """Index all VALID_OBJECT_TYPES"""
         if options["all"]:
             task = start_recreate_index.delay(list(VALID_OBJECT_TYPES))
             self.stdout.write(

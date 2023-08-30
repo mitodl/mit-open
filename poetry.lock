@@ -1828,20 +1828,6 @@ test = ["pytest (<7.1)", "pytest-asyncio", "testpath"]
 test-extra = ["curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.21)", "pandas", "pytest (<7.1)", "pytest-asyncio", "testpath", "trio"]
 
 [[package]]
-name = "isodate"
-version = "0.6.1"
-description = "An ISO 8601 date/time/duration parser and formatter"
-optional = false
-python-versions = "*"
-files = [
-    {file = "isodate-0.6.1-py2.py3-none-any.whl", hash = "sha256:0751eece944162659049d35f4f549ed815792b38793f07cf73381c1c87cbed96"},
-    {file = "isodate-0.6.1.tar.gz", hash = "sha256:48c5881de7e8b0a0d648cb024c8062dc84e7b840ed81e864c7614fd3c127bde9"},
-]
-
-[package.dependencies]
-six = "*"
-
-[[package]]
 name = "isort"
 version = "5.12.0"
 description = "A Python utility / library to sort Python imports."
@@ -2237,24 +2223,6 @@ files = [
     {file = "mccabe-0.7.0-py2.py3-none-any.whl", hash = "sha256:6c2d30ab6be0e4a46919781807b4f0d834ebdd6c6e3dca0bda5a15f863427b6e"},
     {file = "mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325"},
 ]
-
-[[package]]
-name = "mit-moira"
-version = "0.0.4"
-description = ""
-optional = false
-python-versions = "*"
-files = []
-develop = false
-
-[package.dependencies]
-zeep = "*"
-
-[package.source]
-type = "git"
-url = "https://github.com/mitodl/mit-moira"
-reference = "v0.0.4"
-resolved_reference = "0b73483f2bad49327b77a3eb94a4a9a602ef26ce"
 
 [[package]]
 name = "moto"
@@ -3383,20 +3351,6 @@ requests = ">=2.0.0"
 rsa = ["oauthlib[signedtoken] (>=3.0.0)"]
 
 [[package]]
-name = "requests-toolbelt"
-version = "1.0.0"
-description = "A utility belt for advanced users of python-requests"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-files = [
-    {file = "requests-toolbelt-1.0.0.tar.gz", hash = "sha256:7681a0a3d047012b5bdc0ee37d7f8f07ebe76ab08caeccfc3921ce23c88d5bc6"},
-    {file = "requests_toolbelt-1.0.0-py2.py3-none-any.whl", hash = "sha256:cccfdd665f0a24fcf4726e690f65639d272bb0637b9b92dfd91a5568ccf6bd06"},
-]
-
-[package.dependencies]
-requests = ">=2.0.1,<3.0.0"
-
-[[package]]
 name = "responses"
 version = "0.14.0"
 description = "A utility library for mocking out the `requests` Python library."
@@ -4223,33 +4177,6 @@ files = [
 ]
 
 [[package]]
-name = "zeep"
-version = "4.2.1"
-description = "A Python SOAP client"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "zeep-4.2.1-py3-none-any.whl", hash = "sha256:6754feb4c34a4b6d65fbc359252bf6654dcce3937bf1d95aae4402a60a8f5939"},
-    {file = "zeep-4.2.1.tar.gz", hash = "sha256:72093acfdb1d8360ed400869b73fbf1882b95c4287f798084c42ee0c1ff0e425"},
-]
-
-[package.dependencies]
-attrs = ">=17.2.0"
-isodate = ">=0.5.4"
-lxml = ">=4.6.0"
-platformdirs = ">=1.4.0"
-pytz = "*"
-requests = ">=2.7.0"
-requests-file = ">=1.5.1"
-requests-toolbelt = ">=0.7.1"
-
-[package.extras]
-async = ["httpx (>=0.15.0)"]
-docs = ["sphinx (>=1.4.0)"]
-test = ["coverage[toml] (==5.2.1)", "flake8 (==3.8.3)", "flake8-blind-except (==0.1.1)", "flake8-debugger (==3.2.1)", "flake8-imports (==0.1.1)", "freezegun (==0.3.15)", "isort (==5.3.2)", "pretend (==1.0.9)", "pytest (==6.2.5)", "pytest-asyncio", "pytest-cov (==2.8.1)", "pytest-httpx", "requests-mock (>=0.7.0)"]
-xmlsec = ["xmlsec (>=0.6.1)"]
-
-[[package]]
 name = "zipp"
 version = "3.16.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
@@ -4267,4 +4194,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.4"
-content-hash = "4658768302bdf69d9b79b84d927f4152c33ce9e2e632abb8b4d0e28a0697ead8"
+content-hash = "3bd103b739135ca38eaacff8596a8b54dffde2244f856efab5b74c171e2d3607"

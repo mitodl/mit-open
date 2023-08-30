@@ -1,6 +1,4 @@
 """Custom permissions"""
-from prawcore.exceptions import Forbidden as PrawForbidden
-from prawcore.exceptions import Redirect as PrawRedirect
 from rest_framework import permissions
 
 from open_discussions import features
@@ -32,19 +30,11 @@ def is_moderator(request, view):
     """
     user_api = request.channel_api
     channel_name = view.kwargs.get("channel_name", None)
-    try:
-        return (
-            channel_name
-            and not request.user.is_anonymous
-            and user_api.is_moderator(channel_name, request.user.username)
-        )
-    except PrawForbidden:
-        # User was forbidden to list moderators so they are most certainly not one
-        return False
-    except PrawRedirect:
-        # if a redirect occurred, that means the user doesn't have any permissions
-        # for the subreddit and most definitely is not a moderator
-        return False
+    return (
+        channel_name
+        and not request.user.is_anonymous
+        and user_api.is_moderator(channel_name, request.user.username)
+    )
 
 
 def is_readonly(request):

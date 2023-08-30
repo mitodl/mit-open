@@ -7,8 +7,6 @@ from django.views.decorators.cache import cache_page
 
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.response import Response
 
 from cairosvg import svg2png  # pylint:disable=no-name-in-module
 

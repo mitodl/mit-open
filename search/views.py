@@ -33,7 +33,7 @@ class ESView(APIView):
 @method_decorator(blocked_ip_exempt, name="dispatch")
 class SearchView(ESView):
     """
-    View for executing searches of posts, comments, profiles, learning resources
+    View for executing searches of profiles, learning resources
     """
 
     permission_classes = ()

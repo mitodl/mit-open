@@ -6,7 +6,6 @@ from celery.exceptions import Retry
 from django.conf import settings
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from opensearchpy.exceptions import ConnectionTimeout, RequestError
-from prawcore.exceptions import NotFound
 
 from course_catalog.constants import RESOURCE_FILE_PLATFORMS, PlatformType, PrivacyLevel
 from course_catalog.factories import (
@@ -66,7 +65,6 @@ from search.tasks import (
     deindex_document,
     deindex_run_content_files,
     finish_recreate_index,
-    increment_document_integer_field,
     index_course_content_files,
     index_courses,
     index_run_content_files,
@@ -74,8 +72,6 @@ from search.tasks import (
     index_videos,
     start_recreate_index,
     start_update_index,
-    update_document_with_partial,
-    update_field_values_by_query,
     upsert_content_file,
     upsert_course,
     upsert_podcast,
@@ -207,7 +203,7 @@ def test_upsert_podcast_episode_task(mocked_api):
     )
 
 
-@pytest.mark.parametrize("error", [KeyError, NotFound])
+@pytest.mark.parametrize("error", [KeyError])
 def test_wrap_retry_exception(error):
     """wrap_retry_exception should raise RetryException when other exceptions are raised"""
     with assert_not_raises():
