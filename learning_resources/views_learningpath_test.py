@@ -357,7 +357,7 @@ def test_learning_path_endpoint_delete(client, user, is_editor):
             reverse("lr_courses_api-detail", args=[course.learning_resource.id])
         )
 
-        items_json = resp.data.get("learningpath_items")
+        items_json = resp.data.get("learning_path_parents")
         if is_editor:
             for idx, item in items_json:
                 assert item.get("id") == path_items[idx].id

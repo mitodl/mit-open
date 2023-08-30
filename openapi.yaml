@@ -857,7 +857,7 @@ components:
             $ref: '#/components/schemas/LearningResourceRun'
           readOnly: true
           nullable: true
-        learningpath_items:
+        learning_path_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroRelationship'
@@ -911,7 +911,7 @@ components:
       - id
       - image
       - learning_path
-      - learningpath_items
+      - learning_path_parents
       - offered_by
       - platform
       - prices
@@ -986,7 +986,7 @@ components:
             $ref: '#/components/schemas/LearningResourceRun'
           readOnly: true
           nullable: true
-        learningpath_items:
+        learning_path_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroRelationship'
@@ -1035,7 +1035,7 @@ components:
       - id
       - image
       - learning_path
-      - learningpath_items
+      - learning_path_parents
       - offered_by
       - platform
       - prices

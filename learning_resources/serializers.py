@@ -151,10 +151,10 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
     course = CourseSerializer(read_only=True, allow_null=True)
     learning_path = LearningPathSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
-    learningpath_items = serializers.SerializerMethodField()
+    learning_path_parents = serializers.SerializerMethodField()
 
     @extend_schema_field(MicroRelationshipSerializer(many=True, allow_null=True))
-    def get_learningpath_items(self, instance):
+    def get_learning_path_parents(self, instance):
         """Returns the list of learning paths that the resource is in, if the user has permission"""
         request = self.context.get("request")
         user = request.user if request else None

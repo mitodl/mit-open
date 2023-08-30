@@ -246,7 +246,7 @@ export interface LearningResource {
    * @type {Array<MicroRelationship>}
    * @memberof LearningResource
    */
-  learningpath_items: Array<MicroRelationship> | null
+  learning_path_parents: Array<MicroRelationship> | null
   /**
    *
    * @type {Program}
@@ -397,7 +397,7 @@ export interface LearningResourceBase {
    * @type {Array<MicroRelationship>}
    * @memberof LearningResourceBase
    */
-  learningpath_items: Array<MicroRelationship> | null
+  learning_path_parents: Array<MicroRelationship> | null
   /**
    *
    * @type {string}
