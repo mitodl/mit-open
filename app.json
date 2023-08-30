@@ -173,7 +173,7 @@
       "required": false
     },
     "INDEXING_API_USERNAME": {
-      "description": "Reddit username used for indexing"
+      "description": "Username used for indexing"
     },
     "INDEXING_ERROR_RETRIES": {
       "description": "Number of times to retry an indexing operation on failure",
