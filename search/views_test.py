@@ -17,8 +17,7 @@ FAKE_SEARCH_RESPONSE = {
     "hits": {
         "total": 20,
         "max_score": 1.0,
-        "hits": [
-        ],
+        "hits": [],
     },
 }
 
