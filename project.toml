@@ -1,2 +1,16 @@
+[_]
+schema-version = "0.2"
+id = "io.buildpacks.bash-script"
+name = "Bash Script"
+version = "1.0.0"
+
+[io.buildpacks]
+exclude = []
+
 [[io.buildpacks.group]]
 uri = "https://github.com/heroku/heroku-buildpack-apt"
+
+[[io.buildpacks.build.env]]
+name='BUILD_ARGUMENT'
+value='BUILD_VALUE'
+
