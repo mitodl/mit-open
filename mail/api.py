@@ -152,7 +152,7 @@ def messages_for_recipients(recipients_and_contexts, template_name):
     Yields:
         EmailMultiAlternatives: email message with rendered content
     """
-    with mail.get_connection(settings.NOTIFICATION_EMAIL_BACKEND) as connection:
+    with mail.get_connection(settings.EMAIL_BACKEND) as connection:
         for recipient, context in recipients_and_contexts:
             subject, text_body, html_body = render_email_templates(
                 template_name, context

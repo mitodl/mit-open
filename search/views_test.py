@@ -75,16 +75,6 @@ def search_view():
     return SimpleNamespace(url=reverse("search"))
 
 
-@pytest.fixture()
-def related_posts_view(settings):
-    """Fixture with relevant properties for testing the related posts view"""
-    settings.FEATURES["RELATED_POSTS_UI"] = True
-    post_id = "abc"
-    return SimpleNamespace(
-        url=reverse("related-posts", kwargs={"post_id": post_id}), post_id=post_id
-    )
-
-
 @pytest.mark.parametrize(
     "status_code, raise_error", [[418, False], [503, True], ["N/A", True]]
 )
@@ -105,21 +95,6 @@ def test_search_es_exception(mocker, client, search_view, status_code, raise_err
     else:
         with pytest.raises(TransportError):
             client.post(search_view.url, query)
-
-
-def test_related_posts_es_exception(mocker, client, related_posts_view):
-    """If a 4xx status is returned from OpenSearch it should be returned from the API"""
-    status_code = 418
-    related_documents_mock = mocker.patch(
-        "search.views.find_related_documents",
-        autospec=True,
-        side_effect=TransportError(status_code),
-    )
-    resp = client.post(related_posts_view.url)
-    assert resp.status_code == status_code
-    related_documents_mock.assert_called_once_with(
-        user=AnonymousUser(), post_id=related_posts_view.post_id
-    )
 
 
 def test_search(mocker, client, search_view):
@@ -144,26 +119,6 @@ def test_learn_search(mocker, client, search_view):
     resp = client.post(search_view.url, query)
     assert resp.json() == FAKE_SEARCH_RESPONSE
     search_mock.assert_called_once_with(user=AnonymousUser(), query=query)
-
-
-def test_find_related_documents(mocker, client, related_posts_view):
-    """The view should return the results of the API method for finding related posts"""
-    fake_response = {"related": "posts"}
-    related_documents_mock = mocker.patch(
-        "search.views.find_related_documents", autospec=True, return_value=fake_response
-    )
-    resp = client.post(related_posts_view.url)
-    assert resp.json() == fake_response
-    related_documents_mock.assert_called_once_with(
-        user=AnonymousUser(), post_id=related_posts_view.post_id
-    )
-
-
-def test_find_related_documents_feature_flag(settings, client, related_posts_view):
-    """If the feature flag is off the url should not exist"""
-    settings.FEATURES["RELATED_POSTS_UI"] = False
-    resp = client.post(related_posts_view.url)
-    assert resp.status_code == HTTP_405_METHOD_NOT_ALLOWED
 
 
 def test_find_similar_resources(mocker, client):

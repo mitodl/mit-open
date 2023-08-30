@@ -7,7 +7,6 @@ from django.contrib.auth import get_user_model
 import pytest
 import pytz
 
-from channels.models import SpamCheckResult
 from open_discussions.factories import UserFactory
 from open_discussions.utils import (
     now_in_utc,
@@ -22,7 +21,6 @@ from open_discussions.utils import (
     prefetched_iterator,
     extract_values,
     write_to_file,
-    get_field_names,
 )
 
 User = get_user_model()
@@ -195,20 +193,3 @@ def test_write_to_file():
         write_to_file(outfile.name, content)
         with open(outfile.name, "rb") as infile:
             assert infile.read() == content
-
-
-def test_get_field_names():
-    """
-    Assert that get_field_names returns expected fields
-    """
-    assert set(get_field_names(SpamCheckResult)) == {
-        "user_ip",
-        "user_agent",
-        "checks",
-        "is_spam",
-        "content_type",
-        "content_object",
-        "object_id",
-        "created_on",
-        "updated_on",
-    }

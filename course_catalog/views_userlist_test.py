@@ -12,7 +12,6 @@ from course_catalog.factories import (
     UserListItemFactory,
 )
 from course_catalog.models import UserList
-from moira_lists.factories import MoiraListFactory
 from open_discussions.factories import UserFactory
 
 # pylint:disable=redefined-outer-name, use-maxsplit-arg
@@ -94,7 +93,6 @@ def test_user_list_endpoint_get_all_public_lists(user_client):
 @pytest.mark.parametrize("is_public", [True, False])
 @pytest.mark.parametrize("is_staff", [True, False])
 @pytest.mark.parametrize("is_super", [True, False])
-@pytest.mark.parametrize("on_moira", [True, False])
 @pytest.mark.parametrize("is_anonymous", [True, False])
 def test_user_list_endpoint_create(  # pylint: disable=too-many-arguments
     client,
@@ -103,15 +101,9 @@ def test_user_list_endpoint_create(  # pylint: disable=too-many-arguments
     is_public,
     is_staff,
     is_super,
-    on_moira,
-    settings,
 ):
     """Test userlist endpoint for creating a UserList"""
-    staff_lists = ["test-list1", "test-list2"]
-    settings.STAFF_MOIRA_LISTS = staff_lists
     user = UserFactory.create(is_staff=is_staff, is_superuser=is_super)
-    if on_moira:
-        user.moira_lists.set([MoiraListFactory(name=staff_lists[0])])
     if not is_anonymous:
         client.force_login(user)
 
@@ -123,7 +115,7 @@ def test_user_list_endpoint_create(  # pylint: disable=too-many-arguments
         "list_type": UserListType.LEARNING_PATH.value,
     }
 
-    has_permission = is_staff or is_super or on_moira or not is_public
+    has_permission = is_staff or is_super or not is_public
     resp = client.post(reverse("userlists-list"), data=data, format="json")
     assert resp.status_code == (403 if is_anonymous else 201 if has_permission else 400)
     if resp.status_code == 201:

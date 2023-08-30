@@ -108,15 +108,12 @@ INSTALLED_APPS = (
     # Put our apps after this point
     "open_discussions",
     "authentication",
-    "channels",
     "channels_fields",
     "profiles",
     "mail",
-    "notifications",
     "search",
     "widgets",
     "interactions",
-    "moira_lists",
     "discussions",
     "learning_resources",  # to replace below when ready
     "course_catalog",
@@ -132,7 +129,6 @@ MIDDLEWARE = (
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "authentication.middleware.BlockedIPMiddleware",
-    "open_discussions.middleware.channel_api.ChannelApiMiddleware",
     "authentication.middleware.SocialAuthExceptionRedirectMiddleware",
     "hijack.middleware.HijackUserMiddleware",
 )
@@ -351,22 +347,6 @@ if ADMIN_EMAIL != "":
 else:
     ADMINS = ()
 
-# Email Notifications config
-
-NOTIFICATION_EMAIL_BACKEND = get_string(
-    "MITOPEN_NOTIFICATION_EMAIL_BACKEND",
-    "anymail.backends.mailgun.EmailBackend",
-)
-# See https://docs.celeryproject.org/en/latest/reference/celery.app.task.html#celery.app.task.Task.rate_limit
-NOTIFICATION_ATTEMPT_RATE_LIMIT = get_string(
-    "MITOPEN_NOTIFICATION_ATTEMPT_RATE_LIMIT", None  # default is no rate limit
-)
-
-NOTIFICATION_ATTEMPT_CHUNK_SIZE = get_int(
-    "MITOPEN_NOTIFICATION_ATTEMPT_CHUNK_SIZE", 100
-)
-NOTIFICATION_SEND_CHUNK_SIZE = get_int("MITOPEN_NOTIFICATION_SEND_CHUNK_SIZE", 100)
-
 # embed.ly configuration
 EMBEDLY_KEY = get_string("EMBEDLY_KEY", None)
 EMBEDLY_EMBED_URL = get_string("EMBEDLY_EMBED_URL", "https://api.embed.ly/1/oembed")
@@ -528,21 +508,10 @@ if not INDEXING_API_USERNAME:
     raise ImproperlyConfigured("Missing setting INDEXING_API_USERNAME")
 INDEXING_ERROR_RETRIES = get_int("INDEXING_ERROR_RETRIES", 1)
 
-# reddit-specific settings
-MITOPEN_REDDIT_CLIENT_ID = get_string("MITOPEN_REDDIT_CLIENT_ID", None)
-MITOPEN_REDDIT_SECRET = get_string("MITOPEN_REDDIT_SECRET", None)
-MITOPEN_REDDIT_URL = get_string("MITOPEN_REDDIT_URL", "")
-MITOPEN_REDDIT_VALIDATE_SSL = get_bool("MITOPEN_REDDIT_VALIDATE_SSL", True)
-MITOPEN_REDDIT_ACCESS_TOKEN = get_string("MITOPEN_REDDIT_ACCESS_TOKEN", "INSECURE")
-MITOPEN_REDDIT_COMMENTS_LIMIT = get_int("MITOPEN_REDDIT_COMMENTS_LIMIT", 50)
-
 # JWT authentication settings
 MITOPEN_JWT_SECRET = get_string(
     "MITOPEN_JWT_SECRET", "terribly_unsafe_default_jwt_secret_key"
 )
-
-MITOPEN_CHANNEL_POST_LIMIT = get_int("MITOPEN_CHANNEL_POST_LIMIT", 25)
-MITOPEN_MAX_COMMENT_DEPTH = get_int("MITOPEN_MAX_COMMENT_DEPTH", 6)
 
 MITOPEN_COOKIE_NAME = get_string("MITOPEN_COOKIE_NAME", None)
 if not MITOPEN_COOKIE_NAME:
@@ -566,26 +535,10 @@ JWT_AUTH = {
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
 
-MITOPEN_FRONTPAGE_DIGEST_MAX_POSTS = get_int("MITOPEN_FRONTPAGE_DIGEST_MAX_POSTS", 5)
-MITOPEN_FRONTPAGE_DIGEST_MAX_EPISODES = get_int(
-    "MITOPEN_FRONTPAGE_DIGEST_MAX_EPISODES", 5
-)
-
-MITOPEN_DEFAULT_CHANNEL_BACKPOPULATE_BATCH_SIZE = get_int(
-    "MITOPEN_DEFAULT_CHANNEL_BACKPOPULATE_BATCH_SIZE", 1000
-)
-MITOPEN_RELATED_POST_COUNT = get_int("MITOPEN_RELATED_POST_COUNT", 4)
-
 # Similar resources settings
 MITOPEN_SIMILAR_RESOURCES_COUNT = get_int("MITOPEN_SIMILAR_RESOURCES_COUNT", 3)
 OPEN_RESOURCES_MIN_DOC_FREQ = get_int("OPEN_RESOURCES_MIN_DOC_FREQ", 1)
 OPEN_RESOURCES_MIN_TERM_FREQ = get_int("OPEN_RESOURCES_MIN_TERM_FREQ", 1)
-
-# Only repair the first page worth of posts
-MITOPEN_HOT_POST_REPAIR_LIMIT = get_int(
-    "MITOPEN_HOT_POST_REPAIR_LIMIT", MITOPEN_CHANNEL_POST_LIMIT
-)
-MITOPEN_HOT_POST_REPAIR_DELAY = get_int("MITOPEN_HOT_POST_REPAIR_DELAY", 30)
 
 
 # features flags
@@ -657,15 +610,9 @@ WIDGETS_RSS_CACHE_TTL = get_int("WIDGETS_RSS_CACHE_TTL", 15 * 60)
 LIVESTREAM_SECRET_KEY = get_string("LIVESTREAM_SECRET_KEY", None)
 LIVESTREAM_ACCOUNT_ID = get_string("LIVESTREAM_ACCOUNT_ID", None)
 
-# x509 certificate for moira
-MIT_WS_CERTIFICATE = get_key("MIT_WS_CERTIFICATE", "")
-MIT_WS_PRIVATE_KEY = get_key("MIT_WS_PRIVATE_KEY", "")
-
 # x509 filenames
 MIT_WS_CERTIFICATE_FILE = os.path.join(STATIC_ROOT, "mit_x509.cert")
 MIT_WS_PRIVATE_KEY_FILE = os.path.join(STATIC_ROOT, "mit_x509.key")
-
-STAFF_MOIRA_LISTS = get_list_of_str("STAFF_MOIRA_LISTS", [])
 
 AKISMET_API_KEY = get_string("AKISMET_API_KEY", None)
 AKISMET_BLOG_URL = get_string("AKISMET_BLOG_URL", None)
@@ -683,15 +630,6 @@ if DEBUG:
     # allow for all IPs to be routable, including localhost, for testing
     IPWARE_PRIVATE_IP_PREFIX = ()
 
-
-def setup_x509():
-    """write the moira x509 certification & key to files"""
-    from open_discussions.utils import write_x509_files
-
-    write_x509_files()
-
-
-setup_x509()
 SPECTACULAR_SETTINGS = open_spectacular_settings
 
 # drf extension settings

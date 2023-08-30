@@ -1,13 +1,31 @@
 """Betamax fixtures"""
 # pylint: disable=redefined-outer-name, unused-argument
 import os
-
-import pytest
+import contextlib
+import warnings
+from functools import partialmethod
 import urllib3
+import requests
+import pytest
 from betamax.fixtures.pytest import _casette_name
 
-from channels.test_utils import no_ssl_verification
 from open_discussions.betamax_config import setup_betamax
+
+
+@contextlib.contextmanager
+def _no_ssl_verification():
+    """totally disable SSL verification, useful for Betamax tests"""
+    old_request = requests.Session.request
+    try:
+        requests.Session.request = partialmethod(old_request, verify=False)
+
+        warnings.filterwarnings("ignore", "Unverified HTTPS request")
+
+        yield
+    finally:
+        warnings.resetwarnings()
+
+        requests.Session.request = old_request
 
 
 @pytest.fixture
@@ -34,7 +52,7 @@ def use_betamax(request):
 
 
 @pytest.fixture()
-def configure_betamax(mocker, cassette_exists, praw_settings, request):
+def configure_betamax(mocker, cassette_exists, request):
     """Configure betamax"""
     setup_betamax("once" if cassette_exists is False else "none")
 
@@ -43,22 +61,8 @@ def configure_betamax(mocker, cassette_exists, praw_settings, request):
         "betamax_parametrized_recorder"
     )
 
-    mocker.patch(
-        "channels.api._get_session", return_value=betamax_parametrized_recorder.session
-    )
-    if cassette_exists:
-        # only patch if we're running off an existing cassette
-        mocker.patch(
-            "channels.api._get_refresh_token",
-            return_value={
-                "refresh_token": "fake",
-                "access_token": "fake",
-                "expires_in": 1234,
-            },
-        )
-
     urllib3.disable_warnings()
 
     # always ignore SSL verification
-    with no_ssl_verification():
+    with _no_ssl_verification():
         yield betamax_parametrized_recorder

@@ -35,11 +35,9 @@ urlpatterns = [
     re_path(r"^admin/", admin.site.urls),
     re_path(r"", include("authentication.urls")),
     re_path(r"", include("social_django.urls", namespace="social")),
-    re_path(r"", include("channels.urls")),
     re_path(r"", include("channels_fields.urls")),
     re_path(r"", include("profiles.urls")),
     re_path(r"", include("mail.urls")),
-    re_path(r"", include("notifications.urls")),
     re_path(r"", include("embedly.urls")),
     re_path(r"", include("search.urls")),
     re_path(r"", include("ckeditor.urls")),
@@ -52,21 +50,6 @@ urlpatterns = [
     # React App
     re_path(r"^$", index, name="open_discussions-index"),
     re_path(r"^infinite/", index),
-    re_path(
-        r"^c/(?P<channel_name>[A-Za-z0-9_]+)/(?P<post_id>[A-Za-z0-9_]+)/"
-        r"(?P<post_slug>{post_slug_pattern})/comment/(?P<comment_id>[A-Za-z0-9_]+)/?$".format(
-            post_slug_pattern=POST_SLUG_PATTERN
-        ),
-        index,
-        name="channel-post-comment",
-    ),
-    re_path(
-        r"^c/(?P<channel_name>[A-Za-z0-9_]+)/(?P<post_id>[A-Za-z0-9_]+)/(?P<post_slug>{post_slug_pattern})/?$".format(
-            post_slug_pattern=POST_SLUG_PATTERN
-        ),
-        index,
-        name="channel-post",
-    ),
     re_path(r"^c/(?P<channel_name>[A-Za-z0-9_]+)/$", index, name="channel"),
     re_path(
         r"^manage/c/edit/(?P<channel_name>[A-Za-z0-9_]+)/basic/$",

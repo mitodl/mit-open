@@ -6,12 +6,14 @@ from django.core.validators import RegexValidator
 from django.db import models
 from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFit
-
-from channels.utils import AVATAR_MEDIUM_MAX_DIMENSION, AVATAR_SMALL_MAX_DIMENSION
 from discussions.constants import ChannelTypes, PostTypes
 from open_discussions.models import NoDefaultTimestampedModel, TimestampedModelQuerySet
 from profiles.utils import avatar_uri, banner_uri
 from widgets.models import WidgetList
+
+
+AVATAR_SMALL_MAX_DIMENSION = 22
+AVATAR_MEDIUM_MAX_DIMENSION = 90
 
 
 class ChannelQuerySet(TimestampedModelQuerySet):

@@ -1,7 +1,7 @@
 """Factories for channels_fields"""
 import factory
+from factory.fuzzy import FuzzyText
 
-from channels.factories.utils import channel_name
 from channels_fields.api import create_field_groups_and_roles
 from channels_fields.models import FieldChannel, FieldList, Subfield
 from course_catalog.constants import PrivacyLevel
@@ -11,7 +11,7 @@ from course_catalog.factories import UserListFactory
 class FieldChannelFactory(factory.DjangoModelFactory):
     """Factory for a channels_fields.models.FieldChannel object"""
 
-    name = factory.LazyAttributeSequence(channel_name)
+    name = factory.fuzzy.FuzzyText(length=21)
     title = factory.Faker("text", max_nb_chars=50)
     public_description = factory.Faker("text", max_nb_chars=50)
 

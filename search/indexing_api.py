@@ -24,13 +24,11 @@ from search.connection import (
 )
 from search.constants import (
     ALIAS_ALL_INDICES,
-    COMMENT_TYPE,
     COURSE_TYPE,
     GLOBAL_DOC_TYPE,
     MAPPING,
     PODCAST_EPISODE_TYPE,
     PODCAST_TYPE,
-    POST_TYPE,
     PROFILE_TYPE,
     PROGRAM_TYPE,
     SCRIPTING_LANG,
@@ -42,15 +40,12 @@ from search.constants import (
 )
 from search.exceptions import ReindexException
 from search.serializers import (
-    OSPostSerializer,
-    serialize_bulk_comments,
     serialize_bulk_courses,
     serialize_bulk_courses_for_deletion,
     serialize_bulk_podcast_episodes,
     serialize_bulk_podcast_episodes_for_deletion,
     serialize_bulk_podcasts,
     serialize_bulk_podcasts_for_deletion,
-    serialize_bulk_posts,
     serialize_bulk_profiles,
     serialize_bulk_profiles_for_deletion,
     serialize_bulk_programs,
@@ -292,19 +287,6 @@ def increment_document_integer_field(doc_id, field_name, incr_amount, object_typ
     )
 
 
-def update_post(doc_id, post):
-    """
-    Serializes a Post object and updates it in the index
-
-    Args:
-        doc_id (str): The ES document id
-        post (channels.models.Post): A Post object
-    """
-    return update_document_with_partial(
-        doc_id, OSPostSerializer(instance=post).data, POST_TYPE
-    )
-
-
 def deindex_items(documents, object_type, update_only, **kwargs):
     """
     Calls index_items with error catching around not_found for objects that don't exist
@@ -381,29 +363,6 @@ def index_items(documents, object_type, update_only, **kwargs):
                     raise ReindexException(
                         f"Error during bulk {object_type} insert: {errors}"
                     )
-
-
-def index_posts(ids, update_only=False):
-    """
-    Index a list of posts by id
-
-    Args:
-        ids(list of int): List of Post id's
-        update_only (bool): Update existing index only
-    """
-    index_items(serialize_bulk_posts(ids), POST_TYPE, update_only)
-
-
-def index_comments(ids, update_only=False):
-    """
-    Index a list of comments by id
-
-    Args:
-        ids(list of int): List of Comment id's
-        update_only (bool): Update existing index only
-
-    """
-    index_items(serialize_bulk_comments(ids), COMMENT_TYPE, update_only)
 
 
 def index_profiles(ids, update_only=False):

@@ -80,10 +80,6 @@ jobs:
           MITOPEN_SECURE_SSL_REDIRECT: 'False'
           MITOPEN_DB_DISABLE_SSL: 'True'
           MITOPEN_FEATURES_DEFAULT: 'True'
-          MITOPEN_REDDIT_URL: https://reddit.local
-          MITOPEN_REDDIT_VALIDATE_SSL: 'False'
-          MITOPEN_REDDIT_CLIENT_ID: od_client_id
-          MITOPEN_REDDIT_SECRET: od_client_secret # pragma: allowlist secret
           OPENSEARCH_URL: localhost:9200
           CELERY_TASK_ALWAYS_EAGER: 'True'
           CELERY_BROKER_URL: redis://localhost:6379/4

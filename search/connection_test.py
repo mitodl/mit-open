@@ -31,10 +31,6 @@ def test_get_active_aliases(mocker, include_reindexing, indexes_exist, object_ty
         else:
             if include_reindexing:
                 assert active_aliases == [
-                    "testindex_post_default",
-                    "testindex_post_reindexing",
-                    "testindex_comment_default",
-                    "testindex_comment_reindexing",
                     "testindex_profile_default",
                     "testindex_profile_reindexing",
                     "testindex_course_default",
@@ -54,8 +50,6 @@ def test_get_active_aliases(mocker, include_reindexing, indexes_exist, object_ty
                 ]
             else:
                 assert active_aliases == [
-                    "testindex_post_default",
-                    "testindex_comment_default",
                     "testindex_profile_default",
                     "testindex_course_default",
                     "testindex_program_default",

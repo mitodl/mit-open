@@ -1,4 +1,4 @@
-"""Management command to index reddit content"""
+"""Management command to index content"""
 from django.core.management.base import BaseCommand, CommandError
 
 from open_discussions.utils import now_in_utc

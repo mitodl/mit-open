@@ -8,9 +8,6 @@ from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from opensearchpy.exceptions import ConnectionTimeout, RequestError
 from prawcore.exceptions import NotFound
 
-from channels.constants import LINK_TYPE_LINK, LINK_TYPE_SELF
-from channels.factories.models import CommentFactory, PostFactory
-from channels.models import Post
 from course_catalog.constants import RESOURCE_FILE_PLATFORMS, PlatformType, PrivacyLevel
 from course_catalog.factories import (
     ContentFileFactory,
@@ -40,11 +37,9 @@ from search.api import (
     gen_video_id,
 )
 from search.constants import (
-    COMMENT_TYPE,
     COURSE_TYPE,
     PODCAST_EPISODE_TYPE,
     PODCAST_TYPE,
-    POST_TYPE,
     PROFILE_TYPE,
     PROGRAM_TYPE,
     RESOURCE_FILE_TYPE,
@@ -68,15 +63,12 @@ from search.serializers import (
 from search.tasks import (
     bulk_deindex_staff_lists,
     create_document,
-    create_post_document,
     deindex_document,
     deindex_run_content_files,
     finish_recreate_index,
     increment_document_integer_field,
-    index_comments,
     index_course_content_files,
     index_courses,
-    index_posts,
     index_run_content_files,
     index_staff_lists,
     index_videos,
@@ -84,7 +76,6 @@ from search.tasks import (
     start_update_index,
     update_document_with_partial,
     update_field_values_by_query,
-    update_link_post_with_preview,
     upsert_content_file,
     upsert_course,
     upsert_podcast,
@@ -123,14 +114,6 @@ def test_create_document_task(mocked_api):
     create_document(*indexing_api_args)
     assert mocked_api.create_document.call_count == 1
     assert mocked_api.create_document.call_args[0] == indexing_api_args
-
-
-def test_update_document_with_partial_task(mocked_api):
-    """Test that the create_document task calls the indexing API function with the right args"""
-    indexing_api_args = ("doc_id", {"test": "data"}, COMMENT_TYPE)
-    update_document_with_partial(*indexing_api_args)
-    assert mocked_api.update_document_with_partial.call_count == 1
-    assert mocked_api.update_document_with_partial.call_args[0] == indexing_api_args
 
 
 def test_upsert_course_task(mocked_api):
@@ -224,79 +207,6 @@ def test_upsert_podcast_episode_task(mocked_api):
     )
 
 
-def test_increment_document_integer_field_task(mocked_api):
-    """
-    Test that the increment_document_integer_field task calls the indexing
-    API function with the right args
-    """
-    indexing_api_args = ("doc_id", {"test": "data"}, 1, POST_TYPE)
-    increment_document_integer_field(*indexing_api_args)
-    assert mocked_api.increment_document_integer_field.call_count == 1
-    assert mocked_api.increment_document_integer_field.call_args[0] == indexing_api_args
-
-
-def test_update_field_values_by_query(mocked_api):
-    """
-    Test that the update_field_values_by_query task calls the indexing
-    API function with the right args
-    """
-    indexing_api_args = ({"query": {}}, {"field1": "value1"}, [POST_TYPE])
-    update_field_values_by_query(*indexing_api_args)
-    assert mocked_api.update_field_values_by_query.call_count == 1
-    assert mocked_api.update_field_values_by_query.call_args[0] == indexing_api_args
-
-
-@pytest.mark.parametrize(
-    "post_type,post_url,exp_update_link_post",
-    [[LINK_TYPE_LINK, "example.com", True], [LINK_TYPE_SELF, None, False]],
-)
-def test_create_post_document(mocker, post_type, post_url, exp_update_link_post):
-    """
-    Test that the create_post_document task calls the API method to create a post document, and for link posts,
-    also calls the API method to fetch preview data and update the post
-    """
-    create_document_mock = mocker.patch("search.tasks.create_document")
-    update_link_post_mock = mocker.patch("search.tasks.update_link_post_with_preview")
-    indexing_api_args = (
-        "doc_id",
-        {"post_id": "a", "post_type": post_type, "post_link_url": post_url},
-    )
-    create_post_document(*indexing_api_args)
-    assert create_document_mock.si.call_count == 1
-    assert create_document_mock.si.call_args[0] == indexing_api_args
-    assert update_link_post_mock.si.called is exp_update_link_post
-
-
-@pytest.mark.parametrize(
-    "resp_content,resp_description,exp_preview_text",
-    [
-        ["<a> content", None, "content"],
-        ["", "description", "description"],
-        [None, "description", "description"],
-    ],
-)
-def test_update_link_post_with_preview(
-    mocker, mocked_api, resp_content, resp_description, exp_preview_text
-):
-    """
-    Test that update_link_post_with_preview fetches embedly content and updates the given post in the
-    database and in ES
-    """
-    get_embedly_content_mock = mocker.patch("search.tasks.get_embedly_content")
-    get_embedly_content_mock.return_value.json.return_value = {
-        "content": resp_content,
-        "description": resp_description,
-    }
-    post_data = {"post_id": "a", "post_link_url": "example.com"}
-    post = PostFactory.create(post_id=post_data["post_id"])
-
-    update_link_post_with_preview("abc", post_data)
-
-    assert get_embedly_content_mock.call_args[0][0] == post_data["post_link_url"]
-    assert Post.objects.get(id=post.id).preview_text == exp_preview_text
-    assert mocked_api.update_post.call_count == 1
-
-
 @pytest.mark.parametrize("error", [KeyError, NotFound])
 def test_wrap_retry_exception(error):
     """wrap_retry_exception should raise RetryException when other exceptions are raised"""
@@ -321,38 +231,6 @@ def test_wrap_retry_exception_matching(matching):
     with pytest.raises(matching_exception):
         with wrap_retry_exception(ESConnectionError):
             raise_thing()
-
-
-@pytest.mark.parametrize("with_error", [True, False])
-@pytest.mark.parametrize("update_only", [True, False])
-def test_index_posts(
-    mocker, wrap_retry_mock, with_error, update_only
-):  # pylint: disable=unused-argument
-    """index_post should call the api function of the same name"""
-    index_post_mock = mocker.patch("search.indexing_api.index_posts")
-    if with_error:
-        index_post_mock.side_effect = TabError
-    post_ids = [1, 2, 3]
-    result = index_posts.delay(post_ids, update_only).get()
-    assert result == ("index_posts threw an error" if with_error else None)
-
-    index_post_mock.assert_called_once_with(post_ids, update_only)
-
-
-@pytest.mark.parametrize("with_error", [True, False])
-@pytest.mark.parametrize("update_only", [True, False])
-def test_index_comments(
-    mocker, wrap_retry_mock, with_error, update_only
-):  # pylint: disable=unused-argument
-    """index_comments should call the api function of the same name"""
-    index_comments_mock = mocker.patch("search.indexing_api.index_comments")
-    if with_error:
-        index_comments_mock.side_effect = TabError
-    post_ids = [1, 2, 3]
-    result = index_comments.delay(post_ids, update_only).get()
-    assert result == ("index_comments threw an error" if with_error else None)
-
-    index_comments_mock.assert_called_once_with(post_ids, update_only)
 
 
 @pytest.mark.parametrize("with_error", [True, False])
@@ -402,7 +280,7 @@ def test_bulk_deindex_staff_lists(
 @pytest.mark.parametrize(
     "indexes",
     [
-        ["post", "comment", "profile"],
+        ["profile"],
         ["course", "program"],
         ["userlist", "stafflist"],
         ["video"],
@@ -421,9 +299,7 @@ def test_start_recreate_index(
     UserFactory.create_batch(
         4, is_active=False
     )  # these should not show up in the indexing
-    comments = sorted(CommentFactory.create_batch(4), key=lambda comment: comment.id)
-    posts = sorted([comment.post for comment in comments], key=lambda post: post.id)
-    users = sorted([item.author for item in posts + comments], key=lambda user: user.id)
+    users = UserFactory.create_batch(4)
     platforms = [
         PlatformType.ocw,
         PlatformType.mitx,
@@ -454,8 +330,6 @@ def test_start_recreate_index(
         )
         for stafflist in stafflists:
             StaffListItemFactory.create(staff_list=stafflist)
-    index_posts_mock = mocker.patch("search.tasks.index_posts", autospec=True)
-    index_comments_mock = mocker.patch("search.tasks.index_comments", autospec=True)
     index_profiles_mock = mocker.patch("search.tasks.index_profiles", autospec=True)
     index_courses_mock = mocker.patch("search.tasks.index_courses", autospec=True)
     index_videos_mock = mocker.patch("search.tasks.index_videos", autospec=True)
@@ -497,19 +371,9 @@ def test_start_recreate_index(
     # in that generator, 'list' is being called to force iteration through all of those items.
     list(mocked_celery.group.call_args[0][0])
 
-    if POST_TYPE in indexes:
-        assert index_posts_mock.si.call_count == 2
-        index_posts_mock.si.assert_any_call([posts[0].id, posts[1].id])
-        index_posts_mock.si.assert_any_call([posts[2].id, posts[3].id])
-
-    if COMMENT_TYPE in indexes:
-        assert index_comments_mock.si.call_count == 2
-        index_comments_mock.si.assert_any_call([comments[0].id, comments[1].id])
-        index_comments_mock.si.assert_any_call([comments[2].id, comments[3].id])
-
     if PROFILE_TYPE in indexes:
-        assert index_profiles_mock.si.call_count == 4
-        for offset in range(4):
+        assert index_profiles_mock.si.call_count == 2
+        for offset in range(2):
             index_profiles_mock.si.assert_any_call(
                 [users[offset * 2].profile.id, users[offset * 2 + 1].profile.id]
             )
@@ -590,7 +454,7 @@ def test_finish_recreate_index(mocker, with_error):
     """
     finish_recreate_index should attach the backing index to the default alias
     """
-    backing_indices = {"post": "backing", "comment": "backing", "profile": "backing"}
+    backing_indices = {"profile": "backing"}
     results = ["error"] if with_error else []
     switch_indices_mock = mocker.patch(
         "search.indexing_api.switch_indices", autospec=True
@@ -604,8 +468,6 @@ def test_finish_recreate_index(mocker, with_error):
         mock_delete_orphans.assert_called_once()
     else:
         finish_recreate_index.delay(results, backing_indices)
-        switch_indices_mock.assert_any_call("backing", POST_TYPE)
-        switch_indices_mock.assert_any_call("backing", COMMENT_TYPE)
         mock_delete_orphans.assert_not_called()
 
 
@@ -614,7 +476,7 @@ def test_finish_recreate_index_retry_exceptions(mocker, with_error):
     """
     finish_recreate_index should be retried on RequestErrors
     """
-    backing_indices = {"post": "backing", "comment": "backing", "profile": "backing"}
+    backing_indices = {"profile": "backing"}
     results = ["error"] if with_error else []
     mock_error = RequestError(429, "oops", {})
     switch_indices_mock = mocker.patch(
@@ -808,10 +670,8 @@ def test_start_update_index(
     settings.OPENSEARCH_INDEXING_CHUNK_SIZE = 2
     mock_blocklist = mocker.patch("search.tasks.load_course_blocklist", return_value=[])
     inactive_users = UserFactory.create_batch(4, is_active=False)
-    comments = sorted(CommentFactory.create_batch(4), key=lambda comment: comment.id)
-
-    posts = sorted([comment.post for comment in comments], key=lambda post: post.id)
-    users = sorted([item.author for item in posts + comments], key=lambda user: user.id)
+    active_users = UserFactory.create_batch(4)
+    users = sorted(active_users, key=lambda user: user.id)
 
     platforms = [
         PlatformType.ocw,
@@ -846,9 +706,6 @@ def test_start_update_index(
     )
 
     unpublished_podcast_episode = PodcastEpisodeFactory.create(published=False)
-
-    index_posts_mock = mocker.patch("search.tasks.index_posts", autospec=True)
-    index_comments_mock = mocker.patch("search.tasks.index_comments", autospec=True)
 
     index_profiles_mock = mocker.patch("search.tasks.index_profiles", autospec=True)
     deindex_profiles_mock = mocker.patch(
@@ -890,19 +747,9 @@ def test_start_update_index(
     # in that generator, 'list' is being called to force iteration through all of those items.
     list(mocked_celery.group.call_args[0][0])
 
-    if POST_TYPE in indexes:
-        assert index_posts_mock.si.call_count == 2
-        index_posts_mock.si.assert_any_call([posts[0].id, posts[1].id], True)
-        index_posts_mock.si.assert_any_call([posts[2].id, posts[3].id], True)
-
-    if COMMENT_TYPE in indexes:
-        assert index_comments_mock.si.call_count == 2
-        index_comments_mock.si.assert_any_call([comments[0].id, comments[1].id], True)
-        index_comments_mock.si.assert_any_call([comments[2].id, comments[3].id], True)
-
     if PROFILE_TYPE in indexes:
-        assert index_profiles_mock.si.call_count == 4
-        for offset in range(4):
+        assert index_profiles_mock.si.call_count == 2
+        for offset in range(2):
             index_profiles_mock.si.assert_any_call(
                 [users[offset * 2].profile.id, users[offset * 2 + 1].profile.id], True
             )

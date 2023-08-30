@@ -8,10 +8,6 @@ x-environment:
   DATABASE_URL: postgres://postgres@db:5432/postgres
   MITOPEN_SECURE_SSL_REDIRECT: 'False'
   MITOPEN_DB_DISABLE_SSL: 'True'
-  MITOPEN_REDDIT_URL: https://reddit.local
-  MITOPEN_REDDIT_VALIDATE_SSL: 'False'
-  MITOPEN_REDDIT_CLIENT_ID: od_client_id
-  MITOPEN_REDDIT_SECRET: od_client_secret
   MITOPEN_FEATURES_DEFAULT: 'True'
   OPENSEARCH_URL: elastic:9200
   CELERY_TASK_ALWAYS_EAGER: 'False'

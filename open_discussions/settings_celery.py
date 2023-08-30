@@ -17,22 +17,6 @@ CELERY_WORKER_MAX_MEMORY_PER_CHILD = get_int(
 )
 
 CELERY_BEAT_SCHEDULE = {
-    "evict-expired-access-tokens-every-1-hrs": {
-        "task": "channels.tasks.evict_expired_access_tokens",
-        "schedule": crontab(minute=0, hour="*"),
-    },
-    "send-unsent-emails-every-1-mins": {
-        "task": "notifications.tasks.send_unsent_email_notifications",
-        "schedule": crontab(minute="*"),
-    },
-    "send-frontpage-digests-every-1-days": {
-        "task": "notifications.tasks.send_daily_frontpage_digests",
-        "schedule": crontab(minute=0, hour=14),  # 10am EST
-    },
-    "send-frontpage-digests-every-1-weeks": {
-        "task": "notifications.tasks.send_weekly_frontpage_digests",
-        "schedule": crontab(minute=0, hour=14, day_of_week=2),  # 10am EST on tuesdays
-    },
     "update_edx-courses-every-1-days": {
         "task": "course_catalog.tasks.get_mitx_data",
         "schedule": crontab(minute=30, hour=15),  # 11:30am EST
@@ -92,10 +76,6 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": get_int(
             "YOUTUBE_FETCH_TRANSCRIPT_SCHEDULE_SECONDS", 60 * 60 * 12
         ),  # default is 12 hours
-    },
-    "update-managed-channel-memberships": {
-        "task": "channels.tasks.update_memberships_for_managed_channels",
-        "schedule": crontab(minute=30, hour=10),  # 6:30am EST
     },
 }
 

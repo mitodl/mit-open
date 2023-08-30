@@ -8,15 +8,6 @@ from opensearch_dsl import Q, Search
 from opensearch_dsl.query import MoreLikeThis
 from nested_lookup import nested_lookup
 
-from channels.constants import (
-    CHANNEL_TYPE_PUBLIC,
-    CHANNEL_TYPE_RESTRICTED,
-    COMMENT_TYPE,
-    POST_TYPE,
-    ROLE_CONTRIBUTORS,
-    ROLE_MODERATORS,
-)
-from channels.models import ChannelGroupRole
 from course_catalog.constants import PrivacyLevel
 from course_catalog.models import FavoriteItem
 from course_catalog.utils import get_list_items_by_resource
@@ -26,7 +17,6 @@ from search.connection import get_default_alias_name
 from search.constants import (
     ALIAS_ALL_INDICES,
     COURSE_TYPE,
-    GLOBAL_DOC_TYPE,
     LEARNING_RESOURCE_TYPES,
     PODCAST_EPISODE_TYPE,
     PODCAST_TYPE,
@@ -36,34 +26,7 @@ from search.constants import (
     RESOURCE_FILE_TYPE,
 )
 
-RELATED_POST_RELEVANT_FIELDS = ["plain_text", "post_title", "author_id", "channel_name"]
 SIMILAR_RESOURCE_RELEVANT_FIELDS = ["title", "short_description"]
-
-
-def gen_post_id(reddit_obj_id):
-    """
-    Generates the OpenSearch document id for a post
-
-    Args:
-        reddit_obj_id (int|str): The id of a reddit object as reported by PRAW
-
-    Returns:
-        str: The OpenSearch document id for this object
-    """
-    return "p_{}".format(reddit_obj_id)
-
-
-def gen_comment_id(reddit_obj_id):
-    """
-    Generates the OpenSearch document id for a comment
-
-    Args:
-        reddit_obj_id (int|str): The id of a reddit object as reported by PRAW
-
-    Returns:
-        str: The OpenSearch document id for this object
-    """
-    return "c_{}".format(reddit_obj_id)
 
 
 def gen_profile_id(profile_id):
@@ -187,64 +150,6 @@ def gen_podcast_episode_id(podcast_episode_obj):
     return "podcast_ep_{}".format(podcast_episode_obj.id)
 
 
-def is_reddit_object_removed(reddit_obj):
-    """
-    Indicates whether or not a given reddit object is considered to be removed by moderators
-
-    Args:
-        reddit_obj (praw.models.reddit.submission.Submission, praw.models.reddit.comment.Comment):
-            A PRAW post/'submission' or comment object
-
-    Returns:
-        bool: True if the object is considered removed, False otherwise
-    """
-    return bool(reddit_obj.banned_by) and not reddit_obj.approved_by
-
-
-# pylint: disable=invalid-unary-operand-type
-def _apply_general_query_filters(search, user):
-    """
-    Applies a series of filters to a Search object so permissions are respected, deleted
-    objects are ignored, etc.
-
-    search (opensearch_dsl.Search): Search object
-    user (User): The user executing the search
-
-    Returns:
-        opensearch_dsl.Search: Search object with filters applied
-    """
-    # Get the list of channels a logged in user is a contributor/moderator of
-    channel_names = (
-        sorted(
-            list(
-                ChannelGroupRole.objects.filter(
-                    group__user=user, role__in=(ROLE_CONTRIBUTORS, ROLE_MODERATORS)
-                )
-                .values_list("channel__name", flat=True)
-                .distinct()
-            )
-        )
-        if not user.is_anonymous
-        else []
-    )
-
-    # Search for comments and posts from channels
-    channels_filter = Q(
-        "terms", channel_type=[CHANNEL_TYPE_PUBLIC, CHANNEL_TYPE_RESTRICTED]
-    ) | ~Q("terms", object_type=[COMMENT_TYPE, POST_TYPE])
-
-    # Exclude deleted comments and posts
-    content_filter = (Q("term", deleted=False) & Q("term", removed=False)) | ~Q(
-        "terms", object_type=[COMMENT_TYPE, POST_TYPE]
-    )
-
-    # Search public channels and channels user is a contributor/moderator of
-    if channel_names:
-        channels_filter = channels_filter | Q("terms", channel_name=channel_names)
-
-    return search.filter(channels_filter).filter(content_filter)
-
-
 # pylint: disable=invalid-unary-operand-type
 def _apply_learning_query_filters(search, user):
     """
@@ -335,7 +240,6 @@ def execute_search(*, user, query):
     indexes = ",".join(relevant_indexes(query))
     search = Search(index=indexes)
     search.update_from_dict(query)
-    search = _apply_general_query_filters(search, user)
     return _transform_search_results_suggest_with_compatability(
         search.execute().to_dict()
     )
@@ -552,33 +456,6 @@ def _transform_search_results_coursenum(search_result, department_filters):
                 ]
 
 
-def find_related_documents(*, user, post_id):
-    """
-    Execute a "more like this" query to find posts that are related to a specific post
-
-     Args:
-        user (User): The user executing the search
-        post_id (str): The id of the post that you want to find related posts for
-
-    Returns:
-        dict: The OpenSearch response dict
-    """
-    index = get_default_alias_name(ALIAS_ALL_INDICES)
-    search = Search(index=index)
-    search = _apply_general_query_filters(search, user)
-    search = search.query(
-        MoreLikeThis(
-            like={"_id": gen_post_id(post_id), "_type": GLOBAL_DOC_TYPE},
-            fields=RELATED_POST_RELEVANT_FIELDS,
-            min_term_freq=1,
-            min_doc_freq=1,
-        )
-    )
-    # Limit results to the number indicated in settings
-    search = search[0 : settings.MITOPEN_RELATED_POST_COUNT]
-    return search.execute().to_dict()
-
-
 def find_similar_resources(*, user, value_doc):
     """
     Execute a "more like this" query to find learning resources that are similar to the one provided.
@@ -593,7 +470,6 @@ def find_similar_resources(*, user, value_doc):
     """
     index = get_default_alias_name(ALIAS_ALL_INDICES)
     search = Search(index=index)
-    search = _apply_general_query_filters(search, user)
     search = search.filter(Q("terms", object_type=LEARNING_RESOURCE_TYPES))
     search = search.query(
         MoreLikeThis(
