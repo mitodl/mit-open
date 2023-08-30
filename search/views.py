@@ -44,7 +44,7 @@ class SearchView(ESView):
         if is_learning_query(query):
             response = execute_learn_search(user=request.user, query=request.data)
         else:
-            response = execute_search(user=request.user, query=request.data)
+            response = execute_search(query=request.data)
         return Response(response)
 
 

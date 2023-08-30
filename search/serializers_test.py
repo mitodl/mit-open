@@ -1,6 +1,5 @@
 """Tests for opensearch serializers"""
 import json
-from datetime import datetime
 
 # pylint: disable=redefined-outer-name,unused-argument
 from functools import reduce

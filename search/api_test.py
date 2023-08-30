@@ -110,7 +110,7 @@ def test_execute_search_with_suggestion(
         "suggest": RAW_SUGGESTIONS,
     }
 
-    assert execute_search(user=user, query=query) == {
+    assert execute_search(query=query) == {
         "hits": {"total": 3},
         "suggest": expected_suggest,
     }
