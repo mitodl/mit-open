@@ -93,7 +93,6 @@ def test_execute_search_with_suggestion(
     opensearch, suggest_min_hits, max_suggestions, settings
 ):
     """execute_search should execute an OpenSearch search suggestions"""
-    user = AnonymousUser()
     query = {"a": "query"}
 
     settings.OPENSEARCH_MAX_SUGGEST_HITS = suggest_min_hits
