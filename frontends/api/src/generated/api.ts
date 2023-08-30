@@ -243,6 +243,12 @@ export interface LearningResource {
   runs: Array<LearningResourceRun> | null
   /**
    *
+   * @type {Array<MicroRelationship>}
+   * @memberof LearningResource
+   */
+  learningpath_items: Array<MicroRelationship> | null
+  /**
+   *
    * @type {Program}
    * @memberof LearningResource
    */
@@ -386,6 +392,12 @@ export interface LearningResourceBase {
    * @memberof LearningResourceBase
    */
   runs: Array<LearningResourceRun> | null
+  /**
+   *
+   * @type {Array<MicroRelationship>}
+   * @memberof LearningResourceBase
+   */
+  learningpath_items: Array<MicroRelationship> | null
   /**
    *
    * @type {string}
@@ -679,6 +691,31 @@ export interface LearningResourceTopic {
    * @memberof LearningResourceTopic
    */
   name: string
+}
+/**
+ * Serializer containing only the parent and child ids
+ * @export
+ * @interface MicroRelationship
+ */
+export interface MicroRelationship {
+  /**
+   *
+   * @type {number}
+   * @memberof MicroRelationship
+   */
+  id: number
+  /**
+   *
+   * @type {number}
+   * @memberof MicroRelationship
+   */
+  parent_id: number
+  /**
+   *
+   * @type {number}
+   * @memberof MicroRelationship
+   */
+  child_id: number
 }
 /**
  *

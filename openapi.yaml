@@ -857,6 +857,12 @@ components:
             $ref: '#/components/schemas/LearningResourceRun'
           readOnly: true
           nullable: true
+        learningpath_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroRelationship'
+          nullable: true
+          readOnly: true
         program:
           allOf:
           - $ref: '#/components/schemas/Program'
@@ -905,6 +911,7 @@ components:
       - id
       - image
       - learning_path
+      - learningpath_items
       - offered_by
       - platform
       - prices
@@ -979,6 +986,12 @@ components:
             $ref: '#/components/schemas/LearningResourceRun'
           readOnly: true
           nullable: true
+        learningpath_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroRelationship'
+          nullable: true
+          readOnly: true
         readable_id:
           type: string
           maxLength: 128
@@ -1022,6 +1035,7 @@ components:
       - id
       - image
       - learning_path
+      - learningpath_items
       - offered_by
       - platform
       - prices
@@ -1195,6 +1209,23 @@ components:
       required:
       - id
       - name
+    MicroRelationship:
+      type: object
+      description: Serializer containing only the parent and child ids
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        parent_id:
+          type: integer
+          readOnly: true
+        child_id:
+          type: integer
+          readOnly: true
+      required:
+      - child_id
+      - id
+      - parent_id
     PaginatedLearningPathRelationshipList:
       type: object
       properties:

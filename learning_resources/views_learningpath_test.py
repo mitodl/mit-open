@@ -2,6 +2,7 @@
 import pytest
 from django.urls import reverse
 
+from course_catalog.factories import CourseFactory
 from learning_resources import factories, models
 from learning_resources.constants import (
     LearningResourceRelationTypes,
@@ -342,3 +343,25 @@ def test_learning_path_endpoint_delete(client, user, is_editor):
     # assert mock_learning_path_index.delete_learning_path_view.call_count == (
     #     1 if is_editor else 0
     # )
+
+    @pytest.mark.parametrize("is_editor", [True, False])
+    def test_get_resource_learning_paths(client, user):
+        """Test course detail endpoint"""
+        update_editor_group(user, is_editor)
+        course = CourseFactory.create()
+        path_items = sorted(
+            factories.LearningPathItemFactory.create_batch(3, child=course),
+            key=lambda item: item.position,
+        )
+        resp = client.get(
+            reverse("lr_courses_api-detail", args=[course.learning_resource.id])
+        )
+
+        items_json = resp.data.get("learningpath_items")
+        if is_editor:
+            for idx, item in items_json:
+                assert item.get("id") == path_items[idx].id
+                assert item.get("position") == path_items[idx].position
+                assert item.get("child") == course.learning_resource.id
+        else:
+            assert items_json == []

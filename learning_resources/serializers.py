@@ -9,6 +9,7 @@ from rest_framework.exceptions import ValidationError
 
 from learning_resources import models
 from learning_resources.constants import (
+    GROUP_STAFF_LISTS_EDITORS,
     LearningResourceRelationTypes,
     LearningResourceType,
 )
@@ -124,6 +125,16 @@ class LearningPathSerializer(serializers.ModelSerializer, ResourceListMixin):
         exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
+class MicroRelationshipSerializer(serializers.ModelSerializer):
+    """
+    Serializer containing only the parent and child ids
+    """
+
+    class Meta:
+        model = models.LearningResourceRelationship
+        fields = ("id", "parent_id", "child_id")
+
+
 class LearningResourceBaseSerializer(serializers.ModelSerializer):
     """Serializer for LearningResource, minus program"""
 
@@ -140,6 +151,30 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
     course = CourseSerializer(read_only=True, allow_null=True)
     learning_path = LearningPathSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
+    learningpath_items = serializers.SerializerMethodField()
+
+    @extend_schema_field(MicroRelationshipSerializer(many=True, allow_null=True))
+    def get_learningpath_items(self, instance):
+        """Returns the list of learning paths that the resource is in, if the user has permission"""
+        request = self.context.get("request")
+        user = request.user if request else None
+        if (
+            user
+            and user.is_authenticated
+            and (
+                user.is_staff
+                or user.is_superuser
+                or user.groups.filter(name=GROUP_STAFF_LISTS_EDITORS).first()
+                is not None
+            )
+        ):
+            return MicroRelationshipSerializer(
+                instance.parents.filter(
+                    relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+                ),
+                many=True,
+            ).data
+        return []
 
     def validate_topics(self, topics):
         """Validator for topics"""
