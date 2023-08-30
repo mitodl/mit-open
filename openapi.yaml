@@ -58,9 +58,22 @@ paths:
           description: ''
   /api/v1/courses/new/:
     get:
-      operationId: courses_new_retrieve
+      operationId: courses_new_list
       description: Get a paginated list of newly released resources.
       summary: List New
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - courses
       security:
@@ -70,13 +83,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResource'
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
   /api/v1/courses/upcoming/:
     get:
-      operationId: courses_upcoming_retrieve
+      operationId: courses_upcoming_list
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - courses
       security:
@@ -86,7 +112,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResource'
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
   /api/v1/learning_resources/:
     get:
@@ -142,9 +168,22 @@ paths:
           description: ''
   /api/v1/learning_resources/new/:
     get:
-      operationId: learning_resources_new_retrieve
+      operationId: learning_resources_new_list
       description: Get a paginated list of newly released resources.
       summary: List New
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - learning_resources
       security:
@@ -154,13 +193,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResource'
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
   /api/v1/learning_resources/upcoming/:
     get:
-      operationId: learning_resources_upcoming_retrieve
+      operationId: learning_resources_upcoming_list
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - learning_resources
       security:
@@ -170,7 +222,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResource'
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
   /api/v1/programs/:
     get:
@@ -226,9 +278,22 @@ paths:
           description: ''
   /api/v1/programs/new/:
     get:
-      operationId: programs_new_retrieve
+      operationId: programs_new_list
       description: Get a paginated list of newly released resources.
       summary: List New
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - programs
       security:
@@ -238,13 +303,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResource'
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
   /api/v1/programs/upcoming/:
     get:
-      operationId: programs_upcoming_retrieve
+      operationId: programs_upcoming_list
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - programs
       security:
@@ -254,7 +332,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResource'
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
 components:
   schemas:

@@ -113,6 +113,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         """
         return self._get_base_queryset()
 
+    @extend_schema(responses=LearningResourceSerializer(many=True))
     @action(methods=["GET"], detail=False, name="New Resources")
     def new(self, request: Request) -> QuerySet:
         """
@@ -125,6 +126,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(responses=LearningResourceSerializer(many=True))
     @action(methods=["GET"], detail=False, name="Upcoming Resources")
     def upcoming(self, request: Request) -> QuerySet:
         """
