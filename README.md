@@ -43,7 +43,7 @@ MIT Open uses [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest
 
 # Committing & Formatting
 
-To ensure commits to GitHub are safe, you should install the following first:
+To ensure commits to GitHub are safe, first install [pre-commit](https://pre-commit.com/):
 ```
 pip install pre_commit
 pre-commit install
