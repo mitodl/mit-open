@@ -78,18 +78,34 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - courses
       security:
@@ -107,18 +123,34 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - courses
       security:
@@ -204,18 +236,34 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - learning_resources
       security:
@@ -233,18 +281,34 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - learning_resources
       security:
@@ -623,9 +687,38 @@ paths:
           description: No response body
   /api/v1/learningpaths/new/:
     get:
-      operationId: learningpaths_new_retrieve
+      operationId: learningpaths_new_list
       description: Get a paginated list of newly released resources.
       summary: List New
+      parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - learningpaths
       security:
@@ -635,13 +728,42 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningPathResource'
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
   /api/v1/learningpaths/upcoming/:
     get:
-      operationId: learningpaths_upcoming_retrieve
+      operationId: learningpaths_upcoming_list
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
+      parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - learningpaths
       security:
@@ -651,7 +773,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningPathResource'
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
   /api/v1/programs/:
     get:
@@ -727,18 +849,34 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - programs
       security:
@@ -756,18 +894,34 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
       tags:
       - programs
       security:

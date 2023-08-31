@@ -1004,14 +1004,22 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     coursesNewList: async (
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/new/`
@@ -1032,12 +1040,28 @@ export const CoursesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
 
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -1105,14 +1129,22 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     coursesUpcomingList: async (
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/upcoming/`
@@ -1133,12 +1165,28 @@ export const CoursesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
 
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -1210,14 +1258,22 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async coursesNewList(
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -1226,8 +1282,12 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesNewList(
+        departmentId,
         limit,
+        offeredByName,
         offset,
+        platform,
+        resourceType,
         options
       )
       return createRequestFunction(
@@ -1267,14 +1327,22 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async coursesUpcomingList(
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -1284,8 +1352,12 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.coursesUpcomingList(
+          departmentId,
           limit,
+          offeredByName,
           offset,
+          platform,
+          resourceType,
           options
         )
       return createRequestFunction(
@@ -1345,8 +1417,12 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .coursesNewList(
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
           options
         )
         .then(request => request(axios, basePath))
@@ -1379,8 +1455,12 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .coursesUpcomingList(
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
           options
         )
         .then(request => request(axios, basePath))
@@ -1444,6 +1524,13 @@ export interface CoursesApiCoursesListRequest {
  */
 export interface CoursesApiCoursesNewListRequest {
   /**
+   *
+   * @type {number}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly departmentId?: number
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof CoursesApiCoursesNewList
@@ -1451,11 +1538,32 @@ export interface CoursesApiCoursesNewListRequest {
   readonly limit?: number
 
   /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly offeredByName?: string
+
+  /**
    * The initial index from which to return the results.
    * @type {number}
    * @memberof CoursesApiCoursesNewList
    */
   readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly resourceType?: string
 }
 
 /**
@@ -1479,6 +1587,13 @@ export interface CoursesApiCoursesRetrieveRequest {
  */
 export interface CoursesApiCoursesUpcomingListRequest {
   /**
+   *
+   * @type {number}
+   * @memberof CoursesApiCoursesUpcomingList
+   */
+  readonly departmentId?: number
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof CoursesApiCoursesUpcomingList
@@ -1486,11 +1601,32 @@ export interface CoursesApiCoursesUpcomingListRequest {
   readonly limit?: number
 
   /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesUpcomingList
+   */
+  readonly offeredByName?: string
+
+  /**
    * The initial index from which to return the results.
    * @type {number}
    * @memberof CoursesApiCoursesUpcomingList
    */
   readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesUpcomingList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesUpcomingList
+   */
+  readonly resourceType?: string
 }
 
 /**
@@ -1539,8 +1675,12 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesNewList(
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
         options
       )
       .then(request => request(this.axios, this.basePath))
@@ -1577,8 +1717,12 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesUpcomingList(
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
         options
       )
       .then(request => request(this.axios, this.basePath))
@@ -1673,14 +1817,22 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesNewList: async (
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/new/`
@@ -1701,12 +1853,28 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
 
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -1774,14 +1942,22 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesUpcomingList: async (
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/upcoming/`
@@ -1802,12 +1978,28 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
 
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -1881,14 +2073,22 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesNewList(
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -1898,8 +2098,12 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesNewList(
+          departmentId,
           limit,
+          offeredByName,
           offset,
+          platform,
+          resourceType,
           options
         )
       return createRequestFunction(
@@ -1937,14 +2141,22 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesUpcomingList(
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -1954,8 +2166,12 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesUpcomingList(
+          departmentId,
           limit,
+          offeredByName,
           offset,
+          platform,
+          resourceType,
           options
         )
       return createRequestFunction(
@@ -2015,8 +2231,12 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesNewList(
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
           options
         )
         .then(request => request(axios, basePath))
@@ -2049,8 +2269,12 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesUpcomingList(
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
           options
         )
         .then(request => request(axios, basePath))
@@ -2114,6 +2338,13 @@ export interface LearningResourcesApiLearningResourcesListRequest {
  */
 export interface LearningResourcesApiLearningResourcesNewListRequest {
   /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly departmentId?: number
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesNewList
@@ -2121,11 +2352,32 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
   readonly limit?: number
 
   /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly offeredByName?: string
+
+  /**
    * The initial index from which to return the results.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesNewList
    */
   readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly resourceType?: string
 }
 
 /**
@@ -2149,6 +2401,13 @@ export interface LearningResourcesApiLearningResourcesRetrieveRequest {
  */
 export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesUpcomingList
+   */
+  readonly departmentId?: number
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
@@ -2156,11 +2415,32 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   readonly limit?: number
 
   /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesUpcomingList
+   */
+  readonly offeredByName?: string
+
+  /**
    * The initial index from which to return the results.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
    */
   readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesUpcomingList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesUpcomingList
+   */
+  readonly resourceType?: string
 }
 
 /**
@@ -2209,8 +2489,12 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesNewList(
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
         options
       )
       .then(request => request(this.axios, this.basePath))
@@ -2247,8 +2531,12 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesUpcomingList(
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
         options
       )
       .then(request => request(this.axios, this.basePath))
@@ -2445,10 +2733,22 @@ export const LearningpathsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
+     * @param {number} [departmentId]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    learningpathsNewRetrieve: async (
+    learningpathsNewList: async (
+      departmentId?: number,
+      limit?: number,
+      offeredByName?: string,
+      offset?: number,
+      platform?: string,
+      resourceType?: string,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/new/`
@@ -2468,6 +2768,30 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
+
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -2941,10 +3265,22 @@ export const LearningpathsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
+     * @param {number} [departmentId]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    learningpathsUpcomingRetrieve: async (
+    learningpathsUpcomingList: async (
+      departmentId?: number,
+      limit?: number,
+      offeredByName?: string,
+      offset?: number,
+      platform?: string,
+      resourceType?: string,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/upcoming/`
@@ -2964,6 +3300,30 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
+
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -3146,19 +3506,39 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
+     * @param {number} [departmentId]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async learningpathsNewRetrieve(
+    async learningpathsNewList(
+      departmentId?: number,
+      limit?: number,
+      offeredByName?: string,
+      offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<LearningPathResource>
+      ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningpathsNewRetrieve(options)
+        await localVarAxiosParamCreator.learningpathsNewList(
+          departmentId,
+          limit,
+          offeredByName,
+          offset,
+          platform,
+          resourceType,
+          options
+        )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -3410,19 +3790,39 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
+     * @param {number} [departmentId]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async learningpathsUpcomingRetrieve(
+    async learningpathsUpcomingList(
+      departmentId?: number,
+      limit?: number,
+      offeredByName?: string,
+      offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<LearningPathResource>
+      ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningpathsUpcomingRetrieve(options)
+        await localVarAxiosParamCreator.learningpathsUpcomingList(
+          departmentId,
+          limit,
+          offeredByName,
+          offset,
+          platform,
+          resourceType,
+          options
+        )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -3528,14 +3928,24 @@ export const LearningpathsApiFactory = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
+     * @param {LearningpathsApiLearningpathsNewListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    learningpathsNewRetrieve(
+    learningpathsNewList(
+      requestParameters: LearningpathsApiLearningpathsNewListRequest = {},
       options?: AxiosRequestConfig
-    ): AxiosPromise<LearningPathResource> {
+    ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
-        .learningpathsNewRetrieve(options)
+        .learningpathsNewList(
+          requestParameters.departmentId,
+          requestParameters.limit,
+          requestParameters.offeredByName,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
+          options
+        )
         .then(request => request(axios, basePath))
     },
     /**
@@ -3685,14 +4095,24 @@ export const LearningpathsApiFactory = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
+     * @param {LearningpathsApiLearningpathsUpcomingListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    learningpathsUpcomingRetrieve(
+    learningpathsUpcomingList(
+      requestParameters: LearningpathsApiLearningpathsUpcomingListRequest = {},
       options?: AxiosRequestConfig
-    ): AxiosPromise<LearningPathResource> {
+    ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
-        .learningpathsUpcomingRetrieve(options)
+        .learningpathsUpcomingList(
+          requestParameters.departmentId,
+          requestParameters.limit,
+          requestParameters.offeredByName,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
+          options
+        )
         .then(request => request(axios, basePath))
     },
     /**
@@ -3789,6 +4209,55 @@ export interface LearningpathsApiLearningpathsListRequest {
    *
    * @type {string}
    * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly resourceType?: string
+}
+
+/**
+ * Request parameters for learningpathsNewList operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsNewListRequest
+ */
+export interface LearningpathsApiLearningpathsNewListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsNewList
+   */
+  readonly departmentId?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsNewList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsNewList
+   */
+  readonly offeredByName?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsNewList
+   */
+  readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsNewList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsNewList
    */
   readonly resourceType?: string
 }
@@ -3976,6 +4445,55 @@ export interface LearningpathsApiLearningpathsRetrieveRequest {
 }
 
 /**
+ * Request parameters for learningpathsUpcomingList operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsUpcomingListRequest
+ */
+export interface LearningpathsApiLearningpathsUpcomingListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsUpcomingList
+   */
+  readonly departmentId?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsUpcomingList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsUpcomingList
+   */
+  readonly offeredByName?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsUpcomingList
+   */
+  readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsUpcomingList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsUpcomingList
+   */
+  readonly resourceType?: string
+}
+
+/**
  * Request parameters for learningpathsUpdate operation in LearningpathsApi.
  * @export
  * @interface LearningpathsApiLearningpathsUpdateRequest
@@ -4063,13 +4581,25 @@ export class LearningpathsApi extends BaseAPI {
   /**
    * Get a paginated list of newly released resources.
    * @summary List New
+   * @param {LearningpathsApiLearningpathsNewListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LearningpathsApi
    */
-  public learningpathsNewRetrieve(options?: AxiosRequestConfig) {
+  public learningpathsNewList(
+    requestParameters: LearningpathsApiLearningpathsNewListRequest = {},
+    options?: AxiosRequestConfig
+  ) {
     return LearningpathsApiFp(this.configuration)
-      .learningpathsNewRetrieve(options)
+      .learningpathsNewList(
+        requestParameters.departmentId,
+        requestParameters.limit,
+        requestParameters.offeredByName,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
+        options
+      )
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -4236,13 +4766,25 @@ export class LearningpathsApi extends BaseAPI {
   /**
    * Get a paginated list of upcoming resources.
    * @summary List Upcoming
+   * @param {LearningpathsApiLearningpathsUpcomingListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LearningpathsApi
    */
-  public learningpathsUpcomingRetrieve(options?: AxiosRequestConfig) {
+  public learningpathsUpcomingList(
+    requestParameters: LearningpathsApiLearningpathsUpcomingListRequest = {},
+    options?: AxiosRequestConfig
+  ) {
     return LearningpathsApiFp(this.configuration)
-      .learningpathsUpcomingRetrieve(options)
+      .learningpathsUpcomingList(
+        requestParameters.departmentId,
+        requestParameters.limit,
+        requestParameters.offeredByName,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
+        options
+      )
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -4355,14 +4897,22 @@ export const ProgramsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     programsNewList: async (
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/new/`
@@ -4383,12 +4933,28 @@ export const ProgramsApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
 
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -4456,14 +5022,22 @@ export const ProgramsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     programsUpcomingList: async (
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/upcoming/`
@@ -4484,12 +5058,28 @@ export const ProgramsApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
 
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -4561,14 +5151,22 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async programsNewList(
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -4577,8 +5175,12 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsNewList(
+        departmentId,
         limit,
+        offeredByName,
         offset,
+        platform,
+        resourceType,
         options
       )
       return createRequestFunction(
@@ -4616,14 +5218,22 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async programsUpcomingList(
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -4633,8 +5243,12 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.programsUpcomingList(
+          departmentId,
           limit,
+          offeredByName,
           offset,
+          platform,
+          resourceType,
           options
         )
       return createRequestFunction(
@@ -4694,8 +5308,12 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .programsNewList(
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
           options
         )
         .then(request => request(axios, basePath))
@@ -4728,8 +5346,12 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .programsUpcomingList(
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
           options
         )
         .then(request => request(axios, basePath))
@@ -4793,6 +5415,13 @@ export interface ProgramsApiProgramsListRequest {
  */
 export interface ProgramsApiProgramsNewListRequest {
   /**
+   *
+   * @type {number}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly departmentId?: number
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof ProgramsApiProgramsNewList
@@ -4800,11 +5429,32 @@ export interface ProgramsApiProgramsNewListRequest {
   readonly limit?: number
 
   /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly offeredByName?: string
+
+  /**
    * The initial index from which to return the results.
    * @type {number}
    * @memberof ProgramsApiProgramsNewList
    */
   readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly resourceType?: string
 }
 
 /**
@@ -4828,6 +5478,13 @@ export interface ProgramsApiProgramsRetrieveRequest {
  */
 export interface ProgramsApiProgramsUpcomingListRequest {
   /**
+   *
+   * @type {number}
+   * @memberof ProgramsApiProgramsUpcomingList
+   */
+  readonly departmentId?: number
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof ProgramsApiProgramsUpcomingList
@@ -4835,11 +5492,32 @@ export interface ProgramsApiProgramsUpcomingListRequest {
   readonly limit?: number
 
   /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsUpcomingList
+   */
+  readonly offeredByName?: string
+
+  /**
    * The initial index from which to return the results.
    * @type {number}
    * @memberof ProgramsApiProgramsUpcomingList
    */
   readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsUpcomingList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsUpcomingList
+   */
+  readonly resourceType?: string
 }
 
 /**
@@ -4888,8 +5566,12 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsNewList(
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
         options
       )
       .then(request => request(this.axios, this.basePath))
@@ -4926,8 +5608,12 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsUpcomingList(
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
         options
       )
       .then(request => request(this.axios, this.basePath))
