@@ -7,7 +7,7 @@ from itertools import chain
 
 import pytest
 
-from learning_resources.constants import PlatformType, LearningResourceType
+from learning_resources.constants import LearningResourceType, PlatformType
 from learning_resources.etl import xpro
 from learning_resources.etl.utils import UCC_TOPIC_MAPPINGS
 from open_discussions.test_utils import any_instance_of

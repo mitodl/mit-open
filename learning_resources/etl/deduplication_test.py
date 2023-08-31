@@ -1,11 +1,11 @@
 """Tests for the deduplication ETL functions"""
 from datetime import datetime
+
 import pytest
 import pytz
-from learning_resources.etl.deduplication import (
-    get_most_relevant_run,
-)
+
 from learning_resources.constants import AvailabilityType
+from learning_resources.etl.deduplication import get_most_relevant_run
 from learning_resources.factories import LearningResourceRunFactory
 from learning_resources.models import LearningResourceRun
 

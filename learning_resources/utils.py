@@ -1,4 +1,4 @@
-""" Utils for course catalog """
+""" Utils for learning resources """
 import logging
 import re
 from datetime import datetime
@@ -9,8 +9,10 @@ import rapidjson
 import requests
 import yaml
 from django.conf import settings
+from django.contrib.auth.models import Group, User
 
 from learning_resources.constants import (
+    GROUP_STAFF_LISTS_EDITORS,
     PlatformType,
     semester_mapping,
 )
@@ -272,3 +274,12 @@ def parse_instructors(staff):
         instructors.append(instructor)
 
     return instructors
+
+
+def update_editor_group(user: User, is_editor: False):
+    """Assign or unassign user to staff list editors group"""
+    group, _ = Group.objects.get_or_create(name=GROUP_STAFF_LISTS_EDITORS)
+    if is_editor:
+        user.groups.add(group)
+    else:
+        user.groups.remove(group)

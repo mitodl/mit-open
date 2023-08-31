@@ -41,6 +41,14 @@ MIT Open uses [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest
 ./scripts/generate_openapi.sh
 ```
 
+### Load initial data
+
+Run the following to load platforms, departments, and offerors into the database:
+
+```bash
+docker compose run --rm web python manage.py loaddata platforms departments offered_by
+```
+
 # Committing & Formatting
 
 To ensure commits to GitHub are safe, first install [pre-commit](https://pre-commit.com/):

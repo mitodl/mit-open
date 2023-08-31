@@ -1,13 +1,13 @@
 """xPro course catalog ETL"""
 import copy
 import logging
-from dateutil.parser import parse
 
 import pytz
 import requests
+from dateutil.parser import parse
 from django.conf import settings
 
-from learning_resources.constants import OfferedBy, PlatformType, LearningResourceType
+from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
 from learning_resources.etl.utils import transform_topics
 
 log = logging.getLogger(__name__)
