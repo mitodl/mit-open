@@ -152,10 +152,6 @@
     "OPENSEARCH_URL": {
       "description": "URL for connecting to OpenSearch cluster"
     },
-    "ENABLE_INFINITE_CORRIDOR": {
-      "description": "Boolean indicating whether infinite corridor is enabled",
-      "required": false
-    },
     "GA_TRACKING_ID": {
       "description": "Google analytics tracking ID",
       "required": false
