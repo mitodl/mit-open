@@ -2,9 +2,9 @@
 This application provides a central interface from which learners can browse MIT courses.
 
 **SECTIONS**
-1. [Setup and Running the app](#initial-setup)
-1. [Running and Accessing the App](#running-and-accessing-the-app)
-1. [Testing and Formatting](#testing-and-formatting)
+1. [Initial Setup](#initial-setup)
+1. [Code Generation](#code-generation)
+1. [Committing & Formatting](#committing-&-formatting)
 1. [Optional Setup](#optional-setup)
 
 
@@ -35,25 +35,30 @@ The following settings must be configured before running the app:
     Sets the hostname required by webpack for building the frontend. Should likely be whatever you set 
     the host to in your /etc/hosts or the hostname that you're accessing it from. Likely `od.odl.local`.
 
-# Testing, Formatting, & Code Generation
-
-[The commands outlined in the common OL web app guide](https://github.com/mitodl/handbook/blob/master/common-web-app-guide.md#testing-and-formatting)
-are all relevant to MIT Open.
-
-The following commands are also available:
-
-```
-# Format python code
-docker-compose run --rm web black .
-# Run storybook locally
-docker-compose run -p 9001:9001 watch npm run storybook
-```
-
-## Code Generation
+# Code Generation
 MIT Open uses [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest/) to generate and OpenAPI spec from Django views. Additionally, we use [OpenAPITools/openapi-generator](https://github.com/OpenAPITools/openapi-generator) to generate Typescript declarations and an API Client. These generated files are checked into source control; CI checks that they are up-to-date. To regenerate these files, run
 ```bash
 ./scripts/generate_openapi.sh
 ```
+
+# Committing & Formatting
+
+To ensure commits to GitHub are safe, you should install the following first:
+```
+pip install pre_commit
+pre-commit install
+```
+
+Running pre-commit can confirm your commit is safe to be pushed to GitHub and correctly formatted:
+```
+pre-commit run --all-files
+```
+
+To automatically install precommit hooks when cloning a repo, you can run this:
+```
+git config --global init.templateDir ~/.git-template
+pre-commit init-templatedir ~/.git-template
+```    
 
 # Optional Setup
 
@@ -193,18 +198,3 @@ The following environment variables must be defined:
     * USERINFO_URL - Provder endpoint where client sends requests for identity claims.
 
 To authenticate with an existing MIT Open user via an OpenID Connect provider, open http://od.odl.local:8063/login/ol-oidc in your browser.
-
-
-## Commits
-
-To ensure commits to github are safe, you should install the following first:
-```
-pip install pre_commit
-pre-commit install
-```
-
-To automatically install precommit hooks when cloning a repo, you can run this:
-```
-git config --global init.templateDir ~/.git-template
-pre-commit init-templatedir ~/.git-template
-```    
