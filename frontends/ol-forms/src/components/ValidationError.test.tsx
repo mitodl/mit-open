@@ -5,11 +5,11 @@ import ValidationError from "./ValidationError"
 describe("ValidationError", () => {
   it.each(["", undefined, null])(
     "renders nothing when message is falsey",
-    message => {
+    (message) => {
       render(<ValidationError message={message} />)
       const alert = screen.queryByRole("alert")
       expect(alert).toBe(null)
-    }
+    },
   )
 
   it("renders a div with role=alert when message is not null", () => {

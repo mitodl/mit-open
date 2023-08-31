@@ -1,10 +1,10 @@
 """Management command to index content"""
 from django.core.management.base import BaseCommand, CommandError
 
-from open_discussions.utils import now_in_utc
-from search.tasks import start_update_index
-from search.constants import VALID_OBJECT_TYPES, RESOURCE_FILE_TYPE, COURSE_TYPE
 from course_catalog.constants import PlatformType
+from open_discussions.utils import now_in_utc
+from search.constants import COURSE_TYPE, RESOURCE_FILE_TYPE, VALID_OBJECT_TYPES
+from search.tasks import start_update_index
 
 valid_object_types = list(VALID_OBJECT_TYPES)
 valid_object_types.append(RESOURCE_FILE_TYPE)
@@ -13,7 +13,7 @@ valid_object_types.append(RESOURCE_FILE_TYPE)
 class Command(BaseCommand):
     """Indexes opensearch content"""
 
-    help = "Update opensearch index"
+    help = "Update opensearch index"  # noqa: A003
 
     def add_arguments(self, parser):
         allowed_course_platforms = [
@@ -46,19 +46,19 @@ class Command(BaseCommand):
 
         super().add_arguments(parser)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         """Index all learning resources"""
 
         if options["all"]:
             task = start_update_index.delay(valid_object_types, options["platform"])
             self.stdout.write(
-                "Started celery task {task} to update index content for all indexes".format(
+                "Started celery task {task} to update index content for all indexes".format(  # noqa: E501, UP032
                     task=task
                 )
             )
             if options["platform"]:
                 self.stdout.write(
-                    "Only updating course and course document indexes for {platform}".format(
+                    "Only updating course and course document indexes for {platform}".format(  # noqa: E501
                         platform=options["platform"]
                     )
                 )
@@ -82,14 +82,14 @@ class Command(BaseCommand):
                 )
             task = start_update_index.delay(indexes_to_update, options["platform"])
             self.stdout.write(
-                "Started celery task {task} to update index content for the following indexes: {indexes}".format(
+                "Started celery task {task} to update index content for the following indexes: {indexes}".format(  # noqa: E501
                     task=task, indexes=indexes_to_update
                 )
             )
 
             if options["platform"]:
                 self.stdout.write(
-                    "Only updating course and course document indexes for {platform}".format(
+                    "Only updating course and course document indexes for {platform}".format(  # noqa: E501
                         platform=options["platform"]
                     )
                 )
@@ -99,9 +99,8 @@ class Command(BaseCommand):
         errors = task.get()
         errors = [error for error in errors if error is not None]
         if errors:
-            raise CommandError(f"Update index errored: {errors}")
+            msg = f"Update index errored: {errors}"
+            raise CommandError(msg)
 
         total_seconds = (now_in_utc() - start).total_seconds()
-        self.stdout.write(
-            "Update index finished, took {} seconds".format(total_seconds)
-        )
+        self.stdout.write(f"Update index finished, took {total_seconds} seconds")

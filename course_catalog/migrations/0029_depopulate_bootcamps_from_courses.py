@@ -2,17 +2,16 @@
 
 from django.db import migrations
 
-from course_catalog.constants import OfferedBy, PlatformType
+from course_catalog.constants import OfferedBy
 
 
 def depopulate_bootcamps_from_courses(apps, schema_editor):
-    """Removes bootcamp records from the Courses table"""
+    """Removes bootcamp records from the Courses table"""  # noqa: D401
     Course = apps.get_model("course_catalog", "Course")
     Course.objects.filter(offered_by=OfferedBy.bootcamps.value).delete()
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0028_adds_offeredby")]
 
     operations = [

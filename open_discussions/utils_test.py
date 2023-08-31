@@ -3,23 +3,23 @@ import datetime
 from math import ceil
 from tempfile import NamedTemporaryFile
 
-from django.contrib.auth import get_user_model
 import pytest
 import pytz
+from django.contrib.auth import get_user_model
 
 from open_discussions.factories import UserFactory
 from open_discussions.utils import (
-    now_in_utc,
-    is_near_now,
-    normalize_to_start_of_day,
     chunks,
-    merge_strings,
+    extract_values,
     filter_dict_keys,
     filter_dict_with_renamed_keys,
     html_to_plain_text,
+    is_near_now,
     markdown_to_plain_text,
+    merge_strings,
+    normalize_to_start_of_day,
+    now_in_utc,
     prefetched_iterator,
-    extract_values,
     write_to_file,
 )
 
@@ -50,8 +50,10 @@ def test_normalize_to_start_of_day():
     Test that normalize_to_start_of_day zeroes out the time components
     """
     assert normalize_to_start_of_day(
-        datetime.datetime(2018, 1, 3, 5, 6, 7)
-    ) == datetime.datetime(2018, 1, 3)
+        datetime.datetime(2018, 1, 3, 5, 6, 7)  # noqa: DTZ001
+    ) == datetime.datetime(  # noqa: DTZ001
+        2018, 1, 3
+    )
 
 
 def test_chunks():
@@ -83,7 +85,7 @@ def test_chunks_iterable():
     input_range = range(count)
     chunk_output = []
     for chunk in chunks(input_range, chunk_size=10):
-        chunk_output.append(chunk)
+        chunk_output.append(chunk)  # noqa: PERF402
     assert len(chunk_output) == ceil(113 / 10)
 
     range_list = []
@@ -93,11 +95,11 @@ def test_chunks_iterable():
 
 
 @pytest.mark.parametrize(
-    "list_or_string,output",
+    ("list_or_string", "output"),
     [
-        ["str", ["str"]],
-        [["str", None, [None]], ["str"]],
-        [[["a"], "b", ["c", "d"], "e"], ["a", "b", "c", "d", "e"]],
+        ["str", ["str"]],  # noqa: PT007
+        [["str", None, [None]], ["str"]],  # noqa: PT007
+        [[["a"], "b", ["c", "d"], "e"], ["a", "b", "c", "d", "e"]],  # noqa: PT007
     ],
 )
 def test_merge_strings(list_or_string, output):
@@ -161,7 +163,7 @@ def test_markdown_to_plain_text():
     assert html_to_plain_text(normal_text) == normal_text
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("chunk_size", [2, 3, 5, 7, 9, 10])
 def test_prefetched_iterator(chunk_size):
     """
@@ -191,5 +193,5 @@ def test_write_to_file():
     content = b"-----BEGIN CERTIFICATE-----\nMIID5DCCA02gAwIBAgIRTUTVwsj4Vy+l6+XTYjnIQ==\n-----END CERTIFICATE-----"
     with NamedTemporaryFile() as outfile:
         write_to_file(outfile.name, content)
-        with open(outfile.name, "rb") as infile:
+        with open(outfile.name, "rb") as infile:  # noqa: PTH123
             assert infile.read() == content

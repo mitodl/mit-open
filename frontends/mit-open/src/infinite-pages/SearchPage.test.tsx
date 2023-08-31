@@ -3,7 +3,7 @@ import { when } from "jest-when"
 import { makeSearchResponse } from "ol-search-ui/src/factories"
 import {
   SearchQueryParams,
-  buildSearchQuery
+  buildSearchQuery,
 } from "@mitodl/course-search-utils"
 
 import { assertInstanceOf } from "ol-util"
@@ -18,20 +18,20 @@ import LearningResourceCard from "../components/LearningResourceCard"
 const spyLearningResourceCard = jest.mocked(LearningResourceCard)
 
 const expectedFacets = {
-  audience:            [],
-  certification:       [],
-  type:                ["program", "course"],
-  offered_by:          [],
-  topics:              [],
-  department_name:     [],
-  level:               [],
+  audience: [],
+  certification: [],
+  type: ["program", "course"],
+  offered_by: [],
+  topics: [],
+  department_name: [],
+  level: [],
   course_feature_tags: [],
-  resource_type:       []
+  resource_type: [],
 }
 
 const assertLastSearchRequest = (
   params: SearchQueryParams,
-  callCount?: number
+  callCount?: number,
 ) => {
   const calls = makeRequest.mock.calls.filter(([method, url]) => {
     return method === "post" && url === "search/"
@@ -61,7 +61,7 @@ const getSearchTextInput = (): HTMLInputElement => {
  */
 const enableInfiniteScrollerScrolling = async () => {
   const results = await screen.findByLabelText("Search Results", {
-    exact: false
+    exact: false,
   })
   // eslint-disable-next-line testing-library/no-node-access
   const scroller = results.parentNode
@@ -73,7 +73,7 @@ describe("SearchPage", () => {
   test("should support InfiniteScroll-ing", async () => {
     const DEFAULT_DEVICE_WIDTH = "1200px"
     window.matchMedia = createMatchMediaForJsDom({
-      width: DEFAULT_DEVICE_WIDTH
+      width: DEFAULT_DEVICE_WIDTH,
     })
 
     const firstResponse = makeSearchResponse()
@@ -82,12 +82,12 @@ describe("SearchPage", () => {
     when(makeRequest)
       .calledWith("post", "search/", expect.anything())
       .mockResolvedValueOnce({
-        data:   firstResponse,
-        status: 200
+        data: firstResponse,
+        status: 200,
       })
       .mockResolvedValueOnce({
-        data:   secondResponse,
-        status: 200
+        data: secondResponse,
+        status: 200,
       })
 
     await renderTestApp({ url: "/infinite/search" })
@@ -104,30 +104,30 @@ describe("SearchPage", () => {
     expect(makeRequest.mock.calls[0][1]).toEqual("search/")
     expect(makeRequest.mock.calls[0][2]).toMatchObject(
       buildSearchQuery({
-        text:         "",
-        from:         0,
+        text: "",
+        from: 0,
         activeFacets: expectedFacets,
-        size:         4,
-        aggregations: ["certification", "type", "offered_by"]
-      })
+        size: 4,
+        aggregations: ["certification", "type", "offered_by"],
+      }),
     )
 
     expect(makeRequest.mock.calls[1][0]).toEqual("post")
     expect(makeRequest.mock.calls[1][1]).toEqual("search/")
     expect(makeRequest.mock.calls[1][2]).toMatchObject(
       buildSearchQuery({
-        text:         "",
-        from:         4,
+        text: "",
+        from: 4,
         activeFacets: expectedFacets,
-        size:         4,
-        aggregations: ["certification", "type", "offered_by"]
-      })
+        size: 4,
+        aggregations: ["certification", "type", "offered_by"],
+      }),
     )
   })
 
   test.each([
     { width: 200, filtersExpanded: false, showsFilterButton: true },
-    { width: 1200, filtersExpanded: true, showsFilterButton: false }
+    { width: 1200, filtersExpanded: true, showsFilterButton: false },
   ])(
     "should render a facet filters for certification, resource type and  offeror",
     async ({ width, filtersExpanded, showsFilterButton }) => {
@@ -143,9 +143,9 @@ describe("SearchPage", () => {
       expect(!!screen.queryByText("Certificates")).toBe(filtersExpanded)
 
       expect(!!screen.queryByRole("button", { name: "Filter" })).toBe(
-        showsFilterButton
+        showsFilterButton,
       )
-    }
+    },
   )
 
   test("should filter by facets", async () => {
@@ -154,12 +154,12 @@ describe("SearchPage", () => {
 
     assertLastSearchRequest(
       {
-        from:         0,
-        size:         4,
+        from: 0,
+        size: 4,
         activeFacets: expectedFacets,
-        aggregations: ["certification", "type", "offered_by"]
+        aggregations: ["certification", "type", "offered_by"],
       },
-      1
+      1,
     )
 
     await user.click(await screen.findByDisplayValue("MITx"))
@@ -170,15 +170,15 @@ describe("SearchPage", () => {
 
     assertLastSearchRequest(
       {
-        from:         0,
-        size:         4,
+        from: 0,
+        size: 4,
         activeFacets: {
           ...expectedFacets,
-          offered_by: ["MITx"]
+          offered_by: ["MITx"],
         },
-        aggregations: ["certification", "type", "offered_by"]
+        aggregations: ["certification", "type", "offered_by"],
       },
-      2
+      2,
     )
   })
 
@@ -188,15 +188,15 @@ describe("SearchPage", () => {
 
     assertLastSearchRequest(
       {
-        from:         0,
-        size:         4,
+        from: 0,
+        size: 4,
         activeFacets: {
           ...expectedFacets,
-          offered_by: ["MITx"]
+          offered_by: ["MITx"],
         },
-        aggregations: ["certification", "type", "offered_by"]
+        aggregations: ["certification", "type", "offered_by"],
       },
-      1
+      1,
     )
 
     await waitFor(async () => {
@@ -206,28 +206,28 @@ describe("SearchPage", () => {
     await waitFor(() => {
       expect(history.location).toEqual(
         expect.objectContaining({
-          search:   "",
-          pathname: "/infinite/search"
-        })
+          search: "",
+          pathname: "/infinite/search",
+        }),
       )
     })
 
     assertLastSearchRequest(
       {
-        from:         0,
-        size:         4,
+        from: 0,
+        size: 4,
         activeFacets: {
-          ...expectedFacets
+          ...expectedFacets,
         },
-        aggregations: ["certification", "type", "offered_by"]
+        aggregations: ["certification", "type", "offered_by"],
       },
-      2
+      2,
     )
   })
 
   test("the user should be able to update the search text and submit", async () => {
     setMockResponse.post("search/", {
-      hits: { hits: [], total: 0 }
+      hits: { hits: [], total: 0 },
     })
     await renderTestApp({ url: "/infinite/search" })
 
@@ -238,24 +238,24 @@ describe("SearchPage", () => {
     expect(makeRequest.mock.calls[0][1]).toEqual("search/")
     expect(makeRequest.mock.calls[0][2]).toMatchObject(
       buildSearchQuery({
-        text:         "",
-        from:         0,
+        text: "",
+        from: 0,
         activeFacets: expectedFacets,
-        size:         4,
-        aggregations: ["certification", "type", "offered_by"]
-      })
+        size: 4,
+        aggregations: ["certification", "type", "offered_by"],
+      }),
     )
 
     expect(makeRequest.mock.calls[1][0]).toEqual("post")
     expect(makeRequest.mock.calls[1][1]).toEqual("search/")
     expect(makeRequest.mock.calls[1][2]).toMatchObject(
       buildSearchQuery({
-        text:         "New Search Text",
-        from:         0,
+        text: "New Search Text",
+        from: 0,
         activeFacets: expectedFacets,
-        size:         4,
-        aggregations: ["certification", "type", "offered_by"]
-      })
+        size: 4,
+        aggregations: ["certification", "type", "offered_by"],
+      }),
     )
   })
 
@@ -269,11 +269,11 @@ describe("SearchPage", () => {
 
     expect(spyLearningResourceCard).toHaveBeenCalledWith(
       expect.objectContaining({ resource: results.hits.hits[0]._source }),
-      expect.anything()
+      expect.anything(),
     )
     expect(spyLearningResourceCard).toHaveBeenCalledWith(
       expect.objectContaining({ resource: results.hits.hits[1]._source }),
-      expect.anything()
+      expect.anything(),
     )
   })
 })

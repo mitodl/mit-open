@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("course_catalog", "0004_make_short_description_nullable_20190110_2018")
     ]

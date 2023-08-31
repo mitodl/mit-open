@@ -3,10 +3,10 @@ import HomePage from "./Home"
 
 const routes: RouteProps[] = [
   {
-    path:      "/",
+    path: "/",
     component: HomePage,
-    exact:     true
-  }
+    exact: true,
+  },
 ]
 
 export default routes

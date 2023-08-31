@@ -11,9 +11,11 @@ from search.tasks import deindex_document
 class Command(BaseCommand):
     """Delete es course records that don't have a database object"""
 
-    help = "Remove courses with no database record from the opensearch index"
+    help = (  # noqa: A003
+        "Remove courses with no database record from the opensearch index"
+    )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         """Delete es course records that don't have a database object"""
         index = get_default_alias_name(COURSE_TYPE)
 
@@ -34,9 +36,9 @@ class Command(BaseCommand):
         for course in bad_courses:
             query = {"parent_id": {"type": "resourcefile", "id": course["_id"]}}
             for document in es_iterate_all_documents(index, query):
-                bad_documents.append(document)
+                bad_documents.append(document)  # noqa: PERF402
 
-        self.stdout.write("Removing {} document records".format(len(bad_documents)))
+        self.stdout.write(f"Removing {len(bad_documents)} document records")
 
         for doc in bad_documents:
             deindex_document(
@@ -45,7 +47,7 @@ class Command(BaseCommand):
                 routing=doc["_source"]["resource_relations"]["parent"],
             )
 
-        self.stdout.write("Removing {} course records".format(len(bad_courses)))
+        self.stdout.write(f"Removing {len(bad_courses)} course records")
 
         for course in bad_courses:
             deindex_document(course["_id"], COURSE_TYPE)

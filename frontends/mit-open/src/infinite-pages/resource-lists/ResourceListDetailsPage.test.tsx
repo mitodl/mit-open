@@ -3,13 +3,13 @@ import {
   LearningResourceType as LRT,
   StaffList,
   isUserListOrPath,
-  PaginatedListItems
+  PaginatedListItems,
 } from "ol-search-ui"
 import {
   makeUserList,
   makeStaffList,
   makeListItemsPaginated,
-  makeTopicsPaginated
+  makeTopicsPaginated,
 } from "ol-search-ui/src/factories"
 import { urls as lrUrls } from "../../api/learning-resources"
 import { manageListDialogs } from "./ManageListDialogs"
@@ -22,7 +22,7 @@ import {
   expectProps,
   waitFor,
   act,
-  expectLastProps
+  expectLastProps,
 } from "../../test-utils"
 import { User } from "../../types/settings"
 import { ControlledPromise } from "ol-util/test-utils"
@@ -32,7 +32,7 @@ jest.mock("./ItemsListing", () => {
   return {
     __esModule: true,
     ...actual,
-    default:    jest.fn(actual.default)
+    default: jest.fn(actual.default),
   }
 })
 
@@ -43,40 +43,40 @@ const spyItemsListing = jest.mocked(ItemsListing)
  */
 const setup = ({
   userSettings,
-  list
+  list,
 }: {
   userSettings?: Partial<User>
   list: UserList | StaffList
 }) => {
   const paginatedItems = makeListItemsPaginated({ count: list.item_count })
-  const items = paginatedItems.results.map(r => r.content_data)
+  const items = paginatedItems.results.map((r) => r.content_data)
   const topics = [...list.topics, ...makeTopicsPaginated({ count: 3 }).results]
-  const detailsUrl = isUserListOrPath(list) ?
-    lrUrls.userList.details(list.id) :
-    lrUrls.staffList.details(list.id)
-  const itemsUrl = isUserListOrPath(list) ?
-    lrUrls.userList.itemsListing(list.id) :
-    lrUrls.staffList.itemsListing(list.id)
+  const detailsUrl = isUserListOrPath(list)
+    ? lrUrls.userList.details(list.id)
+    : lrUrls.staffList.details(list.id)
+  const itemsUrl = isUserListOrPath(list)
+    ? lrUrls.userList.itemsListing(list.id)
+    : lrUrls.staffList.itemsListing(list.id)
   setMockResponse.get(detailsUrl, list)
   setMockResponse.get(itemsUrl, paginatedItems)
   setMockResponse.get(lrUrls.topics.listing, topics)
 
-  const url = isUserListOrPath(list) ?
-    `/infinite/lists/${list.id}` :
-    `/infinite/stafflists/${list.id}`
+  const url = isUserListOrPath(list)
+    ? `/infinite/lists/${list.id}`
+    : `/infinite/stafflists/${list.id}`
   const { history, queryClient } = renderTestApp({ url, user: userSettings })
   return { history, items, paginatedItems, queryClient }
 }
 
 const modes = [
   {
-    Page:     "UserListDetailsPage",
-    makeList: makeUserList
+    Page: "UserListDetailsPage",
+    makeList: makeUserList,
   },
   {
-    Page:     "StaffListDetailsPage",
-    makeList: makeUserList
-  }
+    Page: "StaffListDetailsPage",
+    makeList: makeUserList,
+  },
 ] as const
 
 test.each(modes)("$Page renders list title", async ({ makeList }) => {
@@ -88,14 +88,14 @@ test.each(modes)("$Page renders list title", async ({ makeList }) => {
 test.each([
   {
     userSettings: { id: null },
-    list:         makeUserList(),
-    type:         "userlist"
+    list: makeUserList(),
+    type: "userlist",
   },
   {
     userSettings: { id: null },
-    list:         makeStaffList(),
-    type:         "stafflist"
-  }
+    list: makeStaffList(),
+    type: "stafflist",
+  },
 ])(
   "Unauthenicated users cannot edit or reorder $type",
   async ({ list, userSettings }) => {
@@ -106,34 +106,34 @@ test.each([
     expect(editButton).toBe(null)
     const reorderButton = screen.queryByRole("button", { name: "Reorder" })
     expect(reorderButton).toBe(null)
-  }
+  },
 )
 
 test.each([
   {
     userSettings: { id: 1 },
-    list:         makeUserList({ author: 1, object_type: LRT.LearningPath }),
-    canEdit:      true,
-    canSort:      true
+    list: makeUserList({ author: 1, object_type: LRT.LearningPath }),
+    canEdit: true,
+    canSort: true,
   },
   {
     userSettings: { id: 1 },
-    list:         makeUserList({ author: 1, object_type: LRT.Userlist }),
-    canEdit:      true,
-    canSort:      false
+    list: makeUserList({ author: 1, object_type: LRT.Userlist }),
+    canEdit: true,
+    canSort: false,
   },
   {
     userSettings: { id: 2 },
-    list:         makeUserList({ author: 1, object_type: LRT.LearningPath }),
-    canEdit:      false,
-    canSort:      false
+    list: makeUserList({ author: 1, object_type: LRT.LearningPath }),
+    canEdit: false,
+    canSort: false,
   },
   {
     userSettings: { id: 2 },
-    list:         makeUserList({ author: 1, object_type: LRT.Userlist }),
-    canEdit:      false,
-    canSort:      false
-  }
+    list: makeUserList({ author: 1, object_type: LRT.Userlist }),
+    canEdit: false,
+    canSort: false,
+  },
 ])(
   "Authenticated users can edit userlists & sort paths if and only if they are the author",
   async ({ list, userSettings, canEdit, canSort }) => {
@@ -145,34 +145,34 @@ test.each([
 
     const reorderButton = screen.queryByRole("button", { name: "Reorder" })
     expect(!!reorderButton).toBe(canSort)
-  }
+  },
 )
 
 test.each([
   {
     userSettings: { is_staff_list_editor: true },
-    list:         makeStaffList({ object_type: LRT.StaffPath }),
-    canEdit:      true,
-    canSort:      true
+    list: makeStaffList({ object_type: LRT.StaffPath }),
+    canEdit: true,
+    canSort: true,
   },
   {
     userSettings: { is_staff_list_editor: true },
-    list:         makeStaffList({ object_type: LRT.StaffList }),
-    canEdit:      true,
-    canSort:      false
+    list: makeStaffList({ object_type: LRT.StaffList }),
+    canEdit: true,
+    canSort: false,
   },
   {
     userSettings: { is_staff_list_editor: false },
-    list:         makeStaffList({ object_type: LRT.StaffPath }),
-    canEdit:      false,
-    canSort:      false
+    list: makeStaffList({ object_type: LRT.StaffPath }),
+    canEdit: false,
+    canSort: false,
   },
   {
     userSettings: { is_staff_list_editor: false },
-    list:         makeStaffList({ object_type: LRT.StaffList }),
-    canEdit:      false,
-    canSort:      false
-  }
+    list: makeStaffList({ object_type: LRT.StaffList }),
+    canEdit: false,
+    canSort: false,
+  },
 ])(
   "Authenticated users can edit stafflists & sort learning paths if and only if they are the author",
   async ({ list, userSettings, canEdit, canSort }) => {
@@ -184,18 +184,18 @@ test.each([
 
     const reorderButton = screen.queryByRole("button", { name: "Reorder" })
     expect(!!reorderButton).toBe(canSort)
-  }
+  },
 )
 
 test.each([
   {
-    list:         makeUserList({ object_type: LRT.LearningPath, author: 123 }),
-    userSettings: { id: 123 }
+    list: makeUserList({ object_type: LRT.LearningPath, author: 123 }),
+    userSettings: { id: 123 },
   },
   {
-    list:         makeStaffList({ object_type: LRT.StaffPath }),
-    userSettings: { is_staff_list_editor: true }
-  }
+    list: makeStaffList({ object_type: LRT.StaffPath }),
+    userSettings: { is_staff_list_editor: true },
+  },
 ])(
   "Clicking reorder makes items reorderable, clicking Done makes them static",
   async ({ list, userSettings }) => {
@@ -206,30 +206,30 @@ test.each([
     expectLastProps(spyItemsListing, { sortable: true })
 
     const doneButton = await screen.findByRole("button", {
-      name: "Done ordering"
+      name: "Done ordering",
     })
     await user.click(doneButton)
     expectLastProps(spyItemsListing, { sortable: false })
-  }
+  },
 )
 
 test.each([
   {
-    list:       makeUserList({ object_type: LRT.LearningPath, item_count: 0 }),
-    canReorder: false
+    list: makeUserList({ object_type: LRT.LearningPath, item_count: 0 }),
+    canReorder: false,
   },
   {
-    list:       makeUserList({ object_type: LRT.LearningPath, item_count: 2 }),
-    canReorder: true
+    list: makeUserList({ object_type: LRT.LearningPath, item_count: 2 }),
+    canReorder: true,
   },
   {
-    list:       makeStaffList({ object_type: LRT.StaffPath, item_count: 0 }),
-    canReorder: false
+    list: makeStaffList({ object_type: LRT.StaffPath, item_count: 0 }),
+    canReorder: false,
   },
   {
-    list:       makeStaffList({ object_type: LRT.StaffList, item_count: 3 }),
-    canReorder: false
-  }
+    list: makeStaffList({ object_type: LRT.StaffList, item_count: 3 }),
+    canReorder: false,
+  },
 ])(
   "Shows 'Reorder' button if and only not empty (item count = $list.item_count; $list.object_type)",
   async ({ list, canReorder }) => {
@@ -237,12 +237,12 @@ test.each([
     await screen.findByRole("heading", { name: list.title })
     const reorderButton = screen.queryByRole("button", { name: "Reorder" })
     expect(!!reorderButton).toBe(canReorder)
-  }
+  },
 )
 
 test.each([
   { list: makeUserList({ author: 1 }), userSettings: { id: 1 } },
-  { list: makeStaffList(), userSettings: { is_staff_list_editor: true } }
+  { list: makeStaffList(), userSettings: { is_staff_list_editor: true } },
 ])(
   "Edit buttons opens editing dialog ($list.object_type)",
   async ({ list, userSettings }) => {
@@ -255,7 +255,7 @@ test.each([
     expect(editList).not.toHaveBeenCalled()
     await user.click(editButton)
     expect(editList).toHaveBeenCalledWith(list)
-  }
+  },
 )
 
 test.each([{ list: makeUserList() }, { list: makeStaffList() }])(
@@ -263,25 +263,25 @@ test.each([{ list: makeUserList() }, { list: makeStaffList() }])(
   async ({ list }) => {
     const { paginatedItems } = setup({ list })
     expectLastProps(spyItemsListing, {
-      isLoading:    true,
-      items:        undefined,
-      emptyMessage: "There are no items in this list yet."
+      isLoading: true,
+      items: undefined,
+      emptyMessage: "There are no items in this list yet.",
     })
 
     await waitFor(() => {
       expectLastProps(spyItemsListing, {
         // sortable is tested elsewhere
-        isLoading:    false,
-        items:        paginatedItems.results,
-        emptyMessage: "There are no items in this list yet."
+        isLoading: false,
+        items: paginatedItems.results,
+        emptyMessage: "There are no items in this list yet.",
       })
     })
-  }
+  },
 )
 
 test.each([
   { list: makeUserList(), listUrls: lrUrls.userList },
-  { list: makeStaffList(), listUrls: lrUrls.staffList }
+  { list: makeStaffList(), listUrls: lrUrls.staffList },
 ])(
   "Passes isRefetching=true to ItemsList while reloading data",
   async ({ list, listUrls }) => {
@@ -298,10 +298,10 @@ test.each([
     // isFetching is gets passed to ItemsListing
     act(() => {
       queryClient.invalidateQueries({
-        predicate: query => {
+        predicate: (query) => {
           // @ts-expect-error Since this is all queries, data is unknown
           return query.state.data?.pages?.[0] === paginatedItems
-        }
+        },
       })
     })
     await waitFor(() => expectProps(spyItemsListing, { isRefetching: true }))
@@ -311,5 +311,5 @@ test.each([
       await itemsResponse
     })
     await waitFor(() => expectProps(spyItemsListing, { isRefetching: false }))
-  }
+  },
 )

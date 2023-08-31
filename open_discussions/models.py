@@ -17,7 +17,7 @@ class TimestampedModelQuerySet(QuerySet):
         Automatically update updated_on timestamp when .update(). This is because .update()
         does not go through .save(), thus will not auto_now, because it happens on the
         database level without loading objects into memory.
-        """
+        """  # noqa: D402, E501
         if "updated_on" not in kwargs:
             kwargs["updated_on"] = now_in_utc()
         return super().update(**kwargs)
@@ -29,7 +29,7 @@ class TimestampedModel(Model):
     """
 
     objects = TimestampedModelQuerySet.as_manager()
-    created_on = DateTimeField(auto_now_add=True)  # UTC
+    created_on = DateTimeField(auto_now_add=True)  # UTC  # noqa: DJ012
     updated_on = DateTimeField(auto_now=True)  # UTC
 
     class Meta:

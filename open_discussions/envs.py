@@ -1,7 +1,7 @@
 """Functions reading and parsing environment variables"""
 import os
-
 from ast import literal_eval
+
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -20,7 +20,7 @@ def get_string(name, default):
     Returns:
         str:
             The environment variable value, or the default
-    """
+    """  # noqa: E501
     return os.environ.get(name, default)
 
 
@@ -35,7 +35,7 @@ def get_bool(name, default):
     Returns:
         bool:
             The environment variable value parsed as a bool
-    """
+    """  # noqa: E501
     value = os.environ.get(name)
     if value is None:
         return default
@@ -46,11 +46,8 @@ def get_bool(name, default):
     elif parsed_value == "false":
         return False
 
-    raise EnvironmentVariableParseException(
-        "Expected value in {name}={value} to be a boolean".format(
-            name=name, value=value
-        )
-    )
+    msg = f"Expected value in {name}={value} to be a boolean"
+    raise EnvironmentVariableParseException(msg)
 
 
 def get_int(name, default):
@@ -64,7 +61,7 @@ def get_int(name, default):
     Returns:
         int:
             The environment variable value parsed as an int
-    """
+    """  # noqa: E501
     value = os.environ.get(name)
     if value is None:
         return default
@@ -72,11 +69,8 @@ def get_int(name, default):
     try:
         parsed_value = int(value)
     except ValueError as ex:
-        raise EnvironmentVariableParseException(
-            "Expected value in {name}={value} to be an int".format(
-                name=name, value=value
-            )
-        ) from ex
+        msg = f"Expected value in {name}={value} to be an int"
+        raise EnvironmentVariableParseException(msg) from ex
 
     return parsed_value
 
@@ -92,7 +86,7 @@ def get_any(name, default):
     Returns:
         any:
             The environment variable value parsed as a bool, int, or a string
-    """
+    """  # noqa: E501
     try:
         return get_bool(name, default)
     except EnvironmentVariableParseException:
@@ -111,15 +105,13 @@ def get_list_of_str(name, default):
     Returns:
         list of str:
             The environment variable value parsed as a list of strings
-    """
+    """  # noqa: E501
     value = os.environ.get(name)
     if value is None:
         return default
 
     parse_exception = EnvironmentVariableParseException(
-        "Expected value in {name}={value} to be a list of str".format(
-            name=name, value=value
-        )
+        f"Expected value in {name}={value} to be a list of str"
     )
 
     try:
@@ -149,7 +141,7 @@ def get_key(name, default):
 
     Returns:
         bytes: The environment variable value, or the default as bytestring
-    """
+    """  # noqa: E501
     value = get_string(name, default)
     if not isinstance(value, str):
         return value

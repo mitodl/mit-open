@@ -68,33 +68,33 @@ def test_lr_audience(platform, audience):
 
 
 @pytest.mark.parametrize(
-    "platform, audience, availability, has_cert",
+    ("platform", "audience", "availability", "has_cert"),
     [
-        [
+        [  # noqa: PT007
             PlatformTypeChoice.ocw.value,
             constants.PROFESSIONAL,
             constants.AvailabilityType.archived.value,
             True,
         ],
-        [
+        [  # noqa: PT007
             PlatformTypeChoice.ocw.value,
             constants.OPEN,
             constants.AvailabilityType.archived.value,
             False,
         ],
-        [
+        [  # noqa: PT007
             PlatformTypeChoice.mitx.value,
             constants.PROFESSIONAL,
             constants.AvailabilityType.archived.value,
             True,
         ],
-        [
+        [  # noqa: PT007
             PlatformTypeChoice.mitx.value,
             constants.OPEN,
             constants.AvailabilityType.archived.value,
             False,
         ],
-        [
+        [  # noqa: PT007
             PlatformTypeChoice.mitx.value,
             constants.OPEN,
             constants.AvailabilityType.current.value,

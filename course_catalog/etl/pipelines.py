@@ -1,29 +1,28 @@
 """ETL pipelines"""
-from typing import List
 
-from toolz import compose, curry, curried
+from toolz import compose, curried, curry
 
+from course_catalog.constants import PlatformType
 from course_catalog.etl import (
-    micromasters,
     loaders,
+    micromasters,
     mitx,
-    xpro,
     mitxonline,
     ocw,
     oll,
-    video,
-    youtube,
     podcast,
     prolearn,
+    video,
+    xpro,
+    youtube,
 )
 from course_catalog.etl.constants import (
-    ProgramLoaderConfig,
     CourseLoaderConfig,
     LearningResourceRunLoaderConfig,
     OfferedByLoaderConfig,
+    ProgramLoaderConfig,
 )
-from course_catalog.constants import PlatformType
-from course_catalog.models import Program, Course
+from course_catalog.models import Course, Program
 
 # A few notes on how this module works:
 #
@@ -39,7 +38,7 @@ load_courses = curry(loaders.load_courses)
 micromasters_etl = compose(
     load_programs(
         PlatformType.micromasters.value,
-        # MicroMasters courses overlap with MITx, so configure course and run level offerors to be additive
+        # MicroMasters courses overlap with MITx, so configure course and run level offerors to be additive  # noqa: E501
         config=ProgramLoaderConfig(
             courses=CourseLoaderConfig(
                 offered_by=OfferedByLoaderConfig(additive=True),
@@ -81,7 +80,7 @@ mitxonline_courses_etl = compose(
 mitx_etl = compose(
     load_courses(
         PlatformType.mitx.value,
-        # MicroMasters courses overlap with MITx, so configure course and run level offerors to be additive
+        # MicroMasters courses overlap with MITx, so configure course and run level offerors to be additive  # noqa: E501
         config=CourseLoaderConfig(
             prune=True,
             offered_by=OfferedByLoaderConfig(additive=True),
@@ -91,8 +90,8 @@ mitx_etl = compose(
         ),
     ),
     mitx.transform,
-    # for the sake of not touching OCW code, we've implementing this function here in discussions
-    # it takes the concatenated raw results from MITx and uploads them as a json file to the OCW bucket
+    # for the sake of not touching OCW code, we've implementing this function here in discussions  # noqa: E501
+    # it takes the concatenated raw results from MITx and uploads them as a json file to the OCW bucket  # noqa: E501
     # we'll probably do away with this at later date when we can easily move it into OCW
     # NOTE: do() runs the func with the input and then returns the input
     curried.do(ocw.upload_mitx_course_manifest),
@@ -113,10 +112,10 @@ video_topics_etl = compose(loaders.load_videos, video.extract_videos_topics)
 podcast_etl = compose(loaders.load_podcasts, podcast.transform, podcast.extract)
 
 
-def prolearn_programs_etl() -> List[Program]:
+def prolearn_programs_etl() -> list[Program]:
     """Iterate through all supported prolearn platforms to import programs"""
     results = []
-    for platform in prolearn.PROLEARN_DEPARTMENT_MAPPING.keys():
+    for platform in prolearn.PROLEARN_DEPARTMENT_MAPPING:
         platform_func = compose(
             load_programs(platform),
             prolearn.transform_programs,
@@ -126,10 +125,10 @@ def prolearn_programs_etl() -> List[Program]:
     return results
 
 
-def prolearn_courses_etl() -> List[Course]:
+def prolearn_courses_etl() -> list[Course]:
     """Iterate through all supported prolearn platforms to import courses"""
     results = []
-    for platform in prolearn.PROLEARN_DEPARTMENT_MAPPING.keys():
+    for platform in prolearn.PROLEARN_DEPARTMENT_MAPPING:
         platform_func = compose(
             load_courses(platform),
             prolearn.transform_courses,

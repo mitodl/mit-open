@@ -58,5 +58,5 @@ export type EmbeddedUrlWidgetInstance = WidgetInstance<EmbeddedUrlWidgetConfig>
 
 export enum WidgetTypes {
   RichText = "Markdown",
-  EmbeddedUrl = "URL"
+  EmbeddedUrl = "URL",
 }

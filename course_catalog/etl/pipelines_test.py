@@ -8,13 +8,13 @@ import pytest
 from course_catalog.constants import PlatformType
 from course_catalog.etl import pipelines
 from course_catalog.etl.constants import (
-    ProgramLoaderConfig,
     CourseLoaderConfig,
     LearningResourceRunLoaderConfig,
     OfferedByLoaderConfig,
+    ProgramLoaderConfig,
 )
 from course_catalog.etl.prolearn import PROLEARN_DEPARTMENT_MAPPING
-from course_catalog.factories import ProgramFactory, CourseFactory
+from course_catalog.factories import CourseFactory, ProgramFactory
 
 
 @contextmanager
@@ -195,7 +195,7 @@ def test_podcast_etl():
     assert result == mock_load_podcasts.return_value
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_prolearn_programs_etl():
     """
     Verify that the prolearn programs etl executes correctly
@@ -221,7 +221,7 @@ def test_prolearn_programs_etl():
         assert result == mock_programs
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_prolearn_courses_etl():
     """
     Verify that the prolearn courses etl executes correctly

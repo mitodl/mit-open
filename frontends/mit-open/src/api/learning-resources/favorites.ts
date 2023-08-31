@@ -10,7 +10,7 @@ const useFavoritesListing = (options?: PaginationSearchParams) => {
   const url = urls.favorite.listing(options)
   const key = keys.favorites.listing.page(options)
   return useQuery<PaginatedListItems>(key, () =>
-    axios.get(url).then(res => res.data)
+    axios.get(url).then((res) => res.data),
   )
 }
 
@@ -19,7 +19,7 @@ const useFavorite = () => {
   return useMutation({
     mutationFn: (resource: LearningResource) => {
       const url = urls.resource.favorite(resource.object_type, resource.id)
-      return axios.post(url).then(res => res.data)
+      return axios.post(url).then((res) => res.data)
     },
     onSuccess(_data, resource) {
       queryClient.invalidateQueries({ queryKey: keys.favorites.all })
@@ -27,12 +27,12 @@ const useFavorite = () => {
       modifyCachedSearchResource(
         queryClient,
         {
-          id:          resource.id,
-          object_type: resource.object_type
+          id: resource.id,
+          object_type: resource.object_type,
         },
-        () => ({ is_favorite: true })
+        () => ({ is_favorite: true }),
       )
-    }
+    },
   })
 }
 
@@ -41,19 +41,19 @@ const useUnfavorite = () => {
   return useMutation({
     mutationFn: (resource: LearningResource) => {
       const url = urls.resource.unfavorite(resource.object_type, resource.id)
-      return axios.post(url).then(res => res.data)
+      return axios.post(url).then((res) => res.data)
     },
     onSuccess(_data, resource) {
       invalidateResourceQueries(queryClient, resource)
       modifyCachedSearchResource(
         queryClient,
         {
-          id:          resource.id,
-          object_type: resource.object_type
+          id: resource.id,
+          object_type: resource.object_type,
         },
-        () => ({ is_favorite: false })
+        () => ({ is_favorite: false }),
       )
-    }
+    },
   })
 }
 

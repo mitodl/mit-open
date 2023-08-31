@@ -4,5 +4,5 @@ export {
   emptyOrNil,
   formatDurationClockTime,
   useMuiBreakpoint,
-  pluralize
+  pluralize,
 } from "./utils"

@@ -1,8 +1,8 @@
 """MicroMasters course catalog ETL"""
 import copy
 
-from django.conf import settings
 import requests
+from django.conf import settings
 
 from course_catalog.constants import OfferedBy, PlatformType
 from course_catalog.etl.constants import COMMON_HEADERS
@@ -11,9 +11,9 @@ OFFERED_BY = [{"name": OfferedBy.micromasters.value}]
 
 
 def extract():
-    """Loads the MicroMasters catalog data"""
+    """Loads the MicroMasters catalog data"""  # noqa: D401
     if settings.MICROMASTERS_CATALOG_API_URL:
-        return requests.get(
+        return requests.get(  # noqa: S113
             settings.MICROMASTERS_CATALOG_API_URL, headers={**COMMON_HEADERS}
         ).json()
     return []
@@ -49,12 +49,12 @@ def transform(programs):
                 }
             ],
             "topics": program["topics"],
-            # all we need for course data is the relative positioning of courses by course_id
+            # all we need for course data is the relative positioning of courses by course_id  # noqa: E501
             "courses": [
                 {
-                    # `platform` is specified as mitx here because that allows this data to merge with data sourced from MITx
-                    # we want this because all the course data is populated from MITx and we just want to
-                    # indicate that each of these courses are also offered by MicroMasters
+                    # `platform` is specified as mitx here because that allows this data to merge with data sourced from MITx  # noqa: E501
+                    # we want this because all the course data is populated from MITx and we just want to  # noqa: E501
+                    # indicate that each of these courses are also offered by MicroMasters  # noqa: E501
                     "course_id": course["edx_key"],
                     "platform": PlatformType.mitx.value,
                     "offered_by": copy.deepcopy(OFFERED_BY),

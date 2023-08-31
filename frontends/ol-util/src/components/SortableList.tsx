@@ -9,7 +9,7 @@ import {
   KeyboardSensor,
   DragStartEvent,
   DragEndEvent,
-  UniqueIdentifier
+  UniqueIdentifier,
 } from "@dnd-kit/core"
 import type { DropAnimation, Active, Data, Over } from "@dnd-kit/core"
 import {
@@ -18,7 +18,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
   hasSortableData,
-  arrayMove
+  arrayMove,
 } from "@dnd-kit/sortable"
 import type { SortableData } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
@@ -38,7 +38,7 @@ type HandleProps = React.HTMLAttributes<HTMLElement> & {
 const DRAG_UNDERLAY_OPACITY = "0.5"
 
 const SortableItem = <I extends UniqueIdentifier = UniqueIdentifier>(
-  props: SortableItemProps<I>
+  props: SortableItemProps<I>,
 ): React.ReactElement => {
   const {
     attributes,
@@ -47,20 +47,20 @@ const SortableItem = <I extends UniqueIdentifier = UniqueIdentifier>(
     transform,
     transition,
     isDragging,
-    setActivatorNodeRef
+    setActivatorNodeRef,
   } = useSortable({ id: props.id, data: props.data, disabled: props.disabled })
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
-    ...(isDragging && { opacity: DRAG_UNDERLAY_OPACITY })
+    ...(isDragging && { opacity: DRAG_UNDERLAY_OPACITY }),
   }
   const handleProps: HandleProps = useMemo(
     () => ({
       ...listeners,
-      ref:       setActivatorNodeRef,
-      className: !props.disabled ? "ol-draggable" : undefined
+      ref: setActivatorNodeRef,
+      className: !props.disabled ? "ol-draggable" : undefined,
     }),
-    [setActivatorNodeRef, listeners, props.disabled]
+    [setActivatorNodeRef, listeners, props.disabled],
   )
 
   const { Component = "div" } = props
@@ -84,14 +84,14 @@ type SortEndEvent<I extends UniqueIdentifier = UniqueIdentifier> = {
   over: Over & { data: { current: SortableData } }
 }
 type OnSortEnd<I extends UniqueIdentifier = UniqueIdentifier> = (
-  event: SortEndEvent<I>
+  event: SortEndEvent<I>,
 ) => void
 type CancelDrop<I extends UniqueIdentifier = UniqueIdentifier> = (
-  event: SortEndEvent<I>
+  event: SortEndEvent<I>,
 ) => boolean | Promise<boolean>
 
 const makeSortEndEvent = <I extends UniqueIdentifier>(
-  e: DragEndEvent | CancelDropArguments
+  e: DragEndEvent | CancelDropArguments,
 ): SortEndEvent<I> | undefined => {
   const { active, over } = e
   if (!hasSortableData(active)) return
@@ -101,11 +101,11 @@ const makeSortEndEvent = <I extends UniqueIdentifier>(
   const newItems = arrayMove(oldItems, from, to) as I[]
   if (from === to) return
   return {
-    itemIds:     newItems,
+    itemIds: newItems,
     active,
     over,
     activeIndex: from,
-    overIndex:   to
+    overIndex: to,
   }
 }
 
@@ -120,10 +120,10 @@ const dropAnimationConfig: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
     styles: {
       active: {
-        opacity: DRAG_UNDERLAY_OPACITY
-      }
-    }
-  })
+        opacity: DRAG_UNDERLAY_OPACITY,
+      },
+    },
+  }),
 }
 
 /**
@@ -170,18 +170,18 @@ const SortableList = <I extends UniqueIdentifier = UniqueIdentifier>({
   itemIds,
   renderActive,
   onSortEnd,
-  cancelDrop
+  cancelDrop,
 }: SortableListProps<I>): React.ReactElement => {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
         tolerance: 1000,
-        delay:     100
-      }
+        delay: 100,
+      },
     }),
     useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates
-    })
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   )
 
   const [active, setActive] = useState<Active | null>()
@@ -196,7 +196,7 @@ const SortableList = <I extends UniqueIdentifier = UniqueIdentifier>({
       if (!event) return
       onSortEnd?.(event)
     },
-    [onSortEnd]
+    [onSortEnd],
   )
 
   const handleCancelDrop = useCallback(
@@ -206,7 +206,7 @@ const SortableList = <I extends UniqueIdentifier = UniqueIdentifier>({
       if (!event) return true
       return cancelDrop?.(event) ?? false
     },
-    [cancelDrop]
+    [cancelDrop],
   )
 
   return (
@@ -235,5 +235,5 @@ export type {
   OnSortEnd,
   CancelDrop,
   SortableItemProps,
-  SortableListProps
+  SortableListProps,
 }

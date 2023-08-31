@@ -12,5 +12,5 @@ afterEach(() => {
 })
 
 window.SETTINGS = {
-  embedlyKey: "fake-embedly-key"
+  embedlyKey: "fake-embedly-key",
 }

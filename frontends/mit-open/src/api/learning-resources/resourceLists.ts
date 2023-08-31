@@ -6,7 +6,7 @@ import {
   StaffList,
   ListItem,
   LearningResourceRef,
-  isUserListOrPath
+  isUserListOrPath,
 } from "ol-search-ui"
 import { PaginatedResult, PaginationSearchParams } from "ol-util"
 import axios from "../../libs/axios"
@@ -15,7 +15,7 @@ import {
   useQuery,
   useQueryClient,
   UseQueryResult,
-  UseQueryOptions
+  UseQueryOptions,
 } from "@tanstack/react-query"
 import { urls, keys, UserListOptions, StaffListOptions } from "./urls"
 import { modifyCachedSearchResource } from "./search"
@@ -24,28 +24,28 @@ import { useResource } from "./resources"
 
 const useUserList = (
   id: number,
-  options: Pick<UseQueryOptions, "enabled"> = {}
+  options: Pick<UseQueryOptions, "enabled"> = {},
 ) => {
   return useResource("userlist", id, options) as UseQueryResult<UserList>
 }
 
 const useStaffList = (
   id: number,
-  options: Pick<UseQueryOptions, "enabled"> = {}
+  options: Pick<UseQueryOptions, "enabled"> = {},
 ) => {
   return useResource(LR.StaffList, id, options) as UseQueryResult<StaffList>
 }
 
 const useUserListsListing = (
-  options: UserListOptions & Pick<UseQueryOptions, "enabled"> = {}
+  options: UserListOptions & Pick<UseQueryOptions, "enabled"> = {},
 ) => {
   const { enabled, ...others } = options
   const url = urls.userList.listing(others)
   const queryKey = keys.userList.listing.page(others)
   return useQuery<PaginatedResult<UserList>>({
     queryKey,
-    queryFn: () => axios.get(url).then(res => res.data),
-    enabled
+    queryFn: () => axios.get(url).then((res) => res.data),
+    enabled,
   })
 }
 
@@ -55,17 +55,17 @@ const useUserListsListing = (
 const useUserListItems = (
   listId: number,
   options: Omit<PaginationSearchParams, "offset"> &
-    Pick<UseQueryOptions, "enabled"> = {}
+    Pick<UseQueryOptions, "enabled"> = {},
 ) => {
   const { enabled, ...others } = options
   const queryKey = keys.userList.itemsListing.for(listId).infinite(options)
   const initialUrl = urls.userList.itemsListing(listId, {
     ...others,
-    offset: 0
+    offset: 0,
   })
   return useInfiniteLimitOffsetQuery<ListItem>(initialUrl, {
     queryKey,
-    enabled
+    enabled,
   })
 }
 
@@ -75,17 +75,17 @@ const useUserListItems = (
 const useStaffListItems = (
   listId: number,
   options: Omit<PaginationSearchParams, "offset"> &
-    Pick<UseQueryOptions, "enabled"> = {}
+    Pick<UseQueryOptions, "enabled"> = {},
 ) => {
   const { enabled, ...others } = options
   const queryKey = keys.staffList.itemsListing.for(listId).infinite(options)
   const initialUrl = urls.staffList.itemsListing(listId, {
     ...others,
-    offset: 0
+    offset: 0,
   })
   return useInfiniteLimitOffsetQuery<ListItem>(initialUrl, {
     queryKey,
-    enabled
+    enabled,
   })
 }
 
@@ -100,7 +100,7 @@ const useUpdateUserList = () => {
     onSuccess: (_data, variables) => {
       const resource = { object_type: LR.Userlist, id: variables.id }
       invalidateResourceQueries(queryClient, resource)
-    }
+    },
   })
 }
 
@@ -114,9 +114,9 @@ const useCreateUserList = () => {
   return useMutation(createUserList, {
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: keys.userList.listing.all
+        queryKey: keys.userList.listing.all,
       })
-    }
+    },
   })
 }
 
@@ -136,22 +136,22 @@ const useDeleteUserList = () => {
          * This is a little bit overzealous, e.g., we do not really need to
          * invalidate topics and favorites.
          */
-        queryKey: keys.all
+        queryKey: keys.all,
       })
-    }
+    },
   })
 }
 
 const addToUserList = async ({
   list,
-  item
+  item,
 }: {
   list: Pick<UserList | StaffList, "id" | "object_type">
   item: LearningResourceRef
 }): Promise<ListItemMember & { content_data: LearningResource }> => {
-  const url = isUserListOrPath(list) ?
-    urls.userList.itemAdd(list.id) :
-    urls.staffList.itemAdd(list.id)
+  const url = isUserListOrPath(list)
+    ? urls.userList.itemAdd(list.id)
+    : urls.staffList.itemAdd(list.id)
   const { data: response } = await axios.post(url, item)
   return response
 }
@@ -159,41 +159,41 @@ const useAddToListItems = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: addToUserList,
-    onSuccess:  (data, variables) => {
+    onSuccess: (data, variables) => {
       const resource = data.content_data
       const { list } = variables
       queryClient.setQueryData<LearningResource>(
         keys.resource(resource.object_type).id(resource.id).details,
-        old => {
+        (old) => {
           if (!old) return undefined
           return { ...old, ...data.content_data }
-        }
+        },
       )
       invalidateResourceQueries(queryClient, resource),
-      invalidateResourceQueries(queryClient, list)
+        invalidateResourceQueries(queryClient, list)
 
       modifyCachedSearchResource(
         queryClient,
         {
-          id:          resource.id,
-          object_type: resource.object_type
+          id: resource.id,
+          object_type: resource.object_type,
         },
-        () => ({ lists: resource.lists })
+        () => ({ lists: resource.lists }),
       )
-    }
+    },
   })
 }
 
 const deleteFromUserListItems = async ({
   list,
-  item
+  item,
 }: {
   list: Pick<UserList | StaffList, "id" | "object_type">
   item: ListItemMember
 }) => {
-  const url = isUserListOrPath(list) ?
-    urls.userList.itemDetails(list.id, item.item_id) :
-    urls.staffList.itemDetails(list.id, item.item_id)
+  const url = isUserListOrPath(list)
+    ? urls.userList.itemDetails(list.id, item.item_id)
+    : urls.staffList.itemDetails(list.id, item.item_id)
   await axios.delete(url)
 }
 const useDeleteFromListItems = () => {
@@ -204,42 +204,42 @@ const useDeleteFromListItems = () => {
       const { item, list } = vars
       const resource = { object_type: item.content_type, id: item.object_id }
       invalidateResourceQueries(queryClient, resource),
-      invalidateResourceQueries(queryClient, list)
+        invalidateResourceQueries(queryClient, list)
       queryClient.setQueryData<LearningResource>(
         keys.resource(resource.object_type).id(resource.id).details,
-        old => {
+        (old) => {
           if (!old) return undefined
           const listKey = isUserListOrPath(list) ? "lists" : "stafflists"
           return {
             ...old,
-            [listKey]: old[listKey].filter(x => x.item_id !== item.item_id)
+            [listKey]: old[listKey].filter((x) => x.item_id !== item.item_id),
           }
-        }
+        },
       )
       modifyCachedSearchResource(
         queryClient,
         {
-          id:          item.object_id,
-          object_type: item.content_type
+          id: item.object_id,
+          object_type: item.content_type,
         },
-        current => ({
-          lists: current.lists?.filter?.(r => r.item_id !== item.item_id)
-        })
+        (current) => ({
+          lists: current.lists?.filter?.((r) => r.item_id !== item.item_id),
+        }),
       )
-    }
+    },
   })
 }
 
 const useStaffListsListing = (
-  options: StaffListOptions & Pick<UseQueryOptions, "enabled"> = {}
+  options: StaffListOptions & Pick<UseQueryOptions, "enabled"> = {},
 ) => {
   const { enabled, ...others } = options
   const url = urls.staffList.listing(others)
   const queryKey = keys.staffList.listing.page(others)
   return useQuery<PaginatedResult<StaffList>>({
     queryKey,
-    queryFn: () => axios.get(url).then(res => res.data),
-    enabled
+    queryFn: () => axios.get(url).then((res) => res.data),
+    enabled,
   })
 }
 
@@ -254,7 +254,7 @@ const useUpdateStaffList = () => {
     onSuccess: (_data, variables) => {
       const resource = { object_type: LR.StaffList, id: variables.id }
       invalidateResourceQueries(queryClient, resource)
-    }
+    },
   })
 }
 
@@ -268,9 +268,9 @@ const useCreateStaffList = () => {
   return useMutation(createStaffList, {
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: keys.staffList.listing.all
+        queryKey: keys.staffList.listing.all,
       })
-    }
+    },
   })
 }
 
@@ -290,9 +290,9 @@ const useDeleteStaffList = () => {
          * This is a little bit overzealous, e.g., we do not really need to
          * invalidate topics and favorites.
          */
-        queryKey: keys.all
+        queryKey: keys.all,
       })
-    }
+    },
   })
 }
 
@@ -318,16 +318,16 @@ const useMoveListItem = (mode: "userlist" | "stafflist") => {
   const queryClient = useQueryClient()
   const mutationFn = mode === "userlist" ? moveUserListItem : moveStaffListItem
   const listingKey =
-    mode === "userlist" ?
-      keys.userList.itemsListing :
-      keys.staffList.itemsListing
+    mode === "userlist"
+      ? keys.userList.itemsListing
+      : keys.staffList.itemsListing
   return useMutation({
     mutationFn,
     onSettled: (_data, _error, vars) => {
       queryClient.invalidateQueries({
-        queryKey: listingKey.for(vars.item.list_id).all
+        queryKey: listingKey.for(vars.item.list_id).all,
       })
-    }
+    },
   })
 }
 
@@ -351,5 +351,5 @@ export {
   // items mutations
   useAddToListItems,
   useDeleteFromListItems,
-  useMoveListItem
+  useMoveListItem,
 }

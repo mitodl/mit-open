@@ -5,7 +5,7 @@ const BASE_PATH = ""
 const learningResourcesApi = new LearningResourcesApi(
   undefined,
   BASE_PATH,
-  axiosInstance
+  axiosInstance,
 )
 
 export { learningResourcesApi }

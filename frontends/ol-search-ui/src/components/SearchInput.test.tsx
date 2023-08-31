@@ -32,7 +32,7 @@ describe("Searchbox", () => {
   const renderSearchInput = (props: Partial<SearchInputProps> = {}) => {
     const { value = "", ...otherProps } = props
     const onSubmit = jest.fn()
-    const onChange = jest.fn(e => e.persist())
+    const onChange = jest.fn((e) => e.persist())
     const onClear = jest.fn()
     render(
       <SearchInput
@@ -41,7 +41,7 @@ describe("Searchbox", () => {
         onChange={onChange}
         onClear={onClear}
         {...otherProps}
-      />
+      />,
     )
     const user = userEvent.setup()
     const spies = { onClear, onChange, onSubmit }
@@ -58,7 +58,7 @@ describe("Searchbox", () => {
     const input = getSearchInput()
     await user.type(getSearchInput(), "s")
     expect(spies.onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ target: input })
+      expect.objectContaining({ target: input }),
     )
   })
 

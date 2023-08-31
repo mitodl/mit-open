@@ -4,12 +4,6 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx"
-  ],
-  "typeRoots": [
-    "./src/typings",
-    "./node_modules/@types/"
-  ]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "typeRoots": ["./src/typings", "./node_modules/@types/"]
 }

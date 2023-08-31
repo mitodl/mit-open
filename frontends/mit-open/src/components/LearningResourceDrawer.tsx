@@ -4,7 +4,7 @@ import RoutedDrawer from "./RoutedDrawer"
 import {
   ExpandedLearningResourceDisplay,
   ExpandedLearningResourceDisplayProps as LRDisplayProps,
-  LearningResource
+  LearningResource,
 } from "ol-search-ui"
 import { useSearchParams } from "ol-util"
 
@@ -12,7 +12,7 @@ const RESOURCE_ID_PARAM = "resource_id"
 const RESOURCE_TYPE_PARAM = "resource_type"
 const RESOURCE_PARAMS = [RESOURCE_ID_PARAM, RESOURCE_TYPE_PARAM] as const
 
-const formatShareLink: LRDisplayProps["formatShareLink"] = resource => {
+const formatShareLink: LRDisplayProps["formatShareLink"] = (resource) => {
   const search = new URLSearchParams()
   search.set(RESOURCE_ID_PARAM, String(resource.id))
   search.set(RESOURCE_TYPE_PARAM, resource.object_type)
@@ -22,8 +22,8 @@ const formatShareLink: LRDisplayProps["formatShareLink"] = resource => {
 const drawerImg = {
   ocwBaseUrl: window.SETTINGS.ocw_next_base_url,
   embedlyKey: window.SETTINGS.embedlyKey,
-  width:      440,
-  height:     239
+  width: 440,
+  height: 239,
 }
 
 export type ResourceIdentifiers = {
@@ -38,7 +38,7 @@ type DrawerContentProps = {
 }
 const DrawerContent: React.FC<DrawerContentProps> = ({
   resourceId,
-  resourceType
+  resourceType,
 }) => {
   const resourceQuery = useResource(resourceType, resourceId)
   const resource = resourceQuery.data
@@ -62,7 +62,7 @@ const LearningResourceDrawer: React.FC = () => {
       params={RESOURCE_PARAMS}
       requiredParams={RESOURCE_PARAMS}
     >
-      {childProps => (
+      {(childProps) => (
         <DrawerContent
           resourceId={Number(childProps.params.resource_id)}
           resourceType={childProps.params.resource_type}
@@ -73,7 +73,7 @@ const LearningResourceDrawer: React.FC = () => {
 }
 
 type ActivateResourceDrawer = (
-  e: Pick<LearningResource, "id" | "object_type">
+  e: Pick<LearningResource, "id" | "object_type">,
 ) => void
 /**
  * Returns a callback that that updates the URL to activate the
@@ -84,13 +84,13 @@ type ActivateResourceDrawer = (
 const useActivateResourceDrawer = (): ActivateResourceDrawer => {
   const [searchParams, setSearchParams] = useSearchParams()
   return useCallback(
-    resource => {
+    (resource) => {
       const params = new URLSearchParams(searchParams)
       params.set(RESOURCE_ID_PARAM, String(resource.id))
       params.set(RESOURCE_TYPE_PARAM, resource.object_type)
       setSearchParams(params)
     },
-    [setSearchParams, searchParams]
+    [setSearchParams, searchParams],
   )
 }
 

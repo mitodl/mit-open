@@ -1,14 +1,13 @@
-""" Utils for profiles """
+"""Utils for profiles"""
 import hashlib
 import re
+from contextlib import contextmanager
 from io import BytesIO
-from urllib.parse import urljoin, quote
+from urllib.parse import quote, urljoin
 from xml.sax.saxutils import escape as xml_escape
 
-from contextlib import contextmanager
 from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
-
 from PIL import Image
 
 from open_discussions.utils import generate_filepath
@@ -68,25 +67,27 @@ def generate_gravatar_image(user, image_field=None):
     Returns:
         str: The URL to the image.
     """
-    gravatar_hash = hashlib.md5(user.email.lower().encode("utf-8")).hexdigest()
+    gravatar_hash = hashlib.md5(  # noqa: S324
+        user.email.lower().encode("utf-8")
+    ).hexdigest()
     gravatar_image_url = GRAVATAR_IMAGE_URL.format(gravatar_hash)
     max_dimension = IMAGE_FIELDS[image_field]
-    size_param = "&s={}".format(max_dimension) if max_dimension else ""
+    size_param = f"&s={max_dimension}" if max_dimension else ""
     if user.profile.name:
         d_param = urljoin(
             settings.SITE_BASE_URL,
-            "/profile/{}/{}/fff/579cf9.png".format(user.username, max_dimension),
+            f"/profile/{user.username}/{max_dimension}/fff/579cf9.png",
         )
     else:
         d_param = urljoin(settings.SITE_BASE_URL, DEFAULT_PROFILE_IMAGE)
 
-    return "{}?d={}{}".format(gravatar_image_url, quote(d_param), size_param)
+    return f"{gravatar_image_url}?d={quote(d_param)}{size_param}"
 
 
 def image_uri(profile, image_field=IMAGE_SMALL):
     """Return the correctly formatted profile image URI for a user"""
     if profile:
-        image_file = getattr(profile, "{}_file".format(image_field))
+        image_file = getattr(profile, f"{image_field}_file")
         if not image_file.name:
             image_file = getattr(profile, image_field)
             if not image_file:
@@ -174,7 +175,7 @@ def shrink_dimensions(width, height, max_dimension):
         max_dimension (int): The maximum size of a dimension
     Returns:
         tuple of (small_width, small_height): A resized set of dimensions, as integers
-    """
+    """  # noqa: E501
     max_width_height = max(width, height)
     if max_width_height < max_dimension:
         return width, height
@@ -195,7 +196,7 @@ def make_thumbnail(full_size_image, max_dimension):
     Returns:
         BytesIO:
             A jpeg image which is a thumbnail of full_size_image
-    """
+    """  # noqa: E501
     pil_image = Image.open(full_size_image)
     pil_image.thumbnail(
         shrink_dimensions(pil_image.width, pil_image.height, max_dimension),
@@ -221,7 +222,7 @@ def make_cropped_thumbnail(full_size_image, max_width, max_height):
     Returns:
         BytesIO:
             A jpeg image which is a thumbnail of full_size_image
-    """
+    """  # noqa: E501
     pil_image = Image.open(full_size_image)
     aspect_ratio = max_height / max_width
     if pil_image.height / pil_image.width < aspect_ratio:
@@ -271,7 +272,7 @@ def dict_to_style(style_dict):
         str: An HTML style string
     """
 
-    return "; ".join(["{}: {}".format(k, v) for k, v in style_dict.items()])
+    return "; ".join([f"{k}: {v}" for k, v in style_dict.items()])
 
 
 def generate_initials(text):
@@ -313,15 +314,15 @@ def generate_svg_avatar(name, size, color, bgcolor):
     initials = generate_initials(name) or "A"
 
     style = {
-        "fill": "#{}".format(bgcolor),
-        "border-radius": "{}px".format(size - 1),
-        "-moz-border-radius": "{}px".format(size - 1),
+        "fill": f"#{bgcolor}",
+        "border-radius": f"{size - 1}px",
+        "-moz-border-radius": f"{size - 1}px",
     }
 
     text_style = {
         "font-weight": "400px",
-        "font-size": "{}px".format(int(size / 2)),
-        "color": "#{}".format(color),
+        "font-size": f"{int(size / 2)}px",
+        "color": f"#{color}",
     }
 
     return SVG_TEMPLATE.format(

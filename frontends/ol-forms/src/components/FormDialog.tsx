@@ -95,11 +95,11 @@ const FormDialog: React.FC<FormDialogProps> = ({
   submitButtonContent = "Save",
   cancelButtonProps,
   submitButtonProps,
-  TransitionProps
+  TransitionProps,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
-    async e => {
+    async (e) => {
       setIsSubmitting(true)
       try {
         await onSubmit(e)
@@ -107,7 +107,7 @@ const FormDialog: React.FC<FormDialogProps> = ({
         setIsSubmitting(false)
       }
     },
-    [onSubmit]
+    [onSubmit],
   )
   const paperProps = useMemo(() => {
     const className = formClassName ? { className: formClassName } : {}
@@ -119,8 +119,8 @@ const FormDialog: React.FC<FormDialogProps> = ({
       // `onSubmit` and other form properties but does not.
       // This is the recommended approach for ensuring modal form content is
       // scrollable within a MUI dialog. See https://github.com/mui/material-ui/issues/13253#issuecomment-512208440
-      onSubmit:  handleSubmit,
-      noValidate
+      onSubmit: handleSubmit,
+      noValidate,
     }
     return props
   }, [formClassName, handleSubmit, noValidate])

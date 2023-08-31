@@ -1,7 +1,7 @@
 import React from "react"
 import {
   SearchQueryParams,
-  buildSearchQuery
+  buildSearchQuery,
 } from "@mitodl/course-search-utils"
 import { act } from "@testing-library/react"
 import { renderHook, waitFor } from "@testing-library/react"
@@ -17,13 +17,13 @@ import { assertNotNil } from "ol-util"
 const setSearchResponse = (pageSize: number, total: number) => {
   setMockResponse.post(
     urls.search,
-    factories.makeSearchResponse(pageSize, total)
+    factories.makeSearchResponse(pageSize, total),
   )
 }
 
 const assertSearchLastCalledWith = (
   params: SearchQueryParams,
-  exactly = false
+  exactly = false,
 ) => {
   const body = exactly ? params : expect.objectContaining(params)
   expect(axios.post).toHaveBeenLastCalledWith(urls.search, body)
@@ -33,9 +33,9 @@ const setup = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false
-      }
-    }
+        retry: false,
+      },
+    },
   })
   const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
@@ -51,9 +51,9 @@ describe("useInfiniteSearch", () => {
     const { result } = renderHook(
       () =>
         useInfiniteSearch({
-          size: 3
+          size: 3,
         }),
-      { wrapper }
+      { wrapper },
     )
 
     await waitFor(() => {
@@ -93,24 +93,24 @@ describe("useInfiniteSearch", () => {
     renderHook(
       () =>
         useInfiniteSearch({
-          size:         3,
-          text:         "foo",
+          size: 3,
+          text: "foo",
           activeFacets: {
-            type: ["course"]
-          }
+            type: ["course"],
+          },
         }),
-      { wrapper }
+      { wrapper },
     )
     expect(axios.post).toHaveBeenCalledWith(
       urls.search,
       buildSearchQuery({
-        text:         "foo",
-        size:         3,
-        from:         0,
+        text: "foo",
+        size: 3,
+        from: 0,
         activeFacets: {
-          type: ["course"]
-        }
-      })
+          type: ["course"],
+        },
+      }),
     )
   })
 })

@@ -1,21 +1,23 @@
 """Tests for the deduplication ETL functions"""
 from datetime import datetime
+
 import pytest
 import pytz
-from course_catalog.etl.deduplication import (
-    get_most_relevant_run,
-    generate_duplicates_yaml,
-)
+
 from course_catalog.constants import AvailabilityType
+from course_catalog.etl.deduplication import (
+    generate_duplicates_yaml,
+    get_most_relevant_run,
+)
 from course_catalog.factories import (
-    LearningResourceRunFactory,
     CourseFactory,
     LearningResourceOfferorFactory,
+    LearningResourceRunFactory,
 )
 from course_catalog.models import LearningResourceRun
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_get_most_relevant_run():
     """Verify that most_relevant_run returns the correct run"""
 
@@ -66,7 +68,7 @@ def test_get_most_relevant_run():
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_generate_duplicates_yaml(settings, mocker):
     """Test for generate_duplicates_yaml"""
     duplicate_course1 = CourseFactory.create(title="course1", platform="mitx")

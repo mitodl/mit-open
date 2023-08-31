@@ -4,7 +4,7 @@
  * unabashedly "stolen" from https://github.com/mitodl/ocw-studio/blob/cc/fix-useless-test/static/js/test_util.ts#L177
  */
 export const withFakeLocation = async (
-  cb: () => Promise<void> | void
+  cb: () => Promise<void> | void,
 ): Promise<void> => {
   const originalLocation = window.location
   // @ts-expect-error We're deleting a required property, but we're about to re-assign it.

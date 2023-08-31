@@ -28,7 +28,7 @@ def test_get_active_aliases(mocker, include_reindexing, indexes_exist, object_ty
                 ]
             else:
                 assert active_aliases == ["testindex_course_default"]
-        else:
+        else:  # noqa: PLR5501
             if include_reindexing:
                 assert active_aliases == [
                     "testindex_profile_default",

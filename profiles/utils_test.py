@@ -1,21 +1,22 @@
-""" Tests for profiles.utils """
+"""Tests for profiles.utils"""
+import xml.etree.ElementTree as etree  # noqa: N813
 from io import BytesIO
-from urllib.parse import urlparse, parse_qs
-import xml.etree.ElementTree as etree
+from urllib.parse import parse_qs, urlparse
+
 import pytest
 from PIL import Image
 
 from open_discussions.factories import UserFactory
 from open_discussions.utils import generate_filepath
 from profiles.utils import (
-    profile_image_upload_uri,
-    profile_image_upload_uri_small,
-    profile_image_upload_uri_medium,
-    image_uri,
     DEFAULT_PROFILE_IMAGE,
-    update_full_name,
-    generate_svg_avatar,
     generate_initials,
+    generate_svg_avatar,
+    image_uri,
+    profile_image_upload_uri,
+    profile_image_upload_uri_medium,
+    profile_image_upload_uri_small,
+    update_full_name,
 )
 
 
@@ -25,12 +26,10 @@ def test_upload_url(user):
     """
     name = "name"
     ext = ".jpg"
-    filename = "{name}{ext}".format(name=name, ext=ext)
+    filename = f"{name}{ext}"
     url = profile_image_upload_uri(user.profile, filename)
-    assert url.startswith(
-        "profile/{username}/{name}-".format(username=user.username, name=name)
-    )
-    assert url.endswith("{ext}".format(ext=ext))
+    assert url.startswith(f"profile/{user.username}/{name}-")
+    assert url.endswith(f"{ext}")
 
 
 def test_small(user):
@@ -39,12 +38,10 @@ def test_small(user):
     """
     name = "name"
     ext = ".jpg"
-    filename = "{name}{ext}".format(name=name, ext=ext)
+    filename = f"{name}{ext}"
     url = profile_image_upload_uri_small(user.profile, filename)
-    assert url.startswith(
-        "profile/{username}/{name}-".format(username=user.username, name=name)
-    )
-    assert url.endswith("_small{ext}".format(ext=ext))
+    assert url.startswith(f"profile/{user.username}/{name}-")
+    assert url.endswith(f"_small{ext}")
 
 
 def test_medium(user):
@@ -53,12 +50,10 @@ def test_medium(user):
     """
     name = "name"
     ext = ".jpg"
-    filename = "{name}{ext}".format(name=name, ext=ext)
+    filename = f"{name}{ext}"
     url = profile_image_upload_uri_medium(user.profile, filename)
-    assert url.startswith(
-        "profile/{username}/{name}-".format(username=user.username, name=name)
-    )
-    assert url.endswith("_medium{ext}".format(ext=ext))
+    assert url.startswith(f"profile/{user.username}/{name}-")
+    assert url.endswith(f"_medium{ext}")
 
 
 def test_too_long_name(user):
@@ -77,12 +72,12 @@ def test_too_long_prefix(user):
     A name which is too long should get truncated to 100 characters
     """
     filename = "{}.jpg".format("a" * 150)
-    with pytest.raises(ValueError) as ex:
+    with pytest.raises(ValueError) as ex:  # noqa: PT011
         generate_filepath(filename, user.username, "x" * 150, "profile")
     assert str(ex.value).startswith("path is longer than max length even without name")
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_profile_img_url_uploaded_image():
     """
     Test that the correct profile image URL is returned for a profile with an uploaded image
@@ -90,13 +85,13 @@ def test_profile_img_url_uploaded_image():
     profile = UserFactory.create().profile
     image = Image.new("RGBA", size=(50, 50), color=(155, 0, 0))
     profile.image_small_file.save(
-        "/profiles/realimage.jpg", BytesIO(image.tobytes()), True
+        "/profiles/realimage.jpg", BytesIO(image.tobytes()), True  # noqa: FBT003
     )
     profile.save()
     assert image_uri(profile, "image_small") == profile.image_small_file.url
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_profile_img_url_micromaster_image():
     """
     Test that the correct profile image URL is returned for a profile with a micromasters profile URL
@@ -108,7 +103,7 @@ def test_profile_img_url_micromaster_image():
     assert image_uri(profile, "image_medium").endswith(profile.image_medium)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_profile_img_url_gravatar_fullname():
     """Test that the correct profile gravatar image URL is returned for a profile with a name"""
     profile = UserFactory.create().profile
@@ -118,12 +113,10 @@ def test_profile_img_url_gravatar_fullname():
     profile_image = image_uri(profile, "image_small")
     assert profile_image.startswith("https://www.gravatar.com/avatar/")
     params_d = parse_qs(urlparse(profile_image).query)["d"][0]
-    assert params_d.endswith(
-        "profile/{}/64/fff/579cf9.png".format(profile.user.username)
-    )
+    assert params_d.endswith(f"profile/{profile.user.username}/64/fff/579cf9.png")
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_profile_img_url_gravatar_nameless():
     """Test that the correct profile gravatar image URL is returned for a profile with no name"""
     profile = UserFactory.create().profile
@@ -137,19 +130,19 @@ def test_profile_img_url_gravatar_nameless():
     assert params_d.endswith(DEFAULT_PROFILE_IMAGE)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
-    "first_name, last_name",
+    ("first_name", "last_name"),
     [
-        ["Keihanaikukauakahihuliheekahaunaele", "van der Graaf"],
-        ["Jane", ""],
-        ["Joe", "FakeName10" * 16],
+        ["Keihanaikukauakahihuliheekahaunaele", "van der Graaf"],  # noqa: PT007
+        ["Jane", ""],  # noqa: PT007
+        ["Joe", "FakeName10" * 16],  # noqa: PT007
     ],
 )
 def test_update_full_name(first_name, last_name):
     """Tests that user names are updated correctly"""
     user = UserFactory.create()
-    update_full_name(user, " ".join([first_name, last_name]))
+    update_full_name(user, f"{first_name} {last_name}")
     assert user.first_name == first_name[:30]
     assert user.last_name == last_name[:30]
 
@@ -161,25 +154,25 @@ def test_get_svg_avatar():
     bgcolor = "dedede"
     size = 92
     svg = generate_svg_avatar(username, size, color, bgcolor)
-    root = etree.fromstring(svg)
+    root = etree.fromstring(svg)  # noqa: S314
     assert root.tag == "{http://www.w3.org/2000/svg}svg"
     circle = root.find("{http://www.w3.org/2000/svg}circle")
     assert circle.get("cx") == str(int(size / 2))
-    assert "#{}".format(bgcolor) in circle.get("style")
+    assert f"#{bgcolor}" in circle.get("style")
     text = root.find("{http://www.w3.org/2000/svg}text")
-    assert text.get("fill") == "#{}".format(color)
+    assert text.get("fill") == f"#{color}"
     assert text.text == "TU"
 
 
 @pytest.mark.parametrize(
-    "text, initials",
+    ("text", "initials"),
     [
-        ["Test User", "TU"],
-        ["another user", "AU"],
-        ["Test Van Der Graaf", "TG"],
-        ["Test", "T"],
-        [None, None],
-        [" ", None],
+        ["Test User", "TU"],  # noqa: PT007
+        ["another user", "AU"],  # noqa: PT007
+        ["Test Van Der Graaf", "TG"],  # noqa: PT007
+        ["Test", "T"],  # noqa: PT007
+        [None, None],  # noqa: PT007
+        [" ", None],  # noqa: PT007
     ],
 )
 def test_generate_initials(text, initials):

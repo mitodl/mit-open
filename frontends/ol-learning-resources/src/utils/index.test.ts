@@ -14,38 +14,38 @@ const { shuffle } = faker.helpers
 describe("findBestRun", () => {
   const future = makeRun({
     start_date: fromNow(5),
-    end_date:   fromNow(30),
-    title:      "future"
+    end_date: fromNow(30),
+    title: "future",
   })
   const farFuture = makeRun({
     start_date: fromNow(50),
-    end_date:   fromNow(80),
-    title:      "farFuture"
+    end_date: fromNow(80),
+    title: "farFuture",
   })
   const past = makeRun({
     start_date: fromNow(-30),
-    end_date:   fromNow(-5),
-    title:      "past"
+    end_date: fromNow(-5),
+    title: "past",
   })
   const farPast = makeRun({
     start_date: fromNow(-70),
-    end_date:   fromNow(-60),
-    title:      "farPast"
+    end_date: fromNow(-60),
+    title: "farPast",
   })
   const current1 = makeRun({
     start_date: fromNow(-5),
-    end_date:   fromNow(10),
-    title:      "current1"
+    end_date: fromNow(10),
+    title: "current1",
   })
   const current2 = makeRun({
     start_date: fromNow(-10),
-    end_date:   fromNow(5),
-    title:      "current2"
+    end_date: fromNow(5),
+    title: "current2",
   })
   const undated = makeRun({
     start_date: null,
-    end_date:   null,
-    title:      "undated"
+    end_date: null,
+    title: "undated",
   })
 
   it("returns undefined if no runs", () => {

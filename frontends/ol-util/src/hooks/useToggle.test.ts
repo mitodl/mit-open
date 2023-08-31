@@ -6,7 +6,7 @@ test.each([{ initialValue: true }, { initialValue: false }])(
   ({ initialValue }) => {
     const { result } = renderHook(() => useToggle(initialValue))
     expect(result.current[0]).toBe(initialValue)
-  }
+  },
 )
 
 test.each([{ initialValue: true }, { initialValue: false }])(
@@ -15,7 +15,7 @@ test.each([{ initialValue: true }, { initialValue: false }])(
     const { result } = renderHook(() => useToggle(initialValue))
     act(() => result.current[1].on())
     expect(result.current[0]).toBe(true)
-  }
+  },
 )
 
 test.each([{ initialValue: true }, { initialValue: false }])(
@@ -24,7 +24,7 @@ test.each([{ initialValue: true }, { initialValue: false }])(
     const { result } = renderHook(() => useToggle(initialValue))
     act(() => result.current[1].off())
     expect(result.current[0]).toBe(false)
-  }
+  },
 )
 
 test("toggle.set(val) sets value to val", () => {

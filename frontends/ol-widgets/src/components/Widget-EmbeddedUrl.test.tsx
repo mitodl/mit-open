@@ -8,9 +8,9 @@ import { EmbedlyCard } from "ol-util"
 jest.mock("ol-util", () => {
   const actual = jest.requireActual("ol-util")
   return {
-    __esModule:  true,
+    __esModule: true,
     ...actual,
-    EmbedlyCard: jest.fn(actual.EmbedlyCard)
+    EmbedlyCard: jest.fn(actual.EmbedlyCard),
   }
 })
 const spyEmbedlyCard = jest.mocked(EmbedlyCard)
@@ -22,7 +22,7 @@ describe("Widget-EmbeddedUrl", () => {
     render(<Widget widget={widget} />)
     expect(spyEmbedlyCard).toHaveBeenCalledWith(
       expect.objectContaining({ url }),
-      expect.anything()
+      expect.anything(),
     )
   })
 })

@@ -61,11 +61,11 @@ log = logging.getLogger(__name__)
 # the document has not yet been created. When we get an error that indicates that the
 # document doesn't exist for the given ID, we will retry a few times in case there is
 # a waiting task to create the document.
-PARTIAL_UPDATE_TASK_SETTINGS = dict(
-    autoretry_for=(NotFoundError,),
-    retry_kwargs={"max_retries": 5},
-    default_retry_delay=2,
-)
+PARTIAL_UPDATE_TASK_SETTINGS = {
+    "autoretry_for": (NotFoundError,),
+    "retry_kwargs": {"max_retries": 5},
+    "default_retry_delay": 2,
+}
 
 
 @contextmanager
@@ -75,11 +75,11 @@ def wrap_retry_exception(*exception_classes):
 
     Args:
         *exception_classes (tuple of type): Exception classes which should become RetryException
-    """
+    """  # noqa: E501
     try:
         yield
     except Exception as ex:  # pylint:disable=bare-except
-        # Celery is confused by exceptions which don't take a string as an argument, so we need to wrap before raising
+        # Celery is confused by exceptions which don't take a string as an argument, so we need to wrap before raising  # noqa: E501
         if isinstance(ex, exception_classes):
             raise RetryException(str(ex)) from ex
         raise
@@ -255,12 +255,12 @@ def increment_document_integer_field(doc_id, field_name, incr_amount, object_typ
 def update_field_values_by_query(query, field_dict, object_types):
     """
     Task that makes a request to update a field value for all ES documents that match some query.
-    """
+    """  # noqa: E501
     return api.update_field_values_by_query(query, field_dict, object_types)
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
-def index_profiles(ids, update_only=False):
+def index_profiles(ids, update_only=False):  # noqa: FBT002
     """
     Index user profiles by a list of Profile.id
 
@@ -273,7 +273,7 @@ def index_profiles(ids, update_only=False):
         api.index_profiles(ids, update_only)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "index_profiles threw an error"
         log.exception(error)
         return error
@@ -293,14 +293,14 @@ def bulk_deindex_profiles(ids):
             api.deindex_profiles(ids)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "bulk_deindex_profiles threw an error"
         log.exception(error)
         return error
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
-def index_courses(ids, update_only=False):
+def index_courses(ids, update_only=False):  # noqa: FBT002
     """
     Index courses
 
@@ -315,7 +315,7 @@ def index_courses(ids, update_only=False):
             api.index_courses(ids, update_only)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "index_courses threw an error"
         log.exception(error)
         return error
@@ -335,14 +335,14 @@ def bulk_deindex_courses(ids):
             api.deindex_courses(ids)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "bulk_deindex_courses threw an error"
         log.exception(error)
         return error
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
-def index_course_content_files(course_ids, update_only=False):
+def index_course_content_files(course_ids, update_only=False):  # noqa: FBT002
     """
     Index content files for a list of course ids
 
@@ -357,14 +357,14 @@ def index_course_content_files(course_ids, update_only=False):
             api.index_course_content_files(course_ids, update_only)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "index_course_content_files threw an error"
         log.exception(error)
         return error
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
-def index_run_content_files(run_id, update_only=False):
+def index_run_content_files(run_id, update_only=False):  # noqa: FBT002
     """
     Index content files for a LearningResourceRun
 
@@ -379,7 +379,7 @@ def index_run_content_files(run_id, update_only=False):
             api.deindex_run_content_files(run_id, unpublished_only=True)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "index_run_content_files threw an error"
         log.exception(error)
         return error
@@ -399,14 +399,14 @@ def deindex_run_content_files(run_id):
             api.deindex_run_content_files(run_id)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "deindex_run_content_files threw an error"
         log.exception(error)
         return error
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
-def index_programs(ids, update_only=False):
+def index_programs(ids, update_only=False):  # noqa: FBT002
     """
     Index programs
 
@@ -420,7 +420,7 @@ def index_programs(ids, update_only=False):
             api.index_programs(ids, update_only)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "index_programs threw an error"
         log.exception(error)
         return error
@@ -440,14 +440,14 @@ def bulk_deindex_programs(ids):
             api.deindex_programs(ids)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "bulk_deindex_programs threw an error"
         log.exception(error)
         return error
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
-def index_user_lists(ids, update_only=False):
+def index_user_lists(ids, update_only=False):  # noqa: FBT002
     """
     Index UserLists
 
@@ -461,7 +461,7 @@ def index_user_lists(ids, update_only=False):
             api.index_user_lists(ids, update_only)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "index_user_lists threw an error"
         log.exception(error)
         return error
@@ -481,14 +481,14 @@ def bulk_deindex_user_lists(ids):
             api.deindex_user_lists(ids)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "bulk_deindex_user_lists threw an error"
         log.exception(error)
         return error
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
-def index_staff_lists(ids, update_only=False):
+def index_staff_lists(ids, update_only=False):  # noqa: FBT002
     """
     Index StaffLists
 
@@ -502,7 +502,7 @@ def index_staff_lists(ids, update_only=False):
             api.index_staff_lists(ids, update_only)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "index_staff_lists threw an error"
         log.exception(error)
         return error
@@ -522,14 +522,14 @@ def bulk_deindex_staff_lists(ids):
             api.deindex_staff_lists(ids)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "bulk_deindex_staff_lists threw an error"
         log.exception(error)
         return error
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
-def index_videos(ids, update_only=False):
+def index_videos(ids, update_only=False):  # noqa: FBT002
     """
     Index Videos
 
@@ -543,7 +543,7 @@ def index_videos(ids, update_only=False):
             api.index_videos(ids, update_only)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "index_videos threw an error"
         log.exception(error)
         return error
@@ -563,14 +563,14 @@ def bulk_deindex_videos(ids):
             api.deindex_videos(ids)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "bulk_deindex_videos threw an error"
         log.exception(error)
         return error
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
-def index_podcasts(ids, update_only=False):
+def index_podcasts(ids, update_only=False):  # noqa: FBT002
     """
     Index Podcasts
 
@@ -583,7 +583,7 @@ def index_podcasts(ids, update_only=False):
             api.index_podcasts(ids, update_only)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "index_podcasts threw an error"
         log.exception(error)
         return error
@@ -603,14 +603,14 @@ def bulk_deindex_podcasts(ids):
             api.deindex_podcasts(ids)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "bulk_deindex_podcasts threw an error"
         log.exception(error)
         return error
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
-def index_podcast_episodes(ids, update_only=False):
+def index_podcast_episodes(ids, update_only=False):  # noqa: FBT002
     """
     Index PodcastEpisodes
 
@@ -623,7 +623,7 @@ def index_podcast_episodes(ids, update_only=False):
             api.index_podcast_episodes(ids, update_only)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "index_podcast_episodes threw an error"
         log.exception(error)
         return error
@@ -643,7 +643,7 @@ def bulk_deindex_podcast_episodes(ids):
             api.deindex_podcast_episodes(ids)
     except (RetryException, Ignore):
         raise
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "bulk_deindex_podcast_episodes threw an error"
         log.exception(error)
         return error
@@ -773,19 +773,19 @@ def start_recreate_index(self, indexes):
 
         index_tasks = celery.group(index_tasks)
 
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "start_recreate_index threw an error"
         log.exception(error)
         return error
 
-    # Use self.replace so that code waiting on this task will also wait on the indexing and finish tasks
+    # Use self.replace so that code waiting on this task will also wait on the indexing and finish tasks  # noqa: E501
     raise self.replace(
         celery.chain(index_tasks, finish_recreate_index.s(new_backing_indices))
     )
 
 
 @app.task(bind=True)
-def start_update_index(self, indexes, platform):
+def start_update_index(self, indexes, platform):  # noqa: C901
     # pylint: disable=too-many-branches
     """
     Wipe and recreate index and mapping, and index all items.
@@ -830,7 +830,7 @@ def start_update_index(self, indexes, platform):
             index_tasks = index_tasks + get_update_podcast_episodes_tasks()
 
         index_tasks = celery.group(index_tasks)
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         error = "start_update_index threw an error"
         log.exception(error)
         return [error]
@@ -841,7 +841,7 @@ def start_update_index(self, indexes, platform):
 def get_update_profiles_tasks():
     """Get list of tasks to update profiles"""
     index_tasks = [
-        index_profiles.si(ids, True)
+        index_profiles.si(ids, True)  # noqa: FBT003
         for ids in chunks(
             User.objects.exclude(username=settings.INDEXING_API_USERNAME)
             .exclude(profile__isnull=True)
@@ -852,7 +852,7 @@ def get_update_profiles_tasks():
         )
     ]
 
-    index_tasks = index_tasks + [
+    return index_tasks + [
         bulk_deindex_profiles.si(ids)
         for ids in chunks(
             User.objects.exclude(profile__isnull=True)
@@ -862,8 +862,6 @@ def get_update_profiles_tasks():
             chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
         )
     ]
-
-    return index_tasks
 
 
 def get_update_courses_tasks(blocklisted_ids, platform):
@@ -889,22 +887,20 @@ def get_update_courses_tasks(blocklisted_ids, platform):
         course_deletion_query = course_deletion_query.filter(platform=platform)
 
     index_tasks = [
-        index_courses.si(ids, True)
+        index_courses.si(ids, True)  # noqa: FBT003
         for ids in chunks(
             course_update_query.values_list("id", flat=True),
             chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
         )
     ]
 
-    index_tasks = index_tasks + [
+    return index_tasks + [
         bulk_deindex_courses.si(ids)
         for ids in chunks(
             course_deletion_query.values_list("id", flat=True),
             chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
         )
     ]
-
-    return index_tasks
 
 
 def get_update_resource_files_tasks(blocklisted_ids, platform):
@@ -930,7 +926,7 @@ def get_update_resource_files_tasks(blocklisted_ids, platform):
             )
 
         return [
-            index_course_content_files.si(ids, True)
+            index_course_content_files.si(ids, True)  # noqa: FBT003
             for ids in chunks(
                 course_update_query.values_list("id", flat=True),
                 chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
@@ -945,7 +941,7 @@ def get_update_programs_tasks():
     Get list of tasks to update programs
     """
     index_tasks = [
-        index_programs.si(ids, True)
+        index_programs.si(ids, True)  # noqa: FBT003
         for ids in chunks(
             Program.objects.filter(published=True)
             .order_by("id")
@@ -954,7 +950,7 @@ def get_update_programs_tasks():
         )
     ]
 
-    index_tasks = index_tasks + [
+    return index_tasks + [
         bulk_deindex_programs.si(ids)
         for ids in chunks(
             Program.objects.filter(published=False)
@@ -964,8 +960,6 @@ def get_update_programs_tasks():
         )
     ]
 
-    return index_tasks
-
 
 def get_update_user_lists_tasks():
     """
@@ -973,7 +967,7 @@ def get_update_user_lists_tasks():
     """
 
     index_tasks = [
-        index_user_lists.si(ids, True)
+        index_user_lists.si(ids, True)  # noqa: FBT003
         for ids in chunks(
             UserList.objects.order_by("id")
             .exclude(items=None)
@@ -982,7 +976,7 @@ def get_update_user_lists_tasks():
         )
     ]
 
-    index_tasks = index_tasks + [
+    return index_tasks + [
         bulk_deindex_user_lists.si(ids)
         for ids in chunks(
             UserList.objects.order_by("id")
@@ -992,8 +986,6 @@ def get_update_user_lists_tasks():
         )
     ]
 
-    return index_tasks
-
 
 def get_update_staff_lists_tasks():
     """
@@ -1001,7 +993,7 @@ def get_update_staff_lists_tasks():
     """
 
     index_tasks = [
-        index_staff_lists.si(ids, True)
+        index_staff_lists.si(ids, True)  # noqa: FBT003
         for ids in chunks(
             StaffList.objects.order_by("id")
             .filter(privacy_level=PrivacyLevel.public.value)
@@ -1011,7 +1003,7 @@ def get_update_staff_lists_tasks():
         )
     ]
 
-    index_tasks = index_tasks + [
+    return index_tasks + [
         bulk_deindex_user_lists.si(ids)
         for ids in chunks(
             StaffList.objects.order_by("id")
@@ -1021,8 +1013,6 @@ def get_update_staff_lists_tasks():
         )
     ]
 
-    return index_tasks
-
 
 def get_update_videos_tasks():
     """
@@ -1030,7 +1020,7 @@ def get_update_videos_tasks():
     """
 
     index_tasks = [
-        index_videos.si(ids, True)
+        index_videos.si(ids, True)  # noqa: FBT003
         for ids in chunks(
             Video.objects.filter(published=True)
             .order_by("id")
@@ -1039,7 +1029,7 @@ def get_update_videos_tasks():
         )
     ]
 
-    index_tasks = index_tasks + [
+    return index_tasks + [
         bulk_deindex_videos.si(ids)
         for ids in chunks(
             Video.objects.filter(published=False)
@@ -1049,15 +1039,13 @@ def get_update_videos_tasks():
         )
     ]
 
-    return index_tasks
-
 
 def get_update_podcasts_tasks():
     """
     Get list of tasks to update podcasts
     """
     index_tasks = [
-        index_podcasts.si(ids, True)
+        index_podcasts.si(ids, True)  # noqa: FBT003
         for ids in chunks(
             Podcast.objects.filter(published=True)
             .order_by("id")
@@ -1066,7 +1054,7 @@ def get_update_podcasts_tasks():
         )
     ]
 
-    index_tasks = index_tasks + [
+    return index_tasks + [
         bulk_deindex_podcasts.si(ids)
         for ids in chunks(
             Podcast.objects.filter(published=False)
@@ -1076,15 +1064,13 @@ def get_update_podcasts_tasks():
         )
     ]
 
-    return index_tasks
-
 
 def get_update_podcast_episodes_tasks():
     """
     Get list of tasks to update podcast episodes
     """
     index_tasks = [
-        index_podcast_episodes.si(ids, True)
+        index_podcast_episodes.si(ids, True)  # noqa: FBT003
         for ids in chunks(
             PodcastEpisode.objects.filter(published=True)
             .order_by("id")
@@ -1093,7 +1079,7 @@ def get_update_podcast_episodes_tasks():
         )
     ]
 
-    index_tasks = index_tasks + [
+    return index_tasks + [
         bulk_deindex_podcast_episodes.si(ids)
         for ids in chunks(
             PodcastEpisode.objects.filter(published=False)
@@ -1102,8 +1088,6 @@ def get_update_podcast_episodes_tasks():
             chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
         )
     ]
-
-    return index_tasks
 
 
 @app.task(autoretry_for=(RetryException,), retry_backoff=True, rate_limit="600/m")
@@ -1120,15 +1104,16 @@ def finish_recreate_index(results, backing_indices):
         try:
             api.delete_orphaned_indices()
         except RequestError as ex:
-            raise RetryException(str(ex))
-        raise ReindexException(f"Errors occurred during recreate_index: {errors}")
+            raise RetryException(str(ex))  # noqa: B904, TRY200
+        msg = f"Errors occurred during recreate_index: {errors}"
+        raise ReindexException(msg)
 
     log.info(
-        "Done with temporary index. Pointing default aliases to newly created backing indexes..."
+        "Done with temporary index. Pointing default aliases to newly created backing indexes..."  # noqa: E501
     )
     for obj_type, backing_index in backing_indices.items():
         try:
             api.switch_indices(backing_index, obj_type)
         except RequestError as ex:
-            raise RetryException(str(ex))
+            raise RetryException(str(ex))  # noqa: B904, TRY200
     log.info("recreate_index has finished successfully!")

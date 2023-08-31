@@ -1,4 +1,4 @@
-"""Helper functions for ETL"""
+"""Helper functions for ETL"""  # noqa: INP001
 
 import csv
 from itertools import chain
@@ -13,12 +13,14 @@ def _load_ucc_topic_mappings():
     Returns:
         dict:
             the mapping dictionary
-    """
-    with open("learning_resources/data/ucc-topic-mappings.csv", "r") as mapping_file:
+    """  # noqa: D401
+    with open(  # noqa: PTH123
+        "learning_resources/data/ucc-topic-mappings.csv"
+    ) as mapping_file:
         rows = list(csv.reader(mapping_file))
         # drop the column headers (first row)
         rows = rows[1:]
-        mapping = dict()
+        mapping = {}
         for row in rows:
             ocw_topics = list(filter(lambda item: item, row[2:]))
             mapping[f"{row[0]}:{row[1]}"] = ocw_topics

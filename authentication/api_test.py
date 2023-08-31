@@ -1,6 +1,6 @@
 """API tests"""
-from django.contrib.auth import get_user_model
 import pytest
+from django.contrib.auth import get_user_model
 
 from authentication import api
 from profiles.models import Profile
@@ -14,7 +14,6 @@ pytestmark = pytest.mark.django_db
     "profile_data",
     [
         {"name": "My Name", "image": "http://localhost/image.jpg"},
-        # {},
         # None,
     ],
 )
@@ -43,7 +42,7 @@ def test_create_user_errors(mocker, mock_method):
     """Test that we don't end up in a partial state if there are errors"""
     mocker.patch(mock_method, side_effect=Exception("error"))
 
-    with pytest.raises(Exception):
+    with pytest.raises(Exception):  # noqa: B017, PT011
         api.create_user(
             "username",
             "email@localhost",

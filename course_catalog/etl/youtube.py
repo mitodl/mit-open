@@ -1,27 +1,26 @@
 """video catalog ETL"""
 import logging
+import time
+from datetime import timedelta
 from html import unescape
 from xml.etree import ElementTree
-from datetime import timedelta
-import time
-from django.conf import settings
 
-from googleapiclient.discovery import build
-import googleapiclient.errors
-import yaml
-import pytube
 import github
+import googleapiclient.errors
+import pytube
+import yaml
+from django.conf import settings
+from googleapiclient.discovery import build
 
 from course_catalog.constants import PlatformType
 from course_catalog.etl.exceptions import (
-    ExtractVideoException,
     ExtractPlaylistException,
     ExtractPlaylistItemException,
+    ExtractVideoException,
 )
 from course_catalog.models import Video
 from open_discussions.utils import now_in_utc
 from search.search_index_helpers import upsert_video
-
 
 CONFIG_FILE_REPO = "mitodl/open-video-data"
 CONFIG_FILE_FOLDER = "youtube"
@@ -38,7 +37,7 @@ def get_youtube_client():
 
     Returns:
         Google Api client object
-    """
+    """  # noqa: D401
 
     developer_key = settings.YOUTUBE_DEVELOPER_KEY
     return build(
@@ -56,7 +55,7 @@ def extract_videos(youtube_client, video_ids):
 
     Returns:
         A generator that yields video data
-    """
+    """  # noqa: D401, E501
     video_ids = list(video_ids)
     try:
         request = youtube_client.videos().list(
@@ -64,14 +63,15 @@ def extract_videos(youtube_client, video_ids):
         )
         response = request.execute()
 
-        # yield items in the order in which they were passed in so the playlist order is correct
+        # yield items in the order in which they were passed in so the playlist order is correct  # noqa: E501
         yield from sorted(
             response["items"], key=lambda item: video_ids.index(item["id"])
         )
     except StopIteration:
         return
     except googleapiclient.errors.HttpError as exc:
-        raise ExtractVideoException(f"Error fetching video_ids={video_ids}") from exc
+        msg = f"Error fetching video_ids={video_ids}"
+        raise ExtractVideoException(msg) from exc
 
 
 def extract_playlist_items(youtube_client, playlist_id):
@@ -97,9 +97,9 @@ def extract_playlist_items(youtube_client, playlist_id):
             if response is None:
                 break
 
-            video_ids = map(
-                lambda item: item["contentDetails"]["videoId"], response["items"]
-            )
+            video_ids = (
+                item["contentDetails"]["videoId"] for item in response["items"]
+            )  # noqa: E501, RUF100
 
             yield from extract_videos(youtube_client, video_ids)
 
@@ -108,9 +108,8 @@ def extract_playlist_items(youtube_client, playlist_id):
     except StopIteration:
         return
     except googleapiclient.errors.HttpError as exc:
-        raise ExtractPlaylistItemException(
-            f"Error fetching playlist items: playlist_id={playlist_id}"
-        ) from exc
+        msg = f"Error fetching playlist items: playlist_id={playlist_id}"
+        raise ExtractPlaylistItemException(msg) from exc
 
 
 def _extract_playlists(youtube_client, request, playlist_configs):
@@ -152,9 +151,8 @@ def _extract_playlists(youtube_client, request, playlist_configs):
         return
     except googleapiclient.errors.HttpError as exc:
         playlist_ids = ", ".join(list(playlist_configs.keys()))
-        raise ExtractPlaylistException(
-            f"Error fetching channel playlists: playlist_ids={playlist_ids}"
-        ) from exc
+        msg = f"Error fetching channel playlists: playlist_ids={playlist_ids}"
+        raise ExtractPlaylistException(msg) from exc
 
 
 def extract_playlists(youtube_client, playlist_configs, channel_id, upload_playlist_id):
@@ -263,7 +261,7 @@ def get_captions_for_video(video):
     Returns:
         str: transcript in xml format
 
-    """
+    """  # noqa: D401
     pytube_client = pytube.YouTube(video.url)
     all_captions = pytube_client.captions.all()
 
@@ -286,13 +284,13 @@ def parse_video_captions(xml_captions):
     Returns:
         str: transcript with timestamps removed
 
-    """
+    """  # noqa: D401
 
     if not xml_captions:
         return ""
 
     captions_list = []
-    root = ElementTree.fromstring(xml_captions)
+    root = ElementTree.fromstring(xml_captions)  # noqa: S314
 
     for child in root.iter():
         text = child.text or ""
@@ -310,7 +308,7 @@ def github_youtube_config_files():
 
     Returns:
         A list of pyGithub contentFile objects
-    """
+    """  # noqa: D401
 
     if settings.GITHUB_ACCESS_TOKEN:
         github_client = github.Github(settings.GITHUB_ACCESS_TOKEN)
@@ -333,7 +331,7 @@ def validate_channel_config(channel_config):
     Returns:
         list of str:
             list of errors or an empty list if no errors
-    """
+    """  # noqa: D401
     errors = []
 
     if not channel_config:
@@ -346,7 +344,9 @@ def validate_channel_config(channel_config):
 
     for required_key in ["playlists", "channel_id"]:
         if required_key not in channel_config:
-            errors.append(f"Required key '{required_key}' is not present")
+            errors.append(  # noqa: PERF401
+                f"Required key '{required_key}' is not present"
+            )  # noqa: PERF401, RUF100
 
     for idx, playlist_config in enumerate(channel_config.get("playlists", [])):
         if "id" not in playlist_config:
@@ -399,7 +399,7 @@ def extract(*, channel_ids=None):
 
     Returns:
         A generator that yields tuples with offered_by and video data
-    """
+    """  # noqa: D401, E501
     if not settings.YOUTUBE_DEVELOPER_KEY:
         log.error("Missing YOUTUBE_DEVELOPER_KEY")
         return
@@ -420,7 +420,7 @@ def transform_video(video_data, offered_by):
 
     Returns:
         dict: normalized video data
-    """
+    """  # noqa: D401
     return {
         "video_id": video_data["id"],
         "platform": PlatformType.youtube.value,
@@ -452,7 +452,7 @@ def transform_playlist(
     Returns:
         dict:
             normalized playlist data
-    """
+    """  # noqa: E501
     return {
         "platform": PlatformType.youtube.value,
         "playlist_id": playlist_data["id"],
@@ -476,7 +476,7 @@ def transform(extracted_channels):
 
     Returns:
         generator that yields normalized video data
-    """
+    """  # noqa: D401
     # NOTE: this generator has nested generators (channels -> playlists -> videos)
     # this is by design so that when the loaders run an exception raised in an
     # extraction function can signal to the loader code that a partial import occurred
@@ -513,7 +513,7 @@ def get_youtube_videos_for_transcripts_job(
 
     Returns
         Django filtered course_catalog.videos object
-    """
+    """  # noqa: E501
 
     videos = Video.objects.filter(published=True)
 
@@ -536,8 +536,8 @@ def get_youtube_transcripts(videos):
         vidoes - collection of course_catalog.Video objects
     """
 
-    # The call to download the transcript occasionally fails. We'll retry once after the first failure.
-    # If 15 consecutive  videos fail to load with pytube.exceptions.VideoUnavailable error
+    # The call to download the transcript occasionally fails. We'll retry once after the first failure.  # noqa: E501
+    # If 15 consecutive  videos fail to load with pytube.exceptions.VideoUnavailable error  # noqa: E501
     # we will assume we are being rate limited and stop the job early
 
     consecutive_video_unavailable_failures = 0
@@ -548,7 +548,7 @@ def get_youtube_transcripts(videos):
             >= max_consecutive_video_unavailable_failures
         ):
             log.error(
-                "%i consecutive faliures for transcript downloads. Ending transcript download job early. ",
+                "%i consecutive faliures for transcript downloads. Ending transcript download job early. ",  # noqa: E501
                 max_consecutive_video_unavailable_failures,
             )
             break
@@ -559,7 +559,9 @@ def get_youtube_transcripts(videos):
                 caption = get_captions_for_video(video)
             except (pytube.exceptions.PytubeError, KeyError) as error:
                 if attempt == tries - 1:
-                    log.error("Unable to fetch transcript for video id=%i", video.id)
+                    log.error(  # noqa: TRY400
+                        "Unable to fetch transcript for video id=%i", video.id
+                    )  # noqa: RUF100, TRY400
                     if isinstance(error, pytube.exceptions.VideoUnavailable):
                         consecutive_video_unavailable_failures += 1
                 continue

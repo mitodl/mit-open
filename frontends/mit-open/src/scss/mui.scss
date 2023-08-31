@@ -7,8 +7,7 @@ $color: theme.$color-primary;
   .MuiTab-root {
     text-transform: none;
   }
-  
-  
+
   .MuiChip-root.MuiChip-filled {
     background-color: theme.$color-background;
   }
@@ -28,11 +27,11 @@ $color: theme.$color-primary;
         color: white;
 
         &:hover {
-            background-color: color.adjust($color, $lightness: -10%);
+          background-color: color.adjust($color, $lightness: -10%);
         }
 
         &:active {
-            background-color: color.adjust($color, $saturation: -20%);
+          background-color: color.adjust($color, $saturation: -20%);
         }
       }
     }

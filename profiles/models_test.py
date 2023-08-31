@@ -1,8 +1,8 @@
-""" Tests for profile model """
+"""Tests for profile model"""
 import pytest
 from django.core.files.uploadedfile import UploadedFile
 
-from profiles.models import SITE_TYPE_OPTIONS, PERSONAL_SITE_TYPE, SOCIAL_SITE_NAME_MAP
+from profiles.models import PERSONAL_SITE_TYPE, SITE_TYPE_OPTIONS, SOCIAL_SITE_NAME_MAP
 
 
 @pytest.mark.parametrize("update_image", [True, False])

@@ -6,16 +6,18 @@ from widgets.models import WidgetInstance
 from widgets.serializers.utils import get_widget_type_names
 
 
-def _raise_not_implemented(*args, **kwargs):  # pylint: disable=unused-argument
-    """Raises an error indicating this is not implemented"""
-    raise NotImplementedError()
+def _raise_not_implemented(
+    *args, **kwargs  # noqa: ARG001
+):  # pylint: disable=unused-argument  # noqa: ARG001, RUF100
+    """Raises an error indicating this is not implemented"""  # noqa: D401
+    raise NotImplementedError
 
 
 class WidgetConfigSerializer(serializers.Serializer):
     """Serializer for widget configuration"""
 
     def get_form_spec(self):
-        """Returns a specification for building/editing a widget"""
+        """Returns a specification for building/editing a widget"""  # noqa: D401
         return [field.get_field_spec() for key, field in self.fields.items()]
 
 
@@ -35,7 +37,7 @@ class WidgetInstanceSerializer(serializers.ModelSerializer):
 
     @classmethod
     def get_widget_spec(cls):
-        """Returns a specification for building/editing a widget"""
+        """Returns a specification for building/editing a widget"""  # noqa: D401
         return {
             "widget_type": cls.name,
             "description": cls.description,
@@ -47,7 +49,7 @@ class WidgetInstanceSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
 
     def validate_configuration(self, value):
-        """Returns configuration as validated by configuration_serializer_class"""
+        """Returns configuration as validated by configuration_serializer_class"""  # noqa: D401, E501
 
         if self.configuration_serializer_class is not _raise_not_implemented:
             serializer = self.configuration_serializer_class(data=value)
@@ -58,12 +60,12 @@ class WidgetInstanceSerializer(serializers.ModelSerializer):
         return {"configuration": value}
 
     def get_configuration(self, instance):
-        """Returns the configuration to serialize"""
+        """Returns the configuration to serialize"""  # noqa: D401
         return instance.configuration
 
-    def get_json(self, instance):  # pylint: disable=unused-argument
-        """Renders the widget to json based on configuration"""
-        return None
+    def get_json(self, instance):  # pylint: disable=unused-argument  # noqa: ARG002
+        """Renders the widget to json based on configuration"""  # noqa: D401
+        return
 
     class Meta:
         model = WidgetInstance

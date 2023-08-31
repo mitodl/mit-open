@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0017_adds_is_resource_to_course")]
 
     operations = [

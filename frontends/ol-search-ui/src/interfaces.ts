@@ -10,7 +10,7 @@ export enum LearningResourceType {
   Userlist = "userlist",
   LearningPath = "learningpath",
   StaffList = "list",
-  StaffPath = "path"
+  StaffPath = "path",
 }
 
 /**
@@ -29,7 +29,7 @@ export const TYPE_POPULAR = "popular"
 
 export enum PrivacyLevel {
   Public = "public",
-  Private = "private"
+  Private = "private",
 }
 
 export type LearningResource = {

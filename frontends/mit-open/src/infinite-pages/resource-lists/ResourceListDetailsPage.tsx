@@ -5,7 +5,7 @@ import {
   useStaffList,
   useStaffListItems,
   useUserList,
-  useUserListItems
+  useUserListItems,
 } from "../../api/learning-resources"
 import Container from "@mui/material/Container"
 import EditIcon from "@mui/icons-material/Edit"
@@ -18,7 +18,7 @@ import {
   LearningResourceType as LRT,
   PaginatedListItems,
   StaffList,
-  UserList
+  UserList,
 } from "ol-search-ui"
 import SwapVertIcon from "@mui/icons-material/SwapVert"
 import { manageListDialogs } from "./ManageListDialogs"
@@ -40,7 +40,7 @@ const ResourceListDetailsPage: React.FC<{
 
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages
-    return pages?.flatMap(p => p.results.map(r => r))
+    return pages?.flatMap((p) => p.results.map((r) => r))
   }, [itemsQuery.data])
 
   const showSort = !!items?.length && canSort
@@ -79,9 +79,9 @@ const ResourceListDetailsPage: React.FC<{
                       {isSorting ? "Done ordering" : "Reorder"}
                     </Button>
                   )}
-                  {count !== undefined && count > 0 ?
-                    `${count} ${pluralize("item", count)}` :
-                    null}
+                  {count !== undefined && count > 0
+                    ? `${count} ${pluralize("item", count)}`
+                    : null}
                 </Grid>
                 <Grid
                   item

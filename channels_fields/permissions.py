@@ -17,11 +17,11 @@ def field_exists(view: APIView) -> bool:
     """
     Return True if a FieldChannel object exists for a field_name in the view, or there is no field name.
     Raises 404 if the FieldChannel does not exist.
-    """
+    """  # noqa: E501
     field_name = view.kwargs.get("field_name", None)
     if not field_name or FieldChannel.objects.filter(name=field_name).exists():
         return True
-    raise Http404()
+    raise Http404
 
 
 def is_field_moderator(request: Request, view: APIView) -> bool:
@@ -41,14 +41,14 @@ class FieldModeratorPermissions(BasePermission):
             is_admin_user(request) or is_field_moderator(request, view)
         )
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):  # noqa: ARG002
         return self.has_permission(request, view)
 
 
 class HasFieldPermission(BasePermission):
     """Permission to view/modify/create FieldChannel objects"""
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view):  # noqa: ARG002
         if request.method in SAFE_METHODS:
             return True
         if request.method == "POST":
@@ -56,7 +56,7 @@ class HasFieldPermission(BasePermission):
             return request.user.is_staff
         return request.user.is_authenticated
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):  # noqa: ARG002
         if request.method in SAFE_METHODS:
             return True
         elif request.method == "DELETE":

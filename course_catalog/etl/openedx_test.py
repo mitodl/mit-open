@@ -2,19 +2,20 @@
 # pylint: disable=redefined-outer-name
 from datetime import datetime
 from urllib.parse import urlencode
+
 import pytest
 
 from course_catalog.etl.constants import COMMON_HEADERS
 from course_catalog.etl.openedx import (
-    openedx_extract_transform_factory,
     OpenEdxConfiguration,
+    openedx_extract_transform_factory,
 )
 from open_discussions.test_utils import any_instance_of
 
-ACCESS_TOKEN = "invalid_access_token"
+ACCESS_TOKEN = "invalid_access_token"  # noqa: S105
 
 
-@pytest.fixture
+@pytest.fixture()
 def openedx_config():
     """Fixture for the openedx config object"""
     return OpenEdxConfiguration(
@@ -29,7 +30,7 @@ def openedx_config():
     )
 
 
-@pytest.fixture
+@pytest.fixture()
 def openedx_extract_transform(openedx_config):
     """Fixture for generationg an extract/transform pair for the given config"""
     return openedx_extract_transform_factory(lambda: openedx_config)
@@ -96,7 +97,7 @@ def test_extract_disabled(openedx_config, config_arg_idx):
 @pytest.mark.parametrize("has_runs", [True])
 @pytest.mark.parametrize("is_course_deleted", [False])
 @pytest.mark.parametrize("is_course_run_deleted", [False])
-def test_transform_course(
+def test_transform_course(  # noqa: PLR0913
     openedx_config,
     openedx_extract_transform,
     mitx_course_data,
@@ -106,7 +107,6 @@ def test_transform_course(
 ):  # pylint: disable=too-many-arguments
     """Test that the transform function normalizes and filters out data"""
     extracted = mitx_course_data["results"]
-    expected = extracted if not is_course_deleted and has_runs else []
     for course in extracted:
         if not has_runs:
             course["course_runs"] = []

@@ -7,7 +7,7 @@ class ReactField:
     """A react field is a mixin for getting the field spec"""
 
     def _get_props(self):
-        """Returns the field properties"""
+        """Returns the field properties"""  # noqa: D401
         props = {}
 
         # piggyback on the DRF help_text for html placeholder
@@ -17,8 +17,8 @@ class ReactField:
         return props
 
     def _get_input_type(self):
-        """Returns the field's input type"""
-        raise NotImplementedError()
+        """Returns the field's input type"""  # noqa: D401
+        raise NotImplementedError
 
     def get_field_spec(self):
         """
@@ -26,7 +26,7 @@ class ReactField:
 
         Returns:
             dict: representing the field spec
-        """
+        """  # noqa: D401
         return {
             "field_name": self.field_name,
             "label": self.label,
@@ -48,13 +48,15 @@ class ReactCharField(serializers.CharField, ReactField):
         super().__init__(**kwargs)
 
     def _get_input_type(self):
-        """Returns the field's input type"""
+        """Returns the field's input type"""  # noqa: D401
         return (
-            "textarea" if self.max_length is None or self.max_length > 200 else "text"
+            "textarea"
+            if self.max_length is None or self.max_length > 200  # noqa: PLR2004
+            else "text"
         )
 
     def _get_props(self):
-        """Returns the field properties"""
+        """Returns the field properties"""  # noqa: D401
         return {
             **super()._get_props(),
             "max_length": self.max_length or "",
@@ -66,11 +68,11 @@ class ReactIntegerField(serializers.IntegerField, ReactField):
     """ReactField extension of DRF IntegerField"""
 
     def _get_input_type(self):
-        """Returns the field's input type"""
+        """Returns the field's input type"""  # noqa: D401
         return "number"
 
     def _get_props(self):
-        """Returns the field properties"""
+        """Returns the field properties"""  # noqa: D401
         return {
             **super()._get_props(),
             "max": self.max_value or 1,
@@ -93,11 +95,11 @@ class ReactURLField(serializers.URLField, ReactField):
         super().__init__(**kwargs)
 
     def _get_input_type(self):
-        """Returns the field's input type"""
+        """Returns the field's input type"""  # noqa: D401
         return "url"
 
     def _get_props(self):
-        """Returns the field properties"""
+        """Returns the field properties"""  # noqa: D401
         return {
             **super()._get_props(),
             "max_length": self.max_length or "",
@@ -110,7 +112,7 @@ class ReactCheckboxField(serializers.BooleanField, ReactField):
     """ReactField extension for storing a boolean"""
 
     def _get_input_type(self):
-        """return the input type"""
+        """Return the input type"""
         return "checkbox"
 
 
@@ -118,7 +120,7 @@ class ReactMarkdownWysiwygField(serializers.CharField, ReactField):
     """ReactField extension of CharField"""
 
     def _get_input_type(self):
-        """Returns the field's input type"""
+        """Returns the field's input type"""  # noqa: D401
         return "markdown_wysiwyg"
 
 
@@ -128,5 +130,5 @@ class ReactPeopleField(serializers.ListField, ReactField):
     child = serializers.CharField()
 
     def _get_input_type(self):
-        """Returns the field's input type"""
+        """Returns the field's input type"""  # noqa: D401
         return "people"

@@ -5,7 +5,8 @@ $font-color-light: theme.$font-color-light;
 $radius: theme.$std-border-radius;
 $border-color: theme.$input-border-grey;
 
-form, .form {
+form,
+.form {
   .form-item {
     margin: 0 0 28px;
     color: $font-color;
@@ -32,7 +33,6 @@ form, .form {
   .divider {
     padding-top: 10px;
   }
-
 }
 
 form .form-row,
@@ -90,7 +90,7 @@ input[type="password"] {
     border: 1px solid $border-color;
     transition: width 0.4s ease-in-out;
     box-sizing: border-box;
-  
+
     &:disabled {
       background: #f7f7f7;
       border-color: #ccc;
@@ -117,7 +117,6 @@ textarea.form-field {
   height: 110px;
 }
 
-
 label.form-label {
   display: block;
   margin: 0 0 6px;
@@ -137,8 +136,6 @@ label {
   }
 }
 
-
-
 label.radiolabel {
   display: inline-block;
   margin: 0 15px 6px 0;
@@ -156,12 +153,12 @@ label.radiolabel {
 }
 
 .drag-delete-btn {
-    cursor: pointer;
-    color: #000;
+  cursor: pointer;
+  color: #000;
 }
 
 .drag-handle {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .MuiDialogContent-root {

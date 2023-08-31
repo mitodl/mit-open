@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0073_remove_runs_for_videos_and_podcasts")]
 
     operations = [

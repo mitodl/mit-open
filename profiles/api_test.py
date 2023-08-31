@@ -4,15 +4,15 @@ import pytest
 from open_discussions.factories import UserFactory
 from profiles import api
 from profiles.api import (
-    get_site_type_from_url,
     after_profile_created_or_updated,
+    get_site_type_from_url,
 )
 from profiles.models import (
-    Profile,
     FACEBOOK_DOMAIN,
-    TWITTER_DOMAIN,
     LINKEDIN_DOMAIN,
     PERSONAL_SITE_TYPE,
+    TWITTER_DOMAIN,
+    Profile,
 )
 
 pytestmark = pytest.mark.django_db
@@ -62,7 +62,7 @@ def test_after_profile_created_or_updated(mocker, user):
 
 
 @pytest.mark.parametrize(
-    "url,exp_site_type",
+    ("url", "exp_site_type"),
     [
         ("http://facebook.co.uk", FACEBOOK_DOMAIN),
         ("HTTP://FACEBOOK.CO.UK", FACEBOOK_DOMAIN),

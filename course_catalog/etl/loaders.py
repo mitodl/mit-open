@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from django.db.models import Exists, OuterRef
 
-from course_catalog.constants import PrivacyLevel, UserListType, EDX_PLATFORMS
+from course_catalog.constants import EDX_PLATFORMS, PrivacyLevel, UserListType
 from course_catalog.etl.constants import (
     CourseLoaderConfig,
     LearningResourceRunLoaderConfig,
@@ -106,7 +106,7 @@ def load_offered_bys(resource, offered_bys_data, *, config=OfferedByLoaderConfig
 
     Returns:
         offered_bys (list of LearningResourceOfferor): list of created or updated offered_bys
-    """
+    """  # noqa: D401, E501
     if offered_bys_data is None:
         return resource.offered_by.all()
 
@@ -174,7 +174,9 @@ def load_run(learning_resource, run_data, *, config=LearningResourceRunLoaderCon
     return learning_resource_run
 
 
-def load_course(course_data, blocklist, duplicates, *, config=CourseLoaderConfig()):
+def load_course(  # noqa: C901
+    course_data, blocklist, duplicates, *, config=CourseLoaderConfig()
+):  # noqa: C901, RUF100
     """
     Load the course into the database
 
@@ -403,7 +405,7 @@ def load_video(video_data, *, config=VideoLoaderConfig()):
         load_offered_bys(video, offered_bys_data, config=config.offered_by)
 
     if not created and not video.published:
-        # NOTE: if we didn't see a video in a playlist, it is likely NOT being removed here
+        # NOTE: if we didn't see a video in a playlist, it is likely NOT being removed here  # noqa: E501
         #       this gets addressed in load_channels after everything has been synced
         search_index_helpers.deindex_video(video)
     elif video.published:
@@ -422,7 +424,7 @@ def load_videos(videos_data, *, config=VideoLoaderConfig()):
     Returns:
         list of Video:
             the list of loaded videos
-    """
+    """  # noqa: D401
     return [load_video(video_data, config=config) for video_data in videos_data]
 
 
@@ -627,10 +629,10 @@ def load_video_channels(video_channels_data):
         try:
             video_channel = load_video_channel(video_channel_data)
         except ExtractException:
-            # video_channel_data has lazily evaluated generators, one of them could raise an extraction error
+            # video_channel_data has lazily evaluated generators, one of them could raise an extraction error  # noqa: E501
             # this is a small pollution of separation of concerns
             # but this allows us to stream the extracted data w/ generators
-            # as opposed to having to load everything into memory, which will eventually fail
+            # as opposed to having to load everything into memory, which will eventually fail  # noqa: E501
             log.exception(
                 "Error with extracted video channel: channel_id=%s", channel_id
             )
@@ -638,10 +640,10 @@ def load_video_channels(video_channels_data):
             video_channels.append(video_channel)
 
     # unpublish the channels we're no longer tracking
-    channel_ids = [channel for channel in video_channels_data]
+    channel_ids = list(video_channels_data)
     VideoChannel.objects.exclude(channel_id__in=channel_ids).update(published=False)
 
-    # finally, unpublish any published videos that aren't in at least one published playlist
+    # finally, unpublish any published videos that aren't in at least one published playlist  # noqa: E501
     for video in (
         Video.objects.annotate(
             in_published_playlist=Exists(
@@ -675,8 +677,8 @@ def load_content_file(course_run, content_file_data):
         content_file, _ = ContentFile.objects.update_or_create(
             run=course_run, key=content_file_data.get("key"), defaults=content_file_data
         )
-        return content_file.id
-    except:  # pylint: disable=bare-except
+        return content_file.id  # noqa: TRY300
+    except:  # pylint: disable=bare-except  # noqa: E722
         log.exception(
             "ERROR syncing course file %s for run %d",
             content_file_data.get("uid", ""),
@@ -695,7 +697,7 @@ def load_content_files(course_run, content_files_data):
     Returns:
         list of int: Ids of the ContentFile objects that were created/updated
 
-    """
+    """  # noqa: E501
     if course_run.content_type and course_run.content_type.name == COURSE_TYPE:
         content_files_ids = [
             load_content_file(course_run, content_file)
@@ -713,6 +715,7 @@ def load_content_files(course_run, content_files_data):
             search_index_helpers.deindex_run_content_files(course_run.id)
 
         return content_files_ids
+    return None
 
 
 def load_podcast_episode(episode_data, podcast, *, config=PodcastEpisodeLoaderConfig()):

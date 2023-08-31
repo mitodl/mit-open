@@ -12,7 +12,7 @@ class FieldChannelAdmin(admin.ModelAdmin):
         """Render a link to the WidgetList admin URL"""
         return (
             format_html(
-                '<a href="/admin/widgets/widgetlist/{0}/change/" target="_blank">WidgetList {0}</a>',
+                '<a href="/admin/widgets/widgetlist/{0}/change/" target="_blank">WidgetList {0}</a>',  # noqa: E501
                 instance.widget_list.pk,
             )
             if instance.widget_list

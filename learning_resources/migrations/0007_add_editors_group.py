@@ -20,7 +20,6 @@ def remove_staff_list_group(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("learning_resources", "0006_relations_and_learning_paths"),
     ]

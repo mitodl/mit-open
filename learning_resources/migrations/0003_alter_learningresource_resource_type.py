@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("learning_resources", "0002_alter_learningresource_unique_together"),
     ]

@@ -21,10 +21,10 @@ describe("Avatar", () => {
   })
   it("Displays initials if no avatar image exists", async () => {
     const field = makeField({
-      title:         "Test Title",
-      avatar:        null,
-      avatar_small:  null,
-      avatar_medium: null
+      title: "Test Title",
+      avatar: null,
+      avatar_small: null,
+      avatar_medium: null,
     })
     render(<FieldAvatar field={field} />)
     const img = screen.queryByRole("img")

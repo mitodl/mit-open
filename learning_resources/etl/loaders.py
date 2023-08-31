@@ -1,4 +1,4 @@
-"""Course catalog data loaders"""
+"""Course catalog data loaders"""  # noqa: INP001
 import logging
 
 from django.contrib.auth import get_user_model
@@ -26,9 +26,6 @@ from learning_resources.models import (
     Program,
 )
 from learning_resources.utils import load_course_blocklist, load_course_duplicates
-
-# from search import search_index_helpers
-# from search.constants import COURSE_TYPE
 
 log = logging.getLogger()
 
@@ -93,7 +90,7 @@ def load_offered_bys(resource, offered_bys_data, *, config=OfferedByLoaderConfig
 
     Returns:
         offered_bys (list of LearningResourceOfferor): list of created or updated offered_bys
-    """
+    """  # noqa: D401, E501
     if offered_bys_data is None:
         return resource.offered_by.all()
 
@@ -145,7 +142,9 @@ def load_run(learning_resource, run_data):
     return learning_resource_run
 
 
-def load_course(course_data, blocklist, duplicates, *, config=CourseLoaderConfig()):
+def load_course(  # noqa: C901
+    course_data, blocklist, duplicates, *, config=CourseLoaderConfig()
+):  # noqa: C901, RUF100
     """
     Load the course into the database
 
@@ -205,7 +204,6 @@ def load_course(course_data, blocklist, duplicates, *, config=CourseLoaderConfig
                 if duplicate_resource:
                     duplicate_resource.published = False
                     duplicate_resource.save()
-                    # search_index_helpers.deindex_course(duplicate_course)
         else:
             (
                 learning_resource,
@@ -244,11 +242,7 @@ def load_course(course_data, blocklist, duplicates, *, config=CourseLoaderConfig
         load_image(learning_resource, image_data)
 
     # if not created and not course.published:
-    #    search_index_helpers.deindex_course(course)
-    # elif course.published:
-    #    search_index_helpers.upsert_course(course.id)
     #    for run_id in unpublished_runs:
-    #       search_index_helpers.deindex_run_content_files(run_id)
 
     return learning_resource
 
@@ -279,7 +273,6 @@ def load_courses(platform, courses_data, *, config=CourseLoaderConfig()):
         ).exclude(id__in=[course.id for course in courses]):
             course.published = False
             course.save()
-            # search_index_helpers.deindex_course(course)
 
     return courses
 
@@ -365,9 +358,6 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
         )
 
     # if not created and not program.published:
-    #    search_index_helpers.deindex_program(program)
-    # elif program.published:
-    #    search_index_helpers.upsert_program(program.id)
 
     return learning_resource
 

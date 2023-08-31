@@ -22,19 +22,19 @@ const FacetDisplay = React.memo(
       activeFacets,
       onUpdateFacets,
       clearAllFilters,
-      toggleFacet
+      toggleFacet,
     } = props
 
     return (
       <React.Fragment>
-        {Object.values(activeFacets).some(filters => filters.length > 0) ? (
+        {Object.values(activeFacets).some((filters) => filters.length > 0) ? (
           <div className="active-search-filters">
             <div className="filter-section-main-title">
               Filters
               <span
                 className="clear-all-filters"
                 onClick={clearAllFilters}
-                onKeyPress={e => {
+                onKeyPress={(e) => {
                   if (e.key === "Enter") {
                     clearAllFilters()
                   }
@@ -53,7 +53,7 @@ const FacetDisplay = React.memo(
                     toggleFacet(name as string, activeFacet, false)
                   }
                 />
-              ))
+              )),
             )}
           </div>
         ) : null}
@@ -78,7 +78,7 @@ const FacetDisplay = React.memo(
       prevProps.facetOptions === nextProps.facetOptions &&
       prevProps.onUpdateFacets === nextProps.onUpdateFacets
     )
-  }
+  },
 )
 
 export default FacetDisplay

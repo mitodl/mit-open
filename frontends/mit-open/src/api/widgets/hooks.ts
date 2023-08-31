@@ -5,7 +5,7 @@ import axios from "../../libs/axios"
 
 const useWidgetList = (id: number) => {
   return useQuery<WidgetListResponse>([urls.widgetList(id)], {
-    enabled: id !== undefined
+    enabled: id !== undefined,
   })
 }
 
@@ -24,8 +24,8 @@ const useMutateWidgetsList = (id: number) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries([urls.widgetList(id)])
-      }
-    }
+      },
+    },
   )
 }
 

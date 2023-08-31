@@ -5,7 +5,7 @@ from open_discussions import features
 
 
 @pytest.mark.parametrize(
-    "value_in_settings,default,default_in_settings,expected",
+    ("value_in_settings", "default", "default_in_settings", "expected"),
     [
         (None, None, True, True),
         (None, None, False, False),
@@ -41,10 +41,10 @@ def test_is_enabled(
 
 # pylint: disable=too-many-arguments
 @pytest.mark.parametrize(
-    "feature_enabled,initial_value,update_value,expected_result_value",
+    ("feature_enabled", "initial_value", "update_value", "expected_result_value"),
     [(True, None, "new value", "new value"), (False, None, "new value", None)],
 )
-def test_if_feature_enabled(
+def test_if_feature_enabled(  # noqa: PLR0913
     mocker,
     settings,
     feature_enabled,

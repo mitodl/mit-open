@@ -25,9 +25,9 @@ function SearchFacet(props: Props) {
         <div className="filter-section-title pl-3 pt-2 pb-2">{title}</div>
       ) : null}
       <React.Fragment>
-        {results && results.buckets ?
-          results.buckets.map((facet, i) =>
-            showAllFacets ||
+        {results && results.buckets
+          ? results.buckets.map((facet, i) =>
+              showAllFacets ||
               i < MAX_DISPLAY_COUNT ||
               results.buckets.length < FACET_COLLAPSE_THRESHOLD ? (
                 <SearchFacetItem
@@ -37,9 +37,9 @@ function SearchFacet(props: Props) {
                   onUpdate={onUpdate}
                   name={name}
                 />
-              ) : null
-          ) :
-          null}
+              ) : null,
+            )
+          : null}
         {results && results.buckets.length >= FACET_COLLAPSE_THRESHOLD ? (
           <div
             className={"facet-more-less"}

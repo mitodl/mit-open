@@ -2,16 +2,16 @@
 """
 Tests for serializers for profiles REST APIS
 """
-import pytest
 import factory
+import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.exceptions import ValidationError
 
 from profiles.factories import UserWebsiteFactory
-from profiles.models import Profile, PERSONAL_SITE_TYPE, FACEBOOK_DOMAIN
+from profiles.models import FACEBOOK_DOMAIN, PERSONAL_SITE_TYPE, Profile
 from profiles.serializers import (
-    UserSerializer,
     ProfileSerializer,
+    UserSerializer,
     UserWebsiteSerializer,
 )
 
@@ -90,7 +90,7 @@ def test_serialize_create_user(db, mocker):
 
 
 @pytest.mark.parametrize(
-    "key,value",
+    ("key", "value"),
     [
         ("name", "name_value"),
         ("image", "image_value"),
@@ -143,7 +143,7 @@ def test_update_user_profile(mocker, user, key, value):
 
 
 @pytest.mark.parametrize(
-    "data,is_valid",
+    ("data", "is_valid"),
     [
         ({}, True),
         ("notjson", False),
@@ -161,7 +161,7 @@ def test_location_validation(user, data, is_valid):
 
 
 @pytest.mark.parametrize(
-    "key,value",
+    ("key", "value"),
     [
         ("name", "name_value"),
         ("bio", "bio_value"),
@@ -265,7 +265,7 @@ class TestUserWebsiteSerializer:
         patched_get_site_type.assert_called_once_with(url)
 
     @pytest.mark.parametrize(
-        "input_url,exp_result_url",
+        ("input_url", "exp_result_url"),
         [("HTtPS://AbC.COM", "https://abc.com"), ("AbC.cOM", "http://abc.com")],
     )
     def test_user_website_url(self, mocker, user, input_url, exp_result_url):
@@ -292,7 +292,7 @@ class TestUserWebsiteSerializer:
         )
         user_website_data = {"username": user.username, "url": "facebook.com/2"}
         serializer = UserWebsiteSerializer(data=user_website_data)
-        with pytest.raises(
+        with pytest.raises(  # noqa: PT012
             ValidationError, match="A website of this type has already been saved."
         ):
             serializer.is_valid(raise_exception=True)

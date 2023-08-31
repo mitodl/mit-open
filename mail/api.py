@@ -18,9 +18,9 @@ messages = messages_for_recipients([
 # send the emails
 send_messages(messages)
 """
-from email.utils import formataddr
 import logging
 import re
+from email.utils import formataddr
 
 from anymail.message import AnymailMessage
 from bs4 import BeautifulSoup
@@ -43,7 +43,7 @@ def safe_format_recipients(recipients):
 
     Returns:
         list of (str, User): list of recipient emails to send to
-    """
+    """  # noqa: D401
     if not recipients:
         return []
 
@@ -67,7 +67,7 @@ def can_email_user(user):
 
     Returns:
         bool: True if we can email this user
-    """
+    """  # noqa: D401
     return bool(user.email)
 
 
@@ -81,7 +81,7 @@ def context_for_user(*, user=None, extra_context=None):
 
     Returns:
         dict: the context for this user
-    """
+    """  # noqa: D401
 
     context = {
         "base_url": settings.SITE_BASE_URL,
@@ -112,15 +112,13 @@ def render_email_templates(template_name, context):
 
     Returns:
         (str, str, str): tuple of the templates for subject, text_body, html_body
-    """
-    subject_text = render_to_string(
-        "{}/subject.txt".format(template_name), context
-    ).rstrip()
+    """  # noqa: E501, D401
+    subject_text = render_to_string(f"{template_name}/subject.txt", context).rstrip()
 
     context.update({"subject": subject_text})
-    html_text = render_to_string("{}/body.html".format(template_name), context)
+    html_text = render_to_string(f"{template_name}/body.html", context)
 
-    # pynliner internally uses bs4, which we can now modify the inlined version into a plaintext version
+    # pynliner internally uses bs4, which we can now modify the inlined version into a plaintext version  # noqa: E501
     # this avoids parsing the body twice in bs4
     soup = BeautifulSoup(html_text, "html5lib")
     for link in soup.find_all("a"):
@@ -151,7 +149,7 @@ def messages_for_recipients(recipients_and_contexts, template_name):
 
     Yields:
         EmailMultiAlternatives: email message with rendered content
-    """
+    """  # noqa: E501, D401
     with mail.get_connection(settings.EMAIL_BACKEND) as connection:
         for recipient, context in recipients_and_contexts:
             subject, text_body, html_body = render_email_templates(
@@ -174,9 +172,9 @@ def send_messages(messages):
 
     Args:
         messages (list of EmailMultiAlternatives): list of messages to send
-    """
+    """  # noqa: D401
     for msg in messages:
         try:
             msg.send()
-        except:  # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except  # noqa: E722
             log.exception("Error sending email '%s' to %s", msg.subject, msg.to)

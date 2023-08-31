@@ -1,6 +1,6 @@
 """Common open_discussions middleware"""
-from django.conf import settings
 from django import shortcuts
+from django.conf import settings
 
 from open_discussions.utils import FeatureFlag
 
@@ -20,10 +20,8 @@ class QueryStringFeatureFlagMiddleware:
 
         Returns:
             str: the full key value
-        """
-        return "{prefix}_FEATURE_{suffix}".format(
-            prefix=settings.MIDDLEWARE_FEATURE_FLAG_QS_PREFIX, suffix=suffix
-        )
+        """  # noqa: D401
+        return f"{settings.MIDDLEWARE_FEATURE_FLAG_QS_PREFIX}_FEATURE_{suffix}"
 
     @classmethod
     def encode_feature_flags(cls, data):
@@ -35,7 +33,7 @@ class QueryStringFeatureFlagMiddleware:
 
         Returns:
             str: value encoded as a str
-        """
+        """  # noqa: D401
         mask = 0
         if data is None:
             return str(mask)
@@ -55,9 +53,9 @@ class QueryStringFeatureFlagMiddleware:
 
         Args:
             request (django.http.request.Request): the request to inspect
-        """
+        """  # noqa: D401
         prefix = self.get_flag_key("")
-        if request.GET and any(key.startswith(prefix) for key in request.GET.keys()):
+        if request.GET and any(key.startswith(prefix) for key in request.GET):
             response = shortcuts.redirect(request.path)
             if self.get_flag_key("CLEAR") in request.GET:
                 response.delete_cookie(settings.MIDDLEWARE_FEATURE_FLAG_COOKIE_NAME)
@@ -88,8 +86,8 @@ class CookieFeatureFlagMiddleware:
 
         Returns:
             set: the set of feature values in the value
-        """
-        return set(member for member in FeatureFlag if member.value & value)
+        """  # noqa: D401
+        return {member for member in FeatureFlag if member.value & value}
 
     @classmethod
     def get_feature_flags(cls, request):
@@ -101,7 +99,7 @@ class CookieFeatureFlagMiddleware:
 
         Returns:
             set: the set of FeatureFlag values set in the cookie if present
-        """
+        """  # noqa: D401
         if settings.MIDDLEWARE_FEATURE_FLAG_COOKIE_NAME in request.COOKIES:
             try:
                 value = int(
@@ -125,7 +123,7 @@ class CookieFeatureFlagMiddleware:
 
         Args:
             request (django.http.request.Request): the request to inspect
-        """
+        """  # noqa: D401
         request.open_discussions_feature_flags = self.get_feature_flags(request)
 
         return self.get_response(request)

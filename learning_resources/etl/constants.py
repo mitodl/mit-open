@@ -1,29 +1,29 @@
-"""Constants for course catalog ETL processes"""
+"""Constants for course catalog ETL processes"""  # noqa: INP001
 from collections import namedtuple
 
-OfferedByLoaderConfig = namedtuple(
+OfferedByLoaderConfig = namedtuple(  # noqa: PYI024
     "OfferedByLoaderConfig", ["additive"], defaults=[False]
 )
 
-CourseLoaderConfig = namedtuple(
+CourseLoaderConfig = namedtuple(  # noqa: PYI024
     "CourseLoaderConfig",
     ["prune", "offered_by"],
     defaults=[True, OfferedByLoaderConfig()],
 )
 
-ProgramLoaderConfig = namedtuple(
+ProgramLoaderConfig = namedtuple(  # noqa: PYI024
     "ProgramLoaderConfig",
     ["prune", "courses", "offered_by"],
     defaults=[True, CourseLoaderConfig(), OfferedByLoaderConfig()],
 )
 
-PodcastEpisodeLoaderConfig = namedtuple(
+PodcastEpisodeLoaderConfig = namedtuple(  # noqa: PYI024
     "PodcastEpisodeLoaderConfig",
     ["offered_by"],
     defaults=[OfferedByLoaderConfig()],
 )
 
-PodcastLoaderConfig = namedtuple(
+PodcastLoaderConfig = namedtuple(  # noqa: PYI024
     "PodcastLoaderConfig",
     ["episodes", "offered_by"],
     defaults=[
@@ -32,13 +32,13 @@ PodcastLoaderConfig = namedtuple(
     ],
 )
 
-VideoLoaderConfig = namedtuple(
+VideoLoaderConfig = namedtuple(  # noqa: PYI024
     "VideoLoaderConfig",
     ["offered_by"],
     defaults=[OfferedByLoaderConfig()],
 )
 
-PlaylistLoaderConfig = namedtuple(
+PlaylistLoaderConfig = namedtuple(  # noqa: PYI024
     "PlaylistLoaderConfig",
     ["offered_by", "videos"],
     defaults=[OfferedByLoaderConfig(), VideoLoaderConfig()],

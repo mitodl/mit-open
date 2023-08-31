@@ -10,14 +10,14 @@ const MarkdownField: React.FC<WidgetEditingFieldProps> = ({
   onBlur,
   name,
   id,
-  className
+  className,
 }) => {
   const handleChange = useCallback(
     (eventValue: string) => {
       const event = { target: { name, value: eventValue } }
       onChange(event)
     },
-    [onChange, name]
+    [onChange, name],
   )
   const handleBlur = useCallback(() => {
     const event = { target: { name } }

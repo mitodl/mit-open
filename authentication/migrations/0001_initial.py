@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []
@@ -27,7 +26,7 @@ class Migration(migrations.Migration):
                 (
                     "match",
                     models.CharField(
-                        help_text="\n@spam.com: blocks all emails containing `@spam.com` like `joe@spam.com.edu`<br/>\n@spam.com$: blocks all emails ending in `@spam.com` like `joe@spam.com`<br/>\nspam.com: blocks all emails containing `spam.com` like `joe@antispam.com.edu`<br/>\nsue@gmail.com: blocks `sue@gmail.com` and `bobbysue@gmail.com`<br/>\n^sue@gmail.com: blocks `sue@gmail.com` but not `bobbysue@gmail.com`\n",
+                        help_text="\n@spam.com: blocks all emails containing `@spam.com` like `joe@spam.com.edu`<br/>\n@spam.com$: blocks all emails ending in `@spam.com` like `joe@spam.com`<br/>\nspam.com: blocks all emails containing `spam.com` like `joe@antispam.com.edu`<br/>\nsue@gmail.com: blocks `sue@gmail.com` and `bobbysue@gmail.com`<br/>\n^sue@gmail.com: blocks `sue@gmail.com` but not `bobbysue@gmail.com`\n",  # noqa: E501
                         max_length=256,
                     ),
                 ),

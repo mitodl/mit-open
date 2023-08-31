@@ -4,6 +4,7 @@ Functions that execute search-related asynchronous tasks
 import logging
 
 from django.conf import settings
+
 from open_discussions.features import INDEX_UPDATES, if_feature_enabled
 from search import tasks
 from search.api import (
@@ -39,7 +40,7 @@ def try_with_retry_as_task(function, *args):
     """
     try:
         function(*args)
-    except Exception:  # pylint:disable=broad-except
+    except Exception:  # pylint:disable=broad-except  # noqa: BLE001
         function.delay(*args)
 
 
@@ -61,7 +62,7 @@ def deindex_profile(user_obj):
 
     Args:
         user_obj(django.contrib.auth.models.User): the User whose profile to query by and update
-    """
+    """  # noqa: E501
     if user_obj.username != settings.INDEXING_API_USERNAME:
         try_with_retry_as_task(
             deindex_document, gen_profile_id(user_obj.username), PROFILE_TYPE
@@ -86,7 +87,7 @@ def deindex_course(course_obj):
 
     Args:
         course_obj (course_catalog.models.Course): A Course object
-    """
+    """  # noqa: D401
     try_with_retry_as_task(
         deindex_document,
         gen_course_id(course_obj.platform, course_obj.course_id),
@@ -116,7 +117,7 @@ def index_run_content_files(run_id):
     Args:
         run_id(int): LearningResourceRun id
 
-    """
+    """  # noqa: D401
     try_with_retry_as_task(tasks.index_run_content_files, run_id)
 
 
@@ -128,7 +129,7 @@ def deindex_run_content_files(run_id):
     Args:
         run_id(int): LearningResourceRun id
 
-    """
+    """  # noqa: D401
     try_with_retry_as_task(tasks.deindex_run_content_files, run_id)
 
 
@@ -150,7 +151,7 @@ def deindex_program(program_obj):
 
     Args:
         program_obj (course_catalog.models.Program): A Program object
-    """
+    """  # noqa: D401
     try_with_retry_as_task(deindex_document, gen_program_id(program_obj), PROGRAM_TYPE)
 
 
@@ -172,7 +173,7 @@ def deindex_user_list(user_list_obj):
 
     Args:
         user_list_obj (course_catalog.models.UserList): A UserList object
-    """
+    """  # noqa: D401
     try_with_retry_as_task(
         deindex_document, gen_user_list_id(user_list_obj), USER_LIST_TYPE
     )
@@ -196,7 +197,7 @@ def deindex_staff_list(staff_list_obj):
 
     Args:
         staff_list_obj (course_catalog.models.StaffList): A StaffList object
-    """
+    """  # noqa: D401
     try_with_retry_as_task(
         deindex_document, gen_staff_list_id(staff_list_obj), STAFF_LIST_TYPE
     )
@@ -220,7 +221,7 @@ def deindex_video(video_obj):
 
     Args:
         video_obj (course_catalog.models.Video): A Video object
-    """
+    """  # noqa: D401
     try_with_retry_as_task(deindex_document, gen_video_id(video_obj), VIDEO_TYPE)
 
 
@@ -242,7 +243,7 @@ def deindex_podcast(podcast_obj):
 
     Args:
         podcast_obj (course_catalog.models.Podcast): A Podcast object
-    """
+    """  # noqa: D401
     try_with_retry_as_task(deindex_document, gen_podcast_id(podcast_obj), PODCAST_TYPE)
 
 
@@ -253,7 +254,7 @@ def upsert_podcast_episode(podcast_episode_id):
 
     Args:
         podcast_episode_id (int): the database primary key of the PodcastEpisode to update in ES
-    """
+    """  # noqa: E501
     try_with_retry_as_task(tasks.upsert_podcast_episode, podcast_episode_id)
 
 
@@ -264,7 +265,7 @@ def deindex_podcast_episode(podcast_episode_obj):
 
     Args:
         podcast_episode_obj (course_catalog.models.PodcastEpisode): A PodcastEpisode object
-    """
+    """  # noqa: E501, D401
     try_with_retry_as_task(
         deindex_document,
         gen_podcast_episode_id(podcast_episode_obj),

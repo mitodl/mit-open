@@ -24,9 +24,9 @@ class FieldChannelFactory(factory.DjangoModelFactory):
 
     @factory.post_generation
     def create_roles(
-        self, create, extracted, **kwargs
+        self, create, extracted, **kwargs  # noqa: ARG002
     ):  # pylint: disable=unused-argument
-        """Create the field channel groups and roles after the field channel is created"""
+        """Create the field channel groups and roles after the field channel is created"""  # noqa: E501
         if not create:
             return
 

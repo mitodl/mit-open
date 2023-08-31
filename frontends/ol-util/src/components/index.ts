@@ -4,7 +4,7 @@ export {
   Gradient,
   BannerPageHeader,
   BannerPageWrapper,
-  BannerPage
+  BannerPage,
 } from "./PageBanner"
 
 export { default as MITLogoLink } from "./MITLogoLink"
@@ -15,7 +15,7 @@ export type { TitledCarouselProps } from "./TitledCarousel"
 export {
   default as SortableList,
   SortableItem,
-  arrayMove
+  arrayMove,
 } from "./SortableList"
 export type {
   RenderActive,
@@ -23,7 +23,7 @@ export type {
   OnSortEnd,
   CancelDrop,
   SortableItemProps,
-  SortableListProps
+  SortableListProps,
 } from "./SortableList"
 
 export { EmbedlyCard, ensureEmbedlyPlatform, embedlyCardHtml } from "./embedly"

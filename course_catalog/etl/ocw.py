@@ -7,22 +7,22 @@ from urllib.parse import urlparse
 
 import boto3
 import rapidjson
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as bs  # noqa: N813
 from django.conf import settings
 
 from course_catalog.constants import (
-    CONTENT_TYPE_PAGE,
     CONTENT_TYPE_FILE,
-    VALID_TEXT_FILE_TYPES,
-    CONTENT_TYPE_VIDEO,
+    CONTENT_TYPE_PAGE,
     CONTENT_TYPE_PDF,
+    CONTENT_TYPE_VIDEO,
+    VALID_TEXT_FILE_TYPES,
 )
 from course_catalog.etl.utils import (
+    extract_text_from_url,
     extract_text_metadata,
     sync_s3_text,
-    extract_text_from_url,
 )
-from course_catalog.models import ContentFile, get_max_length, Video
+from course_catalog.models import ContentFile, Video, get_max_length
 
 log = logging.getLogger()
 
@@ -54,7 +54,7 @@ def transform_content_files(course_run_json):
     Returns:
         list of dict: List of transformed content file data
 
-    """
+    """  # noqa: D401
     json_course_files = course_run_json.get("course_files", []) + course_run_json.get(
         "course_foreign_files", []
     )
@@ -66,7 +66,7 @@ def transform_content_files(course_run_json):
         try:
             content_file = transform_content_file(course_run_json, course_file)
             yield content_file
-        except:  # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except  # noqa: E722
             log.exception(
                 "ERROR syncing course file %s for run %s",
                 course_file.get("uid", ""),
@@ -82,7 +82,7 @@ def transform_content_files(course_run_json):
                     course_run_json, course_page, is_page=True
                 )
                 yield content_file
-        except:  # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except  # noqa: E722
             log.exception(
                 "ERROR syncing course page %s for run %s",
                 course_page.get("uid", ""),
@@ -94,7 +94,7 @@ def transform_content_files(course_run_json):
             content_file = transform_embedded_media(json_embedded_media, item)
             if content_file is not None:
                 yield content_file
-        except:  # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except  # noqa: E722
             log.exception(
                 "ERROR syncing embed item %s for run %s",
                 embedded_media,
@@ -103,7 +103,7 @@ def transform_content_files(course_run_json):
 
 
 def transform_content_file(
-    course_run_json, content_file_data, is_page=False
+    course_run_json, content_file_data, is_page=False  # noqa: FBT002
 ):  # pylint: disable=too-many-locals
     """
     Transforms content file json based on parent course run master_json
@@ -115,7 +115,7 @@ def transform_content_file(
 
     Returns:
         dict: transformed content_file json
-    """
+    """  # noqa: D401
     content_json = {}
     content_file = copy.deepcopy(content_file_data)
 
@@ -132,7 +132,7 @@ def transform_content_file(
     s3_url = content_file.get("file_location", "")
     key = urlparse(s3_url).path.lstrip("/")
     content_file["key"] = key
-    ext_lower = splitext(key)[-1].lower()
+    ext_lower = splitext(key)[-1].lower()  # noqa: PTH122
     mime_type = mimetypes.types_map.get(ext_lower)
     if ext_lower in VALID_TEXT_FILE_TYPES:
         try:
@@ -157,7 +157,7 @@ def transform_content_file(
             if content_json:
                 content_json_meta = content_json.get("metadata", {})
                 content_file["content"] = content_json.get("content")
-                # Sometimes Tika returns very large values (probably a mistake in pdf data), so truncate in case.
+                # Sometimes Tika returns very large values (probably a mistake in pdf data), so truncate in case.  # noqa: E501
                 content_file["content_author"] = content_json_meta.get("Author", "")[
                     : get_max_length("content_author")
                 ]
@@ -173,7 +173,7 @@ def transform_content_file(
                 key,
                 course_run_json.get("uid"),
             )
-        except:  # pylint:disable=bare-except
+        except:  # pylint:disable=bare-except  # noqa: E722
             log.exception(
                 "Error extracting text from key %s for course run %s",
                 key,
@@ -182,7 +182,7 @@ def transform_content_file(
     # Get rid of other fields
     for field in list(
         set(content_file.keys())
-        - {field.name for field in ContentFile._meta.get_fields()}
+        - {field.name for field in ContentFile._meta.get_fields()}  # noqa: SLF001
     ):
         content_file.pop(field)
     content_file.pop("id", None)
@@ -202,7 +202,7 @@ def transform_embedded_media(
 
     Returns:
         dict: transformed content_file json
-    """
+    """  # noqa: D401
     embedded_media_files = embedded_media_item["embedded_media"]
     videos = [
         obj["media_location"]
@@ -264,7 +264,7 @@ def transform_embedded_media(
                         content_file["content"] = extract_text_from_url(
                             transcripts[0], mime_type="application/pdf"
                         )
-                    except:  # pylint:disable=bare-except
+                    except:  # pylint:disable=bare-except  # noqa: E722
                         log.exception(
                             "Error reading transcript URL for course run %s",
                             course_run_json.get("uid"),
@@ -286,7 +286,7 @@ def transform_embedded_media(
     return None
 
 
-def get_content_file_url(content_file_data, is_page=False):
+def get_content_file_url(content_file_data, is_page=False):  # noqa: FBT002
     """
     Calculate the best URL for a content file.
     Otherwise, use the S3 URL - this should be converted to the appropriate CDN url if needed on the front end.
@@ -297,7 +297,7 @@ def get_content_file_url(content_file_data, is_page=False):
 
     Returns:
         str: url
-    """
+    """  # noqa: E501
     if is_page:
         return content_file_data.get("url", "")
 
@@ -323,6 +323,7 @@ def get_page_by_uid(uid, pages):
     page_info = [page for page in pages if page["uid"] == uid]
     if page_info:
         return page_info[0]
+    return None
 
 
 def get_content_file_section(content_file, pages_section):
@@ -358,7 +359,7 @@ def upload_mitx_course_manifest(courses):
 
     Returns:
         bool: success of upload
-    """
+    """  # noqa: D401
     if not all(
         [
             settings.AWS_ACCESS_KEY_ID,
@@ -380,8 +381,8 @@ def upload_mitx_course_manifest(courses):
 
         ocw_bucket = get_ocw_learning_course_bucket()
         ocw_bucket.put_object(Key="edx_courses.json", Body=rapidjson.dumps(manifest))
-        return True
-    except:  # pylint: disable=bare-except
+        return True  # noqa: TRY300
+    except:  # pylint: disable=bare-except  # noqa: E722
         log.exception("Error uploading OCW manifest")
         return False
 

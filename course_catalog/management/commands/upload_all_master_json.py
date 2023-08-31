@@ -8,15 +8,13 @@ from open_discussions.utils import now_in_utc
 class Command(BaseCommand):
     """Upload OCW master json"""
 
-    help = "Upload OCW master json"
+    help = "Upload OCW master json"  # noqa: A003
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         """Run Upload OCW master json"""
         task = upload_ocw_parsed_json.delay()
         self.stdout.write(
-            "Started celery task {task} to upload ocw master json files to s3".format(
-                task=task
-            )
+            f"Started celery task {task} to upload ocw master json files to s3"
         )
         self.stdout.write("Waiting on task...")
         start = now_in_utc()

@@ -1,22 +1,21 @@
-version: '3.7'
+version: "3.7"
 
-x-environment:
-  &py-environment
-  DEBUG: 'False'
-  DEV_ENV: 'True'  # necessary to have nginx connect to web container
-  NODE_ENV: 'production'
+x-environment: &py-environment
+  DEBUG: "False"
+  DEV_ENV: "True" # necessary to have nginx connect to web container
+  NODE_ENV: "production"
   DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
-  MITOPEN_SECURE_SSL_REDIRECT: 'False'
-  MITOPEN_DB_DISABLE_SSL: 'True'
-  MITOPEN_FEATURES_DEFAULT: 'True'
+  MITOPEN_SECURE_SSL_REDIRECT: "False"
+  MITOPEN_DB_DISABLE_SSL: "True"
+  MITOPEN_FEATURES_DEFAULT: "True"
   OPENSEARCH_URL: opensearch-node-mitopen:9200
-  CELERY_TASK_ALWAYS_EAGER: 'False'
+  CELERY_TASK_ALWAYS_EAGER: "False"
   CELERY_BROKER_URL: redis://redis:6379/4
   CELERY_RESULT_BACKEND: redis://redis:6379/4
   DOCKER_HOST: ${DOCKER_HOST:-missing}
 
   TIKA_SERVER_ENDPOINT: ${TIKA_SERVER_ENDPOINT:-http://tika:9998/}
-  TIKA_CLIENT_ONLY: 'True'
+  TIKA_CLIENT_ONLY: "True"
 
 services:
   db:
@@ -66,7 +65,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      << : *py-environment
+      <<: *py-environment
       PORT: 8061
     env_file: .env
     command: ./scripts/run-django-dev.sh
@@ -89,7 +88,7 @@ services:
       - "8062:8062"
     environment:
       DOCKER_HOST: ${DOCKER_HOST:-missing}
-      CONTAINER_NAME: 'watch'
+      CONTAINER_NAME: "watch"
       WEBPACK_PORT_MITOPEN: 8062
     env_file: .env
     volumes:

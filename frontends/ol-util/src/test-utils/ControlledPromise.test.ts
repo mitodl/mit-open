@@ -14,7 +14,7 @@ describe("ControlledPromise", () => {
 
     // didResolve not called synchronously
     expect(didResolve).not.toHaveBeenCalled()
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise((resolve) => setTimeout(resolve, 10))
 
     // didResolve not called after 10ms
     expect(didResolve).not.toHaveBeenCalled()
@@ -30,11 +30,11 @@ describe("ControlledPromise", () => {
 
   it("rejects when told to, not earlier", async () => {
     const { didResolve, didThrow, cp } = setup()
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise((resolve) => setTimeout(resolve, 10))
 
     // didThrow not called synchronously
     expect(didThrow).not.toHaveBeenCalled()
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise((resolve) => setTimeout(resolve, 10))
 
     // didThrow not called after 10ms
     expect(didThrow).not.toHaveBeenCalled()

@@ -12,7 +12,7 @@ const createFakeOptions = (times: number): Option[] =>
     .fill(0)
     .map(() => ({
       value: faker.unique(faker.datatype.number).toString(),
-      label: faker.lorem.words()
+      label: faker.lorem.words(),
     }))
 
 describe("SortableSelect", () => {
@@ -24,11 +24,11 @@ describe("SortableSelect", () => {
         name="test-select"
         value={options
           .slice(0, 4)
-          .map(option => ({ id: option.value, title: option.label }))}
+          .map((option) => ({ id: option.value, title: option.label }))}
         onChange={onChange}
         options={options}
         loadOptions={loadOptions}
-      />
+      />,
     )
 
   beforeEach(() => {
@@ -39,9 +39,9 @@ describe("SortableSelect", () => {
 
   it("should render sortable items for the current value", async () => {
     renderItem()
-    const values: SortableItem[] = options.slice(0, 4).map(option => ({
-      id:    option.value,
-      title: option.label
+    const values: SortableItem[] = options.slice(0, 4).map((option) => ({
+      id: option.value,
+      title: option.label,
     }))
     const drags = await screen.findAllByText("drag_indicator")
     zip(values, drags).forEach(([value, draggable]) => {

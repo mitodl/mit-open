@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0049_rename_video_resource_to_video")]
 
     operations = [

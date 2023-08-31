@@ -10,7 +10,7 @@ import ShareTooltip from "./ShareTooltip"
 import {
   LearningResourceType,
   LearningResource,
-  LearningResourceRun
+  LearningResourceRun,
 } from "../interfaces"
 import {
   findBestRun,
@@ -21,7 +21,7 @@ import {
   resourceThumbnailSrc,
   CertificateIcon,
   getReadableResourceType,
-  EmbedlyConfig
+  EmbedlyConfig,
 } from "../util"
 
 import { EmbedlyCard, formatDurationClockTime } from "ol-util"
@@ -39,21 +39,21 @@ type LearningResourceDetailsProps = {
 const LearningResourceDetails: React.FC<LearningResourceDetailsProps> = ({
   resource,
   formatShareLink,
-  imgConfig
+  imgConfig,
 }) => {
   const objectRuns = resource.runs ?? []
   const [runId, setRunId] = useState<number | undefined>(
-    () => findBestRun(objectRuns)?.id
+    () => findBestRun(objectRuns)?.id,
   )
-  const selectedRun = objectRuns.find(r => r.id === runId)
+  const selectedRun = objectRuns.find((r) => r.id === runId)
 
   const hasCertificate = resource.certification?.length > 0
 
   const updateRun: React.ChangeEventHandler<HTMLSelectElement> = useCallback(
-    e => {
+    (e) => {
       setRunId(Number(e.target.value))
     },
-    []
+    [],
   )
 
   const url = selectedRun?.url ?? resource.url
@@ -75,7 +75,7 @@ const LearningResourceDetails: React.FC<LearningResourceDetailsProps> = ({
             <div className="select-semester-div">
               {objectRuns.length > 1 ? (
                 <select value={runId} onChange={updateRun}>
-                  {objectRuns.map(run => (
+                  {objectRuns.map((run) => (
                     <option value={run.id} key={run.id}>
                       {getStartDate(resource.platform ?? "", run)}
                     </option>
@@ -131,9 +131,9 @@ const LearningResourceDetails: React.FC<LearningResourceDetailsProps> = ({
       <div className="description">
         <TruncatedText
           text={
-            resource.short_description ?
-              decode(striptags(resource.short_description)) :
-              ""
+            resource.short_description
+              ? decode(striptags(resource.short_description))
+              : ""
           }
           lines={5}
           estCharsPerLine={100}
@@ -151,14 +151,14 @@ type LearningResourceInfoProps = {
 }
 const LearningResourceInfo: React.FC<LearningResourceInfoProps> = ({
   resource,
-  run
+  run,
 }) => {
   const rows = getInfoRows(resource, run)
   return (
     <section className="ol-lr-info">
       <h3>Info:</h3>
       <dl>
-        {rows.map(row => (
+        {rows.map((row) => (
           <React.Fragment key={row.label}>
             <dt>{row.label}:</dt>
             <dd>{row.value}</dd>
@@ -177,55 +177,55 @@ type FlexibleInfoRow = {
 }
 const getInfoRows = (
   resource: LearningResource,
-  run?: LearningResourceRun
+  run?: LearningResourceRun,
 ): ResourceInfoRow[] => {
   const rows: FlexibleInfoRow[] = [
     {
-      label:   "Duration",
+      label: "Duration",
       include: resource.object_type === LearningResourceType.Video,
-      value:   resource.duration && formatDurationClockTime(resource.duration)
+      value: resource.duration && formatDurationClockTime(resource.duration),
     },
     {
-      label:   "Date Posted",
+      label: "Date Posted",
       include: resource.object_type === LearningResourceType.Video,
       value:
         resource.last_modified &&
-        moment(resource.last_modified).format("MMM D, YYYY")
+        moment(resource.last_modified).format("MMM D, YYYY"),
     },
     {
-      label:   "Cost",
+      label: "Cost",
       include: resource.object_type !== LearningResourceType.Video,
-      value:   (run && minPrice(run.prices, true)) ?? "Free"
+      value: (run && minPrice(run.prices, true)) ?? "Free",
     },
     {
-      label:   "Level",
+      label: "Level",
       include: resource.object_type !== LearningResourceType.Video,
-      value:   run?.level
+      value: run?.level,
     },
     {
-      label:   "Instructors",
+      label: "Instructors",
       include: resource.object_type !== LearningResourceType.Video,
       value:
         run?.instructors
-          ?.map(instructor => getInstructorName(instructor))
-          .join(", ") ?? ""
+          ?.map((instructor) => getInstructorName(instructor))
+          .join(", ") ?? "",
     },
     {
-      label:   "Number of Courses",
+      label: "Number of Courses",
       include: resource.object_type === LearningResourceType.Program,
-      value:   resource.item_count
+      value: resource.item_count,
     },
     {
-      label:   "Language",
+      label: "Language",
       include: !!languageName(run?.language),
-      value:   languageName(run?.language)
-    }
+      value: languageName(run?.language),
+    },
   ]
 
   return rows
     .filter(propsNotNil(["value"]))
-    .filter(r => r.value !== "" && r.include)
-    .map(r => ({ label: r.label, value: String(r.value) }))
+    .filter((r) => r.value !== "" && r.include)
+    .map((r) => ({ label: r.label, value: String(r.value) }))
 }
 
 export default LearningResourceDetails

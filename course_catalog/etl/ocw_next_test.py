@@ -33,7 +33,9 @@ def test_transform_ocw_next_content_files(settings, mocker):
     )
 
     content_data = list(
-        transform_ocw_next_content_files(s3_resource, OCW_NEXT_TEST_PREFIX, False)
+        transform_ocw_next_content_files(
+            s3_resource, OCW_NEXT_TEST_PREFIX, False  # noqa: FBT003
+        )  # noqa: FBT003, RUF100
     )
 
     assert len(content_data) == 4

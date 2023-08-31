@@ -8,13 +8,13 @@ from open_discussions.permissions import (
     IsStaffOrReadonlyPermission,
     IsStaffPermission,
     ObjectOnlyPermissions,
-    is_readonly,
     is_admin_user,
+    is_readonly,
 )
 
 
 @pytest.mark.parametrize(
-    "method,result",
+    ("method", "result"),
     [("GET", True), ("HEAD", True), ("OPTIONS", True), ("POST", False), ("PUT", False)],
 )
 def test_is_readonly(mocker, method, result):
@@ -24,15 +24,15 @@ def test_is_readonly(mocker, method, result):
 
 
 @pytest.mark.parametrize(
-    "has_user, is_staff, is_super, expected",
+    ("has_user", "is_staff", "is_super", "expected"),
     [
-        [False, False, False, False],
-        [True, False, False, False],
-        [True, True, False, True],
-        [True, False, True, True],
+        [False, False, False, False],  # noqa: PT007
+        [True, False, False, False],  # noqa: PT007
+        [True, True, False, True],  # noqa: PT007
+        [True, False, True, True],  # noqa: PT007
     ],
 )
-def test_is_staff_user(
+def test_is_staff_user(  # noqa: PLR0913
     mocker, user, staff_user, has_user, is_staff, is_super, expected
 ):  # pylint: disable=too-many-arguments
     """is_admin_user should return True if a valid JWT is provided"""
@@ -61,12 +61,12 @@ def test_is_staff_permission(mocker, is_staff):
 
 
 @pytest.mark.parametrize(
-    "is_staff,readonly,expected",
+    ("is_staff", "readonly", "expected"),
     [
-        [True, True, True],
-        [True, False, True],
-        [False, True, True],
-        [False, False, False],
+        [True, True, True],  # noqa: PT007
+        [True, False, True],  # noqa: PT007
+        [False, True, True],  # noqa: PT007
+        [False, False, False],  # noqa: PT007
     ],
 )
 def test_is_staff_or_readonly_permission(mocker, is_staff, readonly, expected):
@@ -89,14 +89,13 @@ def test_is_staff_or_readonly_permission(mocker, is_staff, readonly, expected):
 
 
 @pytest.mark.parametrize(
-    "logged_in_username,req_body_username,url_kwarg_username,expected",
+    ("logged_in_username", "req_body_username", "url_kwarg_username", "expected"),
     [
-        ["user1", "user1", None, True],
-        ["user1", None, "user1", True],
-        ["user1", "user1", None, True],
-        ["otheruser", "user1", None, False],
-        ["otheruser", None, "user1", False],
-        ["user1", None, None, False],
+        ["user1", "user1", None, True],  # noqa: PT007
+        ["user1", None, "user1", True],  # noqa: PT007
+        ["otheruser", "user1", None, False],  # noqa: PT007
+        ["otheruser", None, "user1", False],  # noqa: PT007
+        ["user1", None, None, False],  # noqa: PT007
     ],
 )
 def test_is_own_subscription_permission(
@@ -120,7 +119,7 @@ def test_is_own_subscription_permission(
 
 
 @pytest.mark.parametrize(
-    "method,result",
+    ("method", "result"),
     [("GET", True), ("HEAD", True), ("OPTIONS", True), ("POST", False), ("PUT", False)],
 )
 def test_anonymous_readonly(method, result, mocker):

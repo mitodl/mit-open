@@ -5,7 +5,7 @@ import isURL from "validator/lib/isURL"
 const title = Yup.string().required("Title is required")
 
 const richTextSchema = Yup.object().shape({
-  title
+  title,
 })
 
 const embeddedUrlSchema = Yup.object().shape({
@@ -14,13 +14,13 @@ const embeddedUrlSchema = Yup.object().shape({
     url: Yup.string()
       .required("Url is required")
       // Yup's built-in URL validation requires a protocol, so is stricter than we want.
-      .test("isUrl", "The provided URL is invalid.", value =>
-        isURL(String(value))
+      .test("isUrl", "The provided URL is invalid.", (value) =>
+        isURL(String(value)),
       ),
     custom_html: Yup.string()
       .nullable()
-      .oneOf([null], "custom_html is not allowed.")
-  })
+      .oneOf([null], "custom_html is not allowed."),
+  }),
 })
 
 const getWidgetSchema = (widgetType: string) => {

@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0036_courserun_earliest_dates")]
 
     operations = [

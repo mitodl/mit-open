@@ -23,11 +23,11 @@ const createQueryClient = (history: History): QueryClient => {
     defaultOptions: {
       queries: {
         staleTime: 30 * 1000,
-        queryFn:   async ({ queryKey }) => {
+        queryFn: async ({ queryKey }) => {
           const url = queryKey[0]
           if (typeof url !== "string" || queryKey.length !== 1) {
             throw new Error(
-              `Query key must be a single string for use with default queryFn`
+              `Query key must be a single string for use with default queryFn`,
             )
           }
           const { data } = await axios.get(url)
@@ -44,8 +44,8 @@ const createQueryClient = (history: History): QueryClient => {
             return failureCount < MAX_RETRIES
           }
           return false
-        }
-      }
+        },
+      },
     },
     queryCache: new QueryCache({
       onError: async (error, query) => {
@@ -72,8 +72,8 @@ const createQueryClient = (history: History): QueryClient => {
             }
           }
         }
-      }
-    })
+      },
+    }),
   })
 }
 

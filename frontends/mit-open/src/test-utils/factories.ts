@@ -8,7 +8,7 @@ const makeUserSettings: Factory<User> = (overrides = {}) => {
     (overrides.id === null && overrides.is_authenticated === true)
   if (hasConflict) {
     throw new Error(
-      "Conflicting values of id and is_authenticated detected. Suggest supplying one or the other, not both."
+      "Conflicting values of id and is_authenticated detected. Suggest supplying one or the other, not both.",
     )
   }
 
@@ -19,12 +19,12 @@ const makeUserSettings: Factory<User> = (overrides = {}) => {
     calculated.id = faker.datatype.number()
   }
   return {
-    id:                    null,
-    is_authenticated:      false,
+    id: null,
+    is_authenticated: false,
     is_public_list_editor: false,
-    is_staff_list_editor:  false,
+    is_staff_list_editor: false,
     ...calculated,
-    ...overrides
+    ...overrides,
   }
 }
 

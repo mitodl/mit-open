@@ -12,7 +12,7 @@ def get_encoded_and_signed_subscription_token(user):
 
     Returns:
         str: a signed token for subscription authentication_classes
-    """
+    """  # noqa: D401
     signer = signing.TimestampSigner()
     return signer.sign(user.username)
 
@@ -26,7 +26,7 @@ def unsign_and_verify_username_from_token(token):
 
     Returns:
         str: the decoded username
-    """
+    """  # noqa: D401
 
     signer = signing.TimestampSigner()
     try:

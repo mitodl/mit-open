@@ -9,7 +9,7 @@ import {
   renderWithProviders,
   setMockResponse,
   waitFor,
-  act
+  act,
 } from "../../test-utils"
 import UserListItems, { ResourceListItemsProps } from "./ItemsListing"
 import { allowConsoleErrors, ControlledPromise } from "ol-util/test-utils"
@@ -20,10 +20,10 @@ import invariant from "tiny-invariant"
 jest.mock("ol-util", () => {
   const actual = jest.requireActual("ol-util")
   return {
-    __esModule:   true,
+    __esModule: true,
     ...actual,
     SortableList: jest.fn(actual.SortableList),
-    SortableItem: jest.fn(actual.SortableItem)
+    SortableItem: jest.fn(actual.SortableItem),
   }
 })
 
@@ -34,9 +34,9 @@ const spySortableItem = jest.mocked(SortableItem)
 describe("ItemsListing", () => {
   const setup = (props: Partial<ResourceListItemsProps>) => {
     const defaultProps: ResourceListItemsProps = {
-      isLoading:    true,
+      isLoading: true,
       emptyMessage: "Empty message",
-      mode:         "userlist"
+      mode: "userlist",
     }
     const allProps = { ...defaultProps, ...props }
     const { history } = renderWithProviders(<UserListItems {...allProps} />)
@@ -50,7 +50,7 @@ describe("ItemsListing", () => {
 
   test.each([
     { count: 0, hasEmptyMessage: true },
-    { count: 3, hasEmptyMessage: false }
+    { count: 3, hasEmptyMessage: false },
   ])(
     "Shows empty message when there are no items",
     ({ count, hasEmptyMessage }) => {
@@ -59,18 +59,18 @@ describe("ItemsListing", () => {
       setup({ isLoading: false, emptyMessage, items })
       const emptyMessageElement = screen.queryByText(emptyMessage)
       expect(!!emptyMessageElement).toBe(hasEmptyMessage)
-    }
+    },
   )
 
   test("Shows a list of LearningResourceCards", () => {
     const items = factories.makeListItemsPaginated({ count: 3 }).results
     setup({ isLoading: false, items })
-    const titles = items.map(item => item.content_data.title)
+    const titles = items.map((item) => item.content_data.title)
     const headings = screen.getAllByRole("heading", {
-      name: value => titles.includes(value)
+      name: (value) => titles.includes(value),
     })
-    expect(headings.map(h => h.textContent)).toEqual(titles)
-    items.forEach(item => {
+    expect(headings.map((h) => h.textContent)).toEqual(titles)
+    items.forEach((item) => {
       expectProps(spyLearningResourceCard, { resource: item.content_data })
     })
   })
@@ -78,15 +78,15 @@ describe("ItemsListing", () => {
   test("Shows a list of sortable LearningResourceCards when sortable=true", () => {
     const items = factories.makeListItemsPaginated({ count: 3 }).results
     setup({ isLoading: false, items, id: 1, sortable: true })
-    const titles = items.map(item => item.content_data.title)
+    const titles = items.map((item) => item.content_data.title)
     const headings = screen.getAllByRole("heading", {
-      name: value => titles.includes(value)
+      name: (value) => titles.includes(value),
     })
-    expect(headings.map(h => h.textContent)).toEqual(titles)
-    items.forEach(item => {
+    expect(headings.map((h) => h.textContent)).toEqual(titles)
+    items.forEach((item) => {
       expectProps(spyLearningResourceCard, {
         resource: item.content_data,
-        sortable: true
+        sortable: true,
       })
     })
   })
@@ -105,12 +105,12 @@ describe("Sorting ItemListing", () => {
     const items = factories.makeListItemsPaginated({ count: 5 }).results
     const listId = faker.datatype.number()
     const defaultProps: ResourceListItemsProps = {
-      id:           listId,
-      items:        items,
-      isLoading:    false,
-      sortable:     true,
-      mode:         "userlist",
-      emptyMessage: "Empty message"
+      id: listId,
+      items: items,
+      isLoading: false,
+      sortable: true,
+      mode: "userlist",
+      emptyMessage: "Empty message",
     }
     const allProps = { ...defaultProps, ...props }
     const { history } = renderWithProviders(<UserListItems {...allProps} />)
@@ -123,19 +123,19 @@ describe("Sorting ItemListing", () => {
       const over = items[to]
       onSortEnd({
         activeIndex: from,
-        overIndex:   to,
-        active:      {
+        overIndex: to,
+        active: {
           data: {
             // @ts-expect-error not fully simulated
-            current: active
-          }
+            current: active,
+          },
         },
         over: {
           data: {
             // @ts-expect-error not fully simulated
-            current: over
-          }
-        }
+            current: over,
+          },
+        },
       })
     }
 
@@ -144,13 +144,13 @@ describe("Sorting ItemListing", () => {
 
   test.each([
     {
-      mode:     "userlist",
-      patchUrl: urls.userList.itemDetails
+      mode: "userlist",
+      patchUrl: urls.userList.itemDetails,
     },
     {
-      mode:     "stafflist",
-      patchUrl: urls.staffList.itemDetails
-    }
+      mode: "stafflist",
+      patchUrl: urls.staffList.itemDetails,
+    },
   ] as const)(
     "Dragging an item to a new position calls API correctly",
     async ({ mode, patchUrl }) => {
@@ -166,9 +166,9 @@ describe("Sorting ItemListing", () => {
       expect(axios.patch).toHaveBeenCalledTimes(0)
       await waitFor(() => expect(axios.patch).toHaveBeenCalled())
       expect(axios.patch).toHaveBeenCalledWith(patchUrl(listId, active.id), {
-        position: over.position
+        position: over.position,
       })
-    }
+    },
   )
 
   test("Dragging is disabled while API call is made", async () => {
@@ -194,7 +194,7 @@ describe("Sorting ItemListing", () => {
 
   test("UI order is correct while waiting for API response", async () => {
     const { simulateDrag, items, listId } = setup()
-    const titles = items.map(items => items.content_data.title)
+    const titles = items.map((items) => items.content_data.title)
     const [from, to] = [1, 3]
 
     const patchUrl = urls.userList.itemDetails(listId, items[from].id)
@@ -202,22 +202,22 @@ describe("Sorting ItemListing", () => {
     setMockResponse.patch(patchUrl, patchResponse)
 
     const titleEls1 = screen.getAllByRole("heading", {
-      name: value => titles.includes(value)
+      name: (value) => titles.includes(value),
     })
-    expect(titleEls1.map(el => el.textContent)).toEqual(titles)
+    expect(titleEls1.map((el) => el.textContent)).toEqual(titles)
 
     act(() => simulateDrag(from, to))
 
     await waitFor(() => {
       const titleEls2 = screen.getAllByRole("heading", {
-        name: value => titles.includes(value)
+        name: (value) => titles.includes(value),
       })
       expect(titleEls2).toEqual([
         titleEls1[0],
         titleEls1[2],
         titleEls1[3],
         titleEls1[1],
-        titleEls1[4]
+        titleEls1[4],
       ])
     })
   })

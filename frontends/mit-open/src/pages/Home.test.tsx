@@ -15,7 +15,7 @@ const checkLRC = async (container: HTMLElement, resource: LearningResource) => {
   await within(container).findByText(resource.title)
   expect(spyLearningResourceCard).toHaveBeenCalledWith(
     expect.objectContaining({ resource }),
-    expect.anything()
+    expect.anything(),
   )
 }
 
@@ -26,7 +26,7 @@ describe("HomePage", () => {
     renderWithProviders(<HomePage />)
 
     const title = await screen.findByRole("heading", {
-      name: "Upcoming Courses"
+      name: "Upcoming Courses",
     })
 
     const upcomingCoursesSection = title.closest("section")

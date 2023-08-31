@@ -12,9 +12,9 @@ import type { CkeditorMarkdownProps } from "./components/CkeditorMarkdown"
 const setupMockEditors = () => {
   jest.mock("./components/CkeditorMarkdown", () => ({
     __esModule: true,
-    default:    ({ onChange, ...others }: CkeditorMarkdownProps) => (
-      <textarea onChange={e => onChange(e.target.value)} {...others} />
-    )
+    default: ({ onChange, ...others }: CkeditorMarkdownProps) => (
+      <textarea onChange={(e) => onChange(e.target.value)} {...others} />
+    ),
   }))
 }
 

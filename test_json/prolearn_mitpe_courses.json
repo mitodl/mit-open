@@ -44,12 +44,8 @@
           "course_application_url": "https://professional.mit.edu",
           "course_link": null,
           "field_course_or_program": "course",
-          "start_value": [
-            1670932800
-          ],
-          "end_value": [
-            1702468800
-          ],
+          "start_value": [1670932800],
+          "end_value": [1702468800],
           "department": "MIT Professional Education",
           "department_url": "https://professional.mit.edu",
           "body": "<p>Las organizaciones actuales necesitan líderes de productos que puedan anticiparse a las tendencias en áreas como la tecnología, transformación digital y fabricación. En el escenario altamente competitivo de hoy en día, la especialización y los estándares de calidad tienen una importancia sin precedentes para satisfacer la demanda del mercado. </p>\n\n<p>Ahora más que nunca, las empresas necesitan expertos polifacéticos que lideren portfolios de productos diferenciadores y de calidad, fomentando la confianza con el cliente. Es por esto que el Chief Product Officer supervisa todos los aspectos del proceso de manufacturación de una organización, lo que incluye desde<strong> dirigir la compra y la disposición del equipo de manufacturación</strong>, hasta <strong>velar por el mantenimiento</strong> de este.</p>\n",

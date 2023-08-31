@@ -9,10 +9,10 @@ from django.db import models
 from django.db.models import (
     Exists,
     ExpressionWrapper,
+    JSONField,
     OuterRef,
     Prefetch,
     Value,
-    JSONField,
 )
 
 from course_catalog.constants import (
@@ -97,7 +97,7 @@ class LearningResourceQuerySet(TimestampedModelQuerySet):
                     )
                 )
                 if user and user.is_authenticated
-                else Value(False),
+                else Value(False),  # noqa: FBT003
                 output_field=models.BooleanField(),
             )
         )
@@ -124,15 +124,15 @@ class CourseInstructor(TimestampedModel):
     Instructors for all courses
     """
 
-    first_name = models.CharField(max_length=128, null=True, blank=True)
-    last_name = models.CharField(max_length=128, null=True, blank=True)
+    first_name = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
+    last_name = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
     full_name = models.CharField(max_length=256, null=True, blank=True, unique=True)
 
     class Meta:
         ordering = ["last_name"]
 
     def __str__(self):
-        return self.full_name or " ".join((self.first_name, self.last_name))
+        return self.full_name or f"{self.first_name} {self.last_name}"
 
 
 class CourseTopic(TimestampedModel):
@@ -156,7 +156,7 @@ class CoursePrice(TimestampedModel):
     upgrade_deadline = models.DateTimeField(null=True)
 
     def __str__(self):
-        return "${:,.2f}".format(self.price)
+        return f"${self.price:,.2f}"
 
 
 class LearningResourceOfferor(TimestampedModel):
@@ -174,7 +174,7 @@ class LearningResource(TimestampedModel):
     """
 
     title = models.CharField(max_length=256)
-    short_description = models.TextField(null=True, blank=True)
+    short_description = models.TextField(null=True, blank=True)  # noqa: DJ001
     topics = models.ManyToManyField(CourseTopic, blank=True)
 
     offered_by = models.ManyToManyField(LearningResourceOfferor, blank=True)
@@ -188,15 +188,17 @@ class AbstractCourse(LearningResource):
     Abstract data model for course models
     """
 
-    full_description = models.TextField(null=True, blank=True)
-    image_src = models.TextField(max_length=2048, null=True, blank=True)
-    image_description = models.CharField(max_length=1024, null=True, blank=True)
+    full_description = models.TextField(null=True, blank=True)  # noqa: DJ001
+    image_src = models.TextField(max_length=2048, null=True, blank=True)  # noqa: DJ001
+    image_description = models.CharField(  # noqa: DJ001
+        max_length=1024, null=True, blank=True
+    )  # noqa: DJ001, RUF100
     last_modified = models.DateTimeField(null=True, blank=True)
 
     featured = models.BooleanField(default=False)
     published = models.BooleanField(default=True)
 
-    url = models.URLField(null=True, max_length=2048)
+    url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
 
     learning_resource_type = models.CharField(
         max_length=20, default=ResourceType.course.value
@@ -224,11 +226,13 @@ class LearningResourceRun(AbstractCourse):
     enrollment_end = models.DateTimeField(null=True, blank=True)
     best_start_date = models.DateTimeField(null=True, blank=True)
     best_end_date = models.DateTimeField(null=True, blank=True)
-    level = models.CharField(max_length=128, null=True, blank=True)
-    semester = models.CharField(max_length=20, null=True, blank=True)
-    availability = models.CharField(max_length=128, null=True, blank=True)
-    language = models.CharField(max_length=128, null=True, blank=True)
-    slug = models.CharField(max_length=1024, null=True, blank=True)
+    level = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
+    semester = models.CharField(max_length=20, null=True, blank=True)  # noqa: DJ001
+    availability = models.CharField(  # noqa: DJ001
+        max_length=128, null=True, blank=True
+    )  # noqa: DJ001, RUF100
+    language = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
+    slug = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
 
     instructors = models.ManyToManyField(
         CourseInstructor, blank=True, related_name="runs"
@@ -250,7 +254,7 @@ class LearningResourceRun(AbstractCourse):
     )
     object_id = models.PositiveIntegerField(null=True)
     content_object = GenericForeignKey("content_type", "object_id")
-    checksum = models.CharField(max_length=32, null=True, blank=True)
+    checksum = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
 
     def __str__(self):
         return f"LearningResourceRun platform={self.platform} run_id={self.run_id}"
@@ -271,25 +275,33 @@ class ContentFile(TimestampedModel):
     ContentFile model for courserun files
     """
 
-    uid = models.CharField(max_length=36, null=True, blank=True)
-    key = models.CharField(max_length=1024, null=True, blank=True)
+    uid = models.CharField(max_length=36, null=True, blank=True)  # noqa: DJ001
+    key = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
     run = models.ForeignKey(
         LearningResourceRun, related_name="content_files", on_delete=models.CASCADE
     )
-    title = models.CharField(max_length=1024, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    image_src = models.URLField(null=True, blank=True)
+    title = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
+    description = models.TextField(null=True, blank=True)  # noqa: DJ001
+    image_src = models.URLField(null=True, blank=True)  # noqa: DJ001
 
-    url = models.TextField(null=True, blank=True)
-    short_url = models.TextField(null=True, blank=True)
-    file_type = models.CharField(max_length=128, null=True, blank=True)
-    section = models.CharField(max_length=512, null=True, blank=True)
-    section_slug = models.CharField(max_length=512, null=True, blank=True)
+    url = models.TextField(null=True, blank=True)  # noqa: DJ001
+    short_url = models.TextField(null=True, blank=True)  # noqa: DJ001
+    file_type = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
+    section = models.CharField(max_length=512, null=True, blank=True)  # noqa: DJ001
+    section_slug = models.CharField(  # noqa: DJ001
+        max_length=512, null=True, blank=True
+    )  # noqa: DJ001, RUF100
 
-    content = models.TextField(null=True, blank=True)
-    content_title = models.CharField(max_length=1024, null=True, blank=True)
-    content_author = models.CharField(max_length=1024, null=True, blank=True)
-    content_language = models.CharField(max_length=24, null=True, blank=True)
+    content = models.TextField(null=True, blank=True)  # noqa: DJ001
+    content_title = models.CharField(  # noqa: DJ001
+        max_length=1024, null=True, blank=True
+    )  # noqa: DJ001, RUF100
+    content_author = models.CharField(  # noqa: DJ001
+        max_length=1024, null=True, blank=True
+    )  # noqa: DJ001, RUF100
+    content_language = models.CharField(  # noqa: DJ001
+        max_length=24, null=True, blank=True
+    )  # noqa: DJ001, RUF100
     content_type = models.CharField(
         choices=VALID_COURSE_CONTENT_CHOICES, default=CONTENT_TYPE_FILE, max_length=10
     )
@@ -297,7 +309,7 @@ class ContentFile(TimestampedModel):
         models.CharField(max_length=256, null=False, blank=False), null=True, blank=True
     )
     published = models.BooleanField(default=True)
-    checksum = models.CharField(max_length=32, null=True, blank=True)
+    checksum = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
 
     class Meta:
         unique_together = (("key", "run"),)
@@ -314,7 +326,7 @@ def get_max_length(field):
     Returns:
         int: the max_length of the field
     """
-    return ContentFile._meta.get_field(field).max_length
+    return ContentFile._meta.get_field(field).max_length  # noqa: SLF001
 
 
 class Course(AbstractCourse, LearningResourceGenericRelationsMixin):
@@ -326,10 +338,12 @@ class Course(AbstractCourse, LearningResourceGenericRelationsMixin):
 
     course_id = models.CharField(max_length=128)
     platform = models.CharField(max_length=128)
-    location = models.CharField(max_length=128, null=True, blank=True)
+    location = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
 
-    program_type = models.CharField(max_length=32, null=True, blank=True)
-    program_name = models.CharField(max_length=256, null=True, blank=True)
+    program_type = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
+    program_name = models.CharField(  # noqa: DJ001
+        max_length=256, null=True, blank=True
+    )  # noqa: DJ001, RUF100
     department = ArrayField(
         models.CharField(max_length=256, null=False, blank=False), null=True, blank=True
     )
@@ -367,24 +381,17 @@ class Course(AbstractCourse, LearningResourceGenericRelationsMixin):
     @property
     def department_name(self):
         """Returns the names of the departments"""
-        names = list(
-            map(
-                lambda department_num: OCW_DEPARTMENTS.get(department_num, {}).get(
-                    "name"
-                ),
-                self.department or [],
-            )
-        )
+        names = [
+            OCW_DEPARTMENTS.get(department_num, {}).get("name")
+            for department_num in self.department or []
+        ]
 
         return [name for name in names if name]
 
     @property
     def department_slug(self):
         """Returns the department slug"""
-        if self.department:
-            first_department = self.department[0]
-        else:
-            first_department = None
+        first_department = self.department[0] if self.department else None
         return OCW_DEPARTMENTS.get(first_department, {}).get("slug")
 
     @property
@@ -404,7 +411,9 @@ class List(LearningResource):
     List model tracks an ordered list of other LearningResources.
     """
 
-    image_description = models.CharField(max_length=1024, null=True, blank=True)
+    image_description = models.CharField(  # noqa: DJ001
+        max_length=1024, null=True, blank=True
+    )  # noqa: DJ001, RUF100
 
     class Meta:
         abstract = True
@@ -415,7 +424,7 @@ class ListItem(TimestampedModel):
     ListItem model tracks associated metadata and LearningResource.
     `content_type` is restricted to the learning resources we want.
     Lists should not contain other Lists such as Programs and UserLists (such as learning paths).
-    """
+    """  # noqa: E501
 
     position = models.PositiveIntegerField()
     content_type = models.ForeignKey(
@@ -495,7 +504,7 @@ class UserListItem(ListItem):
 class StaffList(LearningList):
     """
     StaffList is similar to UserList but can only be creadted/edited by a specific group of users
-    """
+    """  # noqa: E501
 
     image_src = models.ImageField(
         null=True, blank=True, max_length=2083, upload_to=staff_list_image_upload_uri
@@ -529,9 +538,9 @@ class Program(List, LearningResourceGenericRelationsMixin):
 
     objects = LearningResourceQuerySet.as_manager()
 
-    program_id = models.CharField(max_length=80, null=True)
-    image_src = models.URLField(max_length=2048, null=True, blank=True)
-    url = models.URLField(null=True, max_length=2048)
+    program_id = models.CharField(max_length=80, null=True)  # noqa: DJ001
+    image_src = models.URLField(max_length=2048, null=True, blank=True)  # noqa: DJ001
+    url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     published = models.BooleanField(default=True)
     runs = GenericRelation(LearningResourceRun)
 
@@ -566,7 +575,7 @@ class FavoriteItem(TimestampedModel):
     Favorites don't need to track an user-specified order, although they can by
     default be displayed ordered by timestamp. Users should be able to favorite any
     LearningResource, including Lists like Programs and UserLists.
-    """
+    """  # noqa: E501
 
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     content_type = models.ForeignKey(
@@ -597,7 +606,7 @@ class VideoChannel(LearningResource, LearningResourceGenericRelationsMixin):
     platform = models.CharField(max_length=40)
     channel_id = models.CharField(max_length=80)
 
-    full_description = models.TextField(null=True, blank=True)
+    full_description = models.TextField(null=True, blank=True)  # noqa: DJ001
 
     published = models.BooleanField(default=True)
 
@@ -610,14 +619,14 @@ class Video(LearningResource, LearningResourceGenericRelationsMixin):
     video_id = models.CharField(max_length=80)
     platform = models.CharField(max_length=128)
 
-    full_description = models.TextField(null=True, blank=True)
-    image_src = models.URLField(max_length=400, null=True, blank=True)
+    full_description = models.TextField(null=True, blank=True)  # noqa: DJ001
+    image_src = models.URLField(max_length=400, null=True, blank=True)  # noqa: DJ001
     last_modified = models.DateTimeField(null=True, blank=True)
-    duration = models.CharField(null=True, blank=True, max_length=11)
+    duration = models.CharField(null=True, blank=True, max_length=11)  # noqa: DJ001
 
     published = models.BooleanField(default=True)
 
-    url = models.URLField(null=True, max_length=2048)
+    url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
 
     transcript = models.TextField(blank=True, default="")
 
@@ -651,8 +660,8 @@ class Playlist(List, LearningResourceGenericRelationsMixin):
         VideoChannel, on_delete=models.CASCADE, related_name="playlists"
     )
 
-    image_src = models.URLField(max_length=400, null=True, blank=True)
-    url = models.URLField(null=True, max_length=2048)
+    image_src = models.URLField(max_length=400, null=True, blank=True)  # noqa: DJ001
+    url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     published = models.BooleanField(default=True)
 
     has_user_list = models.BooleanField(default=True)
@@ -665,7 +674,7 @@ class Playlist(List, LearningResourceGenericRelationsMixin):
     )
 
 
-class PlaylistVideo(models.Model):
+class PlaylistVideo(models.Model):  # noqa: DJ008
     """Join table for Playlist -> Video"""
 
     video = models.ForeignKey(
@@ -687,14 +696,14 @@ class Podcast(LearningResource, LearningResourceGenericRelationsMixin):
     objects = LearningResourceQuerySet.as_manager()
 
     podcast_id = models.CharField(max_length=80, unique=True)
-    full_description = models.TextField(null=True, blank=True)
-    image_src = models.URLField(max_length=400, null=True, blank=True)
+    full_description = models.TextField(null=True, blank=True)  # noqa: DJ001
+    image_src = models.URLField(max_length=400, null=True, blank=True)  # noqa: DJ001
     published = models.BooleanField(default=True)
-    url = models.URLField(null=True, max_length=2048)
-    apple_podcasts_url = models.URLField(null=True, max_length=2048)
-    google_podcasts_url = models.URLField(null=True, max_length=2048)
+    url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
+    apple_podcasts_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
+    google_podcasts_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     searchable = models.BooleanField(default=True)
-    rss_url = models.URLField(null=True, max_length=2048)
+    rss_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
 
     def __str__(self):
         return self.title
@@ -724,19 +733,19 @@ class PodcastEpisode(LearningResource, LearningResourceGenericRelationsMixin):
     objects = LearningResourceQuerySet.as_manager()
 
     episode_id = models.CharField(max_length=80)
-    full_description = models.TextField(null=True, blank=True)
-    image_src = models.URLField(max_length=400, null=True, blank=True)
+    full_description = models.TextField(null=True, blank=True)  # noqa: DJ001
+    image_src = models.URLField(max_length=400, null=True, blank=True)  # noqa: DJ001
     last_modified = models.DateTimeField(null=True, blank=True)
     podcast = models.ForeignKey(
         Podcast, related_name="episodes", on_delete=models.CASCADE
     )
     published = models.BooleanField(default=True)
     transcript = models.TextField(blank=True, default="")
-    url = models.URLField(null=True, max_length=2048)
-    episode_link = models.URLField(null=True, max_length=2048)
+    url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
+    episode_link = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     searchable = models.BooleanField(default=True)
-    duration = models.CharField(null=True, blank=True, max_length=10)
-    rss = models.TextField(null=True, blank=True)
+    duration = models.CharField(null=True, blank=True, max_length=10)  # noqa: DJ001
+    rss = models.TextField(null=True, blank=True)  # noqa: DJ001
 
     def __str__(self):
         return self.title

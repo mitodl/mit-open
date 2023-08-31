@@ -1,39 +1,39 @@
 const { styles } = require("@ckeditor/ckeditor5-dev-utils")
 const {
-  CKEditorTranslationsPlugin
+  CKEditorTranslationsPlugin,
 } = require("@ckeditor/ckeditor5-dev-translations")
 
 const ckeditorRules = [
   {
     test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-    use:  ["raw-loader"]
+    use: ["raw-loader"],
   },
   {
     test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
-    use:  [
+    use: [
       {
-        loader:  "style-loader",
+        loader: "style-loader",
         options: {
           injectType: "singletonStyleTag",
           attributes: {
-            "data-cke": true
-          }
-        }
+            "data-cke": true,
+          },
+        },
       },
       "css-loader",
       {
-        loader:  "postcss-loader",
+        loader: "postcss-loader",
         options: {
           postcssOptions: styles.getPostCssConfig({
             themeImporter: {
-              themePath: require.resolve("@ckeditor/ckeditor5-theme-lark")
+              themePath: require.resolve("@ckeditor/ckeditor5-theme-lark"),
             },
-            minify: true
-          })
-        }
-      }
-    ]
-  }
+            minify: true,
+          }),
+        },
+      },
+    ],
+  },
 ]
 
 /**
@@ -52,17 +52,17 @@ const ckeditorRules = [
  *
  * @param { import('webpack').Configuration } config
  */
-const withCKEditor = config => {
+const withCKEditor = (config) => {
   const modified = {
-    ...config
+    ...config,
   }
   modified.module.rules = [...modified.module.rules, ...ckeditorRules]
   modified.plugins = [
     ...modified.plugins,
     new CKEditorTranslationsPlugin({
-      language:                               "en",
-      addMainLanguageTranslationsToAllAssets: true
-    })
+      language: "en",
+      addMainLanguageTranslationsToAllAssets: true,
+    }),
   ]
   return modified
 }

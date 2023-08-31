@@ -39,7 +39,7 @@ log = logging.getLogger(__name__)
 class DefaultPagination(LimitOffsetPagination):
     """
     Pagination class for course_catalog viewsets which gets default_limit and max_limit from settings
-    """
+    """  # noqa: E501
 
     default_limit = 10
     max_limit = 100
@@ -86,7 +86,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         "offered_by__name",
     ]
 
-    def _get_base_queryset(self, resource_type: str = None) -> QuerySet:
+    def _get_base_queryset(self, resource_type: str | None = None) -> QuerySet:
         """
         Return learning resources based on query parameters
 
@@ -133,8 +133,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
             "platform",
             *([item.value for item in LearningResourceType]),
         )
-        lr_query = lr_query.prefetch_related(*prefetches).distinct()
-        return lr_query
+        return lr_query.prefetch_related(*prefetches).distinct()
 
     def get_queryset(self) -> QuerySet:
         """
@@ -147,7 +146,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
 
     @extend_schema(responses=LearningResourceSerializer(many=True))
     @action(methods=["GET"], detail=False, name="New Resources")
-    def new(self, request: Request) -> QuerySet:
+    def new(self, request: Request) -> QuerySet:  # noqa: ARG002
         """
         Get new LearningResources
 
@@ -160,7 +159,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
 
     @extend_schema(responses=LearningResourceSerializer(many=True))
     @action(methods=["GET"], detail=False, name="Upcoming Resources")
-    def upcoming(self, request: Request) -> QuerySet:
+    def upcoming(self, request: Request) -> QuerySet:  # noqa: ARG002
         """
         Get upcoming LearningResources
 
@@ -248,7 +247,6 @@ class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
-        # deindex_staff_list(instance.learning_resource)
         instance.delete()
 
 
@@ -300,11 +298,7 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet):
             ).update(position=F("position") - 1)
             instance.delete()
         # Uncomment when search is ready
-        # learning_path = instance.parent
         # if learning_path.items.count() > 0:
-        #     upsert_staff_list(staff_list.id)
-        # else:
-        #     deindex_staff_list(staff_list)
 
 
 class TopicViewSet(viewsets.ReadOnlyModelViewSet):

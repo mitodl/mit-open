@@ -10,7 +10,7 @@ from search.search_index_helpers import deindex_podcast, deindex_podcast_episode
 class Command(BaseCommand):
     """Populate podcasts"""
 
-    help = "Populate podcasts"
+    help = "Populate podcasts"  # noqa: A003
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -21,7 +21,7 @@ class Command(BaseCommand):
         )
         super().add_arguments(parser)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate Sloan courses"""
         if options["delete"]:
             self.stdout.write("Deleting all existing Podcasts courses from database")
@@ -40,7 +40,5 @@ class Command(BaseCommand):
             task.get()
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
-                "Population of podcast data finished, took {} seconds".format(
-                    total_seconds
-                )
+                f"Population of podcast data finished, took {total_seconds} seconds"
             )

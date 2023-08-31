@@ -32,7 +32,6 @@ def backfill_offeredby(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0027_adds_unique_together_constraint")]
 
     operations = [

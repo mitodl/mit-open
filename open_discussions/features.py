@@ -1,5 +1,6 @@
 """Discussions feature flags"""
 from functools import wraps
+
 from django.conf import settings
 
 INDEX_UPDATES = "INDEX_UPDATES"
@@ -24,7 +25,7 @@ def is_enabled(name, default=None):
 
     Returns:
         bool: True if the feature flag is enabled
-    """
+    """  # noqa: D401
     return settings.FEATURES.get(name, default or settings.MITOPEN_FEATURES_DEFAULT)
 
 
@@ -36,16 +37,16 @@ def if_feature_enabled(name, default=None):
     Args:
         name (str): Feature flag name
         default (bool): default value if not set in settings
-    """
+    """  # noqa: D401
 
     def if_feature_enabled_inner(func):  # pylint: disable=missing-docstring
         @wraps(func)
         def wrapped_func(*args, **kwargs):  # pylint: disable=missing-docstring
             if not is_enabled(name, default):
                 # If the given feature name is not enabled, do nothing (no-op).
-                return
+                return None
             else:
-                # If the given feature name is enabled, call the function and return as normal.
+                # If the given feature name is enabled, call the function and return as normal.  # noqa: E501
                 return func(*args, **kwargs)
 
         return wrapped_func

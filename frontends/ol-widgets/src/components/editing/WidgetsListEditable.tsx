@@ -8,7 +8,7 @@ import Widget from "../Widget"
 import type { WidgetListResponse, AnonymousWidget } from "../../interfaces"
 import type {
   WidgetSubmitHandler,
-  WidgetDialogClasses
+  WidgetDialogClasses,
 } from "./ManageWidgetDialog"
 import ManageWidgetDialog from "./ManageWidgetDialog"
 
@@ -20,7 +20,7 @@ type SubmitWidgetsEvent = {
 enum DialogMode {
   Closed = "closed",
   Editing = "editing",
-  Adding = "adding"
+  Adding = "adding",
 }
 
 interface WidgetsListEditableProps {
@@ -47,8 +47,8 @@ const mustGetId = (widget: AnonymousWidget) => {
   }
   throw new Error("Expected widget to have an id but it did not.")
 }
-const mustFindWrapper = <T, >(wrappers: Wrapped<T>[], item: T) => {
-  const wrapped = wrappers.find(w => w.wraps === item)
+const mustFindWrapper = <T,>(wrappers: Wrapped<T>[], item: T) => {
+  const wrapped = wrappers.find((w) => w.wraps === item)
   if (!wrapped) {
     throw new Error("Could not find item.")
   }
@@ -59,13 +59,13 @@ const useWidgetVisibilities = (wrappers: Wrapped<AnonymousWidget>[]) => {
   const [widgetsOpen, setWidgetsOpen] = useState<Set<string>>(new Set())
 
   const allOpen = useMemo(
-    () => wrappers.every(w => widgetsOpen.has(w.id)),
-    [wrappers, widgetsOpen]
+    () => wrappers.every((w) => widgetsOpen.has(w.id)),
+    [wrappers, widgetsOpen],
   )
   const toggle = useCallback(
     (widget: AnonymousWidget) => {
       const wrapper = mustFindWrapper(wrappers, widget)
-      setWidgetsOpen(current => {
+      setWidgetsOpen((current) => {
         const clone = new Set(current)
         if (clone.has(wrapper.id)) {
           clone.delete(wrapper.id)
@@ -75,13 +75,13 @@ const useWidgetVisibilities = (wrappers: Wrapped<AnonymousWidget>[]) => {
         return clone
       })
     },
-    [wrappers]
+    [wrappers],
   )
   const toggleAll = useCallback(() => {
     if (allOpen) {
       setWidgetsOpen(new Set())
     } else {
-      setWidgetsOpen(new Set(wrappers.map(w => w.id)))
+      setWidgetsOpen(new Set(wrappers.map((w) => w.id)))
     }
   }, [allOpen, wrappers])
 
@@ -89,14 +89,14 @@ const useWidgetVisibilities = (wrappers: Wrapped<AnonymousWidget>[]) => {
   const modifyVisibility = {
     set: setWidgetsOpen,
     toggle,
-    toggleAll
+    toggleAll,
   }
   return [visibility, modifyVisibility] as const
 }
 
 const useWidgetEditingDialog = (
   wrappedWidgets: Wrapped<AnonymousWidget>[],
-  setWrappers: Dispatch<SetStateAction<Wrapped<AnonymousWidget>[]>>
+  setWrappers: Dispatch<SetStateAction<Wrapped<AnonymousWidget>[]>>,
 ) => {
   const [dialogMode, setDialogMode] = useState<DialogMode>(DialogMode.Closed)
 
@@ -109,30 +109,30 @@ const useWidgetEditingDialog = (
       setEditingWidget(wrapper)
       setDialogMode(DialogMode.Editing)
     },
-    [wrappedWidgets]
+    [wrappedWidgets],
   )
   const handleCancelEditing = useCallback(() => {
     setDialogMode(DialogMode.Closed)
   }, [])
   const handleSubmitEdit: WidgetSubmitHandler = useCallback(
-    e => {
+    (e) => {
       setDialogMode(DialogMode.Closed)
       if (e.type === "edit") {
         if (editingWidget === null) {
           throw new Error("An edit is underway, this should not be null.")
         }
-        setWrappers(current =>
-          current.map(w =>
-            w === editingWidget ? { id: editingWidget.id, wraps: e.widget } : w
-          )
+        setWrappers((current) =>
+          current.map((w) =>
+            w === editingWidget ? { id: editingWidget.id, wraps: e.widget } : w,
+          ),
         )
       } else {
         const newId = uniqueId("new_widget")
-        setWrappers(current => [{ id: newId, wraps: e.widget }, ...current])
+        setWrappers((current) => [{ id: newId, wraps: e.widget }, ...current])
       }
       return null
     },
-    [editingWidget, setWrappers]
+    [editingWidget, setWrappers],
   )
 
   const handleAdd = useCallback(() => {
@@ -141,14 +141,14 @@ const useWidgetEditingDialog = (
   }, [])
 
   const dialog = {
-    mode:   dialogMode,
-    widget: editingWidget?.wraps
+    mode: dialogMode,
+    widget: editingWidget?.wraps,
   }
   const handlers = {
     beginEdit: handleBeginEdit,
-    beginAdd:  handleAdd,
-    cancel:    handleCancelEditing,
-    submit:    handleSubmitEdit
+    beginAdd: handleAdd,
+    cancel: handleCancelEditing,
+    submit: handleSubmitEdit,
   }
   return [dialog, handlers] as const
 }
@@ -163,7 +163,7 @@ const WidgetsListEditable: React.FC<WidgetsListEditableProps> = ({
   onCancel,
   headerClassName,
   widgetClassName,
-  dialogClasses
+  dialogClasses,
 }) => {
   const { widgets: savedWidgets, available_widgets: specs } = widgetsList
   /**
@@ -176,28 +176,28 @@ const WidgetsListEditable: React.FC<WidgetsListEditableProps> = ({
   const [dialog, dialogHandlers] = useWidgetEditingDialog(wrappers, setWrappers)
 
   useEffect(() => {
-    const wrapped = savedWidgets.map(w => ({ wraps: w, id: mustGetId(w) }))
+    const wrapped = savedWidgets.map((w) => ({ wraps: w, id: mustGetId(w) }))
     setWrappers(wrapped)
   }, [savedWidgets])
 
   const handleDelete = useCallback(
     (deleted: AnonymousWidget) => {
       const wrapper = mustFindWrapper(wrappers, deleted)
-      setWrappers(current => current.filter(w => w !== wrapper))
+      setWrappers((current) => current.filter((w) => w !== wrapper))
     },
-    [wrappers, setWrappers]
+    [wrappers, setWrappers],
   )
 
   const handleDone = useCallback(() => {
-    const widgets = wrappers.map(w => w.wraps)
+    const widgets = wrappers.map((w) => w.wraps)
     const touched = zip(widgets, savedWidgets).some(([w1, w2]) => w1 !== w2)
     onSubmit({ touched, widgets })
   }, [onSubmit, wrappers, savedWidgets])
 
-  const itemIds = useMemo(() => wrappers.map(w => w.id), [wrappers])
+  const itemIds = useMemo(() => wrappers.map((w) => w.id), [wrappers])
 
   const renderDragging: RenderActive = useCallback(
-    active => {
+    (active) => {
       const wrapper = active.data.current as Wrapped<AnonymousWidget>
       return (
         <Widget
@@ -208,13 +208,13 @@ const WidgetsListEditable: React.FC<WidgetsListEditableProps> = ({
         />
       )
     },
-    [visibility, widgetClassName]
+    [visibility, widgetClassName],
   )
 
   const onSortEnd = useCallback((e: SortEndEvent<string>) => {
-    setWrappers(current => {
-      const lookup = Object.fromEntries(current.map(w => [w.id, w]))
-      return e.itemIds.map(id => lookup[id])
+    setWrappers((current) => {
+      const lookup = Object.fromEntries(current.map((w) => [w.id, w]))
+      return e.itemIds.map((id) => lookup[id])
     })
   }, [])
 
@@ -255,9 +255,9 @@ const WidgetsListEditable: React.FC<WidgetsListEditableProps> = ({
         renderActive={renderDragging}
         onSortEnd={onSortEnd}
       >
-        {wrappers.map(wrapper => (
+        {wrappers.map((wrapper) => (
           <SortableItem key={wrapper.id} id={wrapper.id} data={wrapper}>
-            {handleProps => (
+            {(handleProps) => (
               <Widget
                 widget={wrapper.wraps}
                 isEditing={true}

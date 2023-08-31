@@ -54,7 +54,7 @@ def does_not_raise():
     yield
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_logger(mocker):
     """
     Mock log exception
@@ -62,7 +62,7 @@ def mock_logger(mocker):
     return mocker.patch("course_catalog.api.log.exception")
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_blocklist(mocker):
     """Mock the load_course_blocklist function"""
     return mocker.patch("course_catalog.tasks.load_course_blocklist", return_value=[])
@@ -80,7 +80,7 @@ def test_get_mitx_data_valid(mocker):
 @pytest.mark.parametrize("force_overwrite", [True, False])
 @pytest.mark.parametrize("force_s3_upload", [True, False])
 @pytest.mark.parametrize("upload_to_s3", [True, False])
-def test_get_ocw_data(
+def test_get_ocw_data(  # noqa: PLR0913
     settings,
     mocker,
     mocked_celery,
@@ -181,7 +181,7 @@ def test_get_ocw_next_courses(settings, mocker, mocked_celery):
 
 @mock_s3
 @pytest.mark.parametrize("blocklisted", [True, False])
-def test_get_ocw_courses(
+def test_get_ocw_courses(  # noqa: PLR0913
     settings,
     mocker,
     mock_course_index_functions,

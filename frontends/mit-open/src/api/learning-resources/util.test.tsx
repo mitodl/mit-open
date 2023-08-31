@@ -7,14 +7,14 @@ import axios from "../../libs/axios"
 import {
   makeLearningResource,
   makeLearningResourcesPaginated,
-  makeListItemsPaginated
+  makeListItemsPaginated,
 } from "ol-search-ui/src/factories"
 import { urls } from "./urls"
 import {
   useNewVideos,
   usePopularContent,
   useResource,
-  useUpcomingCourses
+  useUpcomingCourses,
 } from "./resources"
 import { faker } from "@faker-js/faker/locale/en"
 import { useFavoritesListing } from "./favorites"
@@ -24,9 +24,9 @@ const setup = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false
-      }
-    }
+        retry: false,
+      },
+    },
   })
 
   const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -42,19 +42,19 @@ describe("useInfiniteLimitOffsetQuery", () => {
     const initialUrl = "/some-list"
     const nextUrl = "/some-list?offset=3"
     const firstPage = {
-      next:    nextUrl,
-      results: ["a", "b", "c"]
+      next: nextUrl,
+      results: ["a", "b", "c"],
     }
     const secondPage = {
-      next:    null,
-      results: ["d", "e", "f"]
+      next: null,
+      results: ["d", "e", "f"],
     }
     setMockResponse.get(initialUrl, firstPage)
     setMockResponse.get(nextUrl, secondPage)
     const { result } = renderHook(
       () =>
         useInfiniteLimitOffsetQuery(initialUrl, { queryKey: ["some-list"] }),
-      { wrapper }
+      { wrapper },
     )
 
     await waitFor(() => {
@@ -97,10 +97,10 @@ describe("invalidateResourceQueries", () => {
       () => {
         return {
           r1: useResource(resource1.object_type, resource1.id),
-          r2: useResource(resource2.object_type, resource2.id)
+          r2: useResource(resource2.object_type, resource2.id),
         }
       },
-      { wrapper }
+      { wrapper },
     )
 
     await waitFor(() => {
@@ -126,7 +126,7 @@ describe("invalidateResourceQueries", () => {
     { hook: useUpcomingCourses, url: urls.course.upcoming() },
     { hook: usePopularContent, url: urls.popularContent.listing() },
     { hook: useNewVideos, url: urls.video.new() },
-    { hook: useFavoritesListing, url: urls.favorite.listing() }
+    { hook: useFavoritesListing, url: urls.favorite.listing() },
   ])(
     "Invalidates $hook.name if listing includes resource",
     async ({ hook, url }) => {
@@ -148,14 +148,14 @@ describe("invalidateResourceQueries", () => {
       await waitFor(() => {
         expect(result.current.data).toEqual(changed)
       })
-    }
+    },
   )
 
   it.each([
     { hook: useUpcomingCourses, url: urls.course.upcoming() },
     { hook: usePopularContent, url: urls.popularContent.listing() },
     { hook: useNewVideos, url: urls.video.new() },
-    { hook: useFavoritesListing, url: urls.favorite.listing() }
+    { hook: useFavoritesListing, url: urls.favorite.listing() },
   ])(
     "does NOT invalidates $hook.name if listing does NOT includes resource",
     async ({ hook, url }) => {
@@ -174,20 +174,20 @@ describe("invalidateResourceQueries", () => {
 
       invalidateResourceQueries(queryClient, makeLearningResource())
       // If a refetch were going to happen, it would be async, so wait a moment.
-      await new Promise(res => setTimeout(res, 50))
+      await new Promise((res) => setTimeout(res, 50))
       expect(axios.get).not.toHaveBeenCalled()
-    }
+    },
   )
 
   it.each([
     {
       hook: useStaffListItems,
-      url:  urls.staffList.itemsListing
+      url: urls.staffList.itemsListing,
     },
     {
       hook: useStaffListItems,
-      url:  urls.staffList.itemsListing
-    }
+      url: urls.staffList.itemsListing,
+    },
   ])(
     "Invalidates $hook.name if listing includes resource",
     async ({ hook, url }) => {
@@ -211,22 +211,22 @@ describe("invalidateResourceQueries", () => {
       await waitFor(() => {
         expect(result.current.data).toEqual(
           expect.objectContaining({
-            pages: [changed]
-          })
+            pages: [changed],
+          }),
         )
       })
-    }
+    },
   )
 
   it.each([
     {
       hook: useStaffListItems,
-      url:  urls.staffList.itemsListing
+      url: urls.staffList.itemsListing,
     },
     {
       hook: useStaffListItems,
-      url:  urls.staffList.itemsListing
-    }
+      url: urls.staffList.itemsListing,
+    },
   ])(
     "does NOT Invalidate $hook.name if listing does NOT include resource",
     async ({ hook, url }) => {
@@ -249,8 +249,8 @@ describe("invalidateResourceQueries", () => {
       invalidateResourceQueries(queryClient, makeLearningResource())
 
       // If a refetch were going to happen, it would be async, so wait a moment.
-      await new Promise(res => setTimeout(res, 50))
+      await new Promise((res) => setTimeout(res, 50))
       expect(axios.get).not.toHaveBeenCalled()
-    }
+    },
   )
 })

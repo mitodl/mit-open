@@ -6,7 +6,7 @@ import {
   renderTestApp,
   setMockResponse,
   waitFor,
-  expectLastProps
+  expectLastProps,
 } from "../../test-utils"
 import ItemsListing from "./ItemsListing"
 
@@ -15,7 +15,7 @@ jest.mock("./ItemsListing", () => {
   return {
     __esModule: true,
     ...actual,
-    default:    jest.fn(actual.default)
+    default: jest.fn(actual.default),
   }
 })
 
@@ -42,16 +42,16 @@ describe("FavoritesPage", () => {
   test("Passes appropriate props to ItemsListing", async () => {
     const { favorites } = setup()
     expectLastProps(spyItemsListing, {
-      isLoading:    true,
-      items:        undefined,
-      emptyMessage: "You don't have any favorites yet."
+      isLoading: true,
+      items: undefined,
+      emptyMessage: "You don't have any favorites yet.",
     })
 
     await waitFor(() => {
       expectLastProps(spyItemsListing, {
-        isLoading:    false,
-        items:        favorites.results,
-        emptyMessage: "You don't have any favorites yet."
+        isLoading: false,
+        items: favorites.results,
+        emptyMessage: "You don't have any favorites yet.",
       })
     })
   })

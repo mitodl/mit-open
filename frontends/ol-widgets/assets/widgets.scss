@@ -10,7 +10,7 @@ $icon-size: 20px !default;
 
 .ol-widget-header {
   margin-top: 0;
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: flex-start;
 
@@ -30,7 +30,8 @@ $icon-size: 20px !default;
 }
 
 .ol-widget-actions {
-  &.MuiCardActions-root { // mui puts margins by default, so we need to be extra selective
+  &.MuiCardActions-root {
+    // mui puts margins by default, so we need to be extra selective
     button:last-child {
       margin-left: auto;
     }
@@ -64,5 +65,5 @@ $dialog-z-index: 1300;
 }
 
 .ol-widget-url-preview {
-  max-width: 300px
+  max-width: 300px;
 }

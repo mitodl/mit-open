@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("profiles", "0010_profile_locationjson")]
 
     operations = [migrations.RemoveField(model_name="profile", name="last_active_on")]

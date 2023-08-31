@@ -29,7 +29,8 @@ def search_view():
 
 
 @pytest.mark.parametrize(
-    "status_code, raise_error", [[418, False], [503, True], ["N/A", True]]
+    ("status_code", "raise_error"),
+    [[418, False], [503, True], ["N/A", True]],  # noqa: PT007
 )
 def test_search_es_exception(mocker, client, search_view, status_code, raise_error):
     """If a 4xx status is returned from OpenSearch it should be returned from the API"""

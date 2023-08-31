@@ -60,7 +60,7 @@ class OSModelSerializer(serializers.ModelSerializer):
     object_type = None
 
     def to_representation(self, instance):
-        """Serializes the instance"""
+        """Serializes the instance"""  # noqa: D401
         ret = super().to_representation(instance)
         ret["object_type"] = self.object_type
         return ret
@@ -77,7 +77,7 @@ class OSProxySerializer:
         rename_keys (dict(str, str)):
             A dict representing keys from the base serializer results that should be renamed for
             the final serialized object
-    """
+    """  # noqa: E501
 
     object_type = None
     use_keys = []
@@ -89,15 +89,15 @@ class OSProxySerializer:
         raise NotImplementedError
 
     def postprocess_fields(
-        self, discussions_obj, serialized_data
+        self, discussions_obj, serialized_data  # noqa: ARG002
     ):  # pylint: disable=unused-argument
-        """Returns a dict of additional or altered fields for the final serialized object"""
+        """Returns a dict of additional or altered fields for the final serialized object"""  # noqa: E501, D401
         return {}
 
     def serialize(self, discussions_obj):
         """
         Serializes a django model object by modifying the results from a base serializer class
-        """
+        """  # noqa: E501, D401
         base_serialized = self.base_serializer(discussions_obj).data
         serialized = {
             **filter_dict_keys(base_serialized, self.use_keys),
@@ -142,7 +142,7 @@ class OSTopicsField(serializers.Field):
     """Serializes the topics as a list of topic names"""
 
     def to_representation(self, value):
-        """Serializes the topics as a list of topic names"""
+        """Serializes the topics as a list of topic names"""  # noqa: D401
         return list(value.values_list("name", flat=True))
 
 
@@ -150,7 +150,7 @@ class OSOfferedByField(serializers.Field):
     """Serializes offered_by as a list of OfferedBy names"""
 
     def to_representation(self, value):
-        """Serializes offered_by as a list of OfferedBy names"""
+        """Serializes offered_by as a list of OfferedBy names"""  # noqa: D401
         return list(value.values_list("name", flat=True))
 
 
@@ -301,10 +301,7 @@ class OSRunSerializer(LearningResourceSerializer):
         Get a list of instructor names for the course run
         """
         return [
-            (
-                instructor.full_name
-                or " ".join([instructor.first_name, instructor.last_name])
-            )
+            (instructor.full_name or f"{instructor.first_name} {instructor.last_name}")
             for instructor in instance.instructors.all()
         ]
 
@@ -402,25 +399,29 @@ class OSCourseSerializer(OSModelSerializer, LearningResourceSerializer):
 
         if course.platform == PlatformType.ocw.value:
             department_course_numbers = [
-                get_ocw_departmet_course_number_dict(course.coursenum, True)
+                get_ocw_departmet_course_number_dict(
+                    course.coursenum, True  # noqa: FBT003
+                )  # noqa: FBT003, RUF100
             ]
             if course.extra_course_numbers:
                 for extra_coursenum in course.extra_course_numbers:
-                    department_course_numbers.append(
-                        get_ocw_departmet_course_number_dict(extra_coursenum, False)
+                    department_course_numbers.append(  # noqa: PERF401
+                        get_ocw_departmet_course_number_dict(
+                            extra_coursenum, False  # noqa: FBT003
+                        )  # noqa: FBT003, RUF100
                     )
             return department_course_numbers
         else:
             return []
 
-    def get_default_search_priority(self, instance):
+    def get_default_search_priority(self, instance):  # noqa: ARG002
         """
         Courses should have higer priority in the default search
         """
         return 1
 
     def to_representation(self, instance):
-        """Serializes the instance"""
+        """Serializes the instance"""  # noqa: D401
         ret = super().to_representation(instance)
         ret["resource_relations"] = self.resource_relations
         return ret
@@ -464,7 +465,7 @@ class OSProgramSerializer(OSModelSerializer, LearningResourceSerializer):
     runs = OSRunSerializer(many=True)
     default_search_priority = serializers.SerializerMethodField()
 
-    def get_default_search_priority(self, instance):
+    def get_default_search_priority(self, instance):  # noqa: ARG002
         """
         Programs should have higer priority in the default search
         """
@@ -497,14 +498,14 @@ class OSUserListSerializer(OSModelSerializer, LearningResourceSerializer):
 
     default_search_priority = serializers.SerializerMethodField()
 
-    def get_default_search_priority(self, instance):
+    def get_default_search_priority(self, instance):  # noqa: ARG002
         """
         User Lists should have lower priority in the default search
         """
         return 0
 
     def to_representation(self, instance):
-        """Serializes the instance"""
+        """Serializes the instance"""  # noqa: D401
         ret = super().to_representation(instance)
 
         ret["object_type"] = instance.list_type
@@ -546,14 +547,14 @@ class OSStaffListSerializer(OSModelSerializer, LearningResourceSerializer):
 
     default_search_priority = serializers.SerializerMethodField()
 
-    def get_default_search_priority(self, instance):
+    def get_default_search_priority(self, instance):  # noqa: ARG002
         """
         Staff Lists should have lower priority in the default search
         """
         return 0
 
     def to_representation(self, instance):
-        """Serializes the instance"""
+        """Serializes the instance"""  # noqa: D401
         ret = super().to_representation(instance)
 
         ret["object_type"] = STAFF_LIST_TYPE
@@ -595,7 +596,7 @@ class OSVideoSerializer(OSModelSerializer, LearningResourceSerializer):
 
     default_search_priority = serializers.SerializerMethodField()
 
-    def get_default_search_priority(self, instance):
+    def get_default_search_priority(self, instance):  # noqa: ARG002
         """
         Videos should have lower priority in the default search
         """
@@ -632,7 +633,7 @@ class OSPodcastSerializer(OSModelSerializer, LearningResourceSerializer):
 
     default_search_priority = serializers.SerializerMethodField()
 
-    def get_default_search_priority(self, instance):
+    def get_default_search_priority(self, instance):  # noqa: ARG002
         """
         Podcasts should have lower priority in the default search
         """
@@ -670,10 +671,10 @@ class OSPodcastEpisodeSerializer(OSModelSerializer, LearningResourceSerializer):
     default_search_priority = serializers.SerializerMethodField()
 
     def get_series_title(self, instance):
-        """Gets the title of the podcast to which this episode belongs"""
+        """Gets the title of the podcast to which this episode belongs"""  # noqa: D401
         return instance.podcast.title
 
-    def get_default_search_priority(self, instance):
+    def get_default_search_priority(self, instance):  # noqa: ARG002
         """
         User Lists should have lower priority in the default search
         """

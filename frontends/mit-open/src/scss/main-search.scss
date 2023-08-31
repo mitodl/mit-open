@@ -16,15 +16,15 @@ $max-width: 520px;
       border: 2px solid theme.$color-gray-4;
     }
 
-    &.Mui-focused  fieldset{
-       border-color: theme.$color-blue-5;
+    &.Mui-focused fieldset {
+      border-color: theme.$color-blue-5;
     }
 
     &.Mui-focused .MuiSvgIcon-root {
       color: theme.$color-blue-5;
     }
   }
-  
+
   .MuiInputBase-input {
     &::placeholder {
       font-size: 1rem;

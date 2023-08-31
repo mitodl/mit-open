@@ -21,7 +21,7 @@ type RouteParams = {
 
 const keyFromHash = (hash: string) => {
   const keys = ["appearance", "basic", "moderators"]
-  const match = keys.find(key => `#${key}` === hash)
+  const match = keys.find((key) => `#${key}` === hash)
   return match ?? "basic"
 }
 
@@ -35,7 +35,7 @@ const EditFieldPage: React.FC = () => {
     (event: React.SyntheticEvent, newValue: string) => {
       history.replace({ hash: newValue })
     },
-    [history]
+    [history],
   )
 
   return field.data ? (

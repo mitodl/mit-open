@@ -4,7 +4,7 @@ import type { LearningResourceSearchResult } from "ol-search-ui"
 import type {
   Aggregations,
   SearchQueryParams,
-  Facets
+  Facets,
 } from "@mitodl/course-search-utils"
 import { buildSearchQuery } from "@mitodl/course-search-utils"
 import axios from "../../libs/axios"
@@ -28,9 +28,9 @@ const doSearch = async (params: SearchQueryParams): Promise<SearchResponse> => {
 const restrictFacetTypes = (allowedTypes: string[], facets?: Facets) => {
   const facetTypes = facets?.["type"] ?? []
   const normalized =
-    facetTypes.length > 0 ?
-      intersection(facetTypes, allowedTypes) :
-      allowedTypes
+    facetTypes.length > 0
+      ? intersection(facetTypes, allowedTypes)
+      : allowedTypes
   return { ...facets, type: normalized }
 }
 
@@ -41,13 +41,13 @@ type InfiniteSearchOptions = Omit<SearchQueryParams, "from"> & {
 
 const useInfiniteSearch = (params: InfiniteSearchOptions) => {
   const { size = DEFAULT_SEARCH_PAGE_SIZE, allowedTypes } = params
-  const normalized: SearchQueryParams = allowedTypes ?
-    {
-      ...params,
-      activeFacets:  restrictFacetTypes(allowedTypes, params.activeFacets),
-      resourceTypes: allowedTypes
-    } :
-    params
+  const normalized: SearchQueryParams = allowedTypes
+    ? {
+        ...params,
+        activeFacets: restrictFacetTypes(allowedTypes, params.activeFacets),
+        resourceTypes: allowedTypes,
+      }
+    : params
   return useInfiniteQuery<SearchResponse>({
     keepPreviousData: true,
     /**
@@ -58,20 +58,20 @@ const useInfiniteSearch = (params: InfiniteSearchOptions) => {
      * Let's use a smaller cache time here since search requests can fire pretty
      * frequently.
      */
-    cacheTime:        1000 * 60,
-    queryKey:         keys.search.pages(normalized),
-    queryFn:          ({ pageParam = 0 }) =>
+    cacheTime: 1000 * 60,
+    queryKey: keys.search.pages(normalized),
+    queryFn: ({ pageParam = 0 }) =>
       doSearch({ ...normalized, size, from: pageParam }),
     getNextPageParam: (lastPage, pages) => {
       const nextFrom = pages.length * size
       if (nextFrom >= lastPage.hits.total) return undefined
       return nextFrom
-    }
+    },
   })
 }
 
 type SearchPatcher = (
-  current: LearningResourceSearchResult
+  current: LearningResourceSearchResult,
 ) => Partial<LearningResourceSearchResult>
 
 /**
@@ -88,22 +88,22 @@ type SearchPatcher = (
 const modifyCachedSearchResource = (
   queryClient: QueryClient,
   resourceKey: Pick<LearningResourceSearchResult, "id" | "object_type">,
-  patcher: SearchPatcher
+  patcher: SearchPatcher,
 ) => {
   const cache = queryClient.getQueryCache()
   const searchQueries = cache.findAll(keys.search.all)
-  searchQueries.forEach(query => {
+  searchQueries.forEach((query) => {
     let match = false
     const data = query.state.data as {
       pages: SearchResponse[]
       pageParams: unknown[]
     }
-    const newPages = data.pages.map(page => {
+    const newPages = data.pages.map((page) => {
       const { hits } = page.hits
       const index = hits.findIndex(
-        hit =>
+        (hit) =>
           hit._source.id === resourceKey.id &&
-          hit._source.object_type === resourceKey.object_type
+          hit._source.object_type === resourceKey.object_type,
       )
       if (index === -1) return page
       match = true
@@ -111,16 +111,16 @@ const modifyCachedSearchResource = (
         ...hits[index],
         _source: {
           ...hits[index]._source,
-          ...patcher(hits[index]._source)
-        }
+          ...patcher(hits[index]._source),
+        },
       }
       const newResults = hits.map((res, i) => (i === index ? newHit : res))
       const newPage: SearchResponse = {
         ...page,
         hits: {
           ...page.hits,
-          hits: newResults
-        }
+          hits: newResults,
+        },
       }
       return newPage
     })
@@ -128,7 +128,7 @@ const modifyCachedSearchResource = (
     if (match) {
       queryClient.setQueryData(query.queryKey, {
         ...data,
-        pages: newPages
+        pages: newPages,
       })
     }
   })

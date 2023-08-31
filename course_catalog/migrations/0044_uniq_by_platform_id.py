@@ -20,7 +20,6 @@ def populate_platforms(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0043_runs_for_programs")]
 
     operations = [

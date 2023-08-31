@@ -11,9 +11,9 @@ from search.search_index_helpers import upsert_course
 class Command(BaseCommand):
     """Populate ocw course run topics"""
 
-    help = "Populate ocw course run topics"
+    help = "Populate ocw course run topics"  # noqa: A003
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         for course in Course.objects.filter(Q(platform="ocw") & Q(published=True)):
             course_topics = set()
             for run in course.runs.filter(published=True):

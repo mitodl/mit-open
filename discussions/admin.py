@@ -40,7 +40,7 @@ class ChannelAdmin(admin.ModelAdmin):
         # obj has an id now
         api.channels.set_channel_permissions(obj)
 
-    def can_delete(self, obj):  # pylint: disable=unused-argument
+    def can_delete(self, obj):  # pylint: disable=unused-argument  # noqa: ARG002
         """For now, don't allow deletes"""
         return False
 

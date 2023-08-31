@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0044_uniq_by_platform_id")]
 
     operations = [
@@ -26,7 +25,7 @@ class Migration(migrations.Migration):
             ],
             options={"abstract": False},
         ),
-        # explicity define db_column to the fields so the rename works and django doesn't expect an add/drop
+        # explicity define db_column to the fields so the rename works and django doesn't expect an add/drop  # noqa: E501
         migrations.AlterField(
             model_name="bootcamp",
             name="offered_by",

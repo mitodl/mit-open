@@ -5,7 +5,7 @@ import axios from "axios"
  */
 const instance = axios.create({
   xsrfCookieName: "csrftoken",
-  xsrfHeaderName: "X-CSRFToken"
+  xsrfHeaderName: "X-CSRFToken",
 })
 
 export default instance

@@ -12,6 +12,7 @@ RFCs are documentation around how we have made technical decisions.
 An RFC is merited for technical solutions to problems of medium-high complexity, particularly if they impact realms of architecture, security, or tooling. They're meant to document the decision making process around how we approach these problems technically.
 
 The documentation comes in 2 forms:
+
 - **RFC** - documents the research, design, and decision around the technical approach
 - **Pull Request** - documents the history of how we got there
 

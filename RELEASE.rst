@@ -3712,4 +3712,3 @@ Version 0.1.0 (Released October 06, 2017)
 - Add profile image to post + comment serializers and to UI
 - Added JWT session renewal
 - Fixed app.json to not require S3
-

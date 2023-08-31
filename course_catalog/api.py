@@ -42,7 +42,7 @@ def digest_ocw_course(
     last_modified,
     is_published,
     course_prefix="",
-    keep_existing_image_src=False,
+    keep_existing_image_src=False,  # noqa: FBT002
 ):
     """
     Takes in OCW course master json to store it in DB
@@ -54,10 +54,10 @@ def digest_ocw_course(
         course_prefix (str): (Optional) String used to query S3 bucket for course raw JSONs
         keep_existing_image_src (boolean): (Optional) Avoid overwriting image_src if  image_src is
             blank because the backpopulate is run without uploading to s3
-    """
+    """  # noqa: D401, E501
     if "course_id" not in master_json:
         log.error("Course %s is missing 'course_id'", master_json.get("uid"))
-        return
+        return None
 
     existing_course_instance = Course.objects.filter(
         platform=PlatformType.ocw.value,
@@ -67,7 +67,7 @@ def digest_ocw_course(
     data = {
         **master_json,
         "last_modified": last_modified,
-        "is_published": True,  # This will be updated after all course runs are serialized
+        "is_published": True,  # This will be updated after all course runs are serialized  # noqa: E501
         "course_prefix": course_prefix,
     }
 
@@ -82,7 +82,7 @@ def digest_ocw_course(
             ocw_serializer.errors,
             master_json.get("image_src"),
         )
-        return
+        return None
 
     # Make changes atomically so we don't end up with partially saved/deleted data
     with transaction.atomic():
@@ -130,7 +130,7 @@ def digest_ocw_course(
                 master_json.get("uid"),
                 run_serializer.errors,
             )
-            return
+            return None
         run = run_serializer.save()
         load_offered_bys(run, [{"name": OfferedBy.ocw.value}])
     return course, run
@@ -145,7 +145,7 @@ def digest_ocw_next_course(course_json, last_modified, uid, url_path):
         last_modified (datetime): timestamp of latest modification of all course files
         uid (str): Course uid
         url_path (str):String used to query S3 bucket for course data JSONs
-    """
+    """  # noqa: D401
 
     courserun_instance = LearningResourceRun.objects.filter(
         platform=PlatformType.ocw.value, run_id=uid
@@ -171,7 +171,7 @@ def digest_ocw_next_course(course_json, last_modified, uid, url_path):
             course_json.get("primary_course_number"),
             ocw_serializer.errors,
         )
-        return
+        return None
 
     # Make changes atomically so we don't end up with partially saved/deleted data
     with transaction.atomic():
@@ -234,7 +234,7 @@ def format_date(date_str):
         date_str (String): Datetime object as string in the following format (2016/02/02 20:28:06 US/Eastern)
     Returns:
         Datetime object if passed date is valid, otherwise None
-    """
+    """  # noqa: E501
     if date_str and date_str != "None":
         date_pieces = date_str.split(" ")  # e.g. 2016/02/02 20:28:06 US/Eastern
         date_pieces[0] = date_pieces[0].replace("/", "-")
@@ -244,10 +244,11 @@ def format_date(date_str):
         )
         tz = date_pieces.pop(2)
         timezone = pytz.timezone(tz) if "GMT" not in tz else pytz.timezone("Etc/" + tz)
-        tz_stripped_date = datetime.strptime(" ".join(date_pieces), "%Y-%m-%d %H:%M:%S")
+        tz_stripped_date = datetime.strptime(  # noqa: DTZ007
+            " ".join(date_pieces), "%Y-%m-%d %H:%M:%S"
+        )
         tz_aware_date = timezone.localize(tz_stripped_date)
-        tz_aware_date = tz_aware_date.astimezone(pytz.utc)
-        return tz_aware_date
+        return tz_aware_date.astimezone(pytz.utc)
     return None
 
 
@@ -260,7 +261,7 @@ def generate_course_prefix_list(bucket, course_urls=None):
         course_urls (List[str] or None): List of site urls to return
     Returns:
         List of course prefixes
-    """
+    """  # noqa: E501
     ocw_courses = set()
     log.info("Assembling list of courses...")
     for bucket_file in bucket.objects.all():
@@ -289,20 +290,22 @@ def get_course_availability(course):
 
     Returns:
         str: The url for the course if any
-    """
+    """  # noqa: D401
     if course.platform == PlatformType.ocw.value:
         return AvailabilityType.current.value
     elif course.platform == PlatformType.mitx.value:
         course_json = course.raw_json
         if course_json is None:
-            return
+            return None
         runs = course_json.get("course_runs")
         if runs is None:
-            return
+            return None
         # get appropriate course_run
         for run in runs:
             if run.get("key") == course.course_id:
                 return run.get("availability")
+        return None
+    return None
 
 
 def sync_ocw_course_files(ids=None):
@@ -326,12 +329,12 @@ def sync_ocw_course_files(ids=None):
                     .read()
                 )
                 load_content_files(run, transform_content_files(s3_parsed_json))
-            except:  # pylint: disable=bare-except
+            except:  # pylint: disable=bare-except  # noqa: E722
                 log.exception("Error syncing files for course run %d", run.id)
 
 
 # pylint: disable=too-many-locals, too-many-branches, too-many-statements
-def sync_ocw_course(
+def sync_ocw_course(  # noqa: C901, PLR0912, PLR0913, PLR0915
     *,
     course_prefix,
     raw_data_bucket,
@@ -356,7 +359,7 @@ def sync_ocw_course(
     Returns:
         str:
             The UID, or None if the run_id is not found, or if it was found but not synced
-    """
+    """  # noqa: E501
     loaded_raw_jsons_for_course = []
     last_modified_dates = []
     uid = None
@@ -385,14 +388,14 @@ def sync_ocw_course(
                     and (last_unpublishing_date > last_published_to_production)
                 ):
                     is_published = False
-            except:  # pylint: disable=bare-except
+            except:  # pylint: disable=bare-except  # noqa: E722
                 log.exception("Error encountered reading 1.json for %s", course_prefix)
-        # accessing last_modified from s3 object summary is fast (does not download file contents)
+        # accessing last_modified from s3 object summary is fast (does not download file contents)  # noqa: E501
         last_modified_dates.append(obj.last_modified)
     if not uid:
         # skip if we're unable to fetch course's uid
         log.info("Skipping %s, no course_id", course_prefix)
-        return None
+        return
     # get the latest modified timestamp of any file in the course
     last_modified = max(last_modified_dates)
 
@@ -408,10 +411,10 @@ def sync_ocw_course(
 
     if is_ocw_next_course and not force_s3_upload:
         log.info(
-            "%s is imported into OCW Studio. Skipping sync and s3 json upload from Plone",
+            "%s is imported into OCW Studio. Skipping sync and s3 json upload from Plone",  # noqa: E501
             course_prefix,
         )
-        return None
+        return
 
     # Make sure that the data we are syncing is newer than what we already have
     if (  # pylint: disable=too-many-boolean-expressions
@@ -424,7 +427,7 @@ def sync_ocw_course(
         and start_timestamp <= courserun_instance.updated_on
     ):
         log.info("Already synced. No changes found for %s", course_prefix)
-        return None
+        return
 
     # fetch JSON contents for each course file in memory (slow)
     log.info("Loading JSON for %s...", course_prefix)
@@ -432,7 +435,7 @@ def sync_ocw_course(
         raw_data_bucket.objects.filter(Prefix=course_prefix),
         key=lambda x: int(x.key.split("/")[-1].split(".")[0]),
     ):
-        loaded_raw_jsons_for_course.append(
+        loaded_raw_jsons_for_course.append(  # noqa: PERF401
             safe_load_json(get_s3_object_and_read(obj), obj.key)
         )
 
@@ -479,7 +482,7 @@ def sync_ocw_course(
             )
 
     if is_ocw_next_course:
-        return None
+        return
 
     log.info("Digesting %s...", course_prefix)
 
@@ -495,7 +498,7 @@ def sync_ocw_course(
         )
     except TypeError:
         log.info("Course and run not returned, skipping")
-        return None
+        return
 
     if upload_to_s3 and is_published:
         load_content_files(run, transform_content_files(course_json))
@@ -525,7 +528,7 @@ def sync_ocw_next_course(
     Returns:
         str:
             The UID, or None if the run_id is not found, or if it was found but not synced
-    """
+    """  # noqa: E501
     course_json = {}
     uid = None
 
@@ -540,7 +543,7 @@ def sync_ocw_next_course(
             get_s3_object_and_read(s3_data_object), s3_data_object.key
         )
         last_modified = s3_data_object.last_modified
-    except:  # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except  # noqa: E722
         log.exception("Error encountered reading data.json for %s", url_path)
 
     uid = course_json.get("legacy_uid")
@@ -550,7 +553,7 @@ def sync_ocw_next_course(
 
     if not uid:
         log.info("Skipping %s, both site_uid and legacy_uid missing", url_path)
-        return None
+        return
     else:
         uid = uid.replace("-", "")
 
@@ -570,7 +573,7 @@ def sync_ocw_next_course(
         and start_timestamp <= courserun_instance.updated_on
     ):
         log.info("Already synced. No changes found for %s", url_path)
-        return None
+        return
 
     log.info("Digesting %s...", url_path)
 
@@ -580,7 +583,7 @@ def sync_ocw_next_course(
         )
     except TypeError:
         log.info("Course and run not returned, skipping")
-        return None
+        return
 
     upsert_course(course.id)
     load_content_files(
@@ -588,7 +591,7 @@ def sync_ocw_next_course(
     )
 
 
-def sync_ocw_courses(
+def sync_ocw_courses(  # noqa: PLR0913
     *,
     course_prefixes,
     blocklist,
@@ -609,7 +612,7 @@ def sync_ocw_courses(
         force_s3_upload (bool): If True, upload parsed JSON even if course imported from OCW-Next
     Returns:
         set[str]: All LearningResourceRun.run_id values for course runs which were synced
-    """
+    """  # noqa: E501
     raw_data_bucket = boto3.resource(
         "s3",
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
@@ -627,7 +630,7 @@ def sync_ocw_courses(
                 start_timestamp=start_timestamp,
                 force_s3_upload=force_s3_upload,
             )
-        except:  # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except  # noqa: E722
             log.exception("Error encountered parsing OCW json for %s", course_prefix)
 
 
@@ -642,7 +645,7 @@ def sync_ocw_next_courses(*, url_paths, force_overwrite, start_timestamp=None):
 
     Returns:
         set[str]: All LearningResourceRun.run_id values for course runs which were synced
-    """
+    """  # noqa: E501
     s3_resource = boto3.resource(
         "s3",
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
@@ -657,7 +660,7 @@ def sync_ocw_next_courses(*, url_paths, force_overwrite, start_timestamp=None):
                 force_overwrite=force_overwrite,
                 start_timestamp=start_timestamp,
             )
-        except:  # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except  # noqa: E722
             log.exception("Error encountered parsing OCW json for %s", url_path)
 
 

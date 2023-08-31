@@ -1,13 +1,12 @@
 """Serializers for channels_fields"""
 import copy
 import logging
-from typing import List
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from drf_spectacular.utils import extend_schema_field
 
 from channels_fields.api import add_user_role, is_moderator
 from channels_fields.constants import FIELD_ROLE_MODERATORS
@@ -25,7 +24,7 @@ log = logging.getLogger(__name__)
 class WriteableSerializerMethodField(serializers.SerializerMethodField):
     """
     A SerializerMethodField which has been marked as not read_only so that submitted data passed validation.
-    """
+    """  # noqa: E501
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -68,15 +67,17 @@ class ChannelAppearanceMixin(serializers.Serializer):
         return channel.banner.url if channel.banner else None
 
     def validate_avatar(self, value):
-        """Empty validation function, but this is required for WriteableSerializerMethodField"""
+        """Empty validation function, but this is required for WriteableSerializerMethodField"""  # noqa: E501
         if not hasattr(value, "name"):
-            raise ValidationError("Expected avatar to be a file")
+            msg = "Expected avatar to be a file"
+            raise ValidationError(msg)
         return {"avatar": value}
 
     def validate_banner(self, value):
-        """Empty validation function, but this is required for WriteableSerializerMethodField"""
+        """Empty validation function, but this is required for WriteableSerializerMethodField"""  # noqa: E501
         if not hasattr(value, "name"):
-            raise ValidationError("Expected banner to be a file")
+            msg = "Expected banner to be a file"
+            raise ValidationError(msg)
         return {"banner": value}
 
 
@@ -105,7 +106,7 @@ class FieldChannelSerializer(ChannelAppearanceMixin, serializers.ModelSerializer
 
     @extend_schema_field(UserListSerializer(many=True))
     def get_lists(self, instance):
-        """Returns the field's list of UserLists"""
+        """Returns the field's list of UserLists"""  # noqa: D401
         return [
             UserListSerializer(field_list.field_list).data
             for field_list in instance.lists.all().order_by("position")
@@ -161,8 +162,8 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             "about",
         )
 
-    def validate_lists(self, lists: List[int]):
-        """Validator for lists"""
+    def validate_lists(self, lists: list[int]):
+        """Validator for lists"""  # noqa: D401
         if len(lists) > 0:
             try:
                 valid_list_ids = set(
@@ -171,15 +172,17 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
                     ).values_list("id", flat=True)
                 )
             except (ValueError, TypeError):
-                raise ValidationError("List ids must be integers")
+                msg = "List ids must be integers"
+                raise ValidationError(msg)  # noqa: B904, TRY200
             missing = set(lists).difference(valid_list_ids)
             if missing:
-                raise ValidationError(f"Invalid list ids: {missing}")
+                msg = f"Invalid list ids: {missing}"
+                raise ValidationError(msg)
         return {"lists": lists}
 
     @extend_schema_field(UserListSerializer(many=True))
     def get_lists(self, instance):
-        """Returns the field's list of UserLists"""
+        """Returns the field's list of UserLists"""  # noqa: D401
         return [
             UserListSerializer(field_list.field_list).data
             for field_list in instance.lists.all()
@@ -187,8 +190,8 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             .order_by("position")
         ]
 
-    def validate_subfields(self, subfields: List[str]):
-        """Validator for subfields"""
+    def validate_subfields(self, subfields: list[str]):
+        """Validator for subfields"""  # noqa: D401
         if len(subfields) > 0:
             try:
                 valid_subfield_names = set(
@@ -198,14 +201,16 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
                 )
                 missing = set(subfields).difference(valid_subfield_names)
                 if missing:
-                    raise ValidationError(f"Invalid subfield names: {missing}")
+                    msg = f"Invalid subfield names: {missing}"
+                    raise ValidationError(msg)
             except (ValueError, TypeError):
-                raise ValidationError("Subfields must be strings")
+                msg = "Subfields must be strings"
+                raise ValidationError(msg)  # noqa: B904, TRY200
         return {"subfields": subfields}
 
     @extend_schema_field(SubfieldSerializer(many=True))
     def get_subfields(self, instance):
-        """Returns the list of topics"""
+        """Returns the list of topics"""  # noqa: D401
         return [
             SubfieldSerializer(subfield).data
             for subfield in instance.subfields.all()
@@ -220,7 +225,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
         field_lists = validated_data.pop("lists")
         new_lists = set()
         former_lists = list(instance.lists.values_list("id", flat=True))
-        for (idx, list_pk) in enumerate(field_lists):
+        for idx, list_pk in enumerate(field_lists):
             userlist = UserList.objects.filter(pk=list_pk).first()
             if userlist:
                 field_list, _ = FieldList.objects.update_or_create(
@@ -229,7 +234,9 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
                     defaults={"position": idx},
                 )
                 new_lists.add(field_list)
-        removed_lists = list(set(former_lists) - {list.id for list in new_lists})
+        removed_lists = list(
+            set(former_lists) - {list.id for list in new_lists}  # noqa: A001
+        )
         with transaction.atomic():
             instance.lists.set(new_lists)
             instance.lists.filter(id__in=removed_lists).delete()
@@ -243,7 +250,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
         former_subfields = list(
             instance.subfields.values_list("field_channel__name", flat=True)
         )
-        for (idx, field_name) in enumerate(subfields):
+        for idx, field_name in enumerate(subfields):
             field_channel = FieldChannel.objects.filter(name=field_name).first()
             if field_channel and field_channel.pk != instance.pk:
                 subfield, _ = Subfield.objects.update_or_create(
@@ -321,7 +328,7 @@ class FieldModeratorSerializer(serializers.Serializer):
     full_name = serializers.SerializerMethodField()
 
     def get_moderator_name(self, instance) -> str:
-        """Returns the name for the moderator"""
+        """Returns the name for the moderator"""  # noqa: D401
         return instance.username
 
     def get_email(self, instance) -> str:
@@ -343,17 +350,21 @@ class FieldModeratorSerializer(serializers.Serializer):
     def validate_moderator_name(self, value):
         """Validate moderator name"""
         if not isinstance(value, str):
-            raise ValidationError("username must be a string")
+            msg = "username must be a string"
+            raise ValidationError(msg)
         if not User.objects.filter(username=value).exists():
-            raise ValidationError("username is not a valid user")
+            msg = "username is not a valid user"
+            raise ValidationError(msg)
         return {"moderator_name": value}
 
     def validate_email(self, value):
         """Validate email"""
         if not isinstance(value, str):
-            raise ValidationError("email must be a string")
+            msg = "email must be a string"
+            raise ValidationError(msg)
         if not User.objects.filter(email__iexact=value).exists():
-            raise ValidationError("email does not exist")
+            msg = "email does not exist"
+            raise ValidationError(msg)
         return {"email": value}
 
     def create(self, validated_data):
@@ -362,14 +373,16 @@ class FieldModeratorSerializer(serializers.Serializer):
         email = validated_data.get("email")
 
         if email and moderator_name:
-            raise ValueError("Only one of moderator_name, email should be specified")
+            msg = "Only one of moderator_name, email should be specified"
+            raise ValueError(msg)
 
         if moderator_name:
             username = moderator_name
         elif email:
             username = User.objects.get(email__iexact=email).username
         else:
-            raise ValueError("Missing moderator_name or email")
+            msg = "Missing moderator_name or email"
+            raise ValueError(msg)
 
         user = User.objects.get(username=username)
         add_user_role(

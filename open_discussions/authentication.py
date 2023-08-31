@@ -1,11 +1,10 @@
 """Custom authentication for DRF"""
 import logging
 
-from django.contrib.auth import get_user_model
 import jwt
+from django.contrib.auth import get_user_model
 from rest_framework.authentication import BaseAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-
 
 User = get_user_model()
 
@@ -16,11 +15,11 @@ logger = logging.getLogger()
 
 
 class IgnoreExpiredJwtAuthentication(JSONWebTokenAuthentication):
-    """Version of JSONWebTokenAuthentication that ignores JWT values if they're expired"""
+    """Version of JSONWebTokenAuthentication that ignores JWT values if they're expired"""  # noqa: E501
 
     @classmethod
     def get_token_from_request(cls, request):
-        """Returns the JWT values as long as it's not expired"""
+        """Returns the JWT values as long as it's not expired"""  # noqa: D401
         value = super().get_token_from_request(request)
 
         try:
@@ -33,7 +32,7 @@ class IgnoreExpiredJwtAuthentication(JSONWebTokenAuthentication):
             # if it is expired, treat it as if the user never passed a token
             logger.debug("Ignoring expired JWT")
             return None
-        except:  # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except  # noqa: E722, S110
             # we're only interested in jwt.ExpiredSignature above
             # exception handling in general is already handled in the base class
             pass
@@ -52,7 +51,7 @@ class StatelessTokenAuthentication(BaseAuthentication):
     def authenticate(self, request):
         """
         Attempts to authenticate using a stateless token
-        """
+        """  # noqa: D401
         from open_discussions.auth_utils import unsign_and_verify_username_from_token
 
         if "HTTP_AUTHORIZATION" in request.META:

@@ -16,8 +16,8 @@ describe("Initials", () => {
     { in: "goat", out: "G" },
     { in: "Horse", out: "H" },
     { in: "   iguana     jackal", out: "IJ" },
-    { in: "", out: "" }
-  ])("Gets the capitalized first letter of the first two words", testcase => {
+    { in: "", out: "" },
+  ])("Gets the capitalized first letter of the first two words", (testcase) => {
     expect(u.initials(testcase.in)).toBe(testcase.out)
   })
 })

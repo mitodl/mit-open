@@ -1,19 +1,19 @@
 """
 ETL extract and transformations for openedx
 """
-from collections import namedtuple
-from dateutil.parser import parse
 import logging
+from collections import namedtuple
 
 import pytz
 import requests
+from dateutil.parser import parse
 from toolz import compose
 
 from course_catalog.etl.constants import COMMON_HEADERS
-from course_catalog.utils import get_year_and_semester, semester_year_to_date
 from course_catalog.etl.utils import extract_valid_department_from_id
+from course_catalog.utils import get_year_and_semester, semester_year_to_date
 
-OpenEdxConfiguration = namedtuple(
+OpenEdxConfiguration = namedtuple(  # noqa: PYI024
     "OpenEdxConfiguration",
     [
         "client_id",
@@ -26,7 +26,7 @@ OpenEdxConfiguration = namedtuple(
         "offered_by",
     ],
 )
-OpenEdxExtractTransform = namedtuple(
+OpenEdxExtractTransform = namedtuple(  # noqa: PYI024
     "OpenEdxExtractTransform", ["extract", "transform"]
 )
 
@@ -49,7 +49,7 @@ def _get_access_token(config):
         "client_secret": config.client_secret,
         "token_type": "jwt",
     }
-    response = requests.post(
+    response = requests.post(  # noqa: S113
         config.access_token_url, data=payload, headers={**COMMON_HEADERS}
     )
     response.raise_for_status()
@@ -67,8 +67,8 @@ def _get_openedx_catalog_page(url, access_token):
 
     Returns:
         tuple(list of dict, str or None): a tuple with the next set of courses and the url to the next page of results, if any
-    """
-    response = requests.get(
+    """  # noqa: E501
+    response = requests.get(  # noqa: S113
         url, headers={**COMMON_HEADERS, "Authorization": f"JWT {access_token}"}
     )
     response.raise_for_status()
@@ -87,7 +87,7 @@ def _parse_openedx_datetime(datetime_str):
 
     Returns:
         str: the parsed datetime
-    """
+    """  # noqa: D401
     return parse(datetime_str).astimezone(pytz.utc)
 
 
@@ -121,7 +121,7 @@ def _is_course_or_run_deleted(title):
     Returns:
         bool: True if the course or run should be considered deleted
 
-    """
+    """  # noqa: D401
     title = title.strip().lower()
     if (
         "[delete]" in title
@@ -270,7 +270,7 @@ def openedx_extract_transform_factory(get_config):
 
     Returns:
         OpenEdxExtractTransform: the generated extract and transform functions
-    """
+    """  # noqa: D401, E501
 
     def extract():
         """
@@ -311,7 +311,7 @@ def openedx_extract_transform_factory(get_config):
         Returns:
             list of dict: the tranformed courses data
 
-        """
+        """  # noqa: D401
         config = get_config()
 
         return [

@@ -9,20 +9,20 @@ COMMON_HEADERS = {
 }
 
 
-OfferedByLoaderConfig = namedtuple(
+OfferedByLoaderConfig = namedtuple(  # noqa: PYI024
     "OfferedByLoaderConfig", ["additive"], defaults=[False]
 )
-LearningResourceRunLoaderConfig = namedtuple(
+LearningResourceRunLoaderConfig = namedtuple(  # noqa: PYI024
     "RunLoaderConfig", ["offered_by"], defaults=[OfferedByLoaderConfig()]
 )
 
-CourseLoaderConfig = namedtuple(
+CourseLoaderConfig = namedtuple(  # noqa: PYI024
     "CourseLoaderConfig",
     ["prune", "offered_by", "runs"],
     defaults=[True, OfferedByLoaderConfig(), LearningResourceRunLoaderConfig()],
 )
 
-ProgramLoaderConfig = namedtuple(
+ProgramLoaderConfig = namedtuple(  # noqa: PYI024
     "ProgramLoaderConfig",
     ["courses", "offered_by", "runs"],
     defaults=[
@@ -32,13 +32,13 @@ ProgramLoaderConfig = namedtuple(
     ],
 )
 
-PodcastEpisodeLoaderConfig = namedtuple(
+PodcastEpisodeLoaderConfig = namedtuple(  # noqa: PYI024
     "PodcastEpisodeLoaderConfig",
     ["offered_by", "runs"],
     defaults=[OfferedByLoaderConfig(), LearningResourceRunLoaderConfig()],
 )
 
-PodcastLoaderConfig = namedtuple(
+PodcastLoaderConfig = namedtuple(  # noqa: PYI024
     "PodcastLoaderConfig",
     ["episodes", "offered_by", "runs"],
     defaults=[
@@ -48,13 +48,13 @@ PodcastLoaderConfig = namedtuple(
     ],
 )
 
-VideoLoaderConfig = namedtuple(
+VideoLoaderConfig = namedtuple(  # noqa: PYI024
     "VideoLoaderConfig",
     ["offered_by", "runs"],
     defaults=[OfferedByLoaderConfig(), LearningResourceRunLoaderConfig()],
 )
 
-PlaylistLoaderConfig = namedtuple(
+PlaylistLoaderConfig = namedtuple(  # noqa: PYI024
     "PlaylistLoaderConfig",
     ["offered_by", "videos"],
     defaults=[OfferedByLoaderConfig(), VideoLoaderConfig()],

@@ -9,7 +9,7 @@ pytestmark = pytest.mark.django_db
 
 
 def test_course_filter_micromasters():
-    """test that the offered_by filter works"""
+    """Test that the offered_by filter works"""
     mm = LearningResourceOfferorFactory.create(is_micromasters=True)
     mitx = LearningResourceOfferorFactory.create(is_mitx=True)
 

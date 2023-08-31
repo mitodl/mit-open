@@ -9,21 +9,22 @@ import pytest
 import responses
 from pytest_mock import PytestMockWarning
 from urllib3.exceptions import InsecureRequestWarning
+
 from open_discussions.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)
-def silence_factory_logging():
+def silence_factory_logging():  # noqa: PT004
     """Only show factory errors"""
     logging.getLogger("factory").setLevel(logging.ERROR)
 
 
 @pytest.fixture(autouse=True)
-def warnings_as_errors():
+def warnings_as_errors():  # noqa: PT004
     """
     Convert warnings to errors. This should only affect unit tests, letting pylint and other plugins
     raise DeprecationWarnings without erroring.
-    """
+    """  # noqa: E501
     try:
         warnings.resetwarnings()
         warnings.simplefilter("error")
@@ -48,8 +49,8 @@ def warnings_as_errors():
         warnings.resetwarnings()
 
 
-@pytest.fixture(scope="function")
-def randomness():
+@pytest.fixture()
+def randomness():  # noqa: PT004
     """Ensure a fixed seed for factoryboy"""
     factory.fuzzy.reseed_random("happy little clouds")
 
@@ -60,9 +61,9 @@ def indexing_decorator(session_indexing_decorator):
     Fixture that resets the indexing function mock and returns the indexing decorator fixture.
     This can be used if there is a need to test whether or not a function is wrapped in the
     indexing decorator.
-    """
+    """  # noqa: E501
     session_indexing_decorator.mock_persist_func.reset_mock()
-    yield session_indexing_decorator
+    return session_indexing_decorator
 
 
 @pytest.fixture()
@@ -75,7 +76,7 @@ def mocked_celery(mocker):
     group_mock = mocker.patch("celery.group", autospec=True)
     chain_mock = mocker.patch("celery.chain", autospec=True)
 
-    yield SimpleNamespace(
+    return SimpleNamespace(
         replace=replace_mock,
         group=group_mock,
         chain=chain_mock,
@@ -83,21 +84,21 @@ def mocked_celery(mocker):
     )
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_search_tasks(mocker):
     """Patch search tasks so they no-op"""
     return mocker.patch("search.search_index_helpers")
 
 
-@pytest.fixture
+@pytest.fixture()
 def indexing_user(settings):
-    """Sets and returns the indexing user"""
+    """Sets and returns the indexing user"""  # noqa: D401
     user = UserFactory.create()
     settings.INDEXING_API_USERNAME = user.username
     return user
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_responses():
     """Mock responses fixture"""
     with responses.RequestsMock() as rsps:

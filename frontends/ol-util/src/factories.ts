@@ -6,24 +6,24 @@ type Factory<T, U = never> = (overrides?: Partial<T>, options?: U) => T
 
 const makePaginatedFactory =
   <T>(makeResult: Factory<T>) =>
-    (
-      { count, pageSize }: { count: number; pageSize?: number },
-      {
-        previous = null,
-        next = null
-      }: {
+  (
+    { count, pageSize }: { count: number; pageSize?: number },
+    {
+      previous = null,
+      next = null,
+    }: {
       next?: string | null
       previous?: string | null
-    } = {}
-    ) => {
-      const results = times(pageSize ?? count, () => makeResult())
-      return {
-        results,
-        count,
-        next,
-        previous
-      } satisfies PaginatedResult<T>
-    }
+    } = {},
+  ) => {
+    const results = times(pageSize ?? count, () => makeResult())
+    return {
+      results,
+      count,
+      next,
+      previous,
+    } satisfies PaginatedResult<T>
+  }
 
 /**
  * Make a random URL with `faker`, but standardize it to what browsers use.

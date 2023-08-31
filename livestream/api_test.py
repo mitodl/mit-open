@@ -3,9 +3,9 @@ from livestream.api import get_upcoming_events
 
 
 def test_get_upcoming_events(settings, mocker):
-    """test get upcoming events"""
+    """Test get upcoming events"""
     settings.LIVESTREAM_ACCOUNT_ID = 392_239
-    settings.LIVESTREAM_SECRET_KEY = "secret key"
+    settings.LIVESTREAM_SECRET_KEY = "secret key"  # noqa: S105
     requests_patch = mocker.patch("requests.get", autospec=True)
     resp = get_upcoming_events()
     requests_patch.assert_called_once_with(

@@ -14,7 +14,7 @@ describe("SortableItem", () => {
         item="item-id"
         id="item-id"
         title="A TITLE"
-      />
+      />,
     )
 
   beforeEach(() => {

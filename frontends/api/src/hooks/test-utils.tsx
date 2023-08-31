@@ -5,9 +5,9 @@ const setupReactQueryTest = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false
-      }
-    }
+        retry: false,
+      },
+    },
   })
 
   const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (

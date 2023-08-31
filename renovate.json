@@ -1,20 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "local>mitodl/.github:renovate-config"
-  ],
+  "extends": ["local>mitodl/.github:renovate-config"],
   "packageRules": [
     {
-      "matchFiles": [
-        "frontends/open-discussions/package.json"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "matchFiles": ["frontends/open-discussions/package.json"],
+      "matchUpdateTypes": ["major"],
       "enabled": false
     },
     {
-      "matchSourceUrls": ["https://github.com/ckeditor/ckeditor5"] 
+      "matchSourceUrls": ["https://github.com/ckeditor/ckeditor5"]
     }
   ]
 }

@@ -59,24 +59,24 @@ from search.constants import (
 )
 
 
-def _post_gen_prices(obj, create, extracted, **kwarg):
+def _post_gen_prices(obj, create, extracted, **kwarg):  # noqa: ARG001
     """PostGeneration function for prices"""
     if not create:
         return
 
     if extracted is None:
-        extracted = CoursePriceFactory.create_batch(random.randint(0, 3))
+        extracted = CoursePriceFactory.create_batch(random.randint(0, 3))  # noqa: S311
 
     obj.prices.set(extracted)
 
 
-def _post_gen_topics(obj, create, extracted, **kwargs):
+def _post_gen_topics(obj, create, extracted, **kwargs):  # noqa: ARG001
     """PostGeneration function for topics"""
     if not create:
         return
 
     if extracted is None:
-        extracted = CourseTopicFactory.create_batch(random.randint(0, 5))
+        extracted = CourseTopicFactory.create_batch(random.randint(0, 5))  # noqa: S311
 
     obj.topics.set(extracted)
 
@@ -193,7 +193,7 @@ class CourseFactory(AbstractCourseFactory):
         "course_catalog.factories.LearningResourceRunFactory", "content_object", size=3
     )
     course_feature_tags = factory.List(
-        [factory.Faker("word") for x in range(random.randrange(3))]
+        [factory.Faker("word") for x in range(random.randrange(3))]  # noqa: S311
     )
     extra_course_numbers = factory.List([])
     ocw_next_course = False
@@ -247,13 +247,15 @@ class LearningResourceRunFactory(AbstractCourseFactory):
     prices = factory.PostGeneration(_post_gen_prices)
 
     @factory.post_generation
-    def instructors(self, create, extracted, **kwargs):
+    def instructors(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create instructors for course"""
         if not create:
             return
 
         if extracted is None:
-            extracted = CourseInstructorFactory.create_batch(random.randint(0, 3))
+            extracted = CourseInstructorFactory.create_batch(
+                random.randint(0, 3)  # noqa: S311
+            )
 
         self.instructors.set(extracted)
 
@@ -388,7 +390,7 @@ class UserListFactory(DjangoModelFactory):
     author = factory.SubFactory(UserFactory)
 
     @factory.post_generation
-    def topics(self, create, extracted, **kwargs):
+    def topics(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create topics for learning path"""
         if not create:
             return
@@ -449,7 +451,7 @@ class StaffListFactory(DjangoModelFactory):
     author = factory.SubFactory(UserFactory)
 
     @factory.post_generation
-    def topics(self, create, extracted, **kwargs):
+    def topics(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create topics for learning path"""
         if not create:
             return

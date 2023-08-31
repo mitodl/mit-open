@@ -1,4 +1,4 @@
-""" Utils for course catalog """
+"""Utils for course catalog"""
 import logging
 import re
 from datetime import datetime
@@ -37,7 +37,7 @@ def staff_list_image_upload_uri(instance, filename):
     return generate_filepath(filename, "staff_list", instance.title, "")
 
 
-# NOTE: this is unused, but a migration references it, so we'll leave it until we decide to squash migrations or something
+# NOTE: this is unused, but a migration references it, so we'll leave it until we decide to squash migrations or something  # noqa: E501
 def program_image_upload_uri(instance, filename):
     """
     upload_to handler for Program image
@@ -54,7 +54,7 @@ def get_ocw_topics(topics_collection):
 
     Returns:
         list of str: list of topics
-    """
+    """  # noqa: D401
     topics = []
 
     for topic_object in topics_collection:
@@ -78,7 +78,7 @@ def get_year_and_semester(course_run):
     Returns:
         tuple (str, str): year, semester
 
-    """
+    """  # noqa: E501
     year = course_run.get("year")
     semester = course_run.get("semester")
 
@@ -97,10 +97,7 @@ def get_year_and_semester(course_run):
             semester = semester_mapping.get(match.group(0)[-6:-4])
         else:
             semester = None
-            if course_run.get("start"):
-                year = course_run.get("start")[:4]
-            else:
-                year = None
+            year = course_run.get("start")[:4] if course_run.get("start") else None
     return year, semester
 
 
@@ -130,7 +127,7 @@ def get_course_url(course_id, course_json, platform):
                     preferred_urls.append(url)
             if preferred_urls:
                 return preferred_urls[0].split("?")[0]
-        return "{}{}/course/".format(settings.MITX_ALT_URL, course_id)
+        return f"{settings.MITX_ALT_URL}{course_id}/course/"
     return None
 
 
@@ -156,7 +153,7 @@ def get_ocw_department_list(course_json):
     return departments
 
 
-def semester_year_to_date(semester, year, ending=False):
+def semester_year_to_date(semester, year, ending=False):  # noqa: FBT002
     """
     Convert semester and year to a rough date
 
@@ -169,7 +166,7 @@ def semester_year_to_date(semester, year, ending=False):
         datetime: The rough date of the course
     """
     if semester is None or year is None:
-        return
+        return None
     if semester.lower() == "fall":
         month_day = "12-31" if ending else "09-01"
     elif semester.lower() == "summer":
@@ -179,10 +176,8 @@ def semester_year_to_date(semester, year, ending=False):
     elif semester.lower() == "january iap":
         month_day = "01-31" if ending else "01-01"
     else:
-        return
-    return datetime.strptime("{}-{}".format(year, month_day), "%Y-%m-%d").replace(
-        tzinfo=pytz.UTC
-    )
+        return None
+    return datetime.strptime(f"{year}-{month_day}", "%Y-%m-%d").replace(tzinfo=pytz.UTC)
 
 
 def get_list_items_by_resource(user, object_type, object_id):
@@ -254,10 +249,10 @@ def get_s3_object_and_read(obj, iteration=0):
 
     Returns:
         bytes: The contents of a json file read from S3
-    """
+    """  # noqa: D401, E501
     try:
         return obj.get()["Body"].read()
-    except Exception:  # pylint: disable=broad-except
+    except Exception:  # pylint: disable=broad-except  # noqa: BLE001
         if iteration < settings.MAX_S3_GET_ITERATIONS:
             return get_s3_object_and_read(obj, iteration + 1)
         else:
@@ -275,10 +270,9 @@ def safe_load_json(json_string, json_file_key):
 
     Returns:
         JSON (dict): the JSON contents as JSON
-    """
+    """  # noqa: D401
     try:
-        loaded_json = rapidjson.loads(json_string)
-        return loaded_json
+        return rapidjson.loads(json_string)
     except rapidjson.JSONDecodeError:
         log.exception("%s has a corrupted JSON", json_file_key)
         return {}
@@ -293,7 +287,7 @@ def parse_instructors(staff):
 
     Returns:
         array (dict): parsed instructors
-    """
+    """  # noqa: D401
     instructors = []
     for person in staff:
         instructor = {

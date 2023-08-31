@@ -6,7 +6,7 @@ import MarkdownEditor from "./MarkdownEditor"
 import UrlField from "./UrlField"
 
 const getWidgetFieldComponent = (
-  spec: WidgetFieldSpec
+  spec: WidgetFieldSpec,
 ): WidgetFieldComponent | string => {
   if (spec.input_type === WIDGET_FIELD_TYPES.markdown) {
     return MarkdownEditor
@@ -24,8 +24,8 @@ const propRenames: Record<string, Record<string, string>> = {
   [WIDGET_FIELD_TYPES.url]: {
     min_length: "minLength",
     max_length: "maxLength",
-    show_embed: "showEmbed"
-  }
+    show_embed: "showEmbed",
+  },
 }
 
 const renameFieldProps = (fieldSpec: WidgetFieldSpec) => {

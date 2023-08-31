@@ -1,4 +1,4 @@
-"""Management command for populating xpro course data"""
+"""Management command for populating xpro course data"""  # noqa: INP001
 from django.core.management import BaseCommand
 
 from learning_resources.constants import PlatformType
@@ -10,7 +10,7 @@ from open_discussions.utils import now_in_utc
 class Command(BaseCommand):
     """Populate xpro courses"""
 
-    help = "Populate xpro courses"
+    help = "Populate xpro courses"  # noqa: A003
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -21,7 +21,7 @@ class Command(BaseCommand):
         )
         super().add_arguments(parser)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate xpro courses"""
         if options["delete"]:
             self.stdout.write(
@@ -39,7 +39,5 @@ class Command(BaseCommand):
             task.get()
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
-                "Population of xpro data finished, took {} seconds".format(
-                    total_seconds
-                )
+                f"Population of xpro data finished, took {total_seconds} seconds"
             )

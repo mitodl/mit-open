@@ -1,5 +1,5 @@
 import failOnConsole from "jest-fail-on-console"
-import '@testing-library/jest-dom'
+import "@testing-library/jest-dom"
 import { configure } from "@testing-library/dom"
 import { resetAllWhenMocks } from "jest-when"
 

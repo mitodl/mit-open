@@ -1,12 +1,13 @@
 # MIT Open
+
 This application provides a central interface from which learners can browse MIT courses.
 
 **SECTIONS**
+
 1. [Initial Setup](#initial-setup)
 1. [Code Generation](#code-generation)
 1. [Committing & Formatting](#committing-&-formatting)
 1. [Optional Setup](#optional-setup)
-
 
 # Initial Setup
 
@@ -14,29 +15,30 @@ MIT Open follows the same [initial setup steps outlined in the common OL web app
 Run through those steps **including the addition of `/etc/hosts` aliases and the optional step for running the
 `createsuperuser` command**.
 
-
 ### Configure required `.env` settings
 
 The following settings must be configured before running the app:
 
 - `INDEXING_API_USERNAME`
 
-    At least to start out, this should be set to the username of the superuser
-    you created above.
+  At least to start out, this should be set to the username of the superuser
+  you created above.
 
 - `MAILGUN_KEY` and `MAILGUN_SENDER_DOMAIN`
 
-    You can set these values to any non-empty string value if email-sending functionality
-    is not needed. It's recommended that you eventually configure the site to be able
-    to send emails. Those configuration steps can be found [below](#enabling-email).
+  You can set these values to any non-empty string value if email-sending functionality
+  is not needed. It's recommended that you eventually configure the site to be able
+  to send emails. Those configuration steps can be found [below](#enabling-email).
 
 - `MITOPEN_HOSTNAME`
-    
-    Sets the hostname required by webpack for building the frontend. Should likely be whatever you set 
-    the host to in your /etc/hosts or the hostname that you're accessing it from. Likely `od.odl.local`.
+
+  Sets the hostname required by webpack for building the frontend. Should likely be whatever you set
+  the host to in your /etc/hosts or the hostname that you're accessing it from. Likely `od.odl.local`.
 
 # Code Generation
+
 MIT Open uses [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest/) to generate and OpenAPI spec from Django views. Additionally, we use [OpenAPITools/openapi-generator](https://github.com/OpenAPITools/openapi-generator) to generate Typescript declarations and an API Client. These generated files are checked into source control; CI checks that they are up-to-date. To regenerate these files, run
+
 ```bash
 ./scripts/generate_openapi.sh
 ```
@@ -52,21 +54,24 @@ docker compose run --rm web python manage.py loaddata platforms departments offe
 # Committing & Formatting
 
 To ensure commits to GitHub are safe, first install [pre-commit](https://pre-commit.com/):
+
 ```
 pip install pre_commit
 pre-commit install
 ```
 
 Running pre-commit can confirm your commit is safe to be pushed to GitHub and correctly formatted:
+
 ```
 pre-commit run --all-files
 ```
 
 To automatically install precommit hooks when cloning a repo, you can run this:
+
 ```
 git config --global init.templateDir ~/.git-template
 pre-commit init-templatedir ~/.git-template
-```    
+```
 
 # Optional Setup
 
@@ -92,80 +97,81 @@ any emails sent from the app will be delivered to you.
 
 :warning: **NOTE: Article cover image thumbnails will be broken unless this is configured** :warning:
 
-Article posts give users the option to upload a cover image, and we show a thumbnail for that 
-image in post listings. We use Embedly to generate that thumbnail, so they will appear as 
+Article posts give users the option to upload a cover image, and we show a thumbnail for that
+image in post listings. We use Embedly to generate that thumbnail, so they will appear as
 broken images unless you configure your app to upload to S3. Steps:
 
 1. Set `MITOPEN_USE_S3=True` in `.env`
-1. Also in `.env`, set these AWS variables: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, 
-    `AWS_STORAGE_BUCKET_NAME` 
-    
-    These values can be copied directly from the Open Discussions CI Heroku settings, or a 
-    fellow dev can provide them.
+1. Also in `.env`, set these AWS variables: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`,
+   `AWS_STORAGE_BUCKET_NAME`
+
+   These values can be copied directly from the Open Discussions CI Heroku settings, or a
+   fellow dev can provide them.
 
 ### Enabling searching the course catalog on opensearch
 
 To enable searching the course catalog on opensearch, run through these steps:
+
 1. Start the services with `docker-compose up`
 2. With the above running, run this management command, which kicks off a celery task, to create an opensearch index:
-    ```
-    docker-compose  run web python manage.py recreate_index --all
-    ```
-    If there is an error running the above command, observe what traceback gets logged in the celery service.
-3. Once created and with `docker-compose up`  running, hit this endpoint in your browser to see if the index exists: `http://localhost:9101/discussions_local_all_default/_search`
+   ```
+   docker-compose  run web python manage.py recreate_index --all
+   ```
+   If there is an error running the above command, observe what traceback gets logged in the celery service.
+3. Once created and with `docker-compose up` running, hit this endpoint in your browser to see if the index exists: `http://localhost:9101/discussions_local_all_default/_search`
 4. If yes, to run a specific query, make a `POST` request (using `curl`, [Postman](https://www.getpostman.com/downloads/), Python `requests`, etc.) to the above endpoint with a `json` payload. For example, to search for all courses, run a query with Content-Type as `application/json` and with a body `{"query":{"term":{"object_type":"course"}}}`
 
 ### Running the app in a notebook
 
 This repo includes a config for running a [Jupyter notebook](https://jupyter.org/) in a
-Docker container. This enables you to do in a Jupyter notebook anything you might 
+Docker container. This enables you to do in a Jupyter notebook anything you might
 otherwise do in a Django shell. To get started:
 
 - Copy the example file
-    ```bash
-    # Choose any name for the resulting .ipynb file
-    cp app.ipynb.example app.ipynb
-    ```
+  ```bash
+  # Choose any name for the resulting .ipynb file
+  cp app.ipynb.example app.ipynb
+  ```
 - Build the `notebook` container _(for first time use, or when requirements change)_
-    ```bash
-    docker-compose -f docker-compose-notebook.yml build
-    ```
+  ```bash
+  docker-compose -f docker-compose-notebook.yml build
+  ```
 - Run all the standard containers (`docker-compose up`)
 - In another terminal window, run the `notebook` container
-    ```bash
-    docker-compose -f docker-compose-notebook.yml run --rm --service-ports notebook
-    ```
+  ```bash
+  docker-compose -f docker-compose-notebook.yml run --rm --service-ports notebook
+  ```
 - Visit the running notebook server in your browser. The `notebook` container log output will
   indicate the URL and `token` param with some output that looks like this:
-    ```
-    notebook_1  |     To access the notebook, open this file in a browser:
-    notebook_1  |         file:///home/mitodl/.local/share/jupyter/runtime/nbserver-8-open.html
-    notebook_1  |     Or copy and paste one of these URLs:
-    notebook_1  |         http://(2c19429d04d0 or 127.0.0.1):8080/?token=2566e5cbcd723e47bdb1b058398d6bb9fbf7a31397e752ea
-    ```
+  ```
+  notebook_1  |     To access the notebook, open this file in a browser:
+  notebook_1  |         file:///home/mitodl/.local/share/jupyter/runtime/nbserver-8-open.html
+  notebook_1  |     Or copy and paste one of these URLs:
+  notebook_1  |         http://(2c19429d04d0 or 127.0.0.1):8080/?token=2566e5cbcd723e47bdb1b058398d6bb9fbf7a31397e752ea
+  ```
   Here is a one-line command that will produce a browser-ready URL from that output. Run this in a separate terminal:
-    ```bash
-    APP_HOST="open.ol.local"; docker logs $(docker ps --format '{{.Names}}' | grep "_notebook_run_") | grep -E "http://(.*):8080[^ ]+\w" | tail -1 | sed -e 's/^[[:space:]]*//' | sed -e "s/(.*)/$APP_HOST/"
-    ```
+  ```bash
+  APP_HOST="open.ol.local"; docker logs $(docker ps --format '{{.Names}}' | grep "_notebook_run_") | grep -E "http://(.*):8080[^ ]+\w" | tail -1 | sed -e 's/^[[:space:]]*//' | sed -e "s/(.*)/$APP_HOST/"
+  ```
   OSX users can pipe that output to `xargs open` to open a browser window directly with the URL from that command.
 - Click the `.ipynb` file that you created to run the notebook
 - Execute the first block to confirm it's working properly (click inside the block
   and press Shift+Enter)
-  
-From there, you should be able to run code snippets with a live Django app just like you 
+
+From there, you should be able to run code snippets with a live Django app just like you
 would in a Django shell.
 
 ### Connecting with an OpenID Connect provider for authentication
-The MIT Open application can be configured to utilize an OpenID Connect provider for authentication.  
 
+The MIT Open application can be configured to utilize an OpenID Connect provider for authentication.
 
 The following environment variables must be defined:
-    * SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT - The base URI for OpenID Connect discovery, https://<OIDC_ENDPOINT>/ without .well-known/openid-configuration.
-    * OIDC_ENDPOINT
-    * SOCIAL_AUTH_OL_OIDC_KEY - The client ID provided by the OpenID Connect provider.
-    * SOCIAL_AUTH_OL_OIDC_SECRET - The client secret provided by the OpenID Connect provider.
-    * AUTHORIZATION_URL - Provider endpoint where the user is asked to authenticate.
-    * ACCESS_TOKEN_URL - Provider endpoint where client exchanges the authorization code for tokens.
-    * USERINFO_URL - Provder endpoint where client sends requests for identity claims.
+_ SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT - The base URI for OpenID Connect discovery, https://<OIDC_ENDPOINT>/ without .well-known/openid-configuration.
+_ OIDC\*ENDPOINT
+
+- SOCIAL\*AUTH_OL_OIDC_KEY - The client ID provided by the OpenID Connect provider.
+- SOCIAL\*AUTH_OL_OIDC_SECRET - The client secret provided by the OpenID Connect provider.
+- AUTHORIZATION\*URL - Provider endpoint where the user is asked to authenticate.
+- ACCESS_TOKEN_URL - Provider endpoint where client exchanges the authorization code for tokens. \* USERINFO_URL - Provder endpoint where client sends requests for identity claims.
 
 To authenticate with an existing MIT Open user via an OpenID Connect provider, open http://od.odl.local:8063/login/ol-oidc in your browser.

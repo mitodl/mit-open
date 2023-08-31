@@ -2,17 +2,17 @@
 import logging
 import time
 
+import feedparser
 from cache_memoize import cache_memoize
 from django.conf import settings
-import feedparser
 from rest_framework.serializers import ValidationError
 
 from open_discussions.constants import ISOFORMAT
+from widgets.serializers.react_fields import ReactIntegerField, ReactURLField
 from widgets.serializers.widget_instance import (
     WidgetConfigSerializer,
     WidgetInstanceSerializer,
 )
-from widgets.serializers.react_fields import ReactURLField, ReactIntegerField
 
 MAX_FEED_ITEMS = 10
 
@@ -38,10 +38,10 @@ def _fetch_rss(url):
 
     Returns:
         feedparser.FeedParserDict: rss feed data
-    """
-    # NOTE: if you change what this function returns you need to ensure caches are evicted
-    #       across all our environments, ideally in an automated way because cache_memoize
-    #       won't know your implementation change. One possible way is to rename the function
+    """  # noqa: D401
+    # NOTE: if you change what this function returns you need to ensure caches are evicted  # noqa: E501
+    #       across all our environments, ideally in an automated way because cache_memoize  # noqa: E501
+    #       won't know your implementation change. One possible way is to rename the function  # noqa: E501
     #       or change the arguments.
     return feedparser.parse(url)
 
@@ -55,12 +55,12 @@ class RssFeedWidgetSerializer(WidgetInstanceSerializer):
     description = "RSS Feed"
 
     def get_json(self, instance):
-        """Obtains RSS feed data which will then be provided to the React component"""
+        """Obtains RSS feed data which will then be provided to the React component"""  # noqa: D401, E501
         try:
             rss = _fetch_rss(instance.configuration["url"])
             entries = getattr(rss, "entries", [])
-        except:  # pylint: disable=bare-except
-            # log an exception and coerce this to an empty list so the feed and UI don't crash
+        except:  # pylint: disable=bare-except  # noqa: E722
+            # log an exception and coerce this to an empty list so the feed and UI don't crash  # noqa: E501
             log.exception(
                 "Error trying to refresh cached RSS feed for widget id: %s", instance.id
             )
@@ -94,18 +94,18 @@ class RssFeedWidgetSerializer(WidgetInstanceSerializer):
         }
 
     def save(self, **kwargs):
-        """Saves the widget settings"""
+        """Saves the widget settings"""  # noqa: D401
         instance = super().save(**kwargs)
 
         url = instance.configuration["url"]
 
         try:
-            # force a cache refresh immediately after a successful save by invalidating and then loading it
+            # force a cache refresh immediately after a successful save by invalidating and then loading it  # noqa: E501
             _fetch_rss.invalidate(url)
             _fetch_rss(url)
-        except:  # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except  # noqa: E722
             log.exception("Error trying to load new RSS feed url: %s", url)
-            raise ValidationError(
+            raise ValidationError(  # noqa: B904, TRY200
                 {"configuration": f"Unable to load the RSS feed: '{url}'"}
             )
 

@@ -1,5 +1,4 @@
-"""API for channels_fields """
-from typing import Dict
+"""API for channels_fields"""
 
 from django.contrib.auth.models import Group, User
 from django.db import transaction
@@ -10,7 +9,7 @@ from channels_fields.models import FieldChannel, FieldChannelGroupRole
 
 def create_field_groups_and_roles(
     field_channel: FieldChannel,
-) -> Dict[str, FieldChannelGroupRole]:
+) -> dict[str, FieldChannelGroupRole]:
     """
     Create a field channel's groups and roles
     """

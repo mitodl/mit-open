@@ -6,7 +6,7 @@ interface ExtraProps {
   showEmbed?: boolean
 }
 
-const UrlField: React.FC<WidgetEditingFieldProps & ExtraProps> = props => {
+const UrlField: React.FC<WidgetEditingFieldProps & ExtraProps> = (props) => {
   const { showEmbed, ...others } = props
 
   return (

@@ -4,7 +4,7 @@ import {
   LearningResourceType as LRT,
   PrivacyLevel,
   StaffList,
-  UserList
+  UserList,
 } from "ol-search-ui"
 import * as factories from "ol-search-ui/src/factories"
 import { allowConsoleErrors, getDescriptionFor } from "ol-util/test-utils"
@@ -17,7 +17,7 @@ import {
   user,
   within,
   type TestAppOptions,
-  act
+  act,
 } from "../../test-utils"
 import { mockAxiosInstance as axios } from "../../test-utils/mockAxios"
 import { assertNotNil } from "ol-util"
@@ -47,45 +47,45 @@ const inputs = {
     [LRT.StaffPath]: () =>
       screen.getByLabelText("Learning Path", { exact: false }),
     [LRT.StaffList]: () =>
-      screen.getByLabelText("Learning List", { exact: false })
+      screen.getByLabelText("Learning List", { exact: false }),
   },
   privacy_level: {
-    [PrivacyLevel.Public]:  () => screen.getByLabelText("Public"),
-    [PrivacyLevel.Private]: () => screen.getByLabelText("Private")
+    [PrivacyLevel.Public]: () => screen.getByLabelText("Public"),
+    [PrivacyLevel.Private]: () => screen.getByLabelText("Private"),
   },
-  title:       () => screen.getByLabelText("Title", { exact: false }),
+  title: () => screen.getByLabelText("Title", { exact: false }),
   description: () => screen.getByLabelText("Description", { exact: false }),
-  topics:      () => screen.getByLabelText("Subjects", { exact: false }),
-  submit:      () => screen.getByRole("button", { name: "Save" }),
-  cancel:      () => screen.getByRole("button", { name: "Cancel" }),
-  delete:      () => screen.getByRole("button", { name: "Yes, delete" })
+  topics: () => screen.getByLabelText("Subjects", { exact: false }),
+  submit: () => screen.getByRole("button", { name: "Save" }),
+  cancel: () => screen.getByRole("button", { name: "Cancel" }),
+  delete: () => screen.getByRole("button", { name: "Yes, delete" }),
 }
 
 const modes = [
   {
-    label:       "UserLists",
-    mode:        "userlist",
-    makeList:    factories.makeUserList,
-    createUrl:   lrUrls.userList.create,
-    updateUrl:   lrUrls.userList.details,
-    deletionUrl: lrUrls.userList.details
+    label: "UserLists",
+    mode: "userlist",
+    makeList: factories.makeUserList,
+    createUrl: lrUrls.userList.create,
+    updateUrl: lrUrls.userList.details,
+    deletionUrl: lrUrls.userList.details,
   },
   {
-    label:       "StaffLists",
-    mode:        "stafflist",
-    makeList:    factories.makeStaffList,
-    createUrl:   lrUrls.staffList.create,
-    updateUrl:   lrUrls.staffList.details,
-    deletionUrl: lrUrls.staffList.details
-  }
+    label: "StaffLists",
+    mode: "stafflist",
+    makeList: factories.makeStaffList,
+    createUrl: lrUrls.staffList.create,
+    updateUrl: lrUrls.staffList.details,
+    deletionUrl: lrUrls.staffList.details,
+  },
 ] as const
 
 describe("Creating lists with manageListDialogs", () => {
   const setup = (
     mode: "userlist" | "stafflist",
     opts: Partial<TestAppOptions> = {
-      user: { is_public_list_editor: true, is_authenticated: true }
-    }
+      user: { is_public_list_editor: true, is_authenticated: true },
+    },
   ) => {
     const topics = factories.makeTopicsPaginated({ count: 5 })
     setMockResponse.get(lrUrls.topics.listing, topics)
@@ -126,7 +126,7 @@ describe("Creating lists with manageListDialogs", () => {
 
       const list = makeList({
         short_description: faker.lorem.paragraph(),
-        topics:            [faker.helpers.arrayElement(topics.results)]
+        topics: [faker.helpers.arrayElement(topics.results)],
       })
 
       /**
@@ -147,12 +147,12 @@ describe("Creating lists with manageListDialogs", () => {
           "list_type",
           "privacy_level",
           "short_description",
-          "topics"
-        ])
+          "topics",
+        ]),
       )
 
       await waitForElementToBeRemoved(dialog)
-    }
+    },
   )
 
   test("Dialog title is 'Create list'", async () => {
@@ -196,29 +196,29 @@ describe("Creating lists with manageListDialogs", () => {
 
   test.each([
     {
-      user:              { is_public_list_editor: true, is_authenticated: true },
-      hasPrivacyChoices: true
+      user: { is_public_list_editor: true, is_authenticated: true },
+      hasPrivacyChoices: true,
     },
     {
-      user:              { is_public_list_editor: false, is_authenticated: true },
-      hasPrivacyChoices: false
-    }
+      user: { is_public_list_editor: false, is_authenticated: true },
+      hasPrivacyChoices: false,
+    },
   ])(
     "Userlist form has privacy options if and only if user.is_public_list_editor",
     async ({ user, hasPrivacyChoices }) => {
       setup("userlist", { user })
       const publicChoice = screen.queryByText("Privacy")
       expect(!!publicChoice).toBe(hasPrivacyChoices)
-    }
+    },
   )
 
   test.each([
     {
-      user: { is_public_list_editor: true, is_authenticated: true }
+      user: { is_public_list_editor: true, is_authenticated: true },
     },
     {
-      user: { is_public_list_editor: false, is_authenticated: true }
-    }
+      user: { is_public_list_editor: false, is_authenticated: true },
+    },
   ])("StaffList form always has privacy options", async ({ user }) => {
     setup("stafflist", { user })
     const publicChoice = screen.getByText("Privacy")
@@ -230,12 +230,12 @@ describe("Creating lists with manageListDialogs", () => {
     async ({ mode }) => {
       await setup(mode)
       expect(inputs.privacy_level[PrivacyLevel.Private]()).toBeChecked()
-    }
+    },
   )
 
   test("Userlists are private by default for non-staff", async () => {
     const { topics } = setup("userlist", {
-      user: { is_authenticated: true, is_public_list_editor: false }
+      user: { is_authenticated: true, is_public_list_editor: false },
     })
 
     const userList = factories.makeUserList()
@@ -254,7 +254,7 @@ describe("Creating lists with manageListDialogs", () => {
 
     expect(axios.post).toHaveBeenCalledWith(
       lrUrls.userList.create,
-      expect.objectContaining({ privacy_level: PrivacyLevel.Private })
+      expect.objectContaining({ privacy_level: PrivacyLevel.Private }),
     )
   })
 
@@ -264,7 +264,7 @@ describe("Creating lists with manageListDialogs", () => {
       await setup(mode)
       const type = mode === "userlist" ? LRT.Userlist : LRT.StaffList
       expect(inputs.list_type[type]()).toBeChecked()
-    }
+    },
   )
 
   test("Displays overall error if form validates but API call fails", async () => {
@@ -272,7 +272,7 @@ describe("Creating lists with manageListDialogs", () => {
     const { topics } = await setup("userlist")
     const userList = factories.makeUserList({
       short_description: faker.lorem.paragraph(),
-      topics:            [faker.helpers.arrayElement(topics.results)]
+      topics: [faker.helpers.arrayElement(topics.results)],
     })
     await fillInForm(userList)
 
@@ -281,7 +281,7 @@ describe("Creating lists with manageListDialogs", () => {
     const alertMessage = await screen.findByRole("alert")
     expect(axios.post).toHaveBeenCalled()
     expect(alertMessage).toHaveTextContent(
-      "There was a problem saving your list."
+      "There was a problem saving your list.",
     )
   })
 })
@@ -309,8 +309,8 @@ describe("Editing lists with manageListDialogs", () => {
 
       const updatedResource = {
         ...resource,
-        title:             faker.lorem.words(),
-        short_description: faker.lorem.paragraph()
+        title: faker.lorem.words(),
+        short_description: faker.lorem.paragraph(),
       }
 
       const titleInput = inputs.title()
@@ -331,38 +331,38 @@ describe("Editing lists with manageListDialogs", () => {
 
       expect(axios.patch).toHaveBeenCalledWith(
         updateUrl(resource.id),
-        updatedResource
+        updatedResource,
       )
 
       await waitForElementToBeRemoved(dialog)
-    }
+    },
   )
 
   test.each([
     {
-      overrides:     { title: "" },
-      targetInput:   inputs.title,
-      topicsCount:   1,
-      expectedError: "Title is required."
+      overrides: { title: "" },
+      targetInput: inputs.title,
+      topicsCount: 1,
+      expectedError: "Title is required.",
     },
     {
-      overrides:     { short_description: "" },
-      targetInput:   inputs.description,
-      topicsCount:   1,
-      expectedError: "Description is required."
+      overrides: { short_description: "" },
+      targetInput: inputs.description,
+      topicsCount: 1,
+      expectedError: "Description is required.",
     },
     {
-      overrides:     {},
-      targetInput:   inputs.topics,
-      topicsCount:   0,
-      expectedError: "Select between 1 and 3 subjects."
+      overrides: {},
+      targetInput: inputs.topics,
+      topicsCount: 0,
+      expectedError: "Select between 1 and 3 subjects.",
     },
     {
-      overrides:     {},
-      targetInput:   inputs.topics,
-      topicsCount:   4,
-      expectedError: "Select between 1 and 3 subjects."
-    }
+      overrides: {},
+      targetInput: inputs.topics,
+      topicsCount: 4,
+      expectedError: "Select between 1 and 3 subjects.",
+    },
   ])(
     "Error messages ($expectedError)",
     async ({ overrides, topicsCount, expectedError, targetInput }) => {
@@ -371,7 +371,7 @@ describe("Editing lists with manageListDialogs", () => {
         topics: Array(topicsCount)
           .fill(null)
           .map(() => factories.makeTopic()),
-        ...overrides
+        ...overrides,
       })
       setup(resource)
       await user.click(inputs.submit())
@@ -379,7 +379,7 @@ describe("Editing lists with manageListDialogs", () => {
       const description = getDescriptionFor(theInput)
       expect(theInput).toBeInvalid()
       expect(description).toHaveTextContent(expectedError)
-    }
+    },
   )
 
   test("Dialog title is 'Edit list'", async () => {
@@ -417,11 +417,11 @@ describe("Editing lists with manageListDialogs", () => {
       setMockResponse.patch(updateUrl(resource.id), {}, { code: 408 })
       const alertMessage = await screen.findByRole("alert")
       expect(alertMessage).toHaveTextContent(
-        "There was a problem saving your list."
+        "There was a problem saving your list.",
       )
       const dialog = screen.getByRole("dialog")
       expect(dialog).toBeVisible()
-    }
+    },
   )
 })
 
@@ -463,5 +463,5 @@ describe.each(modes)(
       expect(axios.delete).not.toHaveBeenCalled()
       await waitForElementToBeRemoved(dialog)
     })
-  }
+  },
 )

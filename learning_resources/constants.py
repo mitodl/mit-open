@@ -17,7 +17,7 @@ class AvailabilityType(Enum):
     as "Available Now" and "Archived" is displayed as "Prior".
     As of 06/21/2019, the above mapping occurs in `learning_resources.js:availabilityLabel()`.
     All OCW courses should be set to "Current".
-    """
+    """  # noqa: E501
 
     current = "Current"  # displayed as "Available Now"
     upcoming = "Upcoming"
@@ -32,9 +32,6 @@ class LearningResourceType(Enum):
     program = "program"
     learning_path = "learning_path"
     # uncomment the following as models are added
-    # video = "video"
-    # podcast = "podcast"
-    # podcast_episode = "podcast_episode"
 
 
 class OfferedBy(Enum):

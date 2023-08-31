@@ -10,7 +10,7 @@ import {
   LearningResourceType as LRT,
   PrivacyLevel,
   isStaffListOrPath,
-  isUserListOrPath
+  isUserListOrPath,
 } from "ol-search-ui"
 import * as Yup from "yup"
 import {
@@ -20,7 +20,7 @@ import {
   useCreateStaffList,
   useUpdateStaffList,
   useDeleteUserList,
-  useDeleteStaffList
+  useDeleteStaffList,
 } from "../../api/learning-resources"
 import Alert from "@mui/material/Alert"
 import BasicDialog from "../../components/BasicDialog"
@@ -35,7 +35,7 @@ type ListFormSchema = Pick<
 const getFormSchema = (mode: DialogMode): Yup.SchemaOf<ListFormSchema> => {
   const defaultListType = mode === "stafflist" ? LRT.StaffList : LRT.Userlist
   return Yup.object().shape({
-    title:     Yup.string().default("").required("Title is required."),
+    title: Yup.string().default("").required("Title is required."),
     list_type: Yup.string()
       .default(defaultListType)
       .required("List type is required."),
@@ -49,14 +49,14 @@ const getFormSchema = (mode: DialogMode): Yup.SchemaOf<ListFormSchema> => {
     topics: Yup.array()
       .of(
         Yup.object().shape({
-          id:   Yup.number().required(),
-          name: Yup.string().required()
-        })
+          id: Yup.number().required(),
+          name: Yup.string().required(),
+        }),
       )
       .min(1, "Select between 1 and 3 subjects.")
       .max(3, "Select between 1 and 3 subjects.")
       .default([])
-      .required()
+      .required(),
   })
 }
 
@@ -74,7 +74,7 @@ const getListTypeChoices = (mode: DialogMode): RadioChoiceProps[] => {
           </span>
         </>
       ),
-      className: "radio-option"
+      className: "radio-option",
     },
     {
       value: mode === "stafflist" ? LRT.StaffPath : LRT.LearningPath,
@@ -86,21 +86,21 @@ const getListTypeChoices = (mode: DialogMode): RadioChoiceProps[] => {
           </span>
         </>
       ),
-      className: "radio-option"
-    }
+      className: "radio-option",
+    },
   ]
 }
 const PRIVACY_CHOICES = [
   {
-    value:     PrivacyLevel.Private,
-    label:     "Private",
-    className: "radio-option"
+    value: PrivacyLevel.Private,
+    label: "Private",
+    className: "radio-option",
   },
   {
-    value:     PrivacyLevel.Public,
-    label:     "Public",
-    className: "radio-option"
-  }
+    value: PrivacyLevel.Public,
+    label: "Public",
+    className: "radio-option",
+  },
 ]
 
 interface UpsertListDialogProps {
@@ -121,7 +121,7 @@ const UpsertListDialog = NiceModal.create(
     const mutation = resource?.id ? updateList : createList
     const handleSubmit: FormikConfig<Partial<ListFormSchema>>["onSubmit"] =
       useCallback(
-        async values => {
+        async (values) => {
           if (resource?.id) {
             await updateList.mutateAsync({ id: resource.id, ...values })
           } else {
@@ -129,7 +129,7 @@ const UpsertListDialog = NiceModal.create(
           }
           modal.hide()
         },
-        [resource, createList, updateList, modal]
+        [resource, createList, updateList, modal],
       )
 
     const schema = useMemo(() => getFormSchema(mode), [mode])
@@ -138,9 +138,9 @@ const UpsertListDialog = NiceModal.create(
       initialValues:
         resource ?? (schema.getDefault() as Partial<ListFormSchema>),
       validationSchema: schema,
-      onSubmit:         handleSubmit,
+      onSubmit: handleSubmit,
       validateOnChange: false,
-      validateOnBlur:   false
+      validateOnBlur: false,
     })
 
     const topicsQuery = useTopics()
@@ -221,10 +221,10 @@ const UpsertListDialog = NiceModal.create(
           multiple
           options={topics}
           isOptionEqualToValue={(option, value) => option.id === value.id}
-          getOptionLabel={option => option.name}
+          getOptionLabel={(option) => option.name}
           value={formik.values.topics}
           onChange={(_event, value) => formik.setFieldValue("topics", value)}
-          renderInput={params => (
+          renderInput={(params) => (
             <TextField
               {...params}
               {...variantProps}
@@ -234,16 +234,16 @@ const UpsertListDialog = NiceModal.create(
               label="Subjects"
               name="topics"
               placeholder={
-                formik.values.topics?.length ?
-                  undefined :
-                  "Pick 1 to 3 subjects"
+                formik.values.topics?.length
+                  ? undefined
+                  : "Pick 1 to 3 subjects"
               }
             />
           )}
         />
       </FormDialog>
     )
-  }
+  },
 )
 
 type DeleteListDialogProps = {
@@ -282,33 +282,33 @@ const DeleteListDialog = NiceModal.create(
         Are you sure you want to delete this list?
       </BasicDialog>
     )
-  }
+  },
 )
 
 const manageListDialogs = {
   createList: (mode: DialogMode) =>
     NiceModal.show(UpsertListDialog, {
-      title:    "Create list",
-      mode:     mode,
-      resource: null
+      title: "Create list",
+      mode: mode,
+      resource: null,
     }),
   editList: (resource: UserList | StaffList) => {
     if (isUserListOrPath(resource)) {
       NiceModal.show(UpsertListDialog, {
         title: "Edit list",
-        mode:  "userlist",
-        resource
+        mode: "userlist",
+        resource,
       })
     } else {
       NiceModal.show(UpsertListDialog, {
         title: "Edit list",
-        mode:  "stafflist",
-        resource
+        mode: "stafflist",
+        resource,
       })
     }
   },
   deleteList: (resource: UserList | StaffList) =>
-    NiceModal.show(DeleteListDialog, { resource })
+    NiceModal.show(DeleteListDialog, { resource }),
 }
 
 export { manageListDialogs }

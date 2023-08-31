@@ -8,7 +8,7 @@ from celery import Celery
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "open_discussions.settings")
 
-from django.conf import settings  # noqa pylint: disable=wrong-import-position
+from django.conf import settings  # noqa: E402
 
 app = Celery("open_discussions")
 app.config_from_object("django.conf:settings", namespace="CELERY")

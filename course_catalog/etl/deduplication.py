@@ -1,6 +1,6 @@
 """Functions to combine duplicate courses"""
-import yaml
 import requests
+import yaml
 from django.conf import settings
 from django.db.models import Count
 
@@ -16,7 +16,7 @@ def get_most_relevant_run(runs):
         runs (QuerySet): a set of LearningResourseRun objects
     Returns:
         A LearningResourseRun object
-    """
+    """  # noqa: D401
 
     # if there is a current run in the set pick it
     most_relevant_run = next(
@@ -42,7 +42,7 @@ def get_most_relevant_run(runs):
 
         if not most_relevant_run:
             # get latest past run by start date
-            most_relevant_run = next((run for run in runs.reverse()))
+            most_relevant_run = next(run for run in runs.reverse())
 
     return most_relevant_run
 
@@ -54,7 +54,7 @@ def generate_duplicates_yaml():
     duplicates_url = settings.DUPLICATE_COURSES_URL
 
     if duplicates_url is not None:
-        response = requests.get(duplicates_url)
+        response = requests.get(duplicates_url)  # noqa: S113
         response.raise_for_status()
         existing_duplicates_for_all_platforms = yaml.safe_load(response.text)
     else:
@@ -75,7 +75,7 @@ def generate_duplicates_yaml():
         .filter(platform=platform)
     )
     duplicate_courses = (
-        Course.objects.filter(title__in=[title for title in duplicate_titles])
+        Course.objects.filter(title__in=list(duplicate_titles))
         .annotate(Count("offered_by"))
         .values("course_id", "title", "offered_by__count")
         .order_by("title")
@@ -88,8 +88,8 @@ def generate_duplicates_yaml():
     output_for_platform = []
     for group in duplicate_course_groups:
         # The sort sets the first course id in the group to, in order of priority
-        # 1) The current desired course id in the duplicate_courses.yml config file if any
-        # 2) The course with multiple offered_by values if any. Micromasters courses are offered by both micromasters and mitx
+        # 1) The current desired course id in the duplicate_courses.yml config file if any  # noqa: E501
+        # 2) The course with multiple offered_by values if any. Micromasters courses are offered by both micromasters and mitx  # noqa: E501
 
         group.sort(
             key=lambda course: [

@@ -24,7 +24,7 @@ const setupEditingDialog = async (props?: TestProps) => {
       onSubmit={spies.onSubmit}
       onCancel={spies.onCancel}
       {...props}
-    />
+    />,
   )
   await waitFor(() => {
     expect(screen.queryByLabelText("Loading")).toBe(null)
@@ -38,7 +38,7 @@ describe("ManageWidgetDialog (Editing)", () => {
     ({ isOpen }) => {
       setupEditingDialog({ isOpen })
       expect(!!screen.queryByRole("dialog")).toBe(isOpen)
-    }
+    },
   )
 
   it("Displays 'Edit Widget' as dialog title", async () => {
@@ -55,11 +55,11 @@ describe("ManageWidgetDialog (Editing)", () => {
     await user.paste(newTitle)
     await user.click(screen.getByRole("button", { name: "Submit" }))
     expect(spies.onSubmit).toHaveBeenCalledWith({
-      type:   "edit",
+      type: "edit",
       widget: {
         ...widget,
-        title: newTitle
-      }
+        title: newTitle,
+      },
     })
   })
 
@@ -77,10 +77,10 @@ describe("ManageWidgetDialog (Editing)", () => {
   it("passes classes to relevant elements", async () => {
     const fakerClassName = () => faker.unique(faker.lorem.slug)
     const classes = {
-      label:      fakerClassName(),
-      field:      fakerClassName(),
+      label: fakerClassName(),
+      field: fakerClassName(),
       fieldGroup: fakerClassName(),
-      dialog:     fakerClassName()
+      dialog: fakerClassName(),
     }
     await setupEditingDialog({ classes })
     // eslint-disable-next-line testing-library/no-node-access
@@ -107,21 +107,21 @@ describe("ManageWidgetDialog (Editing)", () => {
 
   test.each(Object.values(WidgetTypes))(
     "It renders all the fields for widget %s",
-    async widgetType => {
+    async (widgetType) => {
       const widget = makeWidget(widgetType)
       const { specs } = await setupEditingDialog({ widget })
-      const spec = specs.find(spec => spec.widget_type === widgetType)
+      const spec = specs.find((spec) => spec.widget_type === widgetType)
       assertNotNil(spec)
       const fields = spec.form_spec
       expect(fields.length).toBeGreaterThan(0)
-      fields.forEach(field => {
+      fields.forEach((field) => {
         screen.getByLabelText(field.label)
       })
-    }
+    },
   )
 })
 
-const setupAddingWidget: typeof setupEditingDialog = props =>
+const setupAddingWidget: typeof setupEditingDialog = (props) =>
   setupEditingDialog({ ...props, widget: null })
 
 describe("Adding new widgets", () => {
@@ -130,7 +130,7 @@ describe("Adding new widgets", () => {
     // The dialog has radio buttons for each available widget
     const radios = screen.getAllByRole("radio")
     // eslint-disable-next-line testing-library/no-node-access
-    const labels = radios.map(r => r.closest("label"))
+    const labels = radios.map((r) => r.closest("label"))
     labels.forEach((label, i) => {
       expect(label).toHaveTextContent(specs[i].description)
     })

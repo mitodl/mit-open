@@ -8,10 +8,9 @@ from open_discussions.envs import (
     get_any,
     get_bool,
     get_int,
-    get_string,
     get_list_of_str,
+    get_string,
 )
-
 
 FAKE_ENVIRONS = {
     "true": "True",
@@ -75,10 +74,8 @@ def test_get_int():
             if key not in ("positive", "negative", "zero"):
                 with pytest.raises(EnvironmentVariableParseException) as ex:
                     get_int(key, 1234)
-                assert ex.value.args[
-                    0
-                ] == "Expected value in {key}={value} to be an int".format(
-                    key=key, value=value
+                assert (
+                    ex.value.args[0] == f"Expected value in {key}={value} to be an int"
                 )
 
         assert get_int("missing", "default") == "default"
@@ -96,10 +93,9 @@ def test_get_bool():
             if key not in ("true", "false"):
                 with pytest.raises(EnvironmentVariableParseException) as ex:
                     get_bool(key, 1234)
-                assert ex.value.args[
-                    0
-                ] == "Expected value in {key}={value} to be a boolean".format(
-                    key=key, value=value
+                assert (
+                    ex.value.args[0]
+                    == f"Expected value in {key}={value} to be a boolean"
                 )
 
         assert get_int("missing", "default") == "default"
@@ -116,10 +112,9 @@ def test_get_list_of_str():
             if key != "list_of_str":
                 with pytest.raises(EnvironmentVariableParseException) as ex:
                     get_list_of_str(key, ["noth", "ing"])
-                assert ex.value.args[
-                    0
-                ] == "Expected value in {key}={value} to be a list of str".format(
-                    key=key, value=value
+                assert (
+                    ex.value.args[0]
+                    == f"Expected value in {key}={value} to be a list of str"
                 )
 
         assert get_list_of_str("missing", "default") == "default"

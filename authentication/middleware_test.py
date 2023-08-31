@@ -2,7 +2,6 @@
 from urllib.parse import quote
 
 import pytest
-
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.shortcuts import reverse
 from rest_framework import status
@@ -10,8 +9,8 @@ from social_core.exceptions import AuthAlreadyAssociated
 from social_django.utils import load_backend, load_strategy
 
 from authentication.middleware import (
-    SocialAuthExceptionRedirectMiddleware,
     BlockedIPMiddleware,
+    SocialAuthExceptionRedirectMiddleware,
 )
 from authentication.models import BlockedIPRange
 from open_discussions.factories import UserFactory
@@ -66,12 +65,12 @@ def test_process_exception_non_auth_error(mocker, rf, settings):
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("is_blocked", [True, False])
 @pytest.mark.parametrize("is_super", [True, False])
 @pytest.mark.parametrize("exempt_view", [True, False])
 @pytest.mark.parametrize("is_routable", [True, False])
-def test_process_view_blocked_ip_middleware(  # pylint:disable=too-many-arguments
+def test_process_view_blocked_ip_middleware(  # pylint:disable=too-many-arguments  # noqa: PLR0913
     mocker, rf, is_blocked, is_super, exempt_view, is_routable
 ):
     """Check that `process_view` raises a PermissionDenied error when appropriate"""

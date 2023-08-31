@@ -11,7 +11,7 @@ from search.search_index_helpers import deindex_course
 class Command(BaseCommand):
     """Populate oll courses"""
 
-    help = "Populate oll courses"
+    help = "Populate oll courses"  # noqa: A003
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -22,7 +22,7 @@ class Command(BaseCommand):
         )
         super().add_arguments(parser)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate oll courses"""
         if options["delete"]:
             self.stdout.write(
@@ -39,5 +39,5 @@ class Command(BaseCommand):
             task.get()
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
-                "Population of oll data finished, took {} seconds".format(total_seconds)
+                f"Population of oll data finished, took {total_seconds} seconds"
             )

@@ -1,9 +1,9 @@
 """Management command for populating ocw course data"""
 from django.core.management import BaseCommand
 
+from course_catalog.constants import PlatformType
 from course_catalog.models import LearningResourceRun
 from course_catalog.tasks import get_ocw_next_data
-from course_catalog.constants import PlatformType
 from open_discussions.constants import ISOFORMAT
 from open_discussions.utils import now_in_utc
 from search.search_index_helpers import deindex_course
@@ -12,7 +12,7 @@ from search.search_index_helpers import deindex_course
 class Command(BaseCommand):
     """Populate ocw courses"""
 
-    help = "Populate ocw courses"
+    help = "Populate ocw courses"  # noqa: A003
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -35,16 +35,14 @@ class Command(BaseCommand):
         )
         super().add_arguments(parser)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate ocw courses"""
         course_name = options.get("course_name")
         if options["delete"]:
             if course_name:
-                self.stdout.write(
-                    "Deleting course={course_name}".format(course_name=course_name)
-                )
+                self.stdout.write(f"Deleting course={course_name}")
                 runs = LearningResourceRun.objects.filter(
-                    slug="courses/{}".format(course_name),
+                    slug=f"courses/{course_name}",
                     platform=PlatformType.ocw.value,
                 )
 
@@ -77,5 +75,5 @@ class Command(BaseCommand):
             task.get()
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
-                "Population of ocw data finished, took {} seconds".format(total_seconds)
+                f"Population of ocw data finished, took {total_seconds} seconds"
             )

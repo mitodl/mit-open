@@ -88,7 +88,7 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture()
-def wrap_retry_mock(mocker):
+def wrap_retry_mock(mocker):  # noqa: PT004
     """
     Patches the wrap_retry_exception context manager and asserts that it was
     called by any test that uses it
@@ -206,10 +206,9 @@ def test_upsert_podcast_episode_task(mocked_api):
 @pytest.mark.parametrize("error", [KeyError])
 def test_wrap_retry_exception(error):
     """wrap_retry_exception should raise RetryException when other exceptions are raised"""
-    with assert_not_raises():
-        with wrap_retry_exception(error):
-            # Should not raise an exception
-            pass
+    with assert_not_raises(), wrap_retry_exception(error):
+        # Should not raise an exception
+        pass
 
 
 @pytest.mark.parametrize("matching", [True, False])
@@ -217,16 +216,16 @@ def test_wrap_retry_exception_matching(matching):
     """A matching exception should raise a RetryException"""
 
     def raise_thing():
-        """raise the exception"""
+        """Raise the exception"""
         if matching:
-            raise ConnectionTimeout("err", "err", "err")
+            msg = "err"
+            raise ConnectionTimeout(msg, "err", "err")
         else:
-            raise TabError()
+            raise TabError
 
     matching_exception = RetryException if matching else TabError
-    with pytest.raises(matching_exception):
-        with wrap_retry_exception(ESConnectionError):
-            raise_thing()
+    with pytest.raises(matching_exception), wrap_retry_exception(ESConnectionError):
+        raise_thing()
 
 
 @pytest.mark.parametrize("with_error", [True, False])
@@ -283,7 +282,7 @@ def test_bulk_deindex_staff_lists(
         ["podcast", "podcastepisode"],
     ],
 )
-def test_start_recreate_index(
+def test_start_recreate_index(  # noqa: C901, PLR0912, PLR0915
     mocker, mocked_celery, user, indexes
 ):  # pylint:disable=too-many-locals,too-many-statements,too-many-branches
     """
@@ -608,7 +607,7 @@ def test_delete_run_content_files(mocker, wrap_retry_mock, with_error):
 
 @pytest.mark.parametrize("with_error", [True, False])
 @pytest.mark.parametrize(
-    "tasks_func_name, indexing_func_name",
+    ("tasks_func_name", "indexing_func_name"),
     [
         ("bulk_deindex_profiles", "deindex_profiles"),
         ("bulk_deindex_courses", "deindex_courses"),
@@ -622,7 +621,7 @@ def test_delete_run_content_files(mocker, wrap_retry_mock, with_error):
 def test_bulk_deletion_tasks(
     mocker, wrap_retry_mock, with_error, tasks_func_name, indexing_func_name
 ):
-    """bulk deletion tasks should call corresponding indexing api function"""
+    """Bulk deletion tasks should call corresponding indexing api function"""
     indexing_api_task_mock = mocker.patch(f"search.indexing_api.{indexing_func_name}")
 
     task = getattr(tasks, tasks_func_name)
@@ -636,7 +635,7 @@ def test_bulk_deletion_tasks(
 
 
 @pytest.mark.parametrize(
-    "indexes, platform",
+    ("indexes", "platform"),
     [
         (
             [
@@ -654,7 +653,7 @@ def test_bulk_deletion_tasks(
         (["course", "resourcefile"], PlatformType.xpro.value),
     ],
 )
-def test_start_update_index(
+def test_start_update_index(  # noqa: C901, PLR0912, PLR0915
     mocker, mocked_celery, user, indexes, platform
 ):  # pylint:disable=too-many-locals,too-many-statements,too-many-branches
     """
@@ -745,7 +744,8 @@ def test_start_update_index(
         assert index_profiles_mock.si.call_count == 2
         for offset in range(2):
             index_profiles_mock.si.assert_any_call(
-                [users[offset * 2].profile.id, users[offset * 2 + 1].profile.id], True
+                [users[offset * 2].profile.id, users[offset * 2 + 1].profile.id],
+                True,  # noqa: FBT003
             )
 
         assert deindex_profiles_mock.si.call_count == 2
@@ -763,7 +763,7 @@ def test_start_update_index(
         if platform:
             assert index_courses_mock.si.call_count == 1
             course = next(course for course in courses if course.platform == platform)
-            index_courses_mock.si.assert_any_call([course.id], True)
+            index_courses_mock.si.assert_any_call([course.id], True)  # noqa: FBT003
 
             assert deindex_courses_mock.si.call_count == 1
             unpublished_course = next(
@@ -772,9 +772,15 @@ def test_start_update_index(
             deindex_courses_mock.si.assert_any_call([unpublished_course.id])
         else:
             assert index_courses_mock.si.call_count == 3
-            index_courses_mock.si.assert_any_call([courses[0].id, courses[1].id], True)
-            index_courses_mock.si.assert_any_call([courses[2].id, courses[3].id], True)
-            index_courses_mock.si.assert_any_call([courses[4].id, courses[5].id], True)
+            index_courses_mock.si.assert_any_call(
+                [courses[0].id, courses[1].id], True  # noqa: FBT003
+            )  # noqa: FBT003, RUF100
+            index_courses_mock.si.assert_any_call(
+                [courses[2].id, courses[3].id], True  # noqa: FBT003
+            )  # noqa: FBT003, RUF100
+            index_courses_mock.si.assert_any_call(
+                [courses[4].id, courses[5].id], True  # noqa: FBT003
+            )  # noqa: FBT003, RUF100
 
             assert deindex_courses_mock.si.call_count == 3
             deindex_courses_mock.si.assert_any_call(
@@ -792,7 +798,9 @@ def test_start_update_index(
             assert index_course_content_mock.si.call_count == 1
             course = next(course for course in courses if course.platform == platform)
 
-            index_course_content_mock.si.assert_any_call([course.id], True)
+            index_course_content_mock.si.assert_any_call(
+                [course.id], True  # noqa: FBT003
+            )  # noqa: FBT003, RUF100
 
         elif platform:
             assert index_course_content_mock.si.call_count == 0
@@ -801,16 +809,24 @@ def test_start_update_index(
 
     if VIDEO_TYPE in indexes:
         assert index_videos_mock.si.call_count == 2
-        index_videos_mock.si.assert_any_call([videos[0].id, videos[1].id], True)
-        index_videos_mock.si.assert_any_call([videos[2].id, videos[3].id], True)
+        index_videos_mock.si.assert_any_call(
+            [videos[0].id, videos[1].id], True  # noqa: FBT003
+        )  # noqa: FBT003, RUF100
+        index_videos_mock.si.assert_any_call(
+            [videos[2].id, videos[3].id], True  # noqa: FBT003
+        )  # noqa: FBT003, RUF100
 
         assert deindex_videos_mock.si.call_count == 1
         deindex_videos_mock.si.assert_any_call([unpublished_video.id])
 
     if PODCAST_TYPE in indexes:
         assert index_podcasts_mock.si.call_count == 5
-        index_podcasts_mock.si.assert_any_call([podcasts[0].id, podcasts[1].id], True)
-        index_podcasts_mock.si.assert_any_call([podcasts[2].id, podcasts[3].id], True)
+        index_podcasts_mock.si.assert_any_call(
+            [podcasts[0].id, podcasts[1].id], True  # noqa: FBT003
+        )  # noqa: FBT003, RUF100
+        index_podcasts_mock.si.assert_any_call(
+            [podcasts[2].id, podcasts[3].id], True  # noqa: FBT003
+        )  # noqa: FBT003, RUF100
 
         assert deindex_podcasts_mock.si.call_count == 1
         deindex_podcasts_mock.si.assert_any_call([unpublished_podcast.id])
@@ -818,10 +834,10 @@ def test_start_update_index(
     if PODCAST_EPISODE_TYPE in indexes:
         assert index_podcast_episodes_mock.si.call_count == 2
         index_podcast_episodes_mock.si.assert_any_call(
-            [podcast_episodes[0].id, podcast_episodes[1].id], True
+            [podcast_episodes[0].id, podcast_episodes[1].id], True  # noqa: FBT003
         )
         index_podcast_episodes_mock.si.assert_any_call(
-            [podcast_episodes[2].id, podcast_episodes[3].id], True
+            [podcast_episodes[2].id, podcast_episodes[3].id], True  # noqa: FBT003
         )
 
         assert deindex_podcast_episodes_mock.si.call_count == 1

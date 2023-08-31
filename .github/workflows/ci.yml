@@ -58,8 +58,8 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.11.4'
-          cache: 'poetry'
+          python-version: "3.11.4"
+          cache: "poetry"
 
       - name: Install dependencies
         run: poetry install --no-interaction
@@ -68,7 +68,7 @@ jobs:
         run: poetry run black --check .
 
       - name: Lint
-        run:  poetry run pylint $(git ls-files '*.py')
+        run: poetry run ruff --extend-ignore=D1 $(git ls-files '*.py')
       - name: Create test local state
         run: ./scripts/test/stub-data.sh
       - name: Tests
@@ -77,14 +77,14 @@ jobs:
           ./scripts/test/python_tests.sh
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres # pragma: allowlist secret
-          MITOPEN_SECURE_SSL_REDIRECT: 'False'
-          MITOPEN_DB_DISABLE_SSL: 'True'
-          MITOPEN_FEATURES_DEFAULT: 'True'
+          MITOPEN_SECURE_SSL_REDIRECT: "False"
+          MITOPEN_DB_DISABLE_SSL: "True"
+          MITOPEN_FEATURES_DEFAULT: "True"
           OPENSEARCH_URL: localhost:9200
-          CELERY_TASK_ALWAYS_EAGER: 'True'
+          CELERY_TASK_ALWAYS_EAGER: "True"
           CELERY_BROKER_URL: redis://localhost:6379/4
           CELERY_RESULT_BACKEND: redis://localhost:6379/4
-          TIKA_CLIENT_ONLY: 'True'
+          TIKA_CLIENT_ONLY: "True"
           MITOPEN_BASE_URL: http://localhost:8063/
           MAILGUN_KEY: fake_mailgun_key
           MAILGUN_SENDER_DOMAIN: other.fake.site
@@ -104,8 +104,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.15.1'
-          cache: 'yarn'
+          node-version: "16.15.1"
+          cache: "yarn"
 
       - name: Setup environment
         run: sudo apt-get install libelf1
@@ -150,18 +150,18 @@ jobs:
       OPENAPI_SCHEMA: ./openapi.yaml
       GENERATOR_IGNORE_FILE: ./frontends/api/.openapi-generator-ignore
       GENERATOR_OUTPUT_DIR_CI: ./frontends/api/tmp/generated
-      GENERATOR_OUTPUT_DIR_VC:  ./frontends/api/src/generated
+      GENERATOR_OUTPUT_DIR_VC: ./frontends/api/src/generated
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.15.1'
-          cache: 'yarn'
+          node-version: "16.15.1"
+          cache: "yarn"
 
       - name: Install dependencies
         run: yarn install --immutable
- 
+
       - name: Generate Fresh API Client
         uses: openapi-generators/openapitools-generator-action@v1
         with:
@@ -172,8 +172,8 @@ jobs:
             --output $GENERATOR_OUTPUT_DIR_CI \
             --ignore-file-override $GENERATOR_IGNORE_FILE \
             --additional-properties=useSingleRequestParameter=true,paramNaming=original
-      - name: Format freshly generated client 
-        run: npx prettier-eslint $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+      - name: Format freshly generated client
+        run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
       - name: Check VC client is up-to-date
         run: |
           diff $GENERATOR_OUTPUT_DIR_CI $GENERATOR_OUTPUT_DIR_VC \

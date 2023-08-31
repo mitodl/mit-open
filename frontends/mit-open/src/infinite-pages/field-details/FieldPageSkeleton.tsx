@@ -19,7 +19,7 @@ interface FieldSkeletonProps {
  */
 const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   children,
-  name
+  name,
 }) => {
   const field = useFieldDetails(name)
 

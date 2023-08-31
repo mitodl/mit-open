@@ -11,7 +11,7 @@ from search.search_index_helpers import deindex_program
 class Command(BaseCommand):
     """Populate micromasters programs and courses"""
 
-    help = "Populate micromasters programs and courses"
+    help = "Populate micromasters programs and courses"  # noqa: A003
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -22,13 +22,13 @@ class Command(BaseCommand):
         )
         super().add_arguments(parser)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate micromasters courses"""
         if options["delete"]:
             self.stdout.write(
                 "Deleting all existing xPro programs from database and opensearch"
             )
-            # NOTE: we only delete programs, because courses are owned by the MITx integration
+            # NOTE: we only delete programs, because courses are owned by the MITx integration  # noqa: E501
             for program in Program.objects.filter(
                 platform=PlatformType.micromasters.value
             ):

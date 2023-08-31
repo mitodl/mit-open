@@ -17,7 +17,6 @@ def remove_gravatar_urls(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("profiles", "0006_image_fields")]
 
     operations = [migrations.RunPython(remove_gravatar_urls)]

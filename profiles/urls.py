@@ -1,11 +1,10 @@
 """URL configurations for profiles"""
-from django.urls import re_path, include
-
+from django.urls import include, re_path
 from rest_framework.routers import DefaultRouter
 
 from profiles.views import (
-    UserViewSet,
     ProfileViewSet,
+    UserViewSet,
     UserWebsiteViewSet,
     name_initials_avatar_view,
 )
@@ -17,7 +16,7 @@ router.register(r"websites", UserWebsiteViewSet, basename="user_websites_api")
 
 urlpatterns = [
     re_path(r"^api/v0/", include(router.urls)),
-    # The URL that gravatar will redirect to if no gravatar exists for the user (no query parameters allowed).
+    # The URL that gravatar will redirect to if no gravatar exists for the user (no query parameters allowed).  # noqa: E501
     re_path(
         r"^profile/(?P<username>[A-Za-z0-9_]+)/(?P<size>\d+)/(?P<color>[A-Za-z0-9]+)/(?P<bgcolor>[A-Za-z0-9]+).png",
         name_initials_avatar_view,

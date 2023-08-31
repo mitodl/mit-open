@@ -20,21 +20,21 @@ from open_discussions.test_utils import any_instance_of
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_mitxonline_programs_data():
     """Mock mitxonline data"""
-    with open("./test_json/mitxonline_programs.json", "r") as f:
+    with open("./test_json/mitxonline_programs.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_mitxonline_courses_data():
     """Mock mitxonline data"""
-    with open("./test_json/mitxonline_courses.json", "r") as f:
+    with open("./test_json/mitxonline_courses.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_mitxonline_programs_responses(
     mocked_responses, settings, mock_mitxonline_programs_data
 ):
@@ -45,10 +45,10 @@ def mocked_mitxonline_programs_responses(
         settings.MITX_ONLINE_PROGRAMS_API_URL,
         json=mock_mitxonline_programs_data,
     )
-    yield mocked_responses
+    return mocked_responses
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_mitxonline_courses_responses(
     mocked_responses, settings, mock_mitxonline_courses_data
 ):
@@ -59,7 +59,7 @@ def mocked_mitxonline_courses_responses(
         settings.MITX_ONLINE_COURSES_API_URL,
         json=mock_mitxonline_courses_data,
     )
-    yield mocked_responses
+    return mocked_responses
 
 
 @pytest.mark.usefixtures("mocked_mitxonline_programs_responses")

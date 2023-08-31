@@ -9,16 +9,16 @@ import type { PaginatedResult, PaginationSearchParams } from "ol-util"
 const useResource = (
   type: string,
   id: number,
-  options: Pick<UseQueryOptions, "enabled"> = {}
+  options: Pick<UseQueryOptions, "enabled"> = {},
 ) => {
   const key = keys.resource(type).id(id).details
   return useQuery<LearningResource>(
     key,
     async () => {
       const url = urls.resource.details(type, id)
-      return axios.get(url).then(res => res.data)
+      return axios.get(url).then((res) => res.data)
     },
-    options
+    options,
   )
 }
 
@@ -27,8 +27,8 @@ const useTopics = (opts?: Pick<UseQueryOptions, "enabled">) => {
   const url = urls.topics.listing
   return useQuery<PaginatedResult<CourseTopic>>(
     key,
-    () => axios.get(url).then(res => res.data),
-    opts
+    () => axios.get(url).then((res) => res.data),
+    opts,
   )
 }
 
@@ -38,7 +38,7 @@ const useUpcomingCourses = (options?: CourseOptions) => {
   const key = keys.courses.upcoming.page(options)
 
   return useQuery<PaginatedResult<LearningResource>>(key, () =>
-    axios.get(url).then(res => res.data)
+    axios.get(url).then((res) => res.data),
   )
 }
 
@@ -48,7 +48,7 @@ const usePopularContent = (options?: PaginationSearchParams) => {
   const key = keys.popularContent.listing.page(options)
 
   return useQuery<PaginatedResult<LearningResource>>(key, () =>
-    axios.get(url).then(res => res.data)
+    axios.get(url).then((res) => res.data),
   )
 }
 
@@ -58,7 +58,7 @@ const useNewVideos = (options?: PaginationSearchParams) => {
   const key = keys.videos.new.page(options)
 
   return useQuery<PaginatedResult<LearningResource>>(key, () =>
-    axios.get(url).then(res => res.data)
+    axios.get(url).then((res) => res.data),
   )
 }
 
@@ -67,5 +67,5 @@ export {
   useTopics,
   useUpcomingCourses,
   usePopularContent,
-  useNewVideos
+  useNewVideos,
 }

@@ -2,14 +2,14 @@ import UrlAssembler from "url-assembler"
 import {
   LearningResourceType as LRT,
   TYPE_FAVORITES,
-  TYPE_POPULAR
+  TYPE_POPULAR,
 } from "ol-search-ui"
 import type { PaginationSearchParams } from "ol-util"
 import type { SearchQueryParams } from "@mitodl/course-search-utils"
 
 const DEFAULT_PAGINATION_PARAMS: PaginationSearchParams = {
   offset: 0,
-  limit:  50
+  limit: 50,
 }
 
 const popularContentApi = UrlAssembler("/popular-content/")
@@ -17,14 +17,14 @@ const popularContentUrls = {
   listing: (options: PaginationSearchParams = {}) =>
     popularContentApi
       .param({ ...DEFAULT_PAGINATION_PARAMS, ...options })
-      .toString()
+      .toString(),
 }
 
 type CourseOptions = PaginationSearchParams & { offered_by?: string }
 const courseApi = UrlAssembler("/courses/")
 const courseDetailsApi = courseApi.segment(":id/")
 const courseUrls = {
-  details:  (id: number) => courseDetailsApi.param({ id }).toString(),
+  details: (id: number) => courseDetailsApi.param({ id }).toString(),
   upcoming: (options: CourseOptions = {}) =>
     courseApi
       .segment("upcoming/")
@@ -35,7 +35,7 @@ const courseUrls = {
   favorite: (id: number) =>
     courseDetailsApi.segment("favorite/").param({ id }).toString(),
   unfavorite: (id: number) =>
-    courseDetailsApi.segment("unfavorite/").param({ id }).toString()
+    courseDetailsApi.segment("unfavorite/").param({ id }).toString(),
 }
 
 const programApi = UrlAssembler("/programs/")
@@ -47,7 +47,7 @@ const programUrls = {
   favorite: (id: number) =>
     programDetailsApi.segment("favorite/").param({ id }).toString(),
   unfavorite: (id: number) =>
-    programDetailsApi.segment("unfavorite/").param({ id }).toString()
+    programDetailsApi.segment("unfavorite/").param({ id }).toString(),
 }
 
 const videoApi = UrlAssembler("/videos/")
@@ -64,7 +64,7 @@ const videoUrls = {
     videoApi
       .segment("new/")
       .param({ ...DEFAULT_PAGINATION_PARAMS, ...options })
-      .toString()
+      .toString(),
 }
 
 const podcastApi = UrlAssembler("/podcasts/")
@@ -76,7 +76,7 @@ const podcastUrls = {
   favorite: (id: number) =>
     podcastDetailsApi.segment("favorite/").param({ id }).toString(),
   unfavorite: (id: number) =>
-    podcastDetailsApi.segment("unfavorite/").param({ id }).toString()
+    podcastDetailsApi.segment("unfavorite/").param({ id }).toString(),
 }
 
 const podcastEpisodeApi = UrlAssembler("/podcastepisodes/")
@@ -90,13 +90,13 @@ const podcastEpisodeUrls = {
   favorite: (id: number) =>
     podcastEpisodeDetailsApi.segment("favorite/").param({ id }).toString(),
   unfavorite: (id: number) =>
-    podcastEpisodeDetailsApi.segment("unfavorite/").param({ id }).toString()
+    podcastEpisodeDetailsApi.segment("unfavorite/").param({ id }).toString(),
 }
 
 const favoriteApi = UrlAssembler("/favorites/")
 const favoriteUrls = {
   listing: (options: PaginationSearchParams = {}) =>
-    favoriteApi.param({ ...DEFAULT_PAGINATION_PARAMS, ...options }).toString()
+    favoriteApi.param({ ...DEFAULT_PAGINATION_PARAMS, ...options }).toString(),
 }
 
 const userListApi = UrlAssembler("/userlists/")
@@ -107,7 +107,7 @@ const userListItemsDetailApi = userListItemsApi.segment(":itemId/")
 type UserListOptions = { public?: boolean } & PaginationSearchParams
 const userListUrls = {
   details: (id: number) => userListDetailApi.param({ id }).toString(),
-  create:  userListApi.toString(),
+  create: userListApi.toString(),
   listing: (options: UserListOptions = {}) =>
     userListApi.param({ ...DEFAULT_PAGINATION_PARAMS, ...options }).toString(),
   itemAdd: (listId: number) =>
@@ -121,7 +121,7 @@ const userListUrls = {
   favorite: (id: number) =>
     userListDetailApi.segment("favorite/").param({ id }).toString(),
   unfavorite: (id: number) =>
-    userListDetailApi.segment("unfavorite/").param({ id }).toString()
+    userListDetailApi.segment("unfavorite/").param({ id }).toString(),
 }
 
 const staffListsApi = UrlAssembler("/stafflists/")
@@ -132,7 +132,7 @@ const staffListsItemsDetailApi = staffListsItemsApi.segment(":itemId/")
 type StaffListOptions = { public?: boolean } & PaginationSearchParams
 const staffListUrls = {
   details: (id: number) => staffListsDetailApi.param({ id }).toString(),
-  create:  staffListsApi.toString(),
+  create: staffListsApi.toString(),
   listing: (options: UserListOptions = {}) =>
     staffListsApi
       .param({ ...DEFAULT_PAGINATION_PARAMS, ...options })
@@ -148,7 +148,7 @@ const staffListUrls = {
   favorite: (id: number) =>
     staffListsDetailApi.segment("favorite/").param({ id }).toString(),
   unfavorite: (id: number) =>
-    staffListsDetailApi.segment("unfavorite/").param({ id }).toString()
+    staffListsDetailApi.segment("unfavorite/").param({ id }).toString(),
 }
 
 type ResourceUrls = {
@@ -158,51 +158,52 @@ type ResourceUrls = {
 }
 const getResourceUrls = (type: string): ResourceUrls => {
   switch (type) {
-  case LRT.Course:
-    return courseUrls
-  case LRT.Program:
-    return programUrls
-  case LRT.Video:
-    return videoUrls
-  case LRT.Podcast:
-    return podcastUrls
-  case LRT.PodcastEpisode:
-    return podcastEpisodeUrls
-  case LRT.Userlist:
-    return userListUrls
-  case LRT.LearningPath:
-    return userListUrls // LearningPaths & UserLists are handled by the same api
-  case LRT.StaffList:
-    return staffListUrls
-  case LRT.StaffPath:
-    return staffListUrls // StaffPaths & StaffLists are handled by the same api
-  default:
-    throw new Error(`Unknown resource type: ${type}`)
+    case LRT.Course:
+      return courseUrls
+    case LRT.Program:
+      return programUrls
+    case LRT.Video:
+      return videoUrls
+    case LRT.Podcast:
+      return podcastUrls
+    case LRT.PodcastEpisode:
+      return podcastEpisodeUrls
+    case LRT.Userlist:
+      return userListUrls
+    case LRT.LearningPath:
+      return userListUrls // LearningPaths & UserLists are handled by the same api
+    case LRT.StaffList:
+      return staffListUrls
+    case LRT.StaffPath:
+      return staffListUrls // StaffPaths & StaffLists are handled by the same api
+    default:
+      throw new Error(`Unknown resource type: ${type}`)
   }
 }
 const resourceUrls = {
-  details:    (type: string, id: number) => getResourceUrls(type).details(id),
-  favorite:   (type: string, id: number) => getResourceUrls(type).favorite(id),
-  unfavorite: (type: string, id: number) => getResourceUrls(type).unfavorite(id)
+  details: (type: string, id: number) => getResourceUrls(type).details(id),
+  favorite: (type: string, id: number) => getResourceUrls(type).favorite(id),
+  unfavorite: (type: string, id: number) =>
+    getResourceUrls(type).unfavorite(id),
 }
 
 const topicsUrls = {
-  listing: "/topics/"
+  listing: "/topics/",
 }
 
 const urls = {
-  course:         courseUrls,
-  program:        programUrls,
-  video:          videoUrls,
-  podcast:        podcastUrls,
+  course: courseUrls,
+  program: programUrls,
+  video: videoUrls,
+  podcast: podcastUrls,
   podcastEpisode: podcastEpisodeUrls,
-  favorite:       favoriteUrls,
-  userList:       userListUrls,
-  staffList:      staffListUrls,
-  resource:       resourceUrls,
-  topics:         topicsUrls,
-  search:         "search/",
-  popularContent: popularContentUrls
+  favorite: favoriteUrls,
+  userList: userListUrls,
+  staffList: staffListUrls,
+  resource: resourceUrls,
+  topics: topicsUrls,
+  search: "search/",
+  popularContent: popularContentUrls,
 }
 
 const baseKey = "learning-resources"
@@ -215,19 +216,19 @@ const resourceKeys = (type: string) => {
   }
   return {
     all: [baseKey, normalized],
-    id:  (id: number) => ({
-      all:     [baseKey, normalized, id],
-      details: [baseKey, normalized, id, "details"]
+    id: (id: number) => ({
+      all: [baseKey, normalized, id],
+      details: [baseKey, normalized, id, "details"],
     }),
     listing: {
-      all:  [baseKey, normalized, "listing"],
+      all: [baseKey, normalized, "listing"],
       page: <T extends PaginationSearchParams>(opts?: T) => [
         baseKey,
         normalized,
         "listing",
-        opts
-      ]
-    }
+        opts,
+      ],
+    },
   }
 }
 
@@ -238,15 +239,15 @@ const resourceKeys = (type: string) => {
  * Rather, they are used to conveniently invalidate a portion of the cache.
  */
 const keys = {
-  all:      [baseKey],
+  all: [baseKey],
   resource: resourceKeys,
-  topics:   [baseKey, "topics"],
-  search:   {
-    all:   [baseKey, "search"],
+  topics: [baseKey, "topics"],
+  search: {
+    all: [baseKey, "search"],
     pages: (params: Omit<SearchQueryParams, "from">) => [
       ...keys.search.all,
-      params
-    ]
+      params,
+    ],
   },
   userList: {
     ...resourceKeys(LRT.Userlist),
@@ -263,13 +264,13 @@ const keys = {
       for: (listId: number) => {
         const allForId = [...resourceKeys(LRT.Userlist).all, "items", listId]
         return {
-          all:      allForId,
+          all: allForId,
           infinite: <T extends Omit<PaginationSearchParams, "offset">>(
-            opts?: T
-          ) => [...allForId, "infinite", opts]
+            opts?: T,
+          ) => [...allForId, "infinite", opts],
         }
-      }
-    }
+      },
+    },
   },
   staffList: {
     ...resourceKeys(LRT.StaffList),
@@ -278,41 +279,41 @@ const keys = {
       for: (listId: number) => {
         const allForId = [...resourceKeys(LRT.StaffList).all, "items", listId]
         return {
-          all:      allForId,
+          all: allForId,
           infinite: <T extends Omit<PaginationSearchParams, "offset">>(
-            opts?: T
-          ) => [...allForId, "infinite", opts]
+            opts?: T,
+          ) => [...allForId, "infinite", opts],
         }
-      }
-    }
+      },
+    },
   },
   favorites: {
-    all:     resourceKeys(TYPE_FAVORITES).all,
-    listing: resourceKeys(TYPE_FAVORITES).listing
+    all: resourceKeys(TYPE_FAVORITES).all,
+    listing: resourceKeys(TYPE_FAVORITES).listing,
   },
   courses: {
     upcoming: {
-      all:  [...resourceKeys(LRT.Course).all, "upcoming"],
+      all: [...resourceKeys(LRT.Course).all, "upcoming"],
       page: (opts?: CourseOptions) => [
         ...resourceKeys(LRT.Course).all,
         "upcoming",
-        opts
-      ]
-    }
+        opts,
+      ],
+    },
   },
   videos: {
     new: {
-      all:  [...resourceKeys(LRT.Video).all, "new"],
+      all: [...resourceKeys(LRT.Video).all, "new"],
       page: (opts?: PaginationSearchParams) => [
         ...resourceKeys(LRT.Video).all,
         "new",
-        opts
-      ]
-    }
+        opts,
+      ],
+    },
   },
   popularContent: {
-    listing: resourceKeys(TYPE_POPULAR).listing
-  }
+    listing: resourceKeys(TYPE_POPULAR).listing,
+  },
 }
 
 export { urls, keys, DEFAULT_PAGINATION_PARAMS }

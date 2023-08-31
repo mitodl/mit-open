@@ -22,7 +22,7 @@ interface HomePageCarouselProps {
 const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
   query,
   showNavigationButtons = true,
-  title
+  title,
 }) => {
   const aboveSm = useMuiBreakpoint("sm")
   const aboveLg = useMuiBreakpoint("lg")
@@ -57,7 +57,7 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
       }
       showNavigationButtons={showNavigationButtons}
     >
-      {query.data?.results?.map(resource => (
+      {query.data?.results?.map((resource) => (
         <LearningResourceCard
           key={resource.id}
           className="ic-resource-card ic-carousel-card"
@@ -71,47 +71,47 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
 
 const EXPLORE_BUTTONS = [
   {
-    label: "Courses"
+    label: "Courses",
   },
   {
-    label: "Videos"
+    label: "Videos",
   },
   {
-    label: "Podcasts"
+    label: "Podcasts",
   },
   {
-    label: "Learning Paths"
+    label: "Learning Paths",
   },
   {
-    label: "By Department"
+    label: "By Department",
   },
   {
-    label: "By Subject"
+    label: "By Subject",
   },
   {
-    label: "From OCW"
+    label: "From OCW",
   },
   {
-    label: "From MITx"
+    label: "From MITx",
   },
   {
-    label: "With Certificate"
+    label: "With Certificate",
   },
   {
-    label: "Micromasters"
+    label: "Micromasters",
   },
   {
-    label: "Professional Education"
-  }
+    label: "Professional Education",
+  },
 ]
 
 const HomePage: React.FC = () => {
   const [searchText, setSearchText] = useState("")
   const onSearchClear = useCallback(() => setSearchText(""), [])
-  const onSearchChange: SearchInputProps["onChange"] = useCallback(e => {
+  const onSearchChange: SearchInputProps["onChange"] = useCallback((e) => {
     setSearchText(e.target.value)
   }, [])
-  const onSearchSubmit: SearchInputProps["onSubmit"] = useCallback(e => {
+  const onSearchSubmit: SearchInputProps["onSubmit"] = useCallback((e) => {
     console.log("Submitting search")
     console.log(e)
   }, [])

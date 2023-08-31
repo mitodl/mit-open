@@ -6,11 +6,11 @@ import { createTheme } from "@mui/material/styles"
 const muiTheme = createTheme({
   palette: {
     primary: {
-      main: "#a31f34"
+      main: "#a31f34",
     },
     secondary: {
-      main: "#03152d"
-    }
+      main: "#03152d",
+    },
   },
   breakpoints: {
     values: {
@@ -19,9 +19,9 @@ const muiTheme = createTheme({
       sm: 600, // mui defailt
       md: 840, // custom
       lg: 1200, // mui default
-      xl: 1536 // mui default
-    }
-  }
+      xl: 1536, // mui default
+    },
+  },
 })
 
 export { muiTheme }

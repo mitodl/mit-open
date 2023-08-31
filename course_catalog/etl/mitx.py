@@ -24,11 +24,8 @@ def _is_mit_course(course):
 
     Returns:
         bool: indicates whether the course is owned by MIT
-    """
-    for owner in course.get("owners"):
-        if owner["key"] in MIT_OWNER_KEYS:
-            return True
-    return False
+    """  # noqa: D401
+    return any(owner["key"] in MIT_OWNER_KEYS for owner in course.get("owners"))
 
 
 def _load_edx_topic_mappings():
@@ -38,8 +35,10 @@ def _load_edx_topic_mappings():
     Returns:
         dict:
             the mapping dictionary
-    """
-    with open("course_catalog/data/edx-topic-mappings.csv", "r") as mapping_file:
+    """  # noqa: D401
+    with open(  # noqa: PTH123
+        "course_catalog/data/edx-topic-mappings.csv"
+    ) as mapping_file:
         # drop the column headers (first row)
         # assumes the csv is in "source topic, dest target" format
         return dict(list(csv.reader(mapping_file))[1:])
@@ -58,7 +57,7 @@ def _remap_mitx_topics(course):
     Returns:
         dict:
             the course with the remapped topics
-    """
+    """  # noqa: E501
     topics = []
     for topic in course.get("topics", []):
         topic_name = topic["name"]
@@ -91,7 +90,7 @@ extract, _transform = openedx_extract_transform_factory(
     )
 )
 
-# modified transform function that filters the course list to ones that pass the _is_mit_course() predicate
+# modified transform function that filters the course list to ones that pass the _is_mit_course() predicate  # noqa: E501
 transform = compose(
     curried.map(_remap_mitx_topics), _transform, curried.filter(_is_mit_course)
 )

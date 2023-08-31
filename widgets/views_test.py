@@ -1,8 +1,8 @@
 # pylint: disable=redefined-outer-name
 """Views tests"""
+import pytest
 from django.shortcuts import reverse
 from guardian.shortcuts import assign_perm
-import pytest
 from rest_framework import status
 
 from widgets.factories import WidgetInstanceFactory, WidgetListFactory
@@ -108,9 +108,9 @@ EXPECTED_AVAILABLE_WIDGETS = [
 ]
 
 
-@pytest.fixture
+@pytest.fixture()
 def widget_list(user):
-    """Creates a widget list the user can write to"""
+    """Creates a widget list the user can write to"""  # noqa: D401
     widget_list = WidgetListFactory.create()
     assign_perm("change_widgetlist", user, widget_list)
     return widget_list

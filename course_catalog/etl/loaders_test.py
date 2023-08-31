@@ -122,7 +122,7 @@ def mock_upsert_tasks(mocker):
 @pytest.mark.parametrize("courses_exist", [True, False])
 @pytest.mark.parametrize("has_prices", [True, False])
 @pytest.mark.parametrize("has_retired_course", [True, False])
-def test_load_program(
+def test_load_program(  # noqa: PLR0913
     mock_upsert_tasks,
     program_exists,
     is_published,
@@ -240,7 +240,7 @@ def test_load_program(
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("is_run_published", [True, False])
 @pytest.mark.parametrize("blocklisted", [True, False])
-def test_load_course(  # pylint:disable=too-many-arguments
+def test_load_course(  # pylint:disable=too-many-arguments  # noqa: PLR0913
     mocker,
     mock_upsert_tasks,
     course_exists,
@@ -386,8 +386,8 @@ def test_load_duplicate_course(
 
 
 @pytest.mark.parametrize(
-    "platform, load_content",
-    [[PlatformType.ocw.value, True], [PlatformType.xpro.value, False]],
+    ("platform", "load_content"),
+    [[PlatformType.ocw.value, True], [PlatformType.xpro.value, False]],  # noqa: PT007
 )
 @pytest.mark.parametrize("run_exists", [True, False])
 def test_load_run(mocker, run_exists, platform, load_content):
@@ -721,7 +721,7 @@ def test_load_video_channels_error(mocker):
     def pop_channel_id_with_exception(data):
         """Pop channel_id off data and raise an exception"""
         data.pop("channel_id")
-        raise ExtractException()
+        raise ExtractException
 
     mock_load_channel = mocker.patch("course_catalog.etl.loaders.load_video_channel")
     mock_load_channel.side_effect = pop_channel_id_with_exception
@@ -783,7 +783,7 @@ def test_load_playlist_user_list_invalid_settings(mocker, settings):
 @pytest.mark.parametrize("exists", [True, False])
 @pytest.mark.parametrize("has_user_list", [True, False])
 @pytest.mark.parametrize("user_list_title", ["Title", None])
-def test_load_playlist_user_list(
+def test_load_playlist_user_list(  # noqa: PLR0913
     mock_upsert_tasks, settings, user, exists, has_user_list, user_list_title
 ):
     # pylint: disable=too-many-arguments

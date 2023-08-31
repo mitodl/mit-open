@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0033_blankable_image_fields")]
 
     operations = [

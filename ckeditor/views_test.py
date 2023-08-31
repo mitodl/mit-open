@@ -1,17 +1,18 @@
 """tests for the ckeditor view"""
-from time import time
 import math
-import pytest
-import jwt
+from time import time
 
+import jwt
+import pytest
 from django.urls import reverse
 from rest_framework import status
+
 from open_discussions.features import ARTICLE_UI
 
 
 def test_get_ckeditor(client, user, settings):
-    """test that a JWT is sent up"""
-    settings.CKEDITOR_SECRET_KEY = "super secret"
+    """Test that a JWT is sent up"""
+    settings.CKEDITOR_SECRET_KEY = "super secret"  # noqa: S105
     settings.FEATURES[ARTICLE_UI] = True
     settings.CKEDITOR_ENVIRONMENT_ID = "environment"
     client.force_login(user)
@@ -25,7 +26,7 @@ def test_get_ckeditor(client, user, settings):
 
 
 @pytest.mark.parametrize(
-    "secret_key,feature_enabled,env_id,exp_status",
+    ("secret_key", "feature_enabled", "env_id", "exp_status"),
     [
         (None, False, None, status.HTTP_503_SERVICE_UNAVAILABLE),
         ("secret", False, None, status.HTTP_503_SERVICE_UNAVAILABLE),
@@ -37,10 +38,10 @@ def test_get_ckeditor(client, user, settings):
         ("secret", True, "env", status.HTTP_200_OK),
     ],
 )
-def test_get_ckeditor_status(
+def test_get_ckeditor_status(  # noqa: PLR0913
     client, user, settings, secret_key, feature_enabled, env_id, exp_status
 ):  # pylint: disable=too-many-arguments
-    """test that we return the status we expect"""
+    """Test that we return the status we expect"""
     settings.CKEDITOR_SECRET_KEY = secret_key
     settings.FEATURES[ARTICLE_UI] = feature_enabled
     settings.CKEDITOR_ENVIRONMENT_ID = env_id

@@ -59,7 +59,7 @@ def test_channel_moderator_group():
 
 
 @pytest.mark.parametrize(
-    "channel_type, expected",
+    ("channel_type", "expected"),
     [
         pytest.param(ChannelTypes.PUBLIC, True),
         pytest.param(ChannelTypes.RESTRICTED, True),
@@ -73,7 +73,7 @@ def test_is_readable_by_any_user(channel_type, expected):
 
 
 @pytest.mark.parametrize(
-    "is_anonymous, is_staff, is_contributor, is_moderator",
+    ("is_anonymous", "is_staff", "is_contributor", "is_moderator"),
     [
         pytest.param(True, False, False, False, id="anonymous"),
         pytest.param(False, False, False, False, id="logged_in"),

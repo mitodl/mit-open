@@ -5,21 +5,21 @@ import {
   LearningResourceCardTemplate as LRCardTemplate,
   StaffList,
   TYPE_FAVORITES,
-  UserList
+  UserList,
 } from "ol-search-ui"
 import * as factories from "ol-search-ui/src/factories"
 import { urls as lrUrls } from "../../api/learning-resources"
 import { manageListDialogs } from "./ManageListDialogs"
 import {
   StaffListsListingPage,
-  UserListsListingPage
+  UserListsListingPage,
 } from "./ResourceListsListingsPage"
 import {
   screen,
   renderWithProviders,
   setMockResponse,
   user,
-  expectProps
+  expectProps,
 } from "../../test-utils"
 import axios from "../../libs/axios"
 
@@ -27,17 +27,17 @@ const spyLRCardTemplate = jest.mocked(LRCardTemplate)
 
 const modes = [
   {
-    label:      "UserLists",
-    pageName:   "UserListsListingPage",
-    mode:       "userlist",
-    listingUrl: lrUrls.userList.listing()
+    label: "UserLists",
+    pageName: "UserListsListingPage",
+    mode: "userlist",
+    listingUrl: lrUrls.userList.listing(),
   },
   {
-    label:      "StaffLists",
-    pageName:   "StaffListsListingPage",
-    mode:       "stafflist",
-    listingUrl: lrUrls.staffList.listing()
-  }
+    label: "StaffLists",
+    pageName: "StaffListsListingPage",
+    mode: "stafflist",
+    listingUrl: lrUrls.staffList.listing(),
+  },
 ] as const
 /**
  * Set up the mock API responses for lists pages.
@@ -46,8 +46,8 @@ const setup = (
   mode: "userlist" | "stafflist",
   {
     favoritesCount = faker.datatype.number({ min: 2, max: 5 }),
-    listsCount = faker.datatype.number({ min: 2, max: 5 })
-  } = {}
+    listsCount = faker.datatype.number({ min: 2, max: 5 }),
+  } = {},
 ) => {
   const favorites = factories.makeFavorites({ count: favoritesCount })
   const userLists = factories.makeUserListsPaginated({ count: listsCount })
@@ -64,7 +64,7 @@ const setup = (
   const { history } = renderWithProviders(<PageComponent />, { url })
 
   const randomList = faker.helpers.arrayElement(
-    lists.results as (StaffList | UserList)[]
+    lists.results as (StaffList | UserList)[],
   )
 
   return { favorites, lists, randomList, history }
@@ -84,9 +84,9 @@ test.each(modes)(
   "$pageName renders a card for each userlist",
   async ({ mode, listingUrl }) => {
     const { lists } = setup(mode)
-    const titles = lists.results.map(resource => resource.title)
+    const titles = lists.results.map((resource) => resource.title)
     const headings = await screen.findAllByRole("heading", {
-      name: value => titles.includes(value)
+      name: (value) => titles.includes(value),
     })
 
     // listing API queried
@@ -96,11 +96,11 @@ test.each(modes)(
     expect(headings.length).toBeGreaterThan(0)
     expect(titles.length).toBe(headings.length)
 
-    expect(headings.map(h => h.textContent)).toEqual(titles)
-    lists.results.forEach(resource => {
+    expect(headings.map((h) => h.textContent)).toEqual(titles)
+    lists.results.forEach((resource) => {
       expectProps(spyLRCardTemplate, { resource })
     })
-  }
+  },
 )
 
 test("UserListsListingPage renders a card for favorites with correct length", async () => {
@@ -112,12 +112,12 @@ test("UserListsListingPage renders a card for favorites with correct length", as
   await screen.findByRole("heading", { name: "My Favorites" })
 
   const favoritesList: Partial<Favorites> = {
-    title:       "My Favorites",
-    item_count:  numFavorites,
-    object_type: TYPE_FAVORITES
+    title: "My Favorites",
+    item_count: numFavorites,
+    object_type: TYPE_FAVORITES,
   }
   expectProps(spyLRCardTemplate, {
-    resource: expect.objectContaining(favoritesList)
+    resource: expect.objectContaining(favoritesList),
   })
 })
 
@@ -130,14 +130,14 @@ test.each(modes)(
 
     const { randomList } = setup(mode)
     const menuButton = await screen.findByRole("button", {
-      name: `Edit list ${randomList.title}`
+      name: `Edit list ${randomList.title}`,
     })
     await user.click(menuButton)
     const editButton = screen.getByRole("menuitem", { name: "Edit" })
     await user.click(editButton)
 
     expect(editList).toHaveBeenCalledWith(randomList)
-  }
+  },
 )
 
 test.each(modes)(
@@ -149,7 +149,7 @@ test.each(modes)(
 
     const { randomList } = setup(mode)
     const menuButton = await screen.findByRole("button", {
-      name: `Edit list ${randomList.title}`
+      name: `Edit list ${randomList.title}`,
     })
     await user.click(menuButton)
     const deleteButton = screen.getByRole("menuitem", { name: "Delete" })
@@ -158,7 +158,7 @@ test.each(modes)(
 
     // Check details of this dialog elsewhere
     expect(deleteList).toHaveBeenCalledWith(randomList)
-  }
+  },
 )
 
 test.each(modes)(
@@ -169,7 +169,7 @@ test.each(modes)(
       .mockImplementationOnce(jest.fn())
     setup(mode)
     const newListButton = await screen.findByRole("button", {
-      name: "Create new list"
+      name: "Create new list",
     })
 
     expect(createList).not.toHaveBeenCalled()
@@ -177,7 +177,7 @@ test.each(modes)(
 
     // Check details of this dialog elsewhere
     expect(createList).toHaveBeenCalledWith(mode)
-  }
+  },
 )
 
 test.each(modes)(
@@ -185,16 +185,16 @@ test.each(modes)(
   async ({ mode }) => {
     const { randomList, history } = setup(mode)
     const listTitle = await screen.findByRole("heading", {
-      name: randomList.title
+      name: randomList.title,
     })
     await user.click(listTitle)
     const viewPath = mode === "userlist" ? "lists" : "stafflists"
     expect(history.location).toEqual(
       expect.objectContaining({
         pathname: `/infinite/${viewPath}/${randomList.id}`,
-        search:   "",
-        hash:     ""
-      })
+        search: "",
+        hash: "",
+      }),
     )
-  }
+  },
 )

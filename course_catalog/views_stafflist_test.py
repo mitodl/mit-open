@@ -20,7 +20,7 @@ from open_discussions.factories import UserFactory
 
 @pytest.fixture()
 def mock_staff_list_index(mocker):
-    """Mocks index updating functions for staff lists"""
+    """Mocks index updating functions for staff lists"""  # noqa: D401
     return SimpleNamespace(
         upsert_staff_list=mocker.patch("course_catalog.serializers.upsert_staff_list"),
         upsert_staff_list_view=mocker.patch("course_catalog.views.upsert_staff_list"),
@@ -84,7 +84,7 @@ def test_staff_list_endpoint_get(client, is_public, is_editor, user):
 @pytest.mark.parametrize("is_super", [True, False])
 @pytest.mark.parametrize("is_editor", [True, False])
 @pytest.mark.parametrize("is_anonymous", [True, False])
-def test_staff_list_endpoint_create(  # pylint: disable=too-many-arguments
+def test_staff_list_endpoint_create(  # pylint: disable=too-many-arguments  # noqa: PLR0913
     client,
     is_anonymous,
     is_public,
@@ -186,7 +186,7 @@ def test_staff_list_items_endpoint_create_item_bad_data(client, user):
     )
     course = CourseFactory.create()
 
-    update_editor_group(user, True)
+    update_editor_group(user, True)  # noqa: FBT003
     client.force_login(user)
 
     data = {"content_type": "bad_content", "object_id": course.id}
@@ -201,7 +201,9 @@ def test_staff_list_items_endpoint_create_item_bad_data(client, user):
     }
 
 
-@pytest.mark.parametrize("is_editor, position", [[True, 0], [True, 2], [False, 1]])
+@pytest.mark.parametrize(
+    ("is_editor", "position"), [[True, 0], [True, 2], [False, 1]]  # noqa: PT007
+)
 def test_staff_list_items_endpoint_update_item(
     mock_staff_list_index, client, user, is_editor, position
 ):
@@ -248,7 +250,7 @@ def test_staff_list_items_endpoint_update_items_wrong_list(client, user):
     )
     list_item_incorrect = StaffListItemFactory.create()
 
-    update_editor_group(user, True)
+    update_editor_group(user, True)  # noqa: FBT003
     client.force_login(user)
 
     data = {"id": list_item_incorrect.id, "position": 44}

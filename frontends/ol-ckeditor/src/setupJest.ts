@@ -1,6 +1,6 @@
 window.SETTINGS = {
   ckeditor_upload_url: "https://ckeditor_upload_url.com",
-  embedlyKey:          "embedly_key"
+  embedlyKey: "embedly_key",
 }
 
 /**

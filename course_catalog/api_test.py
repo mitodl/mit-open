@@ -49,16 +49,16 @@ pytestmark = pytest.mark.django_db
 # pylint:disable=redefined-outer-name,unused-argument
 
 
-@pytest.fixture
+@pytest.fixture()
 def mitx_valid_data():
     """
     Test MITx course data
     """
-    with open("./test_json/test_mitx_course.json", "r") as test_data:
+    with open("./test_json/test_mitx_course.json") as test_data:  # noqa: PTH123
         return json.load(test_data)["results"][0]
 
 
-@pytest.fixture
+@pytest.fixture()
 def ocw_valid_data():
     """
     Test OCW course data
@@ -141,7 +141,7 @@ def ocw_valid_data():
     }
 
 
-@pytest.fixture
+@pytest.fixture()
 def ocw_next_valid_data():
     """
     Return valid ocw-next data
@@ -287,7 +287,7 @@ def test_deserializing_a_valid_ocw_course_with_existing_newer_run(
     existing_run.best_start_date = now_in_utc()
     existing_run.save()
 
-    digest_ocw_course(ocw_valid_data, now_in_utc(), True)
+    digest_ocw_course(ocw_valid_data, now_in_utc(), True)  # noqa: FBT003
     assert Course.objects.count() == 1
     course = Course.objects.last()
     assert course.title == "Undergraduate Thesis Tutorial"
@@ -308,7 +308,9 @@ def test_deserializing_a_valid_ocw_course_with_keep_existing_image_src(
 
     assert Course.objects.last().image_src == "existing"
 
-    digest_ocw_course(ocw_valid_data, now_in_utc(), True, "PROD/RES", True)
+    digest_ocw_course(
+        ocw_valid_data, now_in_utc(), True, "PROD/RES", True  # noqa: FBT003
+    )  # noqa: FBT003, RUF100
     assert Course.objects.count() == 1
     course = Course.objects.last()
     assert course.image_src == "existing"
@@ -319,7 +321,7 @@ def test_deserialzing_an_invalid_ocw_course(ocw_valid_data):
     Verifies that OCWSerializer validation works correctly if the OCW course has invalid values
     """
     ocw_valid_data.pop("course_id")
-    digest_ocw_course(ocw_valid_data, now_in_utc(), True)
+    digest_ocw_course(ocw_valid_data, now_in_utc(), True)  # noqa: FBT003
     assert not Course.objects.count()
 
 
@@ -329,7 +331,7 @@ def test_deserialzing_an_invalid_ocw_course_run(ocw_valid_data, mocker):
     """
     mock_log = mocker.patch("course_catalog.api.log.error")
     ocw_valid_data["enrollment_start"] = "This is not a date"
-    digest_ocw_course(ocw_valid_data, now_in_utc(), True)
+    digest_ocw_course(ocw_valid_data, now_in_utc(), True)  # noqa: FBT003
     assert LearningResourceRun.objects.count() == 0
     mock_log.assert_called_once_with(
         "OCW LearningResourceRun %s is not valid: %s", ocw_valid_data.get("uid"), ANY
@@ -459,10 +461,10 @@ def test_sync_ocw_course_files(mock_ocw_learning_bucket, mocker, with_error):
 
 
 @pytest.mark.parametrize(
-    "prefix, expected",
+    ("prefix", "expected"),
     [
-        ["QA/15-872-system-dynamics-ii-fall-2013/", "QA"],
-        [
+        ["QA/15-872-system-dynamics-ii-fall-2013/", "QA"],  # noqa: PT007
+        [  # noqa: PT007
             "PROD/15-872-system-dynamics-ii-fall-2013/",
             "PROD/15-872-system-dynamics-ii-fall-2013",
         ],
@@ -474,11 +476,11 @@ def test_ocw_parent_folder(prefix, expected):
 
 
 @pytest.mark.parametrize(
-    "prefix, skip",
+    ("prefix", "skip"),
     [
-        ["PROD/biology", True],
-        ["PROD/biology-seminar", False],
-        ["QA/biology-seminar", True],
+        ["PROD/biology", True],  # noqa: PT007
+        ["PROD/biology-seminar", False],  # noqa: PT007
+        ["QA/biology-seminar", True],  # noqa: PT007
     ],
 )
 def test_sync_ocw_course_skip(mocker, prefix, skip):
@@ -501,17 +503,25 @@ def test_sync_ocw_course_skip(mocker, prefix, skip):
 @mock_s3
 @pytest.mark.parametrize("blocklisted", [True, False])
 @pytest.mark.parametrize(
-    "pub_date, unpub_date, published",
+    ("pub_date", "unpub_date", "published"),
     [
-        ["2020-12-01 00:00:00 US/Eastern", "2020-12-02 00:00:00 US/Eastern", False],
-        ["2020-12-02 00:00:00 US/Eastern", "2020-12-01 00:00:00 US/Eastern", True],
-        [None, None, False],
-        ["", "", False],
-        ["2020-12-01 00:00:00 US/Eastern", None, True],
-        [None, "2020-12-02 00:00:00 US/Eastern", False],
+        [  # noqa: PT007
+            "2020-12-01 00:00:00 US/Eastern",
+            "2020-12-02 00:00:00 US/Eastern",
+            False,
+        ],
+        [  # noqa: PT007
+            "2020-12-02 00:00:00 US/Eastern",
+            "2020-12-01 00:00:00 US/Eastern",
+            True,
+        ],
+        [None, None, False],  # noqa: PT007
+        ["", "", False],  # noqa: PT007
+        ["2020-12-01 00:00:00 US/Eastern", None, True],  # noqa: PT007
+        [None, "2020-12-02 00:00:00 US/Eastern", False],  # noqa: PT007
     ],  # pylint:disable=too-many-arguments
 )
-def test_sync_ocw_course_published(  # pylint:disable=too-many-arguments
+def test_sync_ocw_course_published(  # pylint:disable=too-many-arguments  # noqa: PLR0913
     settings, mocker, pub_date, unpub_date, published, blocklisted
 ):
     """The course should be published or not based on dates, and always uploaded"""
@@ -717,15 +727,15 @@ def test_sync_ocw_next_courses(settings, mocker):
 
 @mock_s3
 @pytest.mark.parametrize(
-    "course_urls, expected_prefixes",
+    ("course_urls", "expected_prefixes"),
     [
-        [
+        [  # noqa: PT007
             ["9-15-biochemistry-and-pharmacology-of-synaptic-transmission-fall-2007"],
             [
                 "PROD/9/9.15/Fall_2007/9-15-biochemistry-and-pharmacology-of-synaptic-transmission-fall-2007/"
             ],
         ],
-        [
+        [  # noqa: PT007
             [
                 "9-15-biochemistry-and-pharmacology-of-synaptic-transmission-fall-2007",
                 "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006",
@@ -734,8 +744,11 @@ def test_sync_ocw_next_courses(settings, mocker):
                 "PROD/9/9.15/Fall_2007/9-15-biochemistry-and-pharmacology-of-synaptic-transmission-fall-2007/"
             ],
         ],
-        [["16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"], []],
-        [
+        [  # noqa: PT007
+            ["16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"],
+            [],
+        ],
+        [  # noqa: PT007
             None,
             [
                 "PROD/9/9.15/Fall_2007/9-15-biochemistry-and-pharmacology-of-synaptic-transmission-fall-2007/"

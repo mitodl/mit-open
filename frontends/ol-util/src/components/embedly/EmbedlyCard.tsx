@@ -4,7 +4,7 @@ import {
   createStylesheet,
   EmbedlyEventTypes,
   ensureEmbedlyPlatform,
-  getEmbedlyKey
+  getEmbedlyKey,
 } from "./util"
 
 type EmbedlyCardProps = {

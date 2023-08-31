@@ -17,10 +17,10 @@ const useToggle = (initialValue: boolean): [boolean, Toggler] => {
 
   const toggler: Toggler = useMemo(() => {
     return Object.assign(setValue, {
-      on:     () => setValue(true),
-      off:    () => setValue(false),
-      toggle: () => setValue(current => !current),
-      set:    setValue
+      on: () => setValue(true),
+      off: () => setValue(false),
+      toggle: () => setValue((current) => !current),
+      set: setValue,
     })
   }, [])
 

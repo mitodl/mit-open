@@ -1,13 +1,13 @@
 """Tests for views for REST APIs for users"""
 # pylint: disable=redefined-outer-name, unused-argument, too-many-arguments
 import json
-from os.path import splitext, basename
+from os.path import basename, splitext
 
+import pytest
 from django.contrib.auth.models import User
 from django.urls import reverse
-import pytest
 
-from profiles.utils import make_temp_image_file, DEFAULT_PROFILE_IMAGE
+from profiles.utils import DEFAULT_PROFILE_IMAGE, make_temp_image_file
 
 pytestmark = [pytest.mark.django_db]
 
@@ -29,13 +29,9 @@ def test_list_users(staff_client, staff_user):
                 "image": profile.image,
                 "image_small": profile.image_small,
                 "image_medium": profile.image_medium,
-                "image_file": "http://testserver{}".format(profile.image_file.url),
-                "image_small_file": "http://testserver{}".format(
-                    profile.image_small_file.url
-                ),
-                "image_medium_file": "http://testserver{}".format(
-                    profile.image_medium_file.url
-                ),
+                "image_file": f"http://testserver{profile.image_file.url}",
+                "image_small_file": f"http://testserver{profile.image_small_file.url}",
+                "image_medium_file": f"http://testserver{profile.image_medium_file.url}",
                 "profile_image_small": profile.image_small_file.url,
                 "profile_image_medium": profile.image_medium_file.url,
                 "bio": profile.bio,
@@ -117,13 +113,9 @@ def test_get_user(staff_client, user):
             "image": profile.image,
             "image_small": profile.image_small,
             "image_medium": profile.image_medium,
-            "image_file": "http://testserver{}".format(profile.image_file.url),
-            "image_small_file": "http://testserver{}".format(
-                profile.image_small_file.url
-            ),
-            "image_medium_file": "http://testserver{}".format(
-                profile.image_medium_file.url
-            ),
+            "image_file": f"http://testserver{profile.image_file.url}",
+            "image_small_file": f"http://testserver{profile.image_small_file.url}",
+            "image_medium_file": f"http://testserver{profile.image_medium_file.url}",
             "profile_image_small": profile.image_small_file.url,
             "profile_image_medium": profile.image_medium_file.url,
             "bio": profile.bio,
@@ -148,9 +140,9 @@ def test_get_profile(logged_in, user, user_client):
         "image": profile.image,
         "image_small": profile.image_small,
         "image_medium": profile.image_medium,
-        "image_file": "{}".format(profile.image_file.url),
-        "image_small_file": "{}".format(profile.image_small_file.url),
-        "image_medium_file": "{}".format(profile.image_medium_file.url),
+        "image_file": f"{profile.image_file.url}",
+        "image_small_file": f"{profile.image_small_file.url}",
+        "image_medium_file": f"{profile.image_medium_file.url}",
         "profile_image_small": profile.image_small_file.url,
         "profile_image_medium": profile.image_medium_file.url,
         "bio": profile.bio,
@@ -191,13 +183,9 @@ def test_patch_user(staff_client, user, email, email_optin, toc_optin):
             "image": profile.image,
             "image_small": profile.image_small,
             "image_medium": profile.image_medium,
-            "image_file": "http://testserver{}".format(profile.image_file.url),
-            "image_small_file": "http://testserver{}".format(
-                profile.image_small_file.url
-            ),
-            "image_medium_file": "http://testserver{}".format(
-                profile.image_medium_file.url
-            ),
+            "image_file": f"http://testserver{profile.image_file.url}",
+            "image_small_file": f"http://testserver{profile.image_small_file.url}",
+            "image_medium_file": f"http://testserver{profile.image_medium_file.url}",
             "profile_image_small": profile.image_small_file.url,
             "profile_image_medium": profile.image_medium_file.url,
             "bio": profile.bio,
@@ -243,11 +231,11 @@ def test_patch_profile_by_user(client, logged_in_profile):
             },
             format="multipart",
         )
-    filename, ext = splitext(image_file.name)
+    filename, ext = splitext(image_file.name)  # noqa: PTH122
     assert resp.status_code == 200
     assert resp.json()["bio"] == "updated_bio_value"
     assert resp.json()["placename"] == "Boston"
-    assert basename(filename) in resp.json()["image_file"]
+    assert basename(filename) in resp.json()["image_file"]  # noqa: PTH119
     assert resp.json()["image_file"].endswith(ext)
     assert resp.json()["image_small_file"].endswith(".jpg")
 

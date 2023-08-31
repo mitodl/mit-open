@@ -5,7 +5,7 @@ import { LearningResourceCardTemplate as LearningResourceCardTemplateOld } from 
 import type {
   LearningResourceCardTemplateProps as LearningResourceCardTemplatePropsOld,
   LearningResource as LearningResourceOld,
-  LearningResourceSearchResult
+  LearningResourceSearchResult,
 } from "ol-search-ui"
 import { LearningResourceCardTemplate } from "ol-learning-resources"
 import type { LearningResourceCardTemplateProps } from "ol-learning-resources"
@@ -32,7 +32,7 @@ type LearningResourceCardProps =
   | LearningResourceCardPropsNew
 
 const isNewStyleResource = (
-  resource: LearningResourceCardProps["resource"]
+  resource: LearningResourceCardProps["resource"],
 ): resource is LearningResourceCardTemplateProps["resource"] => {
   if ("object_type" in resource) return false
   return true
@@ -55,7 +55,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   variant,
   className,
   sortable,
-  suppressImage
+  suppressImage,
 }) => {
   const activateResource = useActivateResourceDrawer()
   const showAddToListDialog = useCallback(() => {
@@ -70,7 +70,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     }
     NiceModal.show(AddToListDialog, {
       resourceKey: resource,
-      mode:        "stafflist"
+      mode: "stafflist",
     })
   }, [resource])
   if (isNewStyleResource(resource)) {
@@ -129,5 +129,5 @@ export default LearningResourceCard
 export type {
   LearningResourceCardProps,
   LearningResourceCardPropsOld,
-  LearningResourceCardPropsNew
+  LearningResourceCardPropsNew,
 }

@@ -1,4 +1,4 @@
-"""ETL pipelines"""
+"""ETL pipelines"""  # noqa: INP001
 
 from toolz import compose, curry
 

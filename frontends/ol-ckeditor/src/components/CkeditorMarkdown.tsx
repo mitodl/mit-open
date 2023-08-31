@@ -20,10 +20,10 @@ const editorConfig = {
     Italic,
     List,
     Link,
-    AutoLink
+    AutoLink,
   ],
-  toolbar:  ["bold", "italic", "|", "bulletedList", "numberedList", "|", "link"],
-  language: "en"
+  toolbar: ["bold", "italic", "|", "bulletedList", "numberedList", "|", "link"],
+  language: "en",
 }
 
 interface CkeditorMarkdownProps {
@@ -39,7 +39,7 @@ const CkeditorMarkdown: React.FC<CkeditorMarkdownProps> = ({
   onChange,
   onBlur,
   id,
-  className
+  className,
 }) => {
   return (
     <div id={id} className={className}>

@@ -2,7 +2,7 @@ import React, { useRef } from "react"
 import {
   FacebookShareButton,
   LinkedinShareButton,
-  TwitterShareButton
+  TwitterShareButton,
 } from "react-share"
 import { FacebookIcon, TwitterIcon, LinkedinIcon } from "react-share"
 import Tooltip from "rc-tooltip"
@@ -16,7 +16,7 @@ type HelperProps = {
 export const ShareTooltipHelper: React.FC<HelperProps> = ({
   url,
   hideSocialButtons,
-  objectType
+  objectType,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 

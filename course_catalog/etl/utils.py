@@ -7,13 +7,13 @@ import mimetypes
 import os
 import re
 import uuid
+from collections.abc import Generator
 from datetime import datetime
 from functools import wraps
 from hashlib import md5
 from itertools import chain
 from subprocess import check_call
 from tempfile import TemporaryDirectory
-from typing import Generator
 
 import boto3
 import pytz
@@ -31,7 +31,7 @@ from course_catalog.constants import (
     VALID_TEXT_FILE_TYPES,
     PlatformType,
 )
-from course_catalog.models import get_max_length, LearningResourceRun, ContentFile
+from course_catalog.models import ContentFile, LearningResourceRun, get_max_length
 
 log = logging.getLogger()
 
@@ -46,7 +46,7 @@ def log_exceptions(msg, *, exc_return_value=None):
 
     Returns:
         callable: the decorator function
-    """
+    """  # noqa: D401
 
     def _log_exceptions(func):
         """
@@ -57,7 +57,7 @@ def log_exceptions(msg, *, exc_return_value=None):
 
         Returns:
             callable: the wrapped function
-        """
+        """  # noqa: D401
 
         @wraps(func)
         def _log_exceptions_wrapper(*args, **kwargs):
@@ -69,7 +69,7 @@ def log_exceptions(msg, *, exc_return_value=None):
             """
             try:
                 return func(*args, **kwargs)
-            except:  # pylint: disable=bare-except
+            except:  # pylint: disable=bare-except  # noqa: E722
                 log.exception(msg)
                 return exc_return_value
 
@@ -129,7 +129,7 @@ def extract_text_from_url(url, *, mime_type=None):
     Returns:
         str: The text contained in the URL content.
     """
-    response = requests.get(url)
+    response = requests.get(url)  # noqa: S113
     response.raise_for_status()
     if response.content:
         return extract_text_metadata(
@@ -216,7 +216,7 @@ def parse_dates(date_string, hour=12):
     match = re.match(pattern_2_years, date_string)
     if match:
         start_date = datetime.strptime(
-            f"{match.group('start_m')} {match.group('start_d')} {match.group('start_y')}",
+            f"{match.group('start_m')} {match.group('start_d')} {match.group('start_y')}",  # noqa: E501
             "%b %d %Y",
         ).replace(hour=hour, tzinfo=pytz.utc)
         end_date = datetime.strptime(
@@ -224,6 +224,7 @@ def parse_dates(date_string, hour=12):
             "%b %d %Y",
         ).replace(hour=hour, tzinfo=pytz.utc)
         return start_date, end_date
+    return None
 
 
 def map_topics(raw_topics, mapping):
@@ -265,7 +266,7 @@ def _get_text_from_element(element, content):
     Args:
         element (Element): An XML element
         content (list): A list of strings, to be modified with any new material
-    """
+    """  # noqa: D401
     if element.tag not in ("style", "script"):
         if element.text:
             content.append(element.text)
@@ -310,7 +311,7 @@ def get_xbundle_docs(olx_path: str) -> Generator[dict, None, None]:
                 "content_type": CONTENT_TYPE_VERTICAL,
                 "title": vertical.attrib.get("display_name") or "",
                 "mime_type": "application/xml",
-                "checksum": md5(content.encode("utf-8")).hexdigest(),
+                "checksum": md5(content.encode("utf-8")).hexdigest(),  # noqa: S324
             },
         )
 
@@ -328,19 +329,20 @@ def documents_from_olx(
         tuple: A list of (bytes of content, metadata)
     """
     try:
-        for vertical in get_xbundle_docs(olx_path):
-            yield vertical
-    except Exception as err:
+        yield from get_xbundle_docs(olx_path)
+    except Exception:
         log.exception("Could not read verticals from path %s", olx_path)
 
     counter = _infinite_counter()
 
     for root, _, files in os.walk(olx_path):
         for filename in files:
-            _, extension = os.path.splitext(filename)
+            _, extension = os.path.splitext(filename)  # noqa: PTH122
             extension_lower = extension.lower()
             if extension_lower in VALID_TEXT_FILE_TYPES:
-                with open(os.path.join(root, filename), "rb") as f:
+                with open(  # noqa: PTH123
+                    os.path.join(root, filename), "rb"  # noqa: PTH118
+                ) as f:
                     filebytes = f.read()
 
                 mimetype = mimetypes.types_map.get(extension_lower)
@@ -351,7 +353,7 @@ def documents_from_olx(
                         "key": f"document_{next(counter)}_{filename}",
                         "content_type": CONTENT_TYPE_FILE,
                         "mime_type": mimetype,
-                        "checksum": md5(filebytes).hexdigest(),
+                        "checksum": md5(filebytes).hexdigest(),  # noqa: S324
                     },
                 )
 
@@ -368,11 +370,11 @@ def transform_content_files(
 
     Yields:
         dict: content from file
-    """
-    basedir = os.path.basename(course_tarpath).split(".")[0]
+    """  # noqa: E501
+    basedir = os.path.basename(course_tarpath).split(".")[0]  # noqa: PTH119
     with TemporaryDirectory(prefix=basedir) as inner_tempdir:
-        check_call(["tar", "xf", course_tarpath], cwd=inner_tempdir)
-        olx_path = glob.glob(inner_tempdir + "/*")[0]
+        check_call(["tar", "xf", course_tarpath], cwd=inner_tempdir)  # noqa: S603, S607
+        olx_path = glob.glob(inner_tempdir + "/*")[0]  # noqa: PTH207
         for document, metadata in documents_from_olx(olx_path):
             key = metadata["key"]
             content_type = metadata["content_type"]
@@ -459,6 +461,7 @@ def get_learning_course_bucket(platform: str) -> object:
             aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
         )
         return s3.Bucket(bucket_name)
+    return None
 
 
 def _load_ucc_topic_mappings():
@@ -468,12 +471,14 @@ def _load_ucc_topic_mappings():
     Returns:
         dict:
             the mapping dictionary
-    """
-    with open("course_catalog/data/ucc-topic-mappings.csv", "r") as mapping_file:
+    """  # noqa: D401
+    with open(  # noqa: PTH123
+        "course_catalog/data/ucc-topic-mappings.csv"
+    ) as mapping_file:
         rows = list(csv.reader(mapping_file))
         # drop the column headers (first row)
         rows = rows[1:]
-        mapping = dict()
+        mapping = {}
         for row in rows:
             ocw_topics = list(filter(lambda item: item, row[2:]))
             mapping[f"{row[0]}:{row[1]}"] = ocw_topics
@@ -516,18 +521,18 @@ def extract_valid_department_from_id(course_string):
 
     Returns:
         department (str): parsed department string
-    """
-    department_string = re.search("\+([^\.]*)\.", course_string)
+    """  # noqa: D401
+    department_string = re.search(r"\+([^\.]*)\.", course_string)
     if department_string:
         dept_candidate = department_string.groups()[0]
-        return [dept_candidate] if dept_candidate in OCW_DEPARTMENTS.keys() else None
+        return [dept_candidate] if dept_candidate in OCW_DEPARTMENTS else None
     return None
 
 
 def calc_checksum(filename) -> str:
-    "Return the md5 checksum of the specified filepath"
-    hash_md5 = md5()
-    with open(filename, "rb") as f:
+    "Return the md5 checksum of the specified filepath"  # noqa: D300
+    hash_md5 = md5()  # noqa: S324
+    with open(filename, "rb") as f:  # noqa: PTH123
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()

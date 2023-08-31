@@ -3,23 +3,22 @@ Serializers for profile REST APIs
 """
 import re
 
+import ulid
 from django.contrib.auth import get_user_model
 from django.db import transaction
-
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-import ulid
 
 from authentication import api as auth_api
-from profiles.api import get_site_type_from_url, after_profile_created_or_updated
+from profiles.api import after_profile_created_or_updated, get_site_type_from_url
 from profiles.models import (
-    Profile,
-    PROFILE_PROPS,
-    UserWebsite,
     PERSONAL_SITE_TYPE,
+    PROFILE_PROPS,
     SOCIAL_SITE_NAME_MAP,
+    Profile,
+    UserWebsite,
 )
-from profiles.utils import image_uri, IMAGE_MEDIUM, IMAGE_SMALL
+from profiles.utils import IMAGE_MEDIUM, IMAGE_SMALL, image_uri
 
 User = get_user_model()
 
@@ -35,19 +34,19 @@ class ProfileSerializer(serializers.ModelSerializer):
     placename = serializers.SerializerMethodField(read_only=True)
 
     def get_username(self, obj):
-        """Custom getter for the username"""
+        """Custom getter for the username"""  # noqa: D401
         return str(obj.user.username)
 
     def get_profile_image_medium(self, obj):
-        """Custom getter for medium profile image"""
+        """Custom getter for medium profile image"""  # noqa: D401
         return image_uri(obj, IMAGE_MEDIUM)
 
     def get_profile_image_small(self, obj):
-        """Custom getter for small profile image"""
+        """Custom getter for small profile image"""  # noqa: D401
         return image_uri(obj, IMAGE_SMALL)
 
     def get_placename(self, obj):
-        """Custom getter for location text"""
+        """Custom getter for location text"""  # noqa: D401
         if obj.location:
             return obj.location.get("value", "")
         return ""
@@ -55,11 +54,10 @@ class ProfileSerializer(serializers.ModelSerializer):
     def validate_location(self, location):
         """
         Validator for location.
-        """
-        if location and (
-            not isinstance(location, dict) or ("value" not in location.keys())
-        ):
-            raise ValidationError("Missing/incorrect location information")
+        """  # noqa: D401
+        if location and (not isinstance(location, dict) or ("value" not in location)):
+            msg = "Missing/incorrect location information"
+            raise ValidationError(msg)
         return location
 
     def update(self, instance, validated_data):
@@ -77,7 +75,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         """
         Overridden serialization method. Adds serialized UserWebsites if an option in the context indicates that
         it should be included.
-        """
+        """  # noqa: E501
         data = super().to_representation(instance)
         if self.context.get("include_user_websites"):
             data["user_websites"] = UserWebsiteSerializer(
@@ -122,10 +120,10 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
     def validate_url(self, value):
         """
         Validator for url. Prepends http protocol to the url if the protocol wasn't already included in the value.
-        """
+        """  # noqa: D401, E501
         url = "" if not value else value.lower()
         if not re.search(r"^http[s]?://", url):
-            return "%s%s" % ("http://", url)
+            return "{}{}".format("http://", url)
         return url
 
     def to_internal_value(self, data):
@@ -133,7 +131,7 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
         Overridden deserialization method. Changes the default behavior in the following ways:
         1) Gets the profile id from a given username.
         2) Calculates the site_type from the url value and adds it to the internal value.
-        """
+        """  # noqa: E501
         internal_value = super().to_internal_value(
             {
                 **data,
@@ -154,7 +152,7 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
             ensure that the URL entered matches that submitted site type.
         2) If the data provided violates the uniqueness of the site type for the given user, coerce
             the error to a "url" field validation error instead of a non-field error.
-        """
+        """  # noqa: E501
         submitted_site_type = self.initial_data.get("submitted_site_type")
         calculated_site_type = value.get("site_type")
         if submitted_site_type and calculated_site_type:
@@ -166,7 +164,7 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
                 raise ValidationError(
                     {
                         "url": [
-                            "Please provide a URL for one of these social sites: {}".format(
+                            "Please provide a URL for one of these social sites: {}".format(  # noqa: E501
                                 ", ".join(SOCIAL_SITE_NAME_MAP.values())
                             )
                         ]
@@ -180,7 +178,7 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
                 raise ValidationError(
                     {
                         "url": [
-                            "A social site URL was provided. Please provide a URL for a personal website."
+                            "A social site URL was provided. Please provide a URL for a personal website."  # noqa: E501
                         ]
                     }
                 )
@@ -188,7 +186,7 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
             return super().run_validators(value)
         except ValidationError as e:
             if e.get_codes() == ["unique"]:
-                raise ValidationError(
+                raise ValidationError(  # noqa: B904, TRY200
                     {"url": ["A website of this type has already been saved."]},
                     code="unique",
                 )
@@ -197,7 +195,7 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
         """
         Overridden serialization method. Excludes 'profile' from the serialized data as it isn't relevant as a
         serialized field (we only need to deserialize that value).
-        """
+        """  # noqa: E501
         data = super().to_representation(instance)
         data.pop("profile")
         return data
@@ -222,9 +220,7 @@ class UserSerializer(serializers.ModelSerializer):
         email = validated_data.get("email")
 
         with transaction.atomic():
-            user = auth_api.create_user(username, email, profile_data)
-
-        return user
+            return auth_api.create_user(username, email, profile_data)
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop("profile", None)
