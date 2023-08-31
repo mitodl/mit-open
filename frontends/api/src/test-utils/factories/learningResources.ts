@@ -63,15 +63,14 @@ const learningResourceRun: Factory<LearningResourceRun> = (overrides = {}) => {
   const end = faker.date.future(1, start)
 
   const run: LearningResourceRun = {
-    id:                faker.unique(faker.datatype.number),
-    instructors:       maybe(() => repeat(learningResourceInstructor)) ?? null,
-    image:             maybe(learningResourceImage) ?? null,
-    run_id:            faker.unique(faker.lorem.words),
-    title:             faker.lorem.words(),
-    learning_resource: faker.datatype.number(),
-    languages:         maybe(() => repeat(language, { min: 0, max: 3 })),
-    start_date:        start.toISOString(),
-    end_date:          end.toISOString(),
+    id:          faker.unique(faker.datatype.number),
+    instructors: maybe(() => repeat(learningResourceInstructor)) ?? null,
+    image:       maybe(learningResourceImage) ?? null,
+    run_id:      faker.unique(faker.lorem.words),
+    title:       faker.lorem.words(),
+    languages:   maybe(() => repeat(language, { min: 0, max: 3 })),
+    start_date:  start.toISOString(),
+    end_date:    end.toISOString(),
     ...overrides
   }
   return run
@@ -104,14 +103,16 @@ const learningResource: Factory<LearningResource> = (
     image:                 learningResourceImage(),
     offered_by:            [],
     platform:              null,
-    program:               null,
     prices:                null,
+    program:               null,
+    learning_path:         null,
     readable_id:           faker.lorem.slug(),
     resource_content_tags: repeat(faker.lorem.word),
     resource_type:         resourceType,
     runs:                  [],
     title:                 faker.lorem.words(),
     topics:                maybe(() => repeat(learningResourceTopic)) ?? null,
+    learning_path_parents: [],
     ...typeSpecificOverrides(resourceType),
     ...overrides
   }
@@ -131,12 +132,7 @@ const learningResource: Factory<LearningResource> = (
       return {
         platform:      faker.lorem.word(),
         certification: faker.lorem.word(),
-        offered_by:    repeat(faker.lorem.word),
-        program:       {
-          // Leaving this empty for now.
-          // See https://github.com/mitodl/mit-open/issues/36
-          courses: []
-        }
+        offered_by:    repeat(faker.lorem.word)
       }
     }
     return {}

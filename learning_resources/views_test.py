@@ -118,12 +118,18 @@ def test_program_endpoint(client, url, params):
 def test_program_detail_endpoint(client, url):
     """Test program endpoint"""
     program = ProgramFactory.create()
-    courses = sorted(program.courses.all(), key=lambda lr: lr.id)
     resp = client.get(reverse(url, args=[program.learning_resource.id]))
     assert resp.data.get("title") == program.learning_resource.title
     assert resp.data.get("resource_type") == LearningResourceType.program.value
     response_courses = sorted(resp.data["program"]["courses"], key=lambda i: i["id"])
+
+    courses = sorted(
+        [relation.child for relation in program.courses.all()], key=lambda lr: lr.id
+    )
     assert len(response_courses) == len(courses)
+    assert [course.id for course in courses] == [
+        course["id"] for course in response_courses
+    ]
     for idx, course in enumerate(courses):
         assert course.id == response_courses[idx]["id"]
         assert (
@@ -138,7 +144,7 @@ def test_list_resources_endpoint(client):
     resource_ids = [resource.learning_resource.id for resource in [*courses, *programs]]
     resource_ids.extend(
         [
-            course.id
+            course.child.id
             for sublist in [program.courses.all() for program in programs]
             for course in sublist
         ]
@@ -156,12 +162,12 @@ def test_list_resources_endpoint(client):
 @pytest.mark.parametrize("course_count", [1, 5, 10])
 def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
     """
-    There should only be 7 queries made (based on number of related models),
+    There should only be 8 queries made (based on number of related models),
     regardless of number of results returned.
     """
     CourseFactory.create_batch(course_count)
 
-    with django_assert_num_queries(7):
+    with django_assert_num_queries(8):
         view = CourseViewSet(request=mocker.Mock(query_params=[]))
         results = view.get_queryset().all()
         assert len(results) == course_count

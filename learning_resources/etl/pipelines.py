@@ -2,13 +2,8 @@
 
 from toolz import compose, curry
 
-from learning_resources.etl import (
-    loaders,
-    xpro,
-)
-
 from learning_resources.constants import PlatformType
-
+from learning_resources.etl import loaders, xpro
 
 load_programs = curry(loaders.load_programs)
 load_courses = curry(loaders.load_courses)

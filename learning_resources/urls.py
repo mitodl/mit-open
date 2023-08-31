@@ -5,21 +5,26 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
-from rest_framework.routers import DefaultRouter
+from rest_framework_extensions.routers import ExtendedSimpleRouter
 
-from learning_resources.views import (
-    CourseViewSet,
-    LearningResourceViewSet,
-    ProgramViewSet,
-)
+from learning_resources import views
 
-router = DefaultRouter()
+router = ExtendedSimpleRouter()
 router.register(
-    r"learning_resources", LearningResourceViewSet, basename="learning_resources_api"
+    r"learning_resources",
+    views.LearningResourceViewSet,
+    basename="learning_resources_api",
 )
-router.register(r"courses", CourseViewSet, basename="lr_courses_api")
-router.register(r"programs", ProgramViewSet, basename="lr_programs_api")
-
+router.register(r"courses", views.CourseViewSet, basename="lr_courses_api")
+router.register(r"programs", views.ProgramViewSet, basename="lr_programs_api")
+router.register(
+    r"learningpaths", views.LearningPathViewSet, basename="lr_learningpaths_api"
+).register(
+    r"resources",
+    views.LearningPathItemsViewSet,
+    basename="lr_learningpathitems_api",
+    parents_query_lookups=["parent_id"],
+)
 
 urlpatterns = [
     re_path(r"^api/v1/", include(router.urls)),

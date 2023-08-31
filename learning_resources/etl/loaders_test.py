@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import pytest
 from django.forms.models import model_to_dict
 
+from learning_resources.constants import LearningResourceRelationTypes
 from learning_resources.etl.constants import CourseLoaderConfig, OfferedByLoaderConfig
 from learning_resources.etl.loaders import (
     load_course,
@@ -20,17 +21,17 @@ from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.factories import (
     CourseFactory,
     LearningResourceInstructorFactory,
-    LearningResourceTopicFactory,
     LearningResourceOfferorFactory,
-    LearningResourceRunFactory,
-    ProgramFactory,
     LearningResourcePlatformFactory,
+    LearningResourceRunFactory,
+    LearningResourceTopicFactory,
+    ProgramFactory,
 )
 from learning_resources.models import (
     Course,
+    LearningResource,
     LearningResourceRun,
     Program,
-    LearningResource,
 )
 
 pytestmark = pytest.mark.django_db
@@ -120,8 +121,13 @@ def test_load_program(
         course = CourseFactory.create(platform=platform)
         before_course_count += 1
         after_course_count += 1
-        program.courses.set([course.learning_resource])
-        assert program.courses.count() == 1
+        program.learning_resource.resources.set(
+            [course.learning_resource],
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.PROGRAM_COURSES.value
+            },
+        )
+        assert program.learning_resource.children.count() == 1
 
     assert Program.objects.count() == (1 if program_exists else 0)
     assert Course.objects.count() == before_course_count
@@ -168,6 +174,7 @@ def test_load_program(
     # assert we got a program back and that each course is in a program
     assert isinstance(result, LearningResource)
 
+    assert result.children.count() == len(courses)
     assert result.program.courses.count() == len(courses)
     assert result.runs.filter(published=True).count() == 1
 
@@ -175,12 +182,15 @@ def test_load_program(
         run_data["start_date"]
     )
 
-    for learning_resource, data in zip(
-        sorted(result.program.courses.all(), key=lambda item: item.readable_id),
+    for relationship, data in zip(
+        sorted(
+            result.program.learning_resource.children.all(),
+            key=lambda item: item.child.readable_id,
+        ),
         sorted(courses, key=lambda course: course.learning_resource.readable_id),
     ):
-        assert isinstance(learning_resource, LearningResource)
-        assert learning_resource.readable_id == data.learning_resource.readable_id
+        assert isinstance(relationship.child, LearningResource)
+        assert relationship.child.readable_id == data.learning_resource.readable_id
 
 
 @pytest.mark.parametrize("course_exists", [True, False])

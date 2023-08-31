@@ -4,23 +4,26 @@ import logging
 from django.contrib.auth import get_user_model
 from django.db import transaction
 
+from learning_resources.constants import (
+    LearningResourceRelationTypes,
+    LearningResourceType,
+)
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
     OfferedByLoaderConfig,
     ProgramLoaderConfig,
 )
-from learning_resources.constants import LearningResourceType
 from learning_resources.etl.deduplication import get_most_relevant_run
 from learning_resources.models import (
-    LearningResource,
     Course,
-    LearningResourceInstructor,
-    LearningResourceTopic,
-    LearningResourcePlatform,
-    LearningResourceOfferor,
-    LearningResourceRun,
-    Program,
+    LearningResource,
     LearningResourceImage,
+    LearningResourceInstructor,
+    LearningResourceOfferor,
+    LearningResourcePlatform,
+    LearningResourceRun,
+    LearningResourceTopic,
+    Program,
 )
 from learning_resources.utils import load_course_blocklist, load_course_duplicates
 
@@ -354,8 +357,12 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
                 course_data, blocklist, duplicates, config=config.courses
             )
             course_resources.append(course_resource)
-
-        program.courses.set(course_resources)
+        program.learning_resource.resources.set(
+            course_resources,
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.PROGRAM_COURSES
+            },
+        )
 
     # if not created and not program.published:
     #    search_index_helpers.deindex_program(program)

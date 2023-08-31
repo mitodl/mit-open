@@ -1,7 +1,6 @@
 """Constants for course catalog ETL processes"""
 from collections import namedtuple
 
-
 OfferedByLoaderConfig = namedtuple(
     "OfferedByLoaderConfig", ["additive"], defaults=[False]
 )

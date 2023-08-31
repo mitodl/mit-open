@@ -35,6 +35,16 @@ The following settings must be configured before running the app:
     Sets the hostname required by webpack for building the frontend. Should likely be whatever you set 
     the host to in your /etc/hosts or the hostname that you're accessing it from. Likely `od.odl.local`.
 
+
+### Load initial data
+
+Run the following to load platforms, departments, and offerors into the database:
+
+```bash
+docker compose run --rm web python manage.py loaddata platforms departments offered_by
+```
+
+
 # Testing, Formatting, & Code Generation
 
 [The commands outlined in the common OL web app guide](https://github.com/mitodl/handbook/blob/master/common-web-app-guide.md#testing-and-formatting)

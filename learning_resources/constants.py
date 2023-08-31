@@ -2,6 +2,8 @@
 
 from enum import Enum
 
+from django.db.models import TextChoices
+
 OPEN = "Open Content"
 PROFESSIONAL = "Professional Offerings"
 CERTIFICATE = "Certificates"
@@ -26,13 +28,13 @@ class AvailabilityType(Enum):
 class LearningResourceType(Enum):
     """Enum for LearningResource resource_type values"""
 
-    program = "program"
     course = "course"
+    program = "program"
+    learning_path = "learning_path"
     # uncomment the following as models are added
     # video = "video"
     # podcast = "podcast"
     # podcast_episode = "podcast_episode"
-    # staff_list = "stafflist"
 
 
 class OfferedBy(Enum):
@@ -78,3 +80,14 @@ class PlatformType(Enum):
 
 
 semester_mapping = {"1T": "spring", "2T": "summer", "3T": "fall"}
+
+
+class LearningResourceRelationTypes(TextChoices):
+    """Enum for LearningResourceRelationship relation_type values"""
+
+    PROGRAM_COURSES = "PROGRAM_COURSES", "Program Courses"
+    LEARNING_PATH_ITEMS = "LEARNING_PATH_ITEMS", "Learning Path Items"
+    PODCAST_EPISODES = "PODCAST_EPISODES", "Podcast Episodes"
+
+
+GROUP_STAFF_LISTS_EDITORS = "learning_path_editors"

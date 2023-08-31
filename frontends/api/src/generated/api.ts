@@ -47,7 +47,124 @@ export interface Course {
   extra_course_numbers?: Array<string> | null
 }
 /**
- * Full serializer for LearningResource
+ * Serializer for the LearningPath model
+ * @export
+ * @interface LearningPath
+ */
+export interface LearningPath {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPath
+   */
+  id: number
+  /**
+   * Return the number of items in the list
+   * @type {number}
+   * @memberof LearningPath
+   */
+  item_count: number
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPath
+   */
+  author: number
+}
+/**
+ * Specialized serializer for a LearningPath relationship
+ * @export
+ * @interface LearningPathRelationship
+ */
+export interface LearningPathRelationship {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPathRelationship
+   */
+  id: number
+  /**
+   *
+   * @type {LearningResource}
+   * @memberof LearningPathRelationship
+   */
+  resource: LearningResource | null
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPathRelationship
+   */
+  position?: number
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPathRelationship
+   */
+  parent: number
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPathRelationship
+   */
+  child: number
+}
+/**
+ * CRUD serializer for LearningPath resources
+ * @export
+ * @interface LearningPathResource
+ */
+export interface LearningPathResource {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPathResource
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  description?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  readable_id: string
+  /**
+   *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof LearningPathResource
+   */
+  topics?: Array<LearningResourceTopic> | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  resource_type: string
+  /**
+   *
+   * @type {LearningPath}
+   * @memberof LearningPathResource
+   */
+  learning_path: LearningPath | null
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningPathResource
+   */
+  published?: boolean
+}
+/**
+ * Serializer for LearningResource, with program included
  * @export
  * @interface LearningResource
  */
@@ -58,12 +175,6 @@ export interface LearningResource {
    * @memberof LearningResource
    */
   id: number
-  /**
-   *
-   * @type {Array<LearningResourceTopic>}
-   * @memberof LearningResource
-   */
-  topics: Array<LearningResourceTopic> | null
   /**
    *
    * @type {Array<string>}
@@ -108,22 +219,40 @@ export interface LearningResource {
   prices: string | null
   /**
    *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof LearningResource
+   */
+  topics?: Array<LearningResourceTopic> | null
+  /**
+   *
    * @type {Course}
    * @memberof LearningResource
    */
   course: Course | null
   /**
    *
-   * @type {Program}
+   * @type {LearningPath}
    * @memberof LearningResource
    */
-  program: Program | null
+  learning_path: LearningPath | null
   /**
    *
    * @type {Array<LearningResourceRun>}
    * @memberof LearningResource
    */
   runs: Array<LearningResourceRun> | null
+  /**
+   *
+   * @type {Array<MicroRelationship>}
+   * @memberof LearningResource
+   */
+  learning_path_parents: Array<MicroRelationship> | null
+  /**
+   *
+   * @type {Program}
+   * @memberof LearningResource
+   */
+  program: Program | null
   /**
    *
    * @type {string}
@@ -186,7 +315,7 @@ export interface LearningResource {
   platform: string | null
 }
 /**
- * Serializer for LearningResource, minus program, course
+ * Serializer for LearningResource, minus program
  * @export
  * @interface LearningResourceBase
  */
@@ -197,12 +326,6 @@ export interface LearningResourceBase {
    * @memberof LearningResourceBase
    */
   id: number
-  /**
-   *
-   * @type {Array<LearningResourceTopic>}
-   * @memberof LearningResourceBase
-   */
-  topics: Array<LearningResourceTopic> | null
   /**
    *
    * @type {Array<string>}
@@ -247,16 +370,34 @@ export interface LearningResourceBase {
   prices: string | null
   /**
    *
-   * @type {string}
+   * @type {Array<LearningResourceTopic>}
    * @memberof LearningResourceBase
    */
-  created_on: string
+  topics?: Array<LearningResourceTopic> | null
   /**
    *
-   * @type {string}
+   * @type {Course}
    * @memberof LearningResourceBase
    */
-  updated_on: string
+  course: Course | null
+  /**
+   *
+   * @type {LearningPath}
+   * @memberof LearningResourceBase
+   */
+  learning_path: LearningPath | null
+  /**
+   *
+   * @type {Array<LearningResourceRun>}
+   * @memberof LearningResourceBase
+   */
+  runs: Array<LearningResourceRun> | null
+  /**
+   *
+   * @type {Array<MicroRelationship>}
+   * @memberof LearningResourceBase
+   */
+  learning_path_parents: Array<MicroRelationship> | null
   /**
    *
    * @type {string}
@@ -354,7 +495,7 @@ export interface LearningResourceImage {
    * @type {string}
    * @memberof LearningResourceImage
    */
-  url?: string
+  url: string
   /**
    *
    * @type {string}
@@ -531,12 +672,6 @@ export interface LearningResourceRun {
    * @memberof LearningResourceRun
    */
   prices?: Array<string> | null
-  /**
-   *
-   * @type {number}
-   * @memberof LearningResourceRun
-   */
-  learning_resource: number
 }
 /**
  * Serializer for LearningResourceTopic model
@@ -556,6 +691,93 @@ export interface LearningResourceTopic {
    * @memberof LearningResourceTopic
    */
   name: string
+}
+/**
+ * Serializer containing only the parent and child ids
+ * @export
+ * @interface MicroRelationship
+ */
+export interface MicroRelationship {
+  /**
+   *
+   * @type {number}
+   * @memberof MicroRelationship
+   */
+  id: number
+  /**
+   *
+   * @type {number}
+   * @memberof MicroRelationship
+   */
+  parent_id: number
+  /**
+   *
+   * @type {number}
+   * @memberof MicroRelationship
+   */
+  child_id: number
+}
+/**
+ *
+ * @export
+ * @interface PaginatedLearningPathRelationshipList
+ */
+export interface PaginatedLearningPathRelationshipList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedLearningPathRelationshipList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningPathRelationshipList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningPathRelationshipList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<LearningPathRelationship>}
+   * @memberof PaginatedLearningPathRelationshipList
+   */
+  results?: Array<LearningPathRelationship>
+}
+/**
+ *
+ * @export
+ * @interface PaginatedLearningPathResourceList
+ */
+export interface PaginatedLearningPathResourceList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedLearningPathResourceList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningPathResourceList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningPathResourceList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<LearningPathResource>}
+   * @memberof PaginatedLearningPathResourceList
+   */
+  results?: Array<LearningPathResource>
 }
 /**
  *
@@ -589,6 +811,98 @@ export interface PaginatedLearningResourceList {
   results?: Array<LearningResource>
 }
 /**
+ * Specialized serializer for a LearningPath relationship
+ * @export
+ * @interface PatchedLearningPathRelationship
+ */
+export interface PatchedLearningPathRelationship {
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedLearningPathRelationship
+   */
+  id?: number
+  /**
+   *
+   * @type {LearningResource}
+   * @memberof PatchedLearningPathRelationship
+   */
+  resource?: LearningResource | null
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedLearningPathRelationship
+   */
+  position?: number
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedLearningPathRelationship
+   */
+  parent?: number
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedLearningPathRelationship
+   */
+  child?: number
+}
+/**
+ * CRUD serializer for LearningPath resources
+ * @export
+ * @interface PatchedLearningPathResource
+ */
+export interface PatchedLearningPathResource {
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedLearningPathResource
+   */
+  id?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResource
+   */
+  title?: string
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResource
+   */
+  description?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResource
+   */
+  readable_id?: string
+  /**
+   *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof PatchedLearningPathResource
+   */
+  topics?: Array<LearningResourceTopic> | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResource
+   */
+  resource_type?: string
+  /**
+   *
+   * @type {LearningPath}
+   * @memberof PatchedLearningPathResource
+   */
+  learning_path?: LearningPath | null
+  /**
+   *
+   * @type {boolean}
+   * @memberof PatchedLearningPathResource
+   */
+  published?: boolean
+}
+/**
  * Serializer for the Program model
  * @export
  * @interface Program
@@ -613,14 +927,22 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     coursesList: async (
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/`
@@ -641,12 +963,28 @@ export const CoursesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
 
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -830,14 +1168,22 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async coursesList(
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -846,8 +1192,12 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesList(
+        departmentId,
         limit,
+        offeredByName,
         offset,
+        platform,
+        resourceType,
         options
       )
       return createRequestFunction(
@@ -971,7 +1321,15 @@ export const CoursesApiFactory = function (
       options?: AxiosRequestConfig
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
-        .coursesList(requestParameters.limit, requestParameters.offset, options)
+        .coursesList(
+          requestParameters.departmentId,
+          requestParameters.limit,
+          requestParameters.offeredByName,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
+          options
+        )
         .then(request => request(axios, basePath))
     },
     /**
@@ -1037,6 +1395,13 @@ export const CoursesApiFactory = function (
  */
 export interface CoursesApiCoursesListRequest {
   /**
+   *
+   * @type {number}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly departmentId?: number
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof CoursesApiCoursesList
@@ -1044,11 +1409,32 @@ export interface CoursesApiCoursesListRequest {
   readonly limit?: number
 
   /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly offeredByName?: string
+
+  /**
    * The initial index from which to return the results.
    * @type {number}
    * @memberof CoursesApiCoursesList
    */
   readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly resourceType?: string
 }
 
 /**
@@ -1127,7 +1513,15 @@ export class CoursesApi extends BaseAPI {
     options?: AxiosRequestConfig
   ) {
     return CoursesApiFp(this.configuration)
-      .coursesList(requestParameters.limit, requestParameters.offset, options)
+      .coursesList(
+        requestParameters.departmentId,
+        requestParameters.limit,
+        requestParameters.offeredByName,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
+        options
+      )
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -1202,14 +1596,22 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesList: async (
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/`
@@ -1230,12 +1632,28 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
 
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -1420,14 +1838,22 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesList(
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -1437,8 +1863,12 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesList(
+          departmentId,
           limit,
+          offeredByName,
           offset,
+          platform,
+          resourceType,
           options
         )
       return createRequestFunction(
@@ -1562,8 +1992,12 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesList(
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
           options
         )
         .then(request => request(axios, basePath))
@@ -1631,6 +2065,13 @@ export const LearningResourcesApiFactory = function (
  */
 export interface LearningResourcesApiLearningResourcesListRequest {
   /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly departmentId?: number
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesList
@@ -1638,11 +2079,32 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly limit?: number
 
   /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly offeredByName?: string
+
+  /**
    * The initial index from which to return the results.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesList
    */
   readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly resourceType?: string
 }
 
 /**
@@ -1722,8 +2184,12 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesList(
+        requestParameters.departmentId,
         requestParameters.limit,
+        requestParameters.offeredByName,
         requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
         options
       )
       .then(request => request(this.axios, this.basePath))
@@ -1790,27 +2256,423 @@ export class LearningResourcesApi extends BaseAPI {
 }
 
 /**
- * ProgramsApi - axios parameter creator
+ * LearningpathsApi - axios parameter creator
  * @export
  */
-export const ProgramsApiAxiosParamCreator = function (
+export const LearningpathsApiAxiosParamCreator = function (
   configuration?: Configuration
 ) {
   return {
     /**
+     * Viewset for LearningPaths
+     * @param {LearningPathResource} learningPathResource
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsCreate: async (
+      learningPathResource: LearningPathResource,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'learningPathResource' is not null or undefined
+      assertParamExists(
+        "learningpathsCreate",
+        "learningPathResource",
+        learningPathResource
+      )
+      const localVarPath = `/api/v1/learningpaths/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        learningPathResource,
+        localVarRequestOptions,
+        configuration
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Viewset for LearningPaths
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsDestroy: async (
+      id: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsDestroy", "id", id)
+      const localVarPath = `/api/v1/learningpaths/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
+     * @param {number} [departmentId]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsList: async (
+      departmentId?: number,
+      limit?: number,
+      offeredByName?: string,
+      offset?: number,
+      platform?: string,
+      resourceType?: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/learningpaths/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsNewRetrieve: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/learningpaths/new/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Viewset for LearningPaths
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {PatchedLearningPathResource} [patchedLearningPathResource]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsPartialUpdate: async (
+      id: number,
+      patchedLearningPathResource?: PatchedLearningPathResource,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsPartialUpdate", "id", id)
+      const localVarPath = `/api/v1/learningpaths/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        patchedLearningPathResource,
+        localVarRequestOptions,
+        configuration
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} parentId
+     * @param {LearningPathRelationship} learningPathRelationship
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesCreate: async (
+      parentId: number,
+      learningPathRelationship: LearningPathRelationship,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'parentId' is not null or undefined
+      assertParamExists("learningpathsResourcesCreate", "parentId", parentId)
+      // verify required parameter 'learningPathRelationship' is not null or undefined
+      assertParamExists(
+        "learningpathsResourcesCreate",
+        "learningPathRelationship",
+        learningPathRelationship
+      )
+      const localVarPath =
+        `/api/v1/learningpaths/{parent_id}/resources/`.replace(
+          `{${"parent_id"}}`,
+          encodeURIComponent(String(parentId))
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        learningPathRelationship,
+        localVarRequestOptions,
+        configuration
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parentId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesDestroy: async (
+      id: number,
+      parentId: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsResourcesDestroy", "id", id)
+      // verify required parameter 'parentId' is not null or undefined
+      assertParamExists("learningpathsResourcesDestroy", "parentId", parentId)
+      const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parentId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} parentId
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    programsList: async (
+    learningpathsResourcesList: async (
+      parentId: number,
       limit?: number,
       offset?: number,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v1/programs/`
+      // verify required parameter 'parentId' is not null or undefined
+      assertParamExists("learningpathsResourcesList", "parentId", parentId)
+      const localVarPath =
+        `/api/v1/learningpaths/{parent_id}/resources/`.replace(
+          `{${"parent_id"}}`,
+          encodeURIComponent(String(parentId))
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -1834,6 +2696,1646 @@ export const ProgramsApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parentId
+     * @param {PatchedLearningPathRelationship} [patchedLearningPathRelationship]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesPartialUpdate: async (
+      id: number,
+      parentId: number,
+      patchedLearningPathRelationship?: PatchedLearningPathRelationship,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsResourcesPartialUpdate", "id", id)
+      // verify required parameter 'parentId' is not null or undefined
+      assertParamExists(
+        "learningpathsResourcesPartialUpdate",
+        "parentId",
+        parentId
+      )
+      const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parentId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        patchedLearningPathRelationship,
+        localVarRequestOptions,
+        configuration
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parentId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesRetrieve: async (
+      id: number,
+      parentId: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsResourcesRetrieve", "id", id)
+      // verify required parameter 'parentId' is not null or undefined
+      assertParamExists("learningpathsResourcesRetrieve", "parentId", parentId)
+      const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parentId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parentId
+     * @param {LearningPathRelationship} learningPathRelationship
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesUpdate: async (
+      id: number,
+      parentId: number,
+      learningPathRelationship: LearningPathRelationship,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsResourcesUpdate", "id", id)
+      // verify required parameter 'parentId' is not null or undefined
+      assertParamExists("learningpathsResourcesUpdate", "parentId", parentId)
+      // verify required parameter 'learningPathRelationship' is not null or undefined
+      assertParamExists(
+        "learningpathsResourcesUpdate",
+        "learningPathRelationship",
+        learningPathRelationship
+      )
+      const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parentId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        learningPathRelationship,
+        localVarRequestOptions,
+        configuration
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsRetrieve: async (
+      id: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsRetrieve", "id", id)
+      const localVarPath = `/api/v1/learningpaths/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsUpcomingRetrieve: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/learningpaths/upcoming/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Viewset for LearningPaths
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {LearningPathResource} learningPathResource
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsUpdate: async (
+      id: number,
+      learningPathResource: LearningPathResource,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsUpdate", "id", id)
+      // verify required parameter 'learningPathResource' is not null or undefined
+      assertParamExists(
+        "learningpathsUpdate",
+        "learningPathResource",
+        learningPathResource
+      )
+      const localVarPath = `/api/v1/learningpaths/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        learningPathResource,
+        localVarRequestOptions,
+        configuration
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    }
+  }
+}
+
+/**
+ * LearningpathsApi - functional programming interface
+ * @export
+ */
+export const LearningpathsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    LearningpathsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Viewset for LearningPaths
+     * @param {LearningPathResource} learningPathResource
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsCreate(
+      learningPathResource: LearningPathResource,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningPathResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsCreate(
+          learningPathResource,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Viewset for LearningPaths
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsDestroy(
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsDestroy(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [departmentId]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsList(
+      departmentId?: number,
+      limit?: number,
+      offeredByName?: string,
+      offset?: number,
+      platform?: string,
+      resourceType?: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<PaginatedLearningPathResourceList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsList(
+          departmentId,
+          limit,
+          offeredByName,
+          offset,
+          platform,
+          resourceType,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsNewRetrieve(
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningPathResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsNewRetrieve(options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Viewset for LearningPaths
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {PatchedLearningPathResource} [patchedLearningPathResource]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsPartialUpdate(
+      id: number,
+      patchedLearningPathResource?: PatchedLearningPathResource,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningPathResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsPartialUpdate(
+          id,
+          patchedLearningPathResource,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} parentId
+     * @param {LearningPathRelationship} learningPathRelationship
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsResourcesCreate(
+      parentId: number,
+      learningPathRelationship: LearningPathRelationship,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningPathRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsResourcesCreate(
+          parentId,
+          learningPathRelationship,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parentId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsResourcesDestroy(
+      id: number,
+      parentId: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsResourcesDestroy(
+          id,
+          parentId,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} parentId
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsResourcesList(
+      parentId: number,
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<PaginatedLearningPathRelationshipList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsResourcesList(
+          parentId,
+          limit,
+          offset,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parentId
+     * @param {PatchedLearningPathRelationship} [patchedLearningPathRelationship]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsResourcesPartialUpdate(
+      id: number,
+      parentId: number,
+      patchedLearningPathRelationship?: PatchedLearningPathRelationship,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningPathRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsResourcesPartialUpdate(
+          id,
+          parentId,
+          patchedLearningPathRelationship,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parentId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsResourcesRetrieve(
+      id: number,
+      parentId: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningPathRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsResourcesRetrieve(
+          id,
+          parentId,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parentId
+     * @param {LearningPathRelationship} learningPathRelationship
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsResourcesUpdate(
+      id: number,
+      parentId: number,
+      learningPathRelationship: LearningPathRelationship,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningPathRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsResourcesUpdate(
+          id,
+          parentId,
+          learningPathRelationship,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsRetrieve(
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningPathResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsUpcomingRetrieve(
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningPathResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsUpcomingRetrieve(options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Viewset for LearningPaths
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {LearningPathResource} learningPathResource
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsUpdate(
+      id: number,
+      learningPathResource: LearningPathResource,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningPathResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsUpdate(
+          id,
+          learningPathResource,
+          options
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    }
+  }
+}
+
+/**
+ * LearningpathsApi - factory interface
+ * @export
+ */
+export const LearningpathsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  const localVarFp = LearningpathsApiFp(configuration)
+  return {
+    /**
+     * Viewset for LearningPaths
+     * @param {LearningpathsApiLearningpathsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsCreate(
+      requestParameters: LearningpathsApiLearningpathsCreateRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningPathResource> {
+      return localVarFp
+        .learningpathsCreate(requestParameters.learningPathResource, options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPaths
+     * @param {LearningpathsApiLearningpathsDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsDestroy(
+      requestParameters: LearningpathsApiLearningpathsDestroyRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<void> {
+      return localVarFp
+        .learningpathsDestroy(requestParameters.id, options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {LearningpathsApiLearningpathsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsList(
+      requestParameters: LearningpathsApiLearningpathsListRequest = {},
+      options?: AxiosRequestConfig
+    ): AxiosPromise<PaginatedLearningPathResourceList> {
+      return localVarFp
+        .learningpathsList(
+          requestParameters.departmentId,
+          requestParameters.limit,
+          requestParameters.offeredByName,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsNewRetrieve(
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningPathResource> {
+      return localVarFp
+        .learningpathsNewRetrieve(options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPaths
+     * @param {LearningpathsApiLearningpathsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsPartialUpdate(
+      requestParameters: LearningpathsApiLearningpathsPartialUpdateRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningPathResource> {
+      return localVarFp
+        .learningpathsPartialUpdate(
+          requestParameters.id,
+          requestParameters.patchedLearningPathResource,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {LearningpathsApiLearningpathsResourcesCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesCreate(
+      requestParameters: LearningpathsApiLearningpathsResourcesCreateRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningPathRelationship> {
+      return localVarFp
+        .learningpathsResourcesCreate(
+          requestParameters.parentId,
+          requestParameters.learningPathRelationship,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {LearningpathsApiLearningpathsResourcesDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesDestroy(
+      requestParameters: LearningpathsApiLearningpathsResourcesDestroyRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<void> {
+      return localVarFp
+        .learningpathsResourcesDestroy(
+          requestParameters.id,
+          requestParameters.parentId,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {LearningpathsApiLearningpathsResourcesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesList(
+      requestParameters: LearningpathsApiLearningpathsResourcesListRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<PaginatedLearningPathRelationshipList> {
+      return localVarFp
+        .learningpathsResourcesList(
+          requestParameters.parentId,
+          requestParameters.limit,
+          requestParameters.offset,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesPartialUpdate(
+      requestParameters: LearningpathsApiLearningpathsResourcesPartialUpdateRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningPathRelationship> {
+      return localVarFp
+        .learningpathsResourcesPartialUpdate(
+          requestParameters.id,
+          requestParameters.parentId,
+          requestParameters.patchedLearningPathRelationship,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {LearningpathsApiLearningpathsResourcesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesRetrieve(
+      requestParameters: LearningpathsApiLearningpathsResourcesRetrieveRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningPathRelationship> {
+      return localVarFp
+        .learningpathsResourcesRetrieve(
+          requestParameters.id,
+          requestParameters.parentId,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @param {LearningpathsApiLearningpathsResourcesUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsResourcesUpdate(
+      requestParameters: LearningpathsApiLearningpathsResourcesUpdateRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningPathRelationship> {
+      return localVarFp
+        .learningpathsResourcesUpdate(
+          requestParameters.id,
+          requestParameters.parentId,
+          requestParameters.learningPathRelationship,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {LearningpathsApiLearningpathsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsRetrieve(
+      requestParameters: LearningpathsApiLearningpathsRetrieveRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningPathResource> {
+      return localVarFp
+        .learningpathsRetrieve(requestParameters.id, options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsUpcomingRetrieve(
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningPathResource> {
+      return localVarFp
+        .learningpathsUpcomingRetrieve(options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPaths
+     * @param {LearningpathsApiLearningpathsUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsUpdate(
+      requestParameters: LearningpathsApiLearningpathsUpdateRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningPathResource> {
+      return localVarFp
+        .learningpathsUpdate(
+          requestParameters.id,
+          requestParameters.learningPathResource,
+          options
+        )
+        .then(request => request(axios, basePath))
+    }
+  }
+}
+
+/**
+ * Request parameters for learningpathsCreate operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsCreateRequest
+ */
+export interface LearningpathsApiLearningpathsCreateRequest {
+  /**
+   *
+   * @type {LearningPathResource}
+   * @memberof LearningpathsApiLearningpathsCreate
+   */
+  readonly learningPathResource: LearningPathResource
+}
+
+/**
+ * Request parameters for learningpathsDestroy operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsDestroyRequest
+ */
+export interface LearningpathsApiLearningpathsDestroyRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsDestroy
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for learningpathsList operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsListRequest
+ */
+export interface LearningpathsApiLearningpathsListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly departmentId?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly offeredByName?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly resourceType?: string
+}
+
+/**
+ * Request parameters for learningpathsPartialUpdate operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsPartialUpdateRequest
+ */
+export interface LearningpathsApiLearningpathsPartialUpdateRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {PatchedLearningPathResource}
+   * @memberof LearningpathsApiLearningpathsPartialUpdate
+   */
+  readonly patchedLearningPathResource?: PatchedLearningPathResource
+}
+
+/**
+ * Request parameters for learningpathsResourcesCreate operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsResourcesCreateRequest
+ */
+export interface LearningpathsApiLearningpathsResourcesCreateRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesCreate
+   */
+  readonly parentId: number
+
+  /**
+   *
+   * @type {LearningPathRelationship}
+   * @memberof LearningpathsApiLearningpathsResourcesCreate
+   */
+  readonly learningPathRelationship: LearningPathRelationship
+}
+
+/**
+ * Request parameters for learningpathsResourcesDestroy operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsResourcesDestroyRequest
+ */
+export interface LearningpathsApiLearningpathsResourcesDestroyRequest {
+  /**
+   * A unique integer value identifying this learning resource relationship.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesDestroy
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesDestroy
+   */
+  readonly parentId: number
+}
+
+/**
+ * Request parameters for learningpathsResourcesList operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsResourcesListRequest
+ */
+export interface LearningpathsApiLearningpathsResourcesListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesList
+   */
+  readonly parentId: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for learningpathsResourcesPartialUpdate operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsResourcesPartialUpdateRequest
+ */
+export interface LearningpathsApiLearningpathsResourcesPartialUpdateRequest {
+  /**
+   * A unique integer value identifying this learning resource relationship.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesPartialUpdate
+   */
+  readonly parentId: number
+
+  /**
+   *
+   * @type {PatchedLearningPathRelationship}
+   * @memberof LearningpathsApiLearningpathsResourcesPartialUpdate
+   */
+  readonly patchedLearningPathRelationship?: PatchedLearningPathRelationship
+}
+
+/**
+ * Request parameters for learningpathsResourcesRetrieve operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsResourcesRetrieveRequest
+ */
+export interface LearningpathsApiLearningpathsResourcesRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource relationship.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesRetrieve
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesRetrieve
+   */
+  readonly parentId: number
+}
+
+/**
+ * Request parameters for learningpathsResourcesUpdate operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsResourcesUpdateRequest
+ */
+export interface LearningpathsApiLearningpathsResourcesUpdateRequest {
+  /**
+   * A unique integer value identifying this learning resource relationship.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesUpdate
+   */
+  readonly parentId: number
+
+  /**
+   *
+   * @type {LearningPathRelationship}
+   * @memberof LearningpathsApiLearningpathsResourcesUpdate
+   */
+  readonly learningPathRelationship: LearningPathRelationship
+}
+
+/**
+ * Request parameters for learningpathsRetrieve operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsRetrieveRequest
+ */
+export interface LearningpathsApiLearningpathsRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for learningpathsUpdate operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsUpdateRequest
+ */
+export interface LearningpathsApiLearningpathsUpdateRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {LearningPathResource}
+   * @memberof LearningpathsApiLearningpathsUpdate
+   */
+  readonly learningPathResource: LearningPathResource
+}
+
+/**
+ * LearningpathsApi - object-oriented interface
+ * @export
+ * @class LearningpathsApi
+ * @extends {BaseAPI}
+ */
+export class LearningpathsApi extends BaseAPI {
+  /**
+   * Viewset for LearningPaths
+   * @param {LearningpathsApiLearningpathsCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsCreate(
+    requestParameters: LearningpathsApiLearningpathsCreateRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsCreate(requestParameters.learningPathResource, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPaths
+   * @param {LearningpathsApiLearningpathsDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsDestroy(
+    requestParameters: LearningpathsApiLearningpathsDestroyRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsDestroy(requestParameters.id, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of learning resources.
+   * @summary List
+   * @param {LearningpathsApiLearningpathsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsList(
+    requestParameters: LearningpathsApiLearningpathsListRequest = {},
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsList(
+        requestParameters.departmentId,
+        requestParameters.limit,
+        requestParameters.offeredByName,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of newly released resources.
+   * @summary List New
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsNewRetrieve(options?: AxiosRequestConfig) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsNewRetrieve(options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPaths
+   * @param {LearningpathsApiLearningpathsPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsPartialUpdate(
+    requestParameters: LearningpathsApiLearningpathsPartialUpdateRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsPartialUpdate(
+        requestParameters.id,
+        requestParameters.patchedLearningPathResource,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPath related resources
+   * @param {LearningpathsApiLearningpathsResourcesCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsResourcesCreate(
+    requestParameters: LearningpathsApiLearningpathsResourcesCreateRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsResourcesCreate(
+        requestParameters.parentId,
+        requestParameters.learningPathRelationship,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPath related resources
+   * @param {LearningpathsApiLearningpathsResourcesDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsResourcesDestroy(
+    requestParameters: LearningpathsApiLearningpathsResourcesDestroyRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsResourcesDestroy(
+        requestParameters.id,
+        requestParameters.parentId,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPath related resources
+   * @param {LearningpathsApiLearningpathsResourcesListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsResourcesList(
+    requestParameters: LearningpathsApiLearningpathsResourcesListRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsResourcesList(
+        requestParameters.parentId,
+        requestParameters.limit,
+        requestParameters.offset,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPath related resources
+   * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsResourcesPartialUpdate(
+    requestParameters: LearningpathsApiLearningpathsResourcesPartialUpdateRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsResourcesPartialUpdate(
+        requestParameters.id,
+        requestParameters.parentId,
+        requestParameters.patchedLearningPathRelationship,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPath related resources
+   * @param {LearningpathsApiLearningpathsResourcesRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsResourcesRetrieve(
+    requestParameters: LearningpathsApiLearningpathsResourcesRetrieveRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsResourcesRetrieve(
+        requestParameters.id,
+        requestParameters.parentId,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPath related resources
+   * @param {LearningpathsApiLearningpathsResourcesUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsResourcesUpdate(
+    requestParameters: LearningpathsApiLearningpathsResourcesUpdateRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsResourcesUpdate(
+        requestParameters.id,
+        requestParameters.parentId,
+        requestParameters.learningPathRelationship,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a single learning resource.
+   * @summary Retrieve
+   * @param {LearningpathsApiLearningpathsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsRetrieve(
+    requestParameters: LearningpathsApiLearningpathsRetrieveRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsRetrieve(requestParameters.id, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of upcoming resources.
+   * @summary List Upcoming
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsUpcomingRetrieve(options?: AxiosRequestConfig) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsUpcomingRetrieve(options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPaths
+   * @param {LearningpathsApiLearningpathsUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsUpdate(
+    requestParameters: LearningpathsApiLearningpathsUpdateRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsUpdate(
+        requestParameters.id,
+        requestParameters.learningPathResource,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * ProgramsApi - axios parameter creator
+ * @export
+ */
+export const ProgramsApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [departmentId]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programsList: async (
+      departmentId?: number,
+      limit?: number,
+      offeredByName?: string,
+      offset?: number,
+      platform?: string,
+      resourceType?: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/programs/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (departmentId !== undefined) {
+        localVarQueryParameter["department__id"] = departmentId
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offeredByName !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offeredByName
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter["resource_type"] = resourceType
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -2017,14 +4519,22 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
+     * @param {number} [departmentId]
      * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {string} [resourceType]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async programsList(
+      departmentId?: number,
       limit?: number,
+      offeredByName?: string,
       offset?: number,
+      platform?: string,
+      resourceType?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -2033,8 +4543,12 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsList(
+        departmentId,
         limit,
+        offeredByName,
         offset,
+        platform,
+        resourceType,
         options
       )
       return createRequestFunction(
@@ -2157,8 +4671,12 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .programsList(
+          requestParameters.departmentId,
           requestParameters.limit,
+          requestParameters.offeredByName,
           requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resourceType,
           options
         )
         .then(request => request(axios, basePath))
@@ -2226,6 +4744,13 @@ export const ProgramsApiFactory = function (
  */
 export interface ProgramsApiProgramsListRequest {
   /**
+   *
+   * @type {number}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly departmentId?: number
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof ProgramsApiProgramsList
@@ -2233,11 +4758,32 @@ export interface ProgramsApiProgramsListRequest {
   readonly limit?: number
 
   /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly offeredByName?: string
+
+  /**
    * The initial index from which to return the results.
    * @type {number}
    * @memberof ProgramsApiProgramsList
    */
   readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly resourceType?: string
 }
 
 /**
@@ -2316,7 +4862,15 @@ export class ProgramsApi extends BaseAPI {
     options?: AxiosRequestConfig
   ) {
     return ProgramsApiFp(this.configuration)
-      .programsList(requestParameters.limit, requestParameters.offset, options)
+      .programsList(
+        requestParameters.departmentId,
+        requestParameters.limit,
+        requestParameters.offeredByName,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resourceType,
+        options
+      )
       .then(request => request(this.axios, this.basePath))
   }
 

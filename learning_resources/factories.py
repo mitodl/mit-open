@@ -15,8 +15,10 @@ from learning_resources.constants import (
     OPEN,
     PROFESSIONAL,
     AvailabilityType,
+    LearningResourceRelationTypes,
     LearningResourceType,
 )
+from open_discussions.factories import UserFactory
 
 # pylint:disable=unused-argument
 
@@ -173,7 +175,9 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
 class LearningResourceFactory(DjangoModelFactory):
     """Factory for LearningResource subclasses"""
 
-    readable_id = factory.Sequence(lambda n: "RESOURCEN%03d.MIT_run" % n)
+    readable_id = factory.Sequence(
+        lambda n: "RESOURCEN%03d_%03d.MIT_run" % (n, random.randint(1, 1000))
+    )
     title = factory.Faker("word")
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
@@ -237,7 +241,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
     """Factory for LearningResourceRuns"""
 
     learning_resource = factory.SubFactory(LearningResourceFactory)
-    run_id = factory.Sequence(lambda n: "COURSEN%03d.MIT_run" % n)
+    run_id = factory.Sequence(lambda n: "RUN%03d.MIT_run" % n)
     title = factory.Faker("word")
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
@@ -304,6 +308,43 @@ class LearningResourceRunFactory(DjangoModelFactory):
         )
 
 
+class LearningPathFactory(DjangoModelFactory):
+    """Factory for LearningPath"""
+
+    learning_resource = factory.SubFactory(
+        LearningResourceFactory, resource_type=LearningResourceType.learning_path.value
+    )
+    author = factory.SubFactory(UserFactory)
+
+    @factory.post_generation
+    def resources(self, create, extracted, **kwargs):
+        """Create resources for LearningPath"""
+        if not create:
+            return
+
+        if extracted is None:
+            extracted = [
+                ProgramFactory.create().learning_resource,
+                *[
+                    course.learning_resource
+                    for course in CourseFactory.create_batch(random.randint(1, 3))
+                ],
+            ]
+
+        self.learning_resource.resources.set(
+            extracted,
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+            },
+        )
+
+    class Meta:
+        model = models.LearningPath
+
+    class Params:
+        is_unpublished = factory.Trait(learning_resource__published=False)
+
+
 class ProgramFactory(DjangoModelFactory):
     """Factory for Programs"""
 
@@ -346,10 +387,39 @@ class ProgramFactory(DjangoModelFactory):
                 for course in CourseFactory.create_batch(random.randint(1, 3))
             ]
 
-        self.courses.set(extracted)
+        self.learning_resource.resources.set(
+            extracted,
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.PROGRAM_COURSES.value
+            },
+        )
 
     class Meta:
         model = models.Program
 
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
+
+
+class LearningPathItemFactory(DjangoModelFactory):
+    """Factory for LearningPath items"""
+
+    parent = factory.SubFactory(
+        LearningResourceFactory,
+        resource_type=LearningResourceType.learning_path.value,
+    )
+
+    child = factory.SubFactory(
+        LearningResourceFactory,
+        resource_type=LearningResourceType.course.value,
+        course=factory.SubFactory(CourseFactory),
+    )
+
+    position = factory.Sequence(lambda n: n)
+    relation_type = LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+
+    class Meta:
+        model = models.LearningResourceRelationship
+
+    class Params:
+        is_program = factory.Trait(child=factory.SubFactory(ProgramFactory))

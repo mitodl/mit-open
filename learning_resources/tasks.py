@@ -4,9 +4,7 @@ course_catalog tasks
 import logging
 
 from learning_resources.etl import pipelines
-
 from open_discussions.celery import app
-
 
 log = logging.getLogger(__name__)
 
