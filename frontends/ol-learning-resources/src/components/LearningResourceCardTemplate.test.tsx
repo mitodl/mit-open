@@ -7,12 +7,13 @@ import { resourceThumbnailSrc } from "../utils"
 import { allowConsoleErrors } from "ol-util/test-utils"
 import user from "@testing-library/user-event"
 import * as factories from "api/test-utils/factories"
+import { ResourceTypeEnum } from "api"
 
 const makeResource = factories.learningResources.resource
 
 describe("LearningResourceCard", () => {
   it("renders title and cover image", () => {
-    const resource = makeResource({ resource_type: "course" })
+    const resource = makeResource({ resource_type: ResourceTypeEnum.Course })
     const imgConfig = makeImgConfig()
     render(
       <LearningResourceCardTemplate
@@ -30,27 +31,9 @@ describe("LearningResourceCard", () => {
     expect(coverImg.src).toBe(resourceThumbnailSrc(resource, imgConfig))
   })
 
-  it("throws an error when given a bad resource type", () => {
-    const resource = {
-      ...makeResource(),
-      resource_type: "bad-type"
-    }
-    const imgConfig = makeImgConfig()
-    allowConsoleErrors()
-    const shouldThrow = () =>
-      render(
-        <LearningResourceCardTemplate
-          variant="column"
-          resource={resource}
-          imgConfig={imgConfig}
-        />
-      )
-    expect(shouldThrow).toThrow(/Unknown resource type: bad-type/)
-  })
-
   it("does not show an image iff suppressImage is true", () => {
     const resource = makeResource({
-      resource_type: "course"
+      resource_type: ResourceTypeEnum.Course
     })
     const imgConfig = makeImgConfig()
     const { rerender } = render(
@@ -74,7 +57,7 @@ describe("LearningResourceCard", () => {
 
   it("Calls onActivate when clicking title", async () => {
     const resource = makeResource({
-      resource_type: "course"
+      resource_type: ResourceTypeEnum.Course
     })
     const imgConfig = makeImgConfig()
     const onActivate = jest.fn()
@@ -99,7 +82,10 @@ describe("LearningResourceCard", () => {
   ])(
     "should render an icon if the object has a certificate",
     ({ certification, hasCertificate }) => {
-      const resource = makeResource({ certification, resource_type: "course" })
+      const resource = makeResource({
+        certification,
+        resource_type: ResourceTypeEnum.Course
+      })
       const imgConfig = makeImgConfig()
 
       render(

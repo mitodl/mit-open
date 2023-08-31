@@ -9,6 +9,7 @@ import type {
   LearningResourceInstructor,
   LearningResourceTopic
 } from "api"
+import { ResourceTypeEnum } from "api"
 
 const maybe = faker.helpers.maybe
 type RepeatOptins = { min?: number; max?: number }
@@ -87,8 +88,8 @@ const learningResourceTopic: Factory<LearningResourceTopic> = (
   return topic
 }
 
-const RESOURCE_TYPES = ["course", "program"] as const
-const learningResourceType = () => faker.helpers.arrayElement(RESOURCE_TYPES)
+const learningResourceType = () =>
+  faker.helpers.arrayElement(Object.values(ResourceTypeEnum))
 
 const learningResource: Factory<LearningResource> = (
   overrides = {}
@@ -118,7 +119,7 @@ const learningResource: Factory<LearningResource> = (
   }
 
   function typeSpecificOverrides(type: string): Partial<LearningResource> {
-    if (type === "course") {
+    if (type === ResourceTypeEnum.Course) {
       return {
         platform:      faker.lorem.word(),
         runs:          repeat(learningResourceRun, { min: 1, max: 5 }),
@@ -128,7 +129,7 @@ const learningResource: Factory<LearningResource> = (
           extra_course_numbers: maybe(() => repeat(faker.lorem.word)) ?? null
         }
       }
-    } else if (type === "program") {
+    } else if (type === ResourceTypeEnum.Program) {
       return {
         platform:      faker.lorem.word(),
         certification: faker.lorem.word(),
