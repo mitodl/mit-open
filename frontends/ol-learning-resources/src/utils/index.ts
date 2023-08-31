@@ -1,19 +1,15 @@
 import type { LearningResource, LearningResourceRun } from "api"
 import moment from "moment"
+import { ResourceTypeEnum } from "api"
 
-const readableResourceTypes: Record<string, string> = {
-  course:  "Course",
-  program: "Program"
+const readableResourceTypes: Record<ResourceTypeEnum, string> = {
+  [ResourceTypeEnum.Course]:       "Course",
+  [ResourceTypeEnum.Program]:      "Program",
+  [ResourceTypeEnum.LearningPath]: "Learning Path"
 }
 const getReadableResourceType = (
   resource: Pick<LearningResource, "resource_type">
-): string => {
-  const readable = readableResourceTypes[resource.resource_type]
-  if (!readable) {
-    throw new Error(`Unknown resource type: ${resource.resource_type}`)
-  }
-  return readable
-}
+): string => readableResourceTypes[resource.resource_type]
 
 const BLANK_THUMBNAIL = new URL(
   "/static/images/blank.png",

@@ -38,6 +38,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - courses
       security:
@@ -106,6 +114,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - courses
       security:
@@ -151,6 +167,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - courses
       security:
@@ -196,6 +220,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learning_resources
       security:
@@ -264,6 +296,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learning_resources
       security:
@@ -309,6 +349,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learning_resources
       security:
@@ -354,6 +402,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learningpaths
       security:
@@ -719,6 +775,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learningpaths
       security:
@@ -764,6 +828,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learningpaths
       security:
@@ -809,6 +881,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - programs
       security:
@@ -877,6 +957,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - programs
       security:
@@ -922,6 +1010,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - programs
       security:
@@ -1009,8 +1105,7 @@ components:
             $ref: '#/components/schemas/LearningResourceTopic'
           nullable: true
         resource_type:
-          type: string
-          maxLength: 24
+          $ref: '#/components/schemas/ResourceTypeEnum'
         learning_path:
           allOf:
           - $ref: '#/components/schemas/LearningPath'
@@ -1130,8 +1225,7 @@ components:
           nullable: true
           maxLength: 2048
         resource_type:
-          type: string
-          maxLength: 24
+          $ref: '#/components/schemas/ResourceTypeEnum'
         platform:
           type: string
           nullable: true
@@ -1254,8 +1348,7 @@ components:
           nullable: true
           maxLength: 2048
         resource_type:
-          type: string
-          maxLength: 24
+          $ref: '#/components/schemas/ResourceTypeEnum'
         platform:
           type: string
           nullable: true
@@ -1560,8 +1653,7 @@ components:
             $ref: '#/components/schemas/LearningResourceTopic'
           nullable: true
         resource_type:
-          type: string
-          maxLength: 24
+          $ref: '#/components/schemas/ResourceTypeEnum'
         learning_path:
           allOf:
           - $ref: '#/components/schemas/LearningPath'
@@ -1581,6 +1673,16 @@ components:
           readOnly: true
       required:
       - courses
+    ResourceTypeEnum:
+      enum:
+      - course
+      - program
+      - learning_path
+      type: string
+      description: |-
+        * `course` - course
+        * `program` - program
+        * `learning_path` - learning_path
   securitySchemes:
     cookieAuth:
       type: apiKey

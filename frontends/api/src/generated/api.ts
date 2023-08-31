@@ -146,10 +146,10 @@ export interface LearningPathResource {
   topics?: Array<LearningResourceTopic> | null
   /**
    *
-   * @type {string}
+   * @type {ResourceTypeEnum}
    * @memberof LearningPathResource
    */
-  resource_type: string
+  resource_type: ResourceTypeEnum
   /**
    *
    * @type {LearningPath}
@@ -163,6 +163,7 @@ export interface LearningPathResource {
    */
   published?: boolean
 }
+
 /**
  * Serializer for LearningResource, with program included
  * @export
@@ -303,10 +304,10 @@ export interface LearningResource {
   url?: string | null
   /**
    *
-   * @type {string}
+   * @type {ResourceTypeEnum}
    * @memberof LearningResource
    */
-  resource_type: string
+  resource_type: ResourceTypeEnum
   /**
    *
    * @type {string}
@@ -314,6 +315,7 @@ export interface LearningResource {
    */
   platform: string | null
 }
+
 /**
  * Serializer for LearningResource, minus program
  * @export
@@ -448,10 +450,10 @@ export interface LearningResourceBase {
   url?: string | null
   /**
    *
-   * @type {string}
+   * @type {ResourceTypeEnum}
    * @memberof LearningResourceBase
    */
-  resource_type: string
+  resource_type: ResourceTypeEnum
   /**
    *
    * @type {string}
@@ -459,6 +461,7 @@ export interface LearningResourceBase {
    */
   platform: string | null
 }
+
 /**
  * Serializer for LearningResourceDepartment
  * @export
@@ -885,10 +888,10 @@ export interface PatchedLearningPathResource {
   topics?: Array<LearningResourceTopic> | null
   /**
    *
-   * @type {string}
+   * @type {ResourceTypeEnum}
    * @memberof PatchedLearningPathResource
    */
-  resource_type?: string
+  resource_type?: ResourceTypeEnum
   /**
    *
    * @type {LearningPath}
@@ -902,6 +905,7 @@ export interface PatchedLearningPathResource {
    */
   published?: boolean
 }
+
 /**
  * Serializer for the Program model
  * @export
@@ -915,6 +919,20 @@ export interface Program {
    */
   courses: Array<LearningResourceBase> | null
 }
+/**
+ * * `course` - course * `program` - program * `learning_path` - learning_path
+ * @export
+ * @enum {string}
+ */
+
+export const ResourceTypeEnum = {
+  Course: "course",
+  Program: "program",
+  LearningPath: "learning_path"
+} as const
+
+export type ResourceTypeEnum =
+  (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
 
 /**
  * CoursesApi - axios parameter creator
@@ -932,7 +950,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -942,7 +960,7 @@ export const CoursesApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/`
@@ -1009,7 +1027,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1019,7 +1037,7 @@ export const CoursesApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/new/`
@@ -1134,7 +1152,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1144,7 +1162,7 @@ export const CoursesApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/upcoming/`
@@ -1221,7 +1239,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1231,7 +1249,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -1263,7 +1281,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1273,7 +1291,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -1332,7 +1350,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1342,7 +1360,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -1510,11 +1528,11 @@ export interface CoursesApiCoursesListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof CoursesApiCoursesList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -1559,11 +1577,11 @@ export interface CoursesApiCoursesNewListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof CoursesApiCoursesNewList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -1622,11 +1640,11 @@ export interface CoursesApiCoursesUpcomingListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof CoursesApiCoursesUpcomingList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -1745,7 +1763,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1755,7 +1773,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/`
@@ -1822,7 +1840,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1832,7 +1850,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/new/`
@@ -1947,7 +1965,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1957,7 +1975,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/upcoming/`
@@ -2035,7 +2053,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2045,7 +2063,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -2078,7 +2096,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2088,7 +2106,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -2146,7 +2164,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2156,7 +2174,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -2324,11 +2342,11 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof LearningResourcesApiLearningResourcesList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -2373,11 +2391,11 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof LearningResourcesApiLearningResourcesNewList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -2436,11 +2454,11 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -2661,7 +2679,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2671,7 +2689,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/`
@@ -2738,7 +2756,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2748,7 +2766,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/new/`
@@ -3270,7 +3288,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3280,7 +3298,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/upcoming/`
@@ -3468,7 +3486,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3478,7 +3496,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -3511,7 +3529,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3521,7 +3539,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -3795,7 +3813,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3805,7 +3823,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -4206,11 +4224,11 @@ export interface LearningpathsApiLearningpathsListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof LearningpathsApiLearningpathsList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -4255,11 +4273,11 @@ export interface LearningpathsApiLearningpathsNewListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof LearningpathsApiLearningpathsNewList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -4486,11 +4504,11 @@ export interface LearningpathsApiLearningpathsUpcomingListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof LearningpathsApiLearningpathsUpcomingList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -4825,7 +4843,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4835,7 +4853,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/`
@@ -4902,7 +4920,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4912,7 +4930,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/new/`
@@ -5027,7 +5045,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5037,7 +5055,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/upcoming/`
@@ -5114,7 +5132,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5124,7 +5142,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -5156,7 +5174,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5166,7 +5184,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -5223,7 +5241,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {string} [offeredByName]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {string} [resourceType]
+     * @param {'course' | 'learning_path' | 'program'} [resourceType] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5233,7 +5251,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offeredByName?: string,
       offset?: number,
       platform?: string,
-      resourceType?: string,
+      resourceType?: "course" | "learning_path" | "program",
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -5401,11 +5419,11 @@ export interface ProgramsApiProgramsListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof ProgramsApiProgramsList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -5450,11 +5468,11 @@ export interface ProgramsApiProgramsNewListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof ProgramsApiProgramsNewList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
@@ -5513,11 +5531,11 @@ export interface ProgramsApiProgramsUpcomingListRequest {
   readonly platform?: string
 
   /**
-   *
-   * @type {string}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+   * @type {'course' | 'learning_path' | 'program'}
    * @memberof ProgramsApiProgramsUpcomingList
    */
-  readonly resourceType?: string
+  readonly resourceType?: "course" | "learning_path" | "program"
 }
 
 /**
