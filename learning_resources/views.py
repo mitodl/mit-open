@@ -15,13 +15,18 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from learning_resources import permissions
 from learning_resources.constants import LearningResourceType
-from learning_resources.models import LearningResource, LearningResourceRelationship
+from learning_resources.models import (
+    LearningResource,
+    LearningResourceRelationship,
+    LearningResourceTopic,
+)
 from learning_resources.permissions import is_learning_path_editor
 from learning_resources.serializers import (
     LearningPathRelationshipSerializer,
     LearningPathResourceSerializer,
     LearningResourceChildSerializer,
     LearningResourceSerializer,
+    LearningResourceTopicSerializer,
 )
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
@@ -293,3 +298,20 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet):
         #     upsert_staff_list(staff_list.id)
         # else:
         #     deindex_staff_list(staff_list)
+
+
+class TopicViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Viewset for topics
+    """
+
+    class LargePagination(DefaultPagination):
+        """Pagination class for topics"""
+
+        default_limit = 1000
+        max_limit = 1000
+
+    queryset = LearningResourceTopic.objects.all()
+    serializer_class = LearningResourceTopicSerializer
+    pagination_class = LargePagination
+    permission_classes = (AnonymousAccessReadonlyPermission,)

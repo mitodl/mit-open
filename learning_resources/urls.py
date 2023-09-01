@@ -25,6 +25,7 @@ router.register(
     basename="lr_learningpathitems_api",
     parents_query_lookups=["parent_id"],
 )
+router.register(r"topics", views.TopicViewSet, basename="lr_topics_api")
 
 urlpatterns = [
     re_path(r"^api/v1/", include(router.urls)),
