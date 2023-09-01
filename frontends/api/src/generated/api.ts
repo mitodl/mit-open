@@ -101,7 +101,7 @@ export interface LearningPathRelationship {
    * @type {LearningResource}
    * @memberof LearningPathRelationship
    */
-  resource: LearningResource | null
+  resource: LearningResource
   /**
    *
    * @type {number}
