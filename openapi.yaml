@@ -1130,7 +1130,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/LearningResource'
           readOnly: true
-          nullable: true
         position:
           type: integer
           maximum: 2147483647
