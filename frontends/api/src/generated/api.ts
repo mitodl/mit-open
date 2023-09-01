@@ -1167,6 +1167,37 @@ export interface PaginatedLearningResourceList {
   results?: Array<LearningResource>
 }
 /**
+ *
+ * @export
+ * @interface PaginatedLearningResourceTopicList
+ */
+export interface PaginatedLearningResourceTopicList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedLearningResourceTopicList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceTopicList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceTopicList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof PaginatedLearningResourceTopicList
+   */
+  results?: Array<LearningResourceTopic>
+}
+/**
  * Specialized serializer for a LearningPath relationship
  * @export
  * @interface PatchedLearningPathRelationshipRequest
@@ -5969,6 +6000,298 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.resourceType,
         options
       )
+      .then(request => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * TopicsApi - axios parameter creator
+ * @export
+ */
+export const TopicsApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     * Viewset for topics
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    topicsList: async (
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/topics/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Viewset for topics
+     * @param {number} id A unique integer value identifying this learning resource topic.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    topicsRetrieve: async (
+      id: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("topicsRetrieve", "id", id)
+      const localVarPath = `/api/v1/topics/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    }
+  }
+}
+
+/**
+ * TopicsApi - functional programming interface
+ * @export
+ */
+export const TopicsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = TopicsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Viewset for topics
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async topicsList(
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<PaginatedLearningResourceTopicList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.topicsList(
+        limit,
+        offset,
+        options
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     * Viewset for topics
+     * @param {number} id A unique integer value identifying this learning resource topic.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async topicsRetrieve(
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<LearningResourceTopic>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.topicsRetrieve(
+        id,
+        options
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    }
+  }
+}
+
+/**
+ * TopicsApi - factory interface
+ * @export
+ */
+export const TopicsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  const localVarFp = TopicsApiFp(configuration)
+  return {
+    /**
+     * Viewset for topics
+     * @param {TopicsApiTopicsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    topicsList(
+      requestParameters: TopicsApiTopicsListRequest = {},
+      options?: AxiosRequestConfig
+    ): AxiosPromise<PaginatedLearningResourceTopicList> {
+      return localVarFp
+        .topicsList(requestParameters.limit, requestParameters.offset, options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Viewset for topics
+     * @param {TopicsApiTopicsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    topicsRetrieve(
+      requestParameters: TopicsApiTopicsRetrieveRequest,
+      options?: AxiosRequestConfig
+    ): AxiosPromise<LearningResourceTopic> {
+      return localVarFp
+        .topicsRetrieve(requestParameters.id, options)
+        .then(request => request(axios, basePath))
+    }
+  }
+}
+
+/**
+ * Request parameters for topicsList operation in TopicsApi.
+ * @export
+ * @interface TopicsApiTopicsListRequest
+ */
+export interface TopicsApiTopicsListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof TopicsApiTopicsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof TopicsApiTopicsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for topicsRetrieve operation in TopicsApi.
+ * @export
+ * @interface TopicsApiTopicsRetrieveRequest
+ */
+export interface TopicsApiTopicsRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource topic.
+   * @type {number}
+   * @memberof TopicsApiTopicsRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * TopicsApi - object-oriented interface
+ * @export
+ * @class TopicsApi
+ * @extends {BaseAPI}
+ */
+export class TopicsApi extends BaseAPI {
+  /**
+   * Viewset for topics
+   * @param {TopicsApiTopicsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TopicsApi
+   */
+  public topicsList(
+    requestParameters: TopicsApiTopicsListRequest = {},
+    options?: AxiosRequestConfig
+  ) {
+    return TopicsApiFp(this.configuration)
+      .topicsList(requestParameters.limit, requestParameters.offset, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for topics
+   * @param {TopicsApiTopicsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TopicsApi
+   */
+  public topicsRetrieve(
+    requestParameters: TopicsApiTopicsRetrieveRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return TopicsApiFp(this.configuration)
+      .topicsRetrieve(requestParameters.id, options)
       .then(request => request(this.axios, this.basePath))
   }
 }
