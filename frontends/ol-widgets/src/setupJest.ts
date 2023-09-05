@@ -12,7 +12,5 @@ afterEach(() => {
 })
 
 window.SETTINGS = {
-  embedlyKey:        "fake-embedly-key",
-  search_page_size:  4,
-  ocw_next_base_url: "fake-ocw-next-base-url"
+  embedlyKey: "fake-embedly-key"
 }

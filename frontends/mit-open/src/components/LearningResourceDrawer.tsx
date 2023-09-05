@@ -20,8 +20,8 @@ const formatShareLink: LRDisplayProps["formatShareLink"] = resource => {
 }
 
 const drawerImg = {
-  ocwBaseUrl: SETTINGS.ocw_next_base_url,
-  embedlyKey: SETTINGS.embedlyKey,
+  ocwBaseUrl: window.SETTINGS.ocw_next_base_url,
+  embedlyKey: window.SETTINGS.embedlyKey,
   width:      440,
   height:     239
 }

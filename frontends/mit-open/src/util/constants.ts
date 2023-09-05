@@ -7,27 +7,27 @@ const deprecatedImgConfig = (
   embedlyKey: config.key,
   width:      config.width,
   height:     config.height,
-  ocwBaseUrl: SETTINGS.ocw_next_base_url
+  ocwBaseUrl: window.SETTINGS.ocw_next_base_url
 })
 
 const imgConfigs = {
   row: {
-    key:    SETTINGS.embedlyKey,
+    key:    window.SETTINGS.embedlyKey,
     width:  170,
     height: 130
   },
   "row-reverse": {
-    key:    SETTINGS.embedlyKey,
+    key:    window.SETTINGS.embedlyKey,
     width:  170,
     height: 130
   },
   "row-reverse-small": {
-    key:    SETTINGS.embedlyKey,
+    key:    window.SETTINGS.embedlyKey,
     width:  160,
     height: 100
   },
   column: {
-    key:    SETTINGS.embedlyKey,
+    key:    window.SETTINGS.embedlyKey,
     width:  220,
     height: 170
   }

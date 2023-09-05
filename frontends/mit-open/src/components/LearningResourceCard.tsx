@@ -86,7 +86,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       />
     )
   }
-  const { user } = SETTINGS
+  const { user } = window.SETTINGS
   const isInList = (resource.lists?.length ?? 0) > 0 || resource.is_favorite
   return (
     <>
