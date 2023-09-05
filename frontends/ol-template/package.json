@@ -7,7 +7,6 @@
     "plop": "^3.1.2"
   },
   "scripts": {
-    "plop": "plop",
-    "typecheck": "echo 'Nothing to typecheck here'"
+    "plop": "plop"
   }
 }

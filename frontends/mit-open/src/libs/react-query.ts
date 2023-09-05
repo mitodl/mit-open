@@ -50,7 +50,7 @@ const createQueryClient = (history: History): QueryClient => {
     queryCache: new QueryCache({
       onError: async (error, query) => {
         const status = (error as MaybeHasStatus)?.response?.status
-        const { user } = SETTINGS
+        const { user } = window.SETTINGS
         const currentLocation = history.location
         const hasCustomNotFoundHandler = <global404Flag>query.meta
 

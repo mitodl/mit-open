@@ -7,9 +7,9 @@ import invariant from "tiny-invariant"
 import * as Sentry from "@sentry/react"
 
 Sentry.init({
-  dsn:         SETTINGS.sentry_dsn,
-  release:     SETTINGS.release_version,
-  environment: SETTINGS.environment
+  dsn:         window.SETTINGS.sentry_dsn,
+  release:     window.SETTINGS.release_version,
+  environment: window.SETTINGS.environment
 })
 
 const container = document.getElementById("container")
