@@ -14,7 +14,7 @@ from learning_resources.etl.utils import (
 )
 from learning_resources.models import LearningResourceRun
 
-log = logging.getLogger()
+log = logging.getLogger(__name__)
 
 
 def get_most_recent_course_archives(platform: str, s3_prefix: str = None) -> list[str]:

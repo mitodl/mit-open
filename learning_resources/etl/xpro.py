@@ -113,7 +113,7 @@ def transform_courses(courses):
 
 def transform_programs(programs):
     """Transform the xPro catalog data"""
-    # normalize the xPro data into the course_catalog/models.py data structures
+    # normalize the xPro data into the learning_resources/models.py data structures
     return [
         {
             "readable_id": program["readable_id"],

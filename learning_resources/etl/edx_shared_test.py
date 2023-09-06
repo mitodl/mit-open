@@ -4,13 +4,13 @@ from subprocess import CalledProcessError
 import pytest
 from django.contrib.contenttypes.models import ContentType
 
-from course_catalog.constants import PlatformType
-from course_catalog.etl.edx_shared import (
+from learning_resources.constants import PlatformType
+from learning_resources.etl.edx_shared import (
     get_most_recent_course_archives,
     sync_edx_course_files,
 )
-from course_catalog.factories import LearningResourceRunFactory
-from course_catalog.models import Course, LearningResourceRun
+from learning_resources.factories import CourseFactory, LearningResourceRunFactory
+from learning_resources.models import Course, LearningResourceRun
 
 pytestmark = pytest.mark.django_db
 
@@ -34,14 +34,15 @@ def test_sync_edx_course_files(
 ):  # pylint: disable=too-many-arguments,too-many-locals
     """sync edx courses from a tarball stored in S3"""
     mock_load_content_files = mocker.patch(
-        "course_catalog.etl.edx_shared.load_content_files",
+        "learning_resources.etl.edx_shared.load_content_files",
         autospec=True,
         return_value=[],
     )
-    mock_log = mocker.patch("course_catalog.etl.utils.log.exception")
+    mock_log = mocker.patch("learning_resources.etl.utils.log.exception")
     fake_data = '{"key": "data"}'
     mock_transform = mocker.patch(
-        "course_catalog.etl.edx_shared.transform_content_files", return_value=fake_data
+        "learning_resources.etl.edx_shared.transform_content_files",
+        return_value=fake_data,
     )
     run_ids = ("course-v1:MITxT+8.01.3x+3T2022", "course-v1:MITxT+8.01.4x+3T2022")
     course_ids = []
@@ -51,7 +52,8 @@ def test_sync_edx_course_files(
         else mock_xpro_learning_bucket
     ).bucket
     mocker.patch(
-        "course_catalog.etl.edx_shared.get_learning_course_bucket", return_value=bucket
+        "learning_resources.etl.edx_shared.get_learning_course_bucket",
+        return_value=bucket,
     )
     keys = [f"20220101/{s3_prefix}/{run_id}.tar.gz" for run_id in run_ids]
     for idx, run_id in enumerate(run_ids):
@@ -62,12 +64,11 @@ def test_sync_edx_course_files(
                 ACL="public-read",
             )
         run = LearningResourceRunFactory.create(
-            platform=platform,
             run_id=run_id,
-            content_type=ContentType.objects.get_for_model(Course),
+            learning_resource=CourseFactory.create(platform=platform).learning_resource,
             published=published,
         )
-        course_ids.append(run.object_id)
+        course_ids.append(run.learning_resource.id)
     sync_edx_course_files(platform, course_ids, keys, s3_prefix)
     assert mock_transform.call_count == (2 if published else 0)
     assert mock_load_content_files.call_count == (2 if published else 0)
@@ -88,8 +89,7 @@ def test_sync_edx_course_files_invalid_tarfile(
 ):
     """an invalid mitxonline tarball should be skipped"""
     run = LearningResourceRunFactory.create(
-        platform=platform,
-        content_type=ContentType.objects.get_for_model(Course),
+        learning_resource=CourseFactory.create(platform=platform).learning_resource,
     )
     key = f"20220101/courses/{run.run_id}.tar.gz"
     bucket = (
@@ -103,20 +103,21 @@ def test_sync_edx_course_files_invalid_tarfile(
         ACL="public-read",
     )
     mocker.patch(
-        "course_catalog.etl.edx_shared.get_learning_course_bucket", return_value=bucket
+        "learning_resources.etl.edx_shared.get_learning_course_bucket",
+        return_value=bucket,
     )
     mock_load_content_files = mocker.patch(
-        "course_catalog.etl.edx_shared.load_content_files",
+        "learning_resources.etl.edx_shared.load_content_files",
         autospec=True,
         return_value=[],
     )
     mocker.patch(
-        "course_catalog.etl.edx_shared.transform_content_files",
+        "learning_resources.etl.edx_shared.transform_content_files",
         side_effect=CalledProcessError(0, ""),
     )
-    mock_log = mocker.patch("course_catalog.etl.edx_shared.log.exception")
+    mock_log = mocker.patch("learning_resources.etl.edx_shared.log.exception")
 
-    sync_edx_course_files(platform, [run.object_id], [key])
+    sync_edx_course_files(platform, [run.learning_resource.id], [key])
     mock_load_content_files.assert_not_called()
     mock_log.assert_called_once()
     assert (
@@ -133,8 +134,7 @@ def test_sync_edx_course_files_empty_bucket(
 ):
     """If the mitxonline bucket has no tarballs matching a filename, it should be skipped"""
     run = LearningResourceRunFactory.create(
-        platform=platform,
-        content_type=ContentType.objects.get_for_model(Course),
+        learning_resource=CourseFactory.create(platform=platform).learning_resource,
     )
     key = "20220101/courses/some_other_course.tar.gz"
     bucket = (
@@ -149,14 +149,15 @@ def test_sync_edx_course_files_empty_bucket(
             ACL="public-read",
         )
     mock_load_content_files = mocker.patch(
-        "course_catalog.etl.edx_shared.load_content_files",
+        "learning_resources.etl.edx_shared.load_content_files",
         autospec=True,
         return_value=[],
     )
     mocker.patch(
-        "course_catalog.etl.edx_shared.get_learning_course_bucket", return_value=bucket
+        "learning_resources.etl.edx_shared.get_learning_course_bucket",
+        return_value=bucket,
     )
-    sync_edx_course_files(platform, [run.object_id], [key])
+    sync_edx_course_files(platform, [run.learning_resource.id], [key])
     mock_load_content_files.assert_not_called()
 
 
@@ -168,8 +169,7 @@ def test_sync_edx_course_files_error(
 ):
     """Exceptions raised during sync_mitxonline_course_files should be logged"""
     run = LearningResourceRunFactory.create(
-        platform=platform,
-        content_type=ContentType.objects.get_for_model(Course),
+        learning_resource=CourseFactory.create(platform=platform).learning_resource,
     )
     key = f"20220101/courses/{run.run_id}.tar.gz"
     bucket = (
@@ -184,19 +184,21 @@ def test_sync_edx_course_files_error(
             ACL="public-read",
         )
     mocker.patch(
-        "course_catalog.etl.edx_shared.get_learning_course_bucket", return_value=bucket
+        "learning_resources.etl.edx_shared.get_learning_course_bucket",
+        return_value=bucket,
     )
     mock_load_content_files = mocker.patch(
-        "course_catalog.etl.edx_shared.load_content_files",
+        "learning_resources.etl.edx_shared.load_content_files",
         autospec=True,
         side_effect=Exception,
     )
     fake_data = '{"key": "data"}'
-    mock_log = mocker.patch("course_catalog.etl.edx_shared.log.exception")
+    mock_log = mocker.patch("learning_resources.etl.edx_shared.log.exception")
     mock_transform = mocker.patch(
-        "course_catalog.etl.edx_shared.transform_content_files", return_value=fake_data
+        "learning_resources.etl.edx_shared.transform_content_files",
+        return_value=fake_data,
     )
-    sync_edx_course_files(platform, [run.object_id], [key])
+    sync_edx_course_files(platform, [run.learning_resource.id], [key])
     assert mock_transform.call_count == 1
     assert mock_transform.call_args[0][0].endswith(f"{run.run_id}.tar.gz") is True
     mock_load_content_files.assert_called_once_with(run, fake_data)
@@ -219,7 +221,8 @@ def test_get_most_recent_course_archives(
             ACL="public-read",
         )
     mock_get_bucket = mocker.patch(
-        "course_catalog.etl.edx_shared.get_learning_course_bucket", return_value=bucket
+        "learning_resources.etl.edx_shared.get_learning_course_bucket",
+        return_value=bucket,
     )
     assert get_most_recent_course_archives(platform) == [f"2023{base_key}"]
     mock_get_bucket.assert_called_once_with(platform)
@@ -232,9 +235,10 @@ def test_get_most_recent_course_archives_empty(
     """Empty list should be returned and a warning logged if no recent tar archives are found"""
     bucket = mock_mitxonline_learning_bucket.bucket
     mock_get_bucket = mocker.patch(
-        "course_catalog.etl.edx_shared.get_learning_course_bucket", return_value=bucket
+        "learning_resources.etl.edx_shared.get_learning_course_bucket",
+        return_value=bucket,
     )
-    mock_warning = mocker.patch("course_catalog.etl.edx_shared.log.warning")
+    mock_warning = mocker.patch("learning_resources.etl.edx_shared.log.warning")
     assert get_most_recent_course_archives(platform) == []
     mock_get_bucket.assert_called_once_with(platform)
     mock_warning.assert_called_once_with(
@@ -247,6 +251,6 @@ def test_get_most_recent_course_archives_no_bucket(settings, mocker, platform):
     """Empty list should be returned and a warning logged if no bucket is found"""
     settings.EDX_LEARNING_COURSE_BUCKET_NAME = None
     settings.XPRO_LEARNING_COURSE_BUCKET_NAME = None
-    mock_warning = mocker.patch("course_catalog.etl.edx_shared.log.warning")
+    mock_warning = mocker.patch("learning_resources.etl.edx_shared.log.warning")
     assert get_most_recent_course_archives(platform) == []
     mock_warning.assert_called_once_with("No S3 bucket for platform %s", platform)

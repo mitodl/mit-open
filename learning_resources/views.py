@@ -40,7 +40,7 @@ log = logging.getLogger(__name__)
 
 class DefaultPagination(LimitOffsetPagination):
     """
-    Pagination class for course_catalog viewsets which gets default_limit and max_limit from settings
+    Pagination class for learning_resources viewsets which gets default_limit and max_limit from settings
     """  # noqa: E501
 
     default_limit = 10
