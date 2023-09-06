@@ -43,8 +43,13 @@ def test_learning_path_endpoint_get(client, is_public, is_editor, user):
 
     # Logged in user should get public lists or all lists if editor
     client.force_login(user)
+    ## using the dedicated API
     resp = client.get(reverse("lr_learningpaths_api-list"))
     assert resp.data["count"] == (2 if is_public or is_editor else 0)
+    ## using the general API and filtering by type
+    resp = client.get(
+        f"{reverse('learning_resources_api-list')}?resource_type={LearningResourceType.learning_path.value}"
+    )
 
     resp = client.get(
         reverse(

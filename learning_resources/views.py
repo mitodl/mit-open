@@ -122,6 +122,15 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
             *([item.value for item in LearningResourceType]),
         )
         lr_query = lr_query.prefetch_related(*prefetches).distinct()
+
+        published_filter = Q(published=True)
+
+        if is_learning_path_editor(self.request) or is_admin_user(self.request):
+            published_filter = published_filter | Q(
+                resource_type=LearningResourceType.learning_path.value
+            )
+
+        lr_query = lr_query.filter(published_filter)
         return lr_query
 
     def get_queryset(self) -> QuerySet:
@@ -131,7 +140,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         Returns:
             QuerySet of LearningResource objects
         """
-        return self._get_base_queryset().filter(published=True)
+        return self._get_base_queryset()
 
     @extend_schema(responses=LearningResourceSerializer(many=True))
     @action(methods=["GET"], detail=False, name="New Resources")
@@ -186,9 +195,7 @@ class CourseViewSet(LearningResourceViewSet):
         Returns:
             QuerySet of LearningResource objects that are Courses
         """
-        return self._get_base_queryset(
-            resource_type=LearningResourceType.course.value
-        ).filter(published=True)
+        return self._get_base_queryset(resource_type=LearningResourceType.course.value)
 
 
 class ProgramViewSet(LearningResourceViewSet):
@@ -203,9 +210,7 @@ class ProgramViewSet(LearningResourceViewSet):
         Returns:
             QuerySet of LearningResource objects that are Programs
         """
-        return self._get_base_queryset(
-            resource_type=LearningResourceType.program.value
-        ).filter(published=True)
+        return self._get_base_queryset(resource_type=LearningResourceType.program.value)
 
 
 class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
@@ -223,12 +228,9 @@ class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
         Returns:
             QuerySet of LearningResource objects that are Programs
         """
-        queryset = self._get_base_queryset(
+        return self._get_base_queryset(
             resource_type=LearningResourceType.learning_path.value,
         )
-        if not (is_learning_path_editor(self.request) or is_admin_user(self.request)):
-            queryset = queryset.filter(published=True)
-        return queryset
 
     def create(self, request, *args, **kwargs):
         request.data["readable_id"] = uuid4().hex
