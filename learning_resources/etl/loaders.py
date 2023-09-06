@@ -15,6 +15,7 @@ from learning_resources.etl.constants import (
 )
 from learning_resources.etl.deduplication import get_most_relevant_run
 from learning_resources.models import (
+    ContentFile,
     Course,
     LearningResource,
     LearningResourceImage,
@@ -371,3 +372,59 @@ def load_programs(platform, programs_data, *, config=ProgramLoaderConfig()):
         load_program(program_data, blocklist, duplicates, config=config)
         for program_data in programs_data
     ]
+
+
+def load_content_file(course_run, content_file_data):
+    """
+    Sync a course run file/page to the database
+
+    Args:
+        course_run (LearningResourceRun): a LearningResourceRun for a Course
+        content_file_data (dict): File metadata as JSON
+
+    Returns:
+        Int: the id of the object that was created or updated
+    """
+    try:
+        content_file, _ = ContentFile.objects.update_or_create(
+            run=course_run, key=content_file_data.get("key"), defaults=content_file_data
+        )
+        return content_file.id
+    except:  # pylint: disable=bare-except
+        log.exception(
+            "ERROR syncing course file %s for run %d",
+            content_file_data.get("uid", ""),
+            course_run.id,
+        )
+
+
+def load_content_files(course_run, content_files_data):
+    """
+    Sync all content files for a course run to database and S3 if not present in DB
+
+    Args:
+        course_run (LearningResourceRun): a course run
+        content_files_data (list or generator): Details about the course run's content files
+
+    Returns:
+        list of int: Ids of the ContentFile objects that were created/updated
+
+    """
+    if course_run.learning_resource.resource_type == LearningResourceType.course.value:
+        content_files_ids = [
+            load_content_file(course_run, content_file)
+            for content_file in content_files_data
+        ]
+
+        deleted_files = course_run.content_files.filter(published=True).exclude(
+            pk__in=content_files_ids
+        )
+        deleted_files.update(published=False)
+
+        # Uncomment when search is enabled
+        # if course_run.published:
+        #     search_index_helpers.index_run_content_files(course_run.id)
+        # else:
+        #     search_index_helpers.deindex_run_content_files(course_run.id)
+
+        return content_files_ids

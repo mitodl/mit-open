@@ -4,11 +4,13 @@ from rest_framework.reverse import reverse
 
 from learning_resources.constants import LearningResourceType
 from learning_resources.factories import (
+    ContentFileFactory,
     CourseFactory,
     LearningResourceFactory,
     LearningResourceRunFactory,
     ProgramFactory,
 )
+from learning_resources.serializers import ContentFileSerializer
 from learning_resources.views import CourseViewSet
 
 pytestmark = [pytest.mark.django_db]
@@ -48,7 +50,51 @@ def test_get_course_endpoint(client, url):
 
 
 @pytest.mark.parametrize(
-    ("url", "params"),
+    "url",
+    ["lr_learning_resource_content_files_api-list", "lr_course_content_files_api-list"],
+)
+def test_get_course_content_files_endpoint(client, url):
+    """Test course detail contentfiles endpoint"""
+    course = CourseFactory.create()
+    content_files = sorted(
+        ContentFileFactory.create_batch(17, run=course.learning_resource.runs.first()),
+        key=lambda content_file: content_file.updated_on,
+        reverse=True,
+    )
+    ContentFileFactory.create(
+        run=course.learning_resource.runs.first(), published=False
+    )
+
+    resp = client.get(reverse(url, args=[course.learning_resource.id]))
+
+    assert resp.data.get("count") == 17
+    for idx, content_file in enumerate(content_files[:10]):
+        assert resp.data.get("results")[idx]["id"] == content_file.id
+
+
+@pytest.mark.parametrize(
+    "url",
+    ["lr_learning_resource_content_files_api-list", "lr_course_content_files_api-list"],
+)
+def test_get_course_content_files_filtered(client, url):
+    """Test course detail contentfiles endpoint"""
+    course = CourseFactory.create()
+    ContentFileFactory.create_batch(2, run=course.learning_resource.runs.first())
+    ContentFileFactory.create_batch(3, run=course.learning_resource.runs.last())
+
+    resp = client.get(
+        f"{reverse(url, args=[course.learning_resource.id])}?run__run_id={course.learning_resource.runs.first().run_id}"
+    )
+    assert resp.data.get("count") == 2
+
+    resp = client.get(
+        f"{reverse(url, args=[course.learning_resource.id])}?run__run_id={course.learning_resource.runs.last().run_id}"
+    )
+    assert resp.data.get("count") == 3
+
+
+@pytest.mark.parametrize(
+    "url, params",
     [
         ["lr_courses_api-list", ""],  # noqa: PT007
         ["learning_resources_api-list", "resource_type=course"],  # noqa: PT007
@@ -171,3 +217,51 @@ def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
         view = CourseViewSet(request=mocker.Mock(query_params=[]))
         results = view.get_queryset().all()
         assert len(results) == course_count
+
+
+def test_list_content_files_list_endpoint(client):
+    """Test ContentFile list endpoint"""
+    course = CourseFactory.create()
+    content_file_ids = [
+        cf.id
+        for cf in ContentFileFactory.create_batch(
+            2, run=course.learning_resource.runs.first()
+        )
+    ]
+    # this should be filtered out
+    ContentFileFactory.create_batch(5, published=False)
+
+    resp = client.get(f"{reverse('lr_contentfiles_api-list')}")
+    assert resp.data.get("count") == 2
+    for result in resp.data.get("results"):
+        assert result["id"] in content_file_ids
+
+
+def test_list_content_files_list_filtered(client):
+    """Test ContentFile list endpoint"""
+    course_1 = CourseFactory.create()
+    ContentFileFactory.create_batch(2, run=course_1.learning_resource.runs.first())
+    course_2 = CourseFactory.create()
+    ContentFileFactory.create_batch(3, run=course_2.learning_resource.runs.first())
+
+    resp = client.get(
+        f"{reverse('lr_contentfiles_api-list')}?run={course_1.learning_resource.runs.first().id}"
+    )
+    assert resp.data.get("count") == 2
+    resp = client.get(
+        f"{reverse('lr_contentfiles_api-list')}?run__learning_resource={course_2.learning_resource.id}"
+    )
+    assert resp.data.get("count") == 3
+    resp = client.get(
+        f"{reverse('lr_contentfiles_api-list')}?run__learning_resource=1001001"
+    )
+    assert resp.data.get("count") is None
+
+
+def test_get_contentfiles_detail_endpoint(client):
+    """Test ContentFile detail endpoint"""
+    content_file = ContentFileFactory.create()
+
+    resp = client.get(reverse("lr_contentfiles_api-detail", args=[content_file.id]))
+
+    assert resp.data == ContentFileSerializer(instance=content_file).data

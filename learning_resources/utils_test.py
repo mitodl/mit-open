@@ -1,5 +1,5 @@
 """
-Test course_catalog utils
+Test learning_resources utils
 """
 import json
 from datetime import datetime
@@ -174,7 +174,7 @@ mitx:
 
 def test_safe_load_bad_json(mocker):
     """Test that safe_load_json returns an empty dict for invalid JSON"""
-    mock_logger = mocker.patch("course_catalog.utils.log.exception")
+    mock_logger = mocker.patch("learning_resources.utils.log.exception")
     assert safe_load_json("badjson", "key") == {}
     mock_logger.assert_called_with("%s has a corrupted JSON", "key")
 

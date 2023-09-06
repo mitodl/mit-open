@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.core.management import BaseCommand
 
-from course_catalog.tasks import import_all_xpro_files
+from learning_resources.tasks import import_all_xpro_files
 from open_discussions.utils import now_in_utc
 
 

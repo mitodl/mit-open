@@ -2,7 +2,6 @@
 import decimal
 import random
 from datetime import timedelta
-from enum import Enum
 
 import factory
 import pytz
@@ -10,48 +9,10 @@ from factory import Faker
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyInteger
 
-from learning_resources import models
-from learning_resources.constants import (
-    OPEN,
-    PROFESSIONAL,
-    AvailabilityType,
-    LearningResourceRelationTypes,
-    LearningResourceType,
-)
+from learning_resources import constants, models
 from open_discussions.factories import UserFactory
 
 # pylint:disable=unused-argument
-
-
-class OfferedByChoice(Enum):
-    """
-    Enum for  Offered By labels to be used by factories
-    """
-
-    mitx = "MITx"
-    ocw = "OCW"
-    micromasters = "MicroMasters"
-    bootcamps = "Bootcamps"
-    xpro = "xPRO"
-    oll = "Open Learning Library"
-    csail = "CSAIL"
-    mitpe = "Professional Education"
-    see = "Sloan Executive Education"
-    scc = "Schwarzman College of Computing"
-    ctl = "Center for Transportation & Logistics"
-
-
-class PlatformTypeChoice(Enum):
-    """
-    Enum for platform choices to be used by factories
-    """
-
-    ocw = "ocw"
-    mitx = "mitx"
-    mitxonline = "mitxonline"
-    bootcamps = "bootcamps"
-    xpro = "xpro"
-    oll = "oll"
 
 
 def _post_gen_topics(obj, create, extracted, **kwargs):  # noqa: ARG001
@@ -140,8 +101,8 @@ class LearningResourceImageFactory(DjangoModelFactory):
 class LearningResourcePlatformFactory(DjangoModelFactory):
     """Factory for LearningResourcePlatform"""
 
-    platform = FuzzyChoice([platform.value for platform in PlatformTypeChoice])
-    audience = FuzzyChoice([OPEN, PROFESSIONAL])
+    platform = FuzzyChoice([platform.value for platform in constants.PlatformType])
+    audience = FuzzyChoice([constants.OPEN, constants.PROFESSIONAL])
     is_edx = Faker("boolean")
     has_content_files = Faker("boolean")
 
@@ -164,18 +125,18 @@ class LearningResourceDepartmentFactory(DjangoModelFactory):
 class LearningResourceOfferorFactory(DjangoModelFactory):
     """Factory for LearningResourceOfferor"""
 
-    name = FuzzyChoice([offeror.value for offeror in OfferedByChoice])
+    name = FuzzyChoice([offeror.value for offeror in constants.OfferedBy])
 
     class Meta:
         model = models.LearningResourceOfferor
         django_get_or_create = ("name",)
 
     class Params:
-        is_xpro = factory.Trait(name=OfferedByChoice.xpro.value)
-        is_bootcamps = factory.Trait(name=OfferedByChoice.bootcamps.value)
-        is_mitx = factory.Trait(name=OfferedByChoice.mitx.value)
-        is_oll = factory.Trait(name=OfferedByChoice.oll.value)
-        is_ocw = factory.Trait(name=OfferedByChoice.ocw.value)
+        is_xpro = factory.Trait(name=constants.OfferedBy.xpro.value)
+        is_bootcamps = factory.Trait(name=constants.OfferedBy.bootcamps.value)
+        is_mitx = factory.Trait(name=constants.OfferedBy.mitx.value)
+        is_oll = factory.Trait(name=constants.OfferedBy.oll.value)
+        is_ocw = factory.Trait(name=constants.OfferedBy.ocw.value)
 
 
 class LearningResourceFactory(DjangoModelFactory):
@@ -203,15 +164,20 @@ class LearningResourceFactory(DjangoModelFactory):
 
     class Params:
         no_topics = factory.Trait(topics=[])
-        is_course = factory.Trait(resource_type=LearningResourceType.course.value)
-        is_program = factory.Trait(resource_type=LearningResourceType.program.value)
+        is_course = factory.Trait(
+            resource_type=constants.LearningResourceType.course.value
+        )
+        is_program = factory.Trait(
+            resource_type=constants.LearningResourceType.program.value
+        )
 
 
 class CourseFactory(DjangoModelFactory):
     """Factory for Courses"""
 
     learning_resource = factory.SubFactory(
-        LearningResourceFactory, resource_type=LearningResourceType.course.value
+        LearningResourceFactory,
+        resource_type=constants.LearningResourceType.course.value,
     )
     extra_course_numbers = factory.List([])
 
@@ -234,7 +200,9 @@ class CourseFactory(DjangoModelFactory):
         if not create or not extracted:
             return
 
-        self.learning_resource.platform = extracted
+        self.learning_resource.platform = LearningResourcePlatformFactory.create(
+            platform=extracted
+        )
         self.learning_resource.save()
 
     class Meta:
@@ -259,10 +227,10 @@ class LearningResourceRunFactory(DjangoModelFactory):
     image = factory.SubFactory(LearningResourceImageFactory)
     availability = FuzzyChoice(
         (
-            AvailabilityType.current.value,
-            AvailabilityType.upcoming.value,
-            AvailabilityType.starting_soon.value,
-            AvailabilityType.archived.value,
+            constants.AvailabilityType.current.value,
+            constants.AvailabilityType.upcoming.value,
+            constants.AvailabilityType.starting_soon.value,
+            constants.AvailabilityType.archived.value,
         )
     )
     enrollment_start = factory.Faker("date_time", tzinfo=pytz.utc)
@@ -320,7 +288,8 @@ class LearningPathFactory(DjangoModelFactory):
     """Factory for LearningPath"""
 
     learning_resource = factory.SubFactory(
-        LearningResourceFactory, resource_type=LearningResourceType.learning_path.value
+        LearningResourceFactory,
+        resource_type=constants.LearningResourceType.learning_path.value,
     )
     author = factory.SubFactory(UserFactory)
 
@@ -344,7 +313,7 @@ class LearningPathFactory(DjangoModelFactory):
         self.learning_resource.resources.set(
             extracted,
             through_defaults={
-                "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+                "relation_type": constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
             },
         )
 
@@ -359,7 +328,8 @@ class ProgramFactory(DjangoModelFactory):
     """Factory for Programs"""
 
     learning_resource = factory.SubFactory(
-        LearningResourceFactory, resource_type=LearningResourceType.program.value
+        LearningResourceFactory,
+        resource_type=constants.LearningResourceType.program.value,
     )
 
     @factory.post_generation
@@ -402,7 +372,7 @@ class ProgramFactory(DjangoModelFactory):
         self.learning_resource.resources.set(
             extracted,
             through_defaults={
-                "relation_type": LearningResourceRelationTypes.PROGRAM_COURSES.value
+                "relation_type": constants.LearningResourceRelationTypes.PROGRAM_COURSES.value
             },
         )
 
@@ -418,20 +388,61 @@ class LearningPathItemFactory(DjangoModelFactory):
 
     parent = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=LearningResourceType.learning_path.value,
+        resource_type=constants.LearningResourceType.learning_path.value,
     )
 
     child = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=LearningResourceType.course.value,
+        resource_type=constants.LearningResourceType.course.value,
         course=factory.SubFactory(CourseFactory),
     )
 
     position = factory.Sequence(lambda n: n)
-    relation_type = LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+    relation_type = constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
 
     class Meta:
         model = models.LearningResourceRelationship
 
     class Params:
         is_program = factory.Trait(child=factory.SubFactory(ProgramFactory))
+
+
+class ContentFileFactory(DjangoModelFactory):
+    """Factory for ContentFiles"""
+
+    run = factory.SubFactory(LearningResourceRunFactory)
+    key = factory.Faker("file_path")
+    title = factory.Faker("sentence")
+    description = factory.Faker("sentence")
+    uid = factory.Faker("text", max_nb_chars=32)
+    url = factory.Faker("url")
+    image_src = FuzzyChoice(("https://img.youtube.com/thumb.jpg", None))
+    short_url = factory.Faker("word")
+    content_type = FuzzyChoice(
+        (constants.CONTENT_TYPE_FILE, constants.CONTENT_TYPE_PAGE)
+    )
+    file_type = FuzzyChoice(("application/pdf", "video/mp4", "text"))
+    section = FuzzyChoice(
+        (constants.OCW_TYPE_EXAMS, constants.OCW_TYPE_LECTURE_NOTES, None)
+    )
+    learning_resource_types = FuzzyChoice(
+        (
+            [constants.OCW_TYPE_ASSIGNMENTS],
+            [constants.OCW_TYPE_EXAMS],
+            [constants.OCW_TYPE_LABS],
+            [constants.OCW_TYPE_LECTURE_AUDIO],
+            [constants.OCW_TYPE_LECTURE_NOTES],
+            [constants.OCW_TYPE_LECTURE_VIDEOS],
+            [constants.OCW_TYPE_PROJECTS],
+            [constants.OCW_TYPE_READINGS],
+            [constants.OCW_TYPE_RECITATIONS],
+            [constants.OCW_TYPE_TEXTBOOKS],
+            [constants.OCW_TYPE_TOOLS],
+            [constants.OCW_TYPE_TUTORIALS],
+            [constants.OCW_TYPE_VIDEOS],
+        )
+    )
+    published = True
+
+    class Meta:
+        model = models.ContentFile

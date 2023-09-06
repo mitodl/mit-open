@@ -16,12 +16,14 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 from learning_resources import permissions
 from learning_resources.constants import LearningResourceType
 from learning_resources.models import (
+    ContentFile,
     LearningResource,
     LearningResourceRelationship,
     LearningResourceTopic,
 )
 from learning_resources.permissions import is_learning_path_editor
 from learning_resources.serializers import (
+    ContentFileSerializer,
     LearningPathRelationshipSerializer,
     LearningPathResourceSerializer,
     LearningResourceChildSerializer,
@@ -310,3 +312,35 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceTopicSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
+
+
+class ContentFileViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Viewset for CpntentFiles
+    """
+
+    serializer_class = ContentFileSerializer
+    permission_classes = (AnonymousAccessReadonlyPermission,)
+    queryset = ContentFile.objects.filter(published=True).order_by("-updated_on")
+    pagination_class = DefaultPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        "run",
+        "run__run_id",
+        "run__learning_resource",
+        "run__learning_resource__readable_id",
+        "run__learning_resource__platform",
+        "run__learning_resource__offered_by__name",
+    ]
+
+
+class LearningResourceContentFilesViewSet(NestedViewSetMixin, ContentFileViewSet):
+    """
+    Viewset for LearningResource nested ContentFiles
+    """
+
+    filterset_fields = ["run", "run__run_id"]
+
+    def get_parent_id(self):
+        """Get the parent learning resource id for the nested view request"""
+        return self.get_parents_query_dict()["run__learning_resource"]

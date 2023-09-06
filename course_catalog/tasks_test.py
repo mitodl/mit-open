@@ -38,7 +38,6 @@ from course_catalog.tasks import (
     import_all_mitx_files,
     import_all_mitxonline_files,
     import_all_ocw_files,
-    import_all_xpro_files,
     upload_ocw_parsed_json,
 )
 
@@ -453,18 +452,6 @@ def test_import_all_ocw_files(settings, mocker, mocked_celery, mock_blocklist):
         import_all_ocw_files.delay(3)
     assert mocked_celery.group.call_count == 1
     get_ocw_files_mock.si.assert_called_once_with([course.id for course in courses])
-
-
-@mock_s3
-def test_import_all_xpro_files(settings, mocker, mocked_celery, mock_blocklist):
-    """import_all_xpro_files should start chunked tasks with correct bucket, platform"""
-    setup_s3(settings)
-    get_content_tasks_mock = mocker.patch(
-        "course_catalog.tasks.get_content_tasks", autospec=True
-    )
-    with pytest.raises(mocked_celery.replace_exception_class):
-        import_all_xpro_files.delay(3)
-    get_content_tasks_mock.assert_called_once_with(PlatformType.xpro.value, 3)
 
 
 @mock_s3
