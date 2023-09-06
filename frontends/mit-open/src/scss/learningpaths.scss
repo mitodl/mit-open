@@ -1,0 +1,70 @@
+@use "theme"; 
+
+.learningpaths-page {
+  .list-header {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .empty-message {
+    font-style: italic;
+  }
+
+  .manage-list-form {
+    .radio-option {
+      .MuiFormControlLabel-label {
+        border: 1pt solid theme.$input-border-grey;
+        border-radius: theme.$border-radius;
+        width: 200px;
+        padding: 0.5rem;
+        margin: 0.5rem;
+        align-self: stretch;
+      }
+  
+      .option-header {
+        font-weight: bold;
+        font-size: theme.$font-normal;
+        display: block;
+      }
+  
+      .option-detail {
+        font-size: theme.$font-sm;
+      }
+    }
+  }
+  
+  .add-to-list-dialog {
+    .MuiDialog-paper {
+      width: 325px;
+    }
+  
+    .resource-title-inline {
+      font-style: italic
+    }
+  }
+  
+  .add-to-list-description {
+    &.MuiDialogContent-root {
+      padding-bottom: 0;
+    }
+  }
+  
+  .add-to-list-listing {
+    &.MuiDialogContent-root {
+      padding: 0;
+    }
+  
+    .MuiListItem-root:not(.add-to-list-new) {
+      padding: 0;
+    }
+  
+    .MuiListItemButton-root:not(.add-to-list-new) {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+  
+  .sorting-disabled {
+    opacity: 0.5;
+  }
+}

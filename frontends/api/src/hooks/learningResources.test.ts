@@ -48,7 +48,7 @@ describe("useLearningResourcesRetrieve", () => {
     const resource = factory.resource()
     const params = { id: resource.id }
     const url = urls.learningResources.details(params)
-    const useTestHook = () => useLearningResourcesDetail(params)
+    const useTestHook = () => useLearningResourcesDetail(params.id)
     assertApiCalled(useTestHook, url, "GET", resource)
   })
 })

@@ -1,15 +1,19 @@
 import { faker } from "@faker-js/faker/locale/en"
 import type { Factory } from "ol-util/factories"
 import { makePaginatedFactory } from "ol-util/factories"
+import type { PaginatedResult } from "ol-util"
 import type {
   LearningResource,
   LearningResourceImage,
   LearningResourceDepartment,
   LearningResourceRun,
   LearningResourceInstructor,
-  LearningResourceTopic
+  LearningResourceTopic,
+  LearningPathRelationship,
+  LearningPath
 } from "api"
 import { ResourceTypeEnum } from "api"
+import invariant from "tiny-invariant"
 
 const maybe = faker.helpers.maybe
 type RepeatOptins = { min?: number; max?: number }
@@ -82,11 +86,13 @@ const learningResourceTopic: Factory<LearningResourceTopic> = (
 ) => {
   const topic: LearningResourceTopic = {
     id:   faker.unique(faker.datatype.number),
-    name: faker.lorem.word(),
+    name: faker.unique(faker.lorem.words),
     ...overrides
   }
   return topic
 }
+
+const learningResourceTopics = makePaginatedFactory(learningResourceTopic)
 
 const learningResourceType = () =>
   faker.helpers.arrayElement(Object.values(ResourceTypeEnum))
@@ -101,6 +107,7 @@ const learningResource: Factory<LearningResource> = (
     certification:         null,
     course:                null,
     department:            learningResourceDepartment(),
+    description:           faker.lorem.paragraph(),
     image:                 learningResourceImage(),
     offered_by:            [],
     platform:              null,
@@ -111,8 +118,10 @@ const learningResource: Factory<LearningResource> = (
     resource_content_tags: repeat(faker.lorem.word),
     resource_type:         resourceType,
     runs:                  [],
+    published:             faker.datatype.boolean(),
     title:                 faker.lorem.words(),
-    topics:                maybe(() => repeat(learningResourceTopic)) ?? null,
+    topics:
+      maybe(() => repeat(learningResourceTopic, { min: 1, max: 3 })) ?? null,
     learning_path_parents: [],
     ...typeSpecificOverrides(resourceType),
     ...overrides
@@ -135,6 +144,15 @@ const learningResource: Factory<LearningResource> = (
         certification: faker.lorem.word(),
         offered_by:    repeat(faker.lorem.word)
       }
+    } else if (type === ResourceTypeEnum.LearningPath) {
+      return {
+        learning_path: {
+          id:         faker.unique(faker.datatype.number),
+          item_count: faker.datatype.number({ min: 1, max: 30 }),
+          author:     faker.datatype.number()
+        },
+        learning_path_parents: []
+      }
     }
     return {}
   }
@@ -144,10 +162,61 @@ const learningResource: Factory<LearningResource> = (
 
 const learningResources = makePaginatedFactory(learningResource)
 
+const learningPath: Factory<LearningResource, Partial<LearningPath>> = (
+  overrides = {},
+  pathOverrides
+) => {
+  const resource = learningResource({
+    resource_type: ResourceTypeEnum.LearningPath,
+    ...overrides
+  })
+  invariant(resource.learning_path)
+  resource.learning_path = { ...resource.learning_path, ...pathOverrides }
+  return resource
+}
+const learningPaths = makePaginatedFactory(learningPath)
+
+const learningPathRelationships = ({
+  count,
+  parent,
+  pageSize,
+  next = null,
+  previous = null
+}: {
+  count: number
+  parent: number
+  pageSize?: number
+  next?: string | null
+  previous?: string | null
+}): PaginatedResult<LearningPathRelationship> => {
+  const results: LearningPathRelationship[] = Array(pageSize ?? count)
+    .fill(null)
+    .map((_val, index) => {
+      const resource = learningResource()
+      return {
+        child:    resource.id,
+        id:       faker.unique(faker.datatype.number),
+        parent,
+        position: index + 1,
+        resource
+      }
+    })
+  return {
+    count,
+    next,
+    previous,
+    results
+  }
+}
+
 export {
   learningResource as resource,
   learningResources as resources,
   learningResourceRun as run,
   learningResourceImage as image,
-  learningResourceDepartment as department
+  learningResourceDepartment as department,
+  learningResourceTopics as topics,
+  learningPath,
+  learningPaths,
+  learningPathRelationships
 }

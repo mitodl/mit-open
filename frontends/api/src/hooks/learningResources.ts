@@ -1,5 +1,6 @@
 import {
   UseQueryOptions,
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient
@@ -7,21 +8,33 @@ import {
 import { learningResourcesApi, learningpathsApi, topicsApi } from "../clients"
 import type {
   LearningResourcesApiLearningResourcesListRequest,
-  LearningResourcesApiLearningResourcesRetrieveRequest,
   LearningpathsApiLearningpathsCreateRequest,
   LearningpathsApiLearningpathsPartialUpdateRequest,
   LearningpathsApiLearningpathsDestroyRequest,
-  TopicsApiTopicsListRequest
+  TopicsApiTopicsListRequest,
+  LearningpathsApiLearningpathsResourcesListRequest
 } from "../generated"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
 const learningResources = createQueryKeys("learningResources", {
-  detail: (params: LearningResourcesApiLearningResourcesRetrieveRequest) => ({
-    queryKey: [params],
+  detail: (id: number) => ({
+    queryKey: [id],
     queryFn:  () =>
       learningResourcesApi
-        .learningResourcesRetrieve(params)
-        .then(res => res.data)
+        .learningResourcesRetrieve({ id })
+        .then(res => res.data),
+    contextQueries: {
+      items: (
+        itemsP: LearningpathsApiLearningpathsResourcesListRequest,
+        infinite: boolean
+      ) => ({
+        queryKey: [{ ...itemsP, infinite }],
+        queryFn:  () =>
+          learningpathsApi
+            .learningpathsResourcesList(itemsP)
+            .then(res => res.data)
+      })
+    }
   }),
   list: (params: LearningResourcesApiLearningResourcesListRequest) => ({
     queryKey: [params],
@@ -39,10 +52,8 @@ const useLearningResourcesList = (
   return useQuery(learningResources.list(params))
 }
 
-const useLearningResourcesDetail = (
-  params: LearningResourcesApiLearningResourcesRetrieveRequest
-) => {
-  return useQuery(learningResources.detail(params))
+const useLearningResourcesDetail = (id: number) => {
+  return useQuery(learningResources.detail(id))
 }
 
 const useLearningResourceTopics = (
@@ -55,20 +66,29 @@ const useLearningResourceTopics = (
   })
 }
 
-type LearningPathCreateRequest = {
-  learningPathResourceRequest: Omit<
-    LearningpathsApiLearningpathsCreateRequest["learningPathResourceRequest"],
-    "readable_id" | "resource_type"
-  >
+const useInfiniteLearningPathItems = (
+  params: LearningpathsApiLearningpathsResourcesListRequest,
+  options: Pick<UseQueryOptions, "enabled"> = {}
+) => {
+  return useInfiniteQuery({
+    ...learningResources.detail(params.parent_id)._ctx.items(params, true),
+    getNextPageParam: lastPage => lastPage.next ?? undefined,
+    ...options
+  })
 }
+
+type LearningPathCreateRequest = Omit<
+  LearningpathsApiLearningpathsCreateRequest["LearningPathResourceRequest"],
+  "readable_id" | "resource_type"
+>
 const useLearningpathCreate = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (params: LearningPathCreateRequest) =>
-      learningpathsApi.learningpathsCreate(
+      learningpathsApi.learningpathsCreate({
         // @ts-expect-error 'readable_id' and 'resource_type' are erroneously required
-        params
-      ),
+        LearningPathResourceRequest: params
+      }),
     onSettled: () =>
       queryClient.invalidateQueries({
         queryKey: learningResources._def // TODO much too agressive
@@ -99,11 +119,34 @@ const useLearningpathDestroy = () => {
   })
 }
 
+interface LearningpathMoveRequest {
+  parentId: number
+  id: number
+  position?: number
+}
+const useLearningpathMove = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ parentId, id, position }: LearningpathMoveRequest) =>
+      learningpathsApi.learningpathsResourcesPartialUpdate({
+        parent_id:                              parentId,
+        id,
+        PatchedLearningPathRelationshipRequest: { position }
+      }),
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: learningResources._def // TODO much too agressive
+      })
+  })
+}
+
 export {
   useLearningResourcesList,
   useLearningResourcesDetail,
   useLearningResourceTopics,
+  useInfiniteLearningPathItems,
   useLearningpathCreate,
   useLearningpathUpdate,
-  useLearningpathDestroy
+  useLearningpathDestroy,
+  useLearningpathMove
 }
