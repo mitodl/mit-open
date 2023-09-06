@@ -2,7 +2,6 @@
 from subprocess import CalledProcessError
 
 import pytest
-from django.contrib.contenttypes.models import ContentType
 
 from learning_resources.constants import PlatformType
 from learning_resources.etl.edx_shared import (
@@ -10,7 +9,7 @@ from learning_resources.etl.edx_shared import (
     sync_edx_course_files,
 )
 from learning_resources.factories import CourseFactory, LearningResourceRunFactory
-from learning_resources.models import Course, LearningResourceRun
+from learning_resources.models import LearningResourceRun
 
 pytestmark = pytest.mark.django_db
 
