@@ -27,6 +27,6 @@ docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli:${GENERATO
     -g typescript-axios \
     -o /local/frontends/api/src/generated \
     --ignore-file-override /local/frontends/api/.openapi-generator-ignore \
-    --additional-properties=useSingleRequestParameter=true
+    --additional-properties=useSingleRequestParameter=true,paramNaming=original
 
 docker compose run --rm watch yarn workspace api global:fmt-fix

@@ -83,6 +83,7 @@ urlpatterns = [
     re_path(r"^fields/", index, name="fields"),
     re_path(r"^podcasts/", index, name="podcasts"),
     re_path(r"^terms-and-conditions/", index, name="terms-and-conditions"),
+    re_path(r"^learningpaths/", index, name="learningpaths"),
     # Hijack
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

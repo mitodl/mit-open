@@ -176,7 +176,7 @@ jobs:
           command-args: |
             --output $GENERATOR_OUTPUT_DIR_CI \
             --ignore-file-override $GENERATOR_IGNORE_FILE \
-            --additional-properties=useSingleRequestParameter=true
+            --additional-properties=useSingleRequestParameter=true,paramNaming=original
       - name: Format freshly generated client 
         run: npx prettier-eslint $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
       - name: Check VC client is up-to-date
