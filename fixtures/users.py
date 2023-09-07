@@ -11,24 +11,20 @@ from open_discussions.factories import UserFactory
 
 
 @pytest.fixture
-def user(db, use_betamax, request):
+def user():
     """Create a user"""
     return UserFactory.create()
 
 
 @pytest.fixture
-def staff_user(db, use_betamax, request):
+def staff_user():
     """Create a staff user"""
-    if use_betamax:
-        request.getfixturevalue("configure_betamax")
     return UserFactory.create(is_staff=True)
 
 
 @pytest.fixture()
-def index_user(db, use_betamax, request):
+def index_user():
     """Create a user to be used for indexing"""
-    if use_betamax:
-        request.getfixturevalue("configure_betamax")
     user = UserFactory.create(is_staff=True)
     return user
 
