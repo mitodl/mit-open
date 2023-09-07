@@ -13,8 +13,6 @@ from open_discussions.permissions import is_admin_user
 
 from course_catalog.permissions import is_staff_list_editor
 
-from moira_lists.moira_api import is_public_list_editor
-
 
 def index(request, **kwargs):  # pylint: disable=unused-argument
     """Render the example app"""
@@ -28,8 +26,6 @@ def index(request, **kwargs):  # pylint: disable=unused-argument
         "user": {
             "id": user.id,
             "is_authenticated": bool(user.is_authenticated),
-            "is_public_list_editor": user.is_authenticated
-            and is_public_list_editor(user),
             "is_staff_list_editor": user.is_authenticated
             and (is_admin_user(request) or is_staff_list_editor(request)),
         },

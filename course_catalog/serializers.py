@@ -38,7 +38,6 @@ from course_catalog.models import (
     UserListItem,
     Video,
 )
-from moira_lists.moira_api import is_public_list_editor
 from open_discussions.serializers import WriteableSerializerMethodField
 from open_discussions.settings import DRF_NESTED_PARENT_LOOKUP_PREFIX
 from search.search_index_helpers import (
@@ -715,9 +714,8 @@ class UserListSerializer(
         """
         request = self.context.get("request")
         if request and hasattr(request, "user") and isinstance(request.user, User):
-            if (
-                privacy_level == PrivacyLevel.public.value
-                and not is_public_list_editor(request.user)
+            if privacy_level == PrivacyLevel.public.value and not (
+                request.user.is_superuser or request.user.is_staff
             ):
                 raise ValidationError("Invalid permissions for public lists")
         return privacy_level

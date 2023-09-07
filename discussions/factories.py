@@ -3,7 +3,6 @@ import factory
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice
 
-from channels.factories.utils import channel_name
 from discussions import api
 from discussions.constants import ChannelTypes
 from discussions.models import Channel
@@ -12,7 +11,7 @@ from discussions.models import Channel
 class ChannelFactory(DjangoModelFactory):
     """Factory for a channels.models.Channel object"""
 
-    name = factory.LazyAttributeSequence(channel_name)
+    name = factory.fuzzy.FuzzyText(length=21)
     title = factory.Faker("text", max_nb_chars=50)
     channel_type = FuzzyChoice(ChannelTypes.values())
     about = factory.List(

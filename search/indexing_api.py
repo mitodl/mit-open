@@ -24,13 +24,11 @@ from search.connection import (
 )
 from search.constants import (
     ALIAS_ALL_INDICES,
-    COMMENT_TYPE,
     COURSE_TYPE,
     GLOBAL_DOC_TYPE,
     MAPPING,
     PODCAST_EPISODE_TYPE,
     PODCAST_TYPE,
-    POST_TYPE,
     PROFILE_TYPE,
     PROGRAM_TYPE,
     SCRIPTING_LANG,
@@ -42,15 +40,12 @@ from search.constants import (
 )
 from search.exceptions import ReindexException
 from search.serializers import (
-    OSPostSerializer,
-    serialize_bulk_comments,
     serialize_bulk_courses,
     serialize_bulk_courses_for_deletion,
     serialize_bulk_podcast_episodes,
     serialize_bulk_podcast_episodes_for_deletion,
     serialize_bulk_podcasts,
     serialize_bulk_podcasts_for_deletion,
-    serialize_bulk_posts,
     serialize_bulk_profiles,
     serialize_bulk_profiles_for_deletion,
     serialize_bulk_programs,
@@ -76,7 +71,7 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
     Args:
         index_name (str): The name of the index to clear
         skip_mapping (bool): If true, don't set any mapping
-        object_type(str): The type of document (post, comment)
+        object_type(str): The type of document.
     """
     if object_type not in VALID_OBJECT_TYPES:
         raise ValueError(
@@ -166,7 +161,7 @@ def update_field_values_by_query(query, field_dict, object_types=None):
     Args:
         query (dict): A dict representing an ES query
         field_dict (dict): dictionary of fields with values to update
-        object_types (list of str): The object types to query (post, comment, etc)
+        object_types (list of str): The object types to query.
     """
     sources = []
     params = {}
@@ -210,7 +205,7 @@ def _update_document_by_id(doc_id, body, object_type, *, retry_on_conflict=0, **
     Args:
         doc_id (str): The ES document id
         body (dict): ES update operation body
-        object_type (str): The object type to update (post, comment, etc)
+        object_type (str): The object type to update.
         retry_on_conflict (int): Number of times to retry if there's a conflict (default=0)
         kwargs (dict): Optional kwargs to be passed to opensearch
     """
@@ -241,7 +236,7 @@ def update_document_with_partial(doc_id, doc, object_type, *, retry_on_conflict=
     Args:
         doc_id (str): The ES document id
         doc (dict): Full or partial ES document
-        object_type (str): The object type to update (post, comment, etc)
+        object_type (str): The object type to update.
         retry_on_conflict (int): Number of times to retry if there's a conflict (default=0)
     """
     _update_document_by_id(
@@ -256,7 +251,7 @@ def upsert_document(doc_id, doc, object_type, *, retry_on_conflict=0, **kwargs):
     Args:
         doc_id (str): The ES document id
         doc (dict): Full ES document
-        object_type (str): The object type to update (post, comment, etc)
+        object_type (str): The object type to update.
         retry_on_conflict (int): Number of times to retry if there's a conflict (default=0)
         kwargs (dict): Optional kwargs to be passed to opensearch
     """
@@ -275,7 +270,7 @@ def increment_document_integer_field(doc_id, field_name, incr_amount, object_typ
 
     Args:
         doc_id (str): The ES document id
-        object_type (str): The object type to update (post, comment, etc)
+        object_type (str): The object type to update.
         field_name (str): The name of the field to increment
         incr_amount (int): The amount to increment by
     """
@@ -289,19 +284,6 @@ def increment_document_integer_field(doc_id, field_name, incr_amount, object_typ
             }
         },
         object_type,
-    )
-
-
-def update_post(doc_id, post):
-    """
-    Serializes a Post object and updates it in the index
-
-    Args:
-        doc_id (str): The ES document id
-        post (channels.models.Post): A Post object
-    """
-    return update_document_with_partial(
-        doc_id, OSPostSerializer(instance=post).data, POST_TYPE
     )
 
 
@@ -381,29 +363,6 @@ def index_items(documents, object_type, update_only, **kwargs):
                     raise ReindexException(
                         f"Error during bulk {object_type} insert: {errors}"
                     )
-
-
-def index_posts(ids, update_only=False):
-    """
-    Index a list of posts by id
-
-    Args:
-        ids(list of int): List of Post id's
-        update_only (bool): Update existing index only
-    """
-    index_items(serialize_bulk_posts(ids), POST_TYPE, update_only)
-
-
-def index_comments(ids, update_only=False):
-    """
-    Index a list of comments by id
-
-    Args:
-        ids(list of int): List of Comment id's
-        update_only (bool): Update existing index only
-
-    """
-    index_items(serialize_bulk_comments(ids), COMMENT_TYPE, update_only)
 
 
 def index_profiles(ids, update_only=False):
@@ -683,7 +642,7 @@ def create_backing_index(object_type):
     Start the reindexing process by creating a new backing index and pointing the reindex alias toward it
 
     Args:
-        object_type (str): The object type for the index (post, comment, etc)
+        object_type (str): The object type for the index.
 
     Returns:
         str: The new backing index
@@ -714,7 +673,7 @@ def switch_indices(backing_index, object_type):
 
     Args:
         backing_index (str): The backing index of the reindex alias
-        object_type (str): The object type for the index (post, comment, etc)
+        object_type (str): The object type for the index.
     """
     conn = get_conn()
     actions = []

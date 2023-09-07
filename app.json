@@ -169,7 +169,7 @@
       "required": false
     },
     "INDEXING_API_USERNAME": {
-      "description": "Reddit username used for indexing"
+      "description": "Username used for indexing"
     },
     "INDEXING_ERROR_RETRIES": {
       "description": "Number of times to retry an indexing operation on failure",
@@ -305,23 +305,11 @@
     "MITOPEN_BASE_URL": {
       "description": "Base url to link users to in emails"
     },
-    "MITOPEN_CHANNEL_POST_LIMIT": {
-      "description": "Number of posts to display on the frontpage and channels",
-      "required": false
-    },
     "MITOPEN_COOKIE_NAME": {
       "description": "Name of the cookie for the JWT auth token"
     },
     "MITOPEN_COOKIE_DOMAIN": {
       "description": "Domain for the cookie for the JWT auth token"
-    },
-    "MITOPEN_DEFAULT_CHANNEL_BACKPOPULATE_BATCH_SIZE": {
-      "description": "Number of users to sync per backpopulate batch",
-      "required": false
-    },
-    "MITOPEN_RELATED_POST_COUNT": {
-      "description": "Number of related posts to fetch",
-      "required": false
     },
     "MITOPEN_DB_CONN_MAX_AGE": {
       "value": "0"
@@ -356,46 +344,14 @@
     "MITOPEN_FROM_EMAIL": {
       "description": "E-mail to use for the from field"
     },
-    "MITOPEN_FRONTPAGE_DIGEST_MAX_EPISODES": {
-      "description": "Max podcast episodes in open digest emails",
-      "required": false
-    },
-    "MITOPEN_FRONTPAGE_DIGEST_MAX_POSTS": {
-      "description": "Max posts in open digest emails",
-      "required": false
-    },
     "MITOPEN_LOG_LEVEL": {
       "description": "The log level for the application",
       "required": true,
       "value": "INFO"
     },
-    "MITOPEN_HOT_POST_REPAIR_DELAY": {
-      "description": "How many second to wait until attempting to repair a missing post",
-      "required": false
-    },
-    "MITOPEN_HOT_POST_REPAIR_LIMIT": {
-      "description": "Maximum number of posts in the history to check for a missing post",
-      "required": false
-    },
     "MITOPEN_JWT_SECRET": {
       "description": "Shared secret for JWT auth tokens",
       "required": true
-    },
-    "MITOPEN_MAX_COMMENT_DEPTH": {
-      "description": "Maximum depth of a comment",
-      "required": false
-    },
-    "MITOPEN_NOTIFICATION_ATTEMPT_RATE_LIMIT": {
-      "description": "The per-worker rate limit at which to generate pending EmailNotification frontpage records",
-      "required": false
-    },
-    "MITOPEN_NOTIFICATION_ATTEMPT_CHUNK_SIZE": {
-      "description": "The size of each attempt batch",
-      "required": false
-    },
-    "MITOPEN_NOTIFICATION_SEND_CHUNK_SIZE": {
-      "description": "The size of each sending batch",
-      "required": false
     },
     "MITOPEN_SECURE_SSL_REDIRECT": {
       "description": "Application-level SSL redirect setting.",
@@ -406,11 +362,7 @@
       "required": false
     },
     "MITOPEN_TITLE": {
-      "description": "Title of the open discussions site",
-      "required": false
-    },
-    "MITOPEN_TOS_URL": {
-      "description": "URL to the Terms of Service",
+      "description": "Title of the MIT Open site",
       "required": false
     },
     "MITOPEN_SUPPORT_EMAIL": {
@@ -518,14 +470,6 @@
     },
     "SENTRY_LOG_LEVEL": {
       "description": "The log level for Sentry",
-      "required": false
-    },
-    "SPAM_EXEMPT_EMAILS": {
-      "description": "list of email regex patterns that are exempt from spam checking",
-      "required": false
-    },
-    "STAFF_MOIRA_LISTS": {
-      "description": "moira lists of users who can create public lists",
       "required": false
     },
     "STATUS_TOKEN": {

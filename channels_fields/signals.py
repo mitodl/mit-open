@@ -2,12 +2,13 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from guardian.shortcuts import assign_perm
-
-from channels.constants import WIDGET_LIST_CHANGE_PERM
 from channels_fields.api import create_field_groups_and_roles
 from channels_fields.constants import FIELD_ROLE_MODERATORS
 from channels_fields.models import FieldChannel
 from widgets.models import WidgetList
+
+
+WIDGET_LIST_CHANGE_PERM = "widgets.change_widgetlist"
 
 
 @receiver(

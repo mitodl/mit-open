@@ -88,33 +88,6 @@ MAILGUN_KEY
 Additionally, you'll need to set `MAILGUN_RECIPIENT_OVERRIDE` to your own email address so
 any emails sent from the app will be delivered to you.
 
-### Enabling article posts
-It is based on text posts but allows the user to add a cover image, provides richer editing capabilities, etc.
-To enable it, run through these steps:
-
-1. Adjust channel settings to allow article posts. This can be done in one of two ways:
-    1. Visit the channel settings page in the running app when logged in as a moderator user.
-        Select the article checkbox under "Allowed Post Types" and save. 
-        (There should be an option in the channel page header to visit the settings page, or
-        you can navigate there directly: `/c/<channel_name>/settings/`).
-    1. Update the channel directly in a Django shell:
-        
-        ```python
-        from channels.models import Channel
-        # To allow all post types for the channel...
-        Channel.objects.filter(name="SOME_CHANNEL_NAME").update(
-           allowed_post_types=Channel.allowed_post_types.link | Channel.allowed_post_types.self | Channel.allowed_post_types.article
-        )        
-        ```
-1. Set up environment variables for the article UI. In `.env`, add:
-    ```python
-    FEATURE_ARTICLE_UI=True
-    # Ask a fellow developer for the following values...
-    CKEDITOR_ENVIRONMENT_ID=...
-    CKEDITOR_SECRET_KEY=...
-    CKEDITOR_UPLOAD_URL=...
-    ```
-
 ### Enabling image uploads to S3
 
 :warning: **NOTE: Article cover image thumbnails will be broken unless this is configured** :warning:
@@ -129,16 +102,6 @@ broken images unless you configure your app to upload to S3. Steps:
     
     These values can be copied directly from the Open Discussions CI Heroku settings, or a 
     fellow dev can provide them.
-    
-### Enabling widgets
-
-To enable channel widgets, run through these steps:
-
-1. Run the management command to ensure that your channels are properly configured
-    ```bash
-    docker-compose run --rm web ./manage.py backpopulate_channel_widget_lists
-    ```
-1. Add `FEATURE_WIDGETS_UI=True` to your `.env`
 
 ### Enabling searching the course catalog on opensearch
 

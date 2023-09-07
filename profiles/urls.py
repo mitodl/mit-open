@@ -8,7 +8,6 @@ from profiles.views import (
     ProfileViewSet,
     UserWebsiteViewSet,
     name_initials_avatar_view,
-    UserContributionListView,
 )
 
 router = DefaultRouter()
@@ -17,11 +16,6 @@ router.register(r"profiles", ProfileViewSet, basename="profile_api")
 router.register(r"websites", UserWebsiteViewSet, basename="user_websites_api")
 
 urlpatterns = [
-    re_path(
-        r"^api/v0/profiles/(?P<username>[A-Za-z0-9_]+)/(?P<object_type>posts|comments)/$",
-        UserContributionListView.as_view(),
-        name="user-contribution-list",
-    ),
     re_path(r"^api/v0/", include(router.urls)),
     # The URL that gravatar will redirect to if no gravatar exists for the user (no query parameters allowed).
     re_path(

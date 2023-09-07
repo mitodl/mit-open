@@ -5,9 +5,6 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.contenttypes.models import ContentType
 
-from channels.api import add_user_role
-from channels.constants import CHANNEL_TYPE_PUBLIC, CHANNEL_TYPE_RESTRICTED
-from channels.factories.models import ChannelFactory
 from course_catalog.constants import PlatformType, PrivacyLevel
 from course_catalog.factories import (
     ContentFileFactory,
@@ -25,20 +22,15 @@ from search.api import (
     SIMILAR_RESOURCE_RELEVANT_FIELDS,
     execute_learn_search,
     execute_search,
-    find_related_documents,
     find_similar_resources,
-    gen_comment_id,
-    gen_post_id,
     gen_video_id,
     get_similar_topics,
-    is_reddit_object_removed,
     transform_results,
 )
 from search.connection import get_default_alias_name
 from search.constants import (
     ALIAS_ALL_INDICES,
     COURSE_TYPE,
-    GLOBAL_DOC_TYPE,
     PODCAST_EPISODE_TYPE,
     PODCAST_TYPE,
     USER_LIST_TYPE,
@@ -87,220 +79,11 @@ def search_features(settings):
     settings.FEATURES[features.PODCAST_SEARCH] = True
 
 
-@pytest.fixture()
-def gen_query_filters_mock(mocker):
-    """Mock _apply_general_query_filters"""
-
-    def return_search_arg(
-        search, *args
-    ):  # pylint: disable=missing-docstring,unused-argument
-        return search
-
-    return mocker.patch(
-        "search.api._apply_general_query_filters", side_effect=return_search_arg
-    )
-
-
-def test_gen_post_id():
-    """Test that gen_post_id returns an expected id"""
-    assert gen_post_id("1") == "p_1"
-
-
-def test_gen_comment_id():
-    """Test that gen_comment_id returns an expected id"""
-    assert gen_comment_id("1") == "c_1"
-
-
 def test_gen_video_id(mocker):
     """Test that gen_video_id returns an expected id"""
     assert (
         gen_video_id(mocker.Mock(platform="youtube", video_id="8gjuY2"))
         == "video_youtube_8gjuY2"
-    )
-
-
-@pytest.mark.parametrize(
-    "banned_by_val,approved_by_val,expected_value",
-    [
-        ("admin_username", "", True),
-        ("admin_username", None, True),
-        ("admin_username", "admin_username", False),
-        ("", None, False),
-        (None, None, False),
-    ],
-)
-def test_is_reddit_object_removed(
-    mocker, banned_by_val, approved_by_val, expected_value
-):
-    """
-    Tests that is_reddit_object_removed returns the expected values based on the
-    banned_by and approved_by properties for the given object
-    """
-    reddit_obj = mocker.Mock(banned_by=banned_by_val, approved_by=approved_by_val)
-    assert is_reddit_object_removed(reddit_obj) is expected_value
-
-
-def test_execute_search(user, opensearch):
-    """execute_search should execute an OpenSearch search"""
-    channels = sorted(ChannelFactory.create_batch(2), key=lambda channel: channel.name)
-    add_user_role(channels[0], "moderators", user)
-    add_user_role(channels[1], "contributors", user)
-
-    query = {"a": "query"}
-    opensearch.conn.search.return_value = {"hits": {"total": 10}}
-
-    assert execute_search(user=user, query=query) == opensearch.conn.search.return_value
-    opensearch.conn.search.assert_called_once_with(
-        body={
-            **query,
-            "query": {
-                "bool": {
-                    "filter": [
-                        {
-                            "bool": {
-                                "should": [
-                                    {
-                                        "bool": {
-                                            "must_not": [
-                                                {
-                                                    "terms": {
-                                                        "object_type": [
-                                                            "comment",
-                                                            "post",
-                                                        ]
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    {
-                                        "terms": {
-                                            "channel_type": [
-                                                CHANNEL_TYPE_PUBLIC,
-                                                CHANNEL_TYPE_RESTRICTED,
-                                            ]
-                                        }
-                                    },
-                                    {
-                                        "terms": {
-                                            "channel_name": [
-                                                channel.name for channel in channels
-                                            ]
-                                        }
-                                    },
-                                ]
-                            }
-                        },
-                        {
-                            "bool": {
-                                "should": [
-                                    {
-                                        "bool": {
-                                            "must": [
-                                                {"term": {"deleted": False}},
-                                                {"term": {"removed": False}},
-                                            ]
-                                        }
-                                    },
-                                    {
-                                        "bool": {
-                                            "must_not": [
-                                                {
-                                                    "terms": {
-                                                        "object_type": [
-                                                            "comment",
-                                                            "post",
-                                                        ]
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    },
-                                ]
-                            }
-                        },
-                    ]
-                }
-            },
-        },
-        index=[get_default_alias_name(ALIAS_ALL_INDICES)],
-    )
-
-
-def test_execute_search_anonymous(opensearch):
-    """execute_search should execute an OpenSearch search with an anonymous user"""
-    user = AnonymousUser()
-    query = {"a": "query"}
-    opensearch.conn.search.return_value = {"hits": {"total": 10}}
-
-    assert execute_search(user=user, query=query) == opensearch.conn.search.return_value
-    opensearch.conn.search.assert_called_once_with(
-        body={
-            **query,
-            "query": {
-                "bool": {
-                    "filter": [
-                        {
-                            "bool": {
-                                "should": [
-                                    {
-                                        "bool": {
-                                            "must_not": [
-                                                {
-                                                    "terms": {
-                                                        "object_type": [
-                                                            "comment",
-                                                            "post",
-                                                        ]
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    {
-                                        "terms": {
-                                            "channel_type": [
-                                                CHANNEL_TYPE_PUBLIC,
-                                                CHANNEL_TYPE_RESTRICTED,
-                                            ]
-                                        }
-                                    },
-                                ]
-                            }
-                        },
-                        {
-                            "bool": {
-                                "should": [
-                                    {
-                                        "bool": {
-                                            "must": [
-                                                {"term": {"deleted": False}},
-                                                {"term": {"removed": False}},
-                                            ]
-                                        }
-                                    },
-                                    {
-                                        "bool": {
-                                            "must_not": [
-                                                {
-                                                    "terms": {
-                                                        "object_type": [
-                                                            "comment",
-                                                            "post",
-                                                        ]
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    },
-                                ]
-                            }
-                        },
-                    ]
-                }
-            },
-        },
-        index=[get_default_alias_name(ALIAS_ALL_INDICES)],
     )
 
 
@@ -310,7 +93,6 @@ def test_execute_search_with_suggestion(
     opensearch, suggest_min_hits, max_suggestions, settings
 ):
     """execute_search should execute an OpenSearch search suggestions"""
-    user = AnonymousUser()
     query = {"a": "query"}
 
     settings.OPENSEARCH_MAX_SUGGEST_HITS = suggest_min_hits
@@ -327,7 +109,7 @@ def test_execute_search_with_suggestion(
         "suggest": RAW_SUGGESTIONS,
     }
 
-    assert execute_search(user=user, query=query) == {
+    assert execute_search(query=query) == {
         "hits": {"total": 3},
         "suggest": expected_suggest,
     }
@@ -343,9 +125,6 @@ def test_execute_learn_search(
     opensearch.conn.search.return_value = {
         "hits": {"total": {"value": 10, "relation": "eq"}}
     }
-    channels = sorted(ChannelFactory.create_batch(2), key=lambda channel: channel.name)
-    add_user_role(channels[0], "moderators", user)
-    add_user_role(channels[1], "contributors", user)
 
     if has_resource_type_subquery:
         query = {"a": {"bool": {"object_type": COURSE_TYPE}}}
@@ -503,30 +282,6 @@ def test_execute_learn_search_podcasts(settings, user, opensearch):
             ]
         }
     }
-
-
-def test_find_related_documents(settings, opensearch, user, gen_query_filters_mock):
-    """find_related_documents should execute a more-like-this query"""
-    posts_to_return = 7
-    settings.MITOPEN_RELATED_POST_COUNT = posts_to_return
-    post_id = "abc"
-
-    assert (
-        find_related_documents(user=user, post_id=post_id)
-        == opensearch.conn.search.return_value
-    )
-    assert gen_query_filters_mock.call_count == 1
-    constructed_query = opensearch.conn.search.call_args[1]
-    assert constructed_query["body"]["query"] == {
-        "more_like_this": {
-            "like": {"_id": gen_post_id(post_id), "_type": GLOBAL_DOC_TYPE},
-            "fields": ["plain_text", "post_title", "author_id", "channel_name"],
-            "min_term_freq": 1,
-            "min_doc_freq": 1,
-        }
-    }
-    assert constructed_query["body"]["from"] == 0
-    assert constructed_query["body"]["size"] == posts_to_return
 
 
 @pytest.mark.parametrize("is_anonymous", [True, False])

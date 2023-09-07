@@ -3,8 +3,6 @@ import requests
 
 from django.conf import settings
 
-THUMBNAIL_URL = "thumbnail_url"
-
 
 def get_embedly_summary(url):
     """issue a request to embed.ly's oembed API endpoint"""

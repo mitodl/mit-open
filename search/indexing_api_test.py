@@ -5,10 +5,8 @@ Tests for the indexing API
 from types import SimpleNamespace
 
 import pytest
-from opensearchpy.exceptions import ConflictError, NotFoundError
+from opensearchpy.exceptions import NotFoundError
 
-from channels.api import add_user_role, sync_channel_subscription_model
-from channels.factories.models import ChannelFactory
 from course_catalog.factories import (
     ContentFileFactory,
     CourseFactory,
@@ -21,32 +19,24 @@ from search import indexing_api
 from search.api import gen_course_id
 from search.connection import get_default_alias_name
 from search.constants import (
-    ALIAS_ALL_INDICES,
-    COMMENT_TYPE,
     GLOBAL_DOC_TYPE,
-    POST_TYPE,
     PROFILE_TYPE,
     SCRIPTING_LANG,
     UPDATE_CONFLICT_SETTING,
+    COURSE_TYPE,
 )
 from search.exceptions import ReindexException
 from search.indexing_api import (
     clear_and_create_index,
-    create_backing_index,
-    create_document,
     deindex_courses,
     deindex_document,
     deindex_run_content_files,
     delete_orphaned_indices,
-    get_reindexing_alias_name,
-    increment_document_integer_field,
     index_course_content_files,
     index_items,
     index_run_content_files,
-    switch_indices,
-    update_document_with_partial,
     update_field_values_by_query,
-    update_post,
+    get_reindexing_alias_name,
 )
 from search.serializers import serialize_bulk_profiles
 
@@ -63,8 +53,8 @@ def mocked_es(mocker, settings):
         "search.indexing_api.get_conn", autospec=True, return_value=conn
     )
     mocker.patch("search.connection.get_conn", autospec=True)
-    default_alias = get_default_alias_name(POST_TYPE)
-    reindex_alias = get_reindexing_alias_name(POST_TYPE)
+    default_alias = get_default_alias_name(COURSE_TYPE)
+    reindex_alias = get_reindexing_alias_name(COURSE_TYPE)
     yield SimpleNamespace(
         get_conn=get_conn_patch,
         conn=conn,
@@ -72,23 +62,6 @@ def mocked_es(mocker, settings):
         default_alias=default_alias,
         reindex_alias=reindex_alias,
         active_aliases=[default_alias, reindex_alias],
-    )
-
-
-@pytest.mark.parametrize("object_type", [POST_TYPE, COMMENT_TYPE])
-def test_create_document(mocked_es, mocker, object_type):
-    """
-    Test that create_document gets a connection and calls the correct opensearch-dsl function
-    """
-    doc_id, data = ("doc_id", {"object_type": object_type})
-    mock_get_aliases = mocker.patch(
-        "search.indexing_api.get_active_aliases", return_value=[object_type]
-    )
-    create_document(doc_id, data)
-    mock_get_aliases.assert_called_once_with(mocked_es.conn, object_types=[object_type])
-    mocked_es.get_conn.assert_called_once_with()
-    mocked_es.conn.create.assert_any_call(
-        index=object_type, doc_type=GLOBAL_DOC_TYPE, body=data, id=doc_id
     )
 
 
@@ -130,112 +103,6 @@ def test_update_field_values_by_query(
     assert patched_logger.error.called is expected_error_logged
 
 
-@pytest.mark.parametrize("object_type", [POST_TYPE, COMMENT_TYPE])
-def test_update_document_with_partial(mocked_es, mocker, object_type):
-    """
-    Test that update_document_with_partial gets a connection and calls the correct opensearch-dsl function
-    """
-    mock_get_aliases = mocker.patch(
-        "search.indexing_api.get_active_aliases", return_value=[object_type]
-    )
-    doc_id, data = ("doc_id", {"key1": "value1"})
-    update_document_with_partial(doc_id, data, object_type)
-    mock_get_aliases.assert_called_once_with(mocked_es.conn, object_types=[object_type])
-    mocked_es.get_conn.assert_called_once_with()
-    mocked_es.conn.update.assert_called_once_with(
-        index=object_type,
-        doc_type=GLOBAL_DOC_TYPE,
-        body={"doc": data},
-        id=doc_id,
-        params={"retry_on_conflict": 0},
-    )
-
-
-def test_update_partial_conflict_logging(mocker, mocked_es):
-    """
-    Test that update_document_with_partial logs an error if a version conflict occurs
-    """
-    patched_logger = mocker.patch("search.indexing_api.log")
-    doc_id, data = ("doc_id", {"key1": "value1", "object_type": POST_TYPE})
-    mocked_es.conn.update.side_effect = ConflictError
-    update_document_with_partial(doc_id, data, POST_TYPE)
-    assert patched_logger.error.called is True
-
-
-def test_update_post(mocker):
-    """Test that update_post serializes a Post object and updates the corresponding ES document"""
-    fake_post = mocker.Mock(post_id="1")
-    fake_serialized_post = mocker.Mock(data={"key": "value"})
-    mock_update_document = mocker.patch(
-        "search.indexing_api.update_document_with_partial"
-    )
-    mocker.patch(
-        "search.indexing_api.OSPostSerializer", return_value=fake_serialized_post
-    )
-
-    update_post("abc", fake_post)
-    assert mock_update_document.called is True
-    assert mock_update_document.call_args[0] == (
-        "abc",
-        fake_serialized_post.data,
-        POST_TYPE,
-    )
-
-
-def test_increment_document_integer_field(mocked_es):
-    """
-    Test that increment_document_integer_field gets a connection and calls the
-    correct opensearch-dsl function
-    """
-    doc_id, field_name, incr_amount = ("doc_id", "some_field_name", 1)
-    increment_document_integer_field(doc_id, field_name, incr_amount, POST_TYPE)
-    mocked_es.get_conn.assert_called_once_with()
-
-    for alias in mocked_es.active_aliases:
-        mocked_es.conn.update.assert_any_call(
-            index=alias,
-            doc_type=GLOBAL_DOC_TYPE,
-            body={
-                "script": {
-                    "source": "ctx._source.{} += params.incr_amount".format(field_name),
-                    "lang": SCRIPTING_LANG,
-                    "params": {"incr_amount": incr_amount},
-                }
-            },
-            id=doc_id,
-            params={"retry_on_conflict": 0},
-        )
-
-
-@pytest.mark.parametrize("object_type", [POST_TYPE, COMMENT_TYPE])
-@pytest.mark.parametrize("skip_mapping", [True, False])
-@pytest.mark.parametrize("already_exists", [True, False])
-def test_clear_and_create_index(mocked_es, object_type, skip_mapping, already_exists):
-    """
-    clear_and_create_index should deindex the index and create a new empty one with a mapping
-    """
-    index = "index"
-
-    conn = mocked_es.conn
-    conn.indices.exists.return_value = already_exists
-
-    clear_and_create_index(
-        index_name=index, skip_mapping=skip_mapping, object_type=object_type
-    )
-
-    conn.indices.exists.assert_called_once_with(index)
-    assert conn.indices.delete.called is already_exists
-    if already_exists:
-        conn.indices.delete.assert_called_once_with(index)
-
-    assert conn.indices.create.call_count == 1
-    assert conn.indices.create.call_args[0][0] == index
-    body = conn.indices.create.call_args[1]["body"]
-
-    assert "settings" in body
-    assert "mappings" not in body if skip_mapping else "mappings" in body
-
-
 @pytest.mark.parametrize("object_type", [None, "fake"])
 def test_clear_and_create_index_error(object_type):
     """
@@ -247,102 +114,12 @@ def test_clear_and_create_index_error(object_type):
         )
 
 
-@pytest.mark.parametrize("object_type", [POST_TYPE, COMMENT_TYPE])
-@pytest.mark.parametrize("default_exists", [True, False])
-def test_switch_indices(mocked_es, mocker, default_exists, object_type):
-    """
-    switch_indices should atomically remove the old backing index
-    for the default alias and replace it with the new one
-    """
-    refresh_mock = mocker.patch("search.indexing_api.refresh_index", autospec=True)
-    conn_mock = mocked_es.conn
-    conn_mock.indices.exists_alias.return_value = default_exists
-    old_backing_index = "old_backing"
-    conn_mock.indices.get_alias.return_value.keys.return_value = [old_backing_index]
-
-    backing_index = "backing"
-    switch_indices(backing_index, object_type)
-
-    conn_mock.indices.delete_alias.assert_any_call(
-        name=get_reindexing_alias_name(object_type), index=backing_index
-    )
-    default_alias = get_default_alias_name(object_type)
-    all_alias = get_default_alias_name(ALIAS_ALL_INDICES)
-    conn_mock.indices.exists_alias.assert_called_once_with(name=default_alias)
-
-    actions = []
-    if default_exists:
-        actions.extend(
-            [
-                {"remove": {"index": old_backing_index, "alias": default_alias}},
-                {"remove": {"index": old_backing_index, "alias": all_alias}},
-            ]
-        )
-    actions.extend(
-        [
-            {"add": {"index": backing_index, "alias": default_alias}},
-            {"add": {"index": backing_index, "alias": all_alias}},
-        ]
-    )
-    conn_mock.indices.update_aliases.assert_called_once_with({"actions": actions})
-    refresh_mock.assert_called_once_with(backing_index)
-    if default_exists:
-        conn_mock.indices.delete.assert_called_once_with(old_backing_index)
-    else:
-        assert conn_mock.indices.delete.called is False
-
-    conn_mock.indices.delete_alias.assert_called_once_with(
-        name=get_reindexing_alias_name(object_type), index=backing_index
-    )
-
-
-@pytest.mark.parametrize("temp_alias_exists", [True, False])
-def test_create_backing_index(mocked_es, mocker, temp_alias_exists):
-    """create_backing_index should make a new backing index and set the reindex alias to point to it"""
-    reindexing_alias = get_reindexing_alias_name(POST_TYPE)
-    backing_index = "backing_index"
-    conn_mock = mocked_es.conn
-    conn_mock.indices.exists_alias.return_value = temp_alias_exists
-    get_alias = conn_mock.indices.get_alias
-    get_alias.return_value = (
-        {backing_index: {"alias": {reindexing_alias: {}}}} if temp_alias_exists else {}
-    )
-    clear_and_create_mock = mocker.patch(
-        "search.indexing_api.clear_and_create_index", autospec=True
-    )
-    make_backing_index_mock = mocker.patch(
-        "search.indexing_api.make_backing_index_name", return_value=backing_index
-    )
-
-    assert create_backing_index(POST_TYPE) == backing_index
-
-    get_conn_mock = mocked_es.get_conn
-    get_conn_mock.assert_called_once_with()
-    make_backing_index_mock.assert_called_once_with(POST_TYPE)
-    clear_and_create_mock.assert_called_once_with(
-        index_name=backing_index, object_type=POST_TYPE
-    )
-
-    conn_mock.indices.exists_alias.assert_called_once_with(name=reindexing_alias)
-    if temp_alias_exists:
-        conn_mock.indices.delete_alias.assert_any_call(
-            index=backing_index, name=reindexing_alias
-        )
-    assert conn_mock.indices.delete_alias.called is temp_alias_exists
-
-    conn_mock.indices.put_alias.assert_called_once_with(
-        index=backing_index, name=reindexing_alias
-    )
-
-
 @pytest.mark.usefixtures("indexing_user")
 @pytest.mark.parametrize("errors", ([], ["error"]))
 @pytest.mark.parametrize(
     "indexing_func_name, serializing_func_name, object_type",
     [
         ("index_profiles", "serialize_bulk_profiles", "profile"),
-        ("index_comments", "serialize_bulk_comments", "comment"),
-        ("index_posts", "serialize_bulk_posts", "post"),
         ("index_courses", "serialize_bulk_courses", "course"),
         ("index_programs", "serialize_bulk_programs", "program"),
         ("index_user_lists", "serialize_bulk_user_lists", "userlist"),
@@ -566,10 +343,6 @@ def test_index_profile_items(mocker):
     index_items for profiles should call alias and bulk index functions
     """
     users = UserFactory.create_batch(2)
-    for user in users:
-        channel = ChannelFactory.create()
-        sync_channel_subscription_model(channel, user)
-        add_user_role(channel, "moderators", user)
     profile_ids = [user.profile.id for user in users]
 
     mock_aliases = mocker.patch(

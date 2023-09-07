@@ -34,7 +34,6 @@ authors  = ["MIT ODL"]
 
 [tool.poetry.dependencies]
 python = "3.11.4"
-akismet = "^1.1"
 attrs = "^23.1.0"
 base36 = "^0.1.1"
 beautifulsoup4 = "^4.8.2"
@@ -65,7 +64,6 @@ drf-extensions = "^0.7.1"
 drf-jwt = "^1.19.2"
 drf-spectacular = "^0.26.2"
 feedparser = "^6.0.10"
-mit-moira = {git = "https://github.com/mitodl/mit-moira", tag = "v0.0.4"}
 google-api-python-client = "^2.89.0"
 html5lib = "^1.1"
 importlib_metadata = "^6.6.0"
@@ -78,7 +76,6 @@ newrelic = "^8.8.0"
 ocw-data-parser = "^0.35.1"
 opensearch-dsl = "^1.0.0"
 opensearch-py = "^1.0.0"
-praw = "^4.5.1"
 psycopg2 = "^2.9.6"
 pygithub = "^1.44.1"
 python-dateutil = "^2.8.2"
@@ -103,8 +100,6 @@ isort = "^5.12.0"
 
 [tool.poetry.group.dev.dependencies]
 astroid = "^2.15.4"
-betamax = "^0.8.0"
-betamax_serializers = "^0.2.1"
 black = "22.6.0"
 bpython = "^0.24"
 ddt = "^1.6.0"

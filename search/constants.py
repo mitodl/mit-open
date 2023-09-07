@@ -1,10 +1,6 @@
 """ Constants for search """
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
-from praw.exceptions import PRAWException
-from prawcore.exceptions import PrawcoreException
 from urllib3.exceptions import TimeoutError as UrlTimeoutError
-
-from channels.constants import COMMENT_TYPE, POST_TYPE
 
 ALIAS_ALL_INDICES = "all"
 PROFILE_TYPE = "profile"
@@ -31,8 +27,6 @@ LEARNING_RESOURCE_TYPES = (
 )
 
 VALID_OBJECT_TYPES = (
-    POST_TYPE,
-    COMMENT_TYPE,
     PROFILE_TYPE,
     COURSE_TYPE,
     PROGRAM_TYPE,
@@ -364,20 +358,6 @@ PODCAST_EPISODE_OBJECT_TYPE = {
 }
 
 MAPPING = {
-    POST_TYPE: {
-        **CONTENT_OBJECT_TYPE,
-        "post_link_url": {"type": "keyword"},
-        "post_link_thumbnail": {"type": "keyword"},
-        "num_comments": {"type": "long"},
-        "plain_text": ENGLISH_TEXT_FIELD,
-        "post_type": {"type": "keyword"},
-    },
-    COMMENT_TYPE: {
-        **CONTENT_OBJECT_TYPE,
-        "comment_id": {"type": "keyword"},
-        "parent_comment_id": {"type": "keyword"},
-        "parent_post_removed": {"type": "boolean"},
-    },
     PROFILE_TYPE: PROFILE_OBJECT_TYPE,
     COURSE_TYPE: COURSE_OBJECT_TYPE,
     PROGRAM_TYPE: PROGRAM_OBJECT_TYPE,
@@ -390,4 +370,3 @@ MAPPING = {
 }
 
 SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)
-REDDIT_EXCEPTIONS = (PrawcoreException, PRAWException)

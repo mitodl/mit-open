@@ -39,18 +39,6 @@ class Command(BaseCommand):
         self.stdout.write("Deleting {} social auths".format(user.social_auth.count()))
         user.social_auth.all().delete()
 
-        self.stdout.write(
-            "Deleting {} channel invitations".format(user.received_invitations.count())
-        )
-        user.received_invitations.all().delete()
-
         search_index_helpers.deindex_profile(user)
-
-        self.stdout.write(
-            "Deleting {} post/comment subscriptions".format(
-                user.content_subscriptions.count()
-            )
-        )
-        user.content_subscriptions.all().delete()
 
         self.stdout.write("Retired user: {}".format(user))

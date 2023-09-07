@@ -1,4 +1,4 @@
-"""Management command to index reddit content"""
+"""Management command to index content"""
 from django.core.management.base import BaseCommand, CommandError
 
 from open_discussions.utils import now_in_utc
@@ -7,7 +7,7 @@ from search.constants import VALID_OBJECT_TYPES
 
 
 class Command(BaseCommand):
-    """Indexes reddit content"""
+    """Indexes content"""
 
     help = "Recreate opensearch index"
 
@@ -26,7 +26,7 @@ class Command(BaseCommand):
         super().add_arguments(parser)
 
     def handle(self, *args, **options):
-        """Index the comments and posts for the channels the user is subscribed to"""
+        """Index all VALID_OBJECT_TYPES"""
         if options["all"]:
             task = start_recreate_index.delay(list(VALID_OBJECT_TYPES))
             self.stdout.write(

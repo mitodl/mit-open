@@ -9,20 +9,75 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from drf_spectacular.utils import extend_schema_field
 
-from channels.serializers.channels import ChannelAppearanceMixin
-from channels.serializers.validators import validate_email, validate_username
 from channels_fields.api import add_user_role, is_moderator
 from channels_fields.constants import FIELD_ROLE_MODERATORS
 from channels_fields.models import FieldChannel, FieldList, Subfield
 from course_catalog.constants import PrivacyLevel
 from course_catalog.models import UserList
 from course_catalog.serializers import UserListSerializer
-from open_discussions.serializers import WriteableSerializerMethodField
 from profiles.models import Profile
 
 User = get_user_model()
 
 log = logging.getLogger(__name__)
+
+
+class WriteableSerializerMethodField(serializers.SerializerMethodField):
+    """
+    A SerializerMethodField which has been marked as not read_only so that submitted data passed validation.
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.read_only = False
+
+    def to_internal_value(self, data):
+        return data
+
+
+class ChannelAppearanceMixin(serializers.Serializer):
+    """Serializer mixin for channel appearance"""
+
+    avatar = WriteableSerializerMethodField()
+    avatar_small = serializers.SerializerMethodField()
+    avatar_medium = serializers.SerializerMethodField()
+    banner = WriteableSerializerMethodField()
+    is_moderator = serializers.SerializerMethodField()
+
+    def get_is_moderator(self, instance) -> bool:
+        """Return true if user is a moderator for the channel"""
+        request = self.context.get("request")
+        if request and is_moderator(request.user, instance.name):
+            return True
+        return False
+
+    def get_avatar(self, channel) -> str:
+        """Get the avatar image URL"""
+        return channel.avatar.url if channel.avatar else None
+
+    def get_avatar_small(self, channel) -> str:
+        """Get the avatar image small URL"""
+        return channel.avatar_small.url if channel.avatar_small else None
+
+    def get_avatar_medium(self, channel) -> str:
+        """Get the avatar image medium URL"""
+        return channel.avatar_medium.url if channel.avatar_medium else None
+
+    def get_banner(self, channel) -> str:
+        """Get the banner image URL"""
+        return channel.banner.url if channel.banner else None
+
+    def validate_avatar(self, value):
+        """Empty validation function, but this is required for WriteableSerializerMethodField"""
+        if not hasattr(value, "name"):
+            raise ValidationError("Expected avatar to be a file")
+        return {"avatar": value}
+
+    def validate_banner(self, value):
+        """Empty validation function, but this is required for WriteableSerializerMethodField"""
+        if not hasattr(value, "name"):
+            raise ValidationError("Expected banner to be a file")
+        return {"banner": value}
 
 
 class SubfieldSerializer(serializers.ModelSerializer):
@@ -47,14 +102,6 @@ class FieldChannelSerializer(ChannelAppearanceMixin, serializers.ModelSerializer
     lists = serializers.SerializerMethodField()
     featured_list = UserListSerializer(many=False, read_only=True)
     subfields = SubfieldSerializer(many=True, read_only=True)
-    is_moderator = serializers.SerializerMethodField()
-
-    def get_is_moderator(self, instance) -> bool:
-        """Return true if user is a moderator for the channel"""
-        request = self.context.get("request")
-        if request and is_moderator(request.user, instance.name):
-            return True
-        return False
 
     @extend_schema_field(UserListSerializer(many=True))
     def get_lists(self, instance):
@@ -295,11 +342,19 @@ class FieldModeratorSerializer(serializers.Serializer):
 
     def validate_moderator_name(self, value):
         """Validate moderator name"""
-        return {"moderator_name": validate_username(value)}
+        if not isinstance(value, str):
+            raise ValidationError("username must be a string")
+        if not User.objects.filter(username=value).exists():
+            raise ValidationError("username is not a valid user")
+        return {"moderator_name": value}
 
     def validate_email(self, value):
         """Validate email"""
-        return {"email": validate_email(value)}
+        if not isinstance(value, str):
+            raise ValidationError("email must be a string")
+        if not User.objects.filter(email__iexact=value).exists():
+            raise ValidationError("email does not exist")
+        return {"email": value}
 
     def create(self, validated_data):
         field_name = self.context["view"].kwargs["field_name"]
