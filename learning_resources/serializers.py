@@ -488,6 +488,8 @@ class UserListRelationshipSerializer(serializers.ModelSerializer):
     Serializer for UserListRelationship model
     """
 
+    resource = LearningResourceSerializer(read_only=True, source="child")
+
     def create(self, validated_data):
         user_list = validated_data["parent"]
         items = models.UserListRelationship.objects.filter(parent=user_list)
