@@ -40,7 +40,7 @@ def warnings_as_errors():
         # Ignore deprecation warnings in third party libraries
         warnings.filterwarnings(
             "ignore",
-            module=".*(api_jwt|api_jws|rest_framework_jwt|betamax|astroid|celery).*",
+            module=".*(api_jwt|api_jws|rest_framework_jwt|astroid|celery).*",
             category=DeprecationWarning,
         )
         yield
