@@ -39,7 +39,7 @@ def minimum_price(learning_resource):
     return f"{minimum:.2f}"
 
 
-def test_es_profile_serializer(mocker, user):
+def test_es_profile_serializer(user):
     """
     Test that OSProfileSerializer correctly serializes a profile object
     """
@@ -325,7 +325,7 @@ def test_es_content_file_serializer(  # pylint:disable=too-many-arguments
     ],
 )
 def test_es_content_file_serializer_truncate(  # pylint:disable=too-many-arguments
-    settings, mocker, content_end, expected_end
+    settings, content_end, expected_end
 ):
     """Verify that the OSContentFileSerializer has the correct data"""
     settings.OPENSEARCH_MAX_REQUEST_SIZE = 5000

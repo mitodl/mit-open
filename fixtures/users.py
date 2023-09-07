@@ -11,19 +11,19 @@ from open_discussions.factories import UserFactory
 
 
 @pytest.fixture
-def user():
+def user(db):
     """Create a user"""
     return UserFactory.create()
 
 
 @pytest.fixture
-def staff_user():
+def staff_user(db):
     """Create a staff user"""
     return UserFactory.create(is_staff=True)
 
 
 @pytest.fixture()
-def index_user():
+def index_user(db):
     """Create a user to be used for indexing"""
     user = UserFactory.create(is_staff=True)
     return user
