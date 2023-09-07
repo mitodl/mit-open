@@ -23,10 +23,10 @@ const _createSettings = () => ({
   user:              makeUserSettings()
 })
 
-global.SETTINGS = _createSettings()
+window.SETTINGS = _createSettings()
 
 afterEach(() => {
-  global.SETTINGS = _createSettings()
+  window.SETTINGS = _createSettings()
 })
 
 /**

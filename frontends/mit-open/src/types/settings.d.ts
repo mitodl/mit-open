@@ -7,7 +7,9 @@ export type User = {
 }
 
 export declare global {
-  declare var SETTINGS
+  interface Window {
+    SETTINGS: SETTINGS
+  }
 
   /**
    * Settings injected by Django
@@ -17,5 +19,8 @@ export declare global {
     embedlyKey: string
     ocw_next_base_url: string
     user: User
+    sentry_dsn?: string
+    release_version?: string
+    environment?: string
   }
 }

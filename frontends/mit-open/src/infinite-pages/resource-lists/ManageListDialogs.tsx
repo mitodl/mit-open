@@ -147,7 +147,7 @@ const UpsertListDialog = NiceModal.create(
     const topics = topicsQuery.data?.results ?? []
 
     const canChangePrivacy =
-      mode === "stafflist" || SETTINGS.user.is_public_list_editor
+      mode === "stafflist" || window.SETTINGS.user.is_public_list_editor
 
     const typeChoices = useMemo(() => getListTypeChoices(mode), [mode])
 

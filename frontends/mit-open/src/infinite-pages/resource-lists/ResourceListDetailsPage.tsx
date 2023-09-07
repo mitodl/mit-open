@@ -122,7 +122,7 @@ const UserListDetailsPage: React.FC = () => {
   const id = Number(useParams<RouteParams>().id)
   const listQuery = useUserList(id)
   const itemsQuery = useUserListItems(id)
-  const canEdit = SETTINGS.user.id === listQuery.data?.author
+  const canEdit = window.SETTINGS.user.id === listQuery.data?.author
   const canSort = canEdit && listQuery.data?.object_type === LRT.LearningPath
   return (
     <ResourceListDetailsPage
@@ -140,7 +140,7 @@ const StaffListDetailsPage: React.FC = () => {
   const listQuery = useStaffList(id)
   const itemsQuery = useStaffListItems(id)
 
-  const canEdit = SETTINGS.user.is_staff_list_editor
+  const canEdit = window.SETTINGS.user.is_staff_list_editor
   const canSort = canEdit && listQuery.data?.object_type === LRT.StaffPath
   return (
     <ResourceListDetailsPage

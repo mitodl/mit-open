@@ -38,6 +38,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - courses
       security:
@@ -106,6 +114,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - courses
       security:
@@ -151,6 +167,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - courses
       security:
@@ -196,6 +220,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learning_resources
       security:
@@ -264,6 +296,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learning_resources
       security:
@@ -309,6 +349,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learning_resources
       security:
@@ -354,6 +402,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learningpaths
       security:
@@ -374,13 +430,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningPathResource'
+              $ref: '#/components/schemas/LearningPathResourceRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/LearningPathResource'
+              $ref: '#/components/schemas/LearningPathResourceRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/LearningPathResource'
+              $ref: '#/components/schemas/LearningPathResourceRequest'
         required: true
       security:
       - cookieAuth: []
@@ -439,13 +495,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningPathRelationship'
+              $ref: '#/components/schemas/LearningPathRelationshipRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/LearningPathRelationship'
+              $ref: '#/components/schemas/LearningPathRelationshipRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/LearningPathRelationship'
+              $ref: '#/components/schemas/LearningPathRelationshipRequest'
         required: true
       security:
       - cookieAuth: []
@@ -504,13 +560,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningPathRelationship'
+              $ref: '#/components/schemas/LearningPathRelationshipRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/LearningPathRelationship'
+              $ref: '#/components/schemas/LearningPathRelationshipRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/LearningPathRelationship'
+              $ref: '#/components/schemas/LearningPathRelationshipRequest'
         required: true
       security:
       - cookieAuth: []
@@ -542,13 +598,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedLearningPathRelationship'
+              $ref: '#/components/schemas/PatchedLearningPathRelationshipRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedLearningPathRelationship'
+              $ref: '#/components/schemas/PatchedLearningPathRelationshipRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedLearningPathRelationship'
+              $ref: '#/components/schemas/PatchedLearningPathRelationshipRequest'
       security:
       - cookieAuth: []
       responses:
@@ -619,13 +675,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningPathResource'
+              $ref: '#/components/schemas/LearningPathResourceRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/LearningPathResource'
+              $ref: '#/components/schemas/LearningPathResourceRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/LearningPathResource'
+              $ref: '#/components/schemas/LearningPathResourceRequest'
         required: true
       security:
       - cookieAuth: []
@@ -652,13 +708,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedLearningPathResource'
+              $ref: '#/components/schemas/PatchedLearningPathResourceRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedLearningPathResource'
+              $ref: '#/components/schemas/PatchedLearningPathResourceRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedLearningPathResource'
+              $ref: '#/components/schemas/PatchedLearningPathResourceRequest'
       security:
       - cookieAuth: []
       responses:
@@ -719,6 +775,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learningpaths
       security:
@@ -764,6 +828,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - learningpaths
       security:
@@ -809,6 +881,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - programs
       security:
@@ -877,6 +957,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - programs
       security:
@@ -922,6 +1010,14 @@ paths:
         name: resource_type
         schema:
           type: string
+          enum:
+          - course
+          - learning_path
+          - program
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
       tags:
       - programs
       security:
@@ -933,6 +1029,56 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
+  /api/v1/topics/:
+    get:
+      operationId: topics_list
+      description: Viewset for topics
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - topics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceTopicList'
+          description: ''
+  /api/v1/topics/{id}/:
+    get:
+      operationId: topics_retrieve
+      description: Viewset for topics
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource topic.
+        required: true
+      tags:
+      - topics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceTopic'
+          description: ''
 components:
   schemas:
     Course:
@@ -943,6 +1089,17 @@ components:
           type: array
           items:
             type: string
+            maxLength: 128
+          nullable: true
+    CourseRequest:
+      type: object
+      description: Serializer for the Course model
+      properties:
+        extra_course_numbers:
+          type: array
+          items:
+            type: string
+            minLength: 1
             maxLength: 128
           nullable: true
     LearningPath:
@@ -973,7 +1130,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/LearningResource'
           readOnly: true
-          nullable: true
         position:
           type: integer
           maximum: 2147483647
@@ -987,6 +1143,29 @@ components:
       - id
       - parent
       - resource
+    LearningPathRelationshipRequest:
+      type: object
+      description: Specialized serializer for a LearningPath relationship
+      properties:
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        parent:
+          type: integer
+        child:
+          type: integer
+      required:
+      - child
+      - parent
+    LearningPathRequest:
+      type: object
+      description: Serializer for the LearningPath model
+      properties:
+        author:
+          type: integer
+      required:
+      - author
     LearningPathResource:
       type: object
       description: CRUD serializer for LearningPath resources
@@ -1009,8 +1188,7 @@ components:
             $ref: '#/components/schemas/LearningResourceTopic'
           nullable: true
         resource_type:
-          type: string
-          maxLength: 24
+          $ref: '#/components/schemas/ResourceTypeEnum'
         learning_path:
           allOf:
           - $ref: '#/components/schemas/LearningPath'
@@ -1021,6 +1199,34 @@ components:
       required:
       - id
       - learning_path
+      - readable_id
+      - resource_type
+      - title
+    LearningPathResourceRequest:
+      type: object
+      description: CRUD serializer for LearningPath resources
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        readable_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+          nullable: true
+        resource_type:
+          $ref: '#/components/schemas/ResourceTypeEnum'
+        published:
+          type: boolean
+      required:
       - readable_id
       - resource_type
       - title
@@ -1130,8 +1336,7 @@ components:
           nullable: true
           maxLength: 2048
         resource_type:
-          type: string
-          maxLength: 24
+          $ref: '#/components/schemas/ResourceTypeEnum'
         platform:
           type: string
           nullable: true
@@ -1254,8 +1459,7 @@ components:
           nullable: true
           maxLength: 2048
         resource_type:
-          type: string
-          maxLength: 24
+          $ref: '#/components/schemas/ResourceTypeEnum'
         platform:
           type: string
           nullable: true
@@ -1289,6 +1493,21 @@ components:
       required:
       - department_id
       - name
+    LearningResourceDepartmentRequest:
+      type: object
+      description: Serializer for LearningResourceDepartment
+      properties:
+        department_id:
+          type: string
+          minLength: 1
+          maxLength: 6
+        name:
+          type: string
+          minLength: 1
+          maxLength: 256
+      required:
+      - department_id
+      - name
     LearningResourceImage:
       type: object
       description: Serializer for LearningResourceImage
@@ -1309,6 +1528,24 @@ components:
           maxLength: 1024
       required:
       - id
+      - url
+    LearningResourceImageRequest:
+      type: object
+      description: Serializer for LearningResourceImage
+      properties:
+        url:
+          type: string
+          minLength: 1
+          maxLength: 2048
+        description:
+          type: string
+          nullable: true
+          maxLength: 1024
+        alt:
+          type: string
+          nullable: true
+          maxLength: 1024
+      required:
       - url
     LearningResourceInstructor:
       type: object
@@ -1331,6 +1568,75 @@ components:
           maxLength: 256
       required:
       - id
+    LearningResourceInstructorRequest:
+      type: object
+      description: Serializer for LearningResourceInstructor model
+      properties:
+        first_name:
+          type: string
+          nullable: true
+          maxLength: 128
+        last_name:
+          type: string
+          nullable: true
+          maxLength: 128
+        full_name:
+          type: string
+          nullable: true
+          maxLength: 256
+    LearningResourceRequest:
+      type: object
+      description: Serializer for LearningResource, with program included
+      properties:
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+          nullable: true
+        readable_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        title:
+          type: string
+          minLength: 1
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 2048
+        resource_type:
+          $ref: '#/components/schemas/ResourceTypeEnum'
+        platform:
+          type: string
+          minLength: 1
+          nullable: true
+      required:
+      - platform
+      - readable_id
+      - resource_type
+      - title
     LearningResourceRun:
       type: object
       description: Serializer for the LearningResourceRun model
@@ -1428,6 +1734,90 @@ components:
       - instructors
       - run_id
       - title
+    LearningResourceRunRequest:
+      type: object
+      description: Serializer for the LearningResourceRun model
+      properties:
+        run_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        title:
+          type: string
+          minLength: 1
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 2048
+        level:
+          type: string
+          nullable: true
+          maxLength: 128
+        slug:
+          type: string
+          nullable: true
+          maxLength: 1024
+        availability:
+          type: string
+          nullable: true
+          maxLength: 128
+        semester:
+          type: string
+          nullable: true
+          maxLength: 20
+        year:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        start_date:
+          type: string
+          format: date-time
+          nullable: true
+        end_date:
+          type: string
+          format: date-time
+          nullable: true
+        enrollment_start:
+          type: string
+          format: date-time
+          nullable: true
+        enrollment_end:
+          type: string
+          format: date-time
+          nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+      required:
+      - run_id
+      - title
     LearningResourceTopic:
       type: object
       description: Serializer for LearningResourceTopic model
@@ -1518,18 +1908,30 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResource'
-    PatchedLearningPathRelationship:
+    PaginatedLearningResourceTopicList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+    PatchedLearningPathRelationshipRequest:
       type: object
       description: Specialized serializer for a LearningPath relationship
       properties:
-        id:
-          type: integer
-          readOnly: true
-        resource:
-          allOf:
-          - $ref: '#/components/schemas/LearningResource'
-          readOnly: true
-          nullable: true
         position:
           type: integer
           maximum: 2147483647
@@ -1538,21 +1940,20 @@ components:
           type: integer
         child:
           type: integer
-    PatchedLearningPathResource:
+    PatchedLearningPathResourceRequest:
       type: object
       description: CRUD serializer for LearningPath resources
       properties:
-        id:
-          type: integer
-          readOnly: true
         title:
           type: string
+          minLength: 1
           maxLength: 256
         description:
           type: string
           nullable: true
         readable_id:
           type: string
+          minLength: 1
           maxLength: 128
         topics:
           type: array
@@ -1560,13 +1961,7 @@ components:
             $ref: '#/components/schemas/LearningResourceTopic'
           nullable: true
         resource_type:
-          type: string
-          maxLength: 24
-        learning_path:
-          allOf:
-          - $ref: '#/components/schemas/LearningPath'
-          readOnly: true
-          nullable: true
+          $ref: '#/components/schemas/ResourceTypeEnum'
         published:
           type: boolean
     Program:
@@ -1581,6 +1976,16 @@ components:
           readOnly: true
       required:
       - courses
+    ResourceTypeEnum:
+      enum:
+      - course
+      - program
+      - learning_path
+      type: string
+      description: |-
+        * `course` - course
+        * `program` - program
+        * `learning_path` - learning_path
   securitySchemes:
     cookieAuth:
       type: apiKey

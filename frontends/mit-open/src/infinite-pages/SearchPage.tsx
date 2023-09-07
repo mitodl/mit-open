@@ -16,7 +16,7 @@ import LearningResourceCard from "../components/LearningResourceCard"
 import { useHistory } from "react-router"
 
 const ALLOWED_TYPES = ["program", "course"]
-const pageSize = SETTINGS.search_page_size
+const pageSize = window.SETTINGS.search_page_size
 
 const facetMap: FacetManifest = [
   ["certification", "Certificates"],

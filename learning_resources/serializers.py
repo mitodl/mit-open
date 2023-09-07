@@ -318,9 +318,7 @@ class LearningResourceChildSerializer(serializers.ModelSerializer):
 class LearningResourceRelationshipSerializer(serializers.ModelSerializer):
     """CRUD serializer for LearningResourceRelationship"""
 
-    resource = LearningResourceSerializer(
-        read_only=True, allow_null=True, source="child"
-    )
+    resource = LearningResourceSerializer(read_only=True, source="child")
 
     def create(self, validated_data):
         resource = validated_data["parent"]
