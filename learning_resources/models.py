@@ -9,6 +9,7 @@ from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
 )
+from learning_resources.utils import user_list_image_upload_uri
 from open_discussions.models import TimestampedModel
 
 
@@ -356,3 +357,15 @@ class ContentFile(TimestampedModel):
     class Meta:
         unique_together = (("key", "run"),)
         verbose_name = "contentfile"
+
+class UserList(TimestampedModel):
+    """
+    Similar in concept to a LearningPath: a list of learning resources.  However, UserLists are not
+    considered LearningResources because they should only be accessible to the user who created them.
+    """
+    title = models.CharField(max_length=256)
+    description = models.TextField(null=True, blank=True)
+    image_src = models.ImageField(
+        null=True, blank=True, max_length=2083, upload_to=user_list_image_upload_uri
+    )
+    topics = models.ManyToManyField(LearningResourceTopic)
