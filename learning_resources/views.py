@@ -45,6 +45,13 @@ class DefaultPagination(LimitOffsetPagination):
     max_limit = 100
 
 
+class LargePagination(DefaultPagination):
+    """Large pagination for small resources, e.g., topics."""
+
+    default_limit = 1000
+    max_limit = 1000
+
+
 @extend_schema_view(
     list=extend_schema(
         summary="List",
@@ -304,12 +311,6 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Viewset for topics
     """
-
-    class LargePagination(DefaultPagination):
-        """Pagination class for topics"""
-
-        default_limit = 1000
-        max_limit = 1000
 
     queryset = LearningResourceTopic.objects.all()
     serializer_class = LearningResourceTopicSerializer
