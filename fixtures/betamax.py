@@ -9,8 +9,6 @@ import requests
 import pytest
 from betamax.fixtures.pytest import _casette_name
 
-from open_discussions.betamax_config import setup_betamax
-
 
 @contextlib.contextmanager
 def _no_ssl_verification():

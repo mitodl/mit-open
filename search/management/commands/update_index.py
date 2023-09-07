@@ -47,7 +47,7 @@ class Command(BaseCommand):
         super().add_arguments(parser)
 
     def handle(self, *args, **options):
-        """Index Courses"""
+        """Index all learning resources"""
 
         if options["all"]:
             task = start_update_index.delay(valid_object_types, options["platform"])

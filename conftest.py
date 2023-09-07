@@ -3,7 +3,6 @@
 import pytest
 
 from fixtures.aws import *
-from fixtures.betamax import *
 from fixtures.common import *
 from fixtures.opensearch import *
 from fixtures.users import *
