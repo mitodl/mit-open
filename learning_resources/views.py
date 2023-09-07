@@ -3,7 +3,7 @@ import logging
 from uuid import uuid4
 
 from django.db import transaction
-from django.db.models import F, Q, QuerySet
+from django.db.models import Count, F, Q, QuerySet
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
@@ -20,8 +20,14 @@ from learning_resources.models import (
     LearningResource,
     LearningResourceRelationship,
     LearningResourceTopic,
+    UserList,
+    UserListRelationship,
 )
-from learning_resources.permissions import is_learning_path_editor
+from learning_resources.permissions import (
+    HasUserListItemPermissions,
+    HasUserListPermissions,
+    is_learning_path_editor,
+)
 from learning_resources.serializers import (
     ContentFileSerializer,
     LearningPathRelationshipSerializer,
@@ -29,6 +35,8 @@ from learning_resources.serializers import (
     LearningResourceChildSerializer,
     LearningResourceSerializer,
     LearningResourceTopicSerializer,
+    UserListRelationshipSerializer,
+    UserListSerializer,
 )
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
@@ -252,7 +260,17 @@ class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
         instance.delete()
 
 
-class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+class NestedParentMixin(NestedViewSetMixin):
+    """
+    Mixin for nested viewsets that have a parent
+    """
+
+    def get_parent_id(self, id_field="parent_id"):
+        """Get the parent id for the nested view request"""
+        return self.get_parents_query_dict()[id_field]
+
+
+class ResourceListItemsViewSet(NestedParentMixin, viewsets.ModelViewSet):
     """
     Viewset for LearningResource related resources
     """
@@ -268,10 +286,6 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         .order_by("position")
     )
     pagination_class = DefaultPagination
-
-    def get_parent_id(self):
-        """Get the parent id for the nesteed view request"""
-        return self.get_parents_query_dict()["parent_id"]
 
 
 class LearningPathItemsViewSet(ResourceListItemsViewSet):
@@ -299,8 +313,6 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet):
                 position__gt=instance.position,
             ).update(position=F("position") - 1)
             instance.delete()
-        # Uncomment when search is ready
-        # if learning_path.items.count() > 0:
 
 
 class TopicViewSet(viewsets.ReadOnlyModelViewSet):
@@ -344,3 +356,55 @@ class LearningResourceContentFilesViewSet(NestedViewSetMixin, ContentFileViewSet
     def get_parent_id(self):
         """Get the parent learning resource id for the nested view request"""
         return self.get_parents_query_dict()["run__learning_resource"]
+
+
+class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
+    """
+    Viewset for User Lists
+    """
+
+    serializer_class = UserListSerializer
+    pagination_class = DefaultPagination
+    permission_classes = (HasUserListPermissions,)
+
+    def get_queryset(self):
+        """Return a queryset for this user"""
+        return (
+            UserList.objects.filter(author=self.request.user)
+            .prefetch_related("author", "topics")
+            .annotate(item_count=Count("children"))
+        )
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+
+class UserListItemViewSet(NestedParentMixin, viewsets.ModelViewSet):
+    """
+    Viewset for User List Items
+    """
+
+    queryset = UserListRelationship.objects.prefetch_related("child").order_by(
+        "position"
+    )
+    serializer_class = UserListRelationshipSerializer
+    pagination_class = DefaultPagination
+    permission_classes = (HasUserListItemPermissions,)
+
+    def create(self, request, *args, **kwargs):
+        user_list_id = self.get_parent_id()
+        request.data["parent"] = user_list_id
+
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        user_list_id = self.get_parent_id()
+        request.data["parent"] = user_list_id
+        return super().update(request, *args, **kwargs)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+        UserListRelationship.objects.filter(
+            parent=instance.parent,
+            position__gt=instance.position,
+        ).update(position=F("position") - 1)

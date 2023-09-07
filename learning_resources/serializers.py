@@ -1,6 +1,7 @@
 """Serializers for learning_resources"""
 import logging
 
+from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import F, Max
 from drf_spectacular.utils import extend_schema_field
@@ -8,7 +9,6 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from learning_resources import constants, models
-from learning_resources.models import LearningPath, LearningResourceTopic
 from open_discussions.serializers import WriteableSerializerMethodField
 
 COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
@@ -34,6 +34,38 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LearningResourceTopic
         fields = ["id", "name"]
+
+
+class WriteableTopicsMixin(serializers.Serializer):
+    """Class for editable topics"""
+
+    topics = WriteableSerializerMethodField()
+
+    def validate_topics(self, topics):
+        """Validator for topics"""
+        if len(topics) > 0:
+            if isinstance(topics[0], dict):
+                topics = [topic["id"] for topic in topics]
+            try:
+                valid_topic_ids = set(
+                    models.LearningResourceTopic.objects.filter(id__in=topics).values_list(
+                        "id", flat=True
+                    )
+                )
+            except ValueError:
+                raise ValidationError("Topic ids must be integers")
+            missing = set(topics).difference(valid_topic_ids)
+            if missing:
+                raise ValidationError(f"Invalid topic ids: {missing}")
+        return {"topics": topics}
+
+    @extend_schema_field(LearningResourceTopicSerializer(many=True, allow_null=True))
+    def get_topics(self, instance):
+        """Returns the list of topics"""
+        return [
+            LearningResourceTopicSerializer(topic).data
+            for topic in instance.topics.all()
+        ]
 
 
 @extend_schema_field({"type": "array", "items": {"type": "string"}})
@@ -139,7 +171,7 @@ class MicroRelationshipSerializer(serializers.ModelSerializer):
         fields = ("id", "parent_id", "child_id")
 
 
-class LearningResourceBaseSerializer(serializers.ModelSerializer):
+class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
     """Serializer for LearningResource, minus program"""
 
     offered_by = LearningResourceOfferorField(read_only=True, allow_null=True)
@@ -151,7 +183,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
     audience = serializers.ReadOnlyField()
     certification = serializers.ReadOnlyField()
     prices = serializers.ReadOnlyField()
-    topics = WriteableSerializerMethodField()
     course = CourseSerializer(read_only=True, allow_null=True)
     learning_path = LearningPathSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
@@ -181,34 +212,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
                 many=True,
             ).data
         return []
-
-    def validate_topics(self, topics):
-        """Validator for topics"""  # noqa: D401
-        if len(topics) > 0:
-            if isinstance(topics[0], dict):
-                topics = [topic["id"] for topic in topics]
-            try:
-                valid_topic_ids = set(
-                    LearningResourceTopic.objects.filter(id__in=topics).values_list(
-                        "id", flat=True
-                    )
-                )
-            except ValueError:
-                msg = "Topic ids must be integers"
-                raise ValidationError(msg)  # noqa: B904, TRY200
-            missing = set(topics).difference(valid_topic_ids)
-            if missing:
-                msg = f"Invalid topic ids: {missing}"
-                raise ValidationError(msg)
-        return {"topics": topics}
-
-    @extend_schema_field(LearningResourceTopicSerializer(many=True, allow_null=True))
-    def get_topics(self, instance):
-        """Returns the list of topics"""  # noqa: D401
-        return [
-            LearningResourceTopicSerializer(topic).data
-            for topic in instance.topics.all()
-        ]
 
     class Meta:
         model = models.LearningResource
@@ -270,9 +273,9 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
         with transaction.atomic():
             path_resource = super().create(validated_data)
             path_resource.topics.set(
-                LearningResourceTopic.objects.filter(id__in=topics_data)
+                models.LearningResourceTopic.objects.filter(id__in=topics_data)
             )
-            LearningPath.objects.create(
+            models.LearningPath.objects.create(
                 learning_resource=path_resource, author=request.user
             )
         return path_resource
@@ -284,12 +287,8 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
             resource = super().update(instance, validated_data)
             if topics_data is not None:
                 resource.topics.set(
-                    LearningResourceTopic.objects.filter(id__in=topics_data)
+                    models.LearningResourceTopic.objects.filter(id__in=topics_data)
                 )
-            # Uncomment when search indexing is ready
-            # if (
-            #     and instance.published
-            # ):
             return resource
 
     class Meta:
@@ -438,3 +437,88 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "resource_readable_num",
             "resource_type",
         ]
+
+
+class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
+    """
+    Simplified serializer for UserList model.
+    """
+
+    item_count = serializers.SerializerMethodField()
+
+    def get_item_count(self, instance) -> int:
+        """Return the number of items in the list"""
+        return getattr(instance, "item_count", None) or instance.resources.count()
+
+    def create(self, validated_data):
+        """Ensure that the list is created by the requesting user"""
+        request = self.context.get("request")
+        if request and hasattr(request, "user") and isinstance(request.user, User):
+            validated_data["author"] = request.user
+            topics_data = validated_data.pop("topics", [])
+            with transaction.atomic():
+                userlist = super().create(validated_data)
+                userlist.topics.set(
+                    models.LearningResourceTopic.objects.filter(id__in=topics_data)
+                )
+            return userlist
+
+    def update(self, instance, validated_data):
+        """Ensure that the list is authored by the requesting user before modifying"""
+        request = self.context.get("request")
+        if request and hasattr(request, "user") and isinstance(request.user, User):
+            validated_data["author"] = request.user
+            topics_data = validated_data.pop("topics", None)
+            with transaction.atomic():
+                userlist = super().update(instance, validated_data)
+                if topics_data is not None:
+                    userlist.topics.set(
+                        models.LearningResourceTopic.objects.filter(id__in=topics_data)
+                    )
+                return userlist
+
+    class Meta:
+        model = models.UserList
+        exclude = COMMON_IGNORED_FIELDS
+        read_only_fields = ["author", "resources"]
+
+
+class UserListRelationshipSerializer(serializers.ModelSerializer):
+    """
+    Serializer for UserListRelationship model
+    """
+
+    def create(self, validated_data):
+        user_list = validated_data["parent"]
+        items = models.UserListRelationship.objects.filter(parent=user_list)
+        position = (
+            items.aggregate(Max("position"))["position__max"] or items.count()
+        ) + 1
+        item, _ = models.UserListRelationship.objects.get_or_create(
+            parent=validated_data["parent"],
+            child=validated_data["child"],
+            defaults={"position": position},
+        )
+        return item
+
+    def update(self, instance, validated_data):
+        position = validated_data["position"]
+        with transaction.atomic():
+            if position > instance.position:
+                # move items between the old and new positions up, inclusive of the new position
+                models.UserListRelationship.objects.filter(
+                    position__lte=position, position__gt=instance.position
+                ).update(position=F("position") - 1)
+            else:
+                models.UserListRelationship.objects.filter(
+                    position__lt=instance.position, position__gte=position
+                ).update(position=F("position") + 1)
+            instance.position = position
+            instance.save()
+
+        return instance
+
+    class Meta:
+        model = models.UserListRelationship
+        extra_kwargs = {"position": {"required": False}}
+        exclude = COMMON_IGNORED_FIELDS

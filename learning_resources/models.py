@@ -9,7 +9,6 @@ from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
 )
-from learning_resources.utils import user_list_image_upload_uri
 from open_discussions.models import TimestampedModel
 
 
@@ -363,9 +362,27 @@ class UserList(TimestampedModel):
     Similar in concept to a LearningPath: a list of learning resources.  However, UserLists are not
     considered LearningResources because they should only be accessible to the user who created them.
     """
+
+    author = models.ForeignKey(
+        User, on_delete=models.deletion.CASCADE, related_name="user_lists"
+    )
     title = models.CharField(max_length=256)
     description = models.TextField(null=True, blank=True)
-    image_src = models.ImageField(
-        null=True, blank=True, max_length=2083, upload_to=user_list_image_upload_uri
-    )
     topics = models.ManyToManyField(LearningResourceTopic)
+    resources = models.ManyToManyField(
+        LearningResource, through="UserListRelationship", symmetrical=False, blank=True
+    )
+
+
+class UserListRelationship(TimestampedModel):
+    """
+    UserListRelationship model tracks the resources belonging to a UserList and their relative positions in the list.
+    """
+
+    parent = models.ForeignKey(
+        UserList, on_delete=models.deletion.CASCADE, related_name="children"
+    )
+    child = models.ForeignKey(
+        LearningResource, related_name="user_lists", on_delete=models.deletion.CASCADE
+    )
+    position = models.PositiveIntegerField(default=0)

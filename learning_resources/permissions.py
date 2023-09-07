@@ -6,7 +6,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 from learning_resources.constants import GROUP_STAFF_LISTS_EDITORS
-from learning_resources.models import LearningPath
+from learning_resources.models import LearningPath, UserList
 from open_discussions.permissions import is_admin_user, is_readonly
 from open_discussions.settings import DRF_NESTED_PARENT_LOOKUP_PREFIX
 
@@ -67,3 +67,27 @@ class HasLearningPathItemPermissions(BasePermission):
         if request.method in SAFE_METHODS:
             return obj.parent.published or can_edit
         return can_edit
+
+
+class HasUserListPermissions(BasePermission):
+    """Permission to view/modify UserLists"""
+
+    def has_permission(self, request, view):
+        return not request.user.is_anonymous
+
+    def has_object_permission(self, request, view, obj):
+        return request.user == obj.author
+
+
+class HasUserListItemPermissions(BasePermission):
+    """Permission to view/modify UserListItems"""
+
+    def has_permission(self, request, view):
+        user_list = get_object_or_404(
+            UserList,
+            id=view.kwargs.get(f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}parent_id", None),
+        )
+        return request.user == user_list.author
+
+    def has_object_permission(self, request, view, obj):
+        return request.user == obj.parent.author

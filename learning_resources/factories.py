@@ -7,7 +7,7 @@ import factory
 import pytz
 from factory import Faker
 from factory.django import DjangoModelFactory
-from factory.fuzzy import FuzzyChoice, FuzzyInteger
+from factory.fuzzy import FuzzyChoice, FuzzyInteger, FuzzyText
 
 from learning_resources import constants, models
 from open_discussions.factories import UserFactory
@@ -383,8 +383,8 @@ class ProgramFactory(DjangoModelFactory):
         is_unpublished = factory.Trait(learning_resource__published=False)
 
 
-class LearningPathItemFactory(DjangoModelFactory):
-    """Factory for LearningPath items"""
+class LearningPathRelationshipFactory(DjangoModelFactory):
+    """Factory for LearningPathRelationship objects"""
 
     parent = factory.SubFactory(
         LearningResourceFactory,
@@ -426,3 +426,40 @@ class ContentFileFactory(DjangoModelFactory):
 
     class Meta:
         model = models.ContentFile
+
+
+class UserListFactory(DjangoModelFactory):
+    """Factory for Learning Paths"""
+
+    title = FuzzyText()
+    description = FuzzyText()
+    author = factory.SubFactory(UserFactory)
+
+    @factory.post_generation
+    def topics(self, create, extracted, **kwargs):
+        """Create topics for learning path"""
+        if not create:
+            return
+
+        if extracted:
+            for topic in extracted:
+                self.topics.add(topic)
+
+    class Meta:
+        model = models.UserList
+
+
+class UserListRelationshipFactory(DjangoModelFactory):
+    """Factory for UserListRelationship objects"""
+
+    parent = factory.SubFactory(UserListFactory)
+
+    child = factory.SubFactory(
+        LearningResourceFactory,
+        course=factory.SubFactory(CourseFactory),
+    )
+
+    position = factory.Sequence(lambda n: n)
+
+    class Meta:
+        model = models.UserListRelationship

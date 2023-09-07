@@ -39,6 +39,14 @@ router.register(
     r"contentfiles", views.ContentFileViewSet, basename="lr_contentfiles_api"
 )
 router.register(r"topics", views.TopicViewSet, basename="lr_topics_api")
+router.register(
+    r"userlists", views.UserListViewSet, basename="lr_userlists_api"
+).register(
+    r"items",
+    views.UserListItemViewSet,
+    basename="lr_userlistitems_api",
+    parents_query_lookups=["parent_id"],
+)
 
 urlpatterns = [
     re_path(r"^api/v1/", include(router.urls)),
