@@ -1,4 +1,4 @@
-"""Tests for the deduplication ETL functions"""  # noqa: INP001
+"""Tests for the deduplication ETL functions"""
 from datetime import datetime
 
 import pytest

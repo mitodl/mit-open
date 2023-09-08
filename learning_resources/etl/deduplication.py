@@ -1,4 +1,4 @@
-"""Functions to combine duplicate courses"""  # noqa: INP001
+"""Functions to combine duplicate courses"""
 
 from learning_resources.constants import AvailabilityType
 

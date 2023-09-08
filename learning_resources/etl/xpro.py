@@ -1,4 +1,4 @@
-"""xPro course catalog ETL"""  # noqa: INP001
+"""xPro course catalog ETL"""
 import copy
 import logging
 

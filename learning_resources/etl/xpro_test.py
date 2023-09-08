@@ -1,4 +1,4 @@
-"""Tests for MicroMasters ETL functions"""  # noqa: INP001
+"""Tests for MicroMasters ETL functions"""
 import json
 
 # pylint: disable=redefined-outer-name

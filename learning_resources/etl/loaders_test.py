@@ -1,4 +1,4 @@
-"""Tests for ETL loaders"""  # noqa: INP001
+"""Tests for ETL loaders"""
 # pylint: disable=redefined-outer-name,too-many-locals,too-many-lines
 from types import SimpleNamespace
 
