@@ -169,44 +169,20 @@ def test_learningpathitem_serializer_validation(child_exists):
         )
 
 
-@pytest.mark.parametrize("is_ocw", [True, False])
-@pytest.mark.parametrize(
-    "section,section_resource_type",
-    [
-        ["First Paper Assignment", constants.OCW_TYPE_ASSIGNMENTS],
-        ["Assignment 1.2", constants.OCW_TYPE_ASSIGNMENTS],
-        ["Assignments and Exams", None],
-        ["Lecture Summaries", constants.OCW_TYPE_LECTURE_NOTES],
-        [constants.OCW_TYPE_LECTURE_NOTES, constants.OCW_TYPE_LECTURE_NOTES],
-        ["Resources", None],
-        ["Exercises", None],
-    ],
-)
-def test_content_file_serializer(  # pylint:disable=too-many-arguments
-    section, section_resource_type, is_ocw
-):
+def test_content_file_serializer():
     """Verify that the ContentFileSerializer has the correct data"""
     content_kwargs = {
         "content": "Test content",
         "content_author": "MIT",
         "content_language": "en",
         "content_title": "test title",
-        "section": section,
+        "section": "test section",
     }
-    platform = (
-        constants.PlatformType.ocw.value
-        if is_ocw
-        else constants.PlatformType.xpro.value
-    )
+    platform = constants.PlatformType.xpro.value
     course = factories.CourseFactory.create(platform=platform)
     content_file = factories.ContentFileFactory.create(
         run=course.learning_resource.runs.first(), **content_kwargs
     )
-
-    if is_ocw:
-        resource_type = content_file.learning_resource_types
-    else:
-        resource_type = section_resource_type
 
     serialized = serializers.ContentFileSerializer(content_file).data
 
@@ -245,6 +221,6 @@ def test_content_file_serializer(  # pylint:disable=too-many-arguments
             )[
                 -1
             ],
-            "resource_type": resource_type,
+            "resource_type": None,
         },
     )

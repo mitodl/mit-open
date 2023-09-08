@@ -422,26 +422,6 @@ class ContentFileFactory(DjangoModelFactory):
         (constants.CONTENT_TYPE_FILE, constants.CONTENT_TYPE_PAGE)
     )
     file_type = FuzzyChoice(("application/pdf", "video/mp4", "text"))
-    section = FuzzyChoice(
-        (constants.OCW_TYPE_EXAMS, constants.OCW_TYPE_LECTURE_NOTES, None)
-    )
-    learning_resource_types = FuzzyChoice(
-        (
-            [constants.OCW_TYPE_ASSIGNMENTS],
-            [constants.OCW_TYPE_EXAMS],
-            [constants.OCW_TYPE_LABS],
-            [constants.OCW_TYPE_LECTURE_AUDIO],
-            [constants.OCW_TYPE_LECTURE_NOTES],
-            [constants.OCW_TYPE_LECTURE_VIDEOS],
-            [constants.OCW_TYPE_PROJECTS],
-            [constants.OCW_TYPE_READINGS],
-            [constants.OCW_TYPE_RECITATIONS],
-            [constants.OCW_TYPE_TEXTBOOKS],
-            [constants.OCW_TYPE_TOOLS],
-            [constants.OCW_TYPE_TUTORIALS],
-            [constants.OCW_TYPE_VIDEOS],
-        )
-    )
     published = True
 
     class Meta:

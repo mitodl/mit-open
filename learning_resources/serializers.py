@@ -1,6 +1,5 @@
 """Serializers for learning_resources"""
 import logging
-import re
 
 from django.db import transaction
 from django.db.models import F, Max
@@ -399,19 +398,12 @@ class ContentFileSerializer(serializers.ModelSerializer):
     )
     resource_type = serializers.SerializerMethodField()
 
-    def get_resource_type(self, instance):
-        """Get the resource type of the ContentFile"""
-        if (
-            instance.run.learning_resource.platform.platform
-            == constants.PlatformType.ocw.value
-        ):
-            return instance.learning_resource_types
-        else:
-            if not instance.section:
-                return None
-            if re.search(r"Assignment($|\s)", instance.section):
-                return constants.OCW_TYPE_ASSIGNMENTS
-            return constants.OCW_SECTION_TYPE_MAPPING.get(instance.section, None)
+    def get_resource_type(self, instance):  # pylint:disable=unused-argument
+        """
+        Get the resource type of the ContentFile. For now, just return None.
+        NOTE: This function needs to be updated once OCW courses are added.
+        """
+        return None
 
     class Meta:
         model = models.ContentFile
