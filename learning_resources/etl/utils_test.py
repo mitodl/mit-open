@@ -22,7 +22,7 @@ pytestmark = pytest.mark.django_db
 
 def get_olx_test_docs():
     """Get a list of edx docs from a sample archive file"""
-    script_dir = pathlib.Path(__file__).parent.absolute().parent
+    script_dir = pathlib.Path(__file__).parent.absolute().parent.parent
     with TemporaryDirectory() as temp:
         check_call(
             [  # noqa: S603,S607
