@@ -1,8 +1,10 @@
 """Serializers for learning_resources"""
 import logging
+from typing import Type
 
 from django.db import transaction
 from django.db.models import F, Max
+from drf_polymorphic.serializers import PolymorphicSerializer
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -96,35 +98,6 @@ class LearningResourceRunSerializer(serializers.ModelSerializer):
         exclude = ["learning_resource", *COMMON_IGNORED_FIELDS]
 
 
-class ResourceListMixin(serializers.Serializer):
-    """Common fields for LearningPath and other future resource lists"""
-
-    item_count = serializers.SerializerMethodField()
-
-    def get_item_count(self, instance) -> int:
-        """Return the number of items in the list"""
-        return (
-            getattr(instance, "item_count", None)
-            or instance.learning_resource.children.count()
-        )
-
-
-class CourseSerializer(serializers.ModelSerializer):
-    """Serializer for the Course model"""
-
-    class Meta:
-        model = models.Course
-        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
-
-
-class LearningPathSerializer(serializers.ModelSerializer, ResourceListMixin):
-    """Serializer for the LearningPath model"""
-
-    class Meta:
-        model = models.LearningPath
-        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
-
-
 class MicroRelationshipSerializer(serializers.ModelSerializer):
     """
     Serializer containing only the parent and child ids
@@ -135,8 +108,8 @@ class MicroRelationshipSerializer(serializers.ModelSerializer):
         fields = ("id", "parent_id", "child_id")
 
 
-class LearningResourceBaseSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResource, minus program"""
+class BaseLearningResourceSerializer(serializers.ModelSerializer):
+    """Serializer for LearningResource"""
 
     offered_by = LearningResourceOfferorField(read_only=True, allow_null=True)
     resource_content_tags = LearningResourceContentTagField(
@@ -148,8 +121,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
     certification = serializers.ReadOnlyField()
     prices = serializers.ReadOnlyField()
     topics = WriteableSerializerMethodField()
-    course = CourseSerializer(read_only=True, allow_null=True)
-    learning_path = LearningPathSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
     learning_path_parents = serializers.SerializerMethodField()
 
@@ -207,46 +178,103 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
         exclude = ["resources", *COMMON_IGNORED_FIELDS]
 
 
+class LearningResourceSerializer(BaseLearningResourceSerializer, PolymorphicSerializer):
+    """
+    Polymorphic serailizer for Learning Resource.
+
+    This uses drf_polymorhpic library to allow this serializer to operate like a disjoint union type.
+    """
+
+    discriminator_field = "resource_type"
+    serializer_mapping = {}
+
+    @classmethod
+    def resource_type_serializer(cls, /, resource_type: str):
+        if resource_type in cls.serializer_mapping:
+            raise ValueError(
+                f"LearningResource serializer already registered for resource_type='${resource_type}'"
+            )
+
+        def wrapper(resource_type_serializer_cls: Type[serializers.Serializer]):
+            # if the serializer subclasses BaseLearningResourceSerializer, this will cause problems
+            if issubclass(resource_type_serializer_cls, BaseLearningResourceSerializer):
+                raise ValueError(
+                    f"Class `{resource_type_serializer_cls.__name__}` cannot subclass `BaseLearningResourceSerializer`"
+                )
+
+            cls.serializer_mapping[resource_type] = resource_type_serializer_cls
+
+            # Note: don't add docstrings to this class so they inherit from cls
+            class LRSerializer(
+                BaseLearningResourceSerializer, resource_type_serializer_cls
+            ):
+                pass
+
+            LRSerializer.__name__ = resource_type_serializer_cls.__name__
+
+            return LRSerializer
+
+        return wrapper
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    """Serializer for the Course model"""
+
+    class Meta:
+        model = models.Course
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
+
+
+@LearningResourceSerializer.resource_type_serializer(resource_type="course")
+class CourseResourceSerializer(serializers.Serializer):
+    """Serializer for LearningResources of the course type"""
+
+    course = CourseSerializer(read_only=True)
+
+
 class ProgramSerializer(serializers.ModelSerializer):
     """Serializer for the Program model"""
 
-    courses = serializers.SerializerMethodField()
-
-    @extend_schema_field(LearningResourceBaseSerializer(many=True, allow_null=True))
-    def get_courses(self, obj):
-        """Get the learning resource courses for a program"""
-        return LearningResourceRelationshipChildField(
-            obj.learning_resource.children.all(), many=True
-        ).data
+    courses = CourseResourceSerializer(many=True)
 
     class Meta:
         model = models.Program
         exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
-class LearningResourceSerializer(LearningResourceBaseSerializer):
-    """Serializer for LearningResource, with program included"""
+@LearningResourceSerializer.resource_type_serializer(resource_type="program")
+class ProgramResourceSerializer(serializers.Serializer):
+    """Serializer for LearningResources of the program type"""
 
-    program = ProgramSerializer(read_only=True, allow_null=True)
+    program = ProgramSerializer(read_only=True)
 
 
-class LearningResourceRelationshipChildField(serializers.ModelSerializer):
-    """
-    Serializer field for the LearningResourceRelationship model that uses
-    the LearningResourceSerializer to serialize the child resources
-    """
+class ResourceListMixin(serializers.Serializer):
+    """Common fields for LearningPath and other future resource lists"""
 
-    def to_representation(self, instance):
-        """Serializes child as a LearningResource"""
-        return LearningResourceSerializer(instance=instance.child).data
+    item_count = serializers.SerializerMethodField()
+
+    def get_item_count(self, instance) -> int:
+        """Return the number of items in the list"""
+        return (
+            getattr(instance, "item_count", None)
+            or instance.learning_resource.children.count()
+        )
+
+
+class LearningPathSerializer(serializers.ModelSerializer, ResourceListMixin):
+    """Serializer for the LearningPath model"""
 
     class Meta:
-        model = models.LearningResourceRelationship
-        exclude = ("parent", *COMMON_IGNORED_FIELDS)
+        model = models.LearningPath
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
-class LearningPathResourceSerializer(LearningResourceSerializer):
+@LearningResourceSerializer.resource_type_serializer(resource_type="learningpath")
+class LearningPathResourceSerializer(serializers.Serializer):
     """CRUD serializer for LearningPath resources"""
+
+    learning_path = LearningPathSerializer(read_only=True)
 
     def validate_resource_type(self, value):
         """Only allow LearningPath resources to be CRUDed"""
@@ -301,18 +329,6 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
             "learning_path",
             "published",
         )
-
-
-class LearningResourceChildSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResourceRelationship children"""
-
-    def to_representation(self, instance):
-        """Serializes offered_by as a list of OfferedBy names"""
-        return LearningResourceSerializer(instance.child).data
-
-    class Meta:
-        model = models.LearningResourceRelationship
-        fields = ("child",)
 
 
 class LearningResourceRelationshipSerializer(serializers.ModelSerializer):

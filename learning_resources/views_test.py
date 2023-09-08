@@ -139,8 +139,8 @@ def test_program_detail_endpoint(client, url):
 
 def test_list_resources_endpoint(client):
     """Test unfiltered learning_resources endpoint"""
-    courses = CourseFactory.create_batch(2)
-    programs = ProgramFactory.create_batch(2)
+    courses = CourseFactory.create_batch(5)
+    programs = ProgramFactory.create_batch(5)
     resource_ids = [resource.learning_resource.id for resource in [*courses, *programs]]
     resource_ids.extend(
         [
