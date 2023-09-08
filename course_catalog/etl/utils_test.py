@@ -38,22 +38,26 @@ pytestmark = pytest.mark.django_db
 
 def get_olx_test_docs():
     """Get a list of edx docs from a sample archive file"""
-    script_dir = os.path.dirname(
-        os.path.dirname(pathlib.Path(__file__).parent.absolute())
+    script_dir = os.path.dirname(  # noqa: PTH120
+        os.path.dirname(pathlib.Path(__file__).parent.absolute())  # noqa: PTH120
     )
     with TemporaryDirectory() as temp:
         check_call(
-            [
+            [  # noqa: S603, S607
                 "tar",
                 "xf",
-                os.path.join(script_dir, "test_json", "exported_courses_12345.tar.gz"),
+                os.path.join(  # noqa: PTH118
+                    script_dir, "test_json", "exported_courses_12345.tar.gz"
+                ),
             ],
             cwd=temp,
         )
-        check_call(["tar", "xf", "content-devops-0001.tar.gz"], cwd=temp)
+        check_call(
+            ["tar", "xf", "content-devops-0001.tar.gz"], cwd=temp  # noqa: S603, S607
+        )
 
-        olx_path = os.path.join(temp, "content-devops-0001")
-        return [doc for doc in documents_from_olx(olx_path)]
+        olx_path = os.path.join(temp, "content-devops-0001")  # noqa: PTH118
+        return list(documents_from_olx(olx_path))
 
 
 @pytest.mark.parametrize("side_effect", ["One", Exception("error")])
@@ -62,7 +66,7 @@ def test_log_exceptions(mocker, side_effect):
     func = mocker.Mock(
         side_effect=side_effect
         if isinstance(side_effect, Exception)
-        else lambda *args, **kwargs: side_effect
+        else lambda *args, **kwargs: side_effect  # noqa: ARG005
     )
     wrapped_func = log_exceptions("Error message", exc_return_value="Error Value")(func)
     mock_log = mocker.patch("course_catalog.etl.utils.log")
@@ -87,12 +91,9 @@ def test_sync_s3_text(mock_ocw_learning_bucket, has_bucket, metadata):
     """
     key = "fake_key"
     sync_s3_text(mock_ocw_learning_bucket.bucket if has_bucket else None, key, metadata)
-    s3_objects = [
-        s3_obj
-        for s3_obj in mock_ocw_learning_bucket.bucket.objects.filter(
-            Prefix=f"extracts/{key}"
-        )
-    ]
+    s3_objects = list(
+        mock_ocw_learning_bucket.bucket.objects.filter(Prefix=f"extracts/{key}")
+    )
     assert len(s3_objects) == (1 if has_bucket and metadata is not None else 0)
 
 
@@ -147,13 +148,13 @@ def test_extract_text_from_url(mocker, content):
 
 
 @pytest.mark.parametrize(
-    "url,uuid",
+    ("url", "uuid"),
     [
-        [
+        [  # noqa: PT007
             "https://executive.mit.edu/openenrollment/program/managing-product-platforms",
             "6626ef0d6c8e3000a9ba7a7f509156aa",
         ],
-        [
+        [  # noqa: PT007
             "https://executive.mit.edu/openenrollment/program/negotiation-for-executives",
             "6b7d9f0b7a193048aae11054cbd38753",
         ],
@@ -236,7 +237,7 @@ def test_get_text_from_element():
     </vertical>
     """
 
-    ret = get_text_from_element(etree.fromstring(input_xml))
+    ret = get_text_from_element(etree.fromstring(input_xml))  # noqa: S320
     assert ret == (
         "\n    pre-text\n     \n    some\n     \n    important"
         "\n     \n    text here\n     \n    post-text\n    "
@@ -281,16 +282,18 @@ def test_transform_content_files(mocker, has_metadata, matching_checksum):
         "course_catalog.etl.utils.extract_text_metadata", return_value=tika_output
     )
 
-    script_dir = os.path.dirname(
-        os.path.dirname(pathlib.Path(__file__).parent.absolute())
+    script_dir = os.path.dirname(  # noqa: PTH120
+        os.path.dirname(pathlib.Path(__file__).parent.absolute())  # noqa: PTH120
     )
 
-    content = [
-        f
-        for f in transform_content_files(
-            os.path.join(script_dir, "test_json", "exported_courses_12345.tar.gz"), run
+    content = list(
+        transform_content_files(
+            os.path.join(  # noqa: PTH118
+                script_dir, "test_json", "exported_courses_12345.tar.gz"
+            ),
+            run,
         )
-    ]
+    )
     assert content == [
         {
             "content": tika_output["content"],
@@ -311,7 +314,7 @@ def test_transform_content_files(mocker, has_metadata, matching_checksum):
 
 
 def test_documents_from_olx():
-    """test for documents_from_olx"""
+    """Test for documents_from_olx"""
     parsed_documents = get_olx_test_docs()
     assert len(parsed_documents) == 108
 
@@ -332,9 +335,9 @@ def test_documents_from_olx():
             "checksum": "2c35721d1647f962d59b8120a52210a7",
         },
     )
-    formula2do = [
+    formula2do = next(
         doc for doc in parsed_documents if doc[1]["key"].endswith("formula2do.xml")
-    ][0]
+    )
     assert formula2do[0] == b'<html filename="formula2do" display_name="To do list"/>\n'
     assert formula2do[1]["key"].endswith("formula2do.xml")
     assert formula2do[1]["content_type"] == CONTENT_TYPE_FILE

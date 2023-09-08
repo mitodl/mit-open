@@ -16,21 +16,21 @@ from open_discussions.test_utils import any_instance_of
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_xpro_programs_data():
     """Mock xpro data"""
-    with open("./test_json/xpro_programs.json", "r") as f:
+    with open("./test_json/xpro_programs.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_xpro_courses_data():
     """Mock xpro data"""
-    with open("./test_json/xpro_courses.json", "r") as f:
+    with open("./test_json/xpro_courses.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_xpro_programs_responses(mocked_responses, settings, mock_xpro_programs_data):
     """Mock the programs api response"""
     settings.XPRO_CATALOG_API_URL = "http://localhost/test/programs/api"
@@ -39,17 +39,17 @@ def mocked_xpro_programs_responses(mocked_responses, settings, mock_xpro_program
         settings.XPRO_CATALOG_API_URL,
         json=mock_xpro_programs_data,
     )
-    yield mocked_responses
+    return mocked_responses
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_xpro_courses_responses(mocked_responses, settings, mock_xpro_courses_data):
     """Mock the courses api response"""
     settings.XPRO_COURSES_API_URL = "http://localhost/test/courses/api"
     mocked_responses.add(
         mocked_responses.GET, settings.XPRO_COURSES_API_URL, json=mock_xpro_courses_data
     )
-    yield mocked_responses
+    return mocked_responses
 
 
 @pytest.mark.usefixtures("mocked_xpro_programs_responses")
@@ -131,10 +131,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                     "url": course_data.get("url", None),
                     "offered_by": xpro.OFFERED_BY,
                     "published": any(
-                        map(
-                            lambda course_run: course_run.get("current_price", None),
-                            course_data["courseruns"],
-                        )
+                        course_run.get("current_price", None)
+                        for course_run in course_data["courseruns"]
                     ),
                     "topics": [
                         {"name": topic_name}
@@ -197,10 +195,8 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
             "url": course_data.get("url"),
             "offered_by": xpro.OFFERED_BY,
             "published": any(
-                map(
-                    lambda course_run: course_run.get("current_price", None),
-                    course_data["courseruns"],
-                )
+                course_run.get("current_price", None)
+                for course_run in course_data["courseruns"]
             ),
             "topics": [
                 {"name": topic_name}

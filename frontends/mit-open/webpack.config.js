@@ -8,22 +8,22 @@ const { withCKEditor } = require("ol-ckeditor/webpack-utils")
 
 const STATS_FILEPATH = path.resolve(
   __dirname,
-  "../../webpack-stats/mit-open.json"
+  "../../webpack-stats/mit-open.json",
 )
 
-const getPublicPath = isProduction => {
+const getPublicPath = (isProduction) => {
   const { MITOPEN_HOSTNAME: hostname, WEBPACK_PORT_MITOPEN: port } = process.env
   const buildPath = "/static/mit-open/"
   if (isProduction) return buildPath
   if (!hostname || !port) {
     throw new Error(
-      `hostname (${hostname}) and port (${port}) should both be defined.`
+      `hostname (${hostname}) and port (${port}) should both be defined.`,
     )
   }
   return `http://${hostname}:${port}/`
 }
 
-const validateEnv = isPorduction => {
+const validateEnv = (isPorduction) => {
   if (isPorduction) return
   if (!process.env.WEBPACK_PORT_MITOPEN) {
     throw new Error("WEBPACK_PORT_MITOPEN should be defined")
@@ -38,114 +38,114 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
     mode,
     context: __dirname,
     devtool: "source-map",
-    entry:   {
-      root:  "./src/entry/root",
-      style: "./src/entry/style"
+    entry: {
+      root: "./src/entry/root",
+      style: "./src/entry/style",
     },
     output: {
       path: path.resolve(__dirname, "build"),
-      ...(isProduction ?
-        {
-          filename:           "[name]-[chunkhash].js",
-          chunkFilename:      "[id]-[chunkhash].js",
-          crossOriginLoading: "anonymous",
-          hashFunction:       "xxhash64"
-        } :
-        {
-          filename: "[name].js"
-        }),
-      publicPath
+      ...(isProduction
+        ? {
+            filename: "[name]-[chunkhash].js",
+            chunkFilename: "[id]-[chunkhash].js",
+            crossOriginLoading: "anonymous",
+            hashFunction: "xxhash64",
+          }
+        : {
+            filename: "[name].js",
+          }),
+      publicPath,
     },
     module: {
       rules: [
         {
-          test:    /\.(svg|ttf|woff|woff2|eot|gif|png)$/,
+          test: /\.(svg|ttf|woff|woff2|eot|gif|png)$/,
           exclude: /@ckeditor/,
-          type:    "asset/inline"
+          type: "asset/inline",
         },
         {
-          test:    /\.tsx?$/,
-          use:     "swc-loader",
-          exclude: /node_modules/
+          test: /\.tsx?$/,
+          use: "swc-loader",
+          exclude: /node_modules/,
         },
         {
-          test:    /\.css$|\.scss$/,
+          test: /\.css$|\.scss$/,
           exclude: /@ckeditor/,
-          use:     [
+          use: [
             {
-              loader: isProduction ?
-                MiniCssExtractPlugin.loader :
-                "style-loader"
+              loader: isProduction
+                ? MiniCssExtractPlugin.loader
+                : "style-loader",
             },
             "css-loader",
             "postcss-loader",
-            "sass-loader"
-          ]
-        }
-      ]
+            "sass-loader",
+          ],
+        },
+      ],
     },
     plugins: [
       new BundleTracker({ filename: STATS_FILEPATH }),
       new webpack.DefinePlugin({
         "process.env": {
-          env: { NODE_ENV: JSON.stringify(mode) }
-        }
-      })
+          env: { NODE_ENV: JSON.stringify(mode) },
+        },
+      }),
     ]
       .concat(
-        isProduction ?
-          [
-            new webpack.LoaderOptionsPlugin({ minimize: true }),
-            new webpack.optimize.AggressiveMergingPlugin(),
-            new MiniCssExtractPlugin({
-              filename: "[name]-[contenthash].css"
-            })
-          ] :
-          []
+        isProduction
+          ? [
+              new webpack.LoaderOptionsPlugin({ minimize: true }),
+              new webpack.optimize.AggressiveMergingPlugin(),
+              new MiniCssExtractPlugin({
+                filename: "[name]-[contenthash].css",
+              }),
+            ]
+          : [],
       )
       .concat(
-        analyzeBundle ?
-          [
-            new BundleAnalyzerPlugin({
-              analyzerMode: "static"
-            })
-          ] :
-          []
+        analyzeBundle
+          ? [
+              new BundleAnalyzerPlugin({
+                analyzerMode: "static",
+              }),
+            ]
+          : [],
       ),
     resolve: {
-      extensions: [".js", ".jsx", ".ts", ".tsx"]
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
     performance: {
-      hints: false
+      hints: false,
     },
     optimization: {
-      moduleIds:   "named",
+      moduleIds: "named",
       splitChunks: {
-        name:      "common",
+        name: "common",
         minChunks: 2,
-        ...(isProduction ?
-          {
-            cacheGroups: {
-              common: {
-                test:   /[\\/]node_modules[\\/]/,
-                name:   "common",
-                chunks: "all"
-              }
+        ...(isProduction
+          ? {
+              cacheGroups: {
+                common: {
+                  test: /[\\/]node_modules[\\/]/,
+                  name: "common",
+                  chunks: "all",
+                },
+              },
             }
-          } :
-          {})
+          : {}),
       },
-      minimize:     isProduction,
-      emitOnErrors: false
+      minimize: isProduction,
+      emitOnErrors: false,
     },
     devServer: {
       allowedHosts: "all",
-      headers:      {
-        "Access-Control-Allow-Origin": "*"
+      headers: {
+        "Access-Control-Allow-Origin": "*",
       },
       host: "::",
-      port: process.env.WEBPACK_PORT_MITOPEN
-    }
+      port: process.env.WEBPACK_PORT_MITOPEN,
+    },
   }
   return withCKEditor(config)
 }

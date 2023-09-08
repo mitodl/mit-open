@@ -9,38 +9,40 @@ from moto import mock_s3
 
 
 @pytest.fixture(autouse=True)
-def silence_s3_logging():
+def silence_s3_logging():  # noqa: PT004
     """Only show S3 errors"""
     logging.getLogger("botocore").setLevel(logging.ERROR)
 
 
-@pytest.fixture
-def mock_s3_fixture():
+@pytest.fixture()
+def mock_s3_fixture():  # noqa: PT004
     """Mock the S3 fixture for the duration of the test"""
     with mock_s3():
         yield
 
 
-@pytest.fixture
+@pytest.fixture()
 def aws_settings(settings):
-    """Default AWS test settings"""
+    """Default AWS test settings"""  # noqa: D401
     settings.AWS_ACCESS_KEY_ID = "aws_id"
-    settings.AWS_SECRET_ACCESS_KEY = "aws_secret"  # pragma: allowlist secret`
+    settings.AWS_SECRET_ACCESS_KEY = (
+        "aws_secret"  # pragma: allowlist secret`  # noqa: S105
+    )
     return settings
 
 
 @pytest.fixture(autouse=True)
 def ocw_aws_settings(aws_settings):
-    """Default OCW test settings"""
+    """Default OCW test settings"""  # noqa: D401
     aws_settings.OCW_LEARNING_COURSE_BUCKET_NAME = (
         "test-bucket"  # impossible bucket name
     )
     return aws_settings
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_ocw_learning_bucket(
-    ocw_aws_settings, mock_s3_fixture
+    ocw_aws_settings, mock_s3_fixture  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """Mock OCW learning bucket"""
     s3 = boto3.resource(
@@ -49,12 +51,12 @@ def mock_ocw_learning_bucket(
         aws_secret_access_key=ocw_aws_settings.AWS_SECRET_ACCESS_KEY,
     )
     bucket = s3.create_bucket(Bucket=ocw_aws_settings.OCW_LEARNING_COURSE_BUCKET_NAME)
-    yield SimpleNamespace(s3=s3, bucket=bucket)
+    return SimpleNamespace(s3=s3, bucket=bucket)
 
 
 @pytest.fixture(autouse=True)
 def xpro_aws_settings(aws_settings):
-    """Default xPRO test settings"""
+    """Default xPRO test settings"""  # noqa: D401
     aws_settings.XPRO_LEARNING_COURSE_BUCKET_NAME = (
         "test-xpro-bucket"  # impossible bucket name
     )
@@ -63,7 +65,7 @@ def xpro_aws_settings(aws_settings):
 
 @pytest.fixture(autouse=True)
 def mitx_aws_settings(aws_settings):
-    """Default MITx Online test settings"""
+    """Default MITx Online test settings"""  # noqa: D401
     aws_settings.EDX_LEARNING_COURSE_BUCKET_NAME = (
         "test-mitx-bucket"  # impossible bucket name
     )
@@ -72,16 +74,16 @@ def mitx_aws_settings(aws_settings):
 
 @pytest.fixture(autouse=True)
 def mitxonline_aws_settings(aws_settings):
-    """Default MITx Online test settings"""
+    """Default MITx Online test settings"""  # noqa: D401
     aws_settings.MITX_ONLINE_LEARNING_COURSE_BUCKET_NAME = (
         "test-mitxonline-bucket"  # impossible bucket name
     )
     return aws_settings
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_xpro_learning_bucket(
-    xpro_aws_settings, mock_s3_fixture
+    xpro_aws_settings, mock_s3_fixture  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """Mock OCW learning bucket"""
     s3 = boto3.resource(
@@ -90,12 +92,12 @@ def mock_xpro_learning_bucket(
         aws_secret_access_key=xpro_aws_settings.AWS_SECRET_ACCESS_KEY,
     )
     bucket = s3.create_bucket(Bucket=xpro_aws_settings.XPRO_LEARNING_COURSE_BUCKET_NAME)
-    yield SimpleNamespace(s3=s3, bucket=bucket)
+    return SimpleNamespace(s3=s3, bucket=bucket)
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_mitxonline_learning_bucket(
-    mitxonline_aws_settings, mock_s3_fixture
+    mitxonline_aws_settings, mock_s3_fixture  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """Mock OCW learning bucket"""
     s3 = boto3.resource(
@@ -106,12 +108,12 @@ def mock_mitxonline_learning_bucket(
     bucket = s3.create_bucket(
         Bucket=mitxonline_aws_settings.MITX_ONLINE_LEARNING_COURSE_BUCKET_NAME
     )
-    yield SimpleNamespace(s3=s3, bucket=bucket)
+    return SimpleNamespace(s3=s3, bucket=bucket)
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_mitx_learning_bucket(
-    mitx_aws_settings, mock_s3_fixture
+    mitx_aws_settings, mock_s3_fixture  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """Mock OCW learning bucket"""
     s3 = boto3.resource(
@@ -120,4 +122,4 @@ def mock_mitx_learning_bucket(
         aws_secret_access_key=mitx_aws_settings.AWS_SECRET_ACCESS_KEY,
     )
     bucket = s3.create_bucket(Bucket=mitx_aws_settings.EDX_LEARNING_COURSE_BUCKET_NAME)
-    yield SimpleNamespace(s3=s3, bucket=bucket)
+    return SimpleNamespace(s3=s3, bucket=bucket)

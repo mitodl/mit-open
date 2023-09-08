@@ -53,7 +53,7 @@ class FieldChannelViewSet(
             return FieldChannelCreateSerializer
         return FieldChannelWriteSerializer
 
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):  # noqa: ARG002
         """Remove the user from the moderator groups for this field channel"""
         FieldChannel.objects.get_object_or_404(name=kwargs["field_name"]).delete()
         return Response(status=HTTP_204_NO_CONTENT)
@@ -70,7 +70,7 @@ class FieldModeratorListView(ListCreateAPIView):
     def get_queryset(self):
         """
         Builds a queryset of relevant users with moderator permissions for this field channel
-        """
+        """  # noqa: D401, E501
         field_group_name = get_group_role_name(
             self.kwargs["field_name"],
             FIELD_ROLE_MODERATORS,
@@ -87,7 +87,7 @@ class FieldModeratorDetailView(APIView):
     permission_classes = (FieldModeratorPermissions,)
     serializer_class = FieldModeratorSerializer
 
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):  # noqa: ARG002
         """Remove the user from the moderator groups for this website"""
         user = User.objects.get(username=self.kwargs["moderator_name"])
         field_name = self.kwargs["field_name"]

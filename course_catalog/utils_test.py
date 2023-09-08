@@ -25,51 +25,61 @@ def fixture_test_instructors_data():
     """
     Test instructors data
     """
-    with open("./test_json/test_instructors_data.json", "r") as test_data:
+    with open("./test_json/test_instructors_data.json") as test_data:  # noqa: PTH123
         return json.load(test_data)["instructors"]
 
 
 @pytest.mark.parametrize(
-    "course_id,course_json,platform, expected",
+    ("course_id", "course_json", "platform", "expected"),
     [
-        [
+        [  # noqa: PT007
             "MITX-01",
             {"course_runs": [{"marketing_url": "https://www.edx.org/course/someurl"}]},
             PlatformType.mitx.value,
             "https://www.edx.org/course/someurl",
         ],
-        [
+        [  # noqa: PT007
             "MITX-01",
             {"course_runs": [{"marketing_url": "https://www.edx.org/"}]},
             PlatformType.mitx.value,
             "https://courses.edx.org/courses/MITX-01/course/",
         ],
-        [
+        [  # noqa: PT007
             "MITX-01",
             {"course_runs": [{"marketing_url": ""}]},
             PlatformType.mitx.value,
             "https://courses.edx.org/courses/MITX-01/course/",
         ],
-        [
+        [  # noqa: PT007
             "MITX-01",
             {"course_runs": [{}]},
             PlatformType.mitx.value,
             "https://courses.edx.org/courses/MITX-01/course/",
         ],
-        [
+        [  # noqa: PT007
             "MITX-01",
             {},
             PlatformType.mitx.value,
             "https://courses.edx.org/courses/MITX-01/course/",
         ],
-        [
+        [  # noqa: PT007
             "e9387c256bae4ca99cce88fd8b7f8272",
             {"url": "/someurl"},
             PlatformType.ocw.value,
             "http://ocw.mit.edu/someurl",
         ],
-        ["e9387c256bae4ca99cce88fd8b7f8272", {"url": ""}, PlatformType.ocw.value, None],
-        ["e9387c256bae4ca99cce88fd8b7f8272", {}, PlatformType.ocw.value, None],
+        [  # noqa: PT007
+            "e9387c256bae4ca99cce88fd8b7f8272",
+            {"url": ""},
+            PlatformType.ocw.value,
+            None,
+        ],
+        [  # noqa: PT007
+            "e9387c256bae4ca99cce88fd8b7f8272",
+            {},
+            PlatformType.ocw.value,
+            None,
+        ],
     ],
 )
 def test_get_course_url(course_id, course_json, platform, expected):
@@ -82,20 +92,20 @@ def test_get_course_url(course_id, course_json, platform, expected):
 
 
 @pytest.mark.parametrize(
-    "semester,year,ending, expected",
+    ("semester", "year", "ending", "expected"),
     [
-        ["spring", 2020, True, "2020-05-31"],
-        ["spring", 2020, False, "2020-01-01"],
-        ["fall", 2020, True, "2020-12-31"],
-        ["fall", 2020, False, "2020-09-01"],
-        ["summer", 2021, True, "2021-08-30"],
-        ["summer", 2021, False, "2021-06-01"],
-        ["spring", None, False, None],
-        [None, 2020, False, None],
-        ["something", 2020, False, None],
-        ["something", 2020, True, None],
-        ["January IAP", 2018, False, "2018-01-01"],
-        ["January IAP", 2018, True, "2018-01-31"],
+        ["spring", 2020, True, "2020-05-31"],  # noqa: PT007
+        ["spring", 2020, False, "2020-01-01"],  # noqa: PT007
+        ["fall", 2020, True, "2020-12-31"],  # noqa: PT007
+        ["fall", 2020, False, "2020-09-01"],  # noqa: PT007
+        ["summer", 2021, True, "2021-08-30"],  # noqa: PT007
+        ["summer", 2021, False, "2021-06-01"],  # noqa: PT007
+        ["spring", None, False, None],  # noqa: PT007
+        [None, 2020, False, None],  # noqa: PT007
+        ["something", 2020, False, None],  # noqa: PT007
+        ["something", 2020, True, None],  # noqa: PT007
+        ["January IAP", 2018, False, "2018-01-01"],  # noqa: PT007
+        ["January IAP", 2018, True, "2018-01-31"],  # noqa: PT007
     ],
 )
 def test_semester_year_to_date(semester, year, ending, expected):
@@ -126,7 +136,7 @@ def test_load_blocklist(url, settings, mocker):
         assert blocklist == []
     else:
         mock_request.assert_called_once_with(url, timeout=settings.REQUESTS_TIMEOUT)
-        assert blocklist == [str(id, "utf-8") for id in file_content]
+        assert blocklist == [str(id, "utf-8") for id in file_content]  # noqa: A001
 
 
 @pytest.mark.parametrize("url", [None, "http://test.me"])
@@ -189,7 +199,7 @@ def test_get_ocw_topics():
 
 
 @pytest.mark.parametrize(
-    "course_json,expected_departments",
+    ("course_json", "expected_departments"),
     [
         ({"department_number": "22"}, ["22"]),
         ({"department_number": "22", "extra_course_number": None}, ["22"]),

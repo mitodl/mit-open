@@ -70,4 +70,4 @@ class FieldChannelGroupRole(TimestampedModel):
         index_together = (("field", "role"),)
 
     def __str__(self):
-        return f"Group {self.group.name} role {self.role} for FieldChannel {self.field.name}"
+        return f"Group {self.group.name} role {self.role} for FieldChannel {self.field.name}"  # noqa: E501

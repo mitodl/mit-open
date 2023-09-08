@@ -27,7 +27,7 @@ import {
   setSearchParams,
   serializeDataIfNeeded,
   toPathString,
-  createRequestFunction
+  createRequestFunction,
 } from "./common"
 import type { RequestArgs } from "./base"
 // @ts-ignore
@@ -1288,7 +1288,7 @@ export interface Program {
 export const ResourceTypeEnum = {
   Course: "course",
   Program: "program",
-  LearningPath: "learning_path"
+  LearningPath: "learning_path",
 } as const
 
 export type ResourceTypeEnum =
@@ -1299,7 +1299,7 @@ export type ResourceTypeEnum =
  * @export
  */
 export const CoursesApiAxiosParamCreator = function (
-  configuration?: Configuration
+  configuration?: Configuration,
 ) {
   return {
     /**
@@ -1321,7 +1321,7 @@ export const CoursesApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1334,7 +1334,7 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -1371,12 +1371,12 @@ export const CoursesApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -1398,7 +1398,7 @@ export const CoursesApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/new/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1411,7 +1411,7 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -1448,12 +1448,12 @@ export const CoursesApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -1465,13 +1465,13 @@ export const CoursesApiAxiosParamCreator = function (
      */
     coursesRetrieve: async (
       id: number,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("coursesRetrieve", "id", id)
       const localVarPath = `/api/v1/courses/{id}/`.replace(
         `{${"id"}}`,
-        encodeURIComponent(String(id))
+        encodeURIComponent(String(id)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -1483,7 +1483,7 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -1496,12 +1496,12 @@ export const CoursesApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -1523,7 +1523,7 @@ export const CoursesApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/upcoming/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1536,7 +1536,7 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -1573,14 +1573,14 @@ export const CoursesApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
-    }
+    },
   }
 }
 
@@ -1610,11 +1610,11 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesList(
@@ -1624,13 +1624,13 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         resource_type,
-        options
+        options,
       )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -1652,11 +1652,11 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesNewList(
@@ -1666,13 +1666,13 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         resource_type,
-        options
+        options,
       )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -1684,22 +1684,22 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      */
     async coursesRetrieve(
       id: number,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningResource>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesRetrieve(
         id,
-        options
+        options,
       )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -1721,11 +1721,11 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs =
@@ -1736,15 +1736,15 @@ export const CoursesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           resource_type,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
-    }
+    },
   }
 }
 
@@ -1755,7 +1755,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
 export const CoursesApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance
+  axios?: AxiosInstance,
 ) {
   const localVarFp = CoursesApiFp(configuration)
   return {
@@ -1768,7 +1768,7 @@ export const CoursesApiFactory = function (
      */
     coursesList(
       requestParameters: CoursesApiCoursesListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .coursesList(
@@ -1778,9 +1778,9 @@ export const CoursesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Get a paginated list of newly released resources.
@@ -1791,7 +1791,7 @@ export const CoursesApiFactory = function (
      */
     coursesNewList(
       requestParameters: CoursesApiCoursesNewListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .coursesNewList(
@@ -1801,9 +1801,9 @@ export const CoursesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Retrieve a single learning resource.
@@ -1814,11 +1814,11 @@ export const CoursesApiFactory = function (
      */
     coursesRetrieve(
       requestParameters: CoursesApiCoursesRetrieveRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningResource> {
       return localVarFp
         .coursesRetrieve(requestParameters.id, options)
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Get a paginated list of upcoming resources.
@@ -1829,7 +1829,7 @@ export const CoursesApiFactory = function (
      */
     coursesUpcomingList(
       requestParameters: CoursesApiCoursesUpcomingListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .coursesUpcomingList(
@@ -1839,10 +1839,10 @@ export const CoursesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
-    }
+        .then((request) => request(axios, basePath))
+    },
   }
 }
 
@@ -2024,7 +2024,7 @@ export class CoursesApi extends BaseAPI {
    */
   public coursesList(
     requestParameters: CoursesApiCoursesListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return CoursesApiFp(this.configuration)
       .coursesList(
@@ -2034,9 +2034,9 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -2049,7 +2049,7 @@ export class CoursesApi extends BaseAPI {
    */
   public coursesNewList(
     requestParameters: CoursesApiCoursesNewListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return CoursesApiFp(this.configuration)
       .coursesNewList(
@@ -2059,9 +2059,9 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -2074,11 +2074,11 @@ export class CoursesApi extends BaseAPI {
    */
   public coursesRetrieve(
     requestParameters: CoursesApiCoursesRetrieveRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return CoursesApiFp(this.configuration)
       .coursesRetrieve(requestParameters.id, options)
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -2091,7 +2091,7 @@ export class CoursesApi extends BaseAPI {
    */
   public coursesUpcomingList(
     requestParameters: CoursesApiCoursesUpcomingListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return CoursesApiFp(this.configuration)
       .coursesUpcomingList(
@@ -2101,9 +2101,9 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 }
 
@@ -2112,7 +2112,7 @@ export class CoursesApi extends BaseAPI {
  * @export
  */
 export const LearningResourcesApiAxiosParamCreator = function (
-  configuration?: Configuration
+  configuration?: Configuration,
 ) {
   return {
     /**
@@ -2134,7 +2134,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2147,7 +2147,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -2184,12 +2184,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -2211,7 +2211,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/new/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2224,7 +2224,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -2261,12 +2261,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -2278,13 +2278,13 @@ export const LearningResourcesApiAxiosParamCreator = function (
      */
     learningResourcesRetrieve: async (
       id: number,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningResourcesRetrieve", "id", id)
       const localVarPath = `/api/v1/learning_resources/{id}/`.replace(
         `{${"id"}}`,
-        encodeURIComponent(String(id))
+        encodeURIComponent(String(id)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -2296,7 +2296,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -2309,12 +2309,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -2336,7 +2336,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/upcoming/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2349,7 +2349,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -2386,14 +2386,14 @@ export const LearningResourcesApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
-    }
+    },
   }
 }
 
@@ -2424,11 +2424,11 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs =
@@ -2439,13 +2439,13 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           resource_type,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -2467,11 +2467,11 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs =
@@ -2482,13 +2482,13 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           resource_type,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -2500,11 +2500,11 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      */
     async learningResourcesRetrieve(
       id: number,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningResource>
     > {
       const localVarAxiosArgs =
@@ -2513,7 +2513,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -2535,11 +2535,11 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs =
@@ -2550,15 +2550,15 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           resource_type,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
-    }
+    },
   }
 }
 
@@ -2569,7 +2569,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
 export const LearningResourcesApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance
+  axios?: AxiosInstance,
 ) {
   const localVarFp = LearningResourcesApiFp(configuration)
   return {
@@ -2582,7 +2582,7 @@ export const LearningResourcesApiFactory = function (
      */
     learningResourcesList(
       requestParameters: LearningResourcesApiLearningResourcesListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesList(
@@ -2592,9 +2592,9 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Get a paginated list of newly released resources.
@@ -2605,7 +2605,7 @@ export const LearningResourcesApiFactory = function (
      */
     learningResourcesNewList(
       requestParameters: LearningResourcesApiLearningResourcesNewListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesNewList(
@@ -2615,9 +2615,9 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Retrieve a single learning resource.
@@ -2628,11 +2628,11 @@ export const LearningResourcesApiFactory = function (
      */
     learningResourcesRetrieve(
       requestParameters: LearningResourcesApiLearningResourcesRetrieveRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningResource> {
       return localVarFp
         .learningResourcesRetrieve(requestParameters.id, options)
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Get a paginated list of upcoming resources.
@@ -2643,7 +2643,7 @@ export const LearningResourcesApiFactory = function (
      */
     learningResourcesUpcomingList(
       requestParameters: LearningResourcesApiLearningResourcesUpcomingListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesUpcomingList(
@@ -2653,10 +2653,10 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
-    }
+        .then((request) => request(axios, basePath))
+    },
   }
 }
 
@@ -2838,7 +2838,7 @@ export class LearningResourcesApi extends BaseAPI {
    */
   public learningResourcesList(
     requestParameters: LearningResourcesApiLearningResourcesListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesList(
@@ -2848,9 +2848,9 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -2863,7 +2863,7 @@ export class LearningResourcesApi extends BaseAPI {
    */
   public learningResourcesNewList(
     requestParameters: LearningResourcesApiLearningResourcesNewListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesNewList(
@@ -2873,9 +2873,9 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -2888,11 +2888,11 @@ export class LearningResourcesApi extends BaseAPI {
    */
   public learningResourcesRetrieve(
     requestParameters: LearningResourcesApiLearningResourcesRetrieveRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesRetrieve(requestParameters.id, options)
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -2905,7 +2905,7 @@ export class LearningResourcesApi extends BaseAPI {
    */
   public learningResourcesUpcomingList(
     requestParameters: LearningResourcesApiLearningResourcesUpcomingListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesUpcomingList(
@@ -2915,9 +2915,9 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 }
 
@@ -2926,7 +2926,7 @@ export class LearningResourcesApi extends BaseAPI {
  * @export
  */
 export const LearningpathsApiAxiosParamCreator = function (
-  configuration?: Configuration
+  configuration?: Configuration,
 ) {
   return {
     /**
@@ -2937,13 +2937,13 @@ export const LearningpathsApiAxiosParamCreator = function (
      */
     learningpathsCreate: async (
       LearningPathResourceRequest: LearningPathResourceRequest,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'LearningPathResourceRequest' is not null or undefined
       assertParamExists(
         "learningpathsCreate",
         "LearningPathResourceRequest",
-        LearningPathResourceRequest
+        LearningPathResourceRequest,
       )
       const localVarPath = `/api/v1/learningpaths/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2956,7 +2956,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "POST",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -2971,17 +2971,17 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
         LearningPathResourceRequest,
         localVarRequestOptions,
-        configuration
+        configuration,
       )
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -2992,13 +2992,13 @@ export const LearningpathsApiAxiosParamCreator = function (
      */
     learningpathsDestroy: async (
       id: number,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningpathsDestroy", "id", id)
       const localVarPath = `/api/v1/learningpaths/{id}/`.replace(
         `{${"id"}}`,
-        encodeURIComponent(String(id))
+        encodeURIComponent(String(id)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -3010,7 +3010,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "DELETE",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3023,12 +3023,12 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3050,7 +3050,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -3063,7 +3063,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3100,12 +3100,12 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3127,7 +3127,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/new/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -3140,7 +3140,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3177,12 +3177,12 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3195,13 +3195,13 @@ export const LearningpathsApiAxiosParamCreator = function (
     learningpathsPartialUpdate: async (
       id: number,
       PatchedLearningPathResourceRequest?: PatchedLearningPathResourceRequest,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningpathsPartialUpdate", "id", id)
       const localVarPath = `/api/v1/learningpaths/{id}/`.replace(
         `{${"id"}}`,
-        encodeURIComponent(String(id))
+        encodeURIComponent(String(id)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -3213,7 +3213,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "PATCH",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3228,17 +3228,17 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
         PatchedLearningPathResourceRequest,
         localVarRequestOptions,
-        configuration
+        configuration,
       )
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3251,7 +3251,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     learningpathsResourcesCreate: async (
       parent_id: number,
       LearningPathRelationshipRequest: LearningPathRelationshipRequest,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'parent_id' is not null or undefined
       assertParamExists("learningpathsResourcesCreate", "parent_id", parent_id)
@@ -3259,12 +3259,12 @@ export const LearningpathsApiAxiosParamCreator = function (
       assertParamExists(
         "learningpathsResourcesCreate",
         "LearningPathRelationshipRequest",
-        LearningPathRelationshipRequest
+        LearningPathRelationshipRequest,
       )
       const localVarPath =
         `/api/v1/learningpaths/{parent_id}/resources/`.replace(
           `{${"parent_id"}}`,
-          encodeURIComponent(String(parent_id))
+          encodeURIComponent(String(parent_id)),
         )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -3276,7 +3276,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "POST",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3291,17 +3291,17 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
         LearningPathRelationshipRequest,
         localVarRequestOptions,
-        configuration
+        configuration,
       )
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3314,7 +3314,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     learningpathsResourcesDestroy: async (
       id: number,
       parent_id: number,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningpathsResourcesDestroy", "id", id)
@@ -3333,7 +3333,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "DELETE",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3346,12 +3346,12 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3366,14 +3366,14 @@ export const LearningpathsApiAxiosParamCreator = function (
       parent_id: number,
       limit?: number,
       offset?: number,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'parent_id' is not null or undefined
       assertParamExists("learningpathsResourcesList", "parent_id", parent_id)
       const localVarPath =
         `/api/v1/learningpaths/{parent_id}/resources/`.replace(
           `{${"parent_id"}}`,
-          encodeURIComponent(String(parent_id))
+          encodeURIComponent(String(parent_id)),
         )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -3385,7 +3385,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3406,12 +3406,12 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3426,7 +3426,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       id: number,
       parent_id: number,
       PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningpathsResourcesPartialUpdate", "id", id)
@@ -3434,7 +3434,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       assertParamExists(
         "learningpathsResourcesPartialUpdate",
         "parent_id",
-        parent_id
+        parent_id,
       )
       const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
         .replace(`{${"id"}}`, encodeURIComponent(String(id)))
@@ -3449,7 +3449,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "PATCH",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3464,17 +3464,17 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
         PatchedLearningPathRelationshipRequest,
         localVarRequestOptions,
-        configuration
+        configuration,
       )
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3487,7 +3487,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     learningpathsResourcesRetrieve: async (
       id: number,
       parent_id: number,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningpathsResourcesRetrieve", "id", id)
@@ -3495,7 +3495,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       assertParamExists(
         "learningpathsResourcesRetrieve",
         "parent_id",
-        parent_id
+        parent_id,
       )
       const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
         .replace(`{${"id"}}`, encodeURIComponent(String(id)))
@@ -3510,7 +3510,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3523,12 +3523,12 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3543,7 +3543,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       id: number,
       parent_id: number,
       LearningPathRelationshipRequest: LearningPathRelationshipRequest,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningpathsResourcesUpdate", "id", id)
@@ -3553,7 +3553,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       assertParamExists(
         "learningpathsResourcesUpdate",
         "LearningPathRelationshipRequest",
-        LearningPathRelationshipRequest
+        LearningPathRelationshipRequest,
       )
       const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
         .replace(`{${"id"}}`, encodeURIComponent(String(id)))
@@ -3568,7 +3568,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "PUT",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3583,17 +3583,17 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
         LearningPathRelationshipRequest,
         localVarRequestOptions,
-        configuration
+        configuration,
       )
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3605,13 +3605,13 @@ export const LearningpathsApiAxiosParamCreator = function (
      */
     learningpathsRetrieve: async (
       id: number,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningpathsRetrieve", "id", id)
       const localVarPath = `/api/v1/learningpaths/{id}/`.replace(
         `{${"id"}}`,
-        encodeURIComponent(String(id))
+        encodeURIComponent(String(id)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -3623,7 +3623,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3636,12 +3636,12 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3663,7 +3663,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/upcoming/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -3676,7 +3676,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3713,12 +3713,12 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -3731,7 +3731,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     learningpathsUpdate: async (
       id: number,
       LearningPathResourceRequest: LearningPathResourceRequest,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningpathsUpdate", "id", id)
@@ -3739,11 +3739,11 @@ export const LearningpathsApiAxiosParamCreator = function (
       assertParamExists(
         "learningpathsUpdate",
         "LearningPathResourceRequest",
-        LearningPathResourceRequest
+        LearningPathResourceRequest,
       )
       const localVarPath = `/api/v1/learningpaths/{id}/`.replace(
         `{${"id"}}`,
-        encodeURIComponent(String(id))
+        encodeURIComponent(String(id)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -3755,7 +3755,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "PUT",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -3770,19 +3770,19 @@ export const LearningpathsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
         LearningPathResourceRequest,
         localVarRequestOptions,
-        configuration
+        configuration,
       )
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
-    }
+    },
   }
 }
 
@@ -3802,23 +3802,23 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      */
     async learningpathsCreate(
       LearningPathResourceRequest: LearningPathResourceRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningPathResource>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsCreate(
           LearningPathResourceRequest,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -3829,7 +3829,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      */
     async learningpathsDestroy(
       id: number,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -3839,7 +3839,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -3861,11 +3861,11 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningPathResourceList>
     > {
       const localVarAxiosArgs =
@@ -3876,13 +3876,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           resource_type,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -3904,11 +3904,11 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs =
@@ -3919,13 +3919,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           resource_type,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -3938,24 +3938,24 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     async learningpathsPartialUpdate(
       id: number,
       PatchedLearningPathResourceRequest?: PatchedLearningPathResourceRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningPathResource>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsPartialUpdate(
           id,
           PatchedLearningPathResourceRequest,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -3968,24 +3968,24 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     async learningpathsResourcesCreate(
       parent_id: number,
       LearningPathRelationshipRequest: LearningPathRelationshipRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningPathRelationship>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsResourcesCreate(
           parent_id,
           LearningPathRelationshipRequest,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -3998,7 +3998,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     async learningpathsResourcesDestroy(
       id: number,
       parent_id: number,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -4006,13 +4006,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.learningpathsResourcesDestroy(
           id,
           parent_id,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -4027,11 +4027,11 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       parent_id: number,
       limit?: number,
       offset?: number,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningPathRelationshipList>
     > {
       const localVarAxiosArgs =
@@ -4039,13 +4039,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           parent_id,
           limit,
           offset,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -4060,11 +4060,11 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       id: number,
       parent_id: number,
       PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningPathRelationship>
     > {
       const localVarAxiosArgs =
@@ -4072,13 +4072,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           id,
           parent_id,
           PatchedLearningPathRelationshipRequest,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -4091,24 +4091,24 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     async learningpathsResourcesRetrieve(
       id: number,
       parent_id: number,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningPathRelationship>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsResourcesRetrieve(
           id,
           parent_id,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -4123,11 +4123,11 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       id: number,
       parent_id: number,
       LearningPathRelationshipRequest: LearningPathRelationshipRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningPathRelationship>
     > {
       const localVarAxiosArgs =
@@ -4135,13 +4135,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           id,
           parent_id,
           LearningPathRelationshipRequest,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -4153,11 +4153,11 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      */
     async learningpathsRetrieve(
       id: number,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningPathResource>
     > {
       const localVarAxiosArgs =
@@ -4166,7 +4166,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -4188,11 +4188,11 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs =
@@ -4203,13 +4203,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           resource_type,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -4222,26 +4222,26 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     async learningpathsUpdate(
       id: number,
       LearningPathResourceRequest: LearningPathResourceRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningPathResource>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsUpdate(
           id,
           LearningPathResourceRequest,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
-    }
+    },
   }
 }
 
@@ -4252,7 +4252,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
 export const LearningpathsApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance
+  axios?: AxiosInstance,
 ) {
   const localVarFp = LearningpathsApiFp(configuration)
   return {
@@ -4264,14 +4264,14 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsCreate(
       requestParameters: LearningpathsApiLearningpathsCreateRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningPathResource> {
       return localVarFp
         .learningpathsCreate(
           requestParameters.LearningPathResourceRequest,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Viewset for LearningPaths
@@ -4281,11 +4281,11 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsDestroy(
       requestParameters: LearningpathsApiLearningpathsDestroyRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
         .learningpathsDestroy(requestParameters.id, options)
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Get a paginated list of learning resources.
@@ -4296,7 +4296,7 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsList(
       requestParameters: LearningpathsApiLearningpathsListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningPathResourceList> {
       return localVarFp
         .learningpathsList(
@@ -4306,9 +4306,9 @@ export const LearningpathsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Get a paginated list of newly released resources.
@@ -4319,7 +4319,7 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsNewList(
       requestParameters: LearningpathsApiLearningpathsNewListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningpathsNewList(
@@ -4329,9 +4329,9 @@ export const LearningpathsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Viewset for LearningPaths
@@ -4341,15 +4341,15 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsPartialUpdate(
       requestParameters: LearningpathsApiLearningpathsPartialUpdateRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningPathResource> {
       return localVarFp
         .learningpathsPartialUpdate(
           requestParameters.id,
           requestParameters.PatchedLearningPathResourceRequest,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Viewset for LearningPath related resources
@@ -4359,15 +4359,15 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsResourcesCreate(
       requestParameters: LearningpathsApiLearningpathsResourcesCreateRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningPathRelationship> {
       return localVarFp
         .learningpathsResourcesCreate(
           requestParameters.parent_id,
           requestParameters.LearningPathRelationshipRequest,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Viewset for LearningPath related resources
@@ -4377,15 +4377,15 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsResourcesDestroy(
       requestParameters: LearningpathsApiLearningpathsResourcesDestroyRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
         .learningpathsResourcesDestroy(
           requestParameters.id,
           requestParameters.parent_id,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Viewset for LearningPath related resources
@@ -4395,16 +4395,16 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsResourcesList(
       requestParameters: LearningpathsApiLearningpathsResourcesListRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningPathRelationshipList> {
       return localVarFp
         .learningpathsResourcesList(
           requestParameters.parent_id,
           requestParameters.limit,
           requestParameters.offset,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Viewset for LearningPath related resources
@@ -4414,16 +4414,16 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsResourcesPartialUpdate(
       requestParameters: LearningpathsApiLearningpathsResourcesPartialUpdateRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningPathRelationship> {
       return localVarFp
         .learningpathsResourcesPartialUpdate(
           requestParameters.id,
           requestParameters.parent_id,
           requestParameters.PatchedLearningPathRelationshipRequest,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Viewset for LearningPath related resources
@@ -4433,15 +4433,15 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsResourcesRetrieve(
       requestParameters: LearningpathsApiLearningpathsResourcesRetrieveRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningPathRelationship> {
       return localVarFp
         .learningpathsResourcesRetrieve(
           requestParameters.id,
           requestParameters.parent_id,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Viewset for LearningPath related resources
@@ -4451,16 +4451,16 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsResourcesUpdate(
       requestParameters: LearningpathsApiLearningpathsResourcesUpdateRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningPathRelationship> {
       return localVarFp
         .learningpathsResourcesUpdate(
           requestParameters.id,
           requestParameters.parent_id,
           requestParameters.LearningPathRelationshipRequest,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Retrieve a single learning resource.
@@ -4471,11 +4471,11 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsRetrieve(
       requestParameters: LearningpathsApiLearningpathsRetrieveRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningPathResource> {
       return localVarFp
         .learningpathsRetrieve(requestParameters.id, options)
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Get a paginated list of upcoming resources.
@@ -4486,7 +4486,7 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsUpcomingList(
       requestParameters: LearningpathsApiLearningpathsUpcomingListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningpathsUpcomingList(
@@ -4496,9 +4496,9 @@ export const LearningpathsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Viewset for LearningPaths
@@ -4508,16 +4508,16 @@ export const LearningpathsApiFactory = function (
      */
     learningpathsUpdate(
       requestParameters: LearningpathsApiLearningpathsUpdateRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningPathResource> {
       return localVarFp
         .learningpathsUpdate(
           requestParameters.id,
           requestParameters.LearningPathResourceRequest,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
-    }
+        .then((request) => request(axios, basePath))
+    },
   }
 }
 
@@ -4915,14 +4915,14 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsCreate(
     requestParameters: LearningpathsApiLearningpathsCreateRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsCreate(
         requestParameters.LearningPathResourceRequest,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -4934,11 +4934,11 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsDestroy(
     requestParameters: LearningpathsApiLearningpathsDestroyRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsDestroy(requestParameters.id, options)
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -4951,7 +4951,7 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsList(
     requestParameters: LearningpathsApiLearningpathsListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsList(
@@ -4961,9 +4961,9 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -4976,7 +4976,7 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsNewList(
     requestParameters: LearningpathsApiLearningpathsNewListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsNewList(
@@ -4986,9 +4986,9 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5000,15 +5000,15 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsPartialUpdate(
     requestParameters: LearningpathsApiLearningpathsPartialUpdateRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsPartialUpdate(
         requestParameters.id,
         requestParameters.PatchedLearningPathResourceRequest,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5020,15 +5020,15 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsResourcesCreate(
     requestParameters: LearningpathsApiLearningpathsResourcesCreateRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsResourcesCreate(
         requestParameters.parent_id,
         requestParameters.LearningPathRelationshipRequest,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5040,15 +5040,15 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsResourcesDestroy(
     requestParameters: LearningpathsApiLearningpathsResourcesDestroyRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsResourcesDestroy(
         requestParameters.id,
         requestParameters.parent_id,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5060,16 +5060,16 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsResourcesList(
     requestParameters: LearningpathsApiLearningpathsResourcesListRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsResourcesList(
         requestParameters.parent_id,
         requestParameters.limit,
         requestParameters.offset,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5081,16 +5081,16 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsResourcesPartialUpdate(
     requestParameters: LearningpathsApiLearningpathsResourcesPartialUpdateRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsResourcesPartialUpdate(
         requestParameters.id,
         requestParameters.parent_id,
         requestParameters.PatchedLearningPathRelationshipRequest,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5102,15 +5102,15 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsResourcesRetrieve(
     requestParameters: LearningpathsApiLearningpathsResourcesRetrieveRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsResourcesRetrieve(
         requestParameters.id,
         requestParameters.parent_id,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5122,16 +5122,16 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsResourcesUpdate(
     requestParameters: LearningpathsApiLearningpathsResourcesUpdateRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsResourcesUpdate(
         requestParameters.id,
         requestParameters.parent_id,
         requestParameters.LearningPathRelationshipRequest,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5144,11 +5144,11 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsRetrieve(
     requestParameters: LearningpathsApiLearningpathsRetrieveRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsRetrieve(requestParameters.id, options)
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5161,7 +5161,7 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsUpcomingList(
     requestParameters: LearningpathsApiLearningpathsUpcomingListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsUpcomingList(
@@ -5171,9 +5171,9 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5185,15 +5185,15 @@ export class LearningpathsApi extends BaseAPI {
    */
   public learningpathsUpdate(
     requestParameters: LearningpathsApiLearningpathsUpdateRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsUpdate(
         requestParameters.id,
         requestParameters.LearningPathResourceRequest,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 }
 
@@ -5202,7 +5202,7 @@ export class LearningpathsApi extends BaseAPI {
  * @export
  */
 export const ProgramsApiAxiosParamCreator = function (
-  configuration?: Configuration
+  configuration?: Configuration,
 ) {
   return {
     /**
@@ -5224,7 +5224,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -5237,7 +5237,7 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -5274,12 +5274,12 @@ export const ProgramsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -5301,7 +5301,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/new/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -5314,7 +5314,7 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -5351,12 +5351,12 @@ export const ProgramsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -5368,13 +5368,13 @@ export const ProgramsApiAxiosParamCreator = function (
      */
     programsRetrieve: async (
       id: number,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("programsRetrieve", "id", id)
       const localVarPath = `/api/v1/programs/{id}/`.replace(
         `{${"id"}}`,
-        encodeURIComponent(String(id))
+        encodeURIComponent(String(id)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -5386,7 +5386,7 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -5399,12 +5399,12 @@ export const ProgramsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -5426,7 +5426,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/upcoming/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -5439,7 +5439,7 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -5476,14 +5476,14 @@ export const ProgramsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
-    }
+    },
   }
 }
 
@@ -5513,11 +5513,11 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsList(
@@ -5527,13 +5527,13 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         resource_type,
-        options
+        options,
       )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -5555,11 +5555,11 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsNewList(
@@ -5569,13 +5569,13 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         resource_type,
-        options
+        options,
       )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -5587,11 +5587,11 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      */
     async programsRetrieve(
       id: number,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningResource>
     > {
       const localVarAxiosArgs =
@@ -5600,7 +5600,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -5622,11 +5622,11 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: string,
       resource_type?: "course" | "learning_path" | "program",
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs =
@@ -5637,15 +5637,15 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           resource_type,
-          options
+          options,
         )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
-    }
+    },
   }
 }
 
@@ -5656,7 +5656,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
 export const ProgramsApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance
+  axios?: AxiosInstance,
 ) {
   const localVarFp = ProgramsApiFp(configuration)
   return {
@@ -5669,7 +5669,7 @@ export const ProgramsApiFactory = function (
      */
     programsList(
       requestParameters: ProgramsApiProgramsListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .programsList(
@@ -5679,9 +5679,9 @@ export const ProgramsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Get a paginated list of newly released resources.
@@ -5692,7 +5692,7 @@ export const ProgramsApiFactory = function (
      */
     programsNewList(
       requestParameters: ProgramsApiProgramsNewListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .programsNewList(
@@ -5702,9 +5702,9 @@ export const ProgramsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Retrieve a single learning resource.
@@ -5715,11 +5715,11 @@ export const ProgramsApiFactory = function (
      */
     programsRetrieve(
       requestParameters: ProgramsApiProgramsRetrieveRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningResource> {
       return localVarFp
         .programsRetrieve(requestParameters.id, options)
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Get a paginated list of upcoming resources.
@@ -5730,7 +5730,7 @@ export const ProgramsApiFactory = function (
      */
     programsUpcomingList(
       requestParameters: ProgramsApiProgramsUpcomingListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .programsUpcomingList(
@@ -5740,10 +5740,10 @@ export const ProgramsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.resource_type,
-          options
+          options,
         )
-        .then(request => request(axios, basePath))
-    }
+        .then((request) => request(axios, basePath))
+    },
   }
 }
 
@@ -5925,7 +5925,7 @@ export class ProgramsApi extends BaseAPI {
    */
   public programsList(
     requestParameters: ProgramsApiProgramsListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return ProgramsApiFp(this.configuration)
       .programsList(
@@ -5935,9 +5935,9 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5950,7 +5950,7 @@ export class ProgramsApi extends BaseAPI {
    */
   public programsNewList(
     requestParameters: ProgramsApiProgramsNewListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return ProgramsApiFp(this.configuration)
       .programsNewList(
@@ -5960,9 +5960,9 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5975,11 +5975,11 @@ export class ProgramsApi extends BaseAPI {
    */
   public programsRetrieve(
     requestParameters: ProgramsApiProgramsRetrieveRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return ProgramsApiFp(this.configuration)
       .programsRetrieve(requestParameters.id, options)
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -5992,7 +5992,7 @@ export class ProgramsApi extends BaseAPI {
    */
   public programsUpcomingList(
     requestParameters: ProgramsApiProgramsUpcomingListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return ProgramsApiFp(this.configuration)
       .programsUpcomingList(
@@ -6002,9 +6002,9 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.resource_type,
-        options
+        options,
       )
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 }
 
@@ -6013,7 +6013,7 @@ export class ProgramsApi extends BaseAPI {
  * @export
  */
 export const TopicsApiAxiosParamCreator = function (
-  configuration?: Configuration
+  configuration?: Configuration,
 ) {
   return {
     /**
@@ -6026,7 +6026,7 @@ export const TopicsApiAxiosParamCreator = function (
     topicsList: async (
       limit?: number,
       offset?: number,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/topics/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -6039,7 +6039,7 @@ export const TopicsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -6060,12 +6060,12 @@ export const TopicsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
     },
     /**
@@ -6076,13 +6076,13 @@ export const TopicsApiAxiosParamCreator = function (
      */
     topicsRetrieve: async (
       id: number,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("topicsRetrieve", "id", id)
       const localVarPath = `/api/v1/topics/{id}/`.replace(
         `{${"id"}}`,
-        encodeURIComponent(String(id))
+        encodeURIComponent(String(id)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -6094,7 +6094,7 @@ export const TopicsApiAxiosParamCreator = function (
       const localVarRequestOptions = {
         method: "GET",
         ...baseOptions,
-        ...options
+        ...options,
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
@@ -6107,14 +6107,14 @@ export const TopicsApiAxiosParamCreator = function (
       localVarRequestOptions.headers = {
         ...localVarHeaderParameter,
         ...headersFromBaseOptions,
-        ...options.headers
+        ...options.headers,
       }
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
+        options: localVarRequestOptions,
       }
-    }
+    },
   }
 }
 
@@ -6135,23 +6135,23 @@ export const TopicsApiFp = function (configuration?: Configuration) {
     async topicsList(
       limit?: number,
       offset?: number,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceTopicList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.topicsList(
         limit,
         offset,
-        options
+        options,
       )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
     },
     /**
@@ -6162,24 +6162,24 @@ export const TopicsApiFp = function (configuration?: Configuration) {
      */
     async topicsRetrieve(
       id: number,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string
+        basePath?: string,
       ) => AxiosPromise<LearningResourceTopic>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.topicsRetrieve(
         id,
-        options
+        options,
       )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
         BASE_PATH,
-        configuration
+        configuration,
       )
-    }
+    },
   }
 }
 
@@ -6190,7 +6190,7 @@ export const TopicsApiFp = function (configuration?: Configuration) {
 export const TopicsApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance
+  axios?: AxiosInstance,
 ) {
   const localVarFp = TopicsApiFp(configuration)
   return {
@@ -6202,11 +6202,11 @@ export const TopicsApiFactory = function (
      */
     topicsList(
       requestParameters: TopicsApiTopicsListRequest = {},
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceTopicList> {
       return localVarFp
         .topicsList(requestParameters.limit, requestParameters.offset, options)
-        .then(request => request(axios, basePath))
+        .then((request) => request(axios, basePath))
     },
     /**
      * Viewset for topics
@@ -6216,12 +6216,12 @@ export const TopicsApiFactory = function (
      */
     topicsRetrieve(
       requestParameters: TopicsApiTopicsRetrieveRequest,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): AxiosPromise<LearningResourceTopic> {
       return localVarFp
         .topicsRetrieve(requestParameters.id, options)
-        .then(request => request(axios, basePath))
-    }
+        .then((request) => request(axios, basePath))
+    },
   }
 }
 
@@ -6276,11 +6276,11 @@ export class TopicsApi extends BaseAPI {
    */
   public topicsList(
     requestParameters: TopicsApiTopicsListRequest = {},
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return TopicsApiFp(this.configuration)
       .topicsList(requestParameters.limit, requestParameters.offset, options)
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 
   /**
@@ -6292,10 +6292,10 @@ export class TopicsApi extends BaseAPI {
    */
   public topicsRetrieve(
     requestParameters: TopicsApiTopicsRetrieveRequest,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return TopicsApiFp(this.configuration)
       .topicsRetrieve(requestParameters.id, options)
-      .then(request => request(this.axios, this.basePath))
+      .then((request) => request(this.axios, this.basePath))
   }
 }

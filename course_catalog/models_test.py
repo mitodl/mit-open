@@ -17,7 +17,7 @@ from course_catalog.factories import (
 )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
     "kwargs",
     [
@@ -39,7 +39,7 @@ def test_cascade_delete_listitems(kwargs):
     assert user_list.items.count() == 0
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("platform", [PlatformType.xpro.value, PlatformType.ocw.value])
 def test_course_audience(platform):
     """
@@ -52,7 +52,7 @@ def test_course_audience(platform):
         assert course.audience == ["Open Content"]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
     "platform",
     [PlatformType.xpro.value, PlatformType.ocw.value, PlatformType.mitx.value],
@@ -69,7 +69,7 @@ def test_course_certification(platform, availability):
 
     if platform == PlatformType.xpro.value:
         assert course.certification == ["Certificates"]
-    elif platform == PlatformType.ocw.value:
+    elif platform == PlatformType.ocw.value:  # noqa: SIM114
         assert course.certification == []
     elif availability == AvailabilityType.archived.value:
         assert course.certification == []
@@ -77,9 +77,9 @@ def test_course_certification(platform, availability):
         assert course.certification == ["Certificates"]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
-    "department,department_name",
+    ("department", "department_name"),
     [
         (None, []),
         ([], []),
@@ -95,9 +95,9 @@ def test_course_department_name(department, department_name):
     assert course.department_name == department_name
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
-    "department,department_slug",
+    ("department", "department_slug"),
     [(None, None), ([], None), (["1", "2"], "civil-and-environmental-engineering")],
 )
 def test_course_department_slug(department, department_slug):
@@ -108,7 +108,7 @@ def test_course_department_slug(department, department_slug):
     assert course.department_slug == department_slug
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
     "offered_by", [OfferedBy.micromasters.value, OfferedBy.xpro.value]
 )
@@ -125,7 +125,7 @@ def test_program_audience(offered_by):
         assert program.audience == ["Professional Offerings"]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_userlist_audience():
     """
     Should return the correct audience for the userlist
@@ -145,7 +145,7 @@ def test_userlist_audience():
     assert user_list.audience == []
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_stafflist_audience():
     """
     Should return the correct audience for the StaffList

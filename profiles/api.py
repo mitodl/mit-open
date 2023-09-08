@@ -1,13 +1,12 @@
 """Profile API"""
 import tldextract
-
 from django.db import transaction
 
 from profiles.models import (
+    PERSONAL_SITE_TYPE,
+    SITE_TYPE_OPTIONS,
     Profile,
     filter_profile_props,
-    SITE_TYPE_OPTIONS,
-    PERSONAL_SITE_TYPE,
 )
 from search import search_index_helpers
 
@@ -22,7 +21,7 @@ def ensure_profile(user, profile_data=None):
 
     Returns:
         Profile: the user's profile
-    """
+    """  # noqa: D401
     defaults = filter_profile_props(profile_data) if profile_data else {}
 
     profile, _ = Profile.objects.update_or_create(user=user, defaults=defaults)
@@ -46,8 +45,8 @@ def after_profile_created_or_updated(profile):
         """
         search_index_helpers.upsert_profile(profile.id)
 
-    # this will either get called when the outermost transaction commits or otherwise immediately
-    # this avoids race conditions where the async tasks may not see the record or the updated values
+    # this will either get called when the outermost transaction commits or otherwise immediately  # noqa: E501
+    # this avoids race conditions where the async tasks may not see the record or the updated values  # noqa: E501
     transaction.on_commit(_after_profile_created_or_updated)
 
 
@@ -60,7 +59,7 @@ def get_site_type_from_url(url):
 
     Returns:
         str: A string indicating the site type
-    """
+    """  # noqa: D401
     no_fetch_extract = tldextract.TLDExtract(suffix_list_urls=False)
     extract_result = no_fetch_extract(url)
     domain = extract_result.domain.lower()

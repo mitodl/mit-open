@@ -11,7 +11,7 @@ from profiles.models import Profile
 from search import api, serializers
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_profiles(mocker):
     """
     Test that serialize_bulk_profiles calls serialize_profile_for_bulk for every existing profile
@@ -34,12 +34,12 @@ def test_serialize_profile_for_bulk(user):
     Test that serialize_profile_for_bulk yields a valid OSProfileSerializer
     """
     assert serializers.serialize_profile_for_bulk(user.profile) == {
-        "_id": "u_{}".format(user.username),
+        "_id": f"u_{user.username}",
         **serializers.OSProfileSerializer().serialize(user.profile),
     }
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_courses(mocker):
     """
     Test that serialize_bulk_courses calls serialize_course_for_bulk for every existing course
@@ -55,7 +55,7 @@ def test_serialize_bulk_courses(mocker):
         mock_serialize_course.assert_any_call(course)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_course_for_bulk():
     """
     Test that serialize_course_for_bulk yields a valid OSCourseSerializer
@@ -70,7 +70,7 @@ def test_serialize_course_for_bulk():
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_staff_lists(mocker):
     """
     Test that serialize_bulk_staff_lists calls serialize_staff_list_for_bulk for every existing public StaffList
@@ -92,7 +92,7 @@ def test_serialize_bulk_staff_lists(mocker):
         mock_serialize_staff_list.assert_any_call(staff_list)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_staff_list_for_bulk():
     """
     Test that serialize_staff_list_for_bulk yields a valid OSStaffListSerializer
@@ -108,7 +108,7 @@ def test_serialize_staff_list_for_bulk():
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_video(mocker):
     """
     Test that serialize_bulk_video calls serialize_video_for_bulk for every existing video
@@ -120,7 +120,7 @@ def test_serialize_bulk_video(mocker):
         mock_serialize_video.assert_any_call(video)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_video_for_bulk():
     """
     Test that serialize_video_for_bulk yields a valid OSVideoSerializer
@@ -132,7 +132,7 @@ def test_serialize_video_for_bulk():
     }
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_content_file_for_bulk():
     """
     Test that serialize_content_file_for_bulk yields a valid OSContentFileSerializer
@@ -144,7 +144,7 @@ def test_serialize_content_file_for_bulk():
     }
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_content_file_for_bulk_deletion():
     """
     Test that serialize_content_file_for_bulk_deletion yields a valid OSContentFileSerializer
@@ -156,7 +156,7 @@ def test_serialize_content_file_for_bulk_deletion():
     }
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_podcasts(mocker):
     """
     Test that serialize_bulk_podcasts calls serialize_podcast_for_bulk for every existing podcast
@@ -170,7 +170,7 @@ def test_serialize_bulk_podcasts(mocker):
         mock_serialize_podcast.assert_any_call(podcast)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_podcast_for_bulk():
     """
     Test that serialize_podcast_for_bulk yields a valid OSPodcastSerializer
@@ -182,7 +182,7 @@ def test_serialize_podcast_for_bulk():
     }
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_podcast_episodes(mocker):
     """
     Test that serialize_bulk_podcast_episodes calls serialize_podcast_episode_for_bulk for every existing
@@ -201,7 +201,7 @@ def test_serialize_bulk_podcast_episodes(mocker):
         mock_serialize_podcast_episode.assert_any_call(podcast_episode)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_podcast_episode_for_bulk():
     """
     Test that serialize_podcast_episode_for_bulk yields a valid OSPodcastEpisodeSerializer
@@ -213,7 +213,7 @@ def test_serialize_podcast_episode_for_bulk():
     }
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_profiles_file_for_bulk_deletion(user):
     """
     Test that serialize_profiles_file_for_bulk_deletion yield correct data
@@ -223,7 +223,7 @@ def test_serialize_profiles_file_for_bulk_deletion(user):
     ) == [{"_id": api.gen_profile_id(user.username), "_op_type": "delete"}]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_courses_for_deletion():
     """
     Test that serialize_bulk_courses_for_deletion yields correct data
@@ -237,7 +237,7 @@ def test_serialize_bulk_courses_for_deletion():
     ]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_programs_for_deletion():
     """
     Test that serialize_bulk_programs_for_deletion yields correct data
@@ -248,7 +248,7 @@ def test_serialize_bulk_programs_for_deletion():
     ]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_user_lists_for_deletion():
     """
     Test that serialize_bulk_user_lists_for_deletion yields correct data
@@ -259,7 +259,7 @@ def test_serialize_bulk_user_lists_for_deletion():
     ]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_staff_lists_for_deletion():
     """
     Test that serialize_bulk_user_lists_for_deletion yields correct data
@@ -270,7 +270,7 @@ def test_serialize_bulk_staff_lists_for_deletion():
     ) == [{"_id": api.gen_staff_list_id(stafflist), "_op_type": "delete"}]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_videos_for_deletion():
     """
     Test that serialize_bulk_videos_for_deletion yields correct data
@@ -281,7 +281,7 @@ def test_serialize_bulk_videos_for_deletion():
     ]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_podcasts_for_deletion():
     """
     Test that serialize_bulk_podcasts_for_deletion yields correct data
@@ -292,7 +292,7 @@ def test_serialize_bulk_podcasts_for_deletion():
     ]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_serialize_bulk_podcast_episodes_for_deletion():
     """
     Test that serialize_bulk_podcasts_for_deletion yields correct data

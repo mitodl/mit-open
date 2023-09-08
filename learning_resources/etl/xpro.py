@@ -1,4 +1,4 @@
-"""xPro course catalog ETL"""
+"""xPro course catalog ETL"""  # noqa: INP001
 import copy
 import logging
 
@@ -25,19 +25,19 @@ def _parse_datetime(value):
 
     Returns:
         datetime: the parsed datetime
-    """
+    """  # noqa: D401
     return parse(value).replace(tzinfo=pytz.utc) if value else None
 
 
 def extract_programs():
-    """Loads the xPro catalog data"""
+    """Loads the xPro catalog data"""  # noqa: D401
     if settings.XPRO_CATALOG_API_URL:
         return requests.get(settings.XPRO_CATALOG_API_URL, timeout=20).json()
     return []
 
 
 def extract_courses():
-    """Loads the xPro catalog data"""
+    """Loads the xPro catalog data"""  # noqa: D401
     if settings.XPRO_COURSES_API_URL:
         return requests.get(settings.XPRO_COURSES_API_URL, timeout=20).json()
     return []
@@ -52,7 +52,7 @@ def _transform_run(course_run):
 
     Returns:
         dict: normalized course run data
-    """
+    """  # noqa: D401
     return {
         "run_id": course_run["courseware_id"],
         "title": course_run["title"],
@@ -80,7 +80,7 @@ def _transform_learning_resource_course(course):
 
     Returns:
         dict: normalized learning resource data
-    """
+    """  # noqa: D401
     return {
         "readable_id": course["readable_id"],
         "platform": PlatformType.xpro.value,
@@ -90,10 +90,7 @@ def _transform_learning_resource_course(course):
         "description": course["description"],
         "url": course.get("url"),
         "published": any(
-            map(
-                lambda course_run: course_run.get("current_price", None),
-                course["courseruns"],
-            )
+            course_run.get("current_price", None) for course_run in course["courseruns"]
         ),
         "topics": transform_topics(course.get("topics", [])),
         "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
@@ -110,7 +107,7 @@ def transform_courses(courses):
 
     Returns:
         list of dict: normalized courses data
-    """
+    """  # noqa: D401
     return [_transform_learning_resource_course(course) for course in courses]
 
 

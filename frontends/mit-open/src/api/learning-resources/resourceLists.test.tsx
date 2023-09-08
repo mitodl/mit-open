@@ -13,7 +13,7 @@ import {
   makeListItemMember,
   makeSearchResponse,
   makeStaffList,
-  makeUserList
+  makeUserList,
 } from "ol-search-ui/src/factories"
 
 import {
@@ -25,7 +25,7 @@ import {
   useDeleteUserList,
   useMoveListItem,
   useUpdateStaffList,
-  useUpdateUserList
+  useUpdateUserList,
 } from "./resourceLists"
 import { useResource } from "./resources"
 import { ControlledPromise } from "ol-util/test-utils"
@@ -37,7 +37,7 @@ jest.mock("./util", () => {
   const actual = jest.requireActual("./util")
   return {
     ...actual,
-    invalidateResourceQueries: jest.fn(actual.invalidateResourceQueries)
+    invalidateResourceQueries: jest.fn(actual.invalidateResourceQueries),
   }
 })
 
@@ -45,9 +45,9 @@ const setup = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false
-      }
-    }
+        retry: false,
+      },
+    },
   })
 
   const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -56,9 +56,9 @@ const setup = () => {
 
   const spies = {
     queryClient: {
-      invalidateQueries: jest.spyOn(queryClient, "invalidateQueries")
+      invalidateQueries: jest.spyOn(queryClient, "invalidateQueries"),
     },
-    invalidateResourceQueries: jest.mocked(invalidateResourceQueries)
+    invalidateResourceQueries: jest.mocked(invalidateResourceQueries),
   }
 
   return { wrapper, spies, queryClient }
@@ -66,23 +66,23 @@ const setup = () => {
 
 describe.each([
   {
-    listType:  "UserList",
-    listUrls:  urls.userList,
-    listKeys:  keys.userList,
+    listType: "UserList",
+    listUrls: urls.userList,
+    listKeys: keys.userList,
     useCreate: useCreateUserList,
     useUpdate: useUpdateUserList,
     useDelete: useDeleteUserList,
-    makeList:  makeUserList
+    makeList: makeUserList,
   },
   {
-    listType:  "StaffList",
-    listUrls:  urls.staffList,
-    listKeys:  keys.staffList,
+    listType: "StaffList",
+    listUrls: urls.staffList,
+    listKeys: keys.staffList,
     useCreate: useCreateStaffList,
     useUpdate: useUpdateStaffList,
     useDelete: useDeleteStaffList,
-    makeList:  makeStaffList
-  }
+    makeList: makeStaffList,
+  },
 ] as const)(
   "$listType Mutations",
   ({ makeList, useCreate, listUrls, listKeys, useUpdate, useDelete }) => {
@@ -96,7 +96,7 @@ describe.each([
       await act(() => result.current.mutateAsync({ title: list.title }))
 
       expect(spies.queryClient.invalidateQueries).toHaveBeenCalledWith({
-        queryKey: listKeys.listing.all
+        queryKey: listKeys.listing.all,
       })
       expect(spies.queryClient.invalidateQueries).toHaveBeenCalledTimes(1)
     })
@@ -111,7 +111,7 @@ describe.each([
       await act(() => result.current.mutateAsync(list.id))
 
       expect(spies.queryClient.invalidateQueries).toHaveBeenCalledWith({
-        queryKey: keys.all
+        queryKey: keys.all,
       })
       expect(spies.queryClient.invalidateQueries).toHaveBeenCalledTimes(1)
     })
@@ -127,8 +127,8 @@ describe.each([
         result.current.mutateAsync(
           // @ts-expect-error TS has trouble with the correlation between list & useUpdate:
           // argument 'A | B' is not passable to function with type '(A) => ... | (B) => ...'
-          list
-        )
+          list,
+        ),
       )
 
       expect(spies.invalidateResourceQueries).toHaveBeenCalledWith(
@@ -136,12 +136,12 @@ describe.each([
         {
           object_type:
             useUpdate === useUpdateUserList ? LR.Userlist : LR.StaffList,
-          id: list.id
-        }
+          id: list.id,
+        },
       )
       expect(spies.invalidateResourceQueries).toHaveBeenCalledTimes(1)
     })
-  }
+  },
 )
 
 describe("useAddToListItems", () => {
@@ -153,7 +153,7 @@ describe("useAddToListItems", () => {
       const resource = makeCourse()
       const resourceUrl = urls.resource.details(
         resource.object_type,
-        resource.id
+        resource.id,
       )
       const resourcePatch = { lists: resource.lists.concat(item) }
       return { list, addItemUrl, resource, resourcePatch, resourceUrl }
@@ -166,13 +166,13 @@ describe("useAddToListItems", () => {
       const resourcePatch = { stafflists: resource.stafflists.concat(item) }
       const resourceUrl = urls.resource.details(
         resource.object_type,
-        resource.id
+        resource.id,
       )
       return { list, addItemUrl, resource, resourcePatch, resourceUrl }
-    }
+    },
   ])(
     "makes correct API call and delegates to invalidateResourceQueries",
-    async getData => {
+    async (getData) => {
       const { wrapper, spies } = setup()
       const { resource, list, addItemUrl, resourcePatch } = getData()
 
@@ -185,9 +185,9 @@ describe("useAddToListItems", () => {
         await addResult.current.mutateAsync({
           list,
           item: {
-            object_id:    resource.id,
-            content_type: resource.object_type
-          }
+            object_id: resource.id,
+            content_type: resource.object_type,
+          },
         })
       })
 
@@ -195,13 +195,13 @@ describe("useAddToListItems", () => {
 
       expect(spies.invalidateResourceQueries).toHaveBeenCalledWith(
         expect.anything(),
-        modifiedAddedResource
+        modifiedAddedResource,
       )
       expect(spies.invalidateResourceQueries).toHaveBeenCalledWith(
         expect.anything(),
-        list
+        list,
       )
-    }
+    },
   )
 
   it.each([
@@ -212,7 +212,7 @@ describe("useAddToListItems", () => {
       const resource = makeCourse()
       const resourceUrl = urls.resource.details(
         resource.object_type,
-        resource.id
+        resource.id,
       )
       const resourcePatch = { lists: resource.lists.concat(item) }
       return { list, addItemUrl, resource, resourcePatch, resourceUrl }
@@ -225,24 +225,24 @@ describe("useAddToListItems", () => {
       const resourcePatch = { stafflists: resource.stafflists.concat(item) }
       const resourceUrl = urls.resource.details(
         resource.object_type,
-        resource.id
+        resource.id,
       )
       return { list, addItemUrl, resource, resourcePatch, resourceUrl }
-    }
-  ])("Updates the useRsource query cache", async getData => {
+    },
+  ])("Updates the useRsource query cache", async (getData) => {
     const { wrapper } = setup()
     const { resource, list, addItemUrl, resourceUrl, resourcePatch } = getData()
 
     setMockResponse.get(
       urls.resource.details(resource.object_type, resource.id),
-      resource
+      resource,
     )
 
     const modifiedAddedResource = { ...resource, ...resourcePatch }
 
     const { result: resourceResult } = renderHook(
       () => useResource(resource.object_type, resource.id),
-      { wrapper }
+      { wrapper },
     )
     const { result: addResult } = renderHook(useAddToListItems, { wrapper })
 
@@ -253,9 +253,9 @@ describe("useAddToListItems", () => {
       await addResult.current.mutateAsync({
         list,
         item: {
-          object_id:    resource.id,
-          content_type: resource.object_type
-        }
+          object_id: resource.id,
+          content_type: resource.object_type,
+        },
       })
     })
 
@@ -279,7 +279,7 @@ describe("useAddToListItems", () => {
     const expected = clone(searchResults)
     expected.hits.hits[i]._source = {
       ...searchResource,
-      lists: [oldMember, newMember]
+      lists: [oldMember, newMember],
     }
 
     const useTestHook = () => {
@@ -296,14 +296,14 @@ describe("useAddToListItems", () => {
 
     setMockResponse.post(urls.userList.itemAdd(newMember.list_id), {
       content_data: makeLearningResource({
-        id:          searchResource.id,
+        id: searchResource.id,
         object_type: searchResource.object_type,
-        lists:       [oldMember, newMember]
-      })
+        lists: [oldMember, newMember],
+      }),
     })
     await result.current.addItem.mutateAsync({
       list: { id: newMember.list_id, object_type: LR.Userlist },
-      item: newMember
+      item: newMember,
     })
 
     await waitFor(() => {
@@ -325,10 +325,10 @@ describe("useDeleteFromListItems", () => {
       const item = makeListItemMember()
       const itemUrl = urls.staffList.itemDetails(list.id, item.item_id)
       return { list, item, itemUrl }
-    }
+    },
   ])(
     "makes correct API call and invalidates appropriate queries",
-    async getData => {
+    async (getData) => {
       const { list, itemUrl, item } = getData()
       const { wrapper, spies } = setup()
 
@@ -341,13 +341,13 @@ describe("useDeleteFromListItems", () => {
 
       expect(spies.invalidateResourceQueries).toHaveBeenCalledWith(
         expect.anything(),
-        { object_type: item.content_type, id: item.object_id }
+        { object_type: item.content_type, id: item.object_id },
       )
       expect(spies.invalidateResourceQueries).toHaveBeenCalledWith(
         expect.anything(),
-        list
+        list,
       )
-    }
+    },
   )
 
   it("optimistically updates resource data", async () => {
@@ -356,7 +356,7 @@ describe("useDeleteFromListItems", () => {
     const list = makeUserList()
     const item = makeListItemMember({
       content_type: LR.Course, // should match affectedResourceData
-      list_id:      list.id
+      list_id: list.id,
     })
 
     const resource = makeCourse({ id: item.object_id, lists: [item] })
@@ -366,7 +366,7 @@ describe("useDeleteFromListItems", () => {
 
     const { result: resourceQuery } = renderHook(
       () => useResource(resource.object_type, resource.id),
-      { wrapper }
+      { wrapper },
     )
     const { result } = renderHook(useDeleteFromListItems, { wrapper })
 
@@ -409,12 +409,12 @@ describe("useDeleteFromListItems", () => {
       const patchedResponse = clone(initialResponse)
       patchedResponse.hits.hits[i]._source = {
         ...affectedResource,
-        lists: initialItems.filter(item => item !== itemToDelete)
+        lists: initialItems.filter((item) => item !== itemToDelete),
       }
       return {
         initialResponse,
         patchedResponse,
-        itemToDelete
+        itemToDelete,
       }
     }
     const { initialResponse, patchedResponse, itemToDelete } = makeData()
@@ -434,11 +434,11 @@ describe("useDeleteFromListItems", () => {
 
     setMockResponse.delete(
       urls.userList.itemDetails(itemToDelete.list_id, itemToDelete.item_id),
-      null
+      null,
     )
     await result.current.deleteItem.mutateAsync({
       list: { id: itemToDelete.list_id, object_type: LR.Userlist },
-      item: itemToDelete
+      item: itemToDelete,
     })
 
     await waitFor(() => {
@@ -450,15 +450,15 @@ describe("useDeleteFromListItems", () => {
 describe("useMoveListItem", () => {
   it.each([
     {
-      mode:            "userlist",
-      listUrls:        urls.userList,
-      itemsListingKey: keys.userList.itemsListing
+      mode: "userlist",
+      listUrls: urls.userList,
+      itemsListingKey: keys.userList.itemsListing,
     },
     {
-      mode:            "stafflist",
-      listUrls:        urls.staffList,
-      itemsListingKey: keys.staffList.itemsListing
-    }
+      mode: "stafflist",
+      listUrls: urls.staffList,
+      itemsListingKey: keys.staffList.itemsListing,
+    },
   ] as const)(
     "invalidates appropriate queries",
     async ({ mode, itemsListingKey, listUrls }) => {
@@ -466,21 +466,21 @@ describe("useMoveListItem", () => {
       const { wrapper, spies } = setup()
 
       const { result: moveItem } = renderHook(() => useMoveListItem(mode), {
-        wrapper
+        wrapper,
       })
 
       setMockResponse.patch(listUrls.itemDetails(123, item.id), null)
       await act(async () =>
         moveItem.current.mutateAsync({
-          item:     { list_id: 123, item_id: item.id },
-          position: item.position
-        })
+          item: { list_id: 123, item_id: item.id },
+          position: item.position,
+        }),
       )
 
       expect(spies.queryClient.invalidateQueries).toHaveBeenCalledWith({
-        queryKey: itemsListingKey.for(123).all
+        queryKey: itemsListingKey.for(123).all,
       })
       expect(spies.queryClient.invalidateQueries).toHaveBeenCalledTimes(1)
-    }
+    },
   )
 })

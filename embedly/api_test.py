@@ -1,9 +1,9 @@
 """Embedly API tests"""
-from embedly.api import get_embedly_summary, get_embedly_content
+from embedly.api import get_embedly_content, get_embedly_summary
 
 
 def test_get_embedly_summary(settings, mocker):
-    """test get_embedly_summary"""
+    """Test get_embedly_summary"""
     settings.EMBEDLY_KEY = "a great key :)"
     requests_patch = mocker.patch("requests.get", autospec=True)
     get_embedly_summary("http://en.wikipedia.org/wiki/Giant_panda/")
@@ -15,7 +15,7 @@ def test_get_embedly_summary(settings, mocker):
 
 
 def test_get_embedly_content(settings, mocker):
-    """test get_embedly_content"""
+    """Test get_embedly_content"""
     settings.EMBEDLY_KEY = "a great key :)"
     requests_patch = mocker.patch("requests.get", autospec=True)
     get_embedly_content("http://en.wikipedia.org/wiki/Giant_panda/")

@@ -22,58 +22,63 @@ def populate_offerors(apps, schema_editor):
     offered_by_mapping = {
         o.value: LearningResourceOfferor.objects.get_or_create(name=o.value)[0]
         for o in OfferedBy
-        if len(o.value) <= 32
+        if len(o.value) <= 32  # noqa: PLR2004
     }
 
     for program in Program.objects.all():
-        if program._deprecated_offered_by in offered_by_mapping:
-            program.offered_by.set([offered_by_mapping[program._deprecated_offered_by]])
+        if program._deprecated_offered_by in offered_by_mapping:  # noqa: SLF001
+            program.offered_by.set(
+                [offered_by_mapping[program._deprecated_offered_by]]  # noqa: SLF001
+            )  # noqa: RUF100, SLF001
             program.save()
         else:
             log.error(
                 "Unknown Program._deprecated_offered_by '%s' for program '%s'",
-                program._deprecated_offered_by,
+                program._deprecated_offered_by,  # noqa: SLF001
                 program.program_id,
             )
 
     for course in Course.objects.all():
-        if course._deprecated_offered_by in offered_by_mapping:
-            course.offered_by.set([offered_by_mapping[course._deprecated_offered_by]])
+        if course._deprecated_offered_by in offered_by_mapping:  # noqa: SLF001
+            course.offered_by.set(
+                [offered_by_mapping[course._deprecated_offered_by]]  # noqa: SLF001
+            )  # noqa: RUF100, SLF001
             course.save()
         else:
             log.error(
                 "Unknown Course._deprecated_offered_by '%s' for course '%s'",
-                course._deprecated_offered_by,
+                course._deprecated_offered_by,  # noqa: SLF001
                 course.course_id,
             )
 
     for run in LearningResourceRun.objects.all():
-        if run._deprecated_offered_by in offered_by_mapping:
-            run.offered_by.set([offered_by_mapping[run._deprecated_offered_by]])
+        if run._deprecated_offered_by in offered_by_mapping:  # noqa: SLF001
+            run.offered_by.set(
+                [offered_by_mapping[run._deprecated_offered_by]]  # noqa: SLF001
+            )  # noqa: RUF100, SLF001
             run.save()
         else:
             log.error(
-                "Unknown LearningResourceRun._deprecated_offered_by '%s' for course '%s'",
-                run._deprecated_offered_by,
+                "Unknown LearningResourceRun._deprecated_offered_by '%s' for course '%s'",  # noqa: E501
+                run._deprecated_offered_by,  # noqa: SLF001
                 run.course_id,
             )
 
     for bootcamp in Bootcamp.objects.all():
-        if bootcamp._deprecated_offered_by in offered_by_mapping:
+        if bootcamp._deprecated_offered_by in offered_by_mapping:  # noqa: SLF001
             bootcamp.offered_by.set(
-                [offered_by_mapping[bootcamp._deprecated_offered_by]]
+                [offered_by_mapping[bootcamp._deprecated_offered_by]]  # noqa: SLF001
             )
             bootcamp.save()
         else:
             log.error(
                 "Unknown Bootcamp._deprecated_offered_by '%s' for bootcamp '%s'",
-                bootcamp._deprecated_offered_by,
+                bootcamp._deprecated_offered_by,  # noqa: SLF001
                 bootcamp.course_id,
             )
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0045_deprecated_offered_by")]
 
     operations = [

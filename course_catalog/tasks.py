@@ -3,7 +3,6 @@ course_catalog tasks
 """
 import logging
 from datetime import datetime
-from typing import List
 
 import boto3
 import celery
@@ -41,7 +40,7 @@ def get_mitx_data():
 
 
 @app.task(acks_late=True)
-def get_ocw_courses(
+def get_ocw_courses(  # noqa: PLR0913
     *,
     course_prefixes,
     blocklist,
@@ -55,7 +54,9 @@ def get_ocw_courses(
     """
 
     if utc_start_timestamp:
-        utc_start_timestamp = datetime.strptime(utc_start_timestamp, ISOFORMAT)
+        utc_start_timestamp = datetime.strptime(  # noqa: DTZ007
+            utc_start_timestamp, ISOFORMAT
+        )
         utc_start_timestamp = utc_start_timestamp.replace(tzinfo=pytz.UTC)
 
     sync_ocw_courses(
@@ -69,8 +70,8 @@ def get_ocw_courses(
 
 
 def get_content_tasks(
-    platform: str, chunk_size: int = None, s3_prefix: str = None
-) -> List[Task]:
+    platform: str, chunk_size: int | None = None, s3_prefix: str | None = None
+) -> list[Task]:
     """
     Return a list of grouped celery tasks for indexing edx content
     """
@@ -101,7 +102,9 @@ def get_ocw_next_courses(*, url_paths, force_overwrite, utc_start_timestamp=None
     """
 
     if utc_start_timestamp:
-        utc_start_timestamp = datetime.strptime(utc_start_timestamp, ISOFORMAT)
+        utc_start_timestamp = datetime.strptime(  # noqa: DTZ007
+            utc_start_timestamp, ISOFORMAT
+        )
         utc_start_timestamp = utc_start_timestamp.replace(tzinfo=pytz.UTC)
 
     sync_ocw_next_courses(
@@ -112,13 +115,13 @@ def get_ocw_next_courses(*, url_paths, force_overwrite, utc_start_timestamp=None
 
 
 @app.task(bind=True, acks_late=True)
-def get_ocw_data(
+def get_ocw_data(  # noqa: PLR0913
     self,
-    force_overwrite=False,
-    upload_to_s3=True,
+    force_overwrite=False,  # noqa: FBT002
+    upload_to_s3=True,  # noqa: FBT002
     course_urls=None,
     utc_start_timestamp=None,
-    force_s3_upload=False,
+    force_s3_upload=False,  # noqa: FBT002
 ):  # pylint:disable=too-many-locals,too-many-branches,too-many-arguments
     """
     Task to sync OCW course data with database
@@ -172,7 +175,7 @@ def get_ocw_data(
 @app.task(bind=True, acks_late=True)
 def get_ocw_next_data(
     self,
-    force_overwrite=False,
+    force_overwrite=False,  # noqa: FBT002
     course_url_substring=None,
     utc_start_timestamp=None,
     prefix=None,
@@ -268,7 +271,7 @@ def import_all_ocw_files(self, chunk_size):
 
 @app.task
 def get_content_files(
-    ids: List[int], platform: str, keys: List[str], s3_prefix: str = None
+    ids: list[int], platform: str, keys: list[str], s3_prefix: str | None = None
 ):
     """
     Task to sync edX course content files with database
@@ -411,7 +414,7 @@ def get_youtube_transcripts(
             if a string transcripts are pulled only from videos added created_minutes ago and after
         overwrite (bool):
             if true youtube transcriptsipts are updated for videos that already have transcripts
-    """
+    """  # noqa: E501
 
     videos = youtube.get_youtube_videos_for_transcripts_job(
         created_after=created_after,

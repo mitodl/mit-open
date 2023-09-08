@@ -8,7 +8,6 @@ from course_catalog.etl.openedx import (
     openedx_extract_transform_factory,
 )
 
-
 # use the OpenEdx factory to create our extract and transform funcs
 extract, _transform = openedx_extract_transform_factory(
     lambda: OpenEdxConfiguration(
@@ -33,7 +32,7 @@ def _add_free_prices(course):
 
     Returns:
         Course: updated course
-    """
+    """  # noqa: D401
     for run in course["runs"]:
         run["prices"].append({"price": 0})
 

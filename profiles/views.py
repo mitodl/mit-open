@@ -1,27 +1,25 @@
 """Views for REST APIs for channels"""
+from cairosvg import svg2png  # pylint:disable=no-name-in-module
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.decorators.cache import cache_page
-
-from rest_framework import viewsets, mixins
+from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from cairosvg import svg2png  # pylint:disable=no-name-in-module
-
 from open_discussions.permissions import (
-    IsStaffPermission,
     AnonymousAccessReadonlyPermission,
+    IsStaffPermission,
 )
 from profiles.models import Profile, UserWebsite
 from profiles.permissions import HasEditPermission, HasSiteEditPermission
 from profiles.serializers import (
-    UserSerializer,
     ProfileSerializer,
+    UserSerializer,
     UserWebsiteSerializer,
 )
-from profiles.utils import generate_svg_avatar, DEFAULT_PROFILE_IMAGE
+from profiles.utils import DEFAULT_PROFILE_IMAGE, generate_svg_avatar
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -62,7 +60,7 @@ class UserWebsiteViewSet(
 
 @cache_page(60 * 60 * 24)
 def name_initials_avatar_view(
-    request, username, size, color, bgcolor
+    request, username, size, color, bgcolor  # noqa: ARG001
 ):  # pylint:disable=unused-argument
     """View for initial avatar"""
     user = User.objects.filter(username=username).first()

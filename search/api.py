@@ -4,9 +4,9 @@ from collections import Counter, defaultdict
 from operator import itemgetter
 
 from django.conf import settings
+from nested_lookup import nested_lookup
 from opensearch_dsl import Q, Search
 from opensearch_dsl.query import MoreLikeThis
-from nested_lookup import nested_lookup
 
 from course_catalog.constants import PrivacyLevel
 from course_catalog.models import FavoriteItem
@@ -20,10 +20,10 @@ from search.constants import (
     LEARNING_RESOURCE_TYPES,
     PODCAST_EPISODE_TYPE,
     PODCAST_TYPE,
+    RESOURCE_FILE_TYPE,
     USER_LIST_TYPE,
     USER_PATH_TYPE,
     VALID_OBJECT_TYPES,
-    RESOURCE_FILE_TYPE,
 )
 
 SIMILAR_RESOURCE_RELEVANT_FIELDS = ["title", "short_description"]
@@ -38,8 +38,8 @@ def gen_profile_id(profile_id):
 
     Returns:
         str: The OpenSearch document id for this object
-    """
-    return "u_{}".format(profile_id)
+    """  # noqa: D401
+    return f"u_{profile_id}"
 
 
 def gen_course_id(platform, course_id):
@@ -52,9 +52,9 @@ def gen_course_id(platform, course_id):
 
     Returns:
         str: The OpenSearch document id for this object
-    """
+    """  # noqa: D401
     safe_id = urlsafe_b64encode(course_id.encode("utf-8")).decode("utf-8").rstrip("=")
-    return "co_{}_{}".format(platform, safe_id)
+    return f"co_{platform}_{safe_id}"
 
 
 def gen_content_file_id(key):
@@ -67,9 +67,9 @@ def gen_content_file_id(key):
 
     Returns:
         str: The OpenSearch document id for this object
-    """
+    """  # noqa: D401
     safe_key = urlsafe_b64encode(key.encode("utf-8")).decode("utf-8").rstrip("=")
-    return "cf_{}".format(safe_key)
+    return f"cf_{safe_key}"
 
 
 def gen_program_id(program_obj):
@@ -81,8 +81,8 @@ def gen_program_id(program_obj):
 
     Returns:
         str: The OpenSearch document id for this object
-    """
-    return "program_{}".format(program_obj.id)
+    """  # noqa: D401
+    return f"program_{program_obj.id}"
 
 
 def gen_user_list_id(user_list_obj):
@@ -94,8 +94,8 @@ def gen_user_list_id(user_list_obj):
 
     Returns:
         str: The OpenSearch document id for this object
-    """
-    return "user_list_{}".format(user_list_obj.id)
+    """  # noqa: D401
+    return f"user_list_{user_list_obj.id}"
 
 
 def gen_staff_list_id(staff_list_obj):
@@ -107,8 +107,8 @@ def gen_staff_list_id(staff_list_obj):
 
     Returns:
         str: The OpenSearch document id for this object
-    """
-    return "staff_list_{}".format(staff_list_obj.id)
+    """  # noqa: D401
+    return f"staff_list_{staff_list_obj.id}"
 
 
 def gen_video_id(video_obj):
@@ -120,8 +120,8 @@ def gen_video_id(video_obj):
 
     Returns:
         str: The opensearch document id for this object
-    """
-    return "video_{}_{}".format(video_obj.platform, video_obj.video_id)
+    """  # noqa: D401
+    return f"video_{video_obj.platform}_{video_obj.video_id}"
 
 
 def gen_podcast_id(podcast_obj):
@@ -133,8 +133,8 @@ def gen_podcast_id(podcast_obj):
 
     Returns:
         str: The opensearch document id for this object
-    """
-    return "podcast_{}".format(podcast_obj.id)
+    """  # noqa: D401
+    return f"podcast_{podcast_obj.id}"
 
 
 def gen_podcast_episode_id(podcast_episode_obj):
@@ -146,8 +146,8 @@ def gen_podcast_episode_id(podcast_episode_obj):
 
     Returns:
         str: The opensearch document id for this object
-    """
-    return "podcast_ep_{}".format(podcast_episode_obj.id)
+    """  # noqa: D401
+    return f"podcast_ep_{podcast_episode_obj.id}"
 
 
 # pylint: disable=invalid-unary-operand-type
@@ -161,7 +161,7 @@ def _apply_learning_query_filters(search, user):
 
     Returns:
         opensearch_dsl.Search: Search object with filters applied
-    """
+    """  # noqa: D401
     # Search public user lists (and user's own lists if logged in)
     if features.is_enabled(features.USER_LIST_SEARCH):
         user_list_filter = Q("term", privacy_level=PrivacyLevel.public.value) | ~Q(
@@ -236,7 +236,7 @@ def execute_search(*, query):
 
     Returns:
         dict: The opensearch response dict
-    """
+    """  # noqa: E501
     indexes = ",".join(relevant_indexes(query))
     search = Search(index=indexes)
     search.update_from_dict(query)
@@ -256,7 +256,7 @@ def execute_learn_search(*, user, query):
 
     Returns:
         dict: The opensearch response dict
-    """
+    """  # noqa: E501
     indexes = ",".join(relevant_indexes(query))
     search = Search(index=indexes)
     search.update_from_dict(query)
@@ -305,7 +305,7 @@ def _transform_search_results_suggest_with_compatability(search_result):
 
 
 # pylint: disable=too-many-branches, too-many-locals
-def transform_results(search_result, user, department_filters):
+def transform_results(search_result, user, department_filters):  # noqa: C901, PLR0912
     """
     Transform podcast and podcast episode, and userlist and learning path in aggregations
     Add 'is_favorite' and 'lists' fields to the '_source' attributes for learning resources.
@@ -316,7 +316,7 @@ def transform_results(search_result, user, department_filters):
 
     Returns:
         dict: The OpenSearch response dict with transformed aggregates and source values
-    """
+    """  # noqa: E501
 
     for aggregation_key in [
         "type",
@@ -433,7 +433,7 @@ def _transform_search_results_coursenum(search_result, department_filters):
     Args:
         search_result (dict): The results from OpenSearch
         department_filters (list(string)): list of filtered departments
-    """
+    """  # noqa: E501
 
     for hit in search_result.get("hits", {}).get("hits", []):
         department_course_numbers = hit.get("_source", {}).get(
@@ -467,7 +467,7 @@ def find_similar_resources(*, user, value_doc):
 
     Returns:
         dict: The OpenSearch response dict
-    """
+    """  # noqa: E501
     index = get_default_alias_name(ALIAS_ALL_INDICES)
     search = Search(index=index)
     search = search.filter(Q("terms", object_type=LEARNING_RESOURCE_TYPES))

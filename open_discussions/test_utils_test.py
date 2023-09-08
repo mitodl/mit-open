@@ -4,11 +4,11 @@ import pickle
 import pytest
 
 from open_discussions.test_utils import (
-    any_instance_of,
-    assert_not_raises,
     MockResponse,
     PickleableMock,
+    any_instance_of,
     assert_json_equal,
+    assert_not_raises,
 )
 
 
@@ -36,19 +36,18 @@ def test_assert_not_raises_exception(mocker):
     # Here there be dragons
     fail_mock = mocker.patch("pytest.fail", autospec=True)
     with assert_not_raises():
-        raise TabError()
+        raise TabError
     assert fail_mock.called is True
 
 
 def test_assert_not_raises_failure():
     """assert_not_raises should reraise an AssertionError"""
-    with pytest.raises(AssertionError):
-        with assert_not_raises():
-            assert 1 == 2  # pylint:disable=comparison-of-constants
+    with pytest.raises(AssertionError), assert_not_raises():
+        assert 1 == 2  # pylint:disable=comparison-of-constants  # noqa: PLR0133
 
 
 def test_mock_response():
-    """assert MockResponse returns correct values"""
+    """Assert MockResponse returns correct values"""
     content = "test"
     response = MockResponse(content, 404)
     assert response.status_code == 404
@@ -58,7 +57,7 @@ def test_mock_response():
 
 def test_pickleable_mock():
     """Tests that a mock can be pickled"""
-    pickle.dumps(PickleableMock(field_name=dict()))  # pylint:disable=use-dict-literal
+    pickle.dumps(PickleableMock(field_name={}))  # pylint:disable=use-dict-literal
 
 
 def test_assert_json_equal():

@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+SCRIPTPATH="$(
+	cd -- "$(dirname "$0")" >/dev/null 2>&1 || exit
+	pwd -P
+)"
 
 SRC="${SCRIPTPATH}/data/*"
 DEST=$(dirname $SCRIPTPATH | xargs dirname)

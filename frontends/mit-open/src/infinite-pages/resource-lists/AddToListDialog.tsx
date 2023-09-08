@@ -21,7 +21,7 @@ import {
   LearningResource,
   PrivacyLevel,
   StaffList,
-  UserList
+  UserList,
 } from "ol-search-ui"
 import { LoadingSpinner } from "ol-util"
 
@@ -32,7 +32,7 @@ import {
   useResource,
   useStaffListsListing,
   useUnfavorite,
-  useUserListsListing
+  useUserListsListing,
 } from "../../api/learning-resources"
 import { manageListDialogs } from "./ManageListDialogs"
 
@@ -54,7 +54,7 @@ type ListOrFavorites =
 
 const useRequestRecord = () => {
   const [pending, setPending] = useState<Map<string, "delete" | "add">>(
-    new Map()
+    new Map(),
   )
   const key = (resource: LearningResource, list: ListOrFavorites) =>
     `${resource.object_type}-${resource.id}-${list.id}`
@@ -63,12 +63,12 @@ const useRequestRecord = () => {
   const set = (
     resource: LearningResource,
     list: ListOrFavorites,
-    value: "delete" | "add"
+    value: "delete" | "add",
   ) => {
-    setPending(current => new Map(current).set(key(resource, list), value))
+    setPending((current) => new Map(current).set(key(resource, list), value))
   }
   const clear = (resource: LearningResource, list: ListOrFavorites) => {
-    setPending(current => {
+    setPending((current) => {
       const next = new Map(current)
       next.delete(key(resource, list))
       return next
@@ -79,7 +79,7 @@ const useRequestRecord = () => {
 
 const useToggleItemInList = (
   mode: "stafflist" | "userlist",
-  resource?: LearningResource
+  resource?: LearningResource,
 ) => {
   const requestRecord = useRequestRecord()
   const addTo = useAddToListItems()
@@ -95,7 +95,7 @@ const useToggleItemInList = (
       } else {
         await addTo.mutateAsync({
           list,
-          item: { object_id: resource.id, content_type: resource.object_type }
+          item: { object_id: resource.id, content_type: resource.object_type },
         })
       }
     } finally {
@@ -110,7 +110,7 @@ const useToggleItemInList = (
       if (list.id === "favorites") {
         await unfavorite.mutateAsync(resource)
       } else {
-        const listItem = lists.find(l => l.list_id === list.id)
+        const listItem = lists.find((l) => l.list_id === list.id)
         if (!listItem) return // should not happen
         await deleteFrom.mutateAsync({ list, item: listItem })
       }
@@ -125,7 +125,7 @@ const useToggleItemInList = (
       return !!resource.is_favorite
     }
     const lists = mode === "userlist" ? resource.lists : resource.stafflists
-    return lists.some(l => l.list_id === list.id)
+    return lists.some((l) => l.list_id === list.id)
   }
 
   const isAdding = (list: ListOrFavorites) =>
@@ -149,26 +149,26 @@ const PrivacyChip: React.FC<PrivacyChipProps> = ({ privacyLevel }) => {
 
 const FAVORITES = [
   {
-    id:            "favorites",
-    title:         "Favorites",
-    privacy_level: PrivacyLevel.Private
-  }
+    id: "favorites",
+    title: "Favorites",
+    privacy_level: PrivacyLevel.Private,
+  },
 ] as const
 const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
   resourceKey,
-  mode
+  mode,
 }) => {
   const modal = NiceModal.useModal()
   const resourceQuery = useResource(resourceKey.object_type, resourceKey.id)
   const resource = resourceQuery.data
   const userListsQuery = useUserListsListing({ enabled: mode === "userlist" })
   const staffListsQuery = useStaffListsListing({
-    enabled: mode === "stafflist"
+    enabled: mode === "stafflist",
   })
   const listsQuery = mode === "userlist" ? userListsQuery : staffListsQuery
   const lists: ListOrFavorites[] = [
     ...(mode === "userlist" ? FAVORITES : []),
-    ...(listsQuery.data?.results || [])
+    ...(listsQuery.data?.results || []),
   ]
   if (mode === "userlist") {
     lists
@@ -176,7 +176,7 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
 
   const { handleToggle, isChecked, isAdding, isRemoving } = useToggleItemInList(
     mode,
-    resource
+    resource,
   )
 
   const isReady = resource && listsQuery.isSuccess
@@ -199,7 +199,7 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
       {isReady && (
         <DialogContent className="add-to-list-listing">
           <List>
-            {lists.map(list => {
+            {lists.map((list) => {
               const adding = isAdding(list)
               const removing = isRemoving(list)
               const disabled = adding || removing

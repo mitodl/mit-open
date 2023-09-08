@@ -2,16 +2,18 @@
 
 import logging
 from urllib.parse import urljoin
-from django.conf import settings
+
 import github
-import yaml
-from bs4 import BeautifulSoup as bs
 import requests
-from requests.exceptions import HTTPError
+import yaml
+from bs4 import BeautifulSoup as bs  # noqa: N813
 from dateutil.parser import parse
-from open_discussions.utils import now_in_utc
+from django.conf import settings
+from requests.exceptions import HTTPError
+
 from course_catalog.etl.utils import generate_unique_id
 from course_catalog.models import PodcastEpisode
+from open_discussions.utils import now_in_utc
 
 CONFIG_FILE_REPO = "mitodl/open-podcast-data"
 CONFIG_FILE_FOLDER = "podcasts"
@@ -26,7 +28,7 @@ def github_podcast_config_files():
 
     Returns:
         A list of pyGithub contentFile objects
-    """
+    """  # noqa: D401
 
     if settings.GITHUB_ACCESS_TOKEN:
         github_client = github.Github(settings.GITHUB_ACCESS_TOKEN)
@@ -48,7 +50,7 @@ def validate_podcast_config(podcast_config):
     Returns:
         list of str:
             list of errors or an empty list if no errors
-    """
+    """  # noqa: D401
     errors = []
 
     if not podcast_config:
@@ -61,7 +63,9 @@ def validate_podcast_config(podcast_config):
 
     for required_key in ["rss_url", "website"]:
         if required_key not in podcast_config:
-            errors.append(f"Required key '{required_key}' is not present")
+            errors.append(  # noqa: PERF401
+                f"Required key '{required_key}' is not present"
+            )  # noqa: PERF401, RUF100
 
     return errors
 
@@ -101,7 +105,7 @@ def extract():
 
     Returns:
         A generator that returns tupes ((BeautifulSoup object, dict)) with the rss and config data for the podcast
-    """
+    """  # noqa: D401, E501
     configs = get_podcast_configs()
 
     if not configs:
@@ -110,7 +114,7 @@ def extract():
     for playlist_config in configs:
         rss_url = playlist_config["rss_url"]
         try:
-            response = requests.get(rss_url)
+            response = requests.get(rss_url)  # noqa: S113
             response.raise_for_status()
 
             feed = bs(response.content, "xml")
@@ -168,7 +172,7 @@ def transform(extracted_podcasts):
 
     Returns:
         generator that yields normalized podcast data
-    """
+    """  # noqa: D401, E501
 
     for rss_data, config_data in extracted_podcasts:
         try:
@@ -230,7 +234,7 @@ def get_all_mit_podcasts_channel_rss():
     Get channel information for the MIT aggregate podcast
     Returns:
         Beautiful soup object of the rss for the  MIT aggregate podcast, excluding episodes
-    """
+    """  # noqa: E501
     current_timestamp = now_in_utc().strftime(TIMESTAMP_FORMAT)
 
     podcasts_url = urljoin(settings.SITE_BASE_URL, "podcasts")
@@ -238,11 +242,11 @@ def get_all_mit_podcasts_channel_rss():
         settings.SITE_BASE_URL, "/static/images/podcast_cover_art.png"
     )
 
-    rss = """<?xml version='1.0' encoding='UTF-8'?>
+    rss = f"""<?xml version='1.0' encoding='UTF-8'?>
     <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
         <channel>
             <title>MIT Open Aggregated Podcast Feed</title>
-            <link>{podcast_url}</link>
+            <link>{podcasts_url}</link>
             <language>en-us</language>
             <pubDate>{current_timestamp}</pubDate>
             <lastBuildDate>{current_timestamp}</lastBuildDate>
@@ -253,22 +257,17 @@ def get_all_mit_podcasts_channel_rss():
             <description>Episodes from podcasts from around MIT</description>
             <itunes:owner>
                 <itunes:name>MIT Open Learning</itunes:name>
-                <itunes:email>{email}</itunes:email>
+                <itunes:email>{settings.EMAIL_SUPPORT}</itunes:email>
             </itunes:owner>
             <image>
               <url>{cover_image_url}</url>
               <title>MIT Open Aggregated Podcast Feed</title>
-              <link>{podcast_url}</link>
+              <link>{podcasts_url}</link>
             </image>
             <itunes:explicit>no</itunes:explicit>
             <itunes:category text="Education"/></itunes:category>
         </channel>
-    </rss>""".format(
-        podcast_url=podcasts_url,
-        current_timestamp=current_timestamp,
-        email=settings.EMAIL_SUPPORT,
-        cover_image_url=cover_image_url,
-    )
+    </rss>"""
     return bs(rss, "xml")
 
 
@@ -278,7 +277,7 @@ def generate_aggregate_podcast_rss():
 
     Returns:
         Beautiful soup object of the rss for the  MIT aggregate podcast
-    """
+    """  # noqa: D401
 
     rss = get_all_mit_podcasts_channel_rss()
     episode_rss_list = (

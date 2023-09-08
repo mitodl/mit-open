@@ -61,13 +61,13 @@ es_profile_serializer_data = {
 
 
 @pytest.fixture(autouse=True)
-def enable_index_update_feature(settings):
-    """Enables the INDEX_UPDATES feature by default"""
+def enable_index_update_feature(settings):  # noqa: PT004
+    """Enables the INDEX_UPDATES feature by default"""  # noqa: D401
     settings.FEATURES[INDEX_UPDATES] = True
 
 
 @pytest.fixture()
-def mock_es_profile_serializer(mocker):
+def mock_es_profile_serializer(mocker):  # noqa: PT004
     """Mock OSProfileSerializer with canned serialized data"""
     mocker.patch(
         "search.tasks.OSProfileSerializer.serialize",
@@ -85,7 +85,7 @@ def test_upsert_profile(mocker, mock_es_profile_serializer, user):
     patched_task.assert_called_once_with(user.profile.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_upsert_course(mocker):
     """
     Tests that upsert_course calls update_field_values_by_query with the right parameters
@@ -96,7 +96,7 @@ def test_upsert_course(mocker):
     patched_task.assert_called_once_with(course.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_delete_course(mocker):
     """
     Tests that deindex_course calls the delete tasks for the course and its content files
@@ -114,7 +114,7 @@ def test_delete_course(mocker):
         mock_bulk_del.assert_any_call(run.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_delete_profile(mocker, user):
     """Tests that deleting a user triggers a delete on a profile document"""
     patched_delete_task = mocker.patch("search.search_index_helpers.deindex_document")
@@ -126,7 +126,7 @@ def test_delete_profile(mocker, user):
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_upsert_program(mocker):
     """
     Tests that upsert_program calls update_field_values_by_query with the right parameters
@@ -137,7 +137,7 @@ def test_upsert_program(mocker):
     patched_task.assert_called_once_with(program.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_upsert_video(mocker):
     """
     Tests that upsert_video calls update_field_values_by_query with the right parameters
@@ -148,7 +148,7 @@ def test_upsert_video(mocker):
     patched_task.assert_called_once_with(video.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_delete_video(mocker):
     """Tests that deleting a video triggers a delete on a video document"""
     patched_delete_task = mocker.patch("search.search_index_helpers.deindex_document")
@@ -158,7 +158,7 @@ def test_delete_video(mocker):
     assert patched_delete_task.call_args[0] == (gen_video_id(video), VIDEO_TYPE)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
     "list_type", [UserListType.LIST.value, UserListType.LEARNING_PATH.value]
 )
@@ -172,7 +172,7 @@ def test_upsert_user_list(mocker, list_type):
     patched_task.assert_called_once_with(user_list.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
     "list_type", [UserListType.LIST.value, UserListType.LEARNING_PATH.value]
 )
@@ -188,7 +188,7 @@ def test_delete_user_list(mocker, list_type):
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_upsert_content_file(mocker):
     """
     Tests that upsert_content_file calls the correct celery task with parameters
@@ -199,7 +199,7 @@ def test_upsert_content_file(mocker):
     patched_task.assert_called_once_with(content_file.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_index_run_content_files(mocker):
     """
     Tests that index_run_content_files calls the correct celery task w/parameter
@@ -210,7 +210,7 @@ def test_index_run_content_files(mocker):
     patched_task.assert_called_once_with(content_file.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_delete_run_content_files(mocker):
     """Tests that deindex_run_content_files triggers the correct ES delete task"""
     patched_task = mocker.patch("search.tasks.deindex_run_content_files")
@@ -219,7 +219,7 @@ def test_delete_run_content_files(mocker):
     patched_task.assert_called_once_with(content_file.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_upsert_podcast(mocker):
     """
     Tests that upsert_podcast calls search.tasks.upsert_podcast with the right parameters
@@ -230,7 +230,7 @@ def test_upsert_podcast(mocker):
     patched_task.assert_called_once_with(podcast.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_upsert_podcast_episode(mocker):
     """
     Tests that upsert_podcast_episode calls search.tasks.upsert_podcast_episode with the right parameters
@@ -241,7 +241,7 @@ def test_upsert_podcast_episode(mocker):
     patched_task.assert_called_once_with(episode.id)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_delete_podcast(mocker):
     """Tests that deleting a podcast triggers the correct ES delete task"""
     patched_delete_task = mocker.patch("search.search_index_helpers.deindex_document")
@@ -254,7 +254,7 @@ def test_delete_podcast(mocker):
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_delete_podcast_episode(mocker):
     """Tests that deleting a podcast episode triggers the correct ES delete task"""
     patched_delete_task = mocker.patch("search.search_index_helpers.deindex_document")

@@ -3,14 +3,17 @@ layout: default
 parent: RFCs
 nav_order: 1
 ---
+
 # 0001: Caching System for Third-Party Data
+
 {: .no_toc }
 
 ## Table of Contents
+
 {: .no_toc .text-delta }
 
 - Table of Contents
-{:toc}
+  {:toc}
 
 ### Abstract
 
@@ -19,7 +22,7 @@ We need a caching system for caching third-party data. Some known needs are:
 - RSS Widget feed responses (XML)
 - Embedly API responses (JSON)
 
-We currently have Redis available which we *could* use as a cache, however, we primarily use it as a queuing system for `celery` tasks. Because of this use pattern, we have Redis configured to not evict keys, which means it can't behave like a traditional LRU cache for actual caching while still ensuring we don't conflict with critical `celery` state data or tasks.
+We currently have Redis available which we _could_ use as a cache, however, we primarily use it as a queuing system for `celery` tasks. Because of this use pattern, we have Redis configured to not evict keys, which means it can't behave like a traditional LRU cache for actual caching while still ensuring we don't conflict with critical `celery` state data or tasks.
 
 Additionally, caching arbitrary blobs of response data is likely to grow cache memory usage at an unbounded rate, which in a scenario using Redis could cause a situation where the application is unable to dispatch a task into Redis because it has hit the memory ceiling.
 
@@ -45,7 +48,6 @@ The backing store should support some flavor of credentials so we can ensure wri
 
 See [Backend Security Comparison](#backend-security-comparison).
 
-
 #### Encrypted Transport
 
 It's ideal to encrypt traffic if it is going to the store across the public internet. Particularly because unencrypted traffic negates some of the benefits of the requests being authenticated.
@@ -54,27 +56,25 @@ See [Backend Security Comparison](#backend-security-comparison).
 
 #### Backend Security Comparison
 
-| Backend | Credential Type | Transport Type | Notes |
-| --- | --- | --- | --- |
-| Memcached | Username/Password via SASL | Not Encrypted | This backend is probably less than ideal for applications that are not deployed entirely within a VPC or similarly protected environment. Since we are deployed in Heroku, this backend is probably a no-go for that reason. |
-| Redis | Username/Password | TLS | Security Docs:<br>[Redis Enterprise](https://redislabs.com/redis-enterprise/technology/redis-security-reliability/) (formerly RedisCloud)<BR>[Elasticache Redis](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/in-transit-encryption.html) |
-| Database | Username/Password | TLS | Same security considerations as our existing DB connections which we can consider a solved problem. |
+| Backend   | Credential Type            | Transport Type | Notes                                                                                                                                                                                                                                                    |
+| --------- | -------------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Memcached | Username/Password via SASL | Not Encrypted  | This backend is probably less than ideal for applications that are not deployed entirely within a VPC or similarly protected environment. Since we are deployed in Heroku, this backend is probably a no-go for that reason.                             |
+| Redis     | Username/Password          | TLS            | Security Docs:<br>[Redis Enterprise](https://redislabs.com/redis-enterprise/technology/redis-security-reliability/) (formerly RedisCloud)<BR>[Elasticache Redis](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/in-transit-encryption.html) |
+| Database  | Username/Password          | TLS            | Same security considerations as our existing DB connections which we can consider a solved problem.                                                                                                                                                      |
 
 ### Testing & Rollout
 
 Caching should be optional to configure so that we can roll out the code for this without being blocked by the backing stores needing to be operationally setup first. We can then coordinate configuring the app once operations has the environment setup.
 
-
 #### Backend Deployment Complexity
 
 Aside from generally needing to configure each of these with some runtime settings, here are some extra per-backend considerations are:
 
-| Backend | Notes |
-| --- | --- |
-| Memcached | We would need to be able to share the memcached instance across PR apps / CI.<br><br>DevOps team already has salt scripts for standing up a memcached-backed Elasticache cluster [here](https://github.com/mitodl/salt-ops/blob/bde16e69d9c370804d330fce647bed4a43e8a7a6/salt/orchestrate/aws/elasticache.sls). |
-| Redis | Ideally we use `pylibmc`, which will require an additional dependency to be added to the app that has C bindings. Need to determine how supported this is in Heroku.<br><br>We would need to be able to share the Redis instance across PR apps / CI.<br><br>Our team is already familiar with Redis.<br><br>DevOps team already has salt scripts for standing up a Redis-backed Elasticache cluster [here](https://github.com/mitodl/salt-ops/blob/bde16e69d9c370804d330fce647bed4a43e8a7a6/salt/orchestrate/aws/elasticache.sls) |
-| Database | Requires an additional out-of-band management command (`manage.py createcachetable`) to be run per environment (including all PR builds). <br><br>A major downside to this is the table is **not** managed via standard django migration mechanisms which makes this difficult to automate environments for. |
-
+| Backend   | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Memcached | We would need to be able to share the memcached instance across PR apps / CI.<br><br>DevOps team already has salt scripts for standing up a memcached-backed Elasticache cluster [here](https://github.com/mitodl/salt-ops/blob/bde16e69d9c370804d330fce647bed4a43e8a7a6/salt/orchestrate/aws/elasticache.sls).                                                                                                                                                                                                                    |
+| Redis     | Ideally we use `pylibmc`, which will require an additional dependency to be added to the app that has C bindings. Need to determine how supported this is in Heroku.<br><br>We would need to be able to share the Redis instance across PR apps / CI.<br><br>Our team is already familiar with Redis.<br><br>DevOps team already has salt scripts for standing up a Redis-backed Elasticache cluster [here](https://github.com/mitodl/salt-ops/blob/bde16e69d9c370804d330fce647bed4a43e8a7a6/salt/orchestrate/aws/elasticache.sls) |
+| Database  | Requires an additional out-of-band management command (`manage.py createcachetable`) to be run per environment (including all PR builds). <br><br>A major downside to this is the table is **not** managed via standard django migration mechanisms which makes this difficult to automate environments for.                                                                                                                                                                                                                       |
 
 ### Conclusion
 

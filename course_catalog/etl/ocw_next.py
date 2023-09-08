@@ -2,15 +2,15 @@
 import logging
 import mimetypes
 from os.path import splitext
-from urllib.parse import urlparse, unquote
+from urllib.parse import unquote, urlparse
 
 from botocore.exceptions import ClientError
 from django.conf import settings
 
 from course_catalog.constants import (
     CONTENT_TYPE_PAGE,
-    VALID_TEXT_FILE_TYPES,
     CONTENT_TYPE_VIDEO,
+    VALID_TEXT_FILE_TYPES,
 )
 from course_catalog.etl.ocw import get_content_type
 from course_catalog.etl.utils import extract_text_metadata
@@ -32,7 +32,7 @@ def transform_ocw_next_content_files(s3_resource, course_prefix, force_overwrite
     Yields:
         dict: transformed content file data
 
-    """
+    """  # noqa: D401
     bucket = s3_resource.Bucket(name=settings.OCW_NEXT_LIVE_BUCKET)
 
     for obj in bucket.objects.filter(Prefix=course_prefix + "pages/"):
@@ -41,7 +41,7 @@ def transform_ocw_next_content_files(s3_resource, course_prefix, force_overwrite
                 course_page_json = safe_load_json(get_s3_object_and_read(obj), obj.key)
                 yield transform_page(obj.key, course_page_json)
 
-            except:  # pylint: disable=bare-except
+            except:  # pylint: disable=bare-except  # noqa: E722
                 log.exception(
                     "ERROR syncing course file %s for course %s", obj.key, course_prefix
                 )
@@ -56,7 +56,7 @@ def transform_ocw_next_content_files(s3_resource, course_prefix, force_overwrite
                 if transformed_resource:
                     yield transformed_resource
 
-            except:  # pylint: disable=bare-except
+            except:  # pylint: disable=bare-except  # noqa: E722
                 log.exception(
                     "ERROR syncing course file %s for course %s", obj.key, course_prefix
                 )
@@ -73,7 +73,7 @@ def transform_page(s3_key, page_data):
     Returns:
         dict: transformed content file data
 
-    """
+    """  # noqa: D401
 
     s3_path = s3_key.split("data.json")[0]
     return {
@@ -87,7 +87,7 @@ def transform_page(s3_key, page_data):
     }
 
 
-def transform_resource(
+def transform_resource(  # noqa: C901, PLR0912
     s3_key, resource_data, s3_resource, force_overwrite
 ):  # pylint:disable=too-many-locals,too-many-branches
     """
@@ -103,7 +103,7 @@ def transform_resource(
     Returns:
         dict: transformed content file data
 
-    """
+    """  # noqa: D401
     s3_path = s3_key.split("data.json")[0]
     s3_path = urlparse(s3_path).path.lstrip("/")
 
@@ -121,17 +121,17 @@ def transform_resource(
         image_src = None
 
     if not file_s3_path:
-        return
+        return None
 
     title = resource_data.get("title")
 
-    if title == "3play caption file" or title == "3play pdf file":
-        return
+    if title == "3play caption file" or title == "3play pdf file":  # noqa: PLR1714
+        return None
 
     if not file_s3_path.startswith("courses"):
         file_s3_path = "courses" + file_s3_path.split("courses")[1]
 
-    ext_lower = splitext(file_s3_path)[-1].lower()
+    ext_lower = splitext(file_s3_path)[-1].lower()  # noqa: PTH122
     mime_type = mimetypes.types_map.get(file_s3_path)
     content_json = None
 

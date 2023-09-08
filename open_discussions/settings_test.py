@@ -6,6 +6,7 @@ import importlib
 import sys
 from unittest import mock
 
+import pytest
 import semantic_version
 from django.conf import settings
 from django.core import mail
@@ -48,12 +49,12 @@ class TestSettings(TestCase):
             clear=True,
         ):
             settings_vars = self.reload_settings()
-            self.assertNotEqual(
-                settings_vars.get("DEFAULT_FILE_STORAGE"),
-                "storages.backends.s3boto3.S3Boto3Storage",
+            assert (
+                settings_vars.get("DEFAULT_FILE_STORAGE")
+                != "storages.backends.s3boto3.S3Boto3Storage"
             )
 
-        with self.assertRaises(ImproperlyConfigured):
+        with pytest.raises(ImproperlyConfigured):  # noqa: SIM117
             with mock.patch.dict("os.environ", {"MITOPEN_USE_S3": "True"}, clear=True):
                 self.reload_settings()
 
@@ -70,9 +71,9 @@ class TestSettings(TestCase):
             clear=True,
         ):
             settings_vars = self.reload_settings()
-            self.assertEqual(
-                settings_vars.get("DEFAULT_FILE_STORAGE"),
-                "storages.backends.s3boto3.S3Boto3Storage",
+            assert (
+                settings_vars.get("DEFAULT_FILE_STORAGE")
+                == "storages.backends.s3boto3.S3Boto3Storage"
             )
 
     def test_admin_settings(self):
@@ -84,7 +85,7 @@ class TestSettings(TestCase):
             clear=True,
         ):
             settings_vars = self.reload_settings()
-            self.assertFalse(settings_vars.get("ADMINS", False))
+            assert not settings_vars.get("ADMINS", False)
 
         test_admin_email = "cuddle_bunnies@example.com"
         with mock.patch.dict(
@@ -93,12 +94,12 @@ class TestSettings(TestCase):
             clear=True,
         ):
             settings_vars = self.reload_settings()
-            self.assertEqual((("Admins", test_admin_email),), settings_vars["ADMINS"])
+            assert (("Admins", test_admin_email),) == settings_vars["ADMINS"]
         # Manually set ADMIN to our test setting and verify e-mail
         # goes where we expect
         settings.ADMINS = (("Admins", test_admin_email),)
         mail.mail_admins("Test", "message")
-        self.assertIn(test_admin_email, mail.outbox[0].to)
+        assert test_admin_email in mail.outbox[0].to
 
     def test_db_ssl_enable(self):
         """Verify that we can enable/disable database SSL with a var"""
@@ -106,9 +107,9 @@ class TestSettings(TestCase):
         # Check default state is SSL on
         with mock.patch.dict("os.environ", REQUIRED_SETTINGS, clear=True):
             settings_vars = self.reload_settings()
-            self.assertEqual(
-                settings_vars["DATABASES"]["default"]["OPTIONS"], {"sslmode": "require"}
-            )
+            assert settings_vars["DATABASES"]["default"]["OPTIONS"] == {
+                "sslmode": "require"
+            }
 
         # Check enabling the setting explicitly
         with mock.patch.dict(
@@ -117,7 +118,7 @@ class TestSettings(TestCase):
             clear=True,
         ):
             settings_vars = self.reload_settings()
-            self.assertEqual(settings_vars["DATABASES"]["default"]["OPTIONS"], {})
+            assert settings_vars["DATABASES"]["default"]["OPTIONS"] == {}
 
         # Disable it
         with mock.patch.dict(
@@ -126,9 +127,9 @@ class TestSettings(TestCase):
             clear=True,
         ):
             settings_vars = self.reload_settings()
-            self.assertEqual(
-                settings_vars["DATABASES"]["default"]["OPTIONS"], {"sslmode": "require"}
-            )
+            assert settings_vars["DATABASES"]["default"]["OPTIONS"] == {
+                "sslmode": "require"
+            }
 
     def test_opensearch_index_pr_build(self):
         """For PR builds we will use the heroku app name instead of the given OPENSEARCH_INDEX"""
@@ -158,9 +159,10 @@ class TestSettings(TestCase):
         for key in REQUIRED_SETTINGS:
             required_settings = {**REQUIRED_SETTINGS}
             del required_settings[key]
-            with mock.patch.dict("os.environ", required_settings, clear=True):
-                with self.assertRaises(ImproperlyConfigured):
-                    self.reload_settings()
+            with mock.patch.dict(
+                "os.environ", required_settings, clear=True
+            ), pytest.raises(ImproperlyConfigured):
+                self.reload_settings()
 
     def test_server_side_cursors_disabled(self):
         """DISABLE_SERVER_SIDE_CURSORS should be true by default"""

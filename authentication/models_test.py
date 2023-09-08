@@ -1,20 +1,24 @@
-""" Tests for authentication.models """
+"""Tests for authentication.models"""
 import pytest
 from django.core.exceptions import ValidationError
 
 from authentication.models import BlockedIPRange
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
-    "ip_start, ip_end, error",
+    ("ip_start", "ip_end", "error"),
     [
-        ["194.168.20.100", "194.168.3.100", "IP 194.168.3.100 < IP 194.168.20.100"],
-        ["194.168.1.1", "194.168.3.100", None],
-        [None, "182.0.0.1", "IP cannot be null"],
-        ["194.168.20.100", None, "IP cannot be null"],
-        ["192.168.2.2", "169.2.4.4", "IP 192.168.2.2 is not routable"],
-        ["9.2.2.2", "10.2.4.4", "IP 10.2.4.4 is not routable"],
+        [  # noqa: PT007
+            "194.168.20.100",
+            "194.168.3.100",
+            "IP 194.168.3.100 < IP 194.168.20.100",
+        ],
+        ["194.168.1.1", "194.168.3.100", None],  # noqa: PT007
+        [None, "182.0.0.1", "IP cannot be null"],  # noqa: PT007
+        ["194.168.20.100", None, "IP cannot be null"],  # noqa: PT007
+        ["192.168.2.2", "169.2.4.4", "IP 192.168.2.2 is not routable"],  # noqa: PT007
+        ["9.2.2.2", "10.2.4.4", "IP 10.2.4.4 is not routable"],  # noqa: PT007
     ],
 )
 def test_blocked_ip_range_validation(ip_start, ip_end, error, settings):

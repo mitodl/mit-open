@@ -1,39 +1,40 @@
 """Tests for Video ETL functions"""
 # pylint: disable=redefined-outer-name
+import json
 from collections import defaultdict
-from unittest.mock import Mock, MagicMock
+from datetime import datetime
 from glob import glob
 from os.path import basename
-import json
-from datetime import datetime
-import pytest
-import pytz
+from unittest.mock import MagicMock, Mock
+
 import googleapiclient.errors
+import pytest
 import pytube
+import pytz
 
 from course_catalog.constants import OfferedBy, PlatformType
+from course_catalog.etl import youtube
 from course_catalog.etl.exceptions import (
-    ExtractVideoException,
     ExtractPlaylistException,
     ExtractPlaylistItemException,
+    ExtractVideoException,
 )
-from course_catalog.etl import youtube
 from course_catalog.factories import VideoFactory
 
 
-@pytest.fixture
+@pytest.fixture()
 def youtube_api_responses():
     """Load the api responses"""
     mock_responses = defaultdict(list)
 
     # these need to be sorted() so that *.N.json files get appended in the proper order
-    for pathname in sorted(glob("test_json/youtube/*.json")):
-        mod_name, func_name, _, _ = basename(pathname).split(".")
+    for pathname in sorted(glob("test_json/youtube/*.json")):  # noqa: PTH207
+        mod_name, func_name, _, _ = basename(pathname).split(".")  # noqa: PTH119
 
-        with open(pathname, "r") as f:
+        with open(pathname) as f:  # noqa: PTH123
             mock_responses[(mod_name, func_name)].append(json.load(f))
 
-    for (mod_name, func_name), side_effects in mock_responses.items():
+    for (mod_name, func_name), side_effects in mock_responses.items():  # noqa: B007
         if func_name == "list_next":
             # list_next() operations return None when there's no additional pages to fetch
             side_effects.append(None)
@@ -51,12 +52,11 @@ def video_settings(settings):
 
 @pytest.fixture(autouse=True)
 def mock_youtube_client(mocker, youtube_api_responses):
-    """Mocks out the youtube client with static json data"""
+    """Mocks out the youtube client with static json data"""  # noqa: D401
     # each side effect should default to an empty list
     config = defaultdict(list)
     # build up a config based on filenames of the loaded responses, as an example
     # the original filename "videos.list.0.json" will create this key:
-    #   "videos.return_value.list.return_value.execute.side_effect"
     config.update(
         {
             f"{'.return_value.'.join(key)}.return_value.execute.side_effect": value
@@ -75,7 +75,11 @@ def mock_youtube_client(mocker, youtube_api_responses):
 
 
 def mock_channel_file(
-    offered_by, channel_id, playlist_id, create_user_list=False, user_list_title=None
+    offered_by,
+    channel_id,
+    playlist_id,
+    create_user_list=False,  # noqa: FBT002
+    user_list_title=None,  # noqa: FBT002, RUF100
 ):
     """Mock video channel github file"""
 
@@ -104,15 +108,15 @@ def mock_channel_file_with_wildcard(channel_id, ignore_playlist_id):
     return Mock(decoded_content=content)
 
 
-@pytest.fixture
-def mocked_github_channel_response(mocker):
+@pytest.fixture()
+def mocked_github_channel_response(mocker):  # noqa: PT004
     """Mock response from github api requst to open-video-data"""
     channel_list = [
         mock_channel_file(
             OfferedBy.mitx.value,
             "UCTBMWu8yshnAmpzR3MoJFtw",
             "PL221E2BBF13BECF6C",
-            True,
+            True,  # noqa: FBT003
             "New Title",
         ),
         mock_channel_file(
@@ -130,7 +134,7 @@ def mocked_github_channel_response(mocker):
     )
 
 
-@pytest.fixture
+@pytest.fixture()
 def extracted_and_transformed_values(youtube_api_responses):
     # pylint: disable=too-many-locals
     """Mock data for the API responses and how they are transformed"""
@@ -232,16 +236,14 @@ def extracted_and_transformed_values(youtube_api_responses):
 
 def _resolve_extracted_channels(channels):
     """Resolve the nested generator data"""
-    return list(
-        [
-            (
-                offered_by,
-                channel_data,
-                list(map(_resolve_extracted_playlist, playlists)),
-            )
-            for offered_by, channel_data, playlists in channels
-        ]
-    )
+    return [
+        (
+            offered_by,
+            channel_data,
+            list(map(_resolve_extracted_playlist, playlists)),
+        )
+        for offered_by, channel_data, playlists in channels
+    ]
 
 
 def _resolve_extracted_playlist(playlist):
@@ -250,13 +252,13 @@ def _resolve_extracted_playlist(playlist):
     return (playlist_data, list(videos), has_user_list, user_list_title)
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_raw_caption_data():
     """Mock data for raw youtube video caption"""
     return '<?xml version="1.0" encoding="utf-8" ?><transcript><text start="0" dur="0.5"></text><text start="0.5" dur="3.36">PROFESSOR: So, now we come to\nthe place where arithmetic,</text><text start="3.86" dur="2.67">modulo n or\nremainder arithmetic,</text><text start="6.53" dur="3.05">starts to be a little bit\ndifferent and that involves</text><text start="9.58" dur="2.729">taking inverses and cancelling.</text></transcript>'
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_parsed_transcript_data():
     """Mock data for parsed video caption"""
     return "PROFESSOR: So, now we come to the place where arithmetic,\nmodulo n or remainder arithmetic,\nstarts to be a little bit different and that involves\ntaking inverses and cancelling."
@@ -330,11 +332,11 @@ def test_extract(extracted_and_transformed_values):
 
 @pytest.mark.usefixtures("mocked_github_channel_response")
 @pytest.mark.parametrize(
-    "operation_key, exception_cls",
+    ("operation_key", "exception_cls"),
     [
-        [("playlists", "list"), ExtractPlaylistException],
-        [("playlistItems", "list"), ExtractPlaylistItemException],
-        [("videos", "list"), ExtractVideoException],
+        [("playlists", "list"), ExtractPlaylistException],  # noqa: PT007
+        [("playlistItems", "list"), ExtractPlaylistItemException],  # noqa: PT007
+        [("videos", "list"), ExtractVideoException],  # noqa: PT007
     ],
 )
 def test_extract_with_exception(
@@ -343,7 +345,7 @@ def test_extract_with_exception(
     """Test youtube video ETL"""
     # error on the first call, this will consistently be the first channel
     side_effect = youtube_api_responses[operation_key][:]
-    side_effect[0] = googleapiclient.errors.HttpError(MagicMock(), bytes())
+    side_effect[0] = googleapiclient.errors.HttpError(MagicMock(), b"")
 
     channels_list = youtube_api_responses[("channels", "list")]
     playlists_list = youtube_api_responses[("playlists", "list")]
@@ -384,7 +386,7 @@ def test_extract_with_exception(
     assert offered_by == OfferedBy.ocw.value
     assert channel_data == channels_list[0]["items"][0]
 
-    with pytest.raises(exception_cls):
+    with pytest.raises(exception_cls):  # noqa: PT012
         # exercise the generator tree to trigger the exception
         for _, videos, _, _ in playlists:
             list(videos)
@@ -432,7 +434,7 @@ def test_extract_with_no_channels(mocker, yaml_parser_response):
 
 
 def test_transform_video(extracted_and_transformed_values):
-    """test youtube transform for a video"""
+    """Test youtube transform for a video"""
     extracted, transformed = extracted_and_transformed_values
     result = youtube.transform_video(extracted[0][2][0][1][0], OfferedBy.ocw.value)
     assert result == transformed[0]["playlists"][0]["videos"][0]
@@ -443,7 +445,7 @@ def test_transform_video(extracted_and_transformed_values):
 def test_transform_playlist(
     extracted_and_transformed_values, has_user_list, user_list_title
 ):
-    """test youtube transform for a playlist"""
+    """Test youtube transform for a playlist"""
     extracted, transformed = extracted_and_transformed_values
     result = youtube.transform_playlist(
         extracted[0][2][0][0],
@@ -460,30 +462,23 @@ def test_transform_playlist(
 
 
 def test_transform(extracted_and_transformed_values):
-    """test youtube transform"""
+    """Test youtube transform"""
     extracted, transformed = extracted_and_transformed_values
     channels = youtube.transform(extracted)
-    assert (
-        list(
-            [
-                {
-                    **channel,
-                    "playlists": list(
-                        [
-                            {**playlist, "videos": list(playlist["videos"])}
-                            for playlist in channel["playlists"]
-                        ]
-                    ),
-                }
-                for channel in channels
-            ]
-        )
-        == transformed
-    )
+    assert [
+        {
+            **channel,
+            "playlists": [
+                {**playlist, "videos": list(playlist["videos"])}
+                for playlist in channel["playlists"]
+            ],
+        }
+        for channel in channels
+    ] == transformed
 
 
 @pytest.mark.parametrize(
-    "config, expected",
+    ("config", "expected"),
     [
         (None, ["Channel config data is empty"]),
         ({}, ["Channel config data is empty"]),
@@ -586,7 +581,7 @@ def test_get_youtube_transcripts_with_multiple_consecutive_failures(mocker):
     mock_upsert_video.assert_not_called()
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("overwrite", [True, False])
 @pytest.mark.parametrize(
     "created_after", [datetime(2019, 10, 4, tzinfo=pytz.utc), None]
@@ -632,7 +627,7 @@ def test_get_youtube_videos_for_transcripts_job(
                 video5,
                 video6,
             ]
-    else:
+    else:  # noqa: PLR5501
         if created_after:
             assert list(result.order_by("id")) == [video2, video6]
         elif created_minutes:

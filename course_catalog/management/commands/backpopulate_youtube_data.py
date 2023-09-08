@@ -1,20 +1,21 @@
 """Management command for populating youtube course data"""
 from datetime import datetime
-from django.core.management import BaseCommand
+
 import pytz
+from django.core.management import BaseCommand
 
 from course_catalog.constants import PlatformType
 from course_catalog.models import Video
 from course_catalog.tasks import get_youtube_data, get_youtube_transcripts
-from open_discussions.utils import now_in_utc
 from open_discussions.constants import ISOFORMAT
+from open_discussions.utils import now_in_utc
 from search.search_index_helpers import deindex_video
 
 
 class Command(BaseCommand):
     """Populate youtube videos"""
 
-    help = """Populates youtube videos"""
+    help = """Populates youtube videos"""  # noqa: A003
 
     def add_arguments(self, parser):
         """Configure arguments for this command"""
@@ -44,13 +45,13 @@ class Command(BaseCommand):
             "--created-after",
             dest="created_after",
             default=None,
-            help="Only fetch transcripts for videos indexed after timestamp (yyyy-mm-ddThh:mm:ssZ)",
+            help="Only fetch transcripts for videos indexed after timestamp (yyyy-mm-ddThh:mm:ssZ)",  # noqa: E501
         )
         transcripts_parser.add_argument(
             "--created-minutes",
             dest="created_minutes",
             default=None,
-            help="Only fetch transcripts for videos indexed this number of minutes ago and later",
+            help="Only fetch transcripts for videos indexed this number of minutes ago and later",  # noqa: E501
         )
         transcripts_parser.add_argument(
             "--overwrite",
@@ -61,13 +62,13 @@ class Command(BaseCommand):
 
         super().add_arguments(parser)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate youtube videos"""
         command = options["command"]
         if command == "delete":
             videos = Video.objects.filter(platform=PlatformType.youtube.value)
             self.stdout.write(
-                f"Deleting {videos.count()} existing YouTube videos from database and opensearch"
+                f"Deleting {videos.count()} existing YouTube videos from database and opensearch"  # noqa: E501
             )
             for video in videos:
                 video.delete()

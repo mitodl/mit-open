@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0008_renames_last_updated_field_20190111_1820")]
 
     operations = [

@@ -15,7 +15,7 @@ import {
   Image,
   ImageStyle,
   ImageToolbar,
-  ImageUpload
+  ImageUpload,
 } from "@ckeditor/ckeditor5-image"
 import { Link } from "@ckeditor/ckeditor5-link"
 import { List } from "@ckeditor/ckeditor5-list"
@@ -52,10 +52,10 @@ const baseEditorConfig: EditorConfig = {
     ImageToolbar,
     ImageUpload,
     ParagraphButtonUI,
-    BlockEditorIcon
+    BlockEditorIcon,
   ],
   blockToolbar: ["mediaEmbed", "imageUpload"],
-  toolbar:      {
+  toolbar: {
     items: [
       "heading",
       "bold",
@@ -63,36 +63,36 @@ const baseEditorConfig: EditorConfig = {
       "link",
       "bulletedList",
       "numberedList",
-      "blockQuote"
-    ]
+      "blockQuote",
+    ],
   },
   placeholder: "Write here...",
-  image:       {
+  image: {
     toolbar: [
       "imageStyle:block",
       "imageStyle:side",
       "|",
-      "imageTextAlternative"
-    ]
+      "imageTextAlternative",
+    ],
   },
   cloudServices: getCloudServicesConfig(),
-  mediaEmbed:    {
+  mediaEmbed: {
     previewsInData: true,
-    providers:      [
+    providers: [
       {
         name: "embedly",
-        url:  /.+/,
-        html: match => {
+        url: /.+/,
+        html: (match) => {
           const url = match[0]
 
           return embedlyCardHtml(url)
-        }
-      }
-    ]
+        },
+      },
+    ],
   },
   blockEditorIcon: {
-    icon: icons.plus
-  }
+    icon: icons.plus,
+  },
 }
 
 type CkeditorArticleProps = {
@@ -110,12 +110,12 @@ const CkeditorArticle: React.FC<CkeditorArticleProps> = ({
   onBlur,
   id,
   className,
-  config
+  config,
 }) => {
   const fullConfig = useMemo(() => {
     return {
       ...baseEditorConfig,
-      ...config
+      ...config,
     }
   }, [config])
 

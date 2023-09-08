@@ -3,15 +3,15 @@
 import bitfield.models
 import django.contrib.postgres.fields.jsonb
 import django.core.validators
-from django.db import migrations, models
 import django.db.models.deletion
 import imagekit.models.fields
+from django.db import migrations, models
+
 import open_discussions.utils
 import profiles.utils
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                         max_length=100,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Channel name can only contain the characters: A-Z, a-z, 0-9, _",
+                                message="Channel name can only contain the characters: A-Z, a-z, 0-9, _",  # noqa: E501
                                 regex="^[A-Za-z0-9_]+$",
                             )
                         ],

@@ -9,7 +9,7 @@ jest.mock("ol-util", () => {
   const original = jest.requireActual("ol-util")
   return {
     ...original,
-    ensureEmbedlyPlatform: jest.fn(original.ensureEmbedlyPlatform)
+    ensureEmbedlyPlatform: jest.fn(original.ensureEmbedlyPlatform),
   }
 })
 
@@ -20,7 +20,7 @@ describe("CkeditorArticle", () => {
         value="Hello world"
         onChange={jest.fn()}
         config={{ cloudServices: undefined }}
-      />
+      />,
     )
     expect(jest.mocked(utils.ensureEmbedlyPlatform)).toHaveBeenCalled()
   })
@@ -33,7 +33,7 @@ describe("CkeditorArticle", () => {
         value="Hello world"
         onChange={jest.fn()}
         config={{ cloudServices: undefined }}
-      />
+      />,
     )
     expect(view.container.firstChild).toHaveClass("test-class-a test-class-b")
     expect(view.container.firstChild).toHaveAttribute("id", "test-id")

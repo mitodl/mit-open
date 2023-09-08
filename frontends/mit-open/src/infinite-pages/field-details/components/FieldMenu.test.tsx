@@ -17,20 +17,20 @@ describe("FieldMenu", () => {
     render(
       <Router history={history}>
         <FieldMenu field={field} />
-      </Router>
+      </Router>,
     )
     const dropdown = await screen.findByText("settings")
     await user.click(dropdown)
     const links = await waitFor(async () => {
       const found = await screen.findAllByRole("link")
       expect(found.length).toBe(2)
-      found.every(link => assertInstanceOf(link, HTMLAnchorElement))
+      found.every((link) => assertInstanceOf(link, HTMLAnchorElement))
       return found as HTMLAnchorElement[]
     })
 
     expect(links[0].href).toContain(`/infinite/fields/${field.name}/manage/`)
     expect(links[1].href).toContain(
-      `/infinite/fields/${field.name}/manage/widgets/`
+      `/infinite/fields/${field.name}/manage/widgets/`,
     )
   })
 })

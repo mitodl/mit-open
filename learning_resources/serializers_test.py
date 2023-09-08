@@ -26,9 +26,9 @@ def test_serialize_course_model():
         instance=course.learning_resource
     )
     assert len(serializer.data["topics"]) > 0
-    assert "name" in serializer.data["topics"][0].keys()
+    assert "name" in serializer.data["topics"][0]
     assert len(serializer.data["runs"]) == 2
-    assert "run_id" in serializer.data["runs"][0].keys()
+    assert "run_id" in serializer.data["runs"][0]
     assert serializer.data["image"]["url"] is not None
     assert len(serializer.data["offered_by"]) > 0
     assert serializer.data["offered_by"][0] in [
@@ -71,9 +71,9 @@ def test_serialize_program_model():
         instance=program.learning_resource
     )
     assert len(serializer.data["topics"]) > 0
-    assert "name" in serializer.data["topics"][0].keys()
+    assert "name" in serializer.data["topics"][0]
     assert len(serializer.data["runs"]) == 1
-    assert "run_id" in serializer.data["runs"][0].keys()
+    assert "run_id" in serializer.data["runs"][0]
     assert serializer.data["image"]["url"] is not None
     assert len(serializer.data["offered_by"]) > 0
     assert serializer.data["offered_by"][0] in [
@@ -104,15 +104,15 @@ def test_serialize_run_related_models():
     assert str(serializer.data["prices"][0].replace(".", "")).isnumeric()
     assert len(serializer.data["instructors"]) > 0
     for attr in ("first_name", "last_name", "full_name"):
-        assert attr in serializer.data["instructors"][0].keys()
+        assert attr in serializer.data["instructors"][0]
 
 
 @pytest.mark.parametrize(
-    "data, error",
+    ("data", "error"),
     [
-        [9999, "Invalid topic ids: {9999}"],
-        [None, "Invalid topic ids: {None}"],
-        ["a", "Topic ids must be integers"],
+        [9999, "Invalid topic ids: {9999}"],  # noqa: PT007
+        [None, "Invalid topic ids: {None}"],  # noqa: PT007
+        ["a", "Topic ids must be integers"],  # noqa: PT007
     ],
 )
 def test_learningpath_serializer_validation_bad_topic(data, error):

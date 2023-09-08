@@ -31,30 +31,30 @@ interface SearchInputProps {
 }
 
 const searchIconAdjustments = {
-  fontSize:  "150%",
+  fontSize: "150%",
   /**
    * We want the icon to have its circle a bit closer to the baseline, which
    * this accounts for.
    */
-  transform: "translateY(+5%)"
+  transform: "translateY(+5%)",
 }
 
-const SearchInput: React.FC<SearchInputProps> = props => {
+const SearchInput: React.FC<SearchInputProps> = (props) => {
   const { onSubmit, value } = props
   const handleSubmit = useCallback(() => {
     const event = {
-      target:         { value },
-      preventDefault: () => null
+      target: { value },
+      preventDefault: () => null,
     }
     onSubmit(event)
   }, [onSubmit, value])
   const onInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> =
     useCallback(
-      e => {
+      (e) => {
         if (e.key !== "Enter") return
         handleSubmit()
       },
-      [handleSubmit]
+      [handleSubmit],
     )
   const muiInputProps = useMemo(() => ({ "aria-label": "Search for" }), [])
   return (

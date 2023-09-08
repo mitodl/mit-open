@@ -11,4 +11,4 @@ class ChannelsFieldsConfig(AppConfig):
         """
         Ready handler. Import signals.
         """
-        import channels_fields.signals  # pylint: disable=unused-import
+        import channels_fields.signals  # noqa: F401

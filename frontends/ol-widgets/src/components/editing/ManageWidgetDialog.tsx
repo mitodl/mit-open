@@ -79,9 +79,9 @@ interface FormFieldAttrs {
  */
 const formFieldAttrs = (fieldId: string, errMsg?: string): FormFieldAttrs => {
   const errorId = `${fieldId}:error`
-  const fieldErrorAttrs = errMsg ?
-    { "aria-invalid": true, "aria-errormessage": errorId } :
-    {}
+  const fieldErrorAttrs = errMsg
+    ? { "aria-invalid": true, "aria-errormessage": errorId }
+    : {}
   const field = { id: fieldId, ...fieldErrorAttrs }
   const label = { htmlFor: fieldId }
   const error = { id: errorId }
@@ -94,12 +94,12 @@ const DialogContentEditing: React.FC<WidgetEditingProps> = ({
   onSubmit,
   onCancel,
   classes,
-  isNew
+  isNew,
 }) => {
   const formId = useId()
   const validationSchema = useMemo(
     () => getWidgetSchema(widget.widget_type),
-    [widget.widget_type]
+    [widget.widget_type],
   )
   const title = useMemo(() => {
     if (isNew) {
@@ -109,18 +109,18 @@ const DialogContentEditing: React.FC<WidgetEditingProps> = ({
   }, [isNew, spec])
   const onSubmitForm = useCallback(
     (value: AnonymousWidget) => {
-      const event: WidgetSubmitEvent = isNil(value.id) ?
-        {
-          type:   "add",
-          widget: { ...value, id: null }
-        } :
-        {
-          type:   "edit",
-          widget: value
-        }
+      const event: WidgetSubmitEvent = isNil(value.id)
+        ? {
+            type: "add",
+            widget: { ...value, id: null },
+          }
+        : {
+            type: "edit",
+            widget: value,
+          }
       onSubmit(event)
     },
-    [onSubmit]
+    [onSubmit],
   )
   return (
     <>
@@ -149,14 +149,14 @@ const DialogContentEditing: React.FC<WidgetEditingProps> = ({
                     value={values.title}
                   />
                   <ErrorMessage name="title">
-                    {message => (
+                    {(message) => (
                       <div className={classes?.error} {...titleAttrs}>
                         {message}
                       </div>
                     )}
                   </ErrorMessage>
                 </div>
-                {spec.form_spec.map(fieldSpec => {
+                {spec.form_spec.map((fieldSpec) => {
                   const fieldName = fieldSpec.field_name
                   // Formik uses dot notation for nested objects as name attrs
                   // https://formik.org/docs/guides/arrays#nested-objects
@@ -164,7 +164,7 @@ const DialogContentEditing: React.FC<WidgetEditingProps> = ({
                   const fieldId = `${formId}:${attrName}`
                   const attrs = formFieldAttrs(
                     fieldId,
-                    errors.configuration?.[fieldName]
+                    errors.configuration?.[fieldName],
                   )
                   const FieldComponent = getWidgetFieldComponent(fieldSpec)
                   return (
@@ -196,7 +196,7 @@ const DialogContentEditing: React.FC<WidgetEditingProps> = ({
                         </small>
                       )}
                       <ErrorMessage name={attrName}>
-                        {errMsg => (
+                        {(errMsg) => (
                           <div className={classes?.error} {...attrs.error}>
                             {errMsg}
                           </div>
@@ -237,38 +237,38 @@ const DialogContentAdding: React.FC<WidgetAddingProps> = ({
   specs,
   onCancel,
   onSubmit,
-  classes
+  classes,
 }) => {
   const supportedSpecs = useMemo(
     () =>
-      specs.filter(spec => {
+      specs.filter((spec) => {
         return Object.values(WidgetTypes).includes(
-          spec.widget_type as WidgetTypes
+          spec.widget_type as WidgetTypes,
         )
       }),
-    [specs]
+    [specs],
   )
   const initialValues = useMemo(
     () => ({ widget_type: supportedSpecs[0]?.widget_type }),
-    [supportedSpecs]
+    [supportedSpecs],
   )
   const onSubmitType = useCallback(
     (values: AddWidgetFormValues) => {
       const spec = mustFindSpec(specs, values.widget_type)
       const widget: AnonymousWidget = {
-        id:            null,
-        title:         "New widget",
+        id: null,
+        title: "New widget",
         configuration: Object.fromEntries(
-          spec.form_spec.map(fieldSpec => [
+          spec.form_spec.map((fieldSpec) => [
             fieldSpec.field_name,
-            fieldSpec.default
-          ])
+            fieldSpec.default,
+          ]),
         ),
-        widget_type: spec.widget_type
+        widget_type: spec.widget_type,
       }
       onSubmit(widget)
     },
-    [specs, onSubmit]
+    [specs, onSubmit],
   )
   return (
     <>
@@ -284,7 +284,7 @@ const DialogContentAdding: React.FC<WidgetAddingProps> = ({
               >
                 {({ field }: FieldProps) => (
                   <RadioGroup {...field}>
-                    {supportedSpecs.map(spec => (
+                    {supportedSpecs.map((spec) => (
                       <FormControlLabel
                         key={spec.widget_type}
                         value={spec.widget_type}
@@ -312,7 +312,7 @@ const DialogContentAdding: React.FC<WidgetAddingProps> = ({
 }
 
 const mustFindSpec = (specs: WidgetSpec[], widgetType: string): WidgetSpec => {
-  const spec = specs.find(s => s.widget_type === widgetType)
+  const spec = specs.find((s) => s.widget_type === widgetType)
   if (!spec) {
     throw new Error(`Could not find spec for widget of type ${widgetType}`)
   }
@@ -329,7 +329,7 @@ const ManageWidgetDialog: React.FC<ManageWidgetDialogProps> = ({
   onSubmit,
   isOpen,
   onCancel,
-  classes
+  classes,
 }) => {
   const [widget, setWidget] = useState<AnonymousWidget | null>(null)
   const isNew = !initialWidget
@@ -337,11 +337,11 @@ const ManageWidgetDialog: React.FC<ManageWidgetDialogProps> = ({
     setWidget(initialWidget)
   }, [
     initialWidget,
-    isOpen // clear the editing widget whenever modal opens/closes
+    isOpen, // clear the editing widget whenever modal opens/closes
   ])
   const handlePickNewWidget: WidgetAddingProps["onSubmit"] = useCallback(
-    nascentWidget => setWidget(nascentWidget),
-    []
+    (nascentWidget) => setWidget(nascentWidget),
+    [],
   )
   return (
     <Dialog
@@ -383,5 +383,5 @@ export default ManageWidgetDialog
 export type {
   ManageWidgetDialogProps,
   WidgetSubmitHandler,
-  WidgetDialogClasses
+  WidgetDialogClasses,
 }

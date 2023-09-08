@@ -3,17 +3,17 @@ import moment from "moment"
 import { ResourceTypeEnum } from "api"
 
 const readableResourceTypes: Record<ResourceTypeEnum, string> = {
-  [ResourceTypeEnum.Course]:       "Course",
-  [ResourceTypeEnum.Program]:      "Program",
-  [ResourceTypeEnum.LearningPath]: "Learning Path"
+  [ResourceTypeEnum.Course]: "Course",
+  [ResourceTypeEnum.Program]: "Program",
+  [ResourceTypeEnum.LearningPath]: "Learning Path",
 }
 const getReadableResourceType = (
-  resource: Pick<LearningResource, "resource_type">
+  resource: Pick<LearningResource, "resource_type">,
 ): string => readableResourceTypes[resource.resource_type]
 
 const BLANK_THUMBNAIL = new URL(
   "/static/images/blank.png",
-  window.location.origin
+  window.location.origin,
 ).toString()
 
 type EmbedlyConfig = {
@@ -24,17 +24,17 @@ type EmbedlyConfig = {
 
 const embedlyThumbnail = (url: string, { key, width, height }: EmbedlyConfig) =>
   `https://i.embed.ly/1/display/crop/?key=${key}&url=${encodeURIComponent(
-    url
+    url,
   )}&height=${height}&width=${width}&grow=true&animate=false&errorurl=${BLANK_THUMBNAIL}`
 
 const DEFAULT_RESOURCE_IMG = new URL(
   "/static/images/default_resource_thumb.jpg",
-  window.location.origin
+  window.location.origin,
 ).toString()
 
 const resourceThumbnailSrc = (
   resource: Pick<LearningResource, "image">,
-  config: EmbedlyConfig
+  config: EmbedlyConfig,
 ) => embedlyThumbnail(resource.image?.url ?? DEFAULT_RESOURCE_IMG, config)
 
 const DATE_FORMAT = "YYYY-MM-DD[T]HH:mm:ss[Z]"
@@ -53,7 +53,7 @@ const isCurrent = (run: LearningResourceRun) =>
  */
 const datesDescendingSort = (
   aString: string | null | undefined,
-  bString: string | null | undefined
+  bString: string | null | undefined,
 ) => {
   const a = asMoment(aString)
   const b = asMoment(bString)
@@ -70,21 +70,23 @@ const datesDescendingSort = (
  * Find "best" running: prefer current, then nearest future, then nearest past.
  */
 const findBestRun = (
-  runs: LearningResourceRun[]
+  runs: LearningResourceRun[],
 ): LearningResourceRun | undefined => {
   const sorted = runs.sort((a, b) =>
-    datesDescendingSort(a.start_date, b.start_date)
+    datesDescendingSort(a.start_date, b.start_date),
   )
 
   const current = sorted.find(isCurrent)
   if (current) return current
 
   // Closest to now will be last in the sorted array
-  const future = sorted.filter(run => asMoment(run.start_date).isSameOrAfter())
+  const future = sorted.filter((run) =>
+    asMoment(run.start_date).isSameOrAfter(),
+  )
   if (future.length > 0) return future[future.length - 1]
 
   // Closest to now will be first in the sorted array
-  const past = sorted.filter(run => asMoment(run.start_date).isBefore())
+  const past = sorted.filter((run) => asMoment(run.start_date).isBefore())
   return past[0] ?? sorted[0]
 }
 

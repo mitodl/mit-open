@@ -33,14 +33,14 @@ class HasLearningPathPermissions(BasePermission):
     Permission to view/create/modify LearningPaths
     """
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view):  # noqa: ARG002
         return (
             is_readonly(request)
             or is_admin_user(request)
             or is_learning_path_editor(request)
         )
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):  # noqa: ARG002
         can_edit = is_learning_path_editor(request) or is_admin_user(request)
         if request.method in SAFE_METHODS:
             return obj.published or can_edit
@@ -62,7 +62,7 @@ class HasLearningPathItemPermissions(BasePermission):
             return learning_path.learning_resource.published or can_edit
         return can_edit
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):  # noqa: ARG002
         can_edit = is_learning_path_editor(request) or is_admin_user(request)
         if request.method in SAFE_METHODS:
             return obj.parent.published or can_edit

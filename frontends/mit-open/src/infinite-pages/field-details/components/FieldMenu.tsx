@@ -10,7 +10,7 @@ type SettingsMenuProps = {
   field: FieldChannel
 }
 
-const FieldMenu: React.FC<SettingsMenuProps> = props => {
+const FieldMenu: React.FC<SettingsMenuProps> = (props) => {
   const { field } = props
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)

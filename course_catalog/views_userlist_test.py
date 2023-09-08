@@ -19,7 +19,7 @@ from open_discussions.factories import UserFactory
 
 @pytest.fixture()
 def mock_user_list_index(mocker):
-    """Mocks index updating functions for user lists"""
+    """Mocks index updating functions for user lists"""  # noqa: D401
     return SimpleNamespace(
         upsert_user_list=mocker.patch("course_catalog.serializers.upsert_user_list"),
         upsert_user_list_view=mocker.patch("course_catalog.views.upsert_user_list"),
@@ -94,7 +94,7 @@ def test_user_list_endpoint_get_all_public_lists(user_client):
 @pytest.mark.parametrize("is_staff", [True, False])
 @pytest.mark.parametrize("is_super", [True, False])
 @pytest.mark.parametrize("is_anonymous", [True, False])
-def test_user_list_endpoint_create(  # pylint: disable=too-many-arguments
+def test_user_list_endpoint_create(  # pylint: disable=too-many-arguments  # noqa: PLR0913
     client,
     is_anonymous,
     mock_user_list_index,

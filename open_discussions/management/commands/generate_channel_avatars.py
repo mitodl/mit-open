@@ -1,5 +1,6 @@
 """Command to generate the channel avatar SVGs"""
 import os
+
 from django.core.management.base import BaseCommand
 
 TEMPLATE = """
@@ -12,7 +13,7 @@ TEMPLATE = """
     </defs>
     <rect width="90" height="90" y="0" x="0" fill="url(#gradient)"/>
 </svg>
-"""
+"""  # noqa: E501
 
 COLORS = [
     ["#61BB3A", "#02A0C6"],
@@ -28,12 +29,14 @@ DIRECTORY = "static/images/channel_avatars"
 class Command(BaseCommand):
     """Command to generate the channel avatar SVGs"""
 
-    help = "Command to generate the channel avatar SVGs"
+    help = "Command to generate the channel avatar SVGs"  # noqa: A003
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         # get a list of the colors plus the reverse gradient of each
         all_colors = COLORS + list(map(reversed, COLORS))
-        os.makedirs(DIRECTORY, exist_ok=True)
+        os.makedirs(DIRECTORY, exist_ok=True)  # noqa: PTH103
         for idx, (top_color, bottom_color) in enumerate(all_colors):
-            with open(f"{DIRECTORY}/channel-avatar-{idx}.svg", "w") as f:
+            with open(  # noqa: PTH123
+                f"{DIRECTORY}/channel-avatar-{idx}.svg", "w"
+            ) as f:
                 f.write(TEMPLATE.format(top_color=top_color, bottom_color=bottom_color))

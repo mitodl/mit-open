@@ -1,13 +1,13 @@
 """tests for the livestream views"""
+import pytest
 from django.urls import reverse
 from rest_framework import status
-import pytest
 
 
 def test_get_upcoming_events(client, user, mocker, settings):
-    """test that things work normally"""
+    """Test that things work normally"""
     settings.LIVESTREAM_ACCOUNT_ID = 3_234_234
-    settings.LIVESTREAM_SECRET_KEY = "secret ^_^"
+    settings.LIVESTREAM_SECRET_KEY = "secret ^_^"  # noqa: S105
     client.force_login(user)
     ls_api_mock = mocker.Mock()
     ls_api_mock.configure_mock(
@@ -31,18 +31,18 @@ def test_get_upcoming_events(client, user, mocker, settings):
 
 
 @pytest.mark.parametrize(
-    "account_id,secret_key,should_get",
+    ("account_id", "secret_key", "should_get"),
     [
-        [13_241_234, "secret key", True],
-        [None, "secret key", False],
-        [13_241_234, None, False],
-        [None, None, False],
+        [13_241_234, "secret key", True],  # noqa: PT007
+        [None, "secret key", False],  # noqa: PT007
+        [13_241_234, None, False],  # noqa: PT007
+        [None, None, False],  # noqa: PT007
     ],
 )
-def test_get_events_no_vars(
+def test_get_events_no_vars(  # noqa: PLR0913
     client, user, mocker, settings, account_id, secret_key, should_get
 ):  # pylint: disable=too-many-arguments
-    """we should get a 503 if the settings aren't present"""
+    """We should get a 503 if the settings aren't present"""
     settings.LIVESTREAM_ACCOUNT_ID = account_id
     settings.LIVESTREAM_SECRET_KEY = secret_key
     client.force_login(user)

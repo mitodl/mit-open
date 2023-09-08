@@ -19,17 +19,17 @@ import { assertInstanceOf } from "../predicates"
  *  - https://mui.com/material-ui/react-use-media-query/#testing
  */
 const createMatchMediaForJsDom = (
-  values: Partial<mediaQuery.MediaValues>
+  values: Partial<mediaQuery.MediaValues>,
 ): ((query: string) => MediaQueryList) => {
   return (query: string) => ({
-    matches:             mediaQuery.match(query, values),
-    media:               query,
-    addListener:         jest.fn(),
-    removeListener:      jest.fn(),
-    addEventListener:    jest.fn(),
+    matches: mediaQuery.match(query, values),
+    media: query,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
-    onchange:            null,
-    dispatchEvent:       jest.fn()
+    onchange: null,
+    dispatchEvent: jest.fn(),
   })
 }
 
@@ -39,14 +39,14 @@ const createMatchMediaForJsDom = (
 const queryAllByTerm = (
   c: HTMLElement,
   term: string,
-  { exact = true } = {}
+  { exact = true } = {},
 ): HTMLElement[] => {
   const matches = within(c)
     .queryAllByRole("term")
-    .filter(el =>
-      exact ? el.textContent === term : el.textContent?.includes(term)
+    .filter((el) =>
+      exact ? el.textContent === term : el.textContent?.includes(term),
     )
-    .map(n => {
+    .map((n) => {
       // eslint-disable-next-line testing-library/no-node-access
       const dd = n.nextSibling
       if (dd instanceof HTMLElement && dd.tagName === "DD") return dd
@@ -87,7 +87,7 @@ const getDescriptionFor = (el: HTMLElement) => {
   const errId = el.getAttribute("aria-describedby")
   if (errId === null) {
     throw new Error(
-      "The specified element does not have an associated ariia-describedby."
+      "The specified element does not have an associated ariia-describedby.",
     )
   }
   // eslint-disable-next-line testing-library/no-node-access
@@ -118,6 +118,6 @@ export {
   findByTerm,
   getDescriptionFor,
   createMatchMediaForJsDom,
-  allowConsoleErrors
+  allowConsoleErrors,
 }
 export { default as ControlledPromise } from "./ControlledPromise"

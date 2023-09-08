@@ -8,8 +8,8 @@ import CloseIcon from "@mui/icons-material/Close"
 
 const closeSx: SxProps = {
   position: "absolute",
-  top:      "8px",
-  right:    "8px"
+  top: "8px",
+  right: "8px",
 }
 
 type ChildParams<K extends string, R extends K> = Record<K, string | null> &
@@ -38,18 +38,18 @@ type RoutedDrawerProps<K extends string, R extends K> = {
  *     animations are finished.
  */
 const RoutedDrawer = <K extends string, R extends K>(
-  props: RoutedDrawerProps<K, R>
+  props: RoutedDrawerProps<K, R>,
 ) => {
   const { params, requiredParams, children, ...others } = props
   const [searchParams, setSearchParams] = useSearchParams()
   const looseChildParams = useMemo(() => {
     return Object.fromEntries(
-      params.map(name => [name, searchParams.get(name)] as const)
+      params.map((name) => [name, searchParams.get(name)] as const),
     ) as Record<K, string | null>
   }, [searchParams, params])
   const [childParams, setChildParams] = useState<ChildParams<K, R> | null>()
   const requiredArePresent = requiredParams.every(
-    name => looseChildParams[name] !== null
+    (name) => looseChildParams[name] !== null,
   )
   useEffect(() => {
     if (requiredArePresent) {
@@ -59,7 +59,7 @@ const RoutedDrawer = <K extends string, R extends K>(
 
   const removeUrlParams = useCallback(() => {
     const newSearchParams = new URLSearchParams(searchParams)
-    props.params.forEach(param => {
+    props.params.forEach((param) => {
       newSearchParams.delete(param)
     })
     setSearchParams(newSearchParams)

@@ -15,22 +15,22 @@ import {
   CardMinimalResource,
   EmbedlyConfig,
   LearningResourceType,
-  TYPE_FAVORITES
+  TYPE_FAVORITES,
 } from "../interfaces"
 import {
   findBestRun,
   getReadableResourceType,
   getStartDate,
   resourceThumbnailSrc,
-  CertificateIcon
+  CertificateIcon,
 } from "../util"
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard<R extends CardMinimalResource = CardMinimalResource> = (
-  resource: R
+  resource: R,
 ) => void
 type LearningResourceCardTemplateProps<
-  R extends CardMinimalResource = CardMinimalResource
+  R extends CardMinimalResource = CardMinimalResource,
 > = {
   /**
    * Whether the course picture and info display as a column or row.
@@ -93,7 +93,7 @@ const ResourceFooterDetails: React.FC<
     LearningResourceType.LearningPath,
     LearningResourceType.StaffList,
     LearningResourceType.StaffPath,
-    TYPE_FAVORITES
+    TYPE_FAVORITES,
   ].includes(resource.object_type)
   if (isList && resource.item_count !== undefined) {
     return (
@@ -107,9 +107,9 @@ const ResourceFooterDetails: React.FC<
   const hasCertificate =
     resource.certification && resource.certification.length > 0
   const startDate =
-    hasCertificate && bestAvailableRun ?
-      getStartDate(resource.platform ?? "", bestAvailableRun) :
-      null
+    hasCertificate && bestAvailableRun
+      ? getStartDate(resource.platform ?? "", bestAvailableRun)
+      : null
   if (startDate) {
     return (
       <Chip
@@ -131,13 +131,13 @@ const LRCImage: React.FC<LRCImageProps> = ({
   resource,
   imgConfig,
   suppressImage,
-  variant
+  variant,
 }) => {
   if (suppressImage) return null
   const dims =
-    variant === "column" ?
-      { height: imgConfig.height } :
-      { width: imgConfig.width, height: imgConfig.height }
+    variant === "column"
+      ? { height: imgConfig.height }
+      : { width: imgConfig.width, height: imgConfig.height }
   return (
     <CardMedia
       component="img"
@@ -150,9 +150,9 @@ const LRCImage: React.FC<LRCImageProps> = ({
 }
 
 const variantClasses: Record<CardVariant, string> = {
-  column:        "ol-lrc-col",
-  row:           "ol-lrc-row",
-  "row-reverse": "ol-lrc-row-reverse"
+  column: "ol-lrc-col",
+  row: "ol-lrc-row",
+  "row-reverse": "ol-lrc-row-reverse",
 }
 
 /**
@@ -171,18 +171,18 @@ const LearningResourceCardTemplate = <R extends CardMinimalResource>({
   suppressImage = false,
   onActivate,
   footerActionSlot,
-  sortable
+  sortable,
 }: LearningResourceCardTemplateProps<R>) => {
   const hasCertificate =
     resource.certification && resource.certification.length > 0
   const handleActivate = useCallback(
     () => onActivate?.(resource),
-    [resource, onActivate]
+    [resource, onActivate],
   )
 
   invariant(
     !sortable || variant === "row-reverse",
-    "sortable only supported for variant='row-reverse'"
+    "sortable only supported for variant='row-reverse'",
   )
 
   return (
@@ -197,7 +197,7 @@ const LearningResourceCardTemplate = <R extends CardMinimalResource>({
       ) : null}
       <CardContent
         className={classNames("ol-lrc-content", variantClasses[variant], {
-          "ol-lrc-sortable": sortable
+          "ol-lrc-sortable": sortable,
         })}
       >
         {variant !== "column" ? (
@@ -256,5 +256,5 @@ export type {
   LearningResourceCardTemplateProps,
   CardMinimalResource,
   CardVariant,
-  OnActivateCard
+  OnActivateCard,
 }

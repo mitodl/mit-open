@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("course_catalog", "0013_increases_max_length_for_semester_20190117_1627")
     ]

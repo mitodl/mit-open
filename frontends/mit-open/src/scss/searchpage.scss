@@ -14,7 +14,6 @@ $results-spacer: 1rem;
   }
 }
 
-
 .filterable-facet {
   .input-wrapper {
     position: relative;
@@ -113,7 +112,6 @@ $results-spacer: 1rem;
         cursor: pointer;
         margin-bottom: 0;
       }
-
     }
 
     .facet-key {
@@ -148,11 +146,11 @@ $results-spacer: 1rem;
     justify-content: flex-end;
 
     i {
-      font-size: 2rem
+      font-size: 2rem;
     }
   }
 
-  .search-filter-contents { 
+  .search-filter-contents {
     padding: 0 20px;
 
     > button {
@@ -203,8 +201,8 @@ $results-spacer: 1rem;
   .MuiButton-endIcon svg {
     font-size: 2rem;
   }
-} 
+}
 
-.search-page-banner header{
+.search-page-banner header {
   min-height: 150px;
 }

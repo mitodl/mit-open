@@ -6,7 +6,7 @@ import FormDialog, { FormDialogProps } from "./FormDialog"
 import { ControlledPromise } from "ol-util/test-utils"
 
 const setup = (props?: Partial<FormDialogProps>) => {
-  const onSubmit = jest.fn(e => {
+  const onSubmit = jest.fn((e) => {
     e.persist() // because of React 16 event pooling
     e.preventDefault() // JSDom does not implement HTMLFormElement.prototype.requestSubmit
   })
@@ -16,9 +16,9 @@ const setup = (props?: Partial<FormDialogProps>) => {
     onSubmit,
     onReset,
     onClose,
-    open:     true,
-    title:    "Test Form",
-    children: <div>Test Content</div>
+    open: true,
+    title: "Test Form",
+    children: <div>Test Content</div>,
   }
   const view = render(<FormDialog {...defaultProps} {...props} />)
   const rerender = (props: Partial<FormDialogProps>) =>
@@ -29,7 +29,7 @@ const setup = (props?: Partial<FormDialogProps>) => {
 test("It renders form content", () => {
   const testId = faker.lorem.slug()
   setup({
-    children: <div data-testid={testId}>Test form content</div>
+    children: <div data-testid={testId}>Test form content</div>,
   })
   screen.getByTestId(testId)
 })
@@ -39,19 +39,19 @@ test("It calls submit when pressing submit", async () => {
   expect(onSubmit).not.toHaveBeenCalled()
   await user.click(screen.getByRole("button", { name: "Save" }))
   expect(onSubmit).toHaveBeenCalledWith(
-    expect.objectContaining({ type: "submit" })
+    expect.objectContaining({ type: "submit" }),
   )
 })
 
 test.each([
   {
-    desc:      "'Cancel' button",
-    getButton: () => screen.getByRole("button", { name: "Cancel" })
+    desc: "'Cancel' button",
+    getButton: () => screen.getByRole("button", { name: "Cancel" }),
   },
   {
-    desc:      "'X' button",
-    getButton: () => screen.getByRole("button", { name: "Close" })
-  }
+    desc: "'X' button",
+    getButton: () => screen.getByRole("button", { name: "Close" }),
+  },
 ])("It calls onClose when pressing $desc", async ({ getButton }) => {
   const { onSubmit, onClose } = setup()
 
@@ -99,33 +99,33 @@ test("The submit button is disabled while submitting", async () => {
 test.each([
   {
     submitButtonContent: undefined,
-    expected:            "Save"
+    expected: "Save",
   },
   {
     submitButtonContent: "Yes, save!",
-    expected:            "Yes, save!"
-  }
+    expected: "Yes, save!",
+  },
 ])(
   "The 'Save' button text is customizable",
   ({ submitButtonContent, expected }) => {
     setup({ submitButtonContent })
     screen.getByRole("button", { name: expected })
-  }
+  },
 )
 
 test.each([
   {
     submitButtonContent: undefined,
-    expected:            "Cancel"
+    expected: "Cancel",
   },
   {
     submitButtonContent: "No, cancel!",
-    expected:            "No, cancel!"
-  }
+    expected: "No, cancel!",
+  },
 ])(
   "The 'Cancel' button text is customizable",
   ({ submitButtonContent, expected }) => {
     setup({ submitButtonContent })
     screen.getByRole("button", { name: expected })
-  }
+  },
 )

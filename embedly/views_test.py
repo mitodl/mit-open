@@ -5,7 +5,7 @@ from rest_framework import status
 
 
 def test_get_embedly(client, user, mocker, settings):
-    """test the happy path"""
+    """Test the happy path"""
     settings.EMBEDLY_KEY = "a great key"
     client.force_login(user)
     external_url = "https%253A%252F%252Fen.wikipedia.org%252Fwiki%252FGiant_panda/"
@@ -25,7 +25,7 @@ def test_get_embedly(client, user, mocker, settings):
 
 
 def test_get_embedly_no_key(client, user, settings):
-    """test that we return a 503 if EMBEDLY_KEY is not set"""
+    """Test that we return a 503 if EMBEDLY_KEY is not set"""
     settings.EMBEDLY_KEY = None
     client.force_login(user)
     embedly_url = reverse(
@@ -40,7 +40,7 @@ def test_get_embedly_no_key(client, user, settings):
 
 
 def test_get_embedly_anon(client, mocker, settings):
-    """test that an anonymous user can get embedly"""
+    """Test that an anonymous user can get embedly"""
     settings.EMBEDLY_KEY = "a great key"
     embedly_url = reverse(
         "embedly-detail",

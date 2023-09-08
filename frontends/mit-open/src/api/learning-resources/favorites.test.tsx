@@ -14,7 +14,7 @@ jest.mock("./util", () => {
   const actual = jest.requireActual("./util")
   return {
     ...actual,
-    invalidateResourceQueries: jest.fn(actual.invalidateResourceQueries)
+    invalidateResourceQueries: jest.fn(actual.invalidateResourceQueries),
   }
 })
 
@@ -22,9 +22,9 @@ const setup = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false
-      }
-    }
+        retry: false,
+      },
+    },
   })
 
   const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -33,9 +33,9 @@ const setup = () => {
 
   const spies = {
     queryClient: {
-      invalidateQueries: jest.spyOn(queryClient, "invalidateQueries")
+      invalidateQueries: jest.spyOn(queryClient, "invalidateQueries"),
     },
-    invalidateResourceQueries: jest.mocked(invalidateResourceQueries)
+    invalidateResourceQueries: jest.mocked(invalidateResourceQueries),
   }
 
   return { wrapper, spies, queryClient }
@@ -44,14 +44,14 @@ const setup = () => {
 describe.each([
   {
     wasFavorite: false,
-    useHook:     useFavorite,
-    favUrl:      urls.resource.favorite
+    useHook: useFavorite,
+    favUrl: urls.resource.favorite,
   },
   {
     wasFavorite: true,
-    useHook:     useUnfavorite,
-    favUrl:      urls.resource.unfavorite
-  }
+    useHook: useUnfavorite,
+    favUrl: urls.resource.unfavorite,
+  },
 ])("$useHook.name", ({ useHook, favUrl, wasFavorite }) => {
   it("Invalidates resource queries", async () => {
     const { wrapper } = setup()
@@ -66,7 +66,7 @@ describe.each([
 
     expect(invalidateResourceQueries).toHaveBeenCalledWith(
       expect.anything(),
-      resource
+      resource,
     )
   })
 
@@ -80,7 +80,7 @@ describe.each([
     const expected = clone(searchResults)
     expected.hits.hits[i]._source = {
       ...resource,
-      is_favorite: !wasFavorite
+      is_favorite: !wasFavorite,
     }
 
     const useTestHook = () => {
@@ -97,7 +97,7 @@ describe.each([
     setMockResponse.post(favUrl(resource.object_type, resource.id), resource)
     await result.current.mutation.mutateAsync(
       // @ts-expect-error searchResource is not a LearningResource but it is close enough
-      resource
+      resource,
     )
 
     await waitFor(() => {

@@ -7,7 +7,7 @@ import { useHistory, useLocation } from "react-router"
  */
 const useSearchParams = (): [
   URLSearchParams,
-  (newSearchParams: URLSearchParams) => void
+  (newSearchParams: URLSearchParams) => void,
 ] => {
   const history = useHistory()
   /**
@@ -21,7 +21,7 @@ const useSearchParams = (): [
     (newParams: URLSearchParams) => {
       history.replace({ search: newParams.toString() })
     },
-    [history]
+    [history],
   )
   return [searchParams, setSearchParams]
 }

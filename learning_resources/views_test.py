@@ -1,4 +1,4 @@
-""" Test for learning_resources views"""
+"""Test for learning_resources views"""
 import pytest
 from rest_framework.reverse import reverse
 
@@ -15,10 +15,10 @@ pytestmark = [pytest.mark.django_db]
 
 
 @pytest.mark.parametrize(
-    "url, params",
+    ("url", "params"),
     [
-        ["lr_courses_api-list", ""],
-        ["learning_resources_api-list", "resource_type=course"],
+        ["lr_courses_api-list", ""],  # noqa: PT007
+        ["learning_resources_api-list", "resource_type=course"],  # noqa: PT007
     ],
 )
 def test_list_course_endpoint(client, url, params):
@@ -48,10 +48,10 @@ def test_get_course_endpoint(client, url):
 
 
 @pytest.mark.parametrize(
-    "url, params",
+    ("url", "params"),
     [
-        ["lr_courses_api-list", ""],
-        ["learning_resources_api-list", "resource_type=course"],
+        ["lr_courses_api-list", ""],  # noqa: PT007
+        ["learning_resources_api-list", "resource_type=course"],  # noqa: PT007
     ],
 )
 def test_new_courses_endpoint(client, url, params):
@@ -69,10 +69,10 @@ def test_new_courses_endpoint(client, url, params):
 
 
 @pytest.mark.parametrize(
-    "url, params",
+    ("url", "params"),
     [
-        ["lr_courses_api-list", ""],
-        ["learning_resources_api-list", "resource_type=course"],
+        ["lr_courses_api-list", ""],  # noqa: PT007
+        ["learning_resources_api-list", "resource_type=course"],  # noqa: PT007
     ],
 )
 def test_upcoming_courses_endpoint(client, url, params):
@@ -97,10 +97,10 @@ def test_upcoming_courses_endpoint(client, url, params):
 
 
 @pytest.mark.parametrize(
-    "url, params",
+    ("url", "params"),
     [
-        ["lr_programs_api-list", ""],
-        ["learning_resources_api-list", "resource_type=program"],
+        ["lr_programs_api-list", ""],  # noqa: PT007
+        ["learning_resources_api-list", "resource_type=program"],  # noqa: PT007
     ],
 )
 def test_program_endpoint(client, url, params):

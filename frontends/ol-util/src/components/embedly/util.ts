@@ -19,12 +19,12 @@ enum EmbedlyEventTypes {
    * Custom event emitted when embedly creates a card. The event target is the
    * card's iframe.
    */
-  CardCreated = "embedly:card.created"
+  CardCreated = "embedly:card.created",
 }
 
 const dispatchCardCreated = (iframe: HTMLIFrameElement) => {
   const event = new CustomEvent(EmbedlyEventTypes.CardCreated, {
-    bubbles: true
+    bubbles: true,
   })
   iframe.dispatchEvent(event)
 }
@@ -48,8 +48,8 @@ const ensureEmbedlyPlatform = () => {
     const tagName = "script"
     w.embedly =
       w.embedly ||
-      function(...args) {
-        (w.embedly.q = w.embedly.q || []).push(args)
+      function (...args) {
+        ;(w.embedly.q = w.embedly.q || []).push(args)
       }
     const el = document.createElement(tagName)
     el.id = id
@@ -105,5 +105,5 @@ export {
   getEmbedlyKey,
   EmbedlyEventTypes,
   dispatchCardCreated,
-  embedlyCardHtml
+  embedlyCardHtml,
 }

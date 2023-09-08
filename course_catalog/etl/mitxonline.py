@@ -2,16 +2,15 @@
 import copy
 import logging
 import re
-from datetime import datetime
-from dateutil.parser import parse
 from urllib.parse import urljoin
 
 import pytz
 import requests
+from dateutil.parser import parse
 from django.conf import settings
 
 from course_catalog.constants import OfferedBy, PlatformType
-from course_catalog.etl.utils import transform_topics, extract_valid_department_from_id
+from course_catalog.etl.utils import extract_valid_department_from_id, transform_topics
 
 log = logging.getLogger(__name__)
 
@@ -30,11 +29,13 @@ def _parse_datetime(value):
 
     Returns:
         datetime: the parsed datetime
-    """
+    """  # noqa: D401
     return parse(value).replace(tzinfo=pytz.utc) if value else None
 
 
-def parse_page_attribute(mitx_json, attribute, is_url=False, is_list=False):
+def parse_page_attribute(
+    mitx_json, attribute, is_url=False, is_list=False  # noqa: FBT002
+):  # noqa: FBT002, RUF100
     """
     Extracts an MITX Online page attribute
 
@@ -46,7 +47,7 @@ def parse_page_attribute(mitx_json, attribute, is_url=False, is_list=False):
 
     Returns:
         str or list or None: The attribute value
-    """
+    """  # noqa: D401
     default_value = [] if is_list else None
     page = mitx_json.get("page", {}) or {}
     attribute = page.get(attribute, default_value)
@@ -58,16 +59,16 @@ def parse_page_attribute(mitx_json, attribute, is_url=False, is_list=False):
 
 
 def extract_programs():
-    """Loads the MITx Online catalog data"""
+    """Loads the MITx Online catalog data"""  # noqa: D401
     if settings.MITX_ONLINE_PROGRAMS_API_URL:
-        return requests.get(settings.MITX_ONLINE_PROGRAMS_API_URL).json()
+        return requests.get(settings.MITX_ONLINE_PROGRAMS_API_URL).json()  # noqa: S113
     return []
 
 
 def extract_courses():
-    """Loads the MITx Online catalog data"""
+    """Loads the MITx Online catalog data"""  # noqa: D401
     if settings.MITX_ONLINE_COURSES_API_URL:
-        return requests.get(settings.MITX_ONLINE_COURSES_API_URL).json()
+        return requests.get(settings.MITX_ONLINE_COURSES_API_URL).json()  # noqa: S113
     return []
 
 
@@ -80,7 +81,7 @@ def _transform_run(course_run):
 
     Returns:
         dict: normalized course run data
-    """
+    """  # noqa: D401
     return {
         "title": course_run["title"],
         "run_id": course_run["courseware_id"],
@@ -121,7 +122,7 @@ def _transform_course(course):
 
     Returns:
         dict: normalized course data
-    """
+    """  # noqa: D401
     return {
         "course_id": course["readable_id"],
         "platform": PlatformType.mitxonline.value,
@@ -148,7 +149,7 @@ def transform_courses(courses):
 
     Returns:
         list of dict: normalized courses data
-    """
+    """  # noqa: D401
     return [
         _transform_course(course)
         for course in courses
@@ -187,7 +188,7 @@ def transform_programs(programs):
                     "title": program["title"],
                     "published": bool(
                         parse_page_attribute(program, "page_url")
-                    ),  # a program is only considered published if it has a product/price
+                    ),  # a program is only considered published if it has a product/price  # noqa: E501
                     "url": parse_page_attribute(program, "page_url", is_url=True),
                     "image_src": parse_page_attribute(
                         program, "feature_image_src", is_url=True

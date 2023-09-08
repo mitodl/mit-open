@@ -8,7 +8,7 @@ from course_catalog.utils import get_course_url
 def populate_urls(apps, schema_editor):
     """
     Calculates url's for courses
-    """
+    """  # noqa: D401
     Course = apps.get_model("course_catalog", "Course")
     for course in Course.objects.iterator():
         course.url = get_course_url(course.course_id, course.raw_json, course.platform)
@@ -16,7 +16,6 @@ def populate_urls(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0018_changes_is_resource_field_20190131_2152")]
 
     operations = [

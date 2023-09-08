@@ -5,7 +5,7 @@ import {
   useCourseSearch,
   buildSearchQuery,
   SearchQueryParams,
-  Aggregation
+  Aggregation,
 } from "@mitodl/course-search-utils"
 import { LearningResourceSearchResult, SearchInput } from "ol-search-ui"
 import { LoadingSpinner } from "ol-util"
@@ -39,19 +39,19 @@ const search = async (params: SearchQueryParams, type: string) => {
 
   if (type === "course") {
     body["collapse"] = {
-      field:      "platform",
+      field: "platform",
       inner_hits: {
         name: "top_by_category",
-        size: categoryLimit
-      }
+        size: categoryLimit,
+      },
     }
   } else {
     body["collapse"] = {
-      field:      "offered_by",
+      field: "offered_by",
       inner_hits: {
         name: "top_by_category",
-        size: categoryLimit
-      }
+        size: categoryLimit,
+      },
     }
   }
 
@@ -66,7 +66,7 @@ const search = async (params: SearchQueryParams, type: string) => {
 const extractNestedResults = (results: ResultWithInnerHits[]) => {
   return results
     .flatMap(
-      categoryResults => categoryResults.inner_hits.top_by_category.hits.hits
+      (categoryResults) => categoryResults.inner_hits.top_by_category.hits.hits,
     )
     .sort((result1, result2) => result2._score - result1._score)
     .slice(0, pageSize)
@@ -79,7 +79,7 @@ type ResultsListProps = {
 const ResultsList: React.FC<ResultsListProps> = ({ results }) => {
   return (
     <ul>
-      {results.map(hit => (
+      {results.map((hit) => (
         <li
           className="resource-result"
           key={hit._source.object_type.concat(hit._source.id.toString())}
@@ -134,28 +134,28 @@ const DemoPage: React.FC = () => {
             text,
             from,
             activeFacets: courseFilter,
-            size:         pageSize
+            size: pageSize,
           },
-          "course"
+          "course",
         ),
         search(
           {
             text,
             from,
             activeFacets: videoFilter,
-            size:         pageSize
+            size: pageSize,
           },
-          "video"
+          "video",
         ),
         search(
           {
             text,
             from,
             activeFacets: podcastFilter,
-            size:         pageSize
+            size: pageSize,
           },
-          "podcast"
-        )
+          "podcast",
+        ),
       ]
 
       const [newCourseResults, newVideoResults, newPodcastResults] =
@@ -192,7 +192,7 @@ const DemoPage: React.FC = () => {
     new Map<string, Aggregation>(),
     completedInitialLoad && !requestInFlight,
     pageSize,
-    history
+    history,
   )
 
   return (
@@ -226,50 +226,50 @@ const DemoPage: React.FC = () => {
           courseResults.length === 0 &&
           videoResults.length === 0 &&
           podcastResults.length === 0 ? (
-              <div>
-                <div className="button-container">
-                  <Button
-                    data-az-l="8c48a94d-2e0b-4a17-aa0e-2aa0cd910974"
-                    className="feedback-button"
-                    variant="outlined"
-                  >
+            <div>
+              <div className="button-container">
+                <Button
+                  data-az-l="8c48a94d-2e0b-4a17-aa0e-2aa0cd910974"
+                  className="feedback-button"
+                  variant="outlined"
+                >
                   Feedback?
-                  </Button>
-                </div>
-                <div className="no-results">No results found for your query</div>
+                </Button>
               </div>
-            ) : (
-              <div className="results-div">
-                <div className="button-container">
-                  <Button
-                    data-az-l="8c48a94d-2e0b-4a17-aa0e-2aa0cd910974"
-                    className="feedback-button"
-                    variant="outlined"
-                  >
+              <div className="no-results">No results found for your query</div>
+            </div>
+          ) : (
+            <div className="results-div">
+              <div className="button-container">
+                <Button
+                  data-az-l="8c48a94d-2e0b-4a17-aa0e-2aa0cd910974"
+                  className="feedback-button"
+                  variant="outlined"
+                >
                   Feedback?
-                  </Button>
-                </div>
+                </Button>
+              </div>
 
-                {courseResults.length > 0 ? (
-                  <div>
-                    <h2>Courses</h2>
-                    <ResultsList results={courseResults} />
-                  </div>
-                ) : null}
-                {videoResults.length > 0 ? (
-                  <div>
-                    <h2>Videos</h2>
-                    <ResultsList results={videoResults} />
-                  </div>
-                ) : null}
-                {podcastResults.length > 0 ? (
-                  <div>
-                    <h2>Podcasts</h2>
-                    <ResultsList results={podcastResults} />
-                  </div>
-                ) : null}
-              </div>
-            )
+              {courseResults.length > 0 ? (
+                <div>
+                  <h2>Courses</h2>
+                  <ResultsList results={courseResults} />
+                </div>
+              ) : null}
+              {videoResults.length > 0 ? (
+                <div>
+                  <h2>Videos</h2>
+                  <ResultsList results={videoResults} />
+                </div>
+              ) : null}
+              {podcastResults.length > 0 ? (
+                <div>
+                  <h2>Podcasts</h2>
+                  <ResultsList results={podcastResults} />
+                </div>
+              ) : null}
+            </div>
+          )
         ) : text ? (
           <LoadingSpinner loading={requestInFlight} />
         ) : null}

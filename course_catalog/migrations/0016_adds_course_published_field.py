@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("course_catalog", "0015_increases_image_src_max_length_20190129_1812")
     ]

@@ -27,8 +27,8 @@ from open_discussions.envs import (
     get_string,
 )
 from open_discussions.sentry import init_sentry
-from open_discussions.settings_celery import *
-from open_discussions.settings_course_etl import *
+from open_discussions.settings_celery import *  # noqa: F403
+from open_discussions.settings_course_etl import *  # noqa: F403
 from open_discussions.settings_spectacular import open_spectacular_settings
 
 VERSION = "0.223.0"
@@ -45,7 +45,9 @@ init_sentry(
     dsn=SENTRY_DSN, environment=ENVIRONMENT, version=VERSION, log_level=SENTRY_LOG_LEVEL
 )
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(  # noqa: PTH120
+    os.path.dirname(os.path.abspath(__file__))  # noqa: PTH100, PTH120
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -54,23 +56,26 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = get_string("SECRET_KEY", "terribly_unsafe_default_secret_key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_bool("DEBUG", False)
+DEBUG = get_bool("DEBUG", False)  # noqa: FBT003
 
 ALLOWED_HOSTS = ["*"]
 
-SECURE_SSL_REDIRECT = get_bool("MITOPEN_SECURE_SSL_REDIRECT", True)
+SECURE_SSL_REDIRECT = get_bool("MITOPEN_SECURE_SSL_REDIRECT", True)  # noqa: FBT003
 
 SITE_ID = 1
 SITE_BASE_URL = get_string("MITOPEN_BASE_URL", None)
 if not SITE_BASE_URL:
-    raise ImproperlyConfigured("MITOPEN_BASE_URL is not set")
+    msg = "MITOPEN_BASE_URL is not set"
+    raise ImproperlyConfigured(msg)
 MITOPEN_TITLE = get_string("MITOPEN_TITLE", "MIT Open")
 
 WEBPACK_LOADER = {
     "DEFAULT": {
         "CACHE": not DEBUG,
         "BUNDLE_DIR_NAME": "mit-open/",
-        "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats/mit-open.json"),
+        "STATS_FILE": os.path.join(  # noqa: PTH118
+            BASE_DIR, "webpack-stats/mit-open.json"
+        ),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,
         "IGNORE": [r".+\.hot-update\.+", r".+\.js\.map"],
@@ -180,15 +185,16 @@ WSGI_APPLICATION = "open_discussions.wsgi.application"
 # https://github.com/kennethreitz/dj-database-url
 DEFAULT_DATABASE_CONFIG = dj_database_url.parse(
     get_string(
-        "DATABASE_URL", "sqlite:///{0}".format(os.path.join(BASE_DIR, "db.sqlite3"))
+        "DATABASE_URL",
+        "sqlite:///{}".format(os.path.join(BASE_DIR, "db.sqlite3")),  # noqa: PTH118
     )
 )
 DEFAULT_DATABASE_CONFIG["DISABLE_SERVER_SIDE_CURSORS"] = get_bool(
-    "MITOPEN_DB_DISABLE_SS_CURSORS", True
+    "MITOPEN_DB_DISABLE_SS_CURSORS", True  # noqa: FBT003
 )
 DEFAULT_DATABASE_CONFIG["CONN_MAX_AGE"] = get_int("MITOPEN_DB_CONN_MAX_AGE", 0)
 
-if get_bool("MITOPEN_DB_DISABLE_SSL", False):
+if get_bool("MITOPEN_DB_DISABLE_SSL", False):  # noqa: FBT003
     DEFAULT_DATABASE_CONFIG["OPTIONS"] = {}
 else:
     DEFAULT_DATABASE_CONFIG["OPTIONS"] = {"sslmode": "require"}
@@ -237,7 +243,7 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.auth_allowed",
     # Checks if the current social-account is already associated in the site.
     "social_core.pipeline.social_auth.social_user",
-    # Associates the current social details with another user account with the same email address.
+    # Associates the current social details with another user account with the same email address.  # noqa: E501
     "social_core.pipeline.social_auth.associate_by_email",
     # Send a validation email to the user to verify its email address.
     # Disabled by default.
@@ -295,16 +301,14 @@ AUTHORIZATION_URL = get_string(
 STATIC_URL = "/static/"
 CLOUDFRONT_DIST = get_string("CLOUDFRONT_DIST", None)
 if CLOUDFRONT_DIST:
-    STATIC_URL = urljoin(
-        "https://{dist}.cloudfront.net".format(dist=CLOUDFRONT_DIST), STATIC_URL
-    )
+    STATIC_URL = urljoin(f"https://{CLOUDFRONT_DIST}.cloudfront.net", STATIC_URL)
 
 STATIC_ROOT = "staticfiles"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # noqa: PTH118
 for name, path in [
-    ("mit-open", os.path.join(BASE_DIR, "frontends/mit-open/build")),
+    ("mit-open", os.path.join(BASE_DIR, "frontends/mit-open/build")),  # noqa: PTH118
 ]:
-    if os.path.exists(path):
+    if os.path.exists(path):  # noqa: PTH110
         STATICFILES_DIRS.append((name, path))
     else:
         log.warning("Static file directory was missing: %s", path)
@@ -320,16 +324,18 @@ EMAIL_HOST = get_string("MITOPEN_EMAIL_HOST", "localhost")
 EMAIL_PORT = get_int("MITOPEN_EMAIL_PORT", 25)
 EMAIL_HOST_USER = get_string("MITOPEN_EMAIL_USER", "")
 EMAIL_HOST_PASSWORD = get_string("MITOPEN_EMAIL_PASSWORD", "")
-EMAIL_USE_TLS = get_bool("MITOPEN_EMAIL_TLS", False)
+EMAIL_USE_TLS = get_bool("MITOPEN_EMAIL_TLS", False)  # noqa: FBT003
 EMAIL_SUPPORT = get_string("MITOPEN_SUPPORT_EMAIL", "support@example.com")
 DEFAULT_FROM_EMAIL = get_string("MITOPEN_FROM_EMAIL", "webmaster@localhost")
 
 MAILGUN_SENDER_DOMAIN = get_string("MAILGUN_SENDER_DOMAIN", None)
 if not MAILGUN_SENDER_DOMAIN:
-    raise ImproperlyConfigured("MAILGUN_SENDER_DOMAIN not set")
+    msg = "MAILGUN_SENDER_DOMAIN not set"
+    raise ImproperlyConfigured(msg)
 MAILGUN_KEY = get_string("MAILGUN_KEY", None)
 if not MAILGUN_KEY:
-    raise ImproperlyConfigured("MAILGUN_KEY not set")
+    msg = "MAILGUN_KEY not set"
+    raise ImproperlyConfigured(msg)
 MAILGUN_RECIPIENT_OVERRIDE = get_string("MAILGUN_RECIPIENT_OVERRIDE", None)
 MAILGUN_FROM_EMAIL = get_string("MAILGUN_FROM_EMAIL", "no-reply@example.com")
 MAILGUN_BCC_TO_EMAIL = get_string("MAILGUN_BCC_TO_EMAIL", None)
@@ -341,10 +347,7 @@ ANYMAIL = {
 
 # e-mail configurable admins
 ADMIN_EMAIL = get_string("MITOPEN_ADMIN_EMAIL", "")
-if ADMIN_EMAIL != "":
-    ADMINS = (("Admins", ADMIN_EMAIL),)
-else:
-    ADMINS = ()
+ADMINS = (("Admins", ADMIN_EMAIL),) if ADMIN_EMAIL != "" else ()
 
 # embed.ly configuration
 EMBEDLY_KEY = get_string("EMBEDLY_KEY", None)
@@ -380,8 +383,8 @@ LOGGING = {
             "format": (
                 "[%(asctime)s] %(levelname)s %(process)d [%(name)s] "
                 "%(filename)s:%(lineno)d - "
-                "[{hostname}] - %(message)s"
-            ).format(hostname=HOSTNAME),
+                f"[{HOSTNAME}] - %(message)s"
+            ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         }
     },
@@ -428,31 +431,28 @@ HEALTH_CHECK = ["CELERY", "REDIS", "POSTGRES", "OPEN_SEARCH"]
 GA_TRACKING_ID = get_string("GA_TRACKING_ID", "")
 GA_G_TRACKING_ID = get_string("GA_G_TRACKING_ID", "")
 
-REACT_GA_DEBUG = get_bool("REACT_GA_DEBUG", False)
+REACT_GA_DEBUG = get_bool("REACT_GA_DEBUG", False)  # noqa: FBT003
 
 RECAPTCHA_SITE_KEY = get_string("RECAPTCHA_SITE_KEY", "")
 RECAPTCHA_SECRET_KEY = get_string("RECAPTCHA_SECRET_KEY", "")
 
 MEDIA_ROOT = get_string("MEDIA_ROOT", "/var/media/")
 MEDIA_URL = "/media/"
-MITOPEN_USE_S3 = get_bool("MITOPEN_USE_S3", False)
-AWS_ACCESS_KEY_ID = get_string("AWS_ACCESS_KEY_ID", False)
-AWS_SECRET_ACCESS_KEY = get_string("AWS_SECRET_ACCESS_KEY", False)
-AWS_STORAGE_BUCKET_NAME = get_string("AWS_STORAGE_BUCKET_NAME", False)
-AWS_QUERYSTRING_AUTH = get_string("AWS_QUERYSTRING_AUTH", False)
+MITOPEN_USE_S3 = get_bool("MITOPEN_USE_S3", False)  # noqa: FBT003
+AWS_ACCESS_KEY_ID = get_string("AWS_ACCESS_KEY_ID", False)  # noqa: FBT003
+AWS_SECRET_ACCESS_KEY = get_string("AWS_SECRET_ACCESS_KEY", False)  # noqa: FBT003
+AWS_STORAGE_BUCKET_NAME = get_string("AWS_STORAGE_BUCKET_NAME", False)  # noqa: FBT003
+AWS_QUERYSTRING_AUTH = get_string("AWS_QUERYSTRING_AUTH", False)  # noqa: FBT003
 # Provide nice validation of the configuration
 if MITOPEN_USE_S3 and (
     not AWS_ACCESS_KEY_ID or not AWS_SECRET_ACCESS_KEY or not AWS_STORAGE_BUCKET_NAME
 ):
-    raise ImproperlyConfigured(
-        "You have enabled S3 support, but are missing one of "
-        "AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, or "
-        "AWS_STORAGE_BUCKET_NAME"
-    )
+    msg = "You have enabled S3 support, but are missing one of AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, or AWS_STORAGE_BUCKET_NAME"  # noqa: E501
+    raise ImproperlyConfigured(msg)
 if MITOPEN_USE_S3:
     # Configure Django Storages to use Cloudfront distribution for S3 assets
     if CLOUDFRONT_DIST:
-        AWS_S3_CUSTOM_DOMAIN = "{dist}.cloudfront.net".format(dist=CLOUDFRONT_DIST)
+        AWS_S3_CUSTOM_DOMAIN = f"{CLOUDFRONT_DIST}.cloudfront.net"
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     AWS_DEFAULT_ACL = "public-read"
 
@@ -472,7 +472,7 @@ CACHES = {
     },
     "redis": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": CELERY_BROKER_URL,
+        "LOCATION": CELERY_BROKER_URL,  # noqa: F405
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     },
 }
@@ -481,13 +481,15 @@ CACHES = {
 OPENSEARCH_DEFAULT_PAGE_SIZE = get_int("OPENSEARCH_DEFAULT_PAGE_SIZE", 6)
 OPENSEARCH_URL = get_string("OPENSEARCH_URL", None)
 if not OPENSEARCH_URL:
-    raise ImproperlyConfigured("Missing OPENSEARCH_URL")
+    msg = "Missing OPENSEARCH_URL"
+    raise ImproperlyConfigured(msg)
 if get_string("HEROKU_PARENT_APP_NAME", None) is not None:
     OPENSEARCH_INDEX = get_string("HEROKU_APP_NAME", None)
 else:
     OPENSEARCH_INDEX = get_string("OPENSEARCH_INDEX", None)
 if not OPENSEARCH_INDEX:
-    raise ImproperlyConfigured("Missing OPENSEARCH_INDEX")
+    msg = "Missing OPENSEARCH_INDEX"
+    raise ImproperlyConfigured(msg)
 OPENSEARCH_HTTP_AUTH = get_string("OPENSEARCH_HTTP_AUTH", None)
 OPENSEARCH_CONNECTIONS_PER_NODE = get_int("OPENSEARCH_CONNECTIONS_PER_NODE", 10)
 OPENSEARCH_DEFAULT_TIMEOUT = get_int("OPENSEARCH_DEFAULT_TIMEOUT", 10)
@@ -504,7 +506,8 @@ OPENSEARCH_REPLICA_COUNT = get_int("OPENSEARCH_REPLICA_COUNT", 2)
 OPENSEARCH_MAX_REQUEST_SIZE = get_int("OPENSEARCH_MAX_REQUEST_SIZE", 10485760)
 INDEXING_API_USERNAME = get_string("INDEXING_API_USERNAME", None)
 if not INDEXING_API_USERNAME:
-    raise ImproperlyConfigured("Missing setting INDEXING_API_USERNAME")
+    msg = "Missing setting INDEXING_API_USERNAME"
+    raise ImproperlyConfigured(msg)
 INDEXING_ERROR_RETRIES = get_int("INDEXING_ERROR_RETRIES", 1)
 
 # JWT authentication settings
@@ -514,10 +517,12 @@ MITOPEN_JWT_SECRET = get_string(
 
 MITOPEN_COOKIE_NAME = get_string("MITOPEN_COOKIE_NAME", None)
 if not MITOPEN_COOKIE_NAME:
-    raise ImproperlyConfigured("MITOPEN_COOKIE_NAME is not set")
+    msg = "MITOPEN_COOKIE_NAME is not set"
+    raise ImproperlyConfigured(msg)
 MITOPEN_COOKIE_DOMAIN = get_string("MITOPEN_COOKIE_DOMAIN", None)
 if not MITOPEN_COOKIE_DOMAIN:
-    raise ImproperlyConfigured("MITOPEN_COOKIE_DOMAIN is not set")
+    msg = "MITOPEN_COOKIE_DOMAIN is not set"
+    raise ImproperlyConfigured(msg)
 
 MITOPEN_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS = get_int(
     "MITOPEN_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS", 60 * 60 * 24 * 7  # 7 days
@@ -542,12 +547,12 @@ OPEN_RESOURCES_MIN_TERM_FREQ = get_int("OPEN_RESOURCES_MIN_TERM_FREQ", 1)
 
 # features flags
 def get_all_config_keys():
-    """Returns all the configuration keys from both environment and configuration files"""
+    """Returns all the configuration keys from both environment and configuration files"""  # noqa: E501, D401
     return list(os.environ.keys())
 
 
 MITOPEN_FEATURES_PREFIX = get_string("MITOPEN_FEATURES_PREFIX", "FEATURE_")
-MITOPEN_FEATURES_DEFAULT = get_bool("MITOPEN_FEATURES_DEFAULT", False)
+MITOPEN_FEATURES_DEFAULT = get_bool("MITOPEN_FEATURES_DEFAULT", False)  # noqa: FBT003
 FEATURES = {
     key[len(MITOPEN_FEATURES_PREFIX) :]: get_any(key, None)
     for key in get_all_config_keys()
@@ -565,7 +570,8 @@ MIDDLEWARE_FEATURE_FLAG_COOKIE_MAX_AGE_SECONDS = get_int(
 )
 
 if MIDDLEWARE_FEATURE_FLAG_QS_PREFIX:
-    MIDDLEWARE = MIDDLEWARE + (
+    MIDDLEWARE = (
+        *MIDDLEWARE,
         "open_discussions.middleware.feature_flags.QueryStringFeatureFlagMiddleware",
         "open_discussions.middleware.feature_flags.CookieFeatureFlagMiddleware",
     )
@@ -574,7 +580,7 @@ if MIDDLEWARE_FEATURE_FLAG_QS_PREFIX:
 if DEBUG:
     INSTALLED_APPS += ("debug_toolbar",)
     # it needs to be enabled before other middlewares
-    MIDDLEWARE = ("debug_toolbar.middleware.DebugToolbarMiddleware",) + MIDDLEWARE
+    MIDDLEWARE = ("debug_toolbar.middleware.DebugToolbarMiddleware", *MIDDLEWARE)
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
@@ -591,8 +597,8 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-USE_X_FORWARDED_PORT = get_bool("USE_X_FORWARDED_PORT", False)
-USE_X_FORWARDED_HOST = get_bool("USE_X_FORWARDED_HOST", False)
+USE_X_FORWARDED_PORT = get_bool("USE_X_FORWARDED_PORT", False)  # noqa: FBT003
+USE_X_FORWARDED_HOST = get_bool("USE_X_FORWARDED_HOST", False)  # noqa: FBT003
 
 # Hijack
 HIJACK_ALLOW_GET_REQUESTS = True
@@ -610,8 +616,8 @@ LIVESTREAM_SECRET_KEY = get_string("LIVESTREAM_SECRET_KEY", None)
 LIVESTREAM_ACCOUNT_ID = get_string("LIVESTREAM_ACCOUNT_ID", None)
 
 # x509 filenames
-MIT_WS_CERTIFICATE_FILE = os.path.join(STATIC_ROOT, "mit_x509.cert")
-MIT_WS_PRIVATE_KEY_FILE = os.path.join(STATIC_ROOT, "mit_x509.key")
+MIT_WS_CERTIFICATE_FILE = os.path.join(STATIC_ROOT, "mit_x509.cert")  # noqa: PTH118
+MIT_WS_PRIVATE_KEY_FILE = os.path.join(STATIC_ROOT, "mit_x509.key")  # noqa: PTH118
 
 RSS_FEED_EPISODE_LIMIT = get_int("RSS_FEED_EPISODE_LIMIT", 100)
 RSS_FEED_CACHE_MINUTES = get_int("RSS_FEED_CACHE_MINUTES", 15)

@@ -1,16 +1,14 @@
 """open_discussions utilities"""
 import datetime
-import os
-from enum import auto, Flag
-from itertools import islice
 import logging
+import os
+from enum import Flag, auto
+from itertools import islice
 
-import pytz
-from django.conf import settings
-
-from bs4 import BeautifulSoup
 import markdown2
-
+import pytz
+from bs4 import BeautifulSoup
+from django.conf import settings
 
 log = logging.getLogger(__name__)
 
@@ -38,7 +36,7 @@ def is_near_now(time):
     Returns:
         bool:
             True if near now, false otherwise
-    """
+    """  # noqa: D401
     now = datetime.datetime.now(tz=pytz.UTC)
     five_seconds = datetime.timedelta(0, 5)
     return now - five_seconds < time < now + five_seconds
@@ -62,7 +60,7 @@ def normalize_to_start_of_day(dt):
 
     Returns:
         datetime.datetime: the normalized datetime
-    """
+    """  # noqa: D401
     return dt.replace(hour=0, minute=0, second=0, microsecond=0)
 
 
@@ -76,7 +74,7 @@ def chunks(iterable, *, chunk_size=20):
 
     Yields:
         list: List containing a slice of list_to_chunk
-    """
+    """  # noqa: D401
     chunk_size = max(1, chunk_size)
     iterable = iter(iterable)
     chunk = list(islice(iterable, chunk_size))
@@ -95,7 +93,7 @@ def merge_strings(list_or_str):
 
     Returns:
         list of str: A list of strings
-    """
+    """  # noqa: E501
 
     list_to_return = []
     _merge_strings(list_or_str, list_to_return)
@@ -109,7 +107,7 @@ def _merge_strings(list_or_str, list_to_return):
     Args:
         list_or_str (any): A list of strings or a string
         list_to_return (list of str): The list the strings will be added to
-    """
+    """  # noqa: E501
     if isinstance(list_or_str, list):
         for item in list_or_str:
             _merge_strings(item, list_to_return)
@@ -125,7 +123,7 @@ def filter_dict_keys(orig_dict, keys_to_keep, *, optional=False):
         orig_dict (dict): A dictionary
         keys_to_keep (iterable): Keys to filter on
         optional (bool): If True, ignore keys that don't exist in the dict. If False, raise a KeyError.
-    """
+    """  # noqa: D401, E501
     return {
         key: orig_dict[key] for key in keys_to_keep if not optional or key in orig_dict
     }
@@ -139,7 +137,7 @@ def filter_dict_with_renamed_keys(orig_dict, key_rename_dict, *, optional=False)
         orig_dict (dict): A dictionary
         key_rename_dict (dict): Mapping of old key to new key
         optional (bool): If True, ignore keys that don't exist in the dict. If False, raise a KeyError.
-    """
+    """  # noqa: D401, E501
     return {
         new_key: orig_dict[key]
         for key, new_key in key_rename_dict.items()
@@ -156,7 +154,7 @@ def html_to_plain_text(html_str):
 
     Returns:
         str: Plain text
-    """
+    """  # noqa: D401, E501
     soup = BeautifulSoup(html_str, features="html.parser")
     return soup.get_text().replace("\n", " ")
 
@@ -171,7 +169,7 @@ def markdown_to_plain_text(markdown_str):
 
     Returns:
         str: Plain text
-    """
+    """  # noqa: D401
     html_str = markdown2.markdown(markdown_str)
     return html_to_plain_text(html_str).strip()
 
@@ -185,12 +183,12 @@ def prefetched_iterator(query, chunk_size=2000):
         query (QuerySet): the django queryset to iterate
         chunk_size (int): the size of each chunk to fetch
 
-    """
+    """  # noqa: D401
     # walk the records in ascending id order
     base_query = query.order_by("id")
 
     def _next(greater_than_id):
-        """Returns the next batch"""
+        """Returns the next batch"""  # noqa: D401
         return base_query.filter(id__gt=greater_than_id)[:chunk_size]
 
     batch = _next(0)
@@ -218,7 +216,7 @@ def generate_filepath(filename, directory_name, suffix, prefix):
     Returns:
         str: The filepath for the uploaded image.
     """
-    name, ext = os.path.splitext(filename)
+    name, ext = os.path.splitext(filename)  # noqa: PTH122
     timestamp = now_in_utc().replace(microsecond=0)
     path_format = "{prefix}/{directory_name}/{name}-{timestamp}{suffix}{ext}"
 
@@ -231,14 +229,11 @@ def generate_filepath(filename, directory_name, suffix, prefix):
         name="",
     )
     if len(path_without_name) >= IMAGE_PATH_MAX_LENGTH:
-        raise ValueError(
-            "path is longer than max length even without name: {}".format(
-                path_without_name
-            )
-        )
+        msg = f"path is longer than max length even without name: {path_without_name}"
+        raise ValueError(msg)
 
     max_name_length = IMAGE_PATH_MAX_LENGTH - len(path_without_name)
-    full_path = path_format.format(
+    return path_format.format(
         name=name[:max_name_length],
         timestamp=timestamp.strftime("%Y-%m-%dT%H%M%S"),
         prefix=prefix,
@@ -246,8 +241,6 @@ def generate_filepath(filename, directory_name, suffix, prefix):
         suffix=suffix,
         ext=ext,
     )
-
-    return full_path
 
 
 def extract_values(obj, key):
@@ -270,15 +263,14 @@ def extract_values(obj, key):
             for k, v in obj.items():
                 if k == key:
                     array.append(v)
-                if isinstance(v, (dict, list)):
+                if isinstance(v, dict | list):
                     extract(v, array, key)
         elif isinstance(obj, list):
             for item in obj:
                 extract(item, array, key)
         return array
 
-    results = extract(obj, array, key)
-    return results
+    return extract(obj, array, key)
 
 
 def write_to_file(filename, contents):
@@ -290,13 +282,13 @@ def write_to_file(filename, contents):
         contents (bytes): What to write to the file.
 
     """
-    if not os.path.exists(os.path.dirname(filename)):
-        os.makedirs(os.path.dirname(filename))
-    if os.path.exists(filename):
-        with open(filename, "rb") as infile:
+    if not os.path.exists(os.path.dirname(filename)):  # noqa: PTH110, PTH120
+        os.makedirs(os.path.dirname(filename))  # noqa: PTH103, PTH120
+    if os.path.exists(filename):  # noqa: PTH110
+        with open(filename, "rb") as infile:  # noqa: PTH123
             if infile.read() == contents:
                 return
-    with open(filename, "wb") as infile:
+    with open(filename, "wb") as infile:  # noqa: PTH123
         infile.write(contents)
 
 

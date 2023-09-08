@@ -7,7 +7,7 @@ import {
   UserList,
   StaffList,
   TYPE_FAVORITES,
-  LearningResource
+  LearningResource,
 } from "./interfaces"
 import React, { useState, useEffect } from "react"
 import { capitalize, emptyOrNil } from "ol-util"
@@ -16,7 +16,7 @@ import Decimal from "decimal.js-light"
 
 export const getImageSrc = (
   resource: { image_src?: string | null; platform?: string | null },
-  ocwBaseUrl: string
+  ocwBaseUrl: string,
 ): string | null => {
   if (typeof resource.image_src !== "string") return null
   if (resource.image_src.startsWith("/") && resource.platform === "ocw") {
@@ -33,16 +33,16 @@ const embedlyThumbnail = (
   key: string,
   url: string,
   height: number,
-  width: number
+  width: number,
 ) =>
   `https://i.embed.ly/1/display/crop/?key=${key}&url=${encodeURIComponent(
-    url
+    url,
   )}&height=${height}&width=${width}&grow=true&animate=false&errorurl=${blankThumbnailUrl()}`
 
 export const defaultResourceImageURL = () =>
   new URL(
     "/static/images/default_resource_thumb.jpg",
-    window.location.origin
+    window.location.origin,
   ).toString()
 
 type EmbedlyConfig = {
@@ -54,13 +54,13 @@ type EmbedlyConfig = {
 
 const resourceThumbnailSrc = (
   resource: { image_src?: string | null; platform?: string | null },
-  config: EmbedlyConfig
+  config: EmbedlyConfig,
 ) =>
   embedlyThumbnail(
     config.embedlyKey,
     getImageSrc(resource, config.ocwBaseUrl) ?? defaultResourceImageURL(),
     config.height,
-    config.width
+    config.width,
   )
 
 export const DATE_FORMAT = "YYYY-MM-DD[T]HH:mm:ss[Z]"
@@ -73,29 +73,29 @@ const runEndDate = (objectRun: LearningResourceRun): moment.Moment =>
 
 const compareRuns = (
   firstRun: LearningResourceRun,
-  secondRun: LearningResourceRun
+  secondRun: LearningResourceRun,
 ) => runStartDate(firstRun).diff(runStartDate(secondRun), "hours")
 
 const findBestRun = (
-  runs: LearningResourceRun[]
+  runs: LearningResourceRun[],
 ): LearningResourceRun | undefined => {
-  const dated = runs.filter(run => run.start_date && run.end_date)
+  const dated = runs.filter((run) => run.start_date && run.end_date)
 
   // Runs that are running right now
   const [bestCurrentRun] = dated.filter(
-    run => runStartDate(run).isSameOrBefore() && runEndDate(run).isAfter()
+    (run) => runStartDate(run).isSameOrBefore() && runEndDate(run).isAfter(),
   )
   if (bestCurrentRun) return bestCurrentRun
 
   // The next future run
   const [bestFutureRun] = dated
-    .filter(run => runStartDate(run).isAfter())
+    .filter((run) => runStartDate(run).isAfter())
     .sort(compareRuns)
   if (bestFutureRun) return bestFutureRun
 
   // The most recent run that "ended"
   const [bestRecentRun] = dated
-    .filter(run => runStartDate(run).isSameOrBefore())
+    .filter((run) => runStartDate(run).isSameOrBefore())
     .sort(compareRuns)
     .reverse()
   if (bestRecentRun) return bestRecentRun
@@ -103,22 +103,22 @@ const findBestRun = (
 }
 
 const readableLearningResources: Record<LR | typeof TYPE_FAVORITES, string> = {
-  [LR.Course]:         "Course",
-  [LR.Program]:        "Program",
-  [LR.Userlist]:       "Learning List",
-  [LR.LearningPath]:   "Learning Path",
-  [LR.StaffList]:      "MIT Learning List",
-  [LR.StaffPath]:      "MIT Learning Path",
-  [LR.Video]:          "Video",
-  [TYPE_FAVORITES]:    "Favorites",
-  [LR.Podcast]:        "Podcast",
-  [LR.PodcastEpisode]: "Podcast Episode"
+  [LR.Course]: "Course",
+  [LR.Program]: "Program",
+  [LR.Userlist]: "Learning List",
+  [LR.LearningPath]: "Learning Path",
+  [LR.StaffList]: "MIT Learning List",
+  [LR.StaffPath]: "MIT Learning Path",
+  [LR.Video]: "Video",
+  [TYPE_FAVORITES]: "Favorites",
+  [LR.Podcast]: "Podcast",
+  [LR.PodcastEpisode]: "Podcast Episode",
 }
 const LR_TYPES: string[] = Object.values(LR)
 
 const assertIsLrType: (
-  type: string
-) => asserts type is LR | typeof TYPE_FAVORITES = type => {
+  type: string,
+) => asserts type is LR | typeof TYPE_FAVORITES = (type) => {
   if (LR_TYPES.includes(type)) return
   if (type === TYPE_FAVORITES) return
   throw new Error(`Type ${type} is not a valid LearningResourceType`)
@@ -166,12 +166,12 @@ export const CertificateIcon = () => (
 
 export const minPrice = (
   prices: CoursePrice[],
-  includeDollarSign = false
+  includeDollarSign = false,
 ): string | null => {
   if (emptyOrNil(prices)) {
     return null
   }
-  const price = Math.min(...prices.map(price => price.price))
+  const price = Math.min(...prices.map((price) => price.price))
 
   if (price > 0 && price !== Infinity) {
     return includeDollarSign ? `${formatPrice(price)}` : String(price)
@@ -182,7 +182,7 @@ export const minPrice = (
 
 export const getStartDate = (
   platform: string,
-  objectRun: LearningResourceRun
+  objectRun: LearningResourceRun,
 ): string => {
   if (platform === "ocw") {
     return `${capitalize(objectRun.semester || "")} ${objectRun.year || ""}`
@@ -241,10 +241,10 @@ export const absolutizeURL = (url: string) =>
 
 const isUserListOrPath = <
   R extends Pick<LearningResource, "object_type">,
-  U extends Pick<UserList, "object_type">
+  U extends Pick<UserList, "object_type">,
 >(
-    resource: R | U
-  ): resource is U => {
+  resource: R | U,
+): resource is U => {
   return (
     resource.object_type === LR.Userlist ||
     resource.object_type === LR.LearningPath
@@ -252,10 +252,10 @@ const isUserListOrPath = <
 }
 const isStaffListOrPath = <
   R extends Pick<LearningResource, "object_type">,
-  S extends Pick<StaffList, "object_type">
+  S extends Pick<StaffList, "object_type">,
 >(
-    resource: R | S
-  ): resource is S => {
+  resource: R | S,
+): resource is S => {
   return (
     resource.object_type === LR.StaffList ||
     resource.object_type === LR.StaffPath

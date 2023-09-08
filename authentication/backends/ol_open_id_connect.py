@@ -1,4 +1,4 @@
-"""Keycloak Authentication Configuration"""
+"""Keycloak Authentication Configuration"""  # noqa: INP001
 
 from social_core.backends.open_id_connect import OpenIdConnectAuth
 

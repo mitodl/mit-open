@@ -2,15 +2,15 @@
 # pylint: disable=wildcard-import, unused-wildcard-import
 import pytest
 
-from fixtures.aws import *
-from fixtures.common import *
-from fixtures.opensearch import *
-from fixtures.users import *
+from fixtures.aws import *  # noqa: F403
+from fixtures.common import *  # noqa: F403
+from fixtures.opensearch import *  # noqa: F403
+from fixtures.users import *  # noqa: F403
 from open_discussions.exceptions import DoNotUseRequestException
 
 
 @pytest.fixture(autouse=True)
-def prevent_requests(mocker, request):
+def prevent_requests(mocker, request):  # noqa: PT004
     """Patch requests to error on request by default"""
     if "mocked_responses" in request.fixturenames:
         return

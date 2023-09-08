@@ -19,7 +19,7 @@ describe("SearchFilter", () => {
 
     renderSearchFilter({
       value,
-      labelFunction: upperCase
+      labelFunction: upperCase,
     })
     expect(screen.getByText("UPCOMING")).toBeInTheDocument()
   })

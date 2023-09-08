@@ -1,16 +1,16 @@
 """Management command for deleting non-course files from S3"""
 from django.core.management import BaseCommand
 
-from course_catalog.constants import NON_COURSE_DIRECTORIES
 from course_catalog.api import get_ocw_learning_course_bucket
+from course_catalog.constants import NON_COURSE_DIRECTORIES
 
 
 class Command(BaseCommand):
     """Delete non-course files from S3"""
 
-    help = """Delete non-course files from S3"""
+    help = """Delete non-course files from S3"""  # noqa: A003
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         bucket = get_ocw_learning_course_bucket()
         prefixes = [
             prefix.split("/")[-1]  # pylint:disable=use-maxsplit-arg

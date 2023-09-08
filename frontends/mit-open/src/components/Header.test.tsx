@@ -12,7 +12,7 @@ describe("Header", () => {
     setMockResponse.get(lrUrls.course.upcoming(), [])
     setMockResponse.get(
       lrUrls.course.upcoming({ offered_by: "Micromasters" }),
-      []
+      [],
     )
     setMockResponse.get(lrUrls.video.new(), [])
     setMockResponse.get(lrUrls.popularContent.listing(), [])

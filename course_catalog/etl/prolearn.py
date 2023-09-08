@@ -3,7 +3,6 @@ import json
 import re
 from datetime import datetime
 from decimal import Decimal
-from typing import List
 from urllib.parse import urljoin
 
 import pytz
@@ -28,44 +27,9 @@ PROLEARN_DEPARTMENT_MAPPING = {
 }
 
 # List of query fields for prolearn, deduced from its website api calls
-PROLEARN_QUERY_FIELDS = "\n".join(
-    [
-        "title",
-        "nid",
-        "url",
-        "certificate_name",
-        "course_application_url",
-        "course_link",
-        "field_course_or_program",
-        "start_value",
-        "end_value",
-        "department",
-        "department_url",
-        "body",
-        "body_override",
-        "field_time_commitment",
-        "field_duration",
-        "featured_image_url",
-        "field_featured_video",
-        "field_non_degree_credits",
-        "field_price",
-        "field_related_courses_programs",
-        "related_courses_programs_title",
-        "field_time_commitment",
-        "ucc_hot_topic",
-        "ucc_name",
-        "ucc_tid",
-        "application_process",
-        "application_process_override",
-        "format_name",
-        "image_override_url",
-        "video_override_url",
-        "field_new_course_program",
-        "field_tooltip",
-    ]
-)
+PROLEARN_QUERY_FIELDS = "title\nnid\nurl\ncertificate_name\ncourse_application_url\ncourse_link\nfield_course_or_program\nstart_value\nend_value\ndepartment\ndepartment_url\nbody\nbody_override\nfield_time_commitment\nfield_duration\nfeatured_image_url\nfield_featured_video\nfield_non_degree_credits\nfield_price\nfield_related_courses_programs\nrelated_courses_programs_title\nfield_time_commitment\nucc_hot_topic\nucc_name\nucc_tid\napplication_process\napplication_process_override\nformat_name\nimage_override_url\nvideo_override_url\nfield_new_course_program\nfield_tooltip"  # noqa: E501
 
-# Performs the query made on https://prolearn.mit.edu/graphql, with a filter for program or course
+# Performs the query made on https://prolearn.mit.edu/graphql, with a filter for program or course  # noqa: E501
 PROLEARN_QUERY = """
 query {
     searchAPISearch(
@@ -88,7 +52,7 @@ query {
          documents {... on DefaultSolrIndexDoc {%s}}
     }
 }
-"""
+"""  # noqa: E501
 
 
 def parse_offered_by(document: dict) -> str:
@@ -119,6 +83,7 @@ def parse_date(num) -> datetime:
     """
     if num:
         return datetime.fromtimestamp(num, tz=pytz.UTC)
+    return None
 
 
 def parse_price(document: dict) -> Decimal:
@@ -139,7 +104,7 @@ def parse_price(document: dict) -> Decimal:
     return [{"price": round(Decimal(price_str), 2)}] if price_str else []
 
 
-def parse_topic(document: dict) -> List[dict]:
+def parse_topic(document: dict) -> list[dict]:
     """
     Get a list containing one {"name": <topic>} dict object
 
@@ -183,7 +148,7 @@ def parse_url(document: dict) -> str:
     )
 
 
-def extract_data(course_or_program: str, platform: str) -> List[dict]:
+def extract_data(course_or_program: str, platform: str) -> list[dict]:
     """
     Queries the prolearn api url for either courses or programs from a department, and returns the results
 
@@ -193,10 +158,10 @@ def extract_data(course_or_program: str, platform: str) -> List[dict]:
 
     Returns:
         list of dict: courses or programs
-    """
+    """  # noqa: D401, E501
     if settings.PROLEARN_CATALOG_API_URL:
         department = PROLEARN_DEPARTMENT_MAPPING.get(platform)
-        response = requests.post(
+        response = requests.post(  # noqa: S113
             settings.PROLEARN_CATALOG_API_URL,
             data=json.dumps(
                 {
@@ -209,7 +174,7 @@ def extract_data(course_or_program: str, platform: str) -> List[dict]:
     return []
 
 
-def extract_programs(department: str) -> List[dict]:
+def extract_programs(department: str) -> list[dict]:
     """
     Query the ProLearn catalog data for programs
 
@@ -219,7 +184,7 @@ def extract_programs(department: str) -> List[dict]:
     return extract_data("program", department)
 
 
-def extract_courses(department: str) -> List[dict]:
+def extract_courses(department: str) -> list[dict]:
     """
     Query the ProLearn catalog data for courses
 
@@ -229,7 +194,7 @@ def extract_courses(department: str) -> List[dict]:
     return extract_data("course", department)
 
 
-def transform_programs(programs: List[dict]) -> List[dict]:
+def transform_programs(programs: list[dict]) -> list[dict]:
     """
     Transform the prolearn catalog data for programs into a format suitable for saving to the database
 
@@ -238,7 +203,7 @@ def transform_programs(programs: List[dict]) -> List[dict]:
 
     Returns:
         list of dict: List of programs as transformed dicts
-    """
+    """  # noqa: E501
     # normalize the prolearn data into the course_catalog/models.py data structures
     return [
         {
@@ -264,7 +229,7 @@ def transform_programs(programs: List[dict]) -> List[dict]:
                 )
             ],
             "topics": parse_topic(program),
-            # all we need for course data is the relative positioning of courses by course_id
+            # all we need for course data is the relative positioning of courses by course_id  # noqa: E501
             "courses": [
                 {
                     "course_id": course_id,
@@ -294,7 +259,7 @@ def _transform_runs(course_run: dict) -> dict:
 
     Returns:
         dict: normalized course run data
-    """
+    """  # noqa: D401
     return [
         {
             "run_id": f'{course_run["nid"]}_{start_value}',
@@ -327,7 +292,7 @@ def _transform_course(course: dict) -> dict:
 
     Returns:
         dict: normalized course data
-    """
+    """  # noqa: D401
     return {
         "course_id": course["nid"],
         "platform": OFFERED_BY_MAPPINGS[parse_offered_by(course)],
@@ -341,7 +306,7 @@ def _transform_course(course: dict) -> dict:
     }
 
 
-def transform_courses(courses: List[dict]) -> List[dict]:
+def transform_courses(courses: list[dict]) -> list[dict]:
     """
     Transforms a list of courses into our normalized data structure
 
@@ -350,5 +315,5 @@ def transform_courses(courses: List[dict]) -> List[dict]:
 
     Returns:
         list of dict: normalized courses data
-    """
+    """  # noqa: D401
     return [_transform_course(course) for course in courses]

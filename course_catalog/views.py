@@ -1,6 +1,7 @@
 """
 course_catalog views
 """
+import contextlib
 import logging
 import operator
 from hmac import compare_digest
@@ -85,10 +86,10 @@ log = logging.getLogger()
 
 
 @api_view(["GET"])
-def ocw_course_report(request):
+def ocw_course_report(request):  # noqa: ARG001
     """
     Returns a JSON object reporting OCW course sync statistics
-    """
+    """  # noqa: D401
     ocw_courses = Course.objects.filter(
         platform=PlatformType.ocw.value,
         learning_resource_type=ResourceType.course.value,
@@ -116,7 +117,7 @@ def ocw_course_report(request):
 class DefaultPagination(LimitOffsetPagination):
     """
     Pagination class for course_catalog viewsets which gets default_limit and max_limit from settings
-    """
+    """  # noqa: E501
 
     default_limit = 10
     max_limit = 100
@@ -128,19 +129,18 @@ class FavoriteViewMixin:
     """
 
     @action(methods=["POST"], detail=True)
-    def favorite(self, request, pk=None):
+    def favorite(self, request, pk=None):  # noqa: ARG002
         """
         Create a favorite item for this object
         """
         obj = self.get_object()
-        try:
+        with contextlib.suppress(IntegrityError):
             FavoriteItem.objects.create(user=request.user, item=obj)
-        except IntegrityError:
-            pass
+
         return Response(status=status.HTTP_200_OK)
 
     @action(methods=["POST"], detail=True)
-    def unfavorite(self, request, pk=None):
+    def unfavorite(self, request, pk=None):  # noqa: ARG002
         """
         Delete a favorite item for this object
         """
@@ -201,7 +201,7 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet, FavoriteViewMixin):
         return self._get_base_queryset()
 
     @action(methods=["GET"], detail=False)
-    def new(self, request):
+    def new(self, request):  # noqa: ARG002
         """
         Get new courses
         """
@@ -210,7 +210,7 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet, FavoriteViewMixin):
         return self.get_paginated_response(serializer.data)
 
     @action(methods=["GET"], detail=False)
-    def upcoming(self, request):
+    def upcoming(self, request):  # noqa: ARG002
         """
         Get upcoming courses
         """
@@ -223,7 +223,7 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet, FavoriteViewMixin):
         return self.get_paginated_response(serializer.data)
 
     @action(methods=["GET"], detail=False)
-    def featured(self, request):
+    def featured(self, request):  # noqa: ARG002
         """
         Get featured courses
         """
@@ -262,7 +262,7 @@ class UserListViewSet(NestedViewSetMixin, viewsets.ModelViewSet, FavoriteViewMix
             .annotate_is_favorite_for_user(user)
         )
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):  # noqa: A003, ARG002
         """Override default list to only get lists authored by user"""
 
         if request.user.is_anonymous:
@@ -339,7 +339,7 @@ class StaffListViewSet(NestedViewSetMixin, viewsets.ModelViewSet, FavoriteViewMi
             .prefetch_stafflist_items_for_user(user)
         )
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):  # noqa: A003, ARG002
         """Get all stafflists for stafflist editors, public stafflists for all others"""
 
         if is_staff_list_editor(request) or is_admin_user(request):
@@ -436,7 +436,7 @@ class VideoViewSet(viewsets.ReadOnlyModelViewSet, FavoriteViewMixin):
         )
 
     @action(methods=["GET"], detail=False)
-    def new(self, request):
+    def new(self, request):  # noqa: ARG002
         """
         Get newly published videos
         """
@@ -482,17 +482,17 @@ class WebhookOCWView(APIView):
     authentication_classes = ()
 
     def handle_exception(self, exc):
-        """Raise any exception with request info instead of returning response with error status/message"""
-        raise WebhookException(
-            f"REST Error ({exc}). BODY: {(self.request.body or '')}, META: {self.request.META}"
-        ) from exc
+        """Raise any exception with request info instead of returning response with error status/message"""  # noqa: E501
+        msg = f"REST Error ({exc}). BODY: {self.request.body or ''}, META: {self.request.META}"  # noqa: E501
+        raise WebhookException(msg) from exc
 
     def post(self, request):
         """Process webhook request"""
         if not compare_digest(
             request.GET.get("webhook_key", ""), settings.OCW_WEBHOOK_KEY
         ):
-            raise WebhookException("Incorrect webhook key")
+            msg = "Incorrect webhook key"
+            raise WebhookException(msg)
         content = rapidjson.loads(request.body.decode())
         records = content.get("Records")
         if records is not None:
@@ -524,10 +524,9 @@ class WebhookOCWNextView(APIView):
     authentication_classes = ()
 
     def handle_exception(self, exc):
-        """Raise any exception with request info instead of returning response with error status/message"""
-        raise WebhookException(
-            f"REST Error ({exc}). BODY: {(self.request.body or '')}, META: {self.request.META}"
-        ) from exc
+        """Raise any exception with request info instead of returning response with error status/message"""  # noqa: E501
+        msg = f"REST Error ({exc}). BODY: {self.request.body or ''}, META: {self.request.META}"  # noqa: E501
+        raise WebhookException(msg) from exc
 
     def post(self, request):
         """Process webhook request"""
@@ -536,7 +535,8 @@ class WebhookOCWNextView(APIView):
         if not compare_digest(
             content.get("webhook_key", ""), settings.OCW_NEXT_SEARCH_WEBHOOK_KEY
         ):
-            raise WebhookException("Incorrect webhook key")
+            msg = "Incorrect webhook key"
+            raise WebhookException(msg)
 
         version = content.get("version")
         prefix = content.get("prefix")
@@ -614,7 +614,6 @@ class PodcastEpisodesViewSet(viewsets.ReadOnlyModelViewSet, FavoriteViewMixin):
     permission_classes = (AnonymousAccessReadonlyPermission & PodcastFeatureFlag,)
 
     def get_queryset(self):
-
         user = self.request.user
 
         return shared_podcast_episode_query(user).order_by("-last_modified", "-id")
@@ -665,7 +664,7 @@ class EpisodesInPodcast(viewsets.ReadOnlyModelViewSet):
 
 
 @cache_page(60 * settings.RSS_FEED_CACHE_MINUTES)
-def podcast_rss_feed(request):
+def podcast_rss_feed(request):  # noqa: ARG001
     """
     View to display the combined podcast rss file
     """

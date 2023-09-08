@@ -18,13 +18,13 @@ describe("SelectField", () => {
         name={name}
         options={options}
         {...props}
-      />
+      />,
     )
 
   it("should pass placeholder to Select", async () => {
     const placeText = "This place is held!"
     renderField({
-      placeholder: placeText
+      placeholder: placeText,
     })
     await screen.findByText(placeText)
   })
@@ -54,11 +54,11 @@ describe("SelectField", () => {
       const values = ["initial", "values", "3", "4"]
       renderField({ values, multiple: true })
       const selectElement = (await screen.findByRole(
-        "combobox"
+        "combobox",
       )) as HTMLInputElement
       const newValue = ["newValue", "value2"]
       await fireEvent.change(selectElement, {
-        target: { value: newValue }
+        target: { value: newValue },
       })
       expect(selectElement.value.split(",")).toEqual(newValue)
     })

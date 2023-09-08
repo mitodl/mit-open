@@ -16,7 +16,7 @@ class LearningResourcePlatform(TimestampedModel):
     """Platforms for all learning resources"""
 
     platform = models.CharField(max_length=12, primary_key=True)
-    url = models.URLField(null=True, blank=True)
+    url = models.URLField(null=True, blank=True)  # noqa: DJ001
     audience = models.CharField(
         max_length=24,
         choices=(
@@ -55,8 +55,10 @@ class LearningResourceImage(TimestampedModel):
     """Represent image metadata for a learning resource"""
 
     url = models.TextField(max_length=2048)
-    description = models.CharField(max_length=1024, null=True, blank=True)
-    alt = models.CharField(max_length=1024, null=True, blank=True)
+    description = models.CharField(  # noqa: DJ001
+        max_length=1024, null=True, blank=True
+    )  # noqa: DJ001, RUF100
+    alt = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
 
     def __str__(self):
         return self.url
@@ -86,15 +88,15 @@ class LearningResourceInstructor(TimestampedModel):
     Instructors for learning resources
     """
 
-    first_name = models.CharField(max_length=128, null=True, blank=True)
-    last_name = models.CharField(max_length=128, null=True, blank=True)
+    first_name = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
+    last_name = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
     full_name = models.CharField(max_length=256, null=True, blank=True, unique=True)
 
     class Meta:
         ordering = ["last_name"]
 
     def __str__(self):
-        return self.full_name or " ".join((self.first_name, self.last_name))
+        return self.full_name or f"{self.first_name} {self.last_name}"
 
 
 class LearningResource(TimestampedModel):
@@ -102,12 +104,12 @@ class LearningResource(TimestampedModel):
 
     readable_id = models.CharField(max_length=128, null=False, blank=False)
     title = models.CharField(max_length=256)
-    description = models.TextField(null=True, blank=True)
-    full_description = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)  # noqa: DJ001
+    full_description = models.TextField(null=True, blank=True)  # noqa: DJ001
     last_modified = models.DateTimeField(null=True, blank=True)
     published = models.BooleanField(default=True, db_index=True)
     languages = ArrayField(models.CharField(max_length=24), null=True, blank=True)
-    url = models.URLField(null=True, max_length=2048)
+    url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     image = models.ForeignKey(
         LearningResourceImage, null=True, blank=True, on_delete=models.deletion.SET_NULL
     )
@@ -140,6 +142,7 @@ class LearningResource(TimestampedModel):
         """Returns the audience for the learning resource"""
         if self.platform:
             return self.platform.audience
+        return None
 
     @property
     def prices(self) -> str | None:
@@ -165,6 +168,7 @@ class LearningResource(TimestampedModel):
             )
         ):
             return constants.CERTIFICATE
+        return None
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
@@ -180,19 +184,21 @@ class LearningResourceRun(TimestampedModel):
     )
     run_id = models.CharField(max_length=128)
     title = models.CharField(max_length=256)
-    description = models.TextField(null=True, blank=True)
-    full_description = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)  # noqa: DJ001
+    full_description = models.TextField(null=True, blank=True)  # noqa: DJ001
     last_modified = models.DateTimeField(null=True, blank=True)
     published = models.BooleanField(default=True, db_index=True)
     languages = ArrayField(models.CharField(max_length=24), null=True, blank=True)
-    url = models.URLField(null=True, max_length=2048)
+    url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     image = models.ForeignKey(
         LearningResourceImage, null=True, blank=True, on_delete=models.deletion.SET_NULL
     )
-    level = models.CharField(max_length=128, null=True, blank=True)
-    slug = models.CharField(max_length=1024, null=True, blank=True)
-    availability = models.CharField(max_length=128, null=True, blank=True)
-    semester = models.CharField(max_length=20, null=True, blank=True)
+    level = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
+    slug = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
+    availability = models.CharField(  # noqa: DJ001
+        max_length=128, null=True, blank=True
+    )  # noqa: DJ001, RUF100
+    semester = models.CharField(max_length=20, null=True, blank=True)  # noqa: DJ001
     year = models.IntegerField(null=True, blank=True)
     start_date = models.DateTimeField(null=True, blank=True, db_index=True)
     end_date = models.DateTimeField(null=True, blank=True)
@@ -206,7 +212,7 @@ class LearningResourceRun(TimestampedModel):
     )
 
     def __str__(self):
-        return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"
+        return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"  # noqa: E501
 
     class Meta:
         unique_together = (("learning_resource", "run_id"),)
@@ -236,7 +242,7 @@ class Program(TimestampedModel):
     A program is essentially a list of courses.
     There is nothing specific to programs at this point, but the relationship between
     programs and courses may end up being Program->Courses instead of an LR-LR relationship.
-    """
+    """  # noqa: E501
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -260,7 +266,7 @@ class LearningPath(TimestampedModel):
     """
     Model for representing a publishable list of  learning resources
     The LearningResource readable_id should probably be something like an auto-generated UUID.
-    """
+    """  # noqa: E501
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -279,7 +285,7 @@ class LearningResourceRelationship(TimestampedModel):
     """
     LearningResourceRelationship model tracks the relationships between learning resources,
     for example: course LR's in a program LR, all LR's included in a LearningList LR, etc.
-    """
+    """  # noqa: E501
 
     parent = models.ForeignKey(
         LearningResource, on_delete=models.deletion.CASCADE, related_name="children"

@@ -11,12 +11,8 @@
           "course_application_url": "https://csail.mit.edu/checkout/?product=451",
           "course_link": null,
           "field_course_or_program": "program",
-          "start_value": [
-            1673352000
-          ],
-          "end_value": [
-            1686398400
-          ],
+          "start_value": [1673352000],
+          "end_value": [1686398400],
           "department": "MIT CSAIL",
           "department_url": "https://csail.mit.edu",
           "body": null,
@@ -27,10 +23,7 @@
           "field_featured_video": null,
           "field_non_degree_credits": null,
           "field_price": null,
-          "field_related_courses_programs": [
-            545,
-            546
-          ],
+          "field_related_courses_programs": [545, 546],
           "related_courses_programs_title": [
             "Machine Learning, Modeling, and Simulation Principles",
             "Use Cases of Machine Learning for Business, Engineering, and Science"
@@ -54,12 +47,8 @@
           "course_application_url": "https://csail.mit.edu/checkout/?product=442",
           "course_link": "http://csail.mit.edu/programs/program-v1:xPRO-SL+LASERx-SL/",
           "field_course_or_program": "program",
-          "start_value": [
-            1673352000
-          ],
-          "end_value": [
-            1686571200
-          ],
+          "start_value": [1673352000],
+          "end_value": [1686571200],
           "department": "MIT CSAIL",
           "department_url": "https://csail.mit.edu",
           "body": null,
@@ -70,12 +59,7 @@
           "field_featured_video": null,
           "field_non_degree_credits": null,
           "field_price": "$2,500",
-          "field_related_courses_programs": [
-            502,
-            501,
-            500,
-            499
-          ],
+          "field_related_courses_programs": [502, 501, 500, 499],
           "related_courses_programs_title": [
             "Understanding Organizational Strategy and Capabilities",
             "Negotiating and Applying Influence and Power",

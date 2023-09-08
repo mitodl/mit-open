@@ -6,16 +6,16 @@ import { assertInstanceOf, assertNotNil } from "ol-util"
 import { getByTerm, queryByTerm } from "ol-util/test-utils"
 import { makeUrl } from "ol-util/factories"
 import LearningResourceDetails, {
-  LearningResourceDetailsProps
+  LearningResourceDetailsProps,
 } from "./ExpandedLearningResourceDisplay"
 import { makeCourse, makeImgConfig, makeRun, makeVideo } from "../factories"
 import { resourceThumbnailSrc, getInstructorName, findBestRun } from "../util"
 
-const formatShareLink: LearningResourceDetailsProps["formatShareLink"] = r =>
+const formatShareLink: LearningResourceDetailsProps["formatShareLink"] = (r) =>
   `www.tests.org?resource_id=${r.id}&resource_type=${r.object_type}`
 
 const renderLearningResourceDetails = (
-  overrides: Partial<LearningResourceDetailsProps> = {}
+  overrides: Partial<LearningResourceDetailsProps> = {},
 ): LearningResourceDetailsProps => {
   const resource = makeCourse()
   const imgConfig = makeImgConfig()
@@ -33,7 +33,7 @@ describe("ExpandedLearningResourceDisplay", () => {
     const { imgConfig } = renderLearningResourceDetails({ resource })
 
     const instructors = resource.runs[0].instructors
-      .map(instructor => getInstructorName(instructor))
+      .map((instructor) => getInstructorName(instructor))
       .join(", ")
 
     screen.getByText(resource.title)
@@ -51,7 +51,7 @@ describe("ExpandedLearningResourceDisplay", () => {
   it.each([
     { level: null, shouldDisplay: false },
     { level: "", shouldDisplay: false },
-    { level: "Really hard", shouldDisplay: true }
+    { level: "Really hard", shouldDisplay: true },
   ])("Displays 'Level' iff there is one", ({ level, shouldDisplay }) => {
     const run = makeRun({ level })
     const resource = makeCourse({ runs: [run] })
@@ -88,7 +88,7 @@ describe("ExpandedLearningResourceDisplay", () => {
 
   it.each([
     { certification: [], hasCertificate: false },
-    { certification: ["cert"], hasCertificate: true }
+    { certification: ["cert"], hasCertificate: true },
   ])(
     "should render an icon if the object has a certificate",
     ({ certification, hasCertificate }) => {
@@ -96,10 +96,10 @@ describe("ExpandedLearningResourceDisplay", () => {
 
       renderLearningResourceDetails({ resource })
       const certIcon = screen.queryByAltText("Receive a certificate", {
-        exact: false
+        exact: false,
       })
       expect(certIcon === null).not.toBe(hasCertificate)
-    }
+    },
   )
 
   it("renders the default cover image if none exists", () => {
@@ -134,7 +134,7 @@ describe("ExpandedLearningResourceDisplay", () => {
   it.each([
     { languageCode: "en-us", language: "English" },
     { languageCode: "fr", language: "French" },
-    { languageCode: "zh-CN", language: "Chinese" }
+    { languageCode: "zh-CN", language: "Chinese" },
   ])(
     "should render Language: <LanguageName> if course language is specified",
     ({ languageCode, language }) => {
@@ -143,13 +143,13 @@ describe("ExpandedLearningResourceDisplay", () => {
       renderLearningResourceDetails({ resource })
       const dd = getByTerm(document.body, "Language:")
       expect(dd.textContent).toBe(language)
-    }
+    },
   )
 
   it.each([
     { languageCode: "en", shouldRender: true },
     { languageCode: null, shouldRender: false },
-    { languageCode: "", shouldRender: false }
+    { languageCode: "", shouldRender: false },
   ])(
     "Renders language info if and only if specified",
     ({ languageCode, shouldRender }) => {
@@ -157,9 +157,9 @@ describe("ExpandedLearningResourceDisplay", () => {
       const resource = makeCourse({ runs: [run] })
       renderLearningResourceDetails({ resource })
       expect(queryByTerm(document.body, "Language:") !== null).toBe(
-        shouldRender
+        shouldRender,
       )
-    }
+    },
   )
 
   it("formats and renders the cost", () => {
@@ -181,7 +181,7 @@ describe("ExpandedLearningResourceDisplay", () => {
 
   it.each([
     { numRuns: 1, hasDropdown: false },
-    { numRuns: 2, hasDropdown: true }
+    { numRuns: 2, hasDropdown: true },
   ])(
     "should render an drop down to select runs if there are at least two runs",
     ({ numRuns, hasDropdown }) => {
@@ -192,7 +192,7 @@ describe("ExpandedLearningResourceDisplay", () => {
       renderLearningResourceDetails({ resource })
       const runDropdown = screen.queryByRole("combobox")
       expect(runDropdown === null).not.toBe(hasDropdown)
-    }
+    },
   )
 
   it("Initially selects the 'best' run", () => {
@@ -226,22 +226,22 @@ describe("ExpandedLearningResourceDisplay", () => {
 
     const dropdown = screen.getByRole("combobox")
     const options = within(dropdown).getAllByRole(
-      "option"
+      "option",
     ) as HTMLOptionElement[]
 
     /**
      * The initially selected option
      */
-    const optA = options.find(e => e.selected)
+    const optA = options.find((e) => e.selected)
     /**
      * The initially unspected option
      */
-    const optB = options.find(e => !e.selected)
+    const optB = options.find((e) => !e.selected)
     assertNotNil(optA)
     assertNotNil(optB)
 
-    const runA = runs.find(r => r.id === +optA.value)
-    const runB = runs.find(r => r.id === +optB.value)
+    const runA = runs.find((r) => r.id === +optA.value)
+    const runB = runs.find((r) => r.id === +optB.value)
     assertNotNil(runA)
     assertNotNil(runB)
 

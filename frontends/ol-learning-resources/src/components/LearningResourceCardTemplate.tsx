@@ -15,7 +15,7 @@ import moment from "moment"
 import {
   resourceThumbnailSrc,
   getReadableResourceType,
-  findBestRun
+  findBestRun,
 } from "../utils"
 import type { EmbedlyConfig } from "../utils"
 
@@ -32,7 +32,7 @@ type CardResource = Pick<
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard<R extends CardResource = CardResource> = (
-  resource: R
+  resource: R,
 ) => void
 type LearningResourceCardTemplateProps<R extends CardResource = CardResource> =
   {
@@ -80,9 +80,9 @@ const ResourceFooterDetails: React.FC<
 > = ({ resource }) => {
   const bestRun = findBestRun(resource.runs ?? [])
   const startDate = bestRun?.start_date
-  const formattedDate = startDate ?
-    moment(startDate).format("MMMM DD, YYYY") :
-    null
+  const formattedDate = startDate
+    ? moment(startDate).format("MMMM DD, YYYY")
+    : null
 
   if (!startDate) return null
 
@@ -103,13 +103,13 @@ const LRCImage: React.FC<LRCImageProps> = ({
   resource,
   imgConfig,
   suppressImage,
-  variant
+  variant,
 }) => {
   if (suppressImage) return null
   const dims =
-    variant === "column" ?
-      { height: imgConfig.height } :
-      { width: imgConfig.width, height: imgConfig.height }
+    variant === "column"
+      ? { height: imgConfig.height }
+      : { width: imgConfig.width, height: imgConfig.height }
   return (
     <CardMedia
       component="img"
@@ -122,9 +122,9 @@ const LRCImage: React.FC<LRCImageProps> = ({
 }
 
 const variantClasses: Record<CardVariant, string> = {
-  column:        "ol-lrc-col",
-  row:           "ol-lrc-row",
-  "row-reverse": "ol-lrc-row-reverse"
+  column: "ol-lrc-col",
+  row: "ol-lrc-row",
+  "row-reverse": "ol-lrc-row-reverse",
 }
 
 /**
@@ -143,18 +143,18 @@ const LearningResourceCardTemplate = <R extends CardResource>({
   suppressImage = false,
   onActivate,
   footerActionSlot,
-  sortable
+  sortable,
 }: LearningResourceCardTemplateProps<R>) => {
   const hasCertificate =
     resource.certification && resource.certification.length > 0
   const handleActivate = useCallback(
     () => onActivate?.(resource),
-    [resource, onActivate]
+    [resource, onActivate],
   )
 
   invariant(
     !sortable || variant === "row-reverse",
-    "sortable only supported for variant='row-reverse'"
+    "sortable only supported for variant='row-reverse'",
   )
 
   return (
@@ -169,7 +169,7 @@ const LearningResourceCardTemplate = <R extends CardResource>({
       ) : null}
       <CardContent
         className={classNames("ol-lrc-content", variantClasses[variant], {
-          "ol-lrc-sortable": sortable
+          "ol-lrc-sortable": sortable,
         })}
       >
         {variant !== "column" ? (

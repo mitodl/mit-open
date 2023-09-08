@@ -2,7 +2,7 @@ import React, { useCallback, ChangeEvent } from "react"
 import Select, {
   CSSObjectWithLabel,
   MultiValue,
-  SingleValue
+  SingleValue,
 } from "react-select"
 import AsyncSelect from "react-select/async"
 import { isNil } from "lodash"
@@ -33,24 +33,24 @@ export default function SelectField(props: Props): JSX.Element {
     loadOptions,
     defaultOptions,
     placeholder,
-    isOptionDisabled
+    isOptionDisabled,
   } = props
   const multiple = props.multiple ?? false
-  const selectOptions = options.map(option =>
-    typeof option === "string" ? { label: option, value: option } : option
+  const selectOptions = options.map((option) =>
+    typeof option === "string" ? { label: option, value: option } : option,
   )
 
   const changeHandler = useCallback(
     (newValue: MultiValue<Option> | SingleValue<Option>) => {
       const eventValue =
-        newValue instanceof Array ?
-          newValue.map((option: Option) => option.value) :
-          newValue?.value
+        newValue instanceof Array
+          ? newValue.map((option: Option) => option.value)
+          : newValue?.value
       onChange({
-        target: { value: eventValue, name }
+        target: { value: eventValue, name },
       } as ChangeEvent<HTMLSelectElement>)
     },
-    [name, onChange]
+    [name, onChange],
   )
 
   /**
@@ -60,7 +60,7 @@ export default function SelectField(props: Props): JSX.Element {
    **/
   const getSelectOption = (value: string) => {
     const selectOption = selectOptions.filter(
-      option => option.value === value
+      (option) => option.value === value,
     )[0]
     return selectOption || { label: value, value: value }
   }
@@ -70,7 +70,7 @@ export default function SelectField(props: Props): JSX.Element {
     if (!Array.isArray(value)) {
       selected = []
     } else {
-      selected = value.map(option => getSelectOption(option))
+      selected = value.map((option) => getSelectOption(option))
     }
   } else {
     if (Array.isArray(value)) {
@@ -80,20 +80,20 @@ export default function SelectField(props: Props): JSX.Element {
   }
 
   const commonSelectOptions = {
-    className:   "w-100 form-input",
-    value:       selected,
-    isMulti:     multiple,
-    onChange:    changeHandler,
-    options:     selectOptions,
+    className: "w-100 form-input",
+    value: selected,
+    isMulti: multiple,
+    onChange: changeHandler,
+    options: selectOptions,
     placeholder: placeholder || null,
-    styles:      {
+    styles: {
       control: (base: CSSObjectWithLabel) => ({
         ...base,
-        border:    0,
-        boxShadow: "none"
-      })
+        border: 0,
+        boxShadow: "none",
+      }),
     },
-    isOptionDisabled
+    isOptionDisabled,
   }
 
   return loadOptions ? (

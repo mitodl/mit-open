@@ -10,7 +10,7 @@ type LoadingSpinnerProps = {
 const noDelay = { transitionDelay: "0ms" }
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   loading,
-  "aria-label": label = "Loading"
+  "aria-label": label = "Loading",
 }) => {
   return (
     <div className="ol-loading-spinner">

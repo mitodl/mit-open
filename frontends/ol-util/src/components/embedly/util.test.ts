@@ -4,7 +4,7 @@ import { assertNotNil } from "ol-util"
 import {
   createStylesheet,
   EmbedlyEventTypes,
-  ensureEmbedlyPlatform
+  ensureEmbedlyPlatform,
 } from "./util"
 
 describe("getEmbedly", () => {
@@ -33,7 +33,7 @@ describe("getEmbedly", () => {
     expect(embedlySpy).toHaveBeenCalledWith(
       "on",
       "card.rendered",
-      expect.any(Function) // this is the onCardRendered callback
+      expect.any(Function), // this is the onCardRendered callback
     )
 
     /**
@@ -63,8 +63,8 @@ describe("getEmbedly", () => {
     await waitFor(() => {
       expect(listener).toHaveBeenCalledWith(
         expect.objectContaining({
-          target: iframe
-        })
+          target: iframe,
+        }),
       )
     })
   })

@@ -18,26 +18,26 @@ from course_catalog.etl.prolearn import (
 
 
 @pytest.fixture(autouse=True)
-def mock_prolearn_api_setting(settings):
+def mock_prolearn_api_setting(settings):  # noqa: PT004
     """Set the prolearn api url"""
     settings.PROLEARN_CATALOG_API_URL = "http://localhost/test/programs/api"
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_csail_programs_data():
     """Mock prolearn CSAIL programs data"""
-    with open("./test_json/prolearn_csail_programs.json", "r") as f:
+    with open("./test_json/prolearn_csail_programs.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_mitpe_courses_data():
     """Mock prolearn Professional Education courses data"""
-    with open("./test_json/prolearn_mitpe_courses.json", "r") as f:
+    with open("./test_json/prolearn_mitpe_courses.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_prolearn_programs_responses(
     mocked_responses, settings, mock_csail_programs_data
 ):
@@ -48,10 +48,10 @@ def mocked_prolearn_programs_responses(
         settings.PROLEARN_CATALOG_API_URL,
         json=mock_csail_programs_data,
     )
-    yield mocked_responses
+    return mocked_responses
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_prolearn_courses_responses(
     mocked_responses, settings, mock_mitpe_courses_data
 ):
@@ -62,7 +62,7 @@ def mocked_prolearn_courses_responses(
         settings.PROLEARN_CATALOG_API_URL,
         json=mock_mitpe_courses_data,
     )
-    yield mocked_responses
+    return mocked_responses
 
 
 @pytest.mark.usefixtures("mocked_prolearn_programs_responses")
@@ -191,10 +191,10 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
 
 
 @pytest.mark.parametrize(
-    "date_int, expected_dt",
+    ("date_int", "expected_dt"),
     [
-        [1670932800, datetime(2022, 12, 13, 12, 0, tzinfo=pytz.UTC)],
-        [None, None],
+        [1670932800, datetime(2022, 12, 13, 12, 0, tzinfo=pytz.UTC)],  # noqa: PT007
+        [None, None],  # noqa: PT007
     ],
 )
 def test_parse_date(date_int, expected_dt):
@@ -203,12 +203,12 @@ def test_parse_date(date_int, expected_dt):
 
 
 @pytest.mark.parametrize(
-    "price_str, price_list",
+    ("price_str", "price_list"),
     [
-        ["$5,342", [{"price": round(Decimal(5342), 2)}]],
-        ["5.34", [{"price": round(Decimal(5.34), 2)}]],
-        [None, []],
-        ["", []],
+        ["$5,342", [{"price": round(Decimal(5342), 2)}]],  # noqa: PT007
+        ["5.34", [{"price": round(Decimal(5.34), 2)}]],  # noqa: PT007
+        [None, []],  # noqa: PT007
+        ["", []],  # noqa: PT007
     ],
 )
 def test_parse_price(price_str, price_list):
@@ -218,12 +218,12 @@ def test_parse_price(price_str, price_list):
 
 
 @pytest.mark.parametrize(
-    "topic,expected",
+    ("topic", "expected"),
     [
-        ["Blockchain", "Computer Science"],
-        ["Systems Engineering", "Systems Engineering"],
-        ["Other Business", "Business"],
-        ["Other Technology", None],
+        ["Blockchain", "Computer Science"],  # noqa: PT007
+        ["Systems Engineering", "Systems Engineering"],  # noqa: PT007
+        ["Other Business", "Business"],  # noqa: PT007
+        ["Other Technology", None],  # noqa: PT007
     ],
 )
 def test_parse_topic(topic, expected):
@@ -236,11 +236,14 @@ def test_parse_topic(topic, expected):
 
 
 @pytest.mark.parametrize(
-    "department,offered_by",
+    ("department", "offered_by"),
     [
-        ["MIT CSAIL", OfferedBy.csail.value],
-        ["MIT Center for Transportation & Logistics", OfferedBy.ctl.value],
-        ["MIT Other", None],
+        ["MIT CSAIL", OfferedBy.csail.value],  # noqa: PT007
+        [  # noqa: PT007
+            "MIT Center for Transportation & Logistics",
+            OfferedBy.ctl.value,
+        ],
+        ["MIT Other", None],  # noqa: PT007
     ],
 )
 def test_offered_by(department, offered_by):
@@ -249,11 +252,11 @@ def test_offered_by(department, offered_by):
 
 
 @pytest.mark.parametrize(
-    "featured_image_url,expected_url",
+    ("featured_image_url", "expected_url"),
     [
-        ["/a/b/c.jog", "http://localhost/a/b/c.jog"],
-        ["", None],
-        [None, None],
+        ["/a/b/c.jog", "http://localhost/a/b/c.jog"],  # noqa: PT007
+        ["", None],  # noqa: PT007
+        [None, None],  # noqa: PT007
     ],
 )
 def test_parse_image(featured_image_url, expected_url):

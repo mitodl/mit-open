@@ -6,7 +6,7 @@ from course_catalog.constants import PlatformType
 from course_catalog.etl import micromasters
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_micromasters_data():
     """Mock micromasters data"""
     return [
@@ -70,7 +70,7 @@ def mock_micromasters_data():
     ]
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_catalog_responses(mocked_responses, settings, mock_micromasters_data):
     """Mock the catalog response"""
     settings.MICROMASTERS_CATALOG_API_URL = "http://localhost/test/catalog/api"
@@ -79,7 +79,7 @@ def mocked_catalog_responses(mocked_responses, settings, mock_micromasters_data)
         settings.MICROMASTERS_CATALOG_API_URL,
         json=mock_micromasters_data,
     )
-    yield mocked_responses
+    return mocked_responses
 
 
 @pytest.mark.usefixtures("mocked_catalog_responses")

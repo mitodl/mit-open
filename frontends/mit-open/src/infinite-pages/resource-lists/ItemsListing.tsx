@@ -8,7 +8,7 @@ import {
   RenderActive,
   LoadingSpinner,
   arrayMove,
-  OnSortEnd
+  OnSortEnd,
 } from "ol-util"
 import { useMoveListItem } from "../../api/learning-resources"
 
@@ -27,7 +27,7 @@ const ResourceListItemsViewOnly: React.FC<{
 }> = ({ items }) => {
   return (
     <ul className="ic-card-row-list">
-      {items.map(item => {
+      {items.map((item) => {
         return (
           <li key={item.id}>
             <LearningResourceCard
@@ -59,7 +59,7 @@ const ResourceListItemsSortable: React.FC<{
   const [sorted, setSorted] = React.useState<ListItem[]>([])
   useEffect(() => setSorted(items), [items])
 
-  const renderDragging: RenderActive = useCallback(active => {
+  const renderDragging: RenderActive = useCallback((active) => {
     const item = active.data.current as ListItem
     return (
       <LearningResourceCard
@@ -73,36 +73,36 @@ const ResourceListItemsSortable: React.FC<{
   }, [])
 
   const onSortEnd: OnSortEnd<number> = useCallback(
-    async e => {
+    async (e) => {
       const active = e.active.data.current as unknown as ListItem
       const over = e.over.data.current as unknown as ListItem
-      setSorted(current => {
+      setSorted((current) => {
         const newOrder = arrayMove(current, e.activeIndex, e.overIndex)
         return newOrder
       })
       move.mutate({
         item: {
           item_id: active.id,
-          list_id: listId
+          list_id: listId,
         },
-        position: over.position
+        position: over.position,
       })
     },
-    [move, listId]
+    [move, listId],
   )
   const disabled = isRefetching || move.isLoading
   return (
     <ul
       className={classNames("ic-card-row-list", {
-        "sorting-disabled": disabled
+        "sorting-disabled": disabled,
       })}
     >
       <SortableList
-        itemIds={sorted.map(item => item.id)}
+        itemIds={sorted.map((item) => item.id)}
         onSortEnd={onSortEnd}
         renderActive={renderDragging}
       >
-        {sorted.map(item => {
+        {sorted.map((item) => {
           return (
             <SortableItem
               Component="li"
@@ -111,7 +111,7 @@ const ResourceListItemsSortable: React.FC<{
               data={item}
               disabled={disabled}
             >
-              {handleProps => {
+              {(handleProps) => {
                 return (
                   <div {...handleProps}>
                     <LearningResourceCard
@@ -138,7 +138,7 @@ const ResourceListItems: React.FC<ResourceListItemsProps> = ({
   isRefetching,
   emptyMessage,
   sortable = false,
-  mode
+  mode,
 }) => {
   if (sortable && !id) throw new Error("Sortable list must have an id")
   if (sortable && !mode) throw new Error("Sortable list must have a mode")

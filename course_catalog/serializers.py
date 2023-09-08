@@ -9,9 +9,9 @@ from django.core.exceptions import ValidationError as CoreValidationError
 from django.core.validators import URLValidator
 from django.db import transaction
 from django.db.models import F, Max, prefetch_related_objects
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from drf_spectacular.utils import extend_schema_field
 
 from course_catalog import utils
 from course_catalog.constants import (
@@ -73,8 +73,9 @@ class GenericForeignKeyFieldSerializer(serializers.Serializer):
         elif isinstance(instance, PodcastEpisode):
             serializer = PodcastEpisodeSerializer(instance, context=context)
         else:
-            raise Exception(  # pylint:disable=broad-exception-raised
-                "Unexpected type of tagged object"
+            msg = "Unexpected type of tagged object"
+            raise Exception(  # pylint:disable=broad-exception-raised  # noqa: E501, TRY002, TRY004
+                msg
             )
         return serializer.data
 
@@ -162,7 +163,7 @@ class LearningResourceOfferorField(serializers.Field):
     """Serializer for LearningResourceOfferor"""
 
     def to_representation(self, value):
-        """Serializes offered_by as a list of OfferedBy names"""
+        """Serializes offered_by as a list of OfferedBy names"""  # noqa: D401
         return [offeror.name for offeror in value.all()]
 
 
@@ -179,7 +180,7 @@ class BaseCourseSerializer(
     def create(self, validated_data):
         """
         Custom create since serializers don't do writable nested serializers by default
-        """
+        """  # noqa: D401
         course = super().create(validated_data)
         self.handle_many_to_many(course)
         return course
@@ -187,7 +188,7 @@ class BaseCourseSerializer(
     def update(self, instance, validated_data):
         """
         Custom update since serializers don't do writable nested serializers by default
-        """
+        """  # noqa: D401
         course = super().update(instance, validated_data)
         self.handle_many_to_many(course)
         return course
@@ -215,9 +216,8 @@ class BaseCourseSerializer(
                 try:
                     url_validator(urljoin("http://www.base.com/", attrs["image_src"]))
                 except CoreValidationError:
-                    raise ValidationError(
-                        "image_src is not a valid absolute or relative url"
-                    )
+                    msg = "image_src is not a valid absolute or relative url"
+                    raise ValidationError(msg)  # noqa: B904, TRY200
 
 
 class LearningResourceRunSerializer(BaseCourseSerializer):
@@ -242,7 +242,8 @@ class LearningResourceRunSerializer(BaseCourseSerializer):
                 platform=platform, run_id=run_id
             ).exists()
         ):
-            raise serializers.ValidationError("LearningResourceRun already exists")
+            msg = "LearningResourceRun already exists"
+            raise serializers.ValidationError(msg)
         return attrs
 
     def handle_many_to_many(self, resource):
@@ -269,7 +270,7 @@ class LearningResourceRunSerializer(BaseCourseSerializer):
     def to_internal_value(self, data):
         """
         Custom function to parse data out of the raw edx json
-        """
+        """  # noqa: D401
         year, semester = utils.get_year_and_semester(data)
         course_fields = {
             "content_type": data.get("content_type"),
@@ -359,7 +360,8 @@ class CourseSerializer(BaseCourseSerializer, LearningResourceRunMixin):
             self.instance is None
             and Course.objects.filter(platform=platform, course_id=course_id).exists()
         ):
-            raise serializers.ValidationError("Course already exists")
+            msg = "Course already exists"
+            raise serializers.ValidationError(msg)
         return attrs
 
     class Meta:
@@ -380,7 +382,7 @@ class OCWSerializer(CourseSerializer):
     def to_internal_value(self, data):
         """
         Custom function to parse data out of the raw ocw json
-        """
+        """  # noqa: D401
         topics = [
             {"name": topic_name}
             for topic_name in utils.get_ocw_topics(data.get("course_collections"))
@@ -425,7 +427,7 @@ class OCWNextSerializer(CourseSerializer):
     def to_internal_value(self, data):
         """
         Custom function to parse data out of the raw ocw json
-        """
+        """  # noqa: D401
 
         topics = [
             topic for topic_sublist in data.get("topics", []) for topic in topic_sublist
@@ -492,7 +494,7 @@ class ListItemListSerializer(serializers.ListSerializer):
         #   needs to hit a different join table for each type
 
         def _items_for_classes(*classes):
-            """Returns a list of items that matches a list of classes by content_type"""
+            """Returns a list of items that matches a list of classes by content_type"""  # noqa: D401, E501
             return [
                 item.item for item in data if item.content_type.model_class() in classes
             ]
@@ -531,32 +533,38 @@ class BaseListItemSerializer(serializers.Serializer):
                 "podcast",
                 "podcastepisode",
             ]:
-                raise ValidationError("Incorrect object type {}".format(content_type))
+                msg = f"Incorrect object type {content_type}"
+                raise ValidationError(msg)
             if (
                 content_type == "course"
                 and not Course.objects.filter(id=object_id).exists()
             ):
-                raise ValidationError("Course does not exist")
+                msg = "Course does not exist"
+                raise ValidationError(msg)
             if (
                 content_type == "program"
                 and not Program.objects.filter(id=object_id).exists()
             ):
-                raise ValidationError("Program does not exist")
+                msg = "Program does not exist"
+                raise ValidationError(msg)
             if (
                 content_type == "video"
                 and not Video.objects.filter(id=object_id).exists()
             ):
-                raise ValidationError("Video does not exist")
+                msg = "Video does not exist"
+                raise ValidationError(msg)
             if (
                 content_type == "podcast"
                 and not Podcast.objects.filter(id=object_id).exists()
             ):
-                raise ValidationError("Podcast does not exist")
+                msg = "Podcast does not exist"
+                raise ValidationError(msg)
             if (
                 content_type == "podcastepisode"
                 and not PodcastEpisode.objects.filter(id=object_id).exists()
             ):
-                raise ValidationError("Podcast Episode does not exist")
+                msg = "Podcast Episode does not exist"
+                raise ValidationError(msg)
         return attrs
 
 
@@ -574,7 +582,7 @@ class UserListItemSerializer(
         Args:
             user_list (UserList): the UserList object to update in the search index.
 
-        """
+        """  # noqa: E501
         view = self.context.get("view", None)
         if view is not None and view.kwargs.get(
             f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}user_list_id", None
@@ -602,17 +610,17 @@ class UserListItemSerializer(
     def update(self, instance, validated_data):
         position = validated_data["position"]
         # to perform an update on position we atomically:
-        # 1) move everything between the old position and the new position towards the old position by 1
+        # 1) move everything between the old position and the new position towards the old position by 1  # noqa: E501
         # 2) move the item into its new position
-        # this operation gets slower the further the item is moved, but it is sufficient for now
+        # this operation gets slower the further the item is moved, but it is sufficient for now  # noqa: E501
         with transaction.atomic():
             if position > instance.position:
-                # move items between the old and new positions up, inclusive of the new position
+                # move items between the old and new positions up, inclusive of the new position  # noqa: E501
                 UserListItem.objects.filter(
                     position__lte=position, position__gt=instance.position
                 ).update(position=F("position") - 1)
             else:
-                # move items between the old and new positions down, inclusive of the new position
+                # move items between the old and new positions down, inclusive of the new position  # noqa: E501
                 UserListItem.objects.filter(
                     position__lt=instance.position, position__gte=position
                 ).update(position=F("position") + 1)
@@ -644,7 +652,7 @@ class BaseListSerializer(serializers.Serializer):
     certification = serializers.ReadOnlyField()
 
     def get_author_name(self, instance) -> str:
-        """get author name for userlist"""
+        """Get author name for userlist"""
         return instance.author.profile.name
 
     def get_item_count(self, instance) -> int:
@@ -665,7 +673,7 @@ class BaseListSerializer(serializers.Serializer):
         return None
 
     def validate_topics(self, topics):
-        """Validator for topics"""
+        """Validator for topics"""  # noqa: D401
         if len(topics) > 0:
             if isinstance(topics[0], dict):
                 topics = [topic["id"] for topic in topics]
@@ -676,15 +684,17 @@ class BaseListSerializer(serializers.Serializer):
                     )
                 )
             except ValueError:
-                raise ValidationError("Topic ids must be integers")
+                msg = "Topic ids must be integers"
+                raise ValidationError(msg)  # noqa: B904, TRY200
             missing = set(topics).difference(valid_topic_ids)
             if missing:
-                raise ValidationError(f"Invalid topic ids: {missing}")
+                msg = f"Invalid topic ids: {missing}"
+                raise ValidationError(msg)
         return {"topics": topics}
 
     @extend_schema_field(CourseTopicSerializer(many=True))
     def get_topics(self, instance):
-        """Returns the list of topics"""
+        """Returns the list of topics"""  # noqa: D401
         return [CourseTopicSerializer(topic).data for topic in instance.topics.all()]
 
 
@@ -701,23 +711,26 @@ class UserListSerializer(
     def validate_list_type(self, list_type):
         """
         Validator for list_type.
-        """
+        """  # noqa: D401
         if not list_type or list_type not in [
             listtype.value for listtype in UserListType
         ]:
-            raise ValidationError("Missing/incorrect list type information")
+            msg = "Missing/incorrect list type information"
+            raise ValidationError(msg)
         return list_type
 
     def validate_privacy_level(self, privacy_level):
         """
         Validator for privacy_level
-        """
+        """  # noqa: D401
         request = self.context.get("request")
-        if request and hasattr(request, "user") and isinstance(request.user, User):
-            if privacy_level == PrivacyLevel.public.value and not (
-                request.user.is_superuser or request.user.is_staff
-            ):
-                raise ValidationError("Invalid permissions for public lists")
+        if (
+            (request and hasattr(request, "user") and isinstance(request.user, User))
+            and privacy_level == PrivacyLevel.public.value
+            and not (request.user.is_superuser or request.user.is_staff)
+        ):
+            msg = "Invalid permissions for public lists"
+            raise ValidationError(msg)
         return privacy_level
 
     def create(self, validated_data):
@@ -730,6 +743,7 @@ class UserListSerializer(
                 userlist = super().create(validated_data)
                 userlist.topics.set(CourseTopic.objects.filter(id__in=topics_data))
             return userlist
+        return None
 
     def update(self, instance, validated_data):
         """Ensure that the list is authored by the requesting user before modifying"""
@@ -746,6 +760,7 @@ class UserListSerializer(
                 else:
                     deindex_user_list(userlist)
                 return userlist
+        return None
 
     class Meta:
         model = UserList
@@ -764,17 +779,18 @@ class StaffListSerializer(
     def validate_privacy_level(self, privacy_level):
         """
         Validator for privacy_level, should always be True
-        """
+        """  # noqa: D401
         return privacy_level
 
     def validate_list_type(self, list_type):
         """
         Validator for list_type.
-        """
+        """  # noqa: D401
         if not list_type or list_type not in [
             listtype.value for listtype in StaffListType
         ]:
-            raise ValidationError("Missing/incorrect list type information")
+            msg = "Missing/incorrect list type information"
+            raise ValidationError(msg)
         return list_type
 
     def create(self, validated_data):
@@ -787,6 +803,7 @@ class StaffListSerializer(
                 stafflist = super().create(validated_data)
                 stafflist.topics.set(CourseTopic.objects.filter(id__in=topics_data))
             return stafflist
+        return None
 
     def update(self, instance, validated_data):
         """Set stafflist topics and update the model object"""
@@ -805,6 +822,7 @@ class StaffListSerializer(
                 else:
                     deindex_staff_list(stafflist)
                 return stafflist
+        return None
 
     class Meta:
         model = StaffList
@@ -824,7 +842,7 @@ class StaffListItemSerializer(BaseListItemSerializer, serializers.ModelSerialize
         Args:
             staff_list (StaffList): the StaffList object to update in the search index.
 
-        """
+        """  # noqa: E501
         view = self.context.get("view", None)
         if view is not None and view.kwargs.get(
             f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}staff_list_id", None
@@ -852,17 +870,17 @@ class StaffListItemSerializer(BaseListItemSerializer, serializers.ModelSerialize
     def update(self, instance, validated_data):
         position = validated_data["position"]
         # to perform an update on position we atomically:
-        # 1) move everything between the old position and the new position towards the old position by 1
+        # 1) move everything between the old position and the new position towards the old position by 1  # noqa: E501
         # 2) move the item into its new position
-        # this operation gets slower the further the item is moved, but it is sufficient for now
+        # this operation gets slower the further the item is moved, but it is sufficient for now  # noqa: E501
         with transaction.atomic():
             if position > instance.position:
-                # move items between the old and new positions up, inclusive of the new position
+                # move items between the old and new positions up, inclusive of the new position  # noqa: E501
                 StaffListItem.objects.filter(
                     position__lte=position, position__gt=instance.position
                 ).update(position=F("position") - 1)
             else:
-                # move items between the old and new positions down, inclusive of the new position
+                # move items between the old and new positions down, inclusive of the new position  # noqa: E501
                 StaffListItem.objects.filter(
                     position__lt=instance.position, position__gte=position
                 ).update(position=F("position") + 1)
@@ -942,7 +960,7 @@ class FavoriteItemSerializer(serializers.ModelSerializer):
     content_type = serializers.CharField(source="content_type.name")
 
     def to_representation(self, instance):
-        """put `is_favorite` in to the content data"""
+        """Put `is_favorite` in to the content data"""
         data = super().to_representation(instance)
         data["content_data"]["is_favorite"] = True
         return data
@@ -967,7 +985,7 @@ class PodcastEpisodeSerializer(
     certification = serializers.ReadOnlyField()
 
     def get_podcast_title(self, instance):
-        """get the podcast title"""
+        """Get the podcast title"""
         return instance.podcast.title
 
     class Meta:

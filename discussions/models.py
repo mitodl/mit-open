@@ -1,16 +1,16 @@
 """Discussions models"""
 from bitfield import BitField
 from django.contrib.auth.models import Group
-from django.db.models import JSONField
 from django.core.validators import RegexValidator
 from django.db import models
+from django.db.models import JSONField
 from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFit
+
 from discussions.constants import ChannelTypes, PostTypes
 from open_discussions.models import NoDefaultTimestampedModel, TimestampedModelQuerySet
 from profiles.utils import avatar_uri, banner_uri
 from widgets.models import WidgetList
-
 
 AVATAR_SMALL_MAX_DIMENSION = 22
 AVATAR_MEDIUM_MAX_DIMENSION = 90
@@ -23,9 +23,7 @@ class ChannelQuerySet(TimestampedModelQuerySet):
         """Filter the queryset for what a given user is allowed to operate on"""
         from guardian.shortcuts import get_objects_for_user
 
-        permission = "{app_label}.view_{model_name}".format(
-            app_label=self.model._meta.app_label, model_name=self.model._meta.model_name
-        )
+        permission = f"{self.model._meta.app_label}.view_{self.model._meta.model_name}"  # noqa: E501, SLF001
 
         if user.is_staff:
             # staff users can see/do anything
@@ -35,7 +33,7 @@ class ChannelQuerySet(TimestampedModelQuerySet):
         qs = self.filter(channel_type__in=ChannelTypes.readable_by_any_user())
 
         if user.is_authenticated:
-            # if the user is additionally authenticated, we include private channels the user has permissions to view
+            # if the user is additionally authenticated, we include private channels the user has permissions to view  # noqa: E501
             qs |= get_objects_for_user(
                 user, permission, self, accept_global_perms=False
             )
@@ -53,7 +51,7 @@ class BaseChannel(models.Model):
         validators=[
             RegexValidator(
                 regex=r"^[A-Za-z0-9_]+$",
-                message="Channel name can only contain the characters: A-Z, a-z, 0-9, _",
+                message="Channel name can only contain the characters: A-Z, a-z, 0-9, _",  # noqa: E501
             )
         ],
     )
@@ -89,13 +87,15 @@ class BaseChannel(models.Model):
     about = JSONField(blank=True, null=True)
 
     # Miscellaneous fields
-    ga_tracking_id = models.CharField(max_length=24, blank=True, null=True)
+    ga_tracking_id = models.CharField(  # noqa: DJ001
+        max_length=24, blank=True, null=True
+    )  # noqa: DJ001, RUF100
 
     def __str__(self):
-        """str representation of channel"""
+        """Str representation of channel"""
         return self.title
 
-    class Meta:
+    class Meta:  # noqa: DJ012
         abstract = True
 
 

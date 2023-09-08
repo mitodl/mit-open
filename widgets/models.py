@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import JSONField
 
 
-class WidgetList(models.Model):
+class WidgetList(models.Model):  # noqa: DJ008
     """
     WidgetList handles authentication and is linked to a set of WidgetInstances
     """
@@ -12,10 +12,10 @@ class WidgetList(models.Model):
         app_label = "widgets"
 
 
-class WidgetInstance(models.Model):
+class WidgetInstance(models.Model):  # noqa: DJ008
     """
     WidgetInstance contains data for a single widget instance, regardless of what class of widget it is
-    """
+    """  # noqa: E501
 
     widget_list = models.ForeignKey(
         WidgetList, related_name="widgets", on_delete=models.CASCADE
@@ -28,7 +28,7 @@ class WidgetInstance(models.Model):
     class Meta:
         app_label = "widgets"
         indexes = [
-            # NOTE: this is effectively unique_together, but we enforce this in code, not in the DB
+            # NOTE: this is effectively unique_together, but we enforce this in code, not in the DB  # noqa: E501
             models.Index(
                 fields=["widget_list", "position"], name="widget_list_position_index"
             )

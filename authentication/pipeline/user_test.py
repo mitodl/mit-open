@@ -20,7 +20,7 @@ def test_forbid_hijack(mocker, hijacked):
     }
 
     if hijacked:
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             user_actions.forbid_hijack(**kwargs)
     else:
         assert user_actions.forbid_hijack(**kwargs) == {}

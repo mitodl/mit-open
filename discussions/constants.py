@@ -7,7 +7,7 @@ class LowercaseValueEnum(Enum):
 
     @staticmethod
     def _generate_next_value_(
-        name, start, count, last_values
+        name, start, count, last_values  # noqa: ARG004
     ):  # pylint: disable=unused-argument
         """Generate a next value using the lowercased name"""
         return name.lower()
@@ -18,12 +18,12 @@ class ChoiceFieldMixin:
 
     @classmethod
     def values(cls):
-        """Returns a list of values"""
+        """Returns a list of values"""  # noqa: D401
         return [member.value for member in cls]
 
     @classmethod
     def choices(cls):
-        """Returns a list of choices"""
+        """Returns a list of choices"""  # noqa: D401
         return [(member.value, member.name.replace("_", " ").title()) for member in cls]
 
 

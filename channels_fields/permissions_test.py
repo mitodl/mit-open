@@ -1,4 +1,4 @@
-""" Tests for channels_fields.permissions"""
+"""Tests for channels_fields.permissions"""
 import pytest
 from django.contrib.auth.models import AnonymousUser
 

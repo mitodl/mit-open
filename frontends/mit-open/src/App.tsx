@@ -32,7 +32,7 @@ interface AppProps {
 const AppProviders: React.FC<AppProps & { children: React.ReactNode }> = ({
   history,
   queryClient,
-  children
+  children,
 }) => {
   return (
     <StrictMode>
@@ -60,10 +60,10 @@ const App: React.FC<AppProps> = ({ history, queryClient }) => {
         <Header />
         <ErrorPageRedirect>
           <Switch>
-            {routes.map(route => (
+            {routes.map((route) => (
               <Route key={JSON.stringify(route.path)} {...route} />
             ))}
-            {infiniteRoutes.map(route => (
+            {infiniteRoutes.map((route) => (
               <Route key={JSON.stringify(route.path)} {...route} />
             ))}
             <Route component={NotFoundPage} />

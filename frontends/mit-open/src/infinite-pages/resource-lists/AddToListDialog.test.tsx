@@ -3,7 +3,7 @@ import {
   makeCourse,
   makeUserListsPaginated,
   makeListItemMember,
-  makeStaffListsPaginated
+  makeStaffListsPaginated,
 } from "ol-search-ui/src/factories"
 import { UserList, LearningResource, StaffList } from "ol-search-ui"
 import { assertNotNil } from "ol-util"
@@ -15,11 +15,11 @@ import {
   screen,
   user,
   within,
-  act
+  act,
 } from "../../test-utils"
 import {
   setMockResponse,
-  mockAxiosInstance as axios
+  mockAxiosInstance as axios,
 } from "../../test-utils/mockAxios"
 import { urls } from "../../api/learning-resources"
 import { manageListDialogs } from "./ManageListDialogs"
@@ -29,7 +29,7 @@ jest.mock("@ebay/nice-modal-react", () => {
   const actual = jest.requireActual("@ebay/nice-modal-react")
   return {
     ...actual,
-    show: jest.fn(actual.show)
+    show: jest.fn(actual.show),
   }
 })
 
@@ -43,19 +43,19 @@ const setup = (
   {
     inLists = [],
     isFavorite = false,
-    dialogOpen = true
-  }: Partial<SetupOptions> = {}
+    dialogOpen = true,
+  }: Partial<SetupOptions> = {},
 ) => {
   const resource = makeCourse({ is_favorite: isFavorite })
   const paginatedLists =
-    mode === "userlist" ?
-      makeUserListsPaginated({ count: 3 }) :
-      makeStaffListsPaginated({ count: 3 })
+    mode === "userlist"
+      ? makeUserListsPaginated({ count: 3 })
+      : makeStaffListsPaginated({ count: 3 })
   const lists = paginatedLists.results
 
   const itemMembers = mode === "userlist" ? resource.lists : resource.stafflists
 
-  inLists.forEach(index => {
+  inLists.forEach((index) => {
     const list = lists[index]
     itemMembers.push(makeListItemMember({}, { resource, list }))
     list.item_count += 1
@@ -63,7 +63,7 @@ const setup = (
 
   setMockResponse.get(
     urls.resource.details(resource.object_type, resource.id),
-    resource
+    resource,
   )
   const listingUrl =
     mode === "userlist" ? urls.userList.listing() : urls.staffList.listing()
@@ -81,40 +81,40 @@ const setup = (
     view,
     resource,
     lists,
-    itemMembers
+    itemMembers,
   }
 }
 
 const addToList = (
   resource: LearningResource,
   list: UserList | StaffList,
-  mode: "userlist" | "stafflist"
+  mode: "userlist" | "stafflist",
 ): LearningResource => {
   const member = makeListItemMember({}, { resource, list })
   const patch =
-    mode === "userlist" ?
-      {
-        lists: [...resource.lists, member]
-      } :
-      {
-        stafflists: [...resource.stafflists, member]
-      }
+    mode === "userlist"
+      ? {
+          lists: [...resource.lists, member],
+        }
+      : {
+          stafflists: [...resource.stafflists, member],
+        }
   return { ...resource, ...patch }
 }
 const removeFromList = (
   resource: LearningResource,
-  list: UserList | StaffList
+  list: UserList | StaffList,
 ): LearningResource => {
   return {
     ...resource,
-    lists:      resource.lists.filter(member => member.list_id !== list.id),
-    stafflists: resource.lists.filter(member => member.list_id !== list.id)
+    lists: resource.lists.filter((member) => member.list_id !== list.id),
+    stafflists: resource.lists.filter((member) => member.list_id !== list.id),
   }
 }
 
 describe.each([
   { mode: "userlist", listUrls: urls.userList, liOffset: 1 },
-  { mode: "stafflist", listUrls: urls.staffList, liOffset: 0 }
+  { mode: "stafflist", listUrls: urls.staffList, liOffset: 0 },
 ] as const)("AddToListDialog (mode=$mode)", ({ mode, listUrls, liOffset }) => {
   test("List is checked iff resource is in list", async () => {
     const index = faker.datatype.number({ min: 0, max: 2 })
@@ -134,11 +134,11 @@ describe.each([
     const addToListUrl = listUrls.itemAdd(list.id)
     const modifiedResource = addToList(resource, list, mode)
     setMockResponse.post(addToListUrl, {
-      content_data: modifiedResource
+      content_data: modifiedResource,
     })
     setMockResponse.get(
       urls.resource.details(resource.object_type, resource.id),
-      modifiedResource
+      modifiedResource,
     )
 
     const listButton = await screen.findByRole("button", { name: list.title })
@@ -150,7 +150,7 @@ describe.each([
 
     expect(axios.post).toHaveBeenCalledWith(addToListUrl, {
       content_type: resource.object_type,
-      object_id:    resource.id
+      object_id: resource.id,
     })
   })
 
@@ -158,14 +158,14 @@ describe.each([
     const index = faker.datatype.number({ min: 0, max: 2 })
     const { resource, lists, itemMembers } = setup(mode, { inLists: [index] })
     const list = lists[index]
-    const listItem = itemMembers.find(l => l.list_id === list.id)
+    const listItem = itemMembers.find((l) => l.list_id === list.id)
     assertNotNil(listItem)
 
     const removalUrl = listUrls.itemDetails(list.id, listItem.item_id)
     setMockResponse.delete(removalUrl)
     setMockResponse.get(
       urls.resource.details(resource.object_type, resource.id),
-      removeFromList(resource, list)
+      removeFromList(resource, list),
     )
 
     const listButton = await screen.findByRole("button", { name: list.title })
@@ -186,7 +186,7 @@ describe.each([
 
     setup(mode)
     const button = await screen.findByRole("button", {
-      name: "Create a new list"
+      name: "Create a new list",
     })
 
     expect(createList).not.toHaveBeenCalled()
@@ -209,7 +209,7 @@ describe.each([
     const resource2 = makeCourse()
     setMockResponse.get(
       urls.resource.details(resource2.object_type, resource2.id),
-      resource2
+      resource2,
     )
     act(() => {
       NiceModal.show(AddToListDialog, { resourceKey: resource2, mode })
@@ -244,38 +244,38 @@ describe("Favorites within AddToListDialog", () => {
 
   test.each([
     { isFavorite: true, adverb: "" },
-    { isFavorite: false, adverb: "not" }
+    { isFavorite: false, adverb: "not" },
   ])(
     "Favorites is $adverb checked when resource.is_favorite=$isFavorite",
     async ({ isFavorite }) => {
       setup("userlist", { isFavorite })
       const favoritesButton = await screen.findByRole("button", {
-        name: "Favorites"
+        name: "Favorites",
       })
       const checkbox =
         within(favoritesButton).getByRole<HTMLInputElement>("checkbox")
       expect(checkbox.checked).toBe(isFavorite)
-    }
+    },
   )
 
   test.each([
     {
       isFavorite: true,
-      desc:       "removes already-favorited item from favorites",
-      url:        urls.resource.unfavorite
+      desc: "removes already-favorited item from favorites",
+      url: urls.resource.unfavorite,
     },
     {
       isFavorite: false,
-      desc:       "adds not-favorited item to favorites",
-      url:        urls.resource.favorite
-    }
+      desc: "adds not-favorited item to favorites",
+      url: urls.resource.favorite,
+    },
   ])("Clicking 'Favorites' $desc", async ({ isFavorite, url }) => {
     const { resource } = setup("userlist", { isFavorite })
 
     setMockResponse.post(url(resource.object_type, resource.id))
     setMockResponse.get(
       urls.resource.details(resource.object_type, resource.id),
-      { ...resource, is_favorite: !isFavorite }
+      { ...resource, is_favorite: !isFavorite },
     )
 
     const favButton = await screen.findByRole("button", { name: "Favorites" })

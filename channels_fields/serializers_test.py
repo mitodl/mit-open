@@ -36,9 +36,9 @@ def mock_image_file(filename):
     return SimpleUploadedFile(filename, small_gif, content_type="image/gif")
 
 
-@pytest.fixture
+@pytest.fixture()
 def base_field_data():
-    """Base field channel data for serializers"""
+    """Base field channel data for serializers"""  # noqa: D401
     return {
         "name": "my_field_name",
         "title": "my_title",
@@ -83,7 +83,9 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "id": field_channel.id,
         "lists": [
             UserListSerializer(field_list.field_list).data
-            for field_list in sorted(field_lists, key=lambda l: l.position)
+            for field_list in sorted(
+                field_lists, key=lambda l: l.position  # noqa: E741
+            )
         ],
         "subfields": [],
         "featured_list": None,
@@ -98,13 +100,13 @@ def test_create_field_channel(base_field_data):
     """
     user_lists = sorted(
         UserListFactory.create_batch(2, privacy_level=PrivacyLevel.public.value),
-        key=lambda list: list.id,
+        key=lambda list: list.id,  # noqa: A002
         reverse=True,
     )
     data = {
         **base_field_data,
         "featured_list": user_lists[0].id,
-        "lists": [list.id for list in user_lists],
+        "lists": [list.id for list in user_lists],  # noqa: A001
     }
     serializer = FieldChannelCreateSerializer(data=data)
     assert serializer.is_valid()
@@ -118,7 +120,9 @@ def test_create_field_channel(base_field_data):
     assert [
         field_list.field_list.id
         for field_list in field_channel.lists.all().order_by("position")
-    ] == [list.id for list in user_lists]
+    ] == [
+        list.id for list in user_lists  # noqa: A001
+    ]
 
 
 def test_create_field_channel_private_list(base_field_data):
@@ -127,7 +131,7 @@ def test_create_field_channel_private_list(base_field_data):
     data = {**base_field_data, "featured_list": user_list.id, "lists": [user_list.id]}
     serializer = FieldChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
-    assert "featured_list" in serializer.errors.keys()
+    assert "featured_list" in serializer.errors
 
 
 def test_create_field_channel_bad_list_values(base_field_data):
@@ -135,7 +139,7 @@ def test_create_field_channel_bad_list_values(base_field_data):
     data = {**base_field_data, "lists": ["my_list"]}
     serializer = FieldChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
-    assert "lists" in serializer.errors.keys()
+    assert "lists" in serializer.errors
 
 
 def test_create_field_channel_with_subfields(base_field_data):
@@ -161,7 +165,7 @@ def test_create_field_channel_bad_subfields(base_field_data):
     data = {**base_field_data, "subfields": ["fake"]}
     serializer = FieldChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
-    assert "subfields" in serializer.errors.keys()
+    assert "subfields" in serializer.errors
 
 
 def test_create_field_channel_bad_subfield_values(base_field_data):
@@ -169,7 +173,7 @@ def test_create_field_channel_bad_subfield_values(base_field_data):
     data = {**base_field_data, "subfields": [{"name": "fake"}]}
     serializer = FieldChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
-    assert "subfields" in serializer.errors.keys()
+    assert "subfields" in serializer.errors
 
 
 def test_update_field_channel():

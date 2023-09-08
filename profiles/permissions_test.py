@@ -1,5 +1,5 @@
 # pylint: disable=too-many-arguments,redefined-outer-name
-""" Tests for profile permissions """
+"""Tests for profile permissions"""
 import pytest
 
 from open_discussions.factories import UserFactory
@@ -9,24 +9,23 @@ from profiles.permissions import (
     is_owner_or_privileged_user,
 )
 
-
 lazy = pytest.lazy_fixture
 
 
-@pytest.fixture
+@pytest.fixture()
 def user1():
-    """Simple test user fixture"""
+    """Simple test user fixture"""  # noqa: D401
     return UserFactory.build()
 
 
-@pytest.fixture
+@pytest.fixture()
 def user2():
     """Another simple test user fixture"""
     return UserFactory.build()
 
 
 @pytest.mark.parametrize(
-    "object_user,request_user,is_super,is_staff,exp_result",
+    ("object_user", "request_user", "is_super", "is_staff", "exp_result"),
     [
         (lazy("user1"), lazy("user2"), False, False, False),
         (lazy("user1"), lazy("user1"), False, False, True),
@@ -34,7 +33,7 @@ def user2():
         (lazy("user1"), lazy("user2"), False, True, True),
     ],
 )
-def test_is_owner_or_privileged_user(
+def test_is_owner_or_privileged_user(  # noqa: PLR0913
     mocker, object_user, request_user, is_super, is_staff, exp_result
 ):
     """
@@ -61,7 +60,7 @@ def test_can_edit_profile_staff(mocker, staff_user):
 
 
 @pytest.mark.parametrize(
-    "method,result",
+    ("method", "result"),
     [("GET", True), ("HEAD", True), ("OPTIONS", True), ("POST", False), ("PUT", False)],
 )
 @pytest.mark.parametrize("is_super", [True, False])
@@ -104,7 +103,7 @@ def test_site_edit_permission_safe(mocker, method):
 
 
 @pytest.mark.parametrize(
-    "permission_check_ret_val,exp_result", [(True, True), (False, False)]
+    ("permission_check_ret_val", "exp_result"), [(True, True), (False, False)]
 )
 @pytest.mark.parametrize("method", ["POST", "PUT"])
 def test_site_edit_permission(mocker, method, permission_check_ret_val, exp_result):

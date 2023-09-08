@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("course_catalog", "0097_alter_course_course_feature_tags_and_more"),
     ]

@@ -1,13 +1,12 @@
 """Testing utils"""
 import abc
 import json
-from contextlib import contextmanager
 import traceback
+from contextlib import contextmanager
 from unittest.mock import Mock
 
-from django.http.response import HttpResponse
-
 import pytest
+from django.http.response import HttpResponse
 
 
 def any_instance_of(*classes):
@@ -19,9 +18,9 @@ def any_instance_of(*classes):
 
     Returns:
         AnyInstanceOf: dynamic class type with the desired equality
-    """
+    """  # noqa: D401
 
-    class AnyInstanceOf(abc.ABC):
+    class AnyInstanceOf(abc.ABC):  # noqa: B024
         """Dynamic class type for __eq__ in terms of isinstance"""
 
         def __init__(self, classes):
@@ -43,12 +42,12 @@ def any_instance_of(*classes):
 
 @contextmanager
 def assert_not_raises():
-    """Used to assert that the context does not raise an exception"""
+    """Used to assert that the context does not raise an exception"""  # noqa: D401
     try:
         yield
     except AssertionError:
         raise
-    except Exception:  # pylint: disable=broad-except
+    except Exception:  # pylint: disable=broad-except  # noqa: BLE001
         pytest.fail(f"An exception was not raised: {traceback.format_exc()}")
 
 
@@ -82,7 +81,7 @@ def drf_datetime(dt):
 
     Returns:
         str: ISO 8601 formatted datetime
-    """
+    """  # noqa: D401
     return dt.isoformat().replace("+00:00", "Z")
 
 
@@ -108,7 +107,7 @@ def _sort_values_for_testing(obj):
         return obj
 
 
-def assert_json_equal(obj1, obj2, sort=False):
+def assert_json_equal(obj1, obj2, sort=False):  # noqa: FBT002
     """
     Asserts that two objects are equal after a round trip through JSON serialization/deserialization.
     Particularly helpful when testing DRF serializers where you may get back OrderedDict and other such objects.
@@ -117,7 +116,7 @@ def assert_json_equal(obj1, obj2, sort=False):
         obj1 (object): the first object
         obj2 (object): the second object
         sort (bool): If true, sort items which are iterable before comparing
-    """
+    """  # noqa: D401
     converted1 = json.loads(json.dumps(obj1))
     converted2 = json.loads(json.dumps(obj2))
     if sort:
@@ -134,5 +133,5 @@ class PickleableMock(Mock):
     """
 
     def __reduce__(self):
-        """Required method for being pickleable"""
+        """Required method for being pickleable"""  # noqa: D401
         return (Mock, ())

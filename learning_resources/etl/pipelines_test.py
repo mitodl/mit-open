@@ -1,4 +1,4 @@
-"""Tests for ETL pipelines"""
+"""Tests for ETL pipelines"""  # noqa: INP001
 from contextlib import contextmanager
 from importlib import reload
 from unittest.mock import patch

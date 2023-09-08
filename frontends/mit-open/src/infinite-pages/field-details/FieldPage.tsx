@@ -23,7 +23,7 @@ type RouteParams = {
 
 const keyFromHash = (hash: string) => {
   const keys = ["home", "about"]
-  const match = keys.find(key => `#${key}` === hash)
+  const match = keys.find((key) => `#${key}` === hash)
   return match ?? "home"
 }
 interface FieldListProps {
@@ -34,13 +34,13 @@ const FieldList: React.FC<FieldListProps> = ({ list }) => {
   const itemsQuery = useUserListItems(list.id)
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages ?? []
-    return pages.flatMap(p => p.results.map(r => r.content_data)) ?? []
+    return pages.flatMap((p) => p.results.map((r) => r.content_data)) ?? []
   }, [itemsQuery.data?.pages])
   return (
     <section>
       <h3>{list.title}</h3>
       <ul className="ic-card-row-list">
-        {items.map(item => (
+        {items.map((item) => (
           <li key={item.id}>
             <LearningResourceCard variant="row-reverse" resource={item} />
           </li>
@@ -54,7 +54,7 @@ const FieldCarousel: React.FC<FieldListProps> = ({ list }) => {
   const itemsQuery = useUserListItems(list.id)
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages ?? []
-    return pages.flatMap(p => p.results.map(r => r.content_data)) ?? []
+    return pages.flatMap((p) => p.results.map((r) => r.content_data)) ?? []
   }, [itemsQuery.data?.pages])
   const isSm = useMuiBreakpoint("sm")
   const isLg = useMuiBreakpoint("lg")
@@ -84,7 +84,7 @@ const FieldCarousel: React.FC<FieldListProps> = ({ list }) => {
         </button>
       }
     >
-      {items.map(item => (
+      {items.map((item) => (
         <LearningResourceCard
           key={item.id}
           className="ic-resource-card ic-carousel-card"
@@ -108,7 +108,7 @@ const FieldPage: React.FC = () => {
     (_event: React.SyntheticEvent, newValue: string) => {
       history.replace({ hash: newValue })
     },
-    [history]
+    [history],
   )
 
   const featuredList = fieldQuery.data?.featured_list
@@ -118,7 +118,7 @@ const FieldPage: React.FC = () => {
   const leaveWidgetManagement = useCallback(() => {
     const { pathname } = history.location
     history.replace({
-      pathname: pathname.slice(0, -MANAGE_WIDGETS_SUFFIX.length)
+      pathname: pathname.slice(0, -MANAGE_WIDGETS_SUFFIX.length),
     })
   }, [history])
 
@@ -149,7 +149,7 @@ const FieldPage: React.FC = () => {
               <TabPanel value="home" className="page-nav-content">
                 <p>{fieldQuery.data?.public_description}</p>
                 {featuredList && <FieldCarousel list={featuredList} />}
-                {fieldLists.map(list => (
+                {fieldLists.map((list) => (
                   <FieldList key={list.id} list={list} />
                 ))}
               </TabPanel>

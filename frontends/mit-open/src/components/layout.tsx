@@ -21,31 +21,31 @@ type GridItemProps = Omit<
 const columnVariants: Record<ColumnVariant, GridProps> = {
   "single-full": {
     xs: 12,
-    md: 12
+    md: 12,
   },
   "main-2": {
     xs: 12,
-    md: 9
+    md: 9,
   },
   "sidebar-2": {
     xs: 12,
-    md: 3
+    md: 3,
   },
   "main-2-wide-main": {
     xs: 12,
-    md: 8
+    md: 8,
   },
   "sidebar-2-wide-main": {
     xs: 12,
-    md: 4
-  }
+    md: 4,
+  },
 }
 
 /**
  * This is a thin wrapper around MUI's [Grid](https://mui.com/material-ui/react-grid/)
  * component specifying some app-specific props.
  */
-const GridContainer: React.FC<GridContainerProps> = props => (
+const GridContainer: React.FC<GridContainerProps> = (props) => (
   <Grid container columnSpacing={6} {...props} />
 )
 

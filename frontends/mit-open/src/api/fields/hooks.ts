@@ -3,7 +3,7 @@ import {
   FieldChannel,
   FieldChannelAppearanceForm,
   FieldChannelBasicForm,
-  FieldList
+  FieldList,
 } from "./interfaces"
 import * as urls from "./urls"
 import axios from "../../libs/axios"
@@ -19,7 +19,7 @@ const useFieldDetails = (name: string) => {
 
 const editFieldChannel = async (
   name: string,
-  data: FieldChannelBasicForm | FieldChannelAppearanceForm
+  data: FieldChannelBasicForm | FieldChannelAppearanceForm,
 ) => {
   const { data: response } = await axios.patch(`${fieldDetails(name)}`, data)
   return response
@@ -34,8 +34,8 @@ const useMutateField = (field: FieldChannel) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries([fieldDetails(field.name)])
-      }
-    }
+      },
+    },
   )
 }
 

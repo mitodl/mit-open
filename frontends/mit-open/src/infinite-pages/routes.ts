@@ -8,68 +8,68 @@ import FieldPage from "./field-details/FieldPage"
 import FavoritesPage from "./resource-lists/FavoritesPage"
 import {
   UserListDetailsPage,
-  StaffListDetailsPage
+  StaffListDetailsPage,
 } from "./resource-lists/ResourceListDetailsPage"
 import {
   UserListsListingPage,
-  StaffListsListingPage
+  StaffListsListingPage,
 } from "./resource-lists/ResourceListsListingsPage"
 
 const routes: RouteProps[] = [
   {
-    path:  urls.HOME,
-    exact: true
+    path: urls.HOME,
+    exact: true,
   },
   {
-    path:      urls.SEARCH,
+    path: urls.SEARCH,
     component: SearchPage,
-    exact:     true
+    exact: true,
   },
   {
-    path:      urls.DEMO,
+    path: urls.DEMO,
     component: DemoPage,
-    exact:     true
+    exact: true,
   },
   {
-    path:      [urls.FIELD_VIEW, urls.FIELD_EDIT_WIDGETS],
+    path: [urls.FIELD_VIEW, urls.FIELD_EDIT_WIDGETS],
     component: FieldPage,
-    exact:     true
+    exact: true,
   },
   {
-    path:      urls.FIELD_EDIT,
+    path: urls.FIELD_EDIT,
     component: FieldAdminApp,
-    exact:     true
+    exact: true,
   },
   {
-    path:      urls.USERLISTS_LISTING,
+    path: urls.USERLISTS_LISTING,
     component: UserListsListingPage,
-    exact:     true
+    exact: true,
   },
   {
-    path:      urls.FAVORITES_VIEW,
+    path: urls.FAVORITES_VIEW,
     component: FavoritesPage,
-    exact:     true
+    exact: true,
   },
   {
-    path:      urls.USERLIST_VIEW,
+    path: urls.USERLIST_VIEW,
     component: UserListDetailsPage,
-    exact:     true
+    exact: true,
   },
   {
-    path:      urls.STAFFLISTS_LISTING,
+    path: urls.STAFFLISTS_LISTING,
     component: StaffListsListingPage,
-    exact:     true
+    exact: true,
   },
   {
-    path:      urls.STAFFLIST_VIEW,
+    path: urls.STAFFLIST_VIEW,
     component: StaffListDetailsPage,
-    exact:     true
+    exact: true,
   },
   {
-    path:      "/infinite/article",
+    path: "/infinite/article",
     component: ArticlePage,
-    exact:     true
-  }
+    exact: true,
+  },
 ]
 
 export default routes

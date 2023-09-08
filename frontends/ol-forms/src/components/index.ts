@@ -5,5 +5,5 @@ export { default as FormDialog } from "./FormDialog"
 export type { FormDialogProps } from "./FormDialog"
 export type {
   RadioChoiceFieldProps,
-  RadioChoiceProps
+  RadioChoiceProps,
 } from "./RadioChoiceField"

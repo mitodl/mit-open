@@ -20,7 +20,7 @@ describe("LearningResourceCard", () => {
         variant="column"
         resource={resource}
         imgConfig={imgConfig}
-      />
+      />,
     )
     const heading = screen.getByRole("heading", { name: resource.title })
 
@@ -33,7 +33,7 @@ describe("LearningResourceCard", () => {
 
   it("does not show an image iff suppressImage is true", () => {
     const resource = makeResource({
-      resource_type: ResourceTypeEnum.Course
+      resource_type: ResourceTypeEnum.Course,
     })
     const imgConfig = makeImgConfig()
     const { rerender } = render(
@@ -41,7 +41,7 @@ describe("LearningResourceCard", () => {
         variant="column"
         resource={resource}
         imgConfig={imgConfig}
-      />
+      />,
     )
     const images = screen.queryAllByRole("img")
     rerender(
@@ -50,14 +50,14 @@ describe("LearningResourceCard", () => {
         resource={resource}
         imgConfig={imgConfig}
         suppressImage={true}
-      />
+      />,
     )
     expect(screen.queryAllByRole("img").length).toBe(images.length - 1)
   })
 
   it("Calls onActivate when clicking title", async () => {
     const resource = makeResource({
-      resource_type: ResourceTypeEnum.Course
+      resource_type: ResourceTypeEnum.Course,
     })
     const imgConfig = makeImgConfig()
     const onActivate = jest.fn()
@@ -67,7 +67,7 @@ describe("LearningResourceCard", () => {
         resource={resource}
         imgConfig={imgConfig}
         onActivate={onActivate}
-      />
+      />,
     )
 
     const heading = screen.getByRole("button", { name: resource.title })
@@ -78,13 +78,13 @@ describe("LearningResourceCard", () => {
   it.each([
     { certification: null, hasCertificate: false },
     { certification: undefined, hasCertificate: false },
-    { certification: "cert", hasCertificate: true }
+    { certification: "cert", hasCertificate: true },
   ])(
     "should render an icon if the object has a certificate",
     ({ certification, hasCertificate }) => {
       const resource = makeResource({
         certification,
-        resource_type: ResourceTypeEnum.Course
+        resource_type: ResourceTypeEnum.Course,
       })
       const imgConfig = makeImgConfig()
 
@@ -93,18 +93,18 @@ describe("LearningResourceCard", () => {
           variant="column"
           resource={resource}
           imgConfig={imgConfig}
-        />
+        />,
       )
       const certIcon = screen.queryByAltText("Receive a certificate", {
-        exact: false
+        exact: false,
       })
       expect(certIcon === null).not.toBe(hasCertificate)
-    }
+    },
   )
 
   it.each([
     { sortable: true, shows: "Shows" },
-    { sortable: false, shows: "Does not show" }
+    { sortable: false, shows: "Does not show" },
   ])("$shows a drag handle when sortable is $sortable", ({ sortable }) => {
     const resource = makeResource()
     const imgConfig = makeImgConfig()
@@ -114,7 +114,7 @@ describe("LearningResourceCard", () => {
         resource={resource}
         imgConfig={imgConfig}
         sortable={sortable}
-      />
+      />,
     )
 
     expect(!!screen.queryByTestId("DragIndicatorIcon")).toBe(sortable)
@@ -132,11 +132,11 @@ describe("LearningResourceCard", () => {
             resource={resource}
             imgConfig={imgConfig}
             sortable={true}
-          />
+          />,
         )
       }
       allowConsoleErrors()
       expect(shouldThrow).toThrow(/only supported for variant='row-reverse'/)
-    }
+    },
   )
 })

@@ -39,7 +39,7 @@ const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
   name,
   choices,
   onChange,
-  className
+  className,
 }) => {
   const labelId = useId()
   return (
@@ -53,7 +53,7 @@ const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
         value={value}
         onChange={onChange}
       >
-        {choices.map(choice => {
+        {choices.map((choice) => {
           const { value, label, className } = choice
           return (
             <FormControlLabel

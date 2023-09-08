@@ -13,7 +13,7 @@ interface TestAppOptions {
 }
 
 const defaultTestAppOptions = {
-  url: "/"
+  url: "/",
 }
 
 /**
@@ -38,7 +38,7 @@ const renderTestApp = (options: Partial<TestAppOptions> = {}) => {
  */
 const renderWithProviders = (
   component: React.ReactNode,
-  options: Partial<TestAppOptions> = {}
+  options: Partial<TestAppOptions> = {},
 ) => {
   const { url } = { ...defaultTestAppOptions, ...options }
 
@@ -50,7 +50,7 @@ const renderWithProviders = (
   const view = render(
     <AppProviders queryClient={queryClient} history={history}>
       {component}
-    </AppProviders>
+    </AppProviders>,
   )
   return { history, view, queryClient }
 }
@@ -64,11 +64,11 @@ const renderWithProviders = (
 const expectProps = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fc: jest.Mock<any, any>,
-  partialProps: unknown
+  partialProps: unknown,
 ) => {
   expect(fc).toHaveBeenCalledWith(
     expect.objectContaining(partialProps),
-    expect.anything()
+    expect.anything(),
   )
 }
 
@@ -81,11 +81,11 @@ const expectProps = (
 const expectLastProps = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fc: jest.Mock<any, any>,
-  partialProps: unknown
+  partialProps: unknown,
 ) => {
   expect(fc).toHaveBeenLastCalledWith(
     expect.objectContaining(partialProps),
-    expect.anything()
+    expect.anything(),
   )
 }
 
@@ -98,7 +98,7 @@ export {
   prettyDOM,
   within,
   fireEvent,
-  waitFor
+  waitFor,
 } from "@testing-library/react"
 export { default as user } from "@testing-library/user-event"
 

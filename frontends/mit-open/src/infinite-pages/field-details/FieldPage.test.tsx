@@ -16,7 +16,7 @@ import {
   setMockResponse,
   within,
   user,
-  waitFor
+  waitFor,
 } from "../../test-utils"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import { makeLearningResource } from "ol-search-ui/src/factories"
@@ -26,7 +26,7 @@ jest.mock("./WidgetsList", () => {
   const actual = jest.requireActual("./WidgetsList")
   return {
     __esModule: true,
-    default:    jest.fn(actual.default)
+    default: jest.fn(actual.default),
   }
 })
 const mockWidgetList = jest.mocked(WidgetList)
@@ -37,7 +37,7 @@ jest.mock("ol-util", () => {
   const actual = jest.requireActual("ol-util")
   return {
     ...actual,
-    TitledCarousel: jest.fn(actual.TitledCarousel)
+    TitledCarousel: jest.fn(actual.TitledCarousel),
   }
 })
 const spyTitledCarousel = jest.mocked(TitledCarousel)
@@ -51,7 +51,7 @@ const checkLRC = async (container: HTMLElement, resource: LearningResource) => {
   await within(container).findByText(resource.title)
   expect(spyLearningResourceCard).toHaveBeenCalledWith(
     expect.objectContaining({ resource }),
-    expect.anything()
+    expect.anything(),
   )
 }
 
@@ -70,8 +70,8 @@ const setupApis = (fieldPatch?: Partial<FieldChannel>) => {
 
   const field = factory.makeField({
     featured_list: list1,
-    lists:         [list2, list3],
-    ...fieldPatch
+    lists: [list2, list3],
+    ...fieldPatch,
   })
 
   setMockResponse.get(urls.fieldDetails(field.name), field)
@@ -83,30 +83,30 @@ const setupApis = (fieldPatch?: Partial<FieldChannel>) => {
   setMockResponse.get(widgetUrls.widgetList(field.widget_list), widgetsList)
 
   const toLearningResources = (items: ListItem[]) =>
-    items.map(item => item.content_data)
+    items.map((item) => item.content_data)
   const featured: SubfieldData = {
-    list:  list1,
-    items: toLearningResources(items1.results)
+    list: list1,
+    items: toLearningResources(items1.results),
   }
   const lists: SubfieldData[] = [
     { list: list2, items: toLearningResources(items2.results) },
-    { list: list3, items: toLearningResources(items3.results) }
+    { list: list3, items: toLearningResources(items3.results) },
   ]
 
   const resources = Object.fromEntries(
     [...lists, featured].flatMap(({ items }) =>
-      items.map(item => {
+      items.map((item) => {
         const resource = makeLearningResource({
-          id:          item.id,
-          title:       item.title,
-          object_type: item.object_type
+          id: item.id,
+          title: item.title,
+          object_type: item.object_type,
         })
         return [resource.id, resource]
-      })
-    )
+      }),
+    ),
   )
 
-  Object.values(resources).forEach(r => {
+  Object.values(resources).forEach((r) => {
     setMockResponse.get(lrUrls.resource.details(r.object_type, r.id), r)
   })
 
@@ -118,7 +118,7 @@ const setupApis = (fieldPatch?: Partial<FieldChannel>) => {
     /**
      * Full resource objects used, e.g., in the LearningResourceDrawer
      */
-    resources
+    resources,
   }
 }
 
@@ -139,7 +139,7 @@ describe("FieldPage", () => {
        * the channel header already has a title.
        */
       expect.objectContaining({ src: field.banner, alt: "" }),
-      expect.objectContaining({ src: field.avatar_medium, alt: "" })
+      expect.objectContaining({ src: field.avatar_medium, alt: "" }),
     ])
   })
 
@@ -181,7 +181,7 @@ describe("FieldPage", () => {
       expect(items).toHaveLength(2)
       await checkLRC(section, items[0])
       await checkLRC(section, items[1])
-    }
+    },
   )
 
   it("Does not render a carousel if no featured_list", async () => {
@@ -196,16 +196,16 @@ describe("FieldPage", () => {
 
   it.each([
     {
-      getUrl:    (field: FieldChannel) => `/infinite/fields/${field.name}`,
+      getUrl: (field: FieldChannel) => `/infinite/fields/${field.name}`,
       isEditing: false,
-      urlDesc:   "/fields/:name/"
+      urlDesc: "/fields/:name/",
     },
     {
       getUrl: (field: FieldChannel) =>
         `/infinite/fields/${field.name}/manage/widgets/`,
       isEditing: true,
-      urlDesc:   "/fields/:name/manage/widgets/"
-    }
+      urlDesc: "/fields/:name/manage/widgets/",
+    },
   ])(
     "Renders readonly WidgetList at $urlDesc",
     async ({ getUrl, isEditing }) => {
@@ -220,14 +220,14 @@ describe("FieldPage", () => {
 
       const expectedProps = expect.objectContaining({
         widgetListId: field.widget_list,
-        isEditing:    isEditing
+        isEditing: isEditing,
       })
       const expectedContext = expect.anything()
       expect(mockWidgetList).toHaveBeenLastCalledWith(
         expectedProps,
-        expectedContext
+        expectedContext,
       )
-    }
+    },
   )
 
   it.each([{ btnName: "Done" }, { btnName: "Cancel" }])(
@@ -242,6 +242,6 @@ describe("FieldPage", () => {
       await waitFor(() => {
         expect(history.location.pathname).toEndWith(`/fields/${field.name}/`)
       })
-    }
+    },
   )
 })

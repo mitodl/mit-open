@@ -30,7 +30,7 @@ describe("EditFieldPage", () => {
   it("Displays the correct tab and form for the #appearance hash", async () => {
     const field = setup()
     renderTestApp({
-      url: `/infinite${urls.fieldDetails(field.name)}manage/#appearance`
+      url: `/infinite${urls.fieldDetails(field.name)}manage/#appearance`,
     })
     const activeTab = await screen.findByRole("tab", { selected: true })
     expect(activeTab?.textContent).toEqual("Appearance")
@@ -40,7 +40,7 @@ describe("EditFieldPage", () => {
   it("Displays the correct tab and form for the #basic hash", async () => {
     const field = setup()
     renderTestApp({
-      url: `/infinite${urls.fieldDetails(field.name)}manage/#basic`
+      url: `/infinite${urls.fieldDetails(field.name)}manage/#basic`,
     })
     const activeTab = await screen.findByRole("tab", { selected: true })
     expect(activeTab?.textContent).toEqual("Basic")

@@ -18,7 +18,6 @@ def backfill_slug(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0076_podcast_rss_url")]
 
     operations = [

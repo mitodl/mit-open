@@ -19,7 +19,7 @@ and here is another unordered list
 
 and an ordered list for fun:
 1. item one
-2. item two 
+2. item two
 
 In the past we've had issues with erroneous links.
 See https://github.com/remarkjs/react-markdown/issues/115.
@@ -51,7 +51,7 @@ This is [not] a link. Also [[not]] a link.
 
     const widget = makeRichTextWidget({ configuration: { source: md } })
     const { container } = render(
-      <Widget contentClassName="widget-content" widget={widget} />
+      <Widget contentClassName="widget-content" widget={widget} />,
     )
     // eslint-disable-next-line testing-library/no-container
     const widgetContent = container.querySelector(".widget-content")

@@ -46,7 +46,7 @@ class LearningResourceOfferorField(serializers.Field):
     """Serializer for LearningResourceOfferor"""
 
     def to_representation(self, value):
-        """Serializes offered_by as a list of OfferedBy names"""
+        """Serializes offered_by as a list of OfferedBy names"""  # noqa: D401
         return [offeror.name for offeror in value.all()]
 
 
@@ -55,7 +55,7 @@ class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 
     def to_representation(self, value):
-        """Serializes resource_content_tags as a list of OfferedBy names"""
+        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: D401, E501
         return [tag.name for tag in value.all()]
 
 
@@ -155,7 +155,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(MicroRelationshipSerializer(many=True, allow_null=True))
     def get_learning_path_parents(self, instance):
-        """Returns the list of learning paths that the resource is in, if the user has permission"""
+        """Returns the list of learning paths that the resource is in, if the user has permission"""  # noqa: D401, E501
         request = self.context.get("request")
         user = request.user if request else None
         if (
@@ -177,7 +177,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
         return []
 
     def validate_topics(self, topics):
-        """Validator for topics"""
+        """Validator for topics"""  # noqa: D401
         if len(topics) > 0:
             if isinstance(topics[0], dict):
                 topics = [topic["id"] for topic in topics]
@@ -188,15 +188,17 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
                     )
                 )
             except ValueError:
-                raise ValidationError("Topic ids must be integers")
+                msg = "Topic ids must be integers"
+                raise ValidationError(msg)  # noqa: B904, TRY200
             missing = set(topics).difference(valid_topic_ids)
             if missing:
-                raise ValidationError(f"Invalid topic ids: {missing}")
+                msg = f"Invalid topic ids: {missing}"
+                raise ValidationError(msg)
         return {"topics": topics}
 
     @extend_schema_field(LearningResourceTopicSerializer(many=True, allow_null=True))
     def get_topics(self, instance):
-        """Returns the list of topics"""
+        """Returns the list of topics"""  # noqa: D401
         return [
             LearningResourceTopicSerializer(topic).data
             for topic in instance.topics.all()
@@ -237,7 +239,7 @@ class LearningResourceRelationshipChildField(serializers.ModelSerializer):
     """
 
     def to_representation(self, instance):
-        """Serializes child as a LearningResource"""
+        """Serializes child as a LearningResource"""  # noqa: D401
         return LearningResourceSerializer(instance=instance.child).data
 
     class Meta:
@@ -251,9 +253,8 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
     def validate_resource_type(self, value):
         """Only allow LearningPath resources to be CRUDed"""
         if value != LearningResourceType.learning_path.value:
-            raise serializers.ValidationError(
-                "Only LearningPath resources are editable"
-            )
+            msg = "Only LearningPath resources are editable"
+            raise serializers.ValidationError(msg)
         return value
 
     def create(self, validated_data):
@@ -281,12 +282,8 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
                 )
             # Uncomment when search indexing is ready
             # if (
-            #     instance.items.exists()
             #     and instance.published
             # ):
-            #     upsert_staff_list(stafflist.id)
-            # else:
-            #     deindex_staff_list(stafflist)
             return resource
 
     class Meta:
@@ -307,7 +304,7 @@ class LearningResourceChildSerializer(serializers.ModelSerializer):
     """Serializer for LearningResourceRelationship children"""
 
     def to_representation(self, instance):
-        """Serializes offered_by as a list of OfferedBy names"""
+        """Serializes offered_by as a list of OfferedBy names"""  # noqa: D401
         return LearningResourceSerializer(instance.child).data
 
     class Meta:
@@ -332,34 +329,32 @@ class LearningResourceRelationshipSerializer(serializers.ModelSerializer):
             relation_type=validated_data["relation_type"],
             defaults={"position": position},
         )
-        # self.update_index(item.staff_list)
         return item
 
     def update(self, instance, validated_data):
         position = validated_data["position"]
         # to perform an update on position we atomically:
-        # 1) move everything between the old position and the new position towards the old position by 1
+        # 1) move everything between the old position and the new position towards the old position by 1  # noqa: E501
         # 2) move the item into its new position
-        # this operation gets slower the further the item is moved, but it is sufficient for now
+        # this operation gets slower the further the item is moved, but it is sufficient for now  # noqa: E501
         with transaction.atomic():
             path_items = models.LearningResourceRelationship.objects.filter(
                 parent=instance.parent,
                 relation_type=instance.relation_type,
             )
             if position > instance.position:
-                # move items between the old and new positions up, inclusive of the new position
+                # move items between the old and new positions up, inclusive of the new position  # noqa: E501
                 path_items.filter(
                     position__lte=position, position__gt=instance.position
                 ).update(position=F("position") - 1)
             else:
-                # move items between the old and new positions down, inclusive of the new position
+                # move items between the old and new positions down, inclusive of the new position  # noqa: E501
                 path_items.filter(
                     position__lt=instance.position, position__gte=position
                 ).update(position=F("position") + 1)
             # now move the item into place
             instance.position = position
             instance.save()
-            # self.update_index(instance.staff_list)
 
         return instance
 

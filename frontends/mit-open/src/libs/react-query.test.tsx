@@ -25,7 +25,7 @@ test.each([
   { status: 503, retries: 3 },
   { status: 504, retries: 3 },
   // No retries
-  { status: 403, retries: 0 }
+  { status: 403, retries: 0 },
 ])(
   "should retry $status failures $retries times",
   async ({ status, retries }) => {
@@ -36,27 +36,27 @@ test.each([
       () =>
         useQuery(["test"], {
           queryFn,
-          retryDelay: 0
+          retryDelay: 0,
         }),
-      { wrapper }
+      { wrapper },
     )
 
     await waitFor(() => {
       expect(result.current.isError).toBe(true)
     })
     expect(queryFn).toHaveBeenCalledTimes(retries + 1)
-  }
+  },
 )
 
 test.each([
   {
     startingLocation: "/",
-    destination:      "/login/?next=/"
+    destination: "/login/?next=/",
   },
   {
     startingLocation: "/place/to/go/",
-    destination:      "/login/?next=/place/to/go/"
-  }
+    destination: "/login/?next=/place/to/go/",
+  },
 ])(
   "Should redirect window to $destination if user is not logged in",
   async ({ startingLocation, destination }) => {
@@ -68,27 +68,27 @@ test.each([
 
     await withFakeLocation(async () => {
       const { result } = renderHook(() => useQuery(["test"], { queryFn }), {
-        wrapper
+        wrapper,
       })
       await waitFor(() => {
         expect(window.location.href).toBe(destination)
       })
       expect(result.current.isError).toBe(true)
     })
-  }
+  },
 )
 
 test.each([
   {
-    status:           200,
+    status: 200,
     startingLocation: "/",
-    state:            undefined
+    state: undefined,
   },
   {
-    status:           403,
+    status: 403,
     startingLocation: "/place/to/go",
-    state:            { notFound: true }
-  }
+    state: { notFound: true },
+  },
 ])(
   "Should maintain $startingLocation but set history.location.state.forbidden to true if user is logged in & gets 403",
   async ({ status, startingLocation, state }) => {
@@ -102,27 +102,27 @@ test.each([
       .mockRejectedValue({ response: { status: status } })
 
     const { result } = renderHook(() => useQuery(["test"], { queryFn }), {
-      wrapper
+      wrapper,
     })
     await waitFor(() => {
       expect(result.current.isError).toBe(true)
     })
     expect(history.location.pathname).toBe(startingLocation)
     expect.objectContaining({ state: state })
-  }
+  },
 )
 
 test.each([
   {
-    status:           200,
+    status: 200,
     startingLocation: "/",
-    notFound:         false
+    notFound: false,
   },
   {
-    status:           404,
+    status: 404,
     startingLocation: "/does/not/exist/",
-    notFound:         true
-  }
+    notFound: true,
+  },
 ])(
   "Should maintain $startingLocation but set history.location.state.notFound to true if user gets a 404",
   async ({ status, startingLocation, notFound }) => {
@@ -135,7 +135,7 @@ test.each([
       .mockRejectedValue({ response: { status: status } })
 
     const { result } = renderHook(() => useQuery(["test"], { queryFn }), {
-      wrapper
+      wrapper,
     })
     await waitFor(() => {
       expect(result.current.isError).toBe(true)
@@ -143,12 +143,12 @@ test.each([
     expect(history.location.pathname).toBe(startingLocation)
     if (notFound) {
       expect(history.location).toEqual(
-        expect.objectContaining({ state: { notFound: true } })
+        expect.objectContaining({ state: { notFound: true } }),
       )
     } else {
       expect(history.location).toEqual(
-        expect.not.objectContaining({ state: { notFound: true } })
+        expect.not.objectContaining({ state: { notFound: true } }),
       )
     }
-  }
+  },
 )

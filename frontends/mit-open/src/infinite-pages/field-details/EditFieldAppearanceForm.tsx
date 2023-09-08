@@ -14,7 +14,7 @@ type FormProps = {
 }
 
 const appearanceSchema = Yup.object().shape({
-  title: Yup.string().required("Title is required")
+  title: Yup.string().required("Title is required"),
 })
 
 const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
@@ -25,21 +25,21 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
   return (
     <Formik
       initialValues={{
-        title:              field.title,
-        public_description: field.public_description
+        title: field.title,
+        public_description: field.public_description,
       }}
       validationSchema={appearanceSchema}
       onSubmit={async (values: FieldChannelAppearanceForm) => {
         mutation.mutate(
           {
-            title:              values.title,
-            public_description: values.public_description
+            title: values.title,
+            public_description: values.public_description,
           },
           {
             onSuccess: () => {
               history.push(makeFieldViewPath(field.name))
-            }
-          }
+            },
+          },
         )
       }}
     >

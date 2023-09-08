@@ -12,7 +12,7 @@ type AppLocationState =
     }
 
 const ErrorPageRedirect: React.FC<{ children: React.ReactNode }> = ({
-  children
+  children,
 }) => {
   const history = useHistory<AppLocationState>()
   const location = useLocation<AppLocationState>()

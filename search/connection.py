@@ -53,11 +53,7 @@ def make_backing_index_name(object_type):
     Returns:
         str: A new name for a backing index
     """
-    return "{prefix}_{object_type}_{hash}".format(
-        prefix=settings.OPENSEARCH_INDEX,
-        object_type=object_type,
-        hash=uuid.uuid4().hex,
-    )
+    return f"{settings.OPENSEARCH_INDEX}_{object_type}_{uuid.uuid4().hex}"
 
 
 def make_alias_name(is_reindexing, object_type):
@@ -78,8 +74,8 @@ def make_alias_name(is_reindexing, object_type):
     )
 
 
-get_default_alias_name = partial(make_alias_name, False)
-get_reindexing_alias_name = partial(make_alias_name, True)
+get_default_alias_name = partial(make_alias_name, False)  # noqa: FBT003
+get_reindexing_alias_name = partial(make_alias_name, True)  # noqa: FBT003
 
 
 def get_active_aliases(conn, *, object_types=None, include_reindexing=True):
@@ -93,7 +89,7 @@ def get_active_aliases(conn, *, object_types=None, include_reindexing=True):
 
     Returns:
         list of str: Aliases which exist
-    """
+    """  # noqa: D401
     if not object_types:
         object_types = VALID_OBJECT_TYPES
     if include_reindexing:
@@ -113,7 +109,7 @@ def active_aliases_with_reindexing(conn, object_types):
     Args:
         conn(opensearch.client.Opensearch): An Opensearch client
         object_types(list of str): list of object types.
-    """
+    """  # noqa: D401
 
     return [
         alias

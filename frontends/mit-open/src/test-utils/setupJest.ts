@@ -10,17 +10,17 @@ setupMockEditors()
 jest.mock("axios", () => {
   return {
     __esModule: true,
-    default:    {
-      create: () => mockAxiosInstance
-    }
+    default: {
+      create: () => mockAxiosInstance,
+    },
   }
 })
 
 const _createSettings = () => ({
-  embedlyKey:        "fake",
+  embedlyKey: "fake",
   ocw_next_base_url: "fake-ocw.com",
-  search_page_size:  4,
-  user:              makeUserSettings()
+  search_page_size: 4,
+  user: makeUserSettings(),
 })
 
 window.SETTINGS = _createSettings()
@@ -36,10 +36,10 @@ jest.mock("ol-search-ui", () => {
   const actual = jest.requireActual("ol-search-ui")
   return {
     ...actual,
-    LearningResourceCardTemplate:    jest.fn(actual.LearningResourceCardTemplate),
+    LearningResourceCardTemplate: jest.fn(actual.LearningResourceCardTemplate),
     ExpandedLearningResourceDisplay: jest.fn(
-      actual.ExpandedLearningResourceDisplay
-    )
+      actual.ExpandedLearningResourceDisplay,
+    ),
   }
 })
 jest.mock("../components/LearningResourceCard", () => {
@@ -47,6 +47,6 @@ jest.mock("../components/LearningResourceCard", () => {
   return {
     __esModule: true,
     ...actual,
-    default:    jest.fn(actual.default)
+    default: jest.fn(actual.default),
   }
 })

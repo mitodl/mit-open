@@ -16,7 +16,6 @@ def populate_availability(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0019_course_url")]
 
     operations = [

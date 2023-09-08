@@ -28,12 +28,8 @@
     }
   },
   "chunks": {
-    "root": [
-      "root.js"
-    ],
-    "style": [
-      "style.js"
-    ]
+    "root": ["root.js"],
+    "style": ["style.js"]
   },
   "publicPath": "/static/infinite-corridor/"
 }

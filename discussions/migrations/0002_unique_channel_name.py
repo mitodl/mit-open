@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("discussions", "0001_add_channels"),
     ]
@@ -19,7 +18,7 @@ class Migration(migrations.Migration):
                 unique=True,
                 validators=[
                     django.core.validators.RegexValidator(
-                        message="Channel name can only contain the characters: A-Z, a-z, 0-9, _",
+                        message="Channel name can only contain the characters: A-Z, a-z, 0-9, _",  # noqa: E501
                         regex="^[A-Za-z0-9_]+$",
                     )
                 ],

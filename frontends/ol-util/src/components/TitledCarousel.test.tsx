@@ -10,8 +10,8 @@ jest.mock("nuka-carousel", () => {
   const actual = jest.requireActual("nuka-carousel")
   return {
     ...actual,
-    default:    jest.fn(() => <div />),
-    __esModule: true
+    default: jest.fn(() => <div />),
+    __esModule: true,
   }
 })
 
@@ -31,7 +31,7 @@ const setupCarousel = (props?: Partial<TitledCarouselProps>) =>
       <div>Child 3</div>
       <div>Child 4</div>
       <div>Child 5</div>
-    </TitledCarousel>
+    </TitledCarousel>,
   )
 
 const getNextPageButton = () => screen.getByText("NextPage!")
@@ -43,7 +43,7 @@ describe("Card component", () => {
     setupCarousel({ pageSize })
     expect(NukaCarousel).toHaveBeenCalledWith(
       expect.objectContaining({ slidesToShow: pageSize }),
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -52,7 +52,7 @@ describe("Card component", () => {
     setupCarousel({ animationDuration })
     expect(NukaCarousel).toHaveBeenCalledWith(
       expect.objectContaining({ speed: animationDuration }),
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -65,7 +65,7 @@ describe("Card component", () => {
     // first page: items 0, 1 of 0, 1, 2, 3, 4
     expect(NukaCarousel).toHaveBeenLastCalledWith(
       expect.objectContaining({ slideIndex: 0 }),
-      expect.anything()
+      expect.anything(),
     )
     expect(prev).toBeDisabled()
     expect(next).not.toBeDisabled()
@@ -74,7 +74,7 @@ describe("Card component", () => {
     await user.click(next)
     expect(NukaCarousel).toHaveBeenLastCalledWith(
       expect.objectContaining({ slideIndex: 2 }),
-      expect.anything()
+      expect.anything(),
     )
     expect(prev).not.toBeDisabled()
     expect(next).not.toBeDisabled()
@@ -83,7 +83,7 @@ describe("Card component", () => {
     await user.click(next)
     expect(NukaCarousel).toHaveBeenLastCalledWith(
       expect.objectContaining({ slideIndex: 4 }),
-      expect.anything()
+      expect.anything(),
     )
 
     expect(prev).not.toBeDisabled()
@@ -93,7 +93,7 @@ describe("Card component", () => {
     await user.click(prev)
     expect(NukaCarousel).toHaveBeenLastCalledWith(
       expect.objectContaining({ slideIndex: 2 }),
-      expect.anything()
+      expect.anything(),
     )
     expect(prev).not.toBeDisabled()
     expect(next).not.toBeDisabled()
@@ -102,7 +102,7 @@ describe("Card component", () => {
     await user.click(prev)
     expect(NukaCarousel).toHaveBeenLastCalledWith(
       expect.objectContaining({ slideIndex: 0 }),
-      expect.anything()
+      expect.anything(),
     )
     expect(prev).toBeDisabled()
     expect(next).not.toBeDisabled()
@@ -111,23 +111,23 @@ describe("Card component", () => {
   it.each([
     {
       componnent: undefined,
-      tagName:    "DIV"
+      tagName: "DIV",
     },
     {
       componnent: "div" as const,
-      tagName:    "DIV"
+      tagName: "DIV",
     },
     {
       componnent: "section" as const,
-      tagName:    "SECTION"
-    }
+      tagName: "SECTION",
+    },
   ])(
     "renders a container determined by `props.as`",
     ({ componnent, tagName }) => {
       const { container } = setupCarousel({ as: componnent })
       const root = container.firstChild as HTMLElement
       expect(root.tagName).toBe(tagName)
-    }
+    },
   )
 
   it("Renders the container with the given className", () => {

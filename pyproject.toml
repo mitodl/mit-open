@@ -96,11 +96,9 @@ uwsgi = "^2.0.21"
 wrapt = "^1.14.1"
 xbundle = "^0.3.1"
 social-auth-core = {extras = ["openidconnect"], version = "^4.4.2"}
-isort = "^5.12.0"
 
 [tool.poetry.group.dev.dependencies]
-astroid = "^2.15.4"
-black = "22.6.0"
+black = "*"
 bpython = "^0.24"
 ddt = "^1.6.0"
 django-debug-toolbar = "^4.1.0"
@@ -110,9 +108,6 @@ ipdb = "^0.13.13"
 moto = "^4.1.12"
 nplusone = "^0.8.1"
 pdbpp = "^0.10.3"
-pip-tools = "^6.13.0"
-pylint = "^2.17.4"
-pylint-django = "^2.5.3"
 pytest = "^7.3.1"
 pytest-cov = "^4.1.0"
 pytest-django = "^4.5.2"
@@ -121,9 +116,106 @@ pytest-freezegun = "^0.4.2"
 pytest-lazy-fixture = "^0.6.3"
 pytest-mock = "^3.10.0"
 responses = "^0.14.0"
+ruff = "*"
 safety = "^2.3.4"
 semantic-version = "^2.10.0"
 
 [build-system]
-requires = ["poetry-core^1.0.0"]
+requires = ["poetry_core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+select = [
+    "A",  # flake8-builtins
+    # "AIR",  # Airflow
+    # "ANN",  # flake8-annotations
+    "ARG",  # flake8-unused-arguments
+    # "ASYNC",  # flake8-async
+    "B",  # flake8-bugbear
+    "BLE",  # flake8-blind-except
+    "C4",  # flake8-comprehensions
+    "C90",  # mccabe
+    # "COM",  # flake8-commas
+    "CPY",  # flake8-copyright
+    "D",  # pydocstyle
+    "DJ",  # flake8-django
+    "DTZ",  # flake8-datetimez
+    "E",  # Pycodestyle Error
+    "EM",  # flake8-errmsg
+    "ERA",  # eradicate
+    "EXE",  # flake8-executable
+    "F",  # Pyflakes
+    "FA",  # flake8-future-annotations
+    "FBT",  # flake8-boolean-trap
+    "FIX",  # flake8-fixme
+    "FLY",  # flynt
+    # "FURB",  # refurb
+    "G",  # flake8-logging-format
+    "I",  # isort
+    "ICN",  # flake8-import-conventions
+    "INP",  # flake8-no-pep420
+    "INT",  # flake8-gettext
+    "ISC",  # flake8-implicit-str-concat
+    "N",  # pep8-naming
+    # "NPY",  # NumPy-specific rules
+    # "PD",  # pandas-vet
+    "PERF",  # Perflint
+    "PGH",  # pygrep-hooks
+    "PIE",  # flake8-pie
+    "PL",  # Pylint
+    "PT",  # flake8-pytest-style
+    "PTH",  # flake8-use-pathlib
+    "PYI",  # flake8-pyi
+    "Q",  # flake8-quotes
+    "RET",  # flake8-return
+    "RSE",  # flake8-raise
+    "RUF",  # Ruff-specific rules
+    "S",  # flake8-bandit
+    "SIM",  # flake8-simplify
+    "SLF",  # flake8-self
+    "SLOT",  # flake8-slots
+    "T10",  # flake8-debugger
+    "T20",  # flake8-print
+    "TCH",  # flake8-type-checking
+    "TD",  # flake8-todos
+    "TID",  # flake8-tidy-imports
+    "TRY",  # tryceratops
+    "UP",  # pyupgrade
+    "W",  # Pycodestyle Warning
+    "YTT",  # flake8-2020
+]
+ignore = [
+    "B008",
+    "B905",
+    "D104",
+    "D200",
+    "D202",
+    "D205",
+    "D301",
+    "D400",
+    "N803",
+    "N806",
+    "N999",
+    "PIE804",
+    "RET505",
+    "RET506",
+    "RET507",
+    "RET508",
+    "RUF012",
+    "UP007"
+]
+
+typing-modules = ["colour.hints"]
+
+[tool.ruff.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.flake8-quotes]
+inline-quotes = "double"
+
+[tool.ruff.per-file-ignores]
+"*_test.py" = ["ARG001", "E501", "S101", "PLR2004"]
+"test_*.py" = ["ARG001", "E501", "S101", "PLR2004"]
+"**/migrations/**" = ["ARG001"]

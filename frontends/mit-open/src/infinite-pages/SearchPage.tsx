@@ -6,7 +6,7 @@ import {
   Aggregations,
   useSearchInputs,
   useFacetOptions,
-  useSyncUrlAndSearch
+  useSyncUrlAndSearch,
 } from "@mitodl/course-search-utils"
 import { SearchInput, SearchFilterDrawer, FacetManifest } from "ol-search-ui"
 import { GridColumn, GridContainer } from "../components/layout"
@@ -21,7 +21,7 @@ const pageSize = window.SETTINGS.search_page_size
 const facetMap: FacetManifest = [
   ["certification", "Certificates"],
   ["type", "Learning Resource"],
-  ["offered_by", "Offered By"]
+  ["offered_by", "Offered By"],
 ]
 
 const searchAggregationKeys = ["certification", "type", "offered_by"]
@@ -35,23 +35,23 @@ const SearchPage: React.FC = () => {
   const searchQuery = useInfiniteSearch({
     text,
     activeFacets,
-    size:         pageSize,
+    size: pageSize,
     allowedTypes: ALLOWED_TYPES,
-    aggregations: searchAggregationKeys
+    aggregations: searchAggregationKeys,
   })
   useSyncUrlAndSearch(history, search)
 
   const aggregations = useMemo(() => {
     return new Map(
-      Object.entries(searchQuery.data?.pages[0].aggregations ?? {})
+      Object.entries(searchQuery.data?.pages[0].aggregations ?? {}),
     ) as Aggregations
   }, [searchQuery.data?.pages])
   const facetOptions = useFacetOptions(aggregations, activeFacets)
 
   const results = useMemo(() => {
     return (
-      searchQuery.data?.pages.flatMap(page =>
-        page.hits.hits.map(h => h._source)
+      searchQuery.data?.pages.flatMap((page) =>
+        page.hits.hits.map((h) => h._source),
       ) || []
     )
   }, [searchQuery.data])
@@ -126,7 +126,7 @@ const SearchPage: React.FC = () => {
                     aria-label="Search Results"
                     className="ic-searchpage-list ic-card-row-list"
                   >
-                    {results.map(hit => (
+                    {results.map((hit) => (
                       <li key={hit.object_type.concat(hit.id.toString())}>
                         <LearningResourceCard
                           variant="row-reverse"

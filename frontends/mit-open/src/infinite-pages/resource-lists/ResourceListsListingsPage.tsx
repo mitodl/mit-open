@@ -15,7 +15,7 @@ import { GridColumn, GridContainer } from "../../components/layout"
 import {
   useFavoritesListing,
   useStaffListsListing,
-  useUserListsListing
+  useUserListsListing,
 } from "../../api/learning-resources"
 import Container from "@mui/material/Container"
 import { LearningResourceCardTemplate, TYPE_FAVORITES } from "ol-search-ui"
@@ -25,14 +25,14 @@ import { useHistory } from "react-router"
 import {
   FAVORITES_VIEW,
   makeStaffListsViewPath,
-  makeUserListViewPath
+  makeUserListViewPath,
 } from "../urls"
 
 type EditListMenuProps<L extends UserList | StaffList> = {
   resource: L
 }
 const EditListMenu = <L extends UserList | StaffList>({
-  resource
+  resource,
 }: EditListMenuProps<L>) => {
   const [open, toggleOpen] = useToggle(false)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -81,15 +81,15 @@ const EditListMenu = <L extends UserList | StaffList>({
  */
 const makeFavorites = (count: number): Favorites => {
   return {
-    title:         "My Favorites",
-    object_type:   TYPE_FAVORITES,
-    list_type:     "favorites",
-    item_count:    count,
-    topics:        [],
-    lists:         [],
-    stafflists:    [],
-    image_src:     null,
-    certification: []
+    title: "My Favorites",
+    object_type: TYPE_FAVORITES,
+    list_type: "favorites",
+    item_count: count,
+    topics: [],
+    lists: [],
+    stafflists: [],
+    image_src: null,
+    certification: [],
   }
 }
 
@@ -99,7 +99,7 @@ type ListCardProps<L extends UserList | StaffList | Favorites> = {
 }
 const ListCard = <L extends UserList | StaffList | Favorites>({
   list,
-  onActivate
+  onActivate,
 }: ListCardProps<L>) => {
   return (
     <LearningResourceCardTemplate
@@ -120,20 +120,20 @@ const ListCard = <L extends UserList | StaffList | Favorites>({
 const UserListsListingPage: React.FC = () => {
   const userListsQuery = useUserListsListing()
   const favoritesQuery = useFavoritesListing()
-  const favorites = favoritesQuery.data ?
-    makeFavorites(favoritesQuery.data.count) :
-    null
+  const favorites = favoritesQuery.data
+    ? makeFavorites(favoritesQuery.data.count)
+    : null
 
   const history = useHistory()
   const handleActivate = useCallback(
     (resource: UserList | Favorites) => {
       const path =
-        resource.object_type === TYPE_FAVORITES ?
-          FAVORITES_VIEW :
-          makeUserListViewPath(resource.id)
+        resource.object_type === TYPE_FAVORITES
+          ? FAVORITES_VIEW
+          : makeUserListViewPath(resource.id)
       history.push(path)
     },
-    [history]
+    [history],
   )
 
   return (
@@ -167,7 +167,7 @@ const UserListsListingPage: React.FC = () => {
                       <ListCard list={favorites} onActivate={handleActivate} />
                     </li>
                   )}
-                  {userListsQuery.data.results.map(list => {
+                  {userListsQuery.data.results.map((list) => {
                     return (
                       <li key={list.id}>
                         <ListCard list={list} onActivate={handleActivate} />
@@ -193,7 +193,7 @@ const StaffListsListingPage: React.FC = () => {
       const path = makeStaffListsViewPath(resource.id)
       history.push(path)
     },
-    [history]
+    [history],
   )
 
   return (
@@ -222,7 +222,7 @@ const StaffListsListingPage: React.FC = () => {
               {staffListsQuery.isLoading && <p>Loading...</p>}
               {staffListsQuery.data && (
                 <ul className="ic-card-row-list">
-                  {staffListsQuery.data.results.map(list => {
+                  {staffListsQuery.data.results.map((list) => {
                     return (
                       <li key={list.id}>
                         <ListCard list={list} onActivate={handleActivate} />

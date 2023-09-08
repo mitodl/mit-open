@@ -2,7 +2,7 @@ import React, {
   ChangeEvent,
   SyntheticEvent,
   useCallback,
-  useState
+  useState,
 } from "react"
 import SelectField, { Option } from "./SelectField"
 import { default as SortableItemComponent } from "./SortableItem"
@@ -26,7 +26,7 @@ interface Props {
   name: string
   loadOptions: (
     inputValue: string,
-    callback: (options: Option[]) => void
+    callback: (options: Option[]) => void,
   ) => void
   isOptionDisabled?: (option: Option) => boolean
 }
@@ -39,11 +39,11 @@ export default function SortableSelect(props: Props) {
     value,
     onChange,
     name,
-    isOptionDisabled
+    isOptionDisabled,
   } = props
 
   const [focusedContent, setFocusedContent] = useState<string | undefined>(
-    undefined
+    undefined,
   )
 
   /**
@@ -57,18 +57,18 @@ export default function SortableSelect(props: Props) {
       event.preventDefault()
 
       if (focusedContent) {
-        onChange(value.map(item => item.id).concat(focusedContent))
+        onChange(value.map((item) => item.id).concat(focusedContent))
         setFocusedContent(undefined)
       }
     },
-    [focusedContent, setFocusedContent, onChange, value]
+    [focusedContent, setFocusedContent, onChange, value],
   )
 
   const setFocusedContentCB = useCallback(
     (event: ChangeEvent<HTMLSelectElement>) => {
       setFocusedContent(event.target.value)
     },
-    [setFocusedContent]
+    [setFocusedContent],
   )
 
   const handleDragEnd = useCallback(
@@ -76,18 +76,18 @@ export default function SortableSelect(props: Props) {
       const { active, over } = event
 
       if (over && active.id !== over.id) {
-        const valueToUse = value.map(item => item.id)
+        const valueToUse = value.map((item) => item.id)
 
         const movedArray = arrayMove(
           valueToUse,
           valueToUse.indexOf(active.id),
-          valueToUse.indexOf(over.id)
+          valueToUse.indexOf(over.id),
         )
 
         onChange(movedArray)
       }
     },
-    [onChange, value]
+    [onChange, value],
   )
 
   /**
@@ -95,9 +95,9 @@ export default function SortableSelect(props: Props) {
    */
   const deleteItem = useCallback(
     (toDelete: string) => {
-      onChange(value.map(item => item.id).filter(item => item !== toDelete))
+      onChange(value.map((item) => item.id).filter((item) => item !== toDelete))
     },
-    [onChange, value]
+    [onChange, value],
   )
 
   return (
@@ -122,10 +122,10 @@ export default function SortableSelect(props: Props) {
       </div>
       <SortWrapper
         handleDragEnd={handleDragEnd}
-        items={value.map(item => item.id)}
-        generateItemID={x => x}
+        items={value.map((item) => item.id)}
+        generateItemID={(x) => x}
       >
-        {value.map(item => (
+        {value.map((item) => (
           <SortableItemComponent
             key={item.id}
             title={item.title}

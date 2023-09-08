@@ -15,7 +15,7 @@ export default function SearchFilter(props: Props) {
       <div
         className="remove-filter"
         onClick={clearFacet}
-        onKeyPress={e => {
+        onKeyPress={(e) => {
           if (e.key === "Enter") {
             clearFacet()
           }

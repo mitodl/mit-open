@@ -21,16 +21,16 @@ const assertDrawerIsClosed = () => {
 
 const renderRoutedDrawer = <P extends string, R extends P>(
   props: Omit<RoutedDrawerProps<P, R>, "children">,
-  initialSearchParams: string
+  initialSearchParams: string,
 ) => {
   const history = createMemoryHistory({
-    initialEntries: [{ search: initialSearchParams }]
+    initialEntries: [{ search: initialSearchParams }],
   })
   const childFn = jest.fn(TestDrawerContents)
   render(
     <Router history={history}>
       <RoutedDrawer {...props}>{childFn}</RoutedDrawer>
-    </Router>
+    </Router>,
   )
   return { history, childFn }
 }
@@ -38,62 +38,62 @@ const renderRoutedDrawer = <P extends string, R extends P>(
 describe("RoutedDrawer", () => {
   it.each([
     {
-      params:         ["a", "b", "c"],
+      params: ["a", "b", "c"],
       requiredParams: ["a", "b"],
-      initialSearch:  "?a=1",
-      calls:          0
+      initialSearch: "?a=1",
+      calls: 0,
     },
     {
-      params:         ["a", "b"],
+      params: ["a", "b"],
       requiredParams: ["a", "b"],
-      initialSearch:  "?a=1&b=2",
-      calls:          1
+      initialSearch: "?a=1&b=2",
+      calls: 1,
     },
     {
-      params:         ["a", "b", "c"],
+      params: ["a", "b", "c"],
       requiredParams: ["a", "b"],
-      initialSearch:  "?a=1&b=2",
-      calls:          1
-    }
+      initialSearch: "?a=1&b=2",
+      calls: 1,
+    },
   ])(
     "Calls childFn if and only all required params are present in URL",
     ({ params, requiredParams, initialSearch, calls }) => {
       const { childFn } = renderRoutedDrawer(
         { params, requiredParams },
-        initialSearch
+        initialSearch,
       )
       expect(childFn).toHaveBeenCalledTimes(calls)
-    }
+    },
   )
 
   it.each([
     {
-      params:         ["a", "b", "c"],
+      params: ["a", "b", "c"],
       requiredParams: ["a", "b"],
-      initialSearch:  "?a=1&b=2&c=3&d=4",
-      childProps:     {
-        params:      { a: "1", b: "2", c: "3" },
-        closeDrawer: expect.any(Function)
-      }
+      initialSearch: "?a=1&b=2&c=3&d=4",
+      childProps: {
+        params: { a: "1", b: "2", c: "3" },
+        closeDrawer: expect.any(Function),
+      },
     },
     {
-      params:         ["a", "b", "c"],
+      params: ["a", "b", "c"],
       requiredParams: ["a", "b"],
-      initialSearch:  "?a=1&b=2&d=4",
-      childProps:     {
-        params:      { a: "1", b: "2", c: null },
-        closeDrawer: expect.any(Function)
-      }
-    }
+      initialSearch: "?a=1&b=2&d=4",
+      childProps: {
+        params: { a: "1", b: "2", c: null },
+        closeDrawer: expect.any(Function),
+      },
+    },
   ])(
     "Calls childFn with only the params specified in props.params",
     ({ params, requiredParams, initialSearch, childProps }) => {
       const { childFn } = renderRoutedDrawer(
         { params, requiredParams },
-        initialSearch
+        initialSearch,
       )
       expect(childFn).toHaveBeenCalledWith(childProps)
-    }
+    },
   )
 
   it("Includes a close button that closes drawer", async () => {
@@ -102,7 +102,7 @@ describe("RoutedDrawer", () => {
     const initialSearch = "?a=1"
     const { history } = renderRoutedDrawer(
       { params, requiredParams },
-      initialSearch
+      initialSearch,
     )
 
     assertDrawerIsOpen()
@@ -118,7 +118,7 @@ describe("RoutedDrawer", () => {
     const initialSearch = "?a=1"
     const { history } = renderRoutedDrawer(
       { params, requiredParams },
-      initialSearch
+      initialSearch,
     )
 
     assertDrawerIsOpen()

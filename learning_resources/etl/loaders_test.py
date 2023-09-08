@@ -1,4 +1,4 @@
-"""Tests for ETL loaders"""
+"""Tests for ETL loaders"""  # noqa: INP001
 # pylint: disable=redefined-outer-name,too-many-locals,too-many-lines
 from types import SimpleNamespace
 
@@ -161,12 +161,6 @@ def test_load_program(
     )
 
     # if program_exists and not is_published:
-    #    mock_upsert_tasks.delete_program.assert_called_with(result)
-    # elif is_published:
-    #    mock_upsert_tasks.upsert_program.assert_called_with(result.id)
-    # else:
-    #    mock_upsert_tasks.delete_program.assert_not_called()
-    #    mock_upsert_tasks.upsert_program.assert_not_called()
 
     assert Program.objects.count() == 1
     assert Course.objects.count() == after_course_count
@@ -206,9 +200,7 @@ def test_load_course(  # pylint:disable=too-many-arguments
     blocklisted,
 ):
     """Test that load_course loads the course"""
-    # mock_delete_files = mocker.patch(
     #    "learning_resources.etl.loaders.search_index_helpers.deindex_run_content_files"
-    # )
     platform = LearningResourcePlatformFactory.create()
 
     course = (
@@ -257,17 +249,10 @@ def test_load_course(  # pylint:disable=too-many-arguments
     result = load_course(props, blocklist, [], config=CourseLoaderConfig(prune=True))
 
     # if course_exists and (not is_published or not is_run_published) and not blocklisted:
-    #    mock_upsert_tasks.delete_course.assert_called_with(result)
-    # elif is_published and is_run_published and not blocklisted:
-    #    mock_upsert_tasks.upsert_course.assert_called_with(result.id)
-    # else:
-    #    mock_upsert_tasks.delete_program.assert_not_called()
-    #    mock_upsert_tasks.upsert_course.assert_not_called()
     if course_exists and is_published and not blocklisted:
         course.refresh_from_db()
         assert course.learning_resource.runs.last().published is is_run_published
         assert course.learning_resource.published == (is_published and is_run_published)
-        # assert mock_delete_files.call_count == (1 if course.published else 0)
 
     assert Course.objects.count() == 1
     assert LearningResourceRun.objects.filter(published=True).count() == (
@@ -346,9 +331,6 @@ def test_load_duplicate_course(
     result = load_course(props, [], duplicates)
 
     # if course_id_is_duplicate and duplicate_course_exists:
-    #    mock_upsert_tasks.delete_course.assert_called()
-
-    # mock_upsert_tasks.upsert_course.assert_called_with(result.id)
 
     assert Course.objects.count() == (2 if duplicate_course_exists else 1)
 
@@ -368,9 +350,7 @@ def test_load_duplicate_course(
 @pytest.mark.parametrize("run_exists", [True, False])
 def test_load_run(run_exists):
     """Test that load_run loads the course run"""
-    # mock_load_content_files = mocker.patch(
     #    "learning_resources.etl.loaders.load_content_files"
-    # )
     course = CourseFactory.create(runs=[])
     learning_resource_run = (
         LearningResourceRunFactory.create(learning_resource=course.learning_resource)
@@ -393,8 +373,6 @@ def test_load_run(run_exists):
     assert result.learning_resource == course.learning_resource
 
     assert isinstance(result, LearningResourceRun)
-
-    # assert mock_load_content_files.call_count == (1 if load_content else 0)
 
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"

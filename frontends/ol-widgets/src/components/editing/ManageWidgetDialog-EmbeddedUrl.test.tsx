@@ -4,7 +4,7 @@ import user from "@testing-library/user-event"
 import { assertInstanceOf, assertNotNil, EmbedlyCard } from "ol-util"
 import {
   makeEmbeddedUrlWidgetSpec,
-  makeEmbeddedUrlWidget
+  makeEmbeddedUrlWidget,
 } from "../../factories"
 import ManageWidgetDialog from "./ManageWidgetDialog"
 import { WIDGET_FIELD_TYPES } from "../../constants"
@@ -14,7 +14,7 @@ const getErrorFor = (el: HTMLElement) => {
   const errId = el.getAttribute("aria-errormessage")
   if (errId === null) {
     throw new Error(
-      "The specified element does not have an associated errormessage."
+      "The specified element does not have an associated errormessage.",
     )
   }
   // eslint-disable-next-line testing-library/no-node-access
@@ -26,16 +26,16 @@ const getErrorFor = (el: HTMLElement) => {
 jest.mock("ol-util", () => {
   const actual = jest.requireActual("ol-util")
   return {
-    __esModule:  true,
+    __esModule: true,
     ...actual,
-    EmbedlyCard: jest.fn(actual.EmbedlyCard)
+    EmbedlyCard: jest.fn(actual.EmbedlyCard),
   }
 })
 const spyEmbedlyCard = jest.mocked(EmbedlyCard)
 
 const setupEmbeddedUrlTest = ({
   config,
-  fieldProps
+  fieldProps,
 }: {
   config?: EmbeddedUrlWidgetInstance["configuration"]
   fieldProps?: Record<string, unknown>
@@ -46,7 +46,7 @@ const setupEmbeddedUrlTest = ({
   }
   const spec = makeEmbeddedUrlWidgetSpec()
   const urlFieldSpec = spec.form_spec.find(
-    s => s.input_type === WIDGET_FIELD_TYPES.url
+    (s) => s.input_type === WIDGET_FIELD_TYPES.url,
   )
   assertNotNil(urlFieldSpec)
   urlFieldSpec.props = { ...urlFieldSpec.props, ...fieldProps }
@@ -59,7 +59,7 @@ const setupEmbeddedUrlTest = ({
       onCancel={spies.onCancel}
       specs={[spec]}
       widget={widget}
-    />
+    />,
   )
 
   const input = screen.getByLabelText(urlFieldSpec.label)
@@ -81,32 +81,32 @@ describe("URL Field", () => {
       if (showEmbed) {
         expect(spyEmbedlyCard).toHaveBeenLastCalledWith(
           expect.objectContaining({
-            url: widget.configuration.url
+            url: widget.configuration.url,
           }),
-          expect.anything()
+          expect.anything(),
         )
       }
-    }
+    },
   )
 })
 
 describe("EmbeddedUrl widget editing", () => {
   it.each([
     {
-      url:    "",
+      url: "",
       errMsg: /required/,
-      valid:  false
+      valid: false,
     },
     {
-      url:    "mit-dot-edu",
+      url: "mit-dot-edu",
       errMsg: /invalid/,
-      valid:  false
+      valid: false,
     },
     {
-      url:    "https://mit.edu",
+      url: "https://mit.edu",
       errMsg: null,
-      valid:  true
-    }
+      valid: true,
+    },
   ])("validates the submitted URL", async ({ url, valid, errMsg }) => {
     const { spies, urlFieldSpec } = setupEmbeddedUrlTest({ config: { url } })
     await user.click(screen.getByRole("button", { name: "Submit" }))

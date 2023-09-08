@@ -14,7 +14,7 @@ interface Props {
 export const slugify = (text: string) =>
   text
     .split(" ")
-    .map(subString => subString.toLowerCase())
+    .map((subString) => subString.toLowerCase())
     .join("-")
     .replace(/[\W_]/g, "-")
 
@@ -37,9 +37,9 @@ export default function SearchFacetItem(props: Props) {
         <label
           htmlFor={facetId}
           className={
-            featuredFacetNames.includes(name) ?
-              "facet-key facet-key-large" :
-              "facet-key"
+            featuredFacetNames.includes(name)
+              ? "facet-key facet-key-large"
+              : "facet-key"
           }
         >
           {facet.key}

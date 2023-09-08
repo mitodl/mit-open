@@ -1,21 +1,20 @@
 """
 open_discussions views
 """
-from django.http import (
-    HttpResponseNotFound,
-    HttpResponseForbidden,
-    HttpResponseBadRequest,
-)
 from django.conf import settings
+from django.http import (
+    HttpResponseBadRequest,
+    HttpResponseForbidden,
+    HttpResponseNotFound,
+)
 from django.shortcuts import render
-from learning_resources.permissions import is_learning_path_editor
-
-from open_discussions.permissions import is_admin_user
 
 from course_catalog.permissions import is_staff_list_editor
+from learning_resources.permissions import is_learning_path_editor
+from open_discussions.permissions import is_admin_user
 
 
-def index(request, **kwargs):  # pylint: disable=unused-argument
+def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
     """Render the example app"""
 
     user = request.user
@@ -38,19 +37,25 @@ def index(request, **kwargs):  # pylint: disable=unused-argument
         "release_version": settings.VERSION,
     }
 
-    return render(request, "index.html", context=dict(js_settings=js_settings))
+    return render(request, "index.html", context={"js_settings": js_settings})
 
 
-def handle_400(request, exception=None):  # pylint:disable=unused-argument
+def handle_400(
+    request, exception=None  # noqa: ARG001
+):  # pylint:disable=unused-argument  # noqa: ARG001, RUF100
     """400 error handler"""
     return HttpResponseBadRequest(index(request))
 
 
-def handle_403(request, exception=None):  # pylint:disable=unused-argument
+def handle_403(
+    request, exception=None  # noqa: ARG001
+):  # pylint:disable=unused-argument  # noqa: ARG001, RUF100
     """403 error handler"""
     return HttpResponseForbidden(index(request))
 
 
-def handle_404(request, exception=None):  # pylint:disable=unused-argument
+def handle_404(
+    request, exception=None  # noqa: ARG001
+):  # pylint:disable=unused-argument  # noqa: ARG001, RUF100
     """404 error handler"""
     return HttpResponseNotFound(index(request))

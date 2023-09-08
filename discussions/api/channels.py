@@ -36,10 +36,10 @@ def set_user_or_group_permissions(channel, user_or_group, perms):
             the user or group to add permissions for
         perms (list of str):
             the list of permissions
-    """
+    """  # noqa: D401
     checker = ObjectPermissionChecker(user_or_group)
 
-    # make a copy of the current permissions list to prepopulate which perms we need to remove
+    # make a copy of the current permissions list to prepopulate which perms we need to remove  # noqa: E501
     perms_to_remove = checker.get_perms(channel)[:]
 
     for perm in perms:
@@ -61,7 +61,7 @@ def set_channel_permissions(channel):
     Args:
         channel(discussions.models.Channel):
             the channel for which to set permissions
-    """
+    """  # noqa: D401
     # moderator permissions
     set_user_or_group_permissions(
         channel, channel.moderator_group, ["change_channel", "view_channel"]

@@ -1,4 +1,4 @@
-""" Tests for channels_fields.views"""
+"""Tests for channels_fields.views"""
 import os
 
 import pytest
@@ -91,20 +91,20 @@ def test_patch_field_channel_image(client, field_channel, attribute):
     url = reverse(
         "field_channels_api-detail", kwargs={"field_name": field_channel.name}
     )
-    png_file = os.path.join(
-        os.path.dirname(__file__), "..", "static", "images", "blank.png"
+    png_file = os.path.join(  # noqa: PTH118
+        os.path.dirname(__file__), "..", "static", "images", "blank.png"  # noqa: PTH120
     )
     field_user = UserFactory.create()
     add_user_role(field_channel, FIELD_ROLE_MODERATORS, field_user)
     client.force_login(field_user)
-    with open(png_file, "rb") as f:
+    with open(png_file, "rb") as f:  # noqa: PTH123
         resp = client.patch(url, {attribute: f}, format="multipart")
     assert resp.status_code == 200
     field_channel.refresh_from_db()
     image = getattr(field_channel, attribute)
 
     assert f"{field_channel.name}/field_channel_{attribute}_" in image.url
-    assert len(image.read()) == os.path.getsize(png_file)
+    assert len(image.read()) == os.path.getsize(png_file)  # noqa: PTH202
 
     if attribute == "avatar":
         for size_field in ("avatar_small", "avatar_medium"):

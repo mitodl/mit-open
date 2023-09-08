@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("course_catalog", "0012_changes_short_description_to_text_field_20190116_2046")
     ]

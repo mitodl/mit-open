@@ -4,7 +4,7 @@ Test course_catalog serializers
 import pytest
 
 from course_catalog import factories
-from course_catalog.api_test import ocw_next_valid_data  # pylint:disable=unused-import
+from course_catalog.api_test import ocw_next_valid_data  # noqa: F401
 from course_catalog.constants import (
     OCW_DEPARTMENTS,
     OfferedBy,
@@ -75,7 +75,7 @@ def test_serialize_course_related_models(offered_by):
     list_items = UserListItemFactory.create_batch(2, content_object=course)
     serializer = CourseSerializer(course)
     assert len(serializer.data["topics"]) == 3
-    assert "name" in serializer.data["topics"][0].keys()
+    assert "name" in serializer.data["topics"][0]
     assert len(serializer.data["runs"]) == 3
     assert serializer.data["lists"] == [
         MicroUserListItemSerializer(instance=item).data for item in list_items
@@ -103,10 +103,10 @@ def test_serialize_courserun_related_models():
     assert "raw_json" not in serializer.data
     assert len(serializer.data["prices"]) == 2
     for attr in ("mode", "price"):
-        assert attr in serializer.data["prices"][0].keys()
+        assert attr in serializer.data["prices"][0]
     assert len(serializer.data["instructors"]) == 2
     for attr in ("first_name", "last_name", "full_name"):
-        assert attr in serializer.data["instructors"][0].keys()
+        assert attr in serializer.data["instructors"][0]
 
 
 def test_serialize_program_related_models():
@@ -119,17 +119,17 @@ def test_serialize_program_related_models():
     assert len(serializer.data["topics"]) == 3
     assert len(serializer.data["runs"]) == 1
     assert len(serializer.data["items"]) == 4
-    assert "content_data" in serializer.data["items"][0].keys()
+    assert "content_data" in serializer.data["items"][0]
 
 
 @pytest.mark.parametrize(
-    "factory,valid_type",
+    ("factory", "valid_type"),
     [
-        ["CourseFactory", True],
-        ["ProgramFactory", True],
-        ["UserListFactory", True],
-        ["VideoFactory", True],
-        ["CourseTopicFactory", False],
+        ["CourseFactory", True],  # noqa: PT007
+        ["ProgramFactory", True],  # noqa: PT007
+        ["UserListFactory", True],  # noqa: PT007
+        ["VideoFactory", True],  # noqa: PT007
+        ["CourseTopicFactory", False],  # noqa: PT007
     ],
 )
 def test_generic_foreign_key_serializer_classes(factory, valid_type):
@@ -143,17 +143,17 @@ def test_generic_foreign_key_serializer_classes(factory, valid_type):
     if valid_type:
         assert serializer.data.get("content_data").get("id") == obj.id
     else:
-        with pytest.raises(Exception):
+        with pytest.raises(Exception):  # noqa: B017, PT011
             assert serializer.data.get("content_data").get("id") == obj.id
 
 
 @pytest.mark.parametrize(
-    "list_type,valid",
+    ("list_type", "valid"),
     [
-        [UserListType.LIST.value, True],
-        [UserListType.LEARNING_PATH.value, True],
-        ["bad_type", False],
-        [None, False],
+        [UserListType.LIST.value, True],  # noqa: PT007
+        [UserListType.LEARNING_PATH.value, True],  # noqa: PT007
+        ["bad_type", False],  # noqa: PT007
+        [None, False],  # noqa: PT007
     ],
 )
 def test_userlist_serializer_validation(list_type, valid):
@@ -174,11 +174,11 @@ def test_userlist_serializer_validation(list_type, valid):
 
 
 @pytest.mark.parametrize(
-    "data, error",
+    ("data", "error"),
     [
-        [9999, "Invalid topic ids: {9999}"],
-        [None, "Invalid topic ids: {None}"],
-        ["a", "Topic ids must be integers"],
+        [9999, "Invalid topic ids: {9999}"],  # noqa: PT007
+        [None, "Invalid topic ids: {None}"],  # noqa: PT007
+        ["a", "Topic ids must be integers"],  # noqa: PT007
     ],
 )
 def test_userlist_serializer_validation_bad_topic(data, error):
@@ -197,13 +197,13 @@ def test_userlist_serializer_validation_bad_topic(data, error):
 
 @pytest.mark.parametrize("object_exists", [True, False])
 @pytest.mark.parametrize(
-    "content_type,factory,valid_type",
+    ("content_type", "factory", "valid_type"),
     [
-        ["course", "CourseFactory", True],
-        ["program", "ProgramFactory", True],
-        ["video", "VideoFactory", True],
-        ["userlist", "UserListFactory", False],
-        [None, "CourseFactory", False],
+        ["course", "CourseFactory", True],  # noqa: PT007
+        ["program", "ProgramFactory", True],  # noqa: PT007
+        ["video", "VideoFactory", True],  # noqa: PT007
+        ["userlist", "UserListFactory", False],  # noqa: PT007
+        [None, "CourseFactory", False],  # noqa: PT007
     ],
 )
 def test_userlistitem_serializer_validation(
@@ -282,18 +282,18 @@ def test_favorites_serializer():
 
     favorite_item = FavoriteItem(user=user, item=course_topic)
     serializer = FavoriteItemSerializer(favorite_item)
-    with pytest.raises(Exception):
+    with pytest.raises(Exception):  # noqa: B017, PT011
         assert serializer.data.get("content_data").get("id") == course_topic.id
 
 
 @pytest.mark.parametrize(
-    "factory,valid_type",
+    ("factory", "valid_type"),
     [
-        ["CourseFactory", True],
-        ["ProgramFactory", True],
-        ["StaffListFactory", True],
-        ["VideoFactory", True],
-        ["CourseTopicFactory", False],
+        ["CourseFactory", True],  # noqa: PT007
+        ["ProgramFactory", True],  # noqa: PT007
+        ["StaffListFactory", True],  # noqa: PT007
+        ["VideoFactory", True],  # noqa: PT007
+        ["CourseTopicFactory", False],  # noqa: PT007
     ],
 )
 def test_stafflist_generic_foreign_key_serializer_classes(factory, valid_type):
@@ -307,17 +307,17 @@ def test_stafflist_generic_foreign_key_serializer_classes(factory, valid_type):
     if valid_type:
         assert serializer.data.get("content_data").get("id") == obj.id
     else:
-        with pytest.raises(Exception):
+        with pytest.raises(Exception):  # noqa: B017, PT011
             assert serializer.data.get("content_data").get("id") == obj.id
 
 
 @pytest.mark.parametrize(
-    "list_type,valid",
+    ("list_type", "valid"),
     [
-        [StaffListType.LIST.value, True],
-        [StaffListType.PATH.value, True],
-        ["bad_type", False],
-        [None, False],
+        [StaffListType.LIST.value, True],  # noqa: PT007
+        [StaffListType.PATH.value, True],  # noqa: PT007
+        ["bad_type", False],  # noqa: PT007
+        [None, False],  # noqa: PT007
     ],
 )
 def test_stafflist_serializer_validation(list_type, valid):
@@ -338,11 +338,11 @@ def test_stafflist_serializer_validation(list_type, valid):
 
 
 @pytest.mark.parametrize(
-    "data, error",
+    ("data", "error"),
     [
-        [9999, "Invalid topic ids: {9999}"],
-        [None, "Invalid topic ids: {None}"],
-        ["a", "Topic ids must be integers"],
+        [9999, "Invalid topic ids: {9999}"],  # noqa: PT007
+        [None, "Invalid topic ids: {None}"],  # noqa: PT007
+        ["a", "Topic ids must be integers"],  # noqa: PT007
     ],
 )
 def test_stafflist_serializer_validation_bad_topic(data, error):
@@ -361,13 +361,13 @@ def test_stafflist_serializer_validation_bad_topic(data, error):
 
 @pytest.mark.parametrize("object_exists", [True, False])
 @pytest.mark.parametrize(
-    "content_type,factory,valid_type",
+    ("content_type", "factory", "valid_type"),
     [
-        ["course", "CourseFactory", True],
-        ["program", "ProgramFactory", True],
-        ["video", "VideoFactory", True],
-        ["userlist", "UserListFactory", False],
-        [None, "CourseFactory", False],
+        ["course", "CourseFactory", True],  # noqa: PT007
+        ["program", "ProgramFactory", True],  # noqa: PT007
+        ["video", "VideoFactory", True],  # noqa: PT007
+        ["userlist", "UserListFactory", False],  # noqa: PT007
+        [None, "CourseFactory", False],  # noqa: PT007
     ],
 )
 def test_stafflistitem_serializer_validation(
@@ -452,7 +452,7 @@ def test_podcast_episode_serializer():
 
 
 def test_ocw_next_serializer(
-    ocw_next_valid_data,
+    ocw_next_valid_data,  # noqa: F811
 ):  # pylint:disable=redefined-outer-name
     """OCWNextSerializer should generate a course with the correct data"""
     ocw_next_valid_data["uid"] = "97db384ef34009a64df7cb86cf701970"

@@ -74,7 +74,7 @@ RAW_SUGGESTIONS = {
 
 
 @pytest.fixture(autouse=True)
-def search_features(settings):
+def search_features(settings):  # noqa: PT004
     """Autouse fixture that establishes default feature flags for search tests"""
     settings.FEATURES[features.PODCAST_SEARCH] = True
 
@@ -285,7 +285,7 @@ def test_execute_learn_search_podcasts(settings, user, opensearch):
 
 
 @pytest.mark.parametrize("is_anonymous", [True, False])
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_find_similar_resources(settings, is_anonymous, opensearch, user):
     """find_similar_resources should execute a more-like-this query and not include input resource"""
     resources_to_return = 5
@@ -370,7 +370,7 @@ def test_find_similar_resources(settings, is_anonymous, opensearch, user):
 @pytest.mark.parametrize("max_suggestions", [1, 3])
 @pytest.mark.parametrize("suggest_min_hits", [2, 4])
 @pytest.mark.parametrize("is_anonymous", [True, False])
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_results(
     user, is_anonymous, suggest_min_hits, max_suggestions, settings
 ):  # pylint: disable=too-many-locals
@@ -514,7 +514,7 @@ def test_transform_results(
 
 
 @pytest.mark.parametrize("department_fitler", [["Chemistry", "Biology"], [], ["Math"]])
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_department_filter(department_fitler):
     """
     transform_results should replace coursenum if there is a department filter
@@ -565,7 +565,7 @@ def test_transform_department_filter(department_fitler):
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_department_name_aggregations():
     """
     Aggregations with filters are nested under `agg_filter_<key>`. transform_results should unnest them
@@ -600,7 +600,7 @@ def test_transform_department_name_aggregations():
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_level_aggregation():
     """
     Aggregations with filters are nested under `agg_filter_<key>`. transform_results should unnest them
@@ -652,7 +652,7 @@ def test_transform_level_aggregation():
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_topics_aggregations():
     """
     Topics Aggregations with filters are nested under `agg_filter_topics`. transform_results should unnest them
@@ -685,7 +685,7 @@ def test_transform_topics_aggregations():
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_resource_type_aggregations():
     """
     Resource_type Aggregations with filters are nested under `agg_filter_resource_type`.
@@ -723,7 +723,7 @@ def test_transform_resource_type_aggregations():
 
 @pytest.mark.parametrize("podcast_present_in_aggregate", [True, False])
 @pytest.mark.parametrize("userlist_present_in_aggregate", [True, False])
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_combine_type_buckets_in_aggregates(
     podcast_present_in_aggregate, userlist_present_in_aggregate
 ):

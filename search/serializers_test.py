@@ -28,7 +28,7 @@ from search import api, constants, serializers
 
 
 def minimum_price(learning_resource):
-    """Function for calculating the minimum price of a learning resource across runs"""
+    """Function for calculating the minimum price of a learning resource across runs"""  # noqa: D401
 
     prices = [
         run.prices.values_list("price", flat=True)
@@ -55,7 +55,7 @@ def test_es_profile_serializer(user):
     }
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_es_course_price_serializer():
     """Test that the course price serializer serializes a price"""
     price = factories.CoursePriceFactory.create()
@@ -65,7 +65,7 @@ def test_es_course_price_serializer():
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("has_full_name", [True, False])
 @pytest.mark.parametrize("level", ["Undergraduate", "Undergraduate, Graduate"])
 def test_es_run_serializer(has_full_name, level):
@@ -106,7 +106,7 @@ def test_es_run_serializer(has_full_name, level):
                 (
                     instructor.full_name
                     if has_full_name
-                    else " ".join([instructor.first_name, instructor.last_name])
+                    else f"{instructor.first_name} {instructor.last_name}"
                 )
                 for instructor in learning_resource_run.instructors.all()
             ],
@@ -124,7 +124,7 @@ def test_es_run_serializer(has_full_name, level):
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("offered_by", [offered_by.value for offered_by in OfferedBy])
 @pytest.mark.parametrize("platform", [platform.value for platform in PlatformType])
 @pytest.mark.parametrize("department", [None, ["2"]])
@@ -178,10 +178,7 @@ def test_es_course_serializer(offered_by, platform, department):
     else:
         expected_certification = []
 
-    if department == ["2"]:
-        expected_department_name = ["Mechanical Engineering"]
-    else:
-        expected_department_name = []
+    expected_department_name = ["Mechanical Engineering"] if department == ["2"] else []
 
     assert_json_equal(
         serialized,
@@ -220,22 +217,25 @@ def test_es_course_serializer(offered_by, platform, department):
     assert len(serialized["runs"]) == 2
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("exceeds_max_size", [True, False])
 @pytest.mark.parametrize(
-    "section,section_resource_type",
+    ("section", "section_resource_type"),
     [
-        ["First Paper Assignment", constants.OCW_TYPE_ASSIGNMENTS],
-        ["Assignment 1.2", constants.OCW_TYPE_ASSIGNMENTS],
-        ["Assignments and Exams", None],
-        ["Lecture Summaries", constants.OCW_TYPE_LECTURE_NOTES],
-        [constants.OCW_TYPE_LECTURE_NOTES, constants.OCW_TYPE_LECTURE_NOTES],
-        ["Resources", None],
-        ["Exercises", None],
+        ["First Paper Assignment", constants.OCW_TYPE_ASSIGNMENTS],  # noqa: PT007
+        ["Assignment 1.2", constants.OCW_TYPE_ASSIGNMENTS],  # noqa: PT007
+        ["Assignments and Exams", None],  # noqa: PT007
+        ["Lecture Summaries", constants.OCW_TYPE_LECTURE_NOTES],  # noqa: PT007
+        [  # noqa: PT007
+            constants.OCW_TYPE_LECTURE_NOTES,
+            constants.OCW_TYPE_LECTURE_NOTES,
+        ],
+        ["Resources", None],  # noqa: PT007
+        ["Exercises", None],  # noqa: PT007
     ],
 )
 @pytest.mark.parametrize("ocw_next_course", [True, False])
-def test_es_content_file_serializer(  # pylint:disable=too-many-arguments
+def test_es_content_file_serializer(  # pylint:disable=too-many-arguments  # noqa: PLR0913
     settings, mocker, section, section_resource_type, ocw_next_course, exceeds_max_size
 ):
     """Verify that the OSContentFileSerializer has the correct data"""
@@ -315,13 +315,13 @@ def test_es_content_file_serializer(  # pylint:disable=too-many-arguments
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
-    "content_end,expected_end",
+    ("content_end", "expected_end"),
     [
-        [b"\xe7\x9a\x84".decode("utf-8"), ""],
-        [b"\xc3\x8b".decode("utf-8"), ""],
-        ["bbbbbbb", "bbbbb"],
+        [b"\xe7\x9a\x84".decode("utf-8"), ""],  # noqa: PT007
+        [b"\xc3\x8b".decode("utf-8"), ""],  # noqa: PT007
+        ["bbbbbbb", "bbbbb"],  # noqa: PT007
     ],
 )
 def test_es_content_file_serializer_truncate(  # pylint:disable=too-many-arguments
@@ -352,7 +352,7 @@ def test_es_content_file_serializer_truncate(  # pylint:disable=too-many-argumen
         assert content_end not in serialized_content
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("offered_by", [offered_by.value for offered_by in OfferedBy])
 def test_es_program_serializer(offered_by):
     """
@@ -394,22 +394,21 @@ def test_es_program_serializer(offered_by):
 def expected_audience_for_list(user_list):
     """
     The exprcted value of the serialized audience filter field for a user list
-    """
+    """  # noqa: D401
     for list_item in user_list.items.all():
         if list_item.content_type == ContentType.objects.get_for_model(Course):
             if list_item.item.platform in PROFESSIONAL_COURSE_PLATFORMS:
                 return []
-        elif list_item.content_type == ContentType.objects.get_for_model(Program):
-            if (
-                OfferedBy.micromasters.value
-                not in list_item.item.offered_by.values_list("name", flat=True)
-            ):
-                return []
+        elif list_item.content_type == ContentType.objects.get_for_model(Program) and (
+            OfferedBy.micromasters.value
+            not in list_item.item.offered_by.values_list("name", flat=True)
+        ):
+            return []
 
     return ["Open Content"]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("list_type", [list_type.value for list_type in UserListType])
 @pytest.mark.parametrize("privacy_level", [privacy.value for privacy in PrivacyLevel])
 def test_es_userlist_serializer(list_type, privacy_level, user):
@@ -441,7 +440,7 @@ def test_es_userlist_serializer(list_type, privacy_level, user):
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("list_type", [list_type.value for list_type in StaffListType])
 @pytest.mark.parametrize(
     "privacy_level", [PrivacyLevel.public.value, PrivacyLevel.private.value]
@@ -475,7 +474,7 @@ def test_es_stafflist_serializer(list_type, privacy_level, user):
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_es_userlist_serializer_image_src():
     """
     Test that OSUserListSerializer uses 1st non-list list item image_src if the list image_src is None
@@ -510,7 +509,7 @@ def test_es_userlist_serializer_image_src():
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("offered_by", [offered_by.value for offered_by in OfferedBy])
 def test_es_podcast_serializer(offered_by):
     """
@@ -544,7 +543,7 @@ def test_es_podcast_serializer(offered_by):
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("offered_by", [offered_by.value for offered_by in OfferedBy])
 def test_es_podcast_episode_serializer(offered_by):
     """

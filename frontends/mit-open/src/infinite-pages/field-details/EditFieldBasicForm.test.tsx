@@ -18,45 +18,45 @@ describe("EditFieldBasicForm", () => {
     publicLists = resourceFactory.makeUserListsPaginated({ count: 5 })
     setMockResponse.get(
       lrUrls.userList.listing({
-        public: true
+        public: true,
       }),
-      publicLists
+      publicLists,
     )
     field = factory.makeField({
-      is_moderator:  true,
+      is_moderator: true,
       featured_list: publicLists.results[0],
-      lists:         publicLists.results.slice(0, 3)
+      lists: publicLists.results.slice(0, 3),
     })
     setMockResponse.get(
       lrUrls.userList.itemsListing(publicLists.results[0].id),
-      resourceFactory.makeListItemsPaginated({ count: 2 })
+      resourceFactory.makeListItemsPaginated({ count: 2 }),
     )
     setMockResponse.get(
       lrUrls.userList.itemsListing(publicLists.results[1].id),
-      resourceFactory.makeListItemsPaginated({ count: 2 })
+      resourceFactory.makeListItemsPaginated({ count: 2 }),
     )
     setMockResponse.get(
       lrUrls.userList.itemsListing(publicLists.results[2].id),
-      resourceFactory.makeListItemsPaginated({ count: 2 })
+      resourceFactory.makeListItemsPaginated({ count: 2 }),
     )
     setMockResponse.get(
       lrUrls.userList.itemsListing(publicLists.results[4].id),
-      resourceFactory.makeListItemsPaginated({ count: 2 })
+      resourceFactory.makeListItemsPaginated({ count: 2 }),
     )
     setMockResponse.get(urls.fieldDetails(field.name), field)
     setMockResponse.get(
       widgetUrls.widgetList(field.widget_list),
-      makeWidgetListResponse({}, { count: 0 })
+      makeWidgetListResponse({}, { count: 0 }),
     )
   })
 
   it("Displays a 'featured list' autocomplete form field and draggable list widgets", async () => {
     renderTestApp({
-      url: `/infinite${urls.fieldDetails(field.name)}manage/#basic`
+      url: `/infinite${urls.fieldDetails(field.name)}manage/#basic`,
     })
 
     const featuredListSelector = (await screen.findByLabelText(
-      "Featured learning resources"
+      "Featured learning resources",
     )) as HTMLInputElement
     expect(featuredListSelector.value).toEqual(field.featured_list?.title)
     await user.click(featuredListSelector)
@@ -90,10 +90,10 @@ describe("EditFieldBasicForm", () => {
 
   it("updates field values on form submission", async () => {
     const { history } = renderTestApp({
-      url: `/infinite${urls.fieldDetails(field.name)}manage/#basic`
+      url: `/infinite${urls.fieldDetails(field.name)}manage/#basic`,
     })
     const featuredListSelector = (await screen.findByLabelText(
-      "Featured learning resources"
+      "Featured learning resources",
     )) as HTMLInputElement
     expect(featuredListSelector.value).toEqual(field.featured_list?.title)
     await user.click(featuredListSelector)
@@ -109,18 +109,18 @@ describe("EditFieldBasicForm", () => {
 
     const updatedValues = {
       featured_list: publicLists.results[4].id,
-      lists:         [
-        ...publicLists.results.slice(0, 3).map(fl => fl.id),
-        publicLists.results[4].id
-      ]
+      lists: [
+        ...publicLists.results.slice(0, 3).map((fl) => fl.id),
+        publicLists.results[4].id,
+      ],
     }
     const updatedField = {
       ...field,
       featured_list: publicLists.results[4],
-      lists:         [...field.lists.slice(0, 3), publicLists.results[4]]
+      lists: [...field.lists.slice(0, 3), publicLists.results[4]],
     }
     setMockResponse.patch(urls.fieldDetails(field.name), updatedField, {
-      requestBody: updatedValues
+      requestBody: updatedValues,
     })
     setMockResponse.get(urls.fieldDetails(field.name), updatedField)
     const submitBtn = screen.getByText("Save")
@@ -130,7 +130,7 @@ describe("EditFieldBasicForm", () => {
     })
     // New featured list title should appear twice now
     const featuredListTitle = await screen.findAllByText(
-      publicLists.results[4].title
+      publicLists.results[4].title,
     )
     expect(featuredListTitle.length).toEqual(2)
   })

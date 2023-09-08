@@ -16,7 +16,7 @@ jest.mock("./SearchInput", () => {
   return {
     ...actual,
     __esModule: true,
-    default:    jest.fn(actual.default)
+    default: jest.fn(actual.default),
   }
 })
 
@@ -24,7 +24,7 @@ describe("Searchbox", () => {
   const renderSearchbox = (props: Partial<SearchboxProps> = {}) => {
     const { value = "", ...otherProps } = props
     const onSubmit = jest.fn()
-    const onChange = jest.fn(e => e.persist())
+    const onChange = jest.fn((e) => e.persist())
     const onClear = jest.fn()
     render(
       <ThemeProvider theme={combinedTheme}>
@@ -35,7 +35,7 @@ describe("Searchbox", () => {
           onClear={onClear}
           {...otherProps}
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     )
     const user = userEvent.setup()
     const spies = { onClear, onChange, onSubmit }
@@ -44,15 +44,15 @@ describe("Searchbox", () => {
 
   it("Passes the appropriate props to SearchInput", () => {
     const searchInputProps: SearchInputProps = {
-      onSubmit:        jest.fn(),
-      onClear:         jest.fn(),
-      onChange:        jest.fn(),
-      className:       "some-classname",
-      classNameClear:  "some-classname-clear",
+      onSubmit: jest.fn(),
+      onClear: jest.fn(),
+      onChange: jest.fn(),
+      className: "some-classname",
+      classNameClear: "some-classname-clear",
       classNameSearch: "some-classname-search",
-      value:           "some-value",
-      placeholder:     "some-placeholder",
-      autoFocus:       true
+      value: "some-value",
+      placeholder: "some-placeholder",
+      autoFocus: true,
     }
     /**
      * Need to rename className to classNameInput for Searchbox
@@ -62,7 +62,7 @@ describe("Searchbox", () => {
     renderSearchbox(searchboxProps)
     expect(SearchInputSpy).toHaveBeenCalledWith(
       expect.objectContaining(searchInputProps),
-      expect.anything() // Functional components second arg is Context
+      expect.anything(), // Functional components second arg is Context
     )
   })
 

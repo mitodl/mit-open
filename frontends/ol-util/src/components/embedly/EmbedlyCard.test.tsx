@@ -22,7 +22,7 @@ describe("EmbedlyCard", () => {
       <EmbedlyCard
         url={url ?? new URL(faker.internet.url()).toString()}
         {...others}
-      />
+      />,
     )
     return { container }
   }
@@ -82,7 +82,7 @@ describe("EmbedlyCard", () => {
   it.each([
     { url: "some-invalid-url", valid: false },
     { url: "https://valid-url.com", valid: true },
-    { url: "protocol-not-required.com", valid: true }
+    { url: "protocol-not-required.com", valid: true },
   ])("only renders the embedly anchor if url is valid", ({ url, valid }) => {
     render(<EmbedlyCard url={url} />)
     expect(document.querySelector("a") !== null).toBe(valid)

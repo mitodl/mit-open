@@ -1,4 +1,4 @@
-""" admin for course catalog """
+"""admin for course catalog"""
 
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
@@ -72,13 +72,13 @@ class LearningResourceRunInline(GenericTabularInline):
         "year",
     )
 
-    def has_delete_permission(self, request, obj=None):
+    def has_delete_permission(self, request, obj=None):  # noqa: ARG002
         return False
 
-    def has_change_permission(self, request, obj=None):
+    def has_change_permission(self, request, obj=None):  # noqa: ARG002
         return False
 
-    def has_add_permission(self, request, obj=None):
+    def has_add_permission(self, request, obj=None):  # noqa: ARG002
         return False
 
 
@@ -99,7 +99,7 @@ class StaffListItemInline(admin.StackedInline):
     model = StaffListItem
     classes = ["collapse"]
 
-    def has_delete_permission(self, request, obj=None):
+    def has_delete_permission(self, request, obj=None):  # noqa: ARG002
         return True
 
 
@@ -109,7 +109,7 @@ class UserListItemInline(admin.StackedInline):
     model = UserListItem
     classes = ["collapse"]
 
-    def has_delete_permission(self, request, obj=None):
+    def has_delete_permission(self, request, obj=None):  # noqa: ARG002
         return True
 
 
@@ -119,7 +119,7 @@ class ProgramItemInline(admin.StackedInline):
     model = ProgramItem
     classes = ["collapse"]
 
-    def has_delete_permission(self, request, obj=None):
+    def has_delete_permission(self, request, obj=None):  # noqa: ARG002
         return True
 
 

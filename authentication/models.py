@@ -1,12 +1,12 @@
-""" Models for mail app """
+"""Models for mail app"""
 from ipaddress import ip_address
 
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.safestring import mark_safe
 from ipware.utils import is_private_ip
-from open_discussions.models import TimestampedModel
 
+from open_discussions.models import TimestampedModel
 
 HELP_TEXT = """
 @spam.com: blocks all emails containing `@spam.com` like `joe@spam.com.edu`<br/>
@@ -23,7 +23,10 @@ class BlockedEmailRegex(TimestampedModel):
     """
 
     match = models.CharField(
-        max_length=256, null=False, blank=False, help_text=mark_safe(HELP_TEXT)
+        max_length=256,
+        null=False,
+        blank=False,
+        help_text=mark_safe(HELP_TEXT),  # noqa: S308
     )
 
 
@@ -38,10 +41,11 @@ class BlockedIPRange(TimestampedModel):
     def clean(self):
         for ip in (self.ip_start, self.ip_end):
             if ip is None:
-                raise ValidationError("IP cannot be null", code="invalid")
+                msg = "IP cannot be null"
+                raise ValidationError(msg, code="invalid")
             if is_private_ip(ip):
-                raise ValidationError(f"IP {ip} is not routable", code="invalid")
+                msg = f"IP {ip} is not routable"
+                raise ValidationError(msg, code="invalid")
         if ip_address(self.ip_start) > ip_address(self.ip_end):
-            raise ValidationError(
-                f"IP {self.ip_end} < IP {self.ip_start}", code="invalid"
-            )
+            msg = f"IP {self.ip_end} < IP {self.ip_start}"
+            raise ValidationError(msg, code="invalid")

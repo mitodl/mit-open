@@ -4,10 +4,7 @@
     "composite": true,
     "target": "es6",
     "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "jsx": "react",
     "strict": true,
     "declaration": true,
@@ -18,6 +15,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "preserveWatchOutput": true,
-  },
+    "preserveWatchOutput": true
+  }
 }

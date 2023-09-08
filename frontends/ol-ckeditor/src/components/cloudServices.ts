@@ -4,10 +4,10 @@ import axios from "axios"
 const cloudServicesConfig = () =>
   ({
     uploadUrl: window.SETTINGS.ckeditor_upload_url,
-    tokenUrl:  async () => {
+    tokenUrl: async () => {
       const { data } = await axios.get("/api/v0/ckeditor/")
       return data as string
-    }
-  } satisfies CloudServicesConfig)
+    },
+  }) satisfies CloudServicesConfig
 
 export default cloudServicesConfig

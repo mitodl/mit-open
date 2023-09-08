@@ -32,7 +32,7 @@ $avatar-size: 60px;
 $carousel-spacing: 24px;
 
 .ic-carousel-card {
-  height:100%;
+  height: 100%;
   margin-left: $carousel-spacing * 0.5;
   margin-right: $carousel-spacing * 0.5;
 }
@@ -46,7 +46,7 @@ $carousel-spacing: 24px;
     1. spaced
     2. cast a shadow when hovered
     3. left-aligned (left edge of left-most card aligned with rest of page content)
-  
+
   The card container has `overflow: hidden` to prevent seeing the offscreen
   cards. Consequently, if the leftmost card is at the left edge of the carousel
   container, then its shadow gets cut off and looks weird.
@@ -63,7 +63,7 @@ $carousel-spacing: 24px;
   /*
   We also want the carousel contents (cards) to appear as if they are full
   width. By default, the width is 100% and since there's cell-spacing, the
-  right-most card does not line up with the right-hand margin, it's short by 
+  right-most card does not line up with the right-hand margin, it's short by
   half the spacing.
 
   But since we also translated the contents leftwards (see above) we're actually
@@ -133,7 +133,6 @@ $avatar-dimension-small: 22px;
   }
 }
 
-
 $min-tab-height: 44px;
 
 .page-nav-content {
@@ -154,9 +153,9 @@ $min-tab-height: 44px;
   padding-right: 0;
 }
 
-.page-nav  {
+.page-nav {
   .MuiTabs-indicator {
-    height:4px;
+    height: 4px;
   }
 
   &.MuiTabs-root {
@@ -177,25 +176,24 @@ $min-tab-height: 44px;
 .page-subbanner {
   background-color: theme.$color-background-light;
 
-  .MuiGrid-root > .MuiGrid-item  {
+  .MuiGrid-root > .MuiGrid-item {
     padding-top: 0;
   }
 
   margin-bottom: 40px;
 }
 
-
 .field-controls {
-    position: relative;
-    flex-grow: 0.95;
-    justify-content: flex-end;
-    min-height: 38px;
-    display: flex;
-    align-items: center;
+  position: relative;
+  flex-grow: 0.95;
+  justify-content: flex-end;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
 
-    .field-edit-button {
-      cursor: pointer;
-      color: #fff;
-      z-index: 2000;
-    }
+  .field-edit-button {
+    cursor: pointer;
+    color: #fff;
+    z-index: 2000;
+  }
 }

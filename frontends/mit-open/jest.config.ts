@@ -5,8 +5,8 @@ const config: Config.InitialOptions = {
   ...baseConfig,
   setupFilesAfterEnv: [
     ...baseConfig.setupFilesAfterEnv,
-    "./test-utils/setupJest.ts"
-  ]
+    "./test-utils/setupJest.ts",
+  ],
 }
 
 export default config

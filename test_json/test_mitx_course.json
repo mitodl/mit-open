@@ -63,9 +63,7 @@
           "content_language": "en-us",
           "license": "",
           "outcome": "outcome",
-          "transcript_languages": [
-            "en-us"
-          ],
+          "transcript_languages": ["en-us"],
           "instructors": [],
           "staff": [
             {
@@ -162,10 +160,7 @@
           "certificate_logo_image_url": "https://edxuploads.s3.amazonaws.com/organization_logos/logo-mitx.png",
           "description": "description",
           "homepage_url": "",
-          "tags": [
-            "charter",
-            "founder"
-          ],
+          "tags": ["charter", "founder"],
           "logo_image_url": "logo_image_url",
           "marketing_url": "https://www.edx.org/school/mitx"
         }
@@ -336,9 +331,7 @@
       "original_image": null,
       "enrollment_count": 0,
       "full_description": null,
-      "url_slug_history": [
-        "quantum-information-science-i-part-3-review"
-      ],
+      "url_slug_history": ["quantum-information-science-i-part-3-review"],
       "extra_description": null,
       "prerequisites_raw": null,
       "short_description": null,

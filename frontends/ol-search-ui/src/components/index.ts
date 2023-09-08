@@ -8,12 +8,12 @@ export { default as LearningResourceCardTemplate } from "./LearningResourceCardT
 export type {
   LearningResourceCardTemplateProps,
   OnActivateCard,
-  CardVariant
+  CardVariant,
 } from "./LearningResourceCardTemplate"
 
 export { default as SearchFilterDrawer } from "./SearchFilterDrawer"
 
 export {
   default as ExpandedLearningResourceDisplay,
-  type LearningResourceDetailsProps as ExpandedLearningResourceDisplayProps
+  type LearningResourceDetailsProps as ExpandedLearningResourceDisplayProps,
 } from "./ExpandedLearningResourceDisplay"

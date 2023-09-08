@@ -14,16 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf import settings
-from django.urls import include, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.urls import include, re_path
 from rest_framework_jwt.views import refresh_jwt_token
 
 from open_discussions.views import index
 
-# Post slugs can contain unicode characters, so a letter-matching pattern like [A-Za-z] doesn't work.
-# "[^\W]" Matches any character that is NOT a non-alphanumeric character, including underscores.
-# "[^\W]" will match all numbers, underscores, and letters, unicode or otherwise. To accept dashes
+# Post slugs can contain unicode characters, so a letter-matching pattern like [A-Za-z] doesn't work.  # noqa: E501
+# "[^\W]" Matches any character that is NOT a non-alphanumeric character, including underscores.  # noqa: E501
+# "[^\W]" will match all numbers, underscores, and letters, unicode or otherwise. To accept dashes  # noqa: E501
 # as well, that character is added to the pattern via an alternation (|).
 POST_SLUG_PATTERN = "([^\\W]|-)+"
 
@@ -31,7 +31,7 @@ handler400 = "open_discussions.views.handle_400"
 handler403 = "open_discussions.views.handle_403"
 handler404 = "open_discussions.views.handle_404"
 
-urlpatterns = [
+urlpatterns = [  # noqa: RUF005
     re_path(r"^admin/", admin.site.urls),
     re_path(r"", include("authentication.urls")),
     re_path(r"", include("social_django.urls", namespace="social")),

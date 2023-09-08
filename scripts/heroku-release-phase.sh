@@ -2,8 +2,8 @@
 
 set -eo pipefail
 indent() {
-    RE="s/^/       /"
-    [ $(uname) == "Darwin" ] && sed -l "$RE" || sed -u "$RE"
+	RE="s/^/       /"
+	[ "$(uname)" == "Darwin" ] && sed -l "$RE" || sed -u "$RE"
 }
 
 MANAGE_FILE=$(find . -maxdepth 3 -type f -name 'manage.py' | head -1)

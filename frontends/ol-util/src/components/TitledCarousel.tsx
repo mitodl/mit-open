@@ -62,7 +62,7 @@ const TitledCarousel: React.FC<TitledCarouselProps> = ({
   as: ContainerComponent = "div",
   previous = <button>Previous</button>,
   next = <button>Next</button>,
-  showNavigationButtons = true
+  showNavigationButtons = true,
 }) => {
   const wasButtonChange = useRef(false)
   const [index, setIndex] = useState(0)
@@ -71,11 +71,15 @@ const TitledCarousel: React.FC<TitledCarouselProps> = ({
   const canPageDown = index !== 0
 
   const pageDown = useCallback(() => {
-    setIndex(currentIndex => clamp(currentIndex - pageSize, 0, childCount - 1))
+    setIndex((currentIndex) =>
+      clamp(currentIndex - pageSize, 0, childCount - 1),
+    )
     wasButtonChange.current = true
   }, [pageSize, childCount])
   const pageUp = useCallback(() => {
-    setIndex(currentIndex => clamp(currentIndex + pageSize, 0, childCount - 1))
+    setIndex((currentIndex) =>
+      clamp(currentIndex + pageSize, 0, childCount - 1),
+    )
     wasButtonChange.current = true
   }, [pageSize, childCount])
   const syncIndexFromDrag = useCallback((sliderIndex: number) => {
@@ -97,11 +101,11 @@ const TitledCarousel: React.FC<TitledCarouselProps> = ({
           <ButtonsContainer>
             {React.cloneElement(previous, {
               disabled: !canPageDown,
-              onClick:  pageDown
+              onClick: pageDown,
             })}
             {React.cloneElement(next, {
               disabled: !canPageUp,
-              onClick:  pageUp
+              onClick: pageUp,
             })}
           </ButtonsContainer>
         )}

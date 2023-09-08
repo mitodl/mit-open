@@ -23,7 +23,7 @@ const learningResources = {
   list: (params?: Params<LRApi, "learningResourcesList">) =>
     `/api/v1/learning_resources/${query(params)}`,
   details: (params: Params<LRApi, "learningResourcesRetrieve">) =>
-    `/api/v1/learning_resources/${params.id}/`
+    `/api/v1/learning_resources/${params.id}/`,
 }
 
 export { learningResources }

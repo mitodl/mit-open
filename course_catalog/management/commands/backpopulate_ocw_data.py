@@ -13,7 +13,7 @@ from search.search_index_helpers import deindex_course
 class Command(BaseCommand):
     """Populate ocw courses"""
 
-    help = "Populate ocw courses"
+    help = "Populate ocw courses"  # noqa: A003
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -44,22 +44,22 @@ class Command(BaseCommand):
             "--course-url-substring",
             dest="course_url_substring",
             required=False,
-            help="If set, backpopulate only the course whose urls match with this substring",
+            help="If set, backpopulate only the course whose urls match with this substring",  # noqa: E501
         )
         parser.add_argument(
             "--course-url-json",
             dest="course_url_json",
             required=False,
-            help="If set, backpopulate only courses whose urls match with the list of strings in this JSON file",
+            help="If set, backpopulate only courses whose urls match with the list of strings in this JSON file",  # noqa: E501
         )
         super().add_arguments(parser)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate ocw courses"""
 
         course_url_json = options.get("course_url_json")
         if course_url_json:
-            with open(course_url_json) as input_file:
+            with open(course_url_json) as input_file:  # noqa: PTH123
                 course_urls = json.load(input_file)
             course_url_substring = None
         else:
@@ -90,7 +90,7 @@ class Command(BaseCommand):
 
             self.stdout.write(
                 "Started task {task} to get ocw course data "
-                "w/force_overwrite={overwrite}, force_s3_upload={force_s3}, upload_to_s3={s3}, course_url_substring={course_url_substring}".format(
+                "w/force_overwrite={overwrite}, force_s3_upload={force_s3}, upload_to_s3={s3}, course_url_substring={course_url_substring}".format(  # noqa: E501
                     task=task,
                     overwrite=options["force_overwrite"],
                     s3=options["upload_to_s3"],
@@ -102,5 +102,5 @@ class Command(BaseCommand):
             task.get()
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
-                "Population of ocw data finished, took {} seconds".format(total_seconds)
+                f"Population of ocw data finished, took {total_seconds} seconds"
             )

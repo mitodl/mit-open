@@ -1,32 +1,32 @@
 """Tests for Podcast ETL functions"""
 
-from unittest.mock import Mock
 import datetime
+from unittest.mock import Mock
 from urllib.parse import urljoin
+
 import pytest
 import pytz
-from django.conf import settings
-from bs4 import BeautifulSoup as bs
 import yaml
+from bs4 import BeautifulSoup as bs  # noqa: N813
+from django.conf import settings
 from freezegun import freeze_time
-from course_catalog.factories import PodcastEpisodeFactory
+
 from course_catalog.etl.podcast import (
     extract,
-    transform,
     generate_aggregate_podcast_rss,
+    transform,
 )
+from course_catalog.factories import PodcastEpisodeFactory
 
 
 def rss_content():
     """Test rss data"""
 
-    with open("./test_html/test_podcast.rss") as f:
-        content = f.read()
-
-    return content
+    with open("./test_html/test_podcast.rss") as f:  # noqa: PTH123
+        return f.read()
 
 
-def mock_podcast_file(  # pylint: disable=too-many-arguments
+def mock_podcast_file(  # pylint: disable=too-many-arguments  # noqa: PLR0913
     podcast_title=None,
     topics=None,
     website_url="website_url",
@@ -50,8 +50,8 @@ rss_url: {rss_url}
     return Mock(decoded_content=content)
 
 
-@pytest.fixture
-def mock_rss_request(mocker):
+@pytest.fixture()
+def mock_rss_request(mocker):  # noqa: PT004
     """
     Mock request data
     """
@@ -62,8 +62,8 @@ def mock_rss_request(mocker):
     )
 
 
-@pytest.fixture
-def mock_rss_request_with_bad_rss_file(mocker):
+@pytest.fixture()
+def mock_rss_request_with_bad_rss_file(mocker):  # noqa: PT004
     """
     Mock request data
     """
@@ -144,7 +144,7 @@ def test_transform(mocker, title, topics, offered_by):
                     "episode_link": "https://soundcloud.com/podcast/episode1",
                     "image_src": "apicture.jpg",
                     "last_modified": datetime.datetime(
-                        2020, 4, 1, 18, 20, 31, tzinfo=datetime.timezone.utc
+                        2020, 4, 1, 18, 20, 31, tzinfo=datetime.UTC
                     ),
                     "published": True,
                     "duration": "00:17:16",
@@ -161,7 +161,7 @@ def test_transform(mocker, title, topics, offered_by):
                     "episode_link": "https://soundcloud.com/podcast/episode2",
                     "image_src": "image1.jpg",
                     "last_modified": datetime.datetime(
-                        2020, 4, 1, 18, 20, 31, tzinfo=datetime.timezone.utc
+                        2020, 4, 1, 18, 20, 31, tzinfo=datetime.UTC
                     ),
                     "published": True,
                     "duration": "00:17:16",
@@ -176,12 +176,9 @@ def test_transform(mocker, title, topics, offered_by):
 
     results = list(transform(extract_results))
 
-    assert (
-        list(
-            [{**podcast, "episodes": list(podcast["episodes"])} for podcast in results]
-        )
-        == expected_results
-    )
+    assert [
+        {**podcast, "episodes": list(podcast["episodes"])} for podcast in results
+    ] == expected_results
 
 
 @pytest.mark.usefixtures("mock_rss_request_with_bad_rss_file")
@@ -208,7 +205,7 @@ def test_transform_with_error(mocker):
     assert results[0]["url"] == "website_url"
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @freeze_time("2020-07-20")
 def test_generate_aggregate_podcast_rss():
     """Testgenerate_aggregate_podcast_rss"""
@@ -227,11 +224,11 @@ def test_generate_aggregate_podcast_rss():
         settings.SITE_BASE_URL, "/static/images/podcast_cover_art.png"
     )
 
-    expected_rss = """<?xml version='1.0' encoding='UTF-8'?>
+    expected_rss = f"""<?xml version='1.0' encoding='UTF-8'?>
     <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
         <channel>
             <title>MIT Open Aggregated Podcast Feed</title>
-            <link>{0}</link>
+            <link>{podcasts_url}</link>
             <language>en-us</language>
             <pubDate>Mon, 20 Jul 2020  00:00:00 +0000</pubDate>
             <lastBuildDate>Mon, 20 Jul 2020  00:00:00 +0000</lastBuildDate>
@@ -242,21 +239,19 @@ def test_generate_aggregate_podcast_rss():
             <description>Episodes from podcasts from around MIT</description>
             <itunes:owner>
                 <itunes:name>MIT Open Learning</itunes:name>
-                <itunes:email>{1}</itunes:email>
+                <itunes:email>{settings.EMAIL_SUPPORT}</itunes:email>
             </itunes:owner>
             <image>
-              <url>{2}</url>
+              <url>{cover_image_url}</url>
               <title>MIT Open Aggregated Podcast Feed</title>
-              <link>{0}</link>
+              <link>{podcasts_url}</link>
             </image>
             <itunes:explicit>no</itunes:explicit>
             <itunes:category text="Education"/>
             <item>rss1</item>
             <item>rss2</item>
         </channel>
-    </rss>""".format(
-        podcasts_url, settings.EMAIL_SUPPORT, cover_image_url
-    )
+    </rss>"""
 
     result = generate_aggregate_podcast_rss().prettify()
 

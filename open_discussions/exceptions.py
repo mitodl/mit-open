@@ -5,7 +5,7 @@ from rest_framework.views import exception_handler
 def api_exception_handler(exc, context):
     """
     Handles API exceptions by appending extra info
-    """
+    """  # noqa: D401
     # Call REST framework's default exception handler first,
     # to get the standard error response.
     response = exception_handler(exc, context)
@@ -18,5 +18,5 @@ def api_exception_handler(exc, context):
     return response
 
 
-class DoNotUseRequestException(Exception):
+class DoNotUseRequestException(Exception):  # noqa: N818
     """This exception is raised during unit tests if an HTTP request is attempted"""

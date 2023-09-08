@@ -54,35 +54,41 @@ class PlatformTypeChoice(Enum):
     oll = "oll"
 
 
-def _post_gen_topics(obj, create, extracted, **kwargs):
+def _post_gen_topics(obj, create, extracted, **kwargs):  # noqa: ARG001
     """PostGeneration function for topics"""
     if not create:
         return
 
     if extracted is None:
-        extracted = LearningResourceTopicFactory.create_batch(random.randint(1, 5))
+        extracted = LearningResourceTopicFactory.create_batch(
+            random.randint(1, 5)  # noqa: S311
+        )
 
     obj.topics.set(extracted)
 
 
-def _post_gen_tags(obj, create, extracted, **kwargs):
+def _post_gen_tags(obj, create, extracted, **kwargs):  # noqa: ARG001
     """PostGeneration function for tags"""
     if not create:
         return
 
     if extracted is None:
-        extracted = LearningResourceContentTagFactory.create_batch(random.randint(1, 5))
+        extracted = LearningResourceContentTagFactory.create_batch(
+            random.randint(1, 5)  # noqa: S311
+        )
 
     obj.resource_content_tags.set(extracted)
 
 
-def _post_gen_offered_by(obj, create, extracted, **kwargs):
+def _post_gen_offered_by(obj, create, extracted, **kwargs):  # noqa: ARG001
     """PostGeneration function for offered_by"""
     if not create:
         return
 
     if extracted is None:
-        extracted = LearningResourceOfferorFactory.create_batch(random.randint(1, 2))
+        extracted = LearningResourceOfferorFactory.create_batch(
+            random.randint(1, 2)  # noqa: S311
+        )
 
     obj.offered_by.set(extracted)
 
@@ -176,13 +182,14 @@ class LearningResourceFactory(DjangoModelFactory):
     """Factory for LearningResource subclasses"""
 
     readable_id = factory.Sequence(
-        lambda n: "RESOURCEN%03d_%03d.MIT_run" % (n, random.randint(1, 1000))
+        lambda n: "RESOURCEN%03d_%03d.MIT_run"
+        % (n, random.randint(1, 1000))  # noqa: S311
     )
     title = factory.Faker("word")
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
     url = factory.Faker("url")
-    languages = factory.List(random.choices(["en", "es"]))
+    languages = factory.List(random.choices(["en", "es"]))  # noqa: S311
     last_modified = factory.Faker("date_time", tzinfo=pytz.utc)
     image = factory.SubFactory(LearningResourceImageFactory)
     platform = factory.SubFactory(LearningResourcePlatformFactory)
@@ -209,7 +216,7 @@ class CourseFactory(DjangoModelFactory):
     extra_course_numbers = factory.List([])
 
     @factory.post_generation
-    def runs(self, create, extracted, **kwargs):
+    def runs(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create run for program.learning_resource"""
         if not create:
             return
@@ -222,7 +229,7 @@ class CourseFactory(DjangoModelFactory):
         self.runs.set(extracted)
 
     @factory.post_generation
-    def platform(self, create, extracted, **kwargs):
+    def platform(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create platform for course.learning_resource"""
         if not create or not extracted:
             return
@@ -247,7 +254,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
     full_description = factory.Faker("text")
     url = factory.Faker("url")
     level = FuzzyChoice(("Undergraduate", "Graduate"))
-    languages = factory.List(random.choices(["en", "es"]))
+    languages = factory.List(random.choices(["en", "es"]))  # noqa: S311
     year = factory.Faker("year")
     image = factory.SubFactory(LearningResourceImageFactory)
     availability = FuzzyChoice(
@@ -271,18 +278,19 @@ class LearningResourceRunFactory(DjangoModelFactory):
         lambda obj: obj.start_date + timedelta(days=90) if obj.start_date else None
     )
     prices = [
-        decimal.Decimal(random.uniform(100, 200)) for _ in range(random.randint(1, 3))
+        decimal.Decimal(random.uniform(100, 200))  # noqa: S311
+        for _ in range(random.randint(1, 3))  # noqa: S311
     ]
 
     @factory.post_generation
-    def instructors(self, create, extracted, **kwargs):
+    def instructors(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create instructors for course"""
         if not create:
             return
 
         if extracted is None:
             extracted = LearningResourceInstructorFactory.create_batch(
-                random.randint(1, 3)
+                random.randint(1, 3)  # noqa: S311
             )
 
         self.instructors.set(extracted)
@@ -317,7 +325,7 @@ class LearningPathFactory(DjangoModelFactory):
     author = factory.SubFactory(UserFactory)
 
     @factory.post_generation
-    def resources(self, create, extracted, **kwargs):
+    def resources(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create resources for LearningPath"""
         if not create:
             return
@@ -327,7 +335,9 @@ class LearningPathFactory(DjangoModelFactory):
                 ProgramFactory.create().learning_resource,
                 *[
                     course.learning_resource
-                    for course in CourseFactory.create_batch(random.randint(1, 3))
+                    for course in CourseFactory.create_batch(
+                        random.randint(1, 3)  # noqa: S311
+                    )
                 ],
             ]
 
@@ -353,7 +363,7 @@ class ProgramFactory(DjangoModelFactory):
     )
 
     @factory.post_generation
-    def runs(self, create, extracted, **kwargs):
+    def runs(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create run for program.learning_resource"""
         if not create:
             return
@@ -367,7 +377,7 @@ class ProgramFactory(DjangoModelFactory):
         self.runs.set([extracted])
 
     @factory.post_generation
-    def platform(self, create, extracted, **kwargs):
+    def platform(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create platform for program.learning_resource"""
         if not create or not extracted:
             return
@@ -376,7 +386,7 @@ class ProgramFactory(DjangoModelFactory):
         self.learning_resource.save()
 
     @factory.post_generation
-    def courses(self, create, extracted, **kwargs):
+    def courses(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create courses for program"""
         if not create:
             return
@@ -384,7 +394,9 @@ class ProgramFactory(DjangoModelFactory):
         if extracted is None:
             extracted = [
                 course.learning_resource
-                for course in CourseFactory.create_batch(random.randint(1, 3))
+                for course in CourseFactory.create_batch(
+                    random.randint(1, 3)  # noqa: S311
+                )
             ]
 
         self.learning_resource.resources.set(

@@ -31,7 +31,7 @@ def is_staff_list_editor(request: HttpRequest) -> bool:
 class HasUserListPermissions(BasePermission):
     """Permission to view/modify UserLists"""
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view):  # noqa: ARG002
         if request.method in SAFE_METHODS:
             return True
         return not request.user.is_anonymous
@@ -60,7 +60,7 @@ class HasUserListItemPermissions(BasePermission):
             )
         return request.user == user_list.author
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):  # noqa: ARG002
         if request.method in SAFE_METHODS:
             return (
                 obj.user_list.privacy_level == PrivacyLevel.public.value
@@ -74,7 +74,7 @@ class HasStaffListPermission(BasePermission):
     Permission to view/create/modify StaffLists
     """
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view):  # noqa: ARG002
         return (
             is_readonly(request)
             or is_admin_user(request)
@@ -101,7 +101,7 @@ class HasStaffListItemPermissions(BasePermission):
             return staff_list.privacy_level == PrivacyLevel.public.value or can_edit
         return can_edit
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):  # noqa: ARG002
         can_edit = is_staff_list_editor(request) or is_admin_user(request)
         if request.method in SAFE_METHODS:
             return obj.staff_list.privacy_level == PrivacyLevel.public.value or can_edit

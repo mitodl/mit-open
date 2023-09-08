@@ -104,7 +104,7 @@ def test_featured_courses_endpoint(client, featured):
 
 
 @pytest.mark.parametrize(
-    "kwargs, is_upcoming", [({"in_future": True}, True), ({"in_past": True}, False)]
+    ("kwargs", "is_upcoming"), [({"in_future": True}, True), ({"in_past": True}, False)]
 )
 def test_upcoming_courses_endpoint(client, kwargs, is_upcoming):
     """Test upcoming courses endpoint"""
@@ -156,7 +156,7 @@ def test_program_endpoint(client):
 
 @pytest.mark.usefixtures("transactional_db")
 @pytest.mark.parametrize(
-    "factory, route_name",
+    ("factory", "route_name"),
     [
         (CourseFactory, "courses-detail"),
         (ProgramFactory, "programs-detail"),
@@ -203,7 +203,7 @@ def test_favorites(user_client, factory, route_name):
 
 
 @pytest.mark.parametrize(
-    "factory, route_name",
+    ("factory", "route_name"),
     [
         (CourseFactory, "courses-detail"),
         (ProgramFactory, "programs-detail"),
@@ -271,7 +271,7 @@ def test_course_report(client):
     )
 
     username = "test_user"
-    password = "test_password"
+    password = "test_password"  # noqa: S105
     User.objects.create_user(username=username, password=password)
     client.login(username=username, password=password)
     resp = client.get(reverse("ocw-course-report"))
@@ -304,9 +304,7 @@ def test_video_endpoint(client):
 
     resp = client.get(reverse("videos-list"))
     assert resp.data.get("count") == 3
-    assert sorted(
-        list(map(lambda video: video["id"], resp.data.get("results")))
-    ) == sorted(
+    assert sorted(video["id"] for video in resp.data.get("results")) == sorted(
         [
             video1.id,
             video2.id,
@@ -316,9 +314,7 @@ def test_video_endpoint(client):
 
     resp = client.get(reverse("videos-list") + "new/")
     assert resp.data.get("count") == 3
-    assert sorted(
-        list(map(lambda video: video["id"], resp.data.get("results")))
-    ) == sorted(
+    assert sorted(video["id"] for video in resp.data.get("results")) == sorted(
         [
             video2.id,
             video3.id,
@@ -548,15 +544,13 @@ def test_podcast_episodes(settings, client):
             episodes = latest_episodes_by_podcast
             count = 5
         else:
-            episodes = latest_episodes_by_podcast + [older_episode]
+            episodes = [*latest_episodes_by_podcast, older_episode]
             count = 6
 
-        episodes = list(
-            reversed(
-                sorted(
-                    episodes, key=lambda episode: (episode.last_modified, episode.id)
-                )
-            )
+        episodes = sorted(
+            episodes,
+            key=lambda episode: (episode.last_modified, episode.id),
+            reverse=True,
         )
 
         resp = client.get(reverse(basename))
@@ -611,11 +605,10 @@ def test_episodes_per_podcast(settings, client):
     """This view should list all published episodes for a given podcast id"""
     podcast = PodcastFactory.create()
 
-    episodes = reversed(
-        sorted(
-            PodcastEpisodeFactory.create_batch(5, podcast=podcast),
-            key=lambda episode: (episode.last_modified, episode.id),
-        )
+    episodes = sorted(
+        PodcastEpisodeFactory.create_batch(5, podcast=podcast),
+        key=lambda episode: (episode.last_modified, episode.id),
+        reverse=True,
     )
     # Make sure these aren't included
     PodcastEpisodeFactory.create_batch(5)

@@ -19,11 +19,11 @@ from search import indexing_api
 from search.api import gen_course_id
 from search.connection import get_default_alias_name
 from search.constants import (
+    COURSE_TYPE,
     GLOBAL_DOC_TYPE,
     PROFILE_TYPE,
     SCRIPTING_LANG,
     UPDATE_CONFLICT_SETTING,
-    COURSE_TYPE,
 )
 from search.exceptions import ReindexException
 from search.indexing_api import (
@@ -32,11 +32,11 @@ from search.indexing_api import (
     deindex_document,
     deindex_run_content_files,
     delete_orphaned_indices,
+    get_reindexing_alias_name,
     index_course_content_files,
     index_items,
     index_run_content_files,
     update_field_values_by_query,
-    get_reindexing_alias_name,
 )
 from search.serializers import serialize_bulk_profiles
 
@@ -45,7 +45,7 @@ pytestmark = [pytest.mark.django_db, pytest.mark.usefixtures("mocked_es")]
 
 @pytest.fixture()
 def mocked_es(mocker, settings):
-    """Mocked ES client objects/functions"""
+    """Mocked ES client objects/functions"""  # noqa: D401
     index_name = "test"
     settings.OPENSEARCH_INDEX = index_name
     conn = mocker.Mock()
@@ -55,7 +55,7 @@ def mocked_es(mocker, settings):
     mocker.patch("search.connection.get_conn", autospec=True)
     default_alias = get_default_alias_name(COURSE_TYPE)
     reindex_alias = get_reindexing_alias_name(COURSE_TYPE)
-    yield SimpleNamespace(
+    return SimpleNamespace(
         get_conn=get_conn_patch,
         conn=conn,
         index_name=index_name,
@@ -66,7 +66,7 @@ def mocked_es(mocker, settings):
 
 
 @pytest.mark.parametrize(
-    "version_conflicts,expected_error_logged", [(0, False), (1, True)]
+    ("version_conflicts", "expected_error_logged"), [(0, False), (1, True)]
 )
 def test_update_field_values_by_query(
     mocker, mocked_es, version_conflicts, expected_error_logged
@@ -77,7 +77,7 @@ def test_update_field_values_by_query(
     """
     patched_logger = mocker.patch("search.indexing_api.log")
     query, field_name, field_value = ({"query": None}, "field1", "value1")
-    new_value_param = "new_value_{}".format(field_name)
+    new_value_param = f"new_value_{field_name}"
     mocked_es.conn.update_by_query.return_value = {
         "version_conflicts": version_conflicts
     }
@@ -91,9 +91,7 @@ def test_update_field_values_by_query(
             conflicts=UPDATE_CONFLICT_SETTING,
             body={
                 "script": {
-                    "source": "ctx._source['{}'] = params.{}".format(
-                        field_name, new_value_param
-                    ),
+                    "source": f"ctx._source['{field_name}'] = params.{new_value_param}",
                     "lang": SCRIPTING_LANG,
                     "params": {new_value_param: field_value},
                 },
@@ -108,16 +106,16 @@ def test_clear_and_create_index_error(object_type):
     """
     clear_and_create_index should raise a TypeError if object_type is None or invalid
     """
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):  # noqa: PT011
         clear_and_create_index(
             index_name="idx", skip_mapping=False, object_type=object_type
         )
 
 
 @pytest.mark.usefixtures("indexing_user")
-@pytest.mark.parametrize("errors", ([], ["error"]))
+@pytest.mark.parametrize("errors", ([], ["error"]))  # noqa: PT007
 @pytest.mark.parametrize(
-    "indexing_func_name, serializing_func_name, object_type",
+    ("indexing_func_name", "serializing_func_name", "object_type"),
     [
         ("index_profiles", "serialize_bulk_profiles", "profile"),
         ("index_courses", "serialize_bulk_courses", "course"),
@@ -128,8 +126,8 @@ def test_clear_and_create_index_error(object_type):
         ("index_podcast_episodes", "serialize_bulk_podcast_episodes", "podcastepisode"),
     ],
 )
-@pytest.mark.parametrize("update_only", (True, False))
-def test_index_functions(
+@pytest.mark.parametrize("update_only", (True, False))  # noqa: PT007
+def test_index_functions(  # noqa: PLR0913
     mocked_es,
     mocker,
     settings,
@@ -182,9 +180,9 @@ def test_index_functions(
 
 
 @pytest.mark.usefixtures("indexing_user")
-@pytest.mark.parametrize("errors", ([], ["error"]))
+@pytest.mark.parametrize("errors", ([], ["error"]))  # noqa: PT007
 @pytest.mark.parametrize(
-    "indexing_func_name, serializing_func_name, object_type",
+    ("indexing_func_name", "serializing_func_name", "object_type"),
     [
         ("deindex_profiles", "serialize_bulk_profiles_for_deletion", "profile"),
         ("deindex_programs", "serialize_bulk_programs_for_deletion", "program"),
@@ -199,7 +197,7 @@ def test_index_functions(
         ("deindex_courses", "serialize_bulk_courses_for_deletion", "course"),
     ],
 )
-def test_bulk_deindex_functions(
+def test_bulk_deindex_functions(  # noqa: PLR0913
     mocked_es,
     mocker,
     settings,
@@ -302,7 +300,7 @@ def test_deindex_document_not_found(mocked_es, mocker):
     assert patched_logger.debug.called is True
 
 
-@pytest.mark.parametrize("update_only", (False, True))
+@pytest.mark.parametrize("update_only", (False, True))  # noqa: PT007
 def test_index_content_files(mocker, update_only):
     """
     ES should try indexing content files for all runs in a course
@@ -317,7 +315,7 @@ def test_index_content_files(mocker, update_only):
             mock_index_run_content_files.assert_any_call(run.id, update_only)
 
 
-@pytest.mark.parametrize("max_size,chunks", [[10000, 2], [500, 4]])
+@pytest.mark.parametrize(("max_size", "chunks"), [[10000, 2], [500, 4]])  # noqa: PT007
 @pytest.mark.parametrize("exceeds_size", [True, False])
 def test_index_items_size_limits(settings, mocker, max_size, chunks, exceeds_size):
     """
@@ -353,25 +351,36 @@ def test_index_profile_items(mocker):
     mock_bulk = mocker.patch(
         "search.indexing_api.bulk", autospec=True, return_value=[None, []]
     )
-    index_items(serialize_bulk_profiles(profile_ids), PROFILE_TYPE, False)
+    index_items(
+        serialize_bulk_profiles(profile_ids), PROFILE_TYPE, False  # noqa: FBT003
+    )  # noqa: FBT003, RUF100
     assert mock_aliases.call_count == 1
     assert mock_bulk.call_count == 1
 
 
 @pytest.mark.usefixtures("indexing_user")
 @pytest.mark.parametrize(
-    "indexing_func_name, doc, unpublished_only",
+    ("indexing_func_name", "doc", "unpublished_only"),
     [
-        ["index_run_content_files", {"_id": "doc"}, None],
-        ["deindex_run_content_files", {"_id": "doc", "_op_type": "deindex"}, True],
-        ["deindex_run_content_files", {"_id": "doc", "_op_type": "deindex"}, False],
+        ["index_run_content_files", {"_id": "doc"}, None],  # noqa: PT007
+        [  # noqa: PT007
+            "deindex_run_content_files",
+            {"_id": "doc", "_op_type": "deindex"},
+            True,
+        ],
+        [  # noqa: PT007
+            "deindex_run_content_files",
+            {"_id": "doc", "_op_type": "deindex"},
+            False,
+        ],
     ],
 )
 @pytest.mark.parametrize(
-    "indexing_chunk_size, document_indexing_chunk_size", [[2, 3], [3, 2]]
+    ("indexing_chunk_size", "document_indexing_chunk_size"),
+    [[2, 3], [3, 2]],  # noqa: PT007
 )
-@pytest.mark.parametrize("errors", ([], ["error"]))
-def test_bulk_index_content_files(
+@pytest.mark.parametrize("errors", ([], ["error"]))  # noqa: PT007
+def test_bulk_index_content_files(  # noqa: PLR0913
     mocked_es,
     mocker,
     settings,
@@ -427,7 +436,7 @@ def test_bulk_index_content_files(
         if unpublished_only:
             content_files = deindexd_content_file
         else:
-            content_files = content_files + [deindexd_content_file]
+            content_files = [*content_files, deindexd_content_file]
 
         for alias in mock_get_aliases.return_value:
             for chunk in chunks([doc for _ in content_files], chunk_size=chunk_size):

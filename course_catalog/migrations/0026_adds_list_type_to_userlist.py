@@ -6,7 +6,6 @@ from course_catalog.constants import UserListType
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("course_catalog", "0025_adds_favorites_renames_learningpath")]
 
     operations = [

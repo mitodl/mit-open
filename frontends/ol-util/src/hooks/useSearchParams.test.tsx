@@ -23,13 +23,13 @@ const TestComponent = () => {
 describe("useSearchParams", () => {
   it.each([
     { search: "?count=3", text: "params: count=3" },
-    { search: "", text: "params:" }
+    { search: "", text: "params:" },
   ])("Makes searchParams available", ({ search, text }) => {
     const initialEntries = [search]
     render(
       <MemoryRouter initialEntries={initialEntries}>
         <TestComponent />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
     screen.getByText(text)
   })
@@ -39,7 +39,7 @@ describe("useSearchParams", () => {
     render(
       <MemoryRouter initialEntries={initialEntries}>
         <TestComponent />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
     screen.getByText("params: count=3")
     const button = screen.getByRole("button")

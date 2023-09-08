@@ -11,7 +11,7 @@ export const initials = (title: string): string => {
     .trim()
     .split(/\s+/)
     .slice(0, 2)
-    .map(item => (item[0] ?? "").toUpperCase())
+    .map((item) => (item[0] ?? "").toUpperCase())
     .join("")
 }
 
@@ -23,7 +23,7 @@ export const capitalize = (txt: string) =>
  * breakpoint width.
  */
 export const useMuiBreakpoint = (breakpoint: Breakpoint): boolean => {
-  return useMediaQuery<Theme>(theme => theme.breakpoints.up(breakpoint))
+  return useMediaQuery<Theme>((theme) => theme.breakpoints.up(breakpoint))
 }
 
 export const emptyOrNil = (x: unknown): boolean => isNil(x) || isEmpty(x)

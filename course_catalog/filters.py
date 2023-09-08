@@ -23,7 +23,7 @@ class CourseFilter(FilterSet):
         {
             "type": "string",
             "enum": [x for x, _ in OFFERED_BY_CHOICES],
-            "description": f"offered_by \n {build_choice_description_list(OFFERED_BY_CHOICES)}",
+            "description": f"offered_by \n {build_choice_description_list(OFFERED_BY_CHOICES)}",  # noqa: E501
         }
     )(
         ChoiceFilter(

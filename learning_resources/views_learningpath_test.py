@@ -76,7 +76,7 @@ def test_learning_path_endpoint_get(client, is_public, is_editor, user):
 @pytest.mark.parametrize("is_super", [True, False])
 @pytest.mark.parametrize("is_editor", [True, False])
 @pytest.mark.parametrize("is_anonymous", [True, False])
-def test_learning_path_endpoint_create(  # pylint: disable=too-many-arguments
+def test_learning_path_endpoint_create(  # pylint: disable=too-many-arguments  # noqa: PLR0913
     client,
     is_anonymous,
     is_published,
@@ -185,7 +185,7 @@ def test_learning_path_items_endpoint_create_item_bad_data(client, user):
     """Test lr_learningpathitems_api endpoint for creating a LearningPath item w/bad data"""
     learning_path = factories.LearningPathFactory.create()
 
-    update_editor_group(user, True)
+    update_editor_group(user, True)  # noqa: FBT003
     client.force_login(user)
 
     data = {"child": 999}
@@ -204,7 +204,9 @@ def test_learning_path_items_endpoint_create_item_bad_data(client, user):
     }
 
 
-@pytest.mark.parametrize("is_editor, position", [[True, 0], [True, 2], [False, 1]])
+@pytest.mark.parametrize(
+    ("is_editor", "position"), [[True, 0], [True, 2], [False, 1]]  # noqa: PT007
+)
 def test_learning_path_items_endpoint_update_item_position(
     client, user, is_editor, position
 ):
@@ -249,7 +251,6 @@ def test_learning_path_items_endpoint_update_item_position(
             )
             # mock_learning_path_index.upsert_learning_path.assert_called_once_with(
             #     learning_path.id
-            # )
 
 
 def test_learning_path_items_endpoint_update_items_wrong_list(client, user):
@@ -257,7 +258,7 @@ def test_learning_path_items_endpoint_update_items_wrong_list(client, user):
     learning_path = factories.LearningPathFactory.create()
     list_item_incorrect = factories.LearningPathItemFactory.create()
 
-    update_editor_group(user, True)
+    update_editor_group(user, True)  # noqa: FBT003
     client.force_login(user)
 
     data = {"position": 44}
@@ -308,11 +309,7 @@ def test_learning_path_items_endpoint_delete_items(client, user, is_editor, num_
     # Uncomment when search is ready
     # if is_editor:
     #     assert mock_learning_path_index.delete_learning_path_view.call_count == (
-    #         0 if num_items == 2 else 1
-    #     )
     #     assert mock_learning_path_index.upsert_learning_path_view.call_count == (
-    #         1 if num_items == 2 else 0
-    #     )
 
 
 @pytest.mark.parametrize("is_editor", [True, False])
@@ -342,7 +339,6 @@ def test_learning_path_endpoint_delete(client, user, is_editor):
     # Uncomment when search is ready
     # assert mock_learning_path_index.delete_learning_path_view.call_count == (
     #     1 if is_editor else 0
-    # )
 
     @pytest.mark.parametrize("is_editor", [True, False])
     def test_get_resource_learning_paths(client, user):

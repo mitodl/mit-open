@@ -27,40 +27,40 @@ const EditFieldBasicForm = (props: FormProps): JSX.Element => {
     () => [
       ...(listsQuery.data?.results ?? []).map((userList: UserList) => ({
         label: userList.title,
-        value: userList.id.toString()
-      }))
+        value: userList.id.toString(),
+      })),
     ],
-    [listsQuery]
+    [listsQuery],
   )
 
   const loadOptions = useCallback(
     async (inputValue: string) => {
-      return inputValue ?
-        listOptions.filter(option =>
-          option.label.toLowerCase().includes(inputValue.toLowerCase())
-        ) :
-        listOptions
+      return inputValue
+        ? listOptions.filter((option) =>
+            option.label.toLowerCase().includes(inputValue.toLowerCase()),
+          )
+        : listOptions
     },
-    [listOptions]
+    [listOptions],
   )
 
   return listsQuery.data ? (
     <Formik
       initialValues={{
         featured_list: field.featured_list?.id || null,
-        lists:         field.lists?.map(list => list.id)
+        lists: field.lists?.map((list) => list.id),
       }}
       onSubmit={async (values: FieldChannelBasicForm) => {
         mutation.mutate(
           {
             featured_list: values.featured_list,
-            lists:         values.lists
+            lists: values.lists,
           },
           {
             onSuccess: () => {
               history.push(makeFieldViewPath(field.name))
-            }
-          }
+            },
+          },
         )
       }}
     >
@@ -70,7 +70,7 @@ const EditFieldBasicForm = (props: FormProps): JSX.Element => {
         errors,
         isSubmitting,
         setTouched,
-        setFieldValue
+        setFieldValue,
       }) => (
         <>
           <Form onSubmit={handleSubmit} className="form channel-form">
@@ -83,16 +83,16 @@ const EditFieldBasicForm = (props: FormProps): JSX.Element => {
                 id="field-featured_list"
                 options={[{ label: "-----", value: null }, ...listOptions]}
                 value={listOptions.find(
-                  option => ~~option.value === values.featured_list
+                  (option) => ~~option.value === values.featured_list,
                 )}
                 onChange={(_, option) => {
                   setFieldValue(
                     "featured_list",
-                    option?.value ? ~~option.value : null
+                    option?.value ? ~~option.value : null,
                   )
                 }}
                 onBlur={() => setTouched({ ["featured_list"]: true })}
-                renderInput={props => (
+                renderInput={(props) => (
                   <TextField
                     {...props}
                     helperText="Select a list of learning resources"
@@ -116,19 +116,19 @@ const EditFieldBasicForm = (props: FormProps): JSX.Element => {
                 onChange={(items: Array<UniqueIdentifier>) => {
                   setFieldValue(
                     "lists",
-                    items.map(item => ~~item)
+                    items.map((item) => ~~item),
                   )
                 }}
-                isOptionDisabled={listOption =>
+                isOptionDisabled={(listOption) =>
                   values.lists.includes(~~listOption.value)
                 }
                 value={listOptions
-                  .map(option => ({ id: option.value, title: option.label }))
-                  .filter(option => values.lists.includes(~~option.id))
+                  .map((option) => ({ id: option.value, title: option.label }))
+                  .filter((option) => values.lists.includes(~~option.id))
                   .sort((a, b) =>
-                    values.lists.indexOf(~~a.id) > values.lists.indexOf(~~b.id) ?
-                      1 :
-                      -1
+                    values.lists.indexOf(~~a.id) > values.lists.indexOf(~~b.id)
+                      ? 1
+                      : -1,
                   )}
               />
             </div>

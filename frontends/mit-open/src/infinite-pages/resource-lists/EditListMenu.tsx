@@ -17,7 +17,7 @@ type EditListMenuProps<L extends UserList | StaffList> = {
 const EditListMenu = <L extends UserList | StaffList>({
   resource,
   onEdit,
-  onDelete
+  onDelete,
 }: EditListMenuProps<L>) => {
   const [open, toggleOpen] = useToggle(false)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)

@@ -7,27 +7,27 @@ from types import SimpleNamespace
 from urllib.parse import urlparse
 
 import pytest
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as bs  # noqa: N813
 
 from course_catalog.constants import (
-    CONTENT_TYPE_PAGE,
-    VALID_TEXT_FILE_TYPES,
     CONTENT_TYPE_FILE,
+    CONTENT_TYPE_PAGE,
     CONTENT_TYPE_VIDEO,
+    VALID_TEXT_FILE_TYPES,
 )
 from course_catalog.etl.ocw import (
-    upload_mitx_course_manifest,
-    transform_content_files,
-    get_content_file_url,
-    transform_content_file,
-    get_content_file_section,
-    get_content_type,
-    transform_embedded_media,
     EXCLUDED_CONTENT_FILE_TYPES,
+    get_content_file_section,
+    get_content_file_url,
+    get_content_type,
+    transform_content_file,
+    transform_content_files,
+    transform_embedded_media,
+    upload_mitx_course_manifest,
 )
 from course_catalog.factories import VideoFactory
 
-with open("./test_json/test_ocw_parsed.json") as f:
+with open("./test_json/test_ocw_parsed.json") as f:  # noqa: PTH123
     OCW_COURSE_JSON = json.load(f)
 
 COURSE_PAGES = OCW_COURSE_JSON["course_pages"]
@@ -36,7 +36,7 @@ FOREIGN_FILES = OCW_COURSE_JSON["course_foreign_files"]
 EMBEDDED_MEDIA = OCW_COURSE_JSON["course_embedded_media"]
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_tika_functions(mocker):
     """Mock tika-related functions"""
     mock_extract_text = mocker.patch(
@@ -51,13 +51,13 @@ def mock_tika_functions(mocker):
         },
     )
     mock_sync_s3_text = mocker.patch("course_catalog.etl.ocw.sync_s3_text")
-    yield SimpleNamespace(
+    return SimpleNamespace(
         mock_extract_text=mock_extract_text, mock_sync_text=mock_sync_s3_text
     )
 
 
 @pytest.fixture(autouse=True)
-def mock_s3_content(mock_ocw_learning_bucket):
+def mock_s3_content(mock_ocw_learning_bucket):  # noqa: PT004
     """Set up the fake s3 data"""
     # Add data to the bucket
     for file in COURSE_FILES + FOREIGN_FILES:
@@ -72,7 +72,7 @@ def mock_s3_content(mock_ocw_learning_bucket):
         )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_content_files(mock_tika_functions, mocker):
     """Verify that transform_content_files calls tika and returns expected output"""
     mock_exception_log = mocker.patch("course_catalog.etl.ocw.log.exception")
@@ -89,8 +89,8 @@ def test_transform_content_files(mock_tika_functions, mocker):
     file_inputs = COURSE_FILES + FOREIGN_FILES
     text_inputs = [
         input
-        for input in (file_inputs + included_pages)
-        if splitext(input["file_location"])[-1] in VALID_TEXT_FILE_TYPES
+        for input in (file_inputs + included_pages)  # noqa: A001
+        if splitext(input["file_location"])[-1] in VALID_TEXT_FILE_TYPES  # noqa: PTH122
     ]
     all_inputs = [(file, False) for file in file_inputs] + [
         (page, True) for page in included_pages
@@ -104,7 +104,7 @@ def test_transform_content_files(mock_tika_functions, mocker):
         mocker.ANY,
         other_headers={
             "Content-Type": mimetypes.types_map.get(
-                splitext(file_inputs[0]["file_location"])[-1]
+                splitext(file_inputs[0]["file_location"])[-1]  # noqa: PTH122
             )
         },
     )
@@ -121,7 +121,7 @@ def test_transform_content_files(mock_tika_functions, mocker):
     mock_exception_log.assert_not_called()
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_content_files_error(mocker):
     """Verify that errors are logged when transforming content files"""
     mocker.patch("course_catalog.etl.ocw.transform_content_file", side_effect=Exception)
@@ -158,7 +158,7 @@ def test_transform_content_files_error(mocker):
         )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_content_files_generic_s3_error(mocker):
     """Verify that ex eptions are logged when extracting text from content files"""
     mocker.patch("course_catalog.etl.ocw.extract_text_metadata", side_effect=Exception)
@@ -183,7 +183,7 @@ def test_transform_content_files_generic_s3_error(mocker):
         )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_content_files_generic_no_s3_key(
     mocker, mock_tika_functions, mock_ocw_learning_bucket
 ):
@@ -203,7 +203,7 @@ def test_transform_content_files_generic_no_s3_key(
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_content_file_course_files(mock_tika_functions):
     """Test that contents of course_files are transformed correctly"""
     for course_file in COURSE_FILES:
@@ -222,7 +222,10 @@ def test_transform_content_file_course_files(mock_tika_functions):
             "url": get_content_file_url(course_file, is_page=False),
             "published": True,
         }
-        if splitext(course_file["file_location"])[-1] in VALID_TEXT_FILE_TYPES:
+        if (
+            splitext(course_file["file_location"])[-1]  # noqa: PTH122
+            in VALID_TEXT_FILE_TYPES
+        ):
             expected_transform.update(
                 {
                     "content": mock_tika_functions.mock_extract_text.return_value[
@@ -249,7 +252,7 @@ def test_transform_content_file_course_files(mock_tika_functions):
         )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_content_file_course_foreign_files(mock_tika_functions):
     """Test that contents of course_foreign_files are transformed correctly"""
     for course_file in FOREIGN_FILES:
@@ -265,7 +268,10 @@ def test_transform_content_file_course_foreign_files(mock_tika_functions):
             "url": get_content_file_url(course_file, is_page=False),
             "published": True,
         }
-        if splitext(course_file["file_location"])[-1] in VALID_TEXT_FILE_TYPES:
+        if (
+            splitext(course_file["file_location"])[-1]  # noqa: PTH122
+            in VALID_TEXT_FILE_TYPES
+        ):
             expected_transform.update(
                 {
                     "content": mock_tika_functions.mock_extract_text.return_value[
@@ -292,7 +298,7 @@ def test_transform_content_file_course_foreign_files(mock_tika_functions):
         )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_transform_content_file_course_pages(mock_tika_functions):
     """Test that contents of course_pages are transformed correctly"""
     for course_page in COURSE_PAGES:
@@ -312,7 +318,10 @@ def test_transform_content_file_course_pages(mock_tika_functions):
             "short_url": course_page["short_url"],
             "published": True,
         }
-        if splitext(course_page["file_location"])[-1] in VALID_TEXT_FILE_TYPES:
+        if (
+            splitext(course_page["file_location"])[-1]  # noqa: PTH122
+            in VALID_TEXT_FILE_TYPES
+        ):
             expected_transform.update(
                 {
                     "content": mock_tika_functions.mock_extract_text.return_value[
@@ -339,7 +348,7 @@ def test_transform_content_file_course_pages(mock_tika_functions):
         )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 @pytest.mark.parametrize("video_exists", [True, False])
 @pytest.mark.parametrize("url_response", ["tika text", None])
 def test_transform_embedded_media(mocker, video_exists, url_response):

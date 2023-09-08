@@ -3,7 +3,7 @@ import { renderHook, waitFor } from "@testing-library/react"
 import { setupReactQueryTest } from "./test-utils"
 import {
   useLearningResourcesDetail,
-  useLearningResourcesList
+  useLearningResourcesList,
 } from "./learningResources"
 import { setMockResponse, urls, axios } from "../test-utils"
 import * as factory from "../test-utils/factories/learningResources"
@@ -17,7 +17,7 @@ const assertApiCalled = async (
   hook: () => UseQueryResult,
   url: string,
   method: string,
-  data: unknown
+  data: unknown,
 ) => {
   const { wrapper } = setupReactQueryTest()
   setMockResponse.get(url, data)
@@ -26,7 +26,7 @@ const assertApiCalled = async (
   await waitFor(() => expect(result.current.isLoading).toBe(false))
 
   expect(axios.request).toHaveBeenCalledWith(
-    expect.objectContaining({ method, url })
+    expect.objectContaining({ method, url }),
   )
   expect(result.current.data).toEqual(data)
 }
@@ -34,12 +34,12 @@ const assertApiCalled = async (
 describe("useLearningResourcesList", () => {
   it.each([undefined, { limit: 5 }, { limit: 5, offset: 10 }])(
     "Calls the correct API",
-    async params => {
+    async (params) => {
       const resource = factory.resources({ count: 3 })
       const url = urls.learningResources.list(params)
       const useTestHook = () => useLearningResourcesList(params)
       assertApiCalled(useTestHook, url, "GET", resource)
-    }
+    },
   )
 })
 

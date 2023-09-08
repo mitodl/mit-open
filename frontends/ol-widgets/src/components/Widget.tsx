@@ -13,7 +13,7 @@ import IconCollapse from "@mui/icons-material/ExpandLess"
 import type {
   AnonymousWidget,
   EmbeddedUrlWidgetInstance,
-  RichTextWidgetInstance
+  RichTextWidgetInstance,
 } from "../interfaces"
 import { WidgetTypes } from "../interfaces"
 import RichTextWdigetContent from "./RichTextWidgetContent"
@@ -25,11 +25,11 @@ import EmbeddedUrlWidgetContent from "./EmbeddedUrlWidgetContent"
  * Useful for tests.
  */
 const btnLabel = {
-  expand:   "Show widget content",
+  expand: "Show widget content",
   collapse: "Hide widget content",
-  edit:     "Edit widget",
-  delete:   "Delete widget",
-  move:     "Move widget"
+  edit: "Edit widget",
+  delete: "Delete widget",
+  move: "Move widget",
 }
 
 type WidgetTemplateProps = {
@@ -54,7 +54,7 @@ const WidgetTemplate: React.FC<WidgetTemplateProps> = ({
   onEdit,
   onDelete,
   onVisibilityChange,
-  handleProps
+  handleProps,
 }) => {
   const handleVisibilityChange = useCallback(() => {
     if (!onVisibilityChange) return
@@ -76,7 +76,7 @@ const WidgetTemplate: React.FC<WidgetTemplateProps> = ({
   return (
     <Card
       className={classNames("ol-widget", className, {
-        "ol-widget-collapsed": !isOpen
+        "ol-widget-collapsed": !isOpen,
       })}
     >
       <CardContent>
@@ -136,7 +136,7 @@ interface WidgetContentProps<W extends AnonymousWidget = AnonymousWidget> {
 const WidgetContent: React.FC<WidgetContentProps> = ({ className, widget }) => {
   const props = {
     widget,
-    className: classNames("ol-widget-content", className)
+    className: classNames("ol-widget-content", className),
   }
 
   if (widget.widget_type === WidgetTypes.RichText) {
@@ -170,7 +170,7 @@ type WidgetProps = Pick<
   | "handleProps"
 >
 
-const Widget: React.FC<WidgetProps> = props => {
+const Widget: React.FC<WidgetProps> = (props) => {
   return (
     <WidgetTemplate {...props}>
       <WidgetContent

@@ -74,9 +74,8 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
         object_type(str): The type of document.
     """
     if object_type not in VALID_OBJECT_TYPES:
-        raise ValueError(
-            "A valid object type must be specified when clearing and creating an index"
-        )
+        msg = "A valid object type must be specified when clearing and creating an index"  # noqa: E501
+        raise ValueError(msg)
     conn = get_conn()
     if conn.indices.exists(index_name):
         conn.indices.delete(index_name)
@@ -128,7 +127,7 @@ def create_document(doc_id, data):
     Args:
         doc_id (str): The ES document id
         data (dict): Full ES document data
-    """
+    """  # noqa: D401
     conn = get_conn()
     for alias in get_active_aliases(conn, object_types=[data["object_type"]]):
         conn.create(index=alias, doc_type=GLOBAL_DOC_TYPE, body=data, id=doc_id)
@@ -142,7 +141,7 @@ def deindex_document(doc_id, object_type, **kwargs):
         doc_id (str): The ES document id
         object_type (str): The object type
         kwargs (dict): optional parameters for the request
-    """
+    """  # noqa: D401
     conn = get_conn()
     for alias in get_active_aliases(conn, object_types=[object_type]):
         try:
@@ -162,12 +161,12 @@ def update_field_values_by_query(query, field_dict, object_types=None):
         query (dict): A dict representing an ES query
         field_dict (dict): dictionary of fields with values to update
         object_types (list of str): The object types to query.
-    """
+    """  # noqa: D401
     sources = []
     params = {}
-    for (field_name, field_value) in field_dict.items():
-        new_param = "new_value_{}".format(field_name)
-        sources.append("ctx._source['{}'] = params.{}".format(field_name, new_param))
+    for field_name, field_value in field_dict.items():
+        new_param = f"new_value_{field_name}"
+        sources.append(f"ctx._source['{field_name}'] = params.{new_param}")
         params.update({new_param: field_value})
     if not object_types:
         object_types = VALID_OBJECT_TYPES
@@ -179,19 +178,19 @@ def update_field_values_by_query(query, field_dict, object_types=None):
             conflicts=UPDATE_CONFLICT_SETTING,
             body={
                 "script": {
-                    "source": ";".join([source for source in sources]),
+                    "source": ";".join(list(sources)),
                     "lang": SCRIPTING_LANG,
                     "params": params,
                 },
                 **query,
             },
         )
-        # Our policy for document update-related version conflicts right now is to log them
+        # Our policy for document update-related version conflicts right now is to log them  # noqa: E501
         # and allow the app to continue as normal.
         num_version_conflicts = es_response.get("version_conflicts", 0)
         if num_version_conflicts > 0:
             log.error(
-                "Update By Query API request resulted in %s version conflict(s) (alias: %s, query: %s)",
+                "Update By Query API request resulted in %s version conflict(s) (alias: %s, query: %s)",  # noqa: E501
                 num_version_conflicts,
                 alias,
                 query,
@@ -208,7 +207,7 @@ def _update_document_by_id(doc_id, body, object_type, *, retry_on_conflict=0, **
         object_type (str): The object type to update.
         retry_on_conflict (int): Number of times to retry if there's a conflict (default=0)
         kwargs (dict): Optional kwargs to be passed to opensearch
-    """
+    """  # noqa: E501, D401
     conn = get_conn()
     for alias in get_active_aliases(conn, object_types=[object_type]):
         try:
@@ -219,11 +218,11 @@ def _update_document_by_id(doc_id, body, object_type, *, retry_on_conflict=0, **
                 id=doc_id,
                 params={"retry_on_conflict": retry_on_conflict, **kwargs},
             )
-        # Our policy for document update-related version conflicts right now is to log them
+        # Our policy for document update-related version conflicts right now is to log them  # noqa: E501
         # and allow the app to continue as normal.
         except ConflictError:
-            log.error(
-                "Update API request resulted in a version conflict (alias: %s, doc id: %s)",
+            log.error(  # noqa: TRY400
+                "Update API request resulted in a version conflict (alias: %s, doc id: %s)",  # noqa: E501
                 alias,
                 doc_id,
             )
@@ -238,7 +237,7 @@ def update_document_with_partial(doc_id, doc, object_type, *, retry_on_conflict=
         doc (dict): Full or partial ES document
         object_type (str): The object type to update.
         retry_on_conflict (int): Number of times to retry if there's a conflict (default=0)
-    """
+    """  # noqa: E501, D401
     _update_document_by_id(
         doc_id, {"doc": doc}, object_type, retry_on_conflict=retry_on_conflict
     )
@@ -254,7 +253,7 @@ def upsert_document(doc_id, doc, object_type, *, retry_on_conflict=0, **kwargs):
         object_type (str): The object type to update.
         retry_on_conflict (int): Number of times to retry if there's a conflict (default=0)
         kwargs (dict): Optional kwargs to be passed to opensearch
-    """
+    """  # noqa: E501, D401
     _update_document_by_id(
         doc_id,
         {"doc": doc, "doc_as_upsert": True},
@@ -273,12 +272,12 @@ def increment_document_integer_field(doc_id, field_name, incr_amount, object_typ
         object_type (str): The object type to update.
         field_name (str): The name of the field to increment
         incr_amount (int): The amount to increment by
-    """
+    """  # noqa: D401
     _update_document_by_id(  # pylint: disable=redundant-keyword-arg
         doc_id,
         {
             "script": {
-                "source": "ctx._source.{} += params.incr_amount".format(field_name),
+                "source": f"ctx._source.{field_name} += params.incr_amount",
                 "lang": SCRIPTING_LANG,
                 "params": {"incr_amount": incr_amount},
             }
@@ -297,7 +296,7 @@ def deindex_items(documents, object_type, update_only, **kwargs):
         object_type (str): the ES object type
         update_only (bool): Update existing index only
 
-    """
+    """  # noqa: D401
 
     try:
         index_items(documents, object_type, update_only, **kwargs)
@@ -305,10 +304,13 @@ def deindex_items(documents, object_type, update_only, **kwargs):
         error_messages = error.args[1]
 
         for message in error_messages:
-            message = list(message.values())[0]
+            message = next(iter(message.values()))  # noqa: PLW2901
             if message["result"] != "not_found":
-                log.error("Bulk deindex failed. Error: %s", str(message))
-                raise ReindexException(f"Bulk deindex failed: {message}")
+                log.error(  # noqa: TRY400
+                    "Bulk deindex failed. Error: %s", str(message)
+                )  # noqa: RUF100, TRY400
+                msg = f"Bulk deindex failed: {message}"
+                raise ReindexException(msg)  # noqa: B904, TRY200
 
 
 def index_items(documents, object_type, update_only, **kwargs):
@@ -322,11 +324,11 @@ def index_items(documents, object_type, update_only, **kwargs):
 
     """
     conn = get_conn()
-    # bulk will also break an iterable into chunks. However we should do this here so that
+    # bulk will also break an iterable into chunks. However we should do this here so that  # noqa: E501
     # we can use the same documents when indexing to multiple aliases.
     for chunk in chunks(documents, chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE):
         documents_size = len(json.dumps(chunk, default=str))
-        # Keep chunking the chunks until either the size is acceptable or there's nothing left to chunk
+        # Keep chunking the chunks until either the size is acceptable or there's nothing left to chunk  # noqa: E501
         if documents_size > settings.OPENSEARCH_MAX_REQUEST_SIZE:
             if len(chunk) == 1:
                 log.error(
@@ -360,12 +362,11 @@ def index_items(documents, object_type, update_only, **kwargs):
                 )
                 if len(errors) > 0:
                     log.error(errors)
-                    raise ReindexException(
-                        f"Error during bulk {object_type} insert: {errors}"
-                    )
+                    msg = f"Error during bulk {object_type} insert: {errors}"
+                    raise ReindexException(msg)
 
 
-def index_profiles(ids, update_only=False):
+def index_profiles(ids, update_only=False):  # noqa: FBT002
     """
     Index a list of profiles by id
 
@@ -384,10 +385,12 @@ def deindex_profiles(ids):
     Args:
         ids(list of int): List of Profile ids
     """
-    deindex_items(serialize_bulk_profiles_for_deletion(ids), PROFILE_TYPE, True)
+    deindex_items(
+        serialize_bulk_profiles_for_deletion(ids), PROFILE_TYPE, True  # noqa: FBT003
+    )  # noqa: FBT003, RUF100
 
 
-def index_courses(ids, update_only=False):
+def index_courses(ids, update_only=False):  # noqa: FBT002
     """
     Index a list of courses by id
 
@@ -406,7 +409,9 @@ def deindex_courses(ids):
     Args:
         ids(list of int): List of Course id's
     """
-    deindex_items(serialize_bulk_courses_for_deletion(ids), COURSE_TYPE, True)
+    deindex_items(
+        serialize_bulk_courses_for_deletion(ids), COURSE_TYPE, True  # noqa: FBT003
+    )  # noqa: FBT003, RUF100
 
     course_content_type = ContentType.objects.get_for_model(Course)
     for run_id in LearningResourceRun.objects.filter(
@@ -415,7 +420,7 @@ def deindex_courses(ids):
         deindex_run_content_files(run_id)
 
 
-def index_course_content_files(course_ids, update_only=False):
+def index_course_content_files(course_ids, update_only=False):  # noqa: FBT002
     """
     Index a list of content files by course ids
 
@@ -431,7 +436,7 @@ def index_course_content_files(course_ids, update_only=False):
         index_run_content_files(run_id, update_only=update_only)
 
 
-def index_run_content_files(run_id, update_only=False):
+def index_run_content_files(run_id, update_only=False):  # noqa: FBT002
     """
     Index a list of content files by run id
 
@@ -448,7 +453,6 @@ def index_run_content_files(run_id, update_only=False):
     for ids_chunk in chunks(
         content_file_ids, chunk_size=settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE
     ):
-
         documents = (
             serialize_content_file_for_bulk(content_file)
             for content_file in ContentFile.objects.filter(pk__in=ids_chunk)
@@ -467,7 +471,7 @@ def index_run_content_files(run_id, update_only=False):
         )
 
 
-def deindex_run_content_files(run_id, unpublished_only=False):
+def deindex_run_content_files(run_id, unpublished_only=False):  # noqa: FBT002
     """
     Deindex and delete a list of content files by run from the index
 
@@ -494,14 +498,14 @@ def deindex_run_content_files(run_id, unpublished_only=False):
     deindex_items(
         documents,
         COURSE_TYPE,
-        True,
+        True,  # noqa: FBT003
         routing=gen_course_id(course.platform, course.course_id),
     )
     # Don't need them anymore
     content_files.delete()
 
 
-def index_programs(ids, update_only=False):
+def index_programs(ids, update_only=False):  # noqa: FBT002
     """
     Index a list of programs by id
 
@@ -520,10 +524,12 @@ def deindex_programs(ids):
     Args:
         ids(list of int): List of Program id's
     """
-    deindex_items(serialize_bulk_programs_for_deletion(ids), PROGRAM_TYPE, True)
+    deindex_items(
+        serialize_bulk_programs_for_deletion(ids), PROGRAM_TYPE, True  # noqa: FBT003
+    )  # noqa: FBT003, RUF100
 
 
-def index_user_lists(ids, update_only=False):
+def index_user_lists(ids, update_only=False):  # noqa: FBT002
     """
     Index a list of user lists by id
 
@@ -543,10 +549,14 @@ def deindex_user_lists(ids):
         ids(list of int): List of UserList ids
 
     """
-    deindex_items(serialize_bulk_user_lists_for_deletion(ids), USER_LIST_TYPE, True)
+    deindex_items(
+        serialize_bulk_user_lists_for_deletion(ids),
+        USER_LIST_TYPE,
+        True,  # noqa: E501, FBT003, RUF100
+    )  # noqa: FBT003, RUF100
 
 
-def index_staff_lists(ids, update_only=False):
+def index_staff_lists(ids, update_only=False):  # noqa: FBT002
     """
     Index a list of staff lists by id
 
@@ -566,10 +576,14 @@ def deindex_staff_lists(ids):
         ids(list of int): List of StaffList ids
 
     """
-    deindex_items(serialize_bulk_staff_lists_for_deletion(ids), STAFF_LIST_TYPE, True)
+    deindex_items(
+        serialize_bulk_staff_lists_for_deletion(ids),
+        STAFF_LIST_TYPE,
+        True,  # noqa: E501, FBT003, RUF100
+    )  # noqa: FBT003, RUF100
 
 
-def index_videos(ids, update_only=False):
+def index_videos(ids, update_only=False):  # noqa: FBT002
     """
     Index a list of videos by id
 
@@ -589,10 +603,12 @@ def deindex_videos(ids):
         ids(list of int): List of video ids
 
     """
-    deindex_items(serialize_bulk_videos_for_deletion(ids), VIDEO_TYPE, True)
+    deindex_items(
+        serialize_bulk_videos_for_deletion(ids), VIDEO_TYPE, True  # noqa: FBT003
+    )  # noqa: FBT003, RUF100
 
 
-def index_podcasts(ids, update_only=False):
+def index_podcasts(ids, update_only=False):  # noqa: FBT002
     """
     Index a list of podcasts by id
 
@@ -611,10 +627,12 @@ def deindex_podcasts(ids):
         ids(list of int): List of podcast ids
 
     """
-    deindex_items(serialize_bulk_podcasts_for_deletion(ids), PODCAST_TYPE, True)
+    deindex_items(
+        serialize_bulk_podcasts_for_deletion(ids), PODCAST_TYPE, True  # noqa: FBT003
+    )  # noqa: FBT003, RUF100
 
 
-def index_podcast_episodes(ids, update_only=False):
+def index_podcast_episodes(ids, update_only=False):  # noqa: FBT002
     """
     Index a list of podcast episodes by id
 
@@ -633,7 +651,9 @@ def deindex_podcast_episodes(ids):
         ids(list of int): List of PodcastEpisode ids
     """
     deindex_items(
-        serialize_bulk_podcast_episodes_for_deletion(ids), PODCAST_EPISODE_TYPE, True
+        serialize_bulk_podcast_episodes_for_deletion(ids),
+        PODCAST_EPISODE_TYPE,
+        True,  # noqa: FBT003
     )
 
 
@@ -646,7 +666,7 @@ def create_backing_index(object_type):
 
     Returns:
         str: The new backing index
-    """
+    """  # noqa: E501
     conn = get_conn()
 
     # Create new backing index for reindex
@@ -715,7 +735,7 @@ def delete_orphaned_indices():
     indices = conn.indices.get_alias(index="*")
     for index in indices:
         aliases = indices[index]["aliases"]
-        keys = [alias for alias in aliases]
+        keys = list(aliases)
         for alias in aliases:
             if "reindexing" in alias:
                 log.info("Deleting alias %s for index %s", alias, index)
@@ -734,7 +754,7 @@ def es_iterate_all_documents(index, query, pagesize=250):
     query (dict): opensearch query filter
     pagesize (int): integer
 
-    """
+    """  # noqa: D401
     conn = get_conn()
 
     offset = 0

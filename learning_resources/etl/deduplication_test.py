@@ -1,4 +1,4 @@
-"""Tests for the deduplication ETL functions"""
+"""Tests for the deduplication ETL functions"""  # noqa: INP001
 from datetime import datetime
 
 import pytest
@@ -10,7 +10,7 @@ from learning_resources.factories import LearningResourceRunFactory
 from learning_resources.models import LearningResourceRun
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_get_most_relevant_run():
     """Verify that most_relevant_run returns the correct run"""
 

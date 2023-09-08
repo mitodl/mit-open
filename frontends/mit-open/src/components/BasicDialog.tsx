@@ -48,7 +48,7 @@ const BasicDialog: React.FC<BasicDialog> = ({
   onConfirm,
   cancelText = "Cancel",
   confirmText = "Confirm",
-  fullWidth
+  fullWidth,
 }) => {
   const [confirming, setConfirming] = useState(false)
   const handleConfirm = useCallback(async () => {

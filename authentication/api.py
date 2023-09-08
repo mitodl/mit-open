@@ -3,6 +3,7 @@ import logging
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
+
 from profiles import api as profile_api
 
 User = get_user_model()
@@ -20,7 +21,7 @@ def create_user(username, email, profile_data=None, user_extra=None):
 
     Returns:
         User: the user
-    """
+    """  # noqa: D401
     defaults = {}
 
     if user_extra is not None:

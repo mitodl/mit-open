@@ -7,7 +7,7 @@ describe("FacetDisplay", () => {
   const facetMap: FacetManifest = [
     ["topics", "Topics"],
     ["type", "Types"],
-    ["department_name", "Departments"]
+    ["department_name", "Departments"],
   ]
 
   const renderFacetDisplay = (props: Partial<FacetDisplayProps> = {}) => {
@@ -26,7 +26,7 @@ describe("FacetDisplay", () => {
         clearAllFilters={clearAllFilters}
         toggleFacet={toggleFacet}
         {...props}
-      />
+      />,
     )
   }
 

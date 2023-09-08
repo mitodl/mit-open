@@ -23,8 +23,11 @@ class ESView(APIView):
     """
 
     def handle_exception(self, exc):
-        if isinstance(exc, TransportError):
-            if isinstance(exc.status_code, int) and 400 <= exc.status_code < 500:
+        if isinstance(exc, TransportError):  # noqa: SIM102
+            if (
+                isinstance(exc.status_code, int)
+                and 400 <= exc.status_code < 500  # noqa: PLR2004
+            ):
                 log.exception("Received a 4xx error from OpenSearch")
                 return Response(status=exc.status_code)
         raise exc
@@ -38,7 +41,7 @@ class SearchView(ESView):
 
     permission_classes = ()
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):  # noqa: ARG002
         """Execute a search. Despite being POST this should not modify any data."""
         query = request.data
         if is_learning_query(query):
@@ -56,7 +59,7 @@ class SimilarResourcesView(ESView):
 
     permission_classes = ()
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):  # noqa: ARG002
         """Execute a similar resources search"""
         response = find_similar_resources(user=request.user, value_doc=request.data)
         return Response(response)

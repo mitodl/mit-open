@@ -2,11 +2,11 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from guardian.shortcuts import assign_perm
+
 from channels_fields.api import create_field_groups_and_roles
 from channels_fields.constants import FIELD_ROLE_MODERATORS
 from channels_fields.models import FieldChannel
 from widgets.models import WidgetList
-
 
 WIDGET_LIST_CHANGE_PERM = "widgets.change_widgetlist"
 
@@ -17,7 +17,7 @@ WIDGET_LIST_CHANGE_PERM = "widgets.change_widgetlist"
     dispatch_uid="channelmembershipconfig_post_save",
 )
 def handle_create_field_channel(
-    sender, instance, created, **kwargs
+    sender, instance, created, **kwargs  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """
     Create a WidgetList and permissions group for each new FieldChannel.

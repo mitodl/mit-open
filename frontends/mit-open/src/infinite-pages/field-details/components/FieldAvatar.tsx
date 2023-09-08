@@ -23,16 +23,16 @@ type AvatarProps = {
 
 const getImage = (field: FieldChannel, imageSize: ImageSize | undefined) => {
   switch (imageSize) {
-  case AVATAR_LARGE:
-    return field.avatar
-  case AVATAR_SMALL:
-    return field.avatar_small
-  default:
-    return field.avatar_medium
+    case AVATAR_LARGE:
+      return field.avatar
+    case AVATAR_SMALL:
+      return field.avatar_small
+    default:
+      return field.avatar_medium
   }
 }
 
-const FieldAvatar: React.FC<AvatarProps> = props => {
+const FieldAvatar: React.FC<AvatarProps> = (props) => {
   const { field, formImageUrl, imageSize } = props
 
   const imageUrl = formImageUrl || getImage(field, imageSize)
