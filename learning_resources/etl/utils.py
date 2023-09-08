@@ -1,4 +1,4 @@
-"""Helper functions for ETL"""  # noqa: INP001
+"""Helper functions for ETL"""
 
 import csv
 import glob
@@ -7,12 +7,13 @@ import mimetypes
 import os
 import re
 import uuid
+from collections.abc import Generator
 from datetime import datetime
 from hashlib import md5
 from itertools import chain
+from pathlib import Path
 from subprocess import check_call
 from tempfile import TemporaryDirectory
-from typing import Generator
 
 import boto3
 import pytz
@@ -35,13 +36,13 @@ log = logging.getLogger(__name__)
 
 
 def _load_ucc_topic_mappings():
-    """
+    """# noqa: D401
     Loads the topic mappings from the crosswalk CSV file
 
     Returns:
         dict:
             the mapping dictionary
-    """  # noqa: D401
+    """
     with open(  # noqa: PTH123
         "learning_resources/data/ucc-topic-mappings.csv"
     ) as mapping_file:
@@ -175,7 +176,7 @@ def get_max_contentfile_length(field):
     Returns:
         int: the max_length of the field
     """
-    return ContentFile._meta.get_field(field).max_length
+    return ContentFile._meta.get_field(field).max_length  # noqa:SLF001
 
 
 def strip_extra_whitespace(text):
@@ -241,7 +242,7 @@ def parse_dates(date_string, hour=12):
     match = re.match(pattern_2_years, date_string)
     if match:
         start_date = datetime.strptime(
-            f"{match.group('start_m')} {match.group('start_d')} {match.group('start_y')}",
+            f"{match.group('start_m')} {match.group('start_d')} {match.group('start_y')}",  # noqa: E501
             "%b %d %Y",
         ).replace(hour=hour, tzinfo=pytz.utc)
         end_date = datetime.strptime(
@@ -249,10 +250,11 @@ def parse_dates(date_string, hour=12):
             "%b %d %Y",
         ).replace(hour=hour, tzinfo=pytz.utc)
         return start_date, end_date
+    return None
 
 
 def _get_text_from_element(element, content):
-    """
+    """# noqa: D401
     Helper method to recurse through XML elements
 
     Args:
@@ -303,7 +305,7 @@ def get_xbundle_docs(olx_path: str) -> Generator[dict, None, None]:
                 "content_type": CONTENT_TYPE_VERTICAL,
                 "title": vertical.attrib.get("display_name") or "",
                 "mime_type": "application/xml",
-                "checksum": md5(content.encode("utf-8")).hexdigest(),
+                "checksum": md5(content.encode("utf-8")).hexdigest(),  # noqa: S324
             },
         )
 
@@ -321,19 +323,17 @@ def documents_from_olx(
         tuple: A list of (bytes of content, metadata)
     """
     try:
-        for vertical in get_xbundle_docs(olx_path):
-            yield vertical
-    except:  # pylint: disable=bare-except
+        yield from get_xbundle_docs(olx_path)
+    except:  # noqa: E722
         log.exception("Could not read verticals from path %s", olx_path)
 
     counter = _infinite_counter()
 
     for root, _, files in os.walk(olx_path):
         for filename in files:
-            _, extension = os.path.splitext(filename)
-            extension_lower = extension.lower()
+            extension_lower = Path(filename).suffix.lower()
             if extension_lower in VALID_TEXT_FILE_TYPES:
-                with open(os.path.join(root, filename), "rb") as f:
+                with Path.open(Path(root, filename), "rb") as f:
                     filebytes = f.read()
 
                 mimetype = mimetypes.types_map.get(extension_lower)
@@ -341,19 +341,19 @@ def documents_from_olx(
                 yield (
                     filebytes,
                     {
-                        "key": f"document_{next(counter)}_{filename}",  # pylint: disable=stop-iteration-return
+                        "key": f"document_{next(counter)}_{filename}",
                         "content_type": CONTENT_TYPE_FILE,
                         "mime_type": mimetype,
-                        "checksum": md5(filebytes).hexdigest(),
+                        "checksum": md5(filebytes).hexdigest(),  # noqa: S324
                     },
                 )
 
 
 def transform_content_files(
-    course_tarpath: str, run: LearningResourceRun
+    course_tarpath: Path, run: LearningResourceRun
 ) -> Generator[dict, None, None]:
     """
-    Pass content to tika, then return a JSON document with the transformed content inside it
+    Pass content to tika, then return JSON document with transformed content inside it
 
     Args:
         course_tarpath (str): The path to the tarball which contains the OLX
@@ -362,10 +362,10 @@ def transform_content_files(
     Yields:
         dict: content from file
     """
-    basedir = os.path.basename(course_tarpath).split(".")[0]
+    basedir = course_tarpath.name.split(".")[0]
     with TemporaryDirectory(prefix=basedir) as inner_tempdir:
-        check_call(["tar", "xf", course_tarpath], cwd=inner_tempdir)
-        olx_path = glob.glob(inner_tempdir + "/*")[0]
+        check_call(["tar", "xf", course_tarpath], cwd=inner_tempdir)  # noqa: S603,S607
+        olx_path = glob.glob(inner_tempdir + "/*")[0]  # noqa: PTH207
         for document, metadata in documents_from_olx(olx_path):
             key = metadata["key"]
             content_type = metadata["content_type"]
@@ -452,12 +452,20 @@ def get_learning_course_bucket(platform: str) -> object:
             aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
         )
         return s3.Bucket(bucket_name)
+    return None
 
 
 def calc_checksum(filename) -> str:
-    "Return the md5 checksum of the specified filepath"
-    hash_md5 = md5()
-    with open(filename, "rb") as f:
+    """
+    Return the md5 checksum of the specified filepath
+
+    Args:
+        filename(str): The path to the file to checksum
+    Returns:
+        str: The md5 checksum of the file
+    """
+    hash_md5 = md5()  # noqa: S324
+    with Path.open(Path(filename), "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()

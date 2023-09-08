@@ -3,7 +3,6 @@ learning_resources tasks
 """
 
 import logging
-from typing import List
 
 import celery
 from django.conf import settings
@@ -32,7 +31,7 @@ def get_xpro_data():
 
 @app.task
 def get_content_files(
-    ids: List[int], platform: str, keys: List[str], s3_prefix: str = None
+    ids: list[int], platform: str, keys: list[str], s3_prefix: str | None = None
 ):
     """
     Task to sync edX course content files with database
@@ -48,7 +47,7 @@ def get_content_files(
 
 
 def get_content_tasks(
-    platform: str, chunk_size: int = None, s3_prefix: str = None
+    platform: str, chunk_size: int | None = None, s3_prefix: str | None = None
 ) -> celery.group:
     """
     Return a list of grouped celery tasks for indexing edx content

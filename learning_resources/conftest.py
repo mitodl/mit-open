@@ -1,14 +1,14 @@
 """Common test fixtures for learning_resources"""
 from os import listdir
-from os.path import isfile, join
+from pathlib import Path
 
 import boto3
 
-TEST_PREFIX = "PROD/9/9.15/Fall_2007/9-15-biochemistry-and-pharmacology-of-synaptic-transmission-fall-2007/"
+TEST_PREFIX = "PROD/9/9.15/Fall_2007/9-15-biochemistry-and-pharmacology-of-synaptic-transmission-fall-2007/"  # noqa: E501
 
 TEST_JSON_PATH = f"./test_json/{TEST_PREFIX}0"
 TEST_JSON_FILES = [
-    f for f in listdir(TEST_JSON_PATH) if isfile(join(TEST_JSON_PATH, f))
+    f for f in listdir(TEST_JSON_PATH) if Path.is_file(Path(TEST_JSON_PATH, f))
 ]
 
 
@@ -18,7 +18,7 @@ def setup_s3(settings):
     """
     # Fake the settings
     settings.AWS_ACCESS_KEY_ID = "abc"
-    settings.AWS_SECRET_ACCESS_KEY = "abc"
+    settings.AWS_SECRET_ACCESS_KEY = "abc"  # noqa: S105
     settings.OCW_CONTENT_BUCKET_NAME = "test_bucket"
     settings.OCW_LEARNING_COURSE_BUCKET_NAME = "testbucket2"
     # Create our fake bucket
@@ -33,7 +33,7 @@ def setup_s3(settings):
     test_bucket = conn.Bucket(name=settings.OCW_CONTENT_BUCKET_NAME)
     for file in TEST_JSON_FILES:
         file_key = TEST_JSON_PATH.replace("./test_json/", "") + "/" + file
-        with open(TEST_JSON_PATH + "/" + file, "r") as f:
+        with Path.open(Path(TEST_JSON_PATH, file)) as f:
             test_bucket.put_object(Key=file_key, Body=f.read())
 
     # Create our upload bucket

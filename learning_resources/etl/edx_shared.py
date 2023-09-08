@@ -1,9 +1,8 @@
 """Shared functions for EdX sites"""
 import logging
-import os
 import re
+from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import List
 
 from learning_resources.constants import PlatformType
 from learning_resources.etl.loaders import load_content_files
@@ -17,7 +16,9 @@ from learning_resources.models import LearningResourceRun
 log = logging.getLogger(__name__)
 
 
-def get_most_recent_course_archives(platform: str, s3_prefix: str = None) -> list[str]:
+def get_most_recent_course_archives(
+    platform: str, s3_prefix: str | None = None
+) -> list[str]:
     """
     Retrieve a list of S3 keys for the most recent edx course archives
 
@@ -37,7 +38,7 @@ def get_most_recent_course_archives(platform: str, s3_prefix: str = None) -> lis
     try:
         course_tar_regex = rf".*/{s3_prefix}/.*\.tar\.gz$"
         most_recent_export_date = next(
-            reversed(
+            reversed(  # noqa: C413
                 sorted(
                     [
                         obj
@@ -61,7 +62,7 @@ def get_most_recent_course_archives(platform: str, s3_prefix: str = None) -> lis
 
 
 def sync_edx_course_files(
-    platform: str, ids: List[int], keys: list[str], s3_prefix: str = None
+    platform: str, ids: list[int], keys: list[str], s3_prefix: str | None = None
 ):
     """
     Sync all edx course run files for a list of course ids to database
@@ -86,8 +87,9 @@ def sync_edx_course_files(
             published=True,
         )
         if platform == PlatformType.mitx.value:
-            # Additional processing of run ids and tarfile names, because MITx data is a mess of id/file formats
-            run_id = run_id.strip(
+            # Additional processing of run ids and tarfile names,
+            # because MITx data is a mess of id/file formats
+            run_id = run_id.strip(  # noqa: B005
                 "-course-prod-analytics.xml"
             )  # suffix on edx tar file basename
             potential_run_ids = rf"{run_id.replace('-', '.').replace('+', '.')}"
@@ -99,7 +101,7 @@ def sync_edx_course_files(
         if not run:
             continue
         with TemporaryDirectory() as export_tempdir:
-            course_tarpath = os.path.join(export_tempdir, key.split("/")[-1])
+            course_tarpath = Path(export_tempdir, key.split("/")[-1])
             bucket.download_file(key, course_tarpath)
             checksum = calc_checksum(course_tarpath)
             if run.checksum == checksum:
@@ -108,5 +110,5 @@ def sync_edx_course_files(
                 load_content_files(run, transform_content_files(course_tarpath, run))
                 run.checksum = checksum
                 run.save()
-            except:  # pylint: disable=bare-except
+            except:  # noqa: E722
                 log.exception("Error ingesting OLX content data for %s", key)

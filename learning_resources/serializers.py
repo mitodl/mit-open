@@ -50,7 +50,7 @@ class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 
     def to_representation(self, value):
-        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: D401, E501
+        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: E501,D401
         return [tag.name for tag in value.all()]
 
 
@@ -59,7 +59,7 @@ class LearningResourceTopicsField(serializers.Field):
     """Serializer field for LearningResourceTopics"""
 
     def to_representation(self, value):
-        """Serializes resource_content_tags as a list of OfferedBy names"""
+        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: D401,E501
         return [topic.name for topic in value.all()]
 
 
@@ -159,7 +159,9 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(MicroRelationshipSerializer(many=True, allow_null=True))
     def get_learning_path_parents(self, instance):
-        """Returns the list of learning paths that the resource is in, if the user has permission"""  # noqa: D401, E501
+        """# noqa: D401
+        Returns list of learning paths that resource is in, if the user has permission
+        """
         request = self.context.get("request")
         user = request.user if request else None
         if (
@@ -398,12 +400,12 @@ class ContentFileSerializer(serializers.ModelSerializer):
     )
     resource_type = serializers.SerializerMethodField()
 
-    def get_resource_type(self, instance):  # pylint:disable=unused-argument
+    def get_resource_type(self, instance):  # noqa: ARG002
         """
         Get the resource type of the ContentFile. For now, just return None.
         NOTE: This function needs to be updated once OCW courses are added.
         """
-        return None
+        return
 
     class Meta:
         model = models.ContentFile

@@ -1,4 +1,4 @@
-"""Course catalog data loaders"""  # noqa: INP001
+"""Course catalog data loaders"""
 import logging
 
 from django.contrib.auth import get_user_model
@@ -81,7 +81,7 @@ def load_image(resource, image_data):
 
 
 def load_offered_bys(resource, offered_bys_data, *, config=OfferedByLoaderConfig()):
-    """
+    """# noqa: D401
     Loads a list of offered_by into the resource.
 
     Args:
@@ -91,7 +91,7 @@ def load_offered_bys(resource, offered_bys_data, *, config=OfferedByLoaderConfig
 
     Returns:
         offered_bys (list of LearningResourceOfferor): list of created or updated offered_bys
-    """  # noqa: D401, E501
+    """  # noqa: E501
     if offered_bys_data is None:
         return resource.offered_by.all()
 
@@ -389,8 +389,8 @@ def load_content_file(course_run, content_file_data):
         content_file, _ = ContentFile.objects.update_or_create(
             run=course_run, key=content_file_data.get("key"), defaults=content_file_data
         )
-        return content_file.id
-    except:  # pylint: disable=bare-except
+        return content_file.id  # noqa: TRY300
+    except:  # noqa: E722
         log.exception(
             "ERROR syncing course file %s for run %d",
             content_file_data.get("uid", ""),
@@ -404,7 +404,7 @@ def load_content_files(course_run, content_files_data):
 
     Args:
         course_run (LearningResourceRun): a course run
-        content_files_data (list or generator): Details about the course run's content files
+        content_files_data (list or generator): Details about the content files
 
     Returns:
         list of int: Ids of the ContentFile objects that were created/updated
@@ -423,8 +423,6 @@ def load_content_files(course_run, content_files_data):
 
         # Uncomment when search is enabled
         # if course_run.published:
-        #     search_index_helpers.index_run_content_files(course_run.id)
-        # else:
-        #     search_index_helpers.deindex_run_content_files(course_run.id)
 
         return content_files_ids
+    return None

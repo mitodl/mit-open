@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("learning_resources", "0009_alter_learningresource_resource_type"),
     ]

@@ -94,7 +94,7 @@ def test_get_course_content_files_filtered(client, url):
 
 
 @pytest.mark.parametrize(
-    "url, params",
+    ("url", "params"),
     [
         ["lr_courses_api-list", ""],  # noqa: PT007
         ["learning_resources_api-list", "resource_type=course"],  # noqa: PT007

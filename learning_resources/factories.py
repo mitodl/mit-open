@@ -313,7 +313,7 @@ class LearningPathFactory(DjangoModelFactory):
         self.learning_resource.resources.set(
             extracted,
             through_defaults={
-                "relation_type": constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+                "relation_type": constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value  # noqa: E501
             },
         )
 
@@ -372,7 +372,7 @@ class ProgramFactory(DjangoModelFactory):
         self.learning_resource.resources.set(
             extracted,
             through_defaults={
-                "relation_type": constants.LearningResourceRelationTypes.PROGRAM_COURSES.value
+                "relation_type": constants.LearningResourceRelationTypes.PROGRAM_COURSES.value  # noqa: E501
             },
         )
 

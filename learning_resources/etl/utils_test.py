@@ -1,6 +1,5 @@
 """ETL utils test"""
 import datetime
-import os
 import pathlib
 from subprocess import check_call
 from tempfile import TemporaryDirectory
@@ -23,22 +22,22 @@ pytestmark = pytest.mark.django_db
 
 def get_olx_test_docs():
     """Get a list of edx docs from a sample archive file"""
-    script_dir = os.path.dirname(
-        os.path.dirname(pathlib.Path(__file__).parent.absolute())
-    )
+    script_dir = pathlib.Path(__file__).parent.absolute().parent
     with TemporaryDirectory() as temp:
         check_call(
-            [
+            [  # noqa: S603,S607
                 "tar",
                 "xf",
-                os.path.join(script_dir, "test_json", "exported_courses_12345.tar.gz"),
+                pathlib.Path(script_dir, "test_json", "exported_courses_12345.tar.gz"),
             ],
             cwd=temp,
         )
-        check_call(["tar", "xf", "content-devops-0001.tar.gz"], cwd=temp)
+        check_call(
+            ["tar", "xf", "content-devops-0001.tar.gz"], cwd=temp  # noqa: S603,S607
+        )
 
-        olx_path = os.path.join(temp, "content-devops-0001")
-        return [doc for doc in utils.documents_from_olx(olx_path)]
+        olx_path = pathlib.Path(temp, "content-devops-0001")
+        return list(utils.documents_from_olx(str(olx_path)))
 
 
 @pytest.mark.parametrize("has_bucket", [True, False])
@@ -51,12 +50,9 @@ def test_sync_s3_text(mock_ocw_learning_bucket, has_bucket, metadata):
     utils.sync_s3_text(
         mock_ocw_learning_bucket.bucket if has_bucket else None, key, metadata
     )
-    s3_objects = [
-        s3_obj
-        for s3_obj in mock_ocw_learning_bucket.bucket.objects.filter(
-            Prefix=f"extracts/{key}"
-        )
-    ]
+    s3_objects = list(
+        mock_ocw_learning_bucket.bucket.objects.filter(Prefix=f"extracts/{key}")
+    )
     assert len(s3_objects) == (1 if has_bucket and metadata is not None else 0)
 
 
@@ -112,16 +108,16 @@ def test_extract_text_from_url(mocker, content):
 
 
 @pytest.mark.parametrize(
-    "url,uuid",
+    ("url", "uuid"),
     [
-        [
+        (
             "https://executive.mit.edu/openenrollment/program/managing-product-platforms",
             "6626ef0d6c8e3000a9ba7a7f509156aa",
-        ],
-        [
+        ),
+        (
             "https://executive.mit.edu/openenrollment/program/negotiation-for-executives",
             "6b7d9f0b7a193048aae11054cbd38753",
-        ],
+        ),
     ],
 )
 def test_generate_unique_id(url, uuid):
@@ -179,7 +175,7 @@ def test_get_text_from_element():
     </vertical>
     """
 
-    ret = utils.get_text_from_element(etree.fromstring(input_xml))
+    ret = utils.get_text_from_element(etree.fromstring(input_xml))  # noqa: S320
     assert ret == (
         "\n    pre-text\n     \n    some\n     \n    important"
         "\n     \n    text here\n     \n    post-text\n    "
@@ -224,16 +220,13 @@ def test_transform_content_files(mocker, has_metadata, matching_checksum):
         "learning_resources.etl.utils.extract_text_metadata", return_value=tika_output
     )
 
-    script_dir = os.path.dirname(
-        os.path.dirname(pathlib.Path(__file__).parent.absolute())
-    )
+    script_dir = (pathlib.Path(__file__).parent.absolute()).parent.parent
 
-    content = [
-        f
-        for f in utils.transform_content_files(
-            os.path.join(script_dir, "test_json", "exported_courses_12345.tar.gz"), run
+    content = list(
+        utils.transform_content_files(
+            pathlib.Path(script_dir, "test_json", "exported_courses_12345.tar.gz"), run
         )
-    ]
+    )
     assert content == [
         {
             "content": tika_output["content"],
@@ -254,7 +247,7 @@ def test_transform_content_files(mocker, has_metadata, matching_checksum):
 
 
 def test_documents_from_olx():
-    """test for documents_from_olx"""
+    """Test for documents_from_olx"""
     parsed_documents = get_olx_test_docs()
     assert len(parsed_documents) == 108
 
@@ -275,9 +268,9 @@ def test_documents_from_olx():
             "checksum": "2c35721d1647f962d59b8120a52210a7",
         },
     )
-    formula2do = [
+    formula2do = next(
         doc for doc in parsed_documents if doc[1]["key"].endswith("formula2do.xml")
-    ][0]
+    )
     assert formula2do[0] == b'<html filename="formula2do" display_name="To do list"/>\n'
     assert formula2do[1]["key"].endswith("formula2do.xml")
     assert formula2do[1]["content_type"] == CONTENT_TYPE_FILE

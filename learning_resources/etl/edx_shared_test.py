@@ -1,4 +1,5 @@
 """ETL utils test"""
+from pathlib import Path
 from subprocess import CalledProcessError
 
 import pytest
@@ -15,15 +16,15 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.mark.parametrize(
-    "platform, s3_prefix",
+    ("platform", "s3_prefix"),
     [
-        [PlatformType.mitxonline.value, "courses"],
-        [PlatformType.xpro.value, "courses"],
-        [PlatformType.mitx.value, "simeon-mitx-course-tarballs"],
+        (PlatformType.mitxonline.value, "courses"),
+        (PlatformType.xpro.value, "courses"),
+        (PlatformType.mitx.value, "simeon-mitx-course-tarballs"),
     ],
 )
 @pytest.mark.parametrize("published", [True, False])
-def test_sync_edx_course_files(
+def test_sync_edx_course_files(  # noqa: PLR0913
     mock_mitxonline_learning_bucket,
     mock_xpro_learning_bucket,
     mocker,
@@ -31,7 +32,7 @@ def test_sync_edx_course_files(
     s3_prefix,
     published,
 ):  # pylint: disable=too-many-arguments,too-many-locals
-    """sync edx courses from a tarball stored in S3"""
+    """Sync edx courses from a tarball stored in S3"""
     mock_load_content_files = mocker.patch(
         "learning_resources.etl.edx_shared.load_content_files",
         autospec=True,
@@ -56,7 +57,7 @@ def test_sync_edx_course_files(
     )
     keys = [f"20220101/{s3_prefix}/{run_id}.tar.gz" for run_id in run_ids]
     for idx, run_id in enumerate(run_ids):
-        with open(f"test_json/{run_id}.tar.gz", "rb") as infile:
+        with Path.open(Path(f"test_json/{run_id}.tar.gz"), "rb") as infile:
             bucket.put_object(
                 Key=keys[idx],
                 Body=infile.read(),
@@ -72,7 +73,9 @@ def test_sync_edx_course_files(
     assert mock_transform.call_count == (2 if published else 0)
     assert mock_load_content_files.call_count == (2 if published else 0)
     if published:
-        assert mock_transform.call_args[0][0].endswith(f"{run_ids[1]}.tar.gz") is True
+        assert (
+            str(mock_transform.call_args[0][0]).endswith(f"{run_ids[1]}.tar.gz") is True
+        )
         for run_id in run_ids:
             mock_load_content_files.assert_any_call(
                 LearningResourceRun.objects.get(run_id=run_id), fake_data
@@ -86,7 +89,7 @@ def test_sync_edx_course_files(
 def test_sync_edx_course_files_invalid_tarfile(
     mock_mitxonline_learning_bucket, mock_xpro_learning_bucket, mocker, platform
 ):
-    """an invalid mitxonline tarball should be skipped"""
+    """An invalid mitxonline tarball should be skipped"""
     run = LearningResourceRunFactory.create(
         learning_resource=CourseFactory.create(platform=platform).learning_resource,
     )
@@ -141,7 +144,9 @@ def test_sync_edx_course_files_empty_bucket(
         if platform == PlatformType.mitxonline.value
         else mock_xpro_learning_bucket
     ).bucket
-    with open("test_json/course-v1:MITxT+8.01.3x+3T2022.tar.gz", "rb") as infile:
+    with Path.open(
+        Path("test_json/course-v1:MITxT+8.01.3x+3T2022.tar.gz"), "rb"
+    ) as infile:
         bucket.put_object(
             Key=key,
             Body=infile.read(),
@@ -176,7 +181,9 @@ def test_sync_edx_course_files_error(
         if platform == PlatformType.mitxonline.value
         else mock_xpro_learning_bucket
     ).bucket
-    with open("test_json/course-v1:MITxT+8.01.3x+3T2022.tar.gz", "rb") as infile:
+    with Path.open(
+        Path("test_json/course-v1:MITxT+8.01.3x+3T2022.tar.gz"), "rb"
+    ) as infile:
         bucket.put_object(
             Key=key,
             Body=infile.read(),
@@ -199,7 +206,7 @@ def test_sync_edx_course_files_error(
     )
     sync_edx_course_files(platform, [run.learning_resource.id], [key])
     assert mock_transform.call_count == 1
-    assert mock_transform.call_args[0][0].endswith(f"{run.run_id}.tar.gz") is True
+    assert str(mock_transform.call_args[0][0]).endswith(f"{run.run_id}.tar.gz") is True
     mock_load_content_files.assert_called_once_with(run, fake_data)
     assert mock_log.call_args[0][0].startswith("Error ingesting OLX content data for ")
 
@@ -211,7 +218,9 @@ def test_get_most_recent_course_archives(
     """get_most_recent_course_archives should return expected keys"""
     bucket = mock_mitxonline_learning_bucket.bucket
     base_key = "0101/courses/my-course.tar.gz"
-    with open("test_json/course-v1:MITxT+8.01.3x+3T2022.tar.gz", "rb") as infile:
+    with Path.open(
+        Path("test_json/course-v1:MITxT+8.01.3x+3T2022.tar.gz"), "rb"
+    ) as infile:
         body = infile.read()
     for year in [2021, 2022, 2023]:
         bucket.put_object(
