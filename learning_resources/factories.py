@@ -436,7 +436,7 @@ class UserListFactory(DjangoModelFactory):
     author = factory.SubFactory(UserFactory)
 
     @factory.post_generation
-    def topics(self, create, extracted, **kwargs):
+    def topics(self, create, extracted, **kwargs):  # noqa: ARG002
         """Create topics for learning path"""
         if not create:
             return

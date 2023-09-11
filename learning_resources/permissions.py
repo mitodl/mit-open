@@ -72,10 +72,10 @@ class HasLearningPathItemPermissions(BasePermission):
 class HasUserListPermissions(BasePermission):
     """Permission to view/modify UserLists"""
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view):  # noqa: ARG002
         return not request.user.is_anonymous
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):  # noqa: ARG002
         return request.user == obj.author
 
 
@@ -89,5 +89,5 @@ class HasUserListItemPermissions(BasePermission):
         )
         return request.user == user_list.author
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):  # noqa: ARG002
         return request.user == obj.parent.author

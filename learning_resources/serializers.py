@@ -42,7 +42,7 @@ class WriteableTopicsMixin(serializers.Serializer):
     topics = WriteableSerializerMethodField()
 
     def validate_topics(self, topics):
-        """Validator for topics"""
+        """Validator for topics"""  # noqa: D401
         if len(topics) > 0:
             if isinstance(topics[0], dict):
                 topics = [topic["id"] for topic in topics]
@@ -52,16 +52,18 @@ class WriteableTopicsMixin(serializers.Serializer):
                         "id", flat=True
                     )
                 )
-            except ValueError:
-                raise ValidationError("Topic ids must be integers")
+            except ValueError as ve:
+                msg = "Topic ids must be integers"
+                raise ValidationError(msg) from ve
             missing = set(topics).difference(valid_topic_ids)
             if missing:
-                raise ValidationError(f"Invalid topic ids: {missing}")
+                msg = f"Invalid topic ids: {missing}"
+                raise ValidationError(msg)
         return {"topics": topics}
 
     @extend_schema_field(LearningResourceTopicSerializer(many=True, allow_null=True))
     def get_topics(self, instance):
-        """Returns the list of topics"""
+        """Returns the list of topics"""  # noqa: D401
         return [
             LearningResourceTopicSerializer(topic).data
             for topic in instance.topics.all()
@@ -462,6 +464,7 @@ class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
                     models.LearningResourceTopic.objects.filter(id__in=topics_data)
                 )
             return userlist
+        return None
 
     def update(self, instance, validated_data):
         """Ensure that the list is authored by the requesting user before modifying"""
@@ -476,6 +479,7 @@ class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
                         models.LearningResourceTopic.objects.filter(id__in=topics_data)
                     )
                 return userlist
+        return None
 
     class Meta:
         model = models.UserList
@@ -507,7 +511,7 @@ class UserListRelationshipSerializer(serializers.ModelSerializer):
         position = validated_data["position"]
         with transaction.atomic():
             if position > instance.position:
-                # move items between the old and new positions up, inclusive of the new position
+                # move items between old & new positions up, inclusive of new position
                 models.UserListRelationship.objects.filter(
                     position__lte=position, position__gt=instance.position
                 ).update(position=F("position") - 1)
