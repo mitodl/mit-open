@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eo pipefail
 
 if [ -z "$(which docker)" ]; then
 	echo "Error: Docker must be available in order to run this script"
@@ -28,4 +29,7 @@ docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli:${GENERATO
 	--ignore-file-override /local/frontends/api/.openapi-generator-ignore \
 	--additional-properties=useSingleRequestParameter=true,paramNaming=original
 
-docker compose run --rm watch yarn workspace api global:fmt-fix
+# We expect pre-commit to exit with a non-zero status since it is reformatting
+# the generated code.
+git ls-files frontends/api/src/generated | xargs pre-commit run --files openapi.yaml ||
+	echo "OpenAPI generation complete."
