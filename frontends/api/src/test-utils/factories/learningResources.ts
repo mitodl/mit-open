@@ -114,6 +114,7 @@ const learningResource: Factory<LearningResource> = (
     title: faker.lorem.words(),
     topics: maybe(() => repeat(learningResourceTopic)) ?? null,
     learning_path_parents: [],
+    user_list_parents: [],
     ...typeSpecificOverrides(resourceType),
     ...overrides,
   }
