@@ -498,17 +498,16 @@ class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
     def update(self, instance, validated_data):
         """Ensure that the list is authored by the requesting user before modifying"""
         request = self.context.get("request")
-        if request and hasattr(request, "user") and isinstance(request.user, User):
-            validated_data["author"] = request.user
-            topics_data = validated_data.pop("topics", None)
-            with transaction.atomic():
-                userlist = super().update(instance, validated_data)
-                if topics_data is not None:
-                    userlist.topics.set(
-                        models.LearningResourceTopic.objects.filter(id__in=topics_data)
-                    )
-                return userlist
-        return None
+        validated_data["author"] = request.user
+        topics_data = validated_data.pop("topics", None)
+        with transaction.atomic():
+            userlist = super().update(instance, validated_data)
+            if topics_data is not None:
+                userlist.topics.set(
+                    models.LearningResourceTopic.objects.filter(id__in=topics_data)
+                )
+            return userlist
+
 
     class Meta:
         model = models.UserList

@@ -369,8 +369,6 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Return a queryset for this user"""
-        if not self.request.user:
-            return UserList.objects.none()
         return (
             UserList.objects.filter(author_id=self.request.user.id)
             .prefetch_related("author", "topics")
