@@ -9,11 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-<<<<<<<< HEAD:learning_resources/migrations/0012_userlists.py
         ("learning_resources", "0011_learningresourcerun_checksum"),
-========
-        ("learning_resources", "0009_alter_learningresource_resource_type"),
->>>>>>>> 62c7efbb (fix rebase):learning_resources/migrations/0010_userlists.py
     ]
 
     operations = [
