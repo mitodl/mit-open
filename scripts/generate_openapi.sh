@@ -28,4 +28,4 @@ docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli:${GENERATO
 	--ignore-file-override /local/frontends/api/.openapi-generator-ignore \
 	--additional-properties=useSingleRequestParameter=true,paramNaming=original
 
-docker compose run --rm watch yarn workspace api global:fmt-fix
+docker compose run --rm watch yarn prettier --write frontends/api/src/generated
