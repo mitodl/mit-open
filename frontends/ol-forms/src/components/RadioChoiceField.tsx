@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback, useMemo } from "react"
 import RadioGroup, { RadioGroupProps } from "@mui/material/RadioGroup"
 import Radio from "@mui/material/Radio"
 import FormControlLabel from "@mui/material/FormControlLabel"
@@ -70,5 +70,60 @@ const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
   )
 }
 
+interface BooleanRadioChoiceProps {
+  value: boolean
+  label: React.ReactNode
+  className?: string
+}
+interface BooleanRadioChoiceFieldProps {
+  label: string
+  value?: boolean
+  defaultValue?: string
+  name: string
+  choices: BooleanRadioChoiceProps[]
+  row?: boolean
+  onChange?: (event: { name: string; value: boolean }) => void
+  className?: string
+}
+
+const BooleanRadioChoiceField: React.FC<BooleanRadioChoiceFieldProps> = ({
+  choices,
+  onChange,
+  name,
+  value,
+  ...others
+}) => {
+  const stringifiedChoices = useMemo(
+    () =>
+      choices.map((choice) => ({
+        ...choice,
+        value: choice.value ? "true" : "false",
+      })),
+    [choices],
+  )
+  const handleChange = useCallback<NonNullable<RadioGroupProps["onChange"]>>(
+    (event) => {
+      const value = event.target.value === "true"
+      onChange?.({ name: name, value })
+    },
+    [name, onChange],
+  )
+  return (
+    <RadioChoiceField
+      value={value === undefined ? undefined : String(value)}
+      name={name}
+      onChange={handleChange}
+      choices={stringifiedChoices}
+      {...others}
+    />
+  )
+}
+
 export default RadioChoiceField
-export type { RadioChoiceFieldProps, RadioChoiceProps }
+export { BooleanRadioChoiceField }
+export type {
+  RadioChoiceFieldProps,
+  RadioChoiceProps,
+  BooleanRadioChoiceFieldProps,
+  BooleanRadioChoiceProps,
+}
