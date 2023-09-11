@@ -124,8 +124,10 @@ def test_user_list_items_endpoint_create_item_bad_data(client, user):
     }
 
 
-@pytest.mark.parametrize("is_author", [True, False])
-def test_user_list_items_endpoint_update_item(client, user, is_author):
+@pytest.mark.parametrize(
+    ("is_author", "position"), [[True, 0], [True, 2], [False, 1]]  # noqa: PT007
+)
+def test_user_list_items_endpoint_update_item(client, user, is_author, position):
     """Test userlistitems endpoint for updating UserListRelationship positions"""
     author = UserFactory.create()
     topics = factories.LearningResourceTopicFactory.create_batch(3)
@@ -142,19 +144,22 @@ def test_user_list_items_endpoint_update_item(client, user, is_author):
 
     client.force_login(author if is_author else user)
 
-    data = {"position": 0}
+    data = {"position": position}
 
     resp = client.patch(
-        reverse("lr_userlistitems_api-detail", args=[userlist.id, list_item_3.id]),
+        reverse("lr_userlistitems_api-detail", args=[userlist.id, list_item_2.id]),
         data=data,
         format="json",
     )
     assert resp.status_code == (200 if is_author else 403)
     if resp.status_code == 200:
-        assert resp.json()["position"] == 0
-        for idx, item in enumerate([list_item_3, list_item_1, list_item_2]):
+        for item, expected_pos in (
+            [list_item_3, 1 if position == 2 else 2],
+            [list_item_1, 0 if position == 2 else 1],
+            [list_item_2, position],
+        ):
             item.refresh_from_db()
-            assert item.position == idx
+            assert item.position == expected_pos
 
 
 def test_user_list_items_endpoint_update_items_wrong_list(client, user):

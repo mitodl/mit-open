@@ -251,8 +251,6 @@ def test_learning_path_items_endpoint_update_item_position(
                 item.relation_type
                 == LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
             )
-            # mock_learning_path_index.upsert_learning_path.assert_called_once_with(
-            #     learning_path.id
 
 
 def test_learning_path_items_endpoint_update_items_wrong_list(client, user):
