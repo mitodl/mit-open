@@ -1292,7 +1292,7 @@ paths:
   /api/v1/userlists/:
     get:
       operationId: userlists_list
-      description: Viewset for User Lists
+      description: Viewset for UserLists
       parameters:
       - name: limit
         required: false
@@ -1319,7 +1319,7 @@ paths:
           description: ''
     post:
       operationId: userlists_create
-      description: Viewset for User Lists
+      description: Viewset for UserLists
       tags:
       - userlists
       requestBody:
@@ -1346,7 +1346,7 @@ paths:
   /api/v1/userlists/{parent_id}/resources/:
     get:
       operationId: userlists_resources_list
-      description: Viewset for User List Items
+      description: Viewset for UserListRelationships
       parameters:
       - name: limit
         required: false
@@ -1378,7 +1378,7 @@ paths:
           description: ''
     post:
       operationId: userlists_resources_create
-      description: Viewset for User List Items
+      description: Viewset for UserListRelationships
       parameters:
       - in: path
         name: parent_id
@@ -1411,7 +1411,7 @@ paths:
   /api/v1/userlists/{parent_id}/resources/{id}/:
     get:
       operationId: userlists_resources_retrieve
-      description: Viewset for User List Items
+      description: Viewset for UserListRelationships
       parameters:
       - in: path
         name: id
@@ -1437,7 +1437,7 @@ paths:
           description: ''
     put:
       operationId: userlists_resources_update
-      description: Viewset for User List Items
+      description: Viewset for UserListRelationships
       parameters:
       - in: path
         name: id
@@ -1475,7 +1475,7 @@ paths:
           description: ''
     patch:
       operationId: userlists_resources_partial_update
-      description: Viewset for User List Items
+      description: Viewset for UserListRelationships
       parameters:
       - in: path
         name: id
@@ -1512,7 +1512,7 @@ paths:
           description: ''
     delete:
       operationId: userlists_resources_destroy
-      description: Viewset for User List Items
+      description: Viewset for UserListRelationships
       parameters:
       - in: path
         name: id
@@ -1535,12 +1535,13 @@ paths:
   /api/v1/userlists/{id}/:
     get:
       operationId: userlists_retrieve
-      description: Viewset for User Lists
+      description: Viewset for UserLists
       parameters:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this user list.
         required: true
       tags:
       - userlists
@@ -1555,12 +1556,13 @@ paths:
           description: ''
     put:
       operationId: userlists_update
-      description: Viewset for User Lists
+      description: Viewset for UserLists
       parameters:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this user list.
         required: true
       tags:
       - userlists
@@ -1587,12 +1589,13 @@ paths:
           description: ''
     patch:
       operationId: userlists_partial_update
-      description: Viewset for User Lists
+      description: Viewset for UserLists
       parameters:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this user list.
         required: true
       tags:
       - userlists
@@ -1618,12 +1621,13 @@ paths:
           description: ''
     delete:
       operationId: userlists_destroy
-      description: Viewset for User Lists
+      description: Viewset for UserLists
       parameters:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this user list.
         required: true
       tags:
       - userlists
@@ -1961,7 +1965,13 @@ components:
         learning_path_parents:
           type: array
           items:
-            $ref: '#/components/schemas/MicroRelationship'
+            $ref: '#/components/schemas/MicroLearningPathRelationship'
+          nullable: true
+          readOnly: true
+        user_list_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
         program:
@@ -2021,6 +2031,7 @@ components:
       - resource_type
       - runs
       - title
+      - user_list_parents
     LearningResourceBase:
       type: object
       description: Serializer for LearningResource, minus program
@@ -2089,7 +2100,13 @@ components:
         learning_path_parents:
           type: array
           items:
-            $ref: '#/components/schemas/MicroRelationship'
+            $ref: '#/components/schemas/MicroLearningPathRelationship'
+          nullable: true
+          readOnly: true
+        user_list_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
         readable_id:
@@ -2143,6 +2160,7 @@ components:
       - resource_type
       - runs
       - title
+      - user_list_parents
     LearningResourceDepartment:
       type: object
       description: Serializer for LearningResourceDepartment
@@ -2502,9 +2520,28 @@ components:
       required:
       - id
       - name
-    MicroRelationship:
+    MicroLearningPathRelationship:
       type: object
-      description: Serializer containing only the parent and child ids
+      description: Serializer containing only parent and child ids for a learning
+        path relationship
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        parent_id:
+          type: integer
+          readOnly: true
+        child_id:
+          type: integer
+          readOnly: true
+      required:
+      - child_id
+      - id
+      - parent_id
+    MicroUserListRelationship:
+      type: object
+      description: Serializer containing only  parent and child ids for a user list
+        relationship
       properties:
         id:
           type: integer

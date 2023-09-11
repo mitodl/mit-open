@@ -335,24 +335,26 @@ def test_learning_path_endpoint_delete(client, user, is_editor):
     )
 
 
-    @pytest.mark.parametrize("is_editor", [True, False])
-    def test_get_resource_learning_paths(client, user):
-        """Test course detail endpoint"""
-        update_editor_group(user, is_editor)
-        course = CourseFactory.create()
-        path_items = sorted(
-            factories.LearningPathRelationshipFactory.create_batch(3, child=course),
-            key=lambda item: item.position,
-        )
-        resp = client.get(
-            reverse("lr_courses_api-detail", args=[course.learning_resource.id])
-        )
+@pytest.mark.parametrize("is_editor", [True, False])
+def test_get_resource_learning_paths(client, user, is_editor):
+    """Test that the learning paths are returned for a resource"""
+    update_editor_group(user, is_editor)
+    course = factories.CourseFactory.create()
+    path_items = sorted(
+        factories.LearningPathRelationshipFactory.create_batch(
+            3, child=course.learning_resource
+        ),
+        key=lambda item: item.position,
+    )
+    resp = client.get(
+        reverse("lr_courses_api-detail", args=[course.learning_resource.id])
+    )
 
-        items_json = resp.data.get("learning_path_parents")
-        if is_editor:
-            for idx, item in items_json:
-                assert item.get("id") == path_items[idx].id
-                assert item.get("position") == path_items[idx].position
-                assert item.get("child") == course.learning_resource.id
-        else:
-            assert items_json == []
+    items_json = resp.data.get("learning_path_parents")
+    if is_editor:
+        for idx, item in items_json:
+            assert item.get("id") == path_items[idx].id
+            assert item.get("position") == path_items[idx].position
+            assert item.get("child") == course.learning_resource.id
+    else:
+        assert items_json == []

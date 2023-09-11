@@ -524,10 +524,16 @@ export interface LearningResource {
   runs: Array<LearningResourceRun> | null
   /**
    *
-   * @type {Array<MicroRelationship>}
+   * @type {Array<MicroLearningPathRelationship>}
    * @memberof LearningResource
    */
-  learning_path_parents: Array<MicroRelationship> | null
+  learning_path_parents: Array<MicroLearningPathRelationship> | null
+  /**
+   *
+   * @type {Array<MicroUserListRelationship>}
+   * @memberof LearningResource
+   */
+  user_list_parents: Array<MicroUserListRelationship> | null
   /**
    *
    * @type {Program}
@@ -676,10 +682,16 @@ export interface LearningResourceBase {
   runs: Array<LearningResourceRun> | null
   /**
    *
-   * @type {Array<MicroRelationship>}
+   * @type {Array<MicroLearningPathRelationship>}
    * @memberof LearningResourceBase
    */
-  learning_path_parents: Array<MicroRelationship> | null
+  learning_path_parents: Array<MicroLearningPathRelationship> | null
+  /**
+   *
+   * @type {Array<MicroUserListRelationship>}
+   * @memberof LearningResourceBase
+   */
+  user_list_parents: Array<MicroUserListRelationship> | null
   /**
    *
    * @type {string}
@@ -1246,27 +1258,52 @@ export interface LearningResourceTopic {
   name: string
 }
 /**
- * Serializer containing only the parent and child ids
+ * Serializer containing only parent and child ids for a learning path relationship
  * @export
- * @interface MicroRelationship
+ * @interface MicroLearningPathRelationship
  */
-export interface MicroRelationship {
+export interface MicroLearningPathRelationship {
   /**
    *
    * @type {number}
-   * @memberof MicroRelationship
+   * @memberof MicroLearningPathRelationship
    */
   id: number
   /**
    *
    * @type {number}
-   * @memberof MicroRelationship
+   * @memberof MicroLearningPathRelationship
    */
   parent_id: number
   /**
    *
    * @type {number}
-   * @memberof MicroRelationship
+   * @memberof MicroLearningPathRelationship
+   */
+  child_id: number
+}
+/**
+ * Serializer containing only  parent and child ids for a user list relationship
+ * @export
+ * @interface MicroUserListRelationship
+ */
+export interface MicroUserListRelationship {
+  /**
+   *
+   * @type {number}
+   * @memberof MicroUserListRelationship
+   */
+  id: number
+  /**
+   *
+   * @type {number}
+   * @memberof MicroUserListRelationship
+   */
+  parent_id: number
+  /**
+   *
+   * @type {number}
+   * @memberof MicroUserListRelationship
    */
   child_id: number
 }
@@ -7885,7 +7922,7 @@ export const UserlistsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for User Lists
+     * Viewset for UserLists
      * @param {UserListRequest} UserListRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7936,13 +7973,13 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User Lists
-     * @param {string} id
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     userlistsDestroy: async (
-      id: string,
+      id: number,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -7983,7 +8020,7 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User Lists
+     * Viewset for UserLists
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -8035,14 +8072,14 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User Lists
-     * @param {string} id
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
      * @param {PatchedUserListRequest} [PatchedUserListRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     userlistsPartialUpdate: async (
-      id: string,
+      id: number,
       PatchedUserListRequest?: PatchedUserListRequest,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -8091,7 +8128,7 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} parent_id
      * @param {UserListRelationshipRequest} UserListRelationshipRequest
      * @param {*} [options] Override http request option.
@@ -8153,7 +8190,7 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -8203,7 +8240,7 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -8262,7 +8299,7 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
@@ -8325,7 +8362,7 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -8375,7 +8412,7 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {UserListRelationshipRequest} UserListRelationshipRequest
@@ -8440,13 +8477,13 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User Lists
-     * @param {string} id
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     userlistsRetrieve: async (
-      id: string,
+      id: number,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -8487,14 +8524,14 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for User Lists
-     * @param {string} id
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
      * @param {UserListRequest} UserListRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     userlistsUpdate: async (
-      id: string,
+      id: number,
       UserListRequest: UserListRequest,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -8555,7 +8592,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = UserlistsApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for User Lists
+     * Viewset for UserLists
      * @param {UserListRequest} UserListRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8578,13 +8615,13 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User Lists
-     * @param {string} id
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async userlistsDestroy(
-      id: string,
+      id: number,
       options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
@@ -8599,7 +8636,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User Lists
+     * Viewset for UserLists
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -8628,14 +8665,14 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User Lists
-     * @param {string} id
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
      * @param {PatchedUserListRequest} [PatchedUserListRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async userlistsPartialUpdate(
-      id: string,
+      id: number,
       PatchedUserListRequest?: PatchedUserListRequest,
       options?: AxiosRequestConfig,
     ): Promise<
@@ -8655,7 +8692,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} parent_id
      * @param {UserListRelationshipRequest} UserListRelationshipRequest
      * @param {*} [options] Override http request option.
@@ -8685,7 +8722,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -8712,7 +8749,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -8745,7 +8782,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
@@ -8778,7 +8815,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -8808,7 +8845,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {UserListRelationshipRequest} UserListRelationshipRequest
@@ -8841,13 +8878,13 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User Lists
-     * @param {string} id
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async userlistsRetrieve(
-      id: string,
+      id: number,
       options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserList>
@@ -8862,14 +8899,14 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for User Lists
-     * @param {string} id
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
      * @param {UserListRequest} UserListRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async userlistsUpdate(
-      id: string,
+      id: number,
       UserListRequest: UserListRequest,
       options?: AxiosRequestConfig,
     ): Promise<
@@ -8902,7 +8939,7 @@ export const UserlistsApiFactory = function (
   const localVarFp = UserlistsApiFp(configuration)
   return {
     /**
-     * Viewset for User Lists
+     * Viewset for UserLists
      * @param {UserlistsApiUserlistsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8916,7 +8953,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User Lists
+     * Viewset for UserLists
      * @param {UserlistsApiUserlistsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8930,7 +8967,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User Lists
+     * Viewset for UserLists
      * @param {UserlistsApiUserlistsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8948,7 +8985,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User Lists
+     * Viewset for UserLists
      * @param {UserlistsApiUserlistsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8966,7 +9003,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {UserlistsApiUserlistsResourcesCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8984,7 +9021,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {UserlistsApiUserlistsResourcesDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9002,7 +9039,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {UserlistsApiUserlistsResourcesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9021,7 +9058,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9040,7 +9077,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {UserlistsApiUserlistsResourcesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9058,7 +9095,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User List Items
+     * Viewset for UserListRelationships
      * @param {UserlistsApiUserlistsResourcesUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9077,7 +9114,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User Lists
+     * Viewset for UserLists
      * @param {UserlistsApiUserlistsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9091,7 +9128,7 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for User Lists
+     * Viewset for UserLists
      * @param {UserlistsApiUserlistsUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9132,11 +9169,11 @@ export interface UserlistsApiUserlistsCreateRequest {
  */
 export interface UserlistsApiUserlistsDestroyRequest {
   /**
-   *
-   * @type {string}
+   * A unique integer value identifying this user list.
+   * @type {number}
    * @memberof UserlistsApiUserlistsDestroy
    */
-  readonly id: string
+  readonly id: number
 }
 
 /**
@@ -9167,11 +9204,11 @@ export interface UserlistsApiUserlistsListRequest {
  */
 export interface UserlistsApiUserlistsPartialUpdateRequest {
   /**
-   *
-   * @type {string}
+   * A unique integer value identifying this user list.
+   * @type {number}
    * @memberof UserlistsApiUserlistsPartialUpdate
    */
-  readonly id: string
+  readonly id: number
 
   /**
    *
@@ -9335,11 +9372,11 @@ export interface UserlistsApiUserlistsResourcesUpdateRequest {
  */
 export interface UserlistsApiUserlistsRetrieveRequest {
   /**
-   *
-   * @type {string}
+   * A unique integer value identifying this user list.
+   * @type {number}
    * @memberof UserlistsApiUserlistsRetrieve
    */
-  readonly id: string
+  readonly id: number
 }
 
 /**
@@ -9349,11 +9386,11 @@ export interface UserlistsApiUserlistsRetrieveRequest {
  */
 export interface UserlistsApiUserlistsUpdateRequest {
   /**
-   *
-   * @type {string}
+   * A unique integer value identifying this user list.
+   * @type {number}
    * @memberof UserlistsApiUserlistsUpdate
    */
-  readonly id: string
+  readonly id: number
 
   /**
    *
@@ -9371,7 +9408,7 @@ export interface UserlistsApiUserlistsUpdateRequest {
  */
 export class UserlistsApi extends BaseAPI {
   /**
-   * Viewset for User Lists
+   * Viewset for UserLists
    * @param {UserlistsApiUserlistsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9387,7 +9424,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User Lists
+   * Viewset for UserLists
    * @param {UserlistsApiUserlistsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9403,7 +9440,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User Lists
+   * Viewset for UserLists
    * @param {UserlistsApiUserlistsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9419,7 +9456,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User Lists
+   * Viewset for UserLists
    * @param {UserlistsApiUserlistsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9439,7 +9476,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User List Items
+   * Viewset for UserListRelationships
    * @param {UserlistsApiUserlistsResourcesCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9459,7 +9496,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User List Items
+   * Viewset for UserListRelationships
    * @param {UserlistsApiUserlistsResourcesDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9479,7 +9516,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User List Items
+   * Viewset for UserListRelationships
    * @param {UserlistsApiUserlistsResourcesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9500,7 +9537,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User List Items
+   * Viewset for UserListRelationships
    * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9521,7 +9558,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User List Items
+   * Viewset for UserListRelationships
    * @param {UserlistsApiUserlistsResourcesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9541,7 +9578,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User List Items
+   * Viewset for UserListRelationships
    * @param {UserlistsApiUserlistsResourcesUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9562,7 +9599,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User Lists
+   * Viewset for UserLists
    * @param {UserlistsApiUserlistsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9578,7 +9615,7 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for User Lists
+   * Viewset for UserLists
    * @param {UserlistsApiUserlistsUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

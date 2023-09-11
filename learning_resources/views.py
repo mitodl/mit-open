@@ -360,7 +360,7 @@ class LearningResourceContentFilesViewSet(NestedViewSetMixin, ContentFileViewSet
 
 class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
     """
-    Viewset for User Lists
+    Viewset for UserLists
     """
 
     serializer_class = UserListSerializer
@@ -369,8 +369,10 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Return a queryset for this user"""
+        if not self.request.user:
+            return UserList.objects.none()
         return (
-            UserList.objects.filter(author=self.request.user)
+            UserList.objects.filter(author_id=self.request.user.id)
             .prefetch_related("author", "topics")
             .annotate(item_count=Count("children"))
         )
@@ -381,7 +383,7 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
 
 class UserListItemViewSet(NestedParentMixin, viewsets.ModelViewSet):
     """
-    Viewset for User List Items
+    Viewset for UserListRelationships
     """
 
     queryset = UserListRelationship.objects.prefetch_related("child").order_by(

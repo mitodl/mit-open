@@ -163,13 +163,23 @@ class LearningPathSerializer(serializers.ModelSerializer, ResourceListMixin):
         exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
-class MicroRelationshipSerializer(serializers.ModelSerializer):
+class MicroLearningPathRelationshipSerializer(serializers.ModelSerializer):
     """
-    Serializer containing only the parent and child ids
+    Serializer containing only parent and child ids for a learning path relationship
     """
 
     class Meta:
         model = models.LearningResourceRelationship
+        fields = ("id", "parent_id", "child_id")
+
+
+class MicroUserListRelationshipSerializer(serializers.ModelSerializer):
+    """
+    Serializer containing only  parent and child ids for a user list relationship
+    """
+
+    class Meta:
+        model = models.UserListRelationship
         fields = ("id", "parent_id", "child_id")
 
 
@@ -189,8 +199,11 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     learning_path = LearningPathSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
     learning_path_parents = serializers.SerializerMethodField()
+    user_list_parents = serializers.SerializerMethodField()
 
-    @extend_schema_field(MicroRelationshipSerializer(many=True, allow_null=True))
+    @extend_schema_field(
+        MicroLearningPathRelationshipSerializer(many=True, allow_null=True)
+    )
     def get_learning_path_parents(self, instance):
         """# noqa: D401
         Returns list of learning paths that resource is in, if the user has permission
@@ -207,9 +220,25 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
                 is not None
             )
         ):
-            return MicroRelationshipSerializer(
+            return MicroLearningPathRelationshipSerializer(
                 instance.parents.filter(
                     relation_type=constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+                ),
+                many=True,
+            ).data
+        return []
+
+    @extend_schema_field(
+        MicroUserListRelationshipSerializer(many=True, allow_null=True)
+    )
+    def get_user_list_parents(self, instance):
+        """Returns a list of user lists that the resource is in, for specific user"""  # noqa: D401, E501
+        request = self.context.get("request")
+        user = request.user if request else None
+        if user and user.is_authenticated:
+            return MicroUserListRelationshipSerializer(
+                models.UserListRelationship.objects.filter(
+                    parent__author=user, child=instance
                 ),
                 many=True,
             ).data

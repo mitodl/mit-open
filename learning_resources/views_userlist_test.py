@@ -2,12 +2,7 @@
 import pytest
 from django.urls import reverse
 
-from learning_resources.factories import (
-    CourseFactory,
-    LearningResourceTopicFactory,
-    UserListFactory,
-    UserListRelationshipFactory,
-)
+from learning_resources import factories
 from learning_resources.models import UserList
 from open_discussions.factories import UserFactory
 
@@ -18,12 +13,12 @@ from open_discussions.factories import UserFactory
 def test_user_list_endpoint_get(client, is_author, user):
     """Test learning path endpoint"""
     author = UserFactory.create()
-    user_list = UserListFactory.create(author=author)
+    user_list = factories.UserListFactory.create(author=author)
 
-    another_user_list = UserListFactory.create(author=UserFactory.create())
+    another_user_list = factories.UserListFactory.create(author=UserFactory.create())
 
-    UserListRelationshipFactory.create(parent=user_list, position=1)
-    UserListRelationshipFactory.create(parent=user_list, position=2)
+    factories.UserListRelationshipFactory.create(parent=user_list, position=1)
+    factories.UserListRelationshipFactory.create(parent=user_list, position=2)
 
     # Anonymous users should get no results
     resp = client.get(reverse("lr_userlists_api-list"))
@@ -64,14 +59,14 @@ def test_user_list_endpoint_create(  # pylint: disable=too-many-arguments
 @pytest.mark.parametrize("update_topics", [True, False])
 def test_user_list_endpoint_patch(client, update_topics):
     """Test userlist endpoint for updating a UserList"""
-    [original_topic, new_topic] = LearningResourceTopicFactory.create_batch(2)
+    [original_topic, new_topic] = factories.LearningResourceTopicFactory.create_batch(2)
     list_user = UserFactory.create()
-    userlist = UserListFactory.create(
+    userlist = factories.UserListFactory.create(
         author=list_user,
         title="Title 1",
         topics=[original_topic],
     )
-    UserListRelationshipFactory.create(parent=userlist)
+    factories.UserListRelationshipFactory.create(parent=userlist)
 
     client.force_login(list_user)
 
@@ -92,8 +87,8 @@ def test_user_list_endpoint_patch(client, update_topics):
 def test_user_list_items_endpoint_create_item(client, user, is_author):
     """Test userlistitems endpoint for creating a UserListItem"""
     author = UserFactory.create()
-    userlist = UserListFactory.create(author=author)
-    course = CourseFactory.create()
+    userlist = factories.UserListFactory.create(author=author)
+    course = factories.CourseFactory.create()
 
     client.force_login(author if is_author else user)
 
@@ -111,7 +106,7 @@ def test_user_list_items_endpoint_create_item(client, user, is_author):
 
 def test_user_list_items_endpoint_create_item_bad_data(client, user):
     """Test userlistitems endpoint for creating a UserListRelationship with bad data"""
-    userlist = UserListFactory.create(author=user)
+    userlist = factories.UserListFactory.create(author=user)
 
     client.force_login(user)
 
@@ -133,11 +128,17 @@ def test_user_list_items_endpoint_create_item_bad_data(client, user):
 def test_user_list_items_endpoint_update_item(client, user, is_author):
     """Test userlistitems endpoint for updating UserListRelationship positions"""
     author = UserFactory.create()
-    topics = LearningResourceTopicFactory.create_batch(3)
-    userlist = UserListFactory.create(author=author, topics=topics)
-    list_item_1 = UserListRelationshipFactory.create(parent=userlist, position=0)
-    list_item_2 = UserListRelationshipFactory.create(parent=userlist, position=1)
-    list_item_3 = UserListRelationshipFactory.create(parent=userlist, position=2)
+    topics = factories.LearningResourceTopicFactory.create_batch(3)
+    userlist = factories.UserListFactory.create(author=author, topics=topics)
+    list_item_1 = factories.UserListRelationshipFactory.create(
+        parent=userlist, position=0
+    )
+    list_item_2 = factories.UserListRelationshipFactory.create(
+        parent=userlist, position=1
+    )
+    list_item_3 = factories.UserListRelationshipFactory.create(
+        parent=userlist, position=2
+    )
 
     client.force_login(author if is_author else user)
 
@@ -158,8 +159,8 @@ def test_user_list_items_endpoint_update_item(client, user, is_author):
 
 def test_user_list_items_endpoint_update_items_wrong_list(client, user):
     """Verify that trying an update via userlistitems api in wrong list fails"""
-    userlist = UserListFactory.create(author=user)
-    list_item_incorrect = UserListRelationshipFactory.create()
+    userlist = factories.UserListFactory.create(author=user)
+    list_item_incorrect = factories.UserListRelationshipFactory.create()
 
     client.force_login(user)
 
@@ -179,9 +180,9 @@ def test_user_list_items_endpoint_update_items_wrong_list(client, user):
 def test_user_list_items_endpoint_delete_items(client, user, is_author):
     """Test userlistitems endpoint for deleting UserListItems"""
     author = UserFactory.create()
-    userlist = UserListFactory.create(author=author)
+    userlist = factories.UserListFactory.create(author=author)
     list_items = sorted(
-        UserListRelationshipFactory.create_batch(2, parent=userlist),
+        factories.UserListRelationshipFactory.create_batch(2, parent=userlist),
         key=lambda item: item.id,
     )
 
@@ -209,10 +210,37 @@ def test_user_list_items_endpoint_delete_items(client, user, is_author):
 def test_user_list_endpoint_delete(client, user, is_author):
     """Test userlist endpoint for deleting a UserList"""
     author = UserFactory.create()
-    userlist = UserListFactory.create(author=author)
+    userlist = factories.UserListFactory.create(author=author)
 
     client.force_login(author if is_author else user)
 
     resp = client.delete(reverse("lr_userlists_api-detail", args=[userlist.id]))
     assert resp.status_code == (204 if is_author else 404)
     assert UserList.objects.filter(id=userlist.id).exists() is not is_author
+
+
+@pytest.mark.parametrize("is_author", [True, False])
+def test_get_resource_user_lists(client, user, is_author):
+    """Test course detail endpoint"""
+    course = factories.CourseFactory.create()
+    userlist = factories.UserListFactory.create(
+        author=user if is_author else UserFactory.create()
+    )
+    path_items = sorted(
+        factories.UserListRelationshipFactory.create_batch(
+            3, child=course.learning_resource, parent=userlist
+        ),
+        key=lambda item: item.position,
+    )
+    resp = client.get(
+        reverse("lr_courses_api-detail", args=[course.learning_resource.id])
+    )
+
+    items_json = resp.data.get("user_list_parents")
+    if is_author:
+        for idx, item in items_json:
+            assert item.get("id") == path_items[idx].id
+            assert item.get("position") == path_items[idx].position
+            assert item.get("child") == course.learning_resource.id
+    else:
+        assert items_json == []
