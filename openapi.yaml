@@ -4,6 +4,80 @@ info:
   version: 0.0.1
   description: Open Discussions public API
 paths:
+  /api/v1/contentfiles/:
+    get:
+      operationId: contentfiles_list
+      description: Viewset for CpntentFiles
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: run
+        schema:
+          type: integer
+      - in: query
+        name: run__learning_resource
+        schema:
+          type: integer
+      - in: query
+        name: run__learning_resource__offered_by__name
+        schema:
+          type: string
+      - in: query
+        name: run__learning_resource__platform
+        schema:
+          type: string
+      - in: query
+        name: run__learning_resource__readable_id
+        schema:
+          type: string
+      - in: query
+        name: run__run_id
+        schema:
+          type: string
+      tags:
+      - contentfiles
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedContentFileList'
+          description: ''
+  /api/v1/contentfiles/{id}/:
+    get:
+      operationId: contentfiles_retrieve
+      description: Viewset for CpntentFiles
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this contentfile.
+        required: true
+      tags:
+      - contentfiles
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentFile'
+          description: ''
   /api/v1/courses/:
     get:
       operationId: courses_list
@@ -79,6 +153,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LearningResource'
+          description: ''
+  /api/v1/courses/{run__learning_resource}/contentfiles/:
+    get:
+      operationId: courses_contentfiles_list
+      description: Viewset for LearningResource nested ContentFiles
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: run
+        schema:
+          type: integer
+      - in: path
+        name: run__learning_resource
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: run__run_id
+        schema:
+          type: string
+      tags:
+      - courses
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedContentFileList'
+          description: ''
+  /api/v1/courses/{run__learning_resource}/contentfiles/{id}/:
+    get:
+      operationId: courses_contentfiles_retrieve
+      description: Viewset for LearningResource nested ContentFiles
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this contentfile.
+        required: true
+      - in: path
+        name: run__learning_resource
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentFile'
           description: ''
   /api/v1/courses/new/:
     get:
@@ -261,6 +403,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LearningResource'
+          description: ''
+  /api/v1/learning_resources/{run__learning_resource}/contentfiles/:
+    get:
+      operationId: learning_resources_contentfiles_list
+      description: Viewset for LearningResource nested ContentFiles
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: run
+        schema:
+          type: integer
+      - in: path
+        name: run__learning_resource
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: run__run_id
+        schema:
+          type: string
+      tags:
+      - learning_resources
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedContentFileList'
+          description: ''
+  /api/v1/learning_resources/{run__learning_resource}/contentfiles/{id}/:
+    get:
+      operationId: learning_resources_contentfiles_retrieve
+      description: Viewset for LearningResource nested ContentFiles
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this contentfile.
+        required: true
+      - in: path
+        name: run__learning_resource
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learning_resources
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentFile'
           description: ''
   /api/v1/learning_resources/new/:
     get:
@@ -1081,6 +1291,116 @@ paths:
           description: ''
 components:
   schemas:
+    ContentFile:
+      type: object
+      description: Serializer class for course run ContentFiles
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        run_id:
+          type: string
+        run_title:
+          type: string
+        run_slug:
+          type: string
+        department:
+          type: string
+        semester:
+          type: string
+        year:
+          type: integer
+        topics:
+          type: array
+          items:
+            type: string
+        key:
+          type: string
+          nullable: true
+          maxLength: 1024
+        uid:
+          type: string
+          nullable: true
+          maxLength: 36
+        title:
+          type: string
+          nullable: true
+          maxLength: 1024
+        short_description:
+          type: string
+        url:
+          type: string
+          nullable: true
+        short_url:
+          type: string
+          nullable: true
+        section:
+          type: string
+          nullable: true
+          maxLength: 512
+        section_slug:
+          type: string
+          nullable: true
+          maxLength: 512
+        file_type:
+          type: string
+          nullable: true
+          maxLength: 128
+        content_type:
+          $ref: '#/components/schemas/ContentTypeEnum'
+        content:
+          type: string
+          nullable: true
+        content_title:
+          type: string
+          nullable: true
+          maxLength: 1024
+        content_author:
+          type: string
+          nullable: true
+          maxLength: 1024
+        content_language:
+          type: string
+          nullable: true
+          maxLength: 24
+        image_src:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        resource_id:
+          type: string
+        resource_readable_id:
+          type: string
+        resource_readable_num:
+          type: string
+        resource_type:
+          type: string
+          readOnly: true
+      required:
+      - department
+      - id
+      - resource_id
+      - resource_readable_id
+      - resource_readable_num
+      - resource_type
+      - run_id
+      - run_slug
+      - run_title
+      - semester
+      - short_description
+      - topics
+      - year
+    ContentTypeEnum:
+      enum:
+      - page
+      - file
+      - vertical
+      type: string
+      description: |-
+        * `page` - page
+        * `file` - file
+        * `vertical` - vertical
     Course:
       type: object
       description: Serializer for the Course model
@@ -1728,6 +2048,10 @@ components:
             format: decimal
             pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           nullable: true
+        checksum:
+          type: string
+          nullable: true
+          maxLength: 32
       required:
       - id
       - image
@@ -1815,6 +2139,10 @@ components:
             format: decimal
             pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           nullable: true
+        checksum:
+          type: string
+          nullable: true
+          maxLength: 32
       required:
       - run_id
       - title
@@ -1848,6 +2176,26 @@ components:
       - child_id
       - id
       - parent_id
+    PaginatedContentFileList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentFile'
     PaginatedLearningPathRelationshipList:
       type: object
       properties:

@@ -1,4 +1,4 @@
-"""Constants for course catalog ETL processes"""  # noqa: INP001
+"""Constants for course catalog ETL processes"""
 from collections import namedtuple
 
 OfferedByLoaderConfig = namedtuple(  # noqa: PYI024

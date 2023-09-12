@@ -1,4 +1,4 @@
-"""Tests for ETL loaders"""  # noqa: INP001
+"""Tests for ETL loaders"""
 # pylint: disable=redefined-outer-name,too-many-locals,too-many-lines
 from types import SimpleNamespace
 
@@ -8,6 +8,8 @@ from django.forms.models import model_to_dict
 from learning_resources.constants import LearningResourceRelationTypes
 from learning_resources.etl.constants import CourseLoaderConfig, OfferedByLoaderConfig
 from learning_resources.etl.loaders import (
+    load_content_file,
+    load_content_files,
     load_course,
     load_courses,
     load_instructors,
@@ -19,6 +21,7 @@ from learning_resources.etl.loaders import (
 )
 from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.factories import (
+    ContentFileFactory,
     CourseFactory,
     LearningResourceInstructorFactory,
     LearningResourceOfferorFactory,
@@ -28,6 +31,7 @@ from learning_resources.factories import (
     ProgramFactory,
 )
 from learning_resources.models import (
+    ContentFile,
     Course,
     LearningResource,
     LearningResourceRun,
@@ -514,3 +518,57 @@ def test_load_programs(mocker, mock_blocklist, mock_duplicates):
     assert mock_load_program.call_count == len(program_data)
     mock_blocklist.assert_called_once()
     mock_duplicates.assert_called_once_with("mitx")
+
+
+@pytest.mark.parametrize("is_published", [True, False])
+def test_load_content_files(mocker, is_published):
+    """Test that load_content_files calls the expected functions"""
+    course = CourseFactory.create()
+    course_run = LearningResourceRunFactory.create(
+        published=is_published, learning_resource=course.learning_resource
+    )
+
+    returned_content_file_id = 1
+
+    content_data = [{"a": "b"}, {"a": "c"}]
+    mock_load_content_file = mocker.patch(
+        "learning_resources.etl.loaders.load_content_file",
+        return_value=returned_content_file_id,
+        autospec=True,
+    )
+    load_content_files(course_run, content_data)
+    assert mock_load_content_file.call_count == len(content_data)
+
+
+def test_load_content_file():
+    """Test that load_content_file saves a ContentFile object"""
+    learning_resource_run = LearningResourceRunFactory.create()
+
+    props = model_to_dict(ContentFileFactory.build(run_id=learning_resource_run.id))
+    props.pop("run")
+    props.pop("id")
+
+    result = load_content_file(learning_resource_run, props)
+
+    assert ContentFile.objects.count() == 1
+
+    # assert we got an integer back
+    assert isinstance(result, int)
+
+    loaded_file = ContentFile.objects.get(pk=result)
+    assert loaded_file.run == learning_resource_run
+
+    for key, value in props.items():
+        assert (
+            getattr(loaded_file, key) == value
+        ), f"Property {key} should equal {value}"
+
+
+def test_load_content_file_error(mocker):
+    """Test that an exception in load_content_file is logged"""
+    learning_resource_run = LearningResourceRunFactory.create()
+    mock_log = mocker.patch("learning_resources.etl.loaders.log.exception")
+    load_content_file(learning_resource_run, {"uid": "badfile", "bad": "data"})
+    mock_log.assert_called_once_with(
+        "ERROR syncing course file %s for run %d", "badfile", learning_resource_run.id
+    )

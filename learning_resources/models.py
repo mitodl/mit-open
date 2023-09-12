@@ -170,6 +170,11 @@ class LearningResource(TimestampedModel):
             return constants.CERTIFICATE
         return None
 
+    @property
+    def resource_num(self):
+        """Extracts the course/program number from the readable_id"""
+        return self.readable_id.split("+")[-1]  # pylint:disable=use-maxsplit-arg
+
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
 
@@ -210,6 +215,7 @@ class LearningResourceRun(TimestampedModel):
     prices = ArrayField(
         models.DecimalField(decimal_places=2, max_digits=12), null=True, blank=True
     )
+    checksum = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
 
     def __str__(self):
         return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"  # noqa: E501
@@ -300,3 +306,53 @@ class LearningResourceRelationship(TimestampedModel):
         choices=LearningResourceRelationTypes.choices,
         default=None,
     )
+
+
+class ContentFile(TimestampedModel):
+    """
+    ContentFile model for LearningResourceRun files
+    """
+
+    uid = models.CharField(max_length=36, null=True, blank=True)  # noqa: DJ001
+    key = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
+    run = models.ForeignKey(
+        LearningResourceRun, related_name="content_files", on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
+    description = models.TextField(null=True, blank=True)  # noqa: DJ001
+    image_src = models.URLField(null=True, blank=True)  # noqa: DJ001
+
+    url = models.TextField(null=True, blank=True)  # noqa: DJ001
+    short_url = models.TextField(null=True, blank=True)  # noqa: DJ001
+    file_type = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
+    section = models.CharField(max_length=512, null=True, blank=True)  # noqa: DJ001
+    section_slug = models.CharField(  # noqa: DJ001
+        max_length=512, null=True, blank=True
+    )
+
+    content = models.TextField(null=True, blank=True)  # noqa: DJ001
+    content_title = models.CharField(  # noqa: DJ001
+        max_length=1024, null=True, blank=True
+    )
+    content_author = models.CharField(  # noqa: DJ001
+        max_length=1024, null=True, blank=True
+    )
+    content_language = models.CharField(  # noqa: DJ001
+        max_length=24, null=True, blank=True
+    )
+    content_type = models.CharField(
+        choices=constants.VALID_COURSE_CONTENT_CHOICES,
+        default=constants.CONTENT_TYPE_FILE,
+        max_length=10,
+    )
+    learning_resource_types = ArrayField(
+        models.CharField(max_length=256, null=False, blank=False),
+        null=True,
+        blank=True,
+    )
+    published = models.BooleanField(default=True)
+    checksum = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
+
+    class Meta:
+        unique_together = (("key", "run"),)
+        verbose_name = "contentfile"

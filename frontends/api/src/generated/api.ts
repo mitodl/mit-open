@@ -34,6 +34,191 @@ import type { RequestArgs } from "./base"
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from "./base"
 
 /**
+ * Serializer class for course run ContentFiles
+ * @export
+ * @interface ContentFile
+ */
+export interface ContentFile {
+  /**
+   *
+   * @type {number}
+   * @memberof ContentFile
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  run_id: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  run_title: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  run_slug: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  department: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  semester: string
+  /**
+   *
+   * @type {number}
+   * @memberof ContentFile
+   */
+  year: number
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ContentFile
+   */
+  topics: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  key?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  uid?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  title?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  short_description: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  url?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  short_url?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  section?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  section_slug?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  file_type?: string | null
+  /**
+   *
+   * @type {ContentTypeEnum}
+   * @memberof ContentFile
+   */
+  content_type?: ContentTypeEnum
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  content?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  content_title?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  content_author?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  content_language?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  image_src?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  resource_id: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  resource_readable_id: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  resource_readable_num: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  resource_type: string
+}
+
+/**
+ * * `page` - page * `file` - file * `vertical` - vertical
+ * @export
+ * @enum {string}
+ */
+
+export const ContentTypeEnum = {
+  Page: "page",
+  File: "file",
+  Vertical: "vertical",
+} as const
+
+export type ContentTypeEnum =
+  (typeof ContentTypeEnum)[keyof typeof ContentTypeEnum]
+
+/**
  * Serializer for the Course model
  * @export
  * @interface Course
@@ -913,6 +1098,12 @@ export interface LearningResourceRun {
    * @memberof LearningResourceRun
    */
   prices?: Array<string> | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  checksum?: string | null
 }
 /**
  * Serializer for the LearningResourceRun model
@@ -1028,6 +1219,12 @@ export interface LearningResourceRunRequest {
    * @memberof LearningResourceRunRequest
    */
   prices?: Array<string> | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRunRequest
+   */
+  checksum?: string | null
 }
 /**
  * Serializer for LearningResourceTopic model
@@ -1072,6 +1269,37 @@ export interface MicroRelationship {
    * @memberof MicroRelationship
    */
   child_id: number
+}
+/**
+ *
+ * @export
+ * @interface PaginatedContentFileList
+ */
+export interface PaginatedContentFileList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedContentFileList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedContentFileList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedContentFileList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<ContentFile>}
+   * @memberof PaginatedContentFileList
+   */
+  results?: Array<ContentFile>
 }
 /**
  *
@@ -1295,6 +1523,415 @@ export type ResourceTypeEnum =
   (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
 
 /**
+ * ContentfilesApi - axios parameter creator
+ * @export
+ */
+export const ContentfilesApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Viewset for CpntentFiles
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {number} [run]
+     * @param {number} [run__learning_resource]
+     * @param {string} [run__learning_resource__offered_by__name]
+     * @param {string} [run__learning_resource__platform]
+     * @param {string} [run__learning_resource__readable_id]
+     * @param {string} [run__run_id]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    contentfilesList: async (
+      limit?: number,
+      offset?: number,
+      run?: number,
+      run__learning_resource?: number,
+      run__learning_resource__offered_by__name?: string,
+      run__learning_resource__platform?: string,
+      run__learning_resource__readable_id?: string,
+      run__run_id?: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/contentfiles/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (run !== undefined) {
+        localVarQueryParameter["run"] = run
+      }
+
+      if (run__learning_resource !== undefined) {
+        localVarQueryParameter["run__learning_resource"] =
+          run__learning_resource
+      }
+
+      if (run__learning_resource__offered_by__name !== undefined) {
+        localVarQueryParameter["run__learning_resource__offered_by__name"] =
+          run__learning_resource__offered_by__name
+      }
+
+      if (run__learning_resource__platform !== undefined) {
+        localVarQueryParameter["run__learning_resource__platform"] =
+          run__learning_resource__platform
+      }
+
+      if (run__learning_resource__readable_id !== undefined) {
+        localVarQueryParameter["run__learning_resource__readable_id"] =
+          run__learning_resource__readable_id
+      }
+
+      if (run__run_id !== undefined) {
+        localVarQueryParameter["run__run_id"] = run__run_id
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for CpntentFiles
+     * @param {number} id A unique integer value identifying this contentfile.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    contentfilesRetrieve: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("contentfilesRetrieve", "id", id)
+      const localVarPath = `/api/v1/contentfiles/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * ContentfilesApi - functional programming interface
+ * @export
+ */
+export const ContentfilesApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    ContentfilesApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Viewset for CpntentFiles
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {number} [run]
+     * @param {number} [run__learning_resource]
+     * @param {string} [run__learning_resource__offered_by__name]
+     * @param {string} [run__learning_resource__platform]
+     * @param {string} [run__learning_resource__readable_id]
+     * @param {string} [run__run_id]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async contentfilesList(
+      limit?: number,
+      offset?: number,
+      run?: number,
+      run__learning_resource?: number,
+      run__learning_resource__offered_by__name?: string,
+      run__learning_resource__platform?: string,
+      run__learning_resource__readable_id?: string,
+      run__run_id?: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedContentFileList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.contentfilesList(
+          limit,
+          offset,
+          run,
+          run__learning_resource,
+          run__learning_resource__offered_by__name,
+          run__learning_resource__platform,
+          run__learning_resource__readable_id,
+          run__run_id,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for CpntentFiles
+     * @param {number} id A unique integer value identifying this contentfile.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async contentfilesRetrieve(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ContentFile>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.contentfilesRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * ContentfilesApi - factory interface
+ * @export
+ */
+export const ContentfilesApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = ContentfilesApiFp(configuration)
+  return {
+    /**
+     * Viewset for CpntentFiles
+     * @param {ContentfilesApiContentfilesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    contentfilesList(
+      requestParameters: ContentfilesApiContentfilesListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedContentFileList> {
+      return localVarFp
+        .contentfilesList(
+          requestParameters.limit,
+          requestParameters.offset,
+          requestParameters.run,
+          requestParameters.run__learning_resource,
+          requestParameters.run__learning_resource__offered_by__name,
+          requestParameters.run__learning_resource__platform,
+          requestParameters.run__learning_resource__readable_id,
+          requestParameters.run__run_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for CpntentFiles
+     * @param {ContentfilesApiContentfilesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    contentfilesRetrieve(
+      requestParameters: ContentfilesApiContentfilesRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<ContentFile> {
+      return localVarFp
+        .contentfilesRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for contentfilesList operation in ContentfilesApi.
+ * @export
+ * @interface ContentfilesApiContentfilesListRequest
+ */
+export interface ContentfilesApiContentfilesListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly offset?: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly run?: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly run__learning_resource?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly run__learning_resource__offered_by__name?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly run__learning_resource__platform?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly run__learning_resource__readable_id?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly run__run_id?: string
+}
+
+/**
+ * Request parameters for contentfilesRetrieve operation in ContentfilesApi.
+ * @export
+ * @interface ContentfilesApiContentfilesRetrieveRequest
+ */
+export interface ContentfilesApiContentfilesRetrieveRequest {
+  /**
+   * A unique integer value identifying this contentfile.
+   * @type {number}
+   * @memberof ContentfilesApiContentfilesRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * ContentfilesApi - object-oriented interface
+ * @export
+ * @class ContentfilesApi
+ * @extends {BaseAPI}
+ */
+export class ContentfilesApi extends BaseAPI {
+  /**
+   * Viewset for CpntentFiles
+   * @param {ContentfilesApiContentfilesListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ContentfilesApi
+   */
+  public contentfilesList(
+    requestParameters: ContentfilesApiContentfilesListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return ContentfilesApiFp(this.configuration)
+      .contentfilesList(
+        requestParameters.limit,
+        requestParameters.offset,
+        requestParameters.run,
+        requestParameters.run__learning_resource,
+        requestParameters.run__learning_resource__offered_by__name,
+        requestParameters.run__learning_resource__platform,
+        requestParameters.run__learning_resource__readable_id,
+        requestParameters.run__run_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for CpntentFiles
+   * @param {ContentfilesApiContentfilesRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ContentfilesApi
+   */
+  public contentfilesRetrieve(
+    requestParameters: ContentfilesApiContentfilesRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return ContentfilesApiFp(this.configuration)
+      .contentfilesRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
  * CoursesApi - axios parameter creator
  * @export
  */
@@ -1302,6 +1939,140 @@ export const CoursesApiAxiosParamCreator = function (
   configuration?: Configuration,
 ) {
   return {
+    /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {number} run__learning_resource
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {number} [run]
+     * @param {string} [run__run_id]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    coursesContentfilesList: async (
+      run__learning_resource: number,
+      limit?: number,
+      offset?: number,
+      run?: number,
+      run__run_id?: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'run__learning_resource' is not null or undefined
+      assertParamExists(
+        "coursesContentfilesList",
+        "run__learning_resource",
+        run__learning_resource,
+      )
+      const localVarPath =
+        `/api/v1/courses/{run__learning_resource}/contentfiles/`.replace(
+          `{${"run__learning_resource"}}`,
+          encodeURIComponent(String(run__learning_resource)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (run !== undefined) {
+        localVarQueryParameter["run"] = run
+      }
+
+      if (run__run_id !== undefined) {
+        localVarQueryParameter["run__run_id"] = run__run_id
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {number} id A unique integer value identifying this contentfile.
+     * @param {number} run__learning_resource
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    coursesContentfilesRetrieve: async (
+      id: number,
+      run__learning_resource: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("coursesContentfilesRetrieve", "id", id)
+      // verify required parameter 'run__learning_resource' is not null or undefined
+      assertParamExists(
+        "coursesContentfilesRetrieve",
+        "run__learning_resource",
+        run__learning_resource,
+      )
+      const localVarPath =
+        `/api/v1/courses/{run__learning_resource}/contentfiles/{id}/`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+          .replace(
+            `{${"run__learning_resource"}}`,
+            encodeURIComponent(String(run__learning_resource)),
+          )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
     /**
      * Get a paginated list of learning resources.
      * @summary List
@@ -1592,6 +2363,72 @@ export const CoursesApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CoursesApiAxiosParamCreator(configuration)
   return {
     /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {number} run__learning_resource
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {number} [run]
+     * @param {string} [run__run_id]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async coursesContentfilesList(
+      run__learning_resource: number,
+      limit?: number,
+      offset?: number,
+      run?: number,
+      run__run_id?: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedContentFileList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.coursesContentfilesList(
+          run__learning_resource,
+          limit,
+          offset,
+          run,
+          run__run_id,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {number} id A unique integer value identifying this contentfile.
+     * @param {number} run__learning_resource
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async coursesContentfilesRetrieve(
+      id: number,
+      run__learning_resource: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ContentFile>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.coursesContentfilesRetrieve(
+          id,
+          run__learning_resource,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
      * @param {number} [department__id]
@@ -1760,6 +2597,45 @@ export const CoursesApiFactory = function (
   const localVarFp = CoursesApiFp(configuration)
   return {
     /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {CoursesApiCoursesContentfilesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    coursesContentfilesList(
+      requestParameters: CoursesApiCoursesContentfilesListRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedContentFileList> {
+      return localVarFp
+        .coursesContentfilesList(
+          requestParameters.run__learning_resource,
+          requestParameters.limit,
+          requestParameters.offset,
+          requestParameters.run,
+          requestParameters.run__run_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {CoursesApiCoursesContentfilesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    coursesContentfilesRetrieve(
+      requestParameters: CoursesApiCoursesContentfilesRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<ContentFile> {
+      return localVarFp
+        .coursesContentfilesRetrieve(
+          requestParameters.id,
+          requestParameters.run__learning_resource,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
      * @param {CoursesApiCoursesListRequest} requestParameters Request parameters.
@@ -1844,6 +2720,69 @@ export const CoursesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
   }
+}
+
+/**
+ * Request parameters for coursesContentfilesList operation in CoursesApi.
+ * @export
+ * @interface CoursesApiCoursesContentfilesListRequest
+ */
+export interface CoursesApiCoursesContentfilesListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof CoursesApiCoursesContentfilesList
+   */
+  readonly run__learning_resource: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof CoursesApiCoursesContentfilesList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof CoursesApiCoursesContentfilesList
+   */
+  readonly offset?: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof CoursesApiCoursesContentfilesList
+   */
+  readonly run?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesContentfilesList
+   */
+  readonly run__run_id?: string
+}
+
+/**
+ * Request parameters for coursesContentfilesRetrieve operation in CoursesApi.
+ * @export
+ * @interface CoursesApiCoursesContentfilesRetrieveRequest
+ */
+export interface CoursesApiCoursesContentfilesRetrieveRequest {
+  /**
+   * A unique integer value identifying this contentfile.
+   * @type {number}
+   * @memberof CoursesApiCoursesContentfilesRetrieve
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof CoursesApiCoursesContentfilesRetrieve
+   */
+  readonly run__learning_resource: number
 }
 
 /**
@@ -2015,6 +2954,49 @@ export interface CoursesApiCoursesUpcomingListRequest {
  */
 export class CoursesApi extends BaseAPI {
   /**
+   * Viewset for LearningResource nested ContentFiles
+   * @param {CoursesApiCoursesContentfilesListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CoursesApi
+   */
+  public coursesContentfilesList(
+    requestParameters: CoursesApiCoursesContentfilesListRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return CoursesApiFp(this.configuration)
+      .coursesContentfilesList(
+        requestParameters.run__learning_resource,
+        requestParameters.limit,
+        requestParameters.offset,
+        requestParameters.run,
+        requestParameters.run__run_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningResource nested ContentFiles
+   * @param {CoursesApiCoursesContentfilesRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CoursesApi
+   */
+  public coursesContentfilesRetrieve(
+    requestParameters: CoursesApiCoursesContentfilesRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return CoursesApiFp(this.configuration)
+      .coursesContentfilesRetrieve(
+        requestParameters.id,
+        requestParameters.run__learning_resource,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
    * Get a paginated list of learning resources.
    * @summary List
    * @param {CoursesApiCoursesListRequest} requestParameters Request parameters.
@@ -2115,6 +3097,140 @@ export const LearningResourcesApiAxiosParamCreator = function (
   configuration?: Configuration,
 ) {
   return {
+    /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {number} run__learning_resource
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {number} [run]
+     * @param {string} [run__run_id]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesContentfilesList: async (
+      run__learning_resource: number,
+      limit?: number,
+      offset?: number,
+      run?: number,
+      run__run_id?: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'run__learning_resource' is not null or undefined
+      assertParamExists(
+        "learningResourcesContentfilesList",
+        "run__learning_resource",
+        run__learning_resource,
+      )
+      const localVarPath =
+        `/api/v1/learning_resources/{run__learning_resource}/contentfiles/`.replace(
+          `{${"run__learning_resource"}}`,
+          encodeURIComponent(String(run__learning_resource)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (run !== undefined) {
+        localVarQueryParameter["run"] = run
+      }
+
+      if (run__run_id !== undefined) {
+        localVarQueryParameter["run__run_id"] = run__run_id
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {number} id A unique integer value identifying this contentfile.
+     * @param {number} run__learning_resource
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesContentfilesRetrieve: async (
+      id: number,
+      run__learning_resource: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningResourcesContentfilesRetrieve", "id", id)
+      // verify required parameter 'run__learning_resource' is not null or undefined
+      assertParamExists(
+        "learningResourcesContentfilesRetrieve",
+        "run__learning_resource",
+        run__learning_resource,
+      )
+      const localVarPath =
+        `/api/v1/learning_resources/{run__learning_resource}/contentfiles/{id}/`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+          .replace(
+            `{${"run__learning_resource"}}`,
+            encodeURIComponent(String(run__learning_resource)),
+          )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
     /**
      * Get a paginated list of learning resources.
      * @summary List
@@ -2406,6 +3522,72 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     LearningResourcesApiAxiosParamCreator(configuration)
   return {
     /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {number} run__learning_resource
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {number} [run]
+     * @param {string} [run__run_id]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesContentfilesList(
+      run__learning_resource: number,
+      limit?: number,
+      offset?: number,
+      run?: number,
+      run__run_id?: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedContentFileList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesContentfilesList(
+          run__learning_resource,
+          limit,
+          offset,
+          run,
+          run__run_id,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {number} id A unique integer value identifying this contentfile.
+     * @param {number} run__learning_resource
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesContentfilesRetrieve(
+      id: number,
+      run__learning_resource: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ContentFile>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesContentfilesRetrieve(
+          id,
+          run__learning_resource,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
      * @param {number} [department__id]
@@ -2574,6 +3756,45 @@ export const LearningResourcesApiFactory = function (
   const localVarFp = LearningResourcesApiFp(configuration)
   return {
     /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {LearningResourcesApiLearningResourcesContentfilesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesContentfilesList(
+      requestParameters: LearningResourcesApiLearningResourcesContentfilesListRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedContentFileList> {
+      return localVarFp
+        .learningResourcesContentfilesList(
+          requestParameters.run__learning_resource,
+          requestParameters.limit,
+          requestParameters.offset,
+          requestParameters.run,
+          requestParameters.run__run_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningResource nested ContentFiles
+     * @param {LearningResourcesApiLearningResourcesContentfilesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesContentfilesRetrieve(
+      requestParameters: LearningResourcesApiLearningResourcesContentfilesRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<ContentFile> {
+      return localVarFp
+        .learningResourcesContentfilesRetrieve(
+          requestParameters.id,
+          requestParameters.run__learning_resource,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
      * @param {LearningResourcesApiLearningResourcesListRequest} requestParameters Request parameters.
@@ -2658,6 +3879,69 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
   }
+}
+
+/**
+ * Request parameters for learningResourcesContentfilesList operation in LearningResourcesApi.
+ * @export
+ * @interface LearningResourcesApiLearningResourcesContentfilesListRequest
+ */
+export interface LearningResourcesApiLearningResourcesContentfilesListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesList
+   */
+  readonly run__learning_resource: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesList
+   */
+  readonly offset?: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesList
+   */
+  readonly run?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesList
+   */
+  readonly run__run_id?: string
+}
+
+/**
+ * Request parameters for learningResourcesContentfilesRetrieve operation in LearningResourcesApi.
+ * @export
+ * @interface LearningResourcesApiLearningResourcesContentfilesRetrieveRequest
+ */
+export interface LearningResourcesApiLearningResourcesContentfilesRetrieveRequest {
+  /**
+   * A unique integer value identifying this contentfile.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesRetrieve
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesRetrieve
+   */
+  readonly run__learning_resource: number
 }
 
 /**
@@ -2828,6 +4112,49 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
  * @extends {BaseAPI}
  */
 export class LearningResourcesApi extends BaseAPI {
+  /**
+   * Viewset for LearningResource nested ContentFiles
+   * @param {LearningResourcesApiLearningResourcesContentfilesListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesContentfilesList(
+    requestParameters: LearningResourcesApiLearningResourcesContentfilesListRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesContentfilesList(
+        requestParameters.run__learning_resource,
+        requestParameters.limit,
+        requestParameters.offset,
+        requestParameters.run,
+        requestParameters.run__run_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningResource nested ContentFiles
+   * @param {LearningResourcesApiLearningResourcesContentfilesRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesContentfilesRetrieve(
+    requestParameters: LearningResourcesApiLearningResourcesContentfilesRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesContentfilesRetrieve(
+        requestParameters.id,
+        requestParameters.run__learning_resource,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
   /**
    * Get a paginated list of learning resources.
    * @summary List

@@ -14,8 +14,18 @@ router.register(
     r"learning_resources",
     views.LearningResourceViewSet,
     basename="learning_resources_api",
+).register(
+    r"contentfiles",
+    views.LearningResourceContentFilesViewSet,
+    basename="lr_learning_resource_content_files_api",
+    parents_query_lookups=["run__learning_resource"],
 )
-router.register(r"courses", views.CourseViewSet, basename="lr_courses_api")
+router.register(r"courses", views.CourseViewSet, basename="lr_courses_api").register(
+    r"contentfiles",
+    views.LearningResourceContentFilesViewSet,
+    basename="lr_course_content_files_api",
+    parents_query_lookups=["run__learning_resource"],
+)
 router.register(r"programs", views.ProgramViewSet, basename="lr_programs_api")
 router.register(
     r"learningpaths", views.LearningPathViewSet, basename="lr_learningpaths_api"
@@ -24,6 +34,9 @@ router.register(
     views.LearningPathItemsViewSet,
     basename="lr_learningpathitems_api",
     parents_query_lookups=["parent_id"],
+)
+router.register(
+    r"contentfiles", views.ContentFileViewSet, basename="lr_contentfiles_api"
 )
 router.register(r"topics", views.TopicViewSet, basename="lr_topics_api")
 

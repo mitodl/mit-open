@@ -7,12 +7,7 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from learning_resources import models
-from learning_resources.constants import (
-    GROUP_STAFF_LISTS_EDITORS,
-    LearningResourceRelationTypes,
-    LearningResourceType,
-)
+from learning_resources import constants, models
 from learning_resources.models import LearningPath, LearningResourceTopic
 from open_discussions.serializers import WriteableSerializerMethodField
 
@@ -55,8 +50,17 @@ class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 
     def to_representation(self, value):
-        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: D401, E501
+        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: E501,D401
         return [tag.name for tag in value.all()]
+
+
+@extend_schema_field({"type": "array", "items": {"type": "string"}})
+class LearningResourceTopicsField(serializers.Field):
+    """Serializer field for LearningResourceTopics"""
+
+    def to_representation(self, value):
+        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: D401,E501
+        return [topic.name for topic in value.all()]
 
 
 class LearningResourcePlatformSerializer(serializers.ModelSerializer):
@@ -155,7 +159,9 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(MicroRelationshipSerializer(many=True, allow_null=True))
     def get_learning_path_parents(self, instance):
-        """Returns the list of learning paths that the resource is in, if the user has permission"""  # noqa: D401, E501
+        """# noqa: D401
+        Returns list of learning paths that resource is in, if the user has permission
+        """
         request = self.context.get("request")
         user = request.user if request else None
         if (
@@ -164,13 +170,13 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
             and (
                 user.is_staff
                 or user.is_superuser
-                or user.groups.filter(name=GROUP_STAFF_LISTS_EDITORS).first()
+                or user.groups.filter(name=constants.GROUP_STAFF_LISTS_EDITORS).first()
                 is not None
             )
         ):
             return MicroRelationshipSerializer(
                 instance.parents.filter(
-                    relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+                    relation_type=constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
                 ),
                 many=True,
             ).data
@@ -252,7 +258,7 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
 
     def validate_resource_type(self, value):
         """Only allow LearningPath resources to be CRUDed"""
-        if value != LearningResourceType.learning_path.value:
+        if value != constants.LearningResourceType.learning_path.value:
             msg = "Only LearningPath resources are editable"
             raise serializers.ValidationError(msg)
         return value
@@ -368,5 +374,67 @@ class LearningPathRelationshipSerializer(LearningResourceRelationshipSerializer)
     """Specialized serializer for a LearningPath relationship"""
 
     relation_type = serializers.HiddenField(
-        default=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+        default=constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
     )
+
+
+class ContentFileSerializer(serializers.ModelSerializer):
+    """
+    Serializer class for course run ContentFiles
+    """
+
+    run_id = serializers.CharField(source="run.run_id")
+    run_title = serializers.CharField(source="run.title")
+    run_slug = serializers.CharField(source="run.slug")
+    semester = serializers.CharField(source="run.semester")
+    year = serializers.IntegerField(source="run.year")
+    topics = LearningResourceTopicsField(source="run.learning_resource.topics")
+    short_description = serializers.CharField(source="description")
+    resource_id = serializers.CharField(source="run.learning_resource.id")
+    department = serializers.CharField(source="run.learning_resource.department")
+    resource_readable_id = serializers.CharField(
+        source="run.learning_resource.readable_id"
+    )
+    resource_readable_num = serializers.CharField(
+        source="run.learning_resource.resource_num"
+    )
+    resource_type = serializers.SerializerMethodField()
+
+    def get_resource_type(self, instance):  # noqa: ARG002
+        """
+        Get the resource type of the ContentFile. For now, just return None.
+        NOTE: This function needs to be updated once OCW courses are added.
+        """
+        return
+
+    class Meta:
+        model = models.ContentFile
+        fields = [
+            "id",
+            "run_id",
+            "run_title",
+            "run_slug",
+            "department",
+            "semester",
+            "year",
+            "topics",
+            "key",
+            "uid",
+            "title",
+            "short_description",
+            "url",
+            "short_url",
+            "section",
+            "section_slug",
+            "file_type",
+            "content_type",
+            "content",
+            "content_title",
+            "content_author",
+            "content_language",
+            "image_src",
+            "resource_id",
+            "resource_readable_id",
+            "resource_readable_num",
+            "resource_type",
+        ]

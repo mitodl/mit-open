@@ -2,7 +2,7 @@
 from django.contrib.auth.models import Group
 from django.db import migrations
 
-from course_catalog import constants
+from learning_resources import constants
 
 
 def add_staff_list_group(apps, schema_editor):

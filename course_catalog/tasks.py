@@ -287,18 +287,6 @@ def get_content_files(
 
 
 @app.task(bind=True)
-def import_all_xpro_files(self, chunk_size=None):
-    """Ingest xPRO OLX files from an S3 bucket"""
-
-    raise self.replace(
-        get_content_tasks(
-            PlatformType.xpro.value,
-            chunk_size,
-        )
-    )
-
-
-@app.task(bind=True)
 def import_all_mitxonline_files(self, chunk_size=None):
     """Ingest MITx Online files from an S3 bucket"""
     raise self.replace(

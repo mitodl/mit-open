@@ -1,4 +1,4 @@
-"""Management command for populating xpro course data"""  # noqa: INP001
+"""Management command for populating xpro course data"""
 from django.core.management import BaseCommand
 
 from learning_resources.constants import PlatformType

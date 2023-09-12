@@ -1,13 +1,13 @@
-"""Tests for course_catalog LearningPath views"""
+"""Tests for learning_resources LearningPath views"""
 import pytest
 from django.urls import reverse
 
-from course_catalog.factories import CourseFactory
 from learning_resources import factories, models
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
 )
+from learning_resources.factories import CourseFactory
 from learning_resources.utils import update_editor_group
 from open_discussions.factories import UserFactory
 

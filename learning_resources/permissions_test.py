@@ -1,5 +1,5 @@
 """
-course_catalog permissions tests
+learning_resources permissions tests
 """
 import pytest
 from django.contrib.auth.models import AnonymousUser

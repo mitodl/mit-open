@@ -8,7 +8,6 @@ from learning_resources.factories import (
     LearningResourceFactory,
     LearningResourcePlatformFactory,
     LearningResourceRunFactory,
-    PlatformTypeChoice,
     ProgramFactory,
 )
 
@@ -54,7 +53,7 @@ def test_course_creation():
 
 
 @pytest.mark.parametrize(
-    "platform", [PlatformTypeChoice.ocw.value, PlatformTypeChoice.mitx.value]
+    "platform", [constants.PlatformType.ocw.value, constants.PlatformType.mitx.value]
 )
 @pytest.mark.parametrize("audience", [constants.OPEN, constants.PROFESSIONAL])
 def test_lr_audience(platform, audience):
@@ -71,31 +70,31 @@ def test_lr_audience(platform, audience):
     ("platform", "audience", "availability", "has_cert"),
     [
         [  # noqa: PT007
-            PlatformTypeChoice.ocw.value,
+            constants.PlatformType.ocw.value,
             constants.PROFESSIONAL,
             constants.AvailabilityType.archived.value,
             True,
         ],
         [  # noqa: PT007
-            PlatformTypeChoice.ocw.value,
+            constants.PlatformType.ocw.value,
             constants.OPEN,
             constants.AvailabilityType.archived.value,
             False,
         ],
         [  # noqa: PT007
-            PlatformTypeChoice.mitx.value,
+            constants.PlatformType.mitx.value,
             constants.PROFESSIONAL,
             constants.AvailabilityType.archived.value,
             True,
         ],
         [  # noqa: PT007
-            PlatformTypeChoice.mitx.value,
+            constants.PlatformType.mitx.value,
             constants.OPEN,
             constants.AvailabilityType.archived.value,
             False,
         ],
         [  # noqa: PT007
-            PlatformTypeChoice.mitx.value,
+            constants.PlatformType.mitx.value,
             constants.OPEN,
             constants.AvailabilityType.current.value,
             True,

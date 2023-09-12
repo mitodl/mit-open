@@ -1,14 +1,14 @@
 """Tests for learning_resources serializers"""
-
 import pytest
 
-from learning_resources import factories, serializers
+from learning_resources import constants, factories, serializers
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
 )
 from learning_resources.models import LearningResource
 from learning_resources.serializers import LearningPathResourceSerializer
+from open_discussions.test_utils import assert_json_equal
 
 pytestmark = pytest.mark.django_db
 
@@ -31,9 +31,7 @@ def test_serialize_course_model():
     assert "run_id" in serializer.data["runs"][0]
     assert serializer.data["image"]["url"] is not None
     assert len(serializer.data["offered_by"]) > 0
-    assert serializer.data["offered_by"][0] in [
-        o.value for o in factories.OfferedByChoice
-    ]
+    assert serializer.data["offered_by"][0] in [o.value for o in constants.OfferedBy]
     assert serializer.data["department"]["name"] is not None
     assert serializer.data["platform"] is not None
     assert (
@@ -76,9 +74,7 @@ def test_serialize_program_model():
     assert "run_id" in serializer.data["runs"][0]
     assert serializer.data["image"]["url"] is not None
     assert len(serializer.data["offered_by"]) > 0
-    assert serializer.data["offered_by"][0] in [
-        o.value for o in factories.OfferedByChoice
-    ]
+    assert serializer.data["offered_by"][0] in [o.value for o in constants.OfferedBy]
     assert serializer.data["department"]["name"] is not None
     assert serializer.data["platform"] is not None
     assert str(serializer.data["prices"][0]).replace(".", "").isnumeric()
@@ -171,3 +167,60 @@ def test_learningpathitem_serializer_validation(child_exists):
             saved_item.relation_type
             == LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
         )
+
+
+def test_content_file_serializer():
+    """Verify that the ContentFileSerializer has the correct data"""
+    content_kwargs = {
+        "content": "Test content",
+        "content_author": "MIT",
+        "content_language": "en",
+        "content_title": "test title",
+        "section": "test section",
+    }
+    platform = constants.PlatformType.xpro.value
+    course = factories.CourseFactory.create(platform=platform)
+    content_file = factories.ContentFileFactory.create(
+        run=course.learning_resource.runs.first(), **content_kwargs
+    )
+
+    serialized = serializers.ContentFileSerializer(content_file).data
+
+    assert_json_equal(
+        serialized,
+        {
+            "id": content_file.id,
+            "run_id": content_file.run.run_id,
+            "run_title": content_file.run.title,
+            "run_slug": content_file.run.slug,
+            "department": content_file.run.learning_resource.department.name,
+            "semester": content_file.run.semester,
+            "year": int(content_file.run.year),
+            "topics": list(
+                content_file.run.learning_resource.topics.values_list("name", flat=True)
+            ),
+            "key": content_file.key,
+            "uid": content_file.uid,
+            "title": content_file.title,
+            "short_description": content_file.description,
+            "file_type": content_file.file_type,
+            "content_type": content_file.content_type,
+            "url": content_file.url,
+            "short_url": content_file.short_url,
+            "section": content_file.section,
+            "section_slug": content_file.section_slug,
+            "content": content_kwargs["content"],
+            "content_title": content_kwargs["content_title"],
+            "content_author": content_kwargs["content_author"],
+            "content_language": content_kwargs["content_language"],
+            "image_src": content_file.image_src,
+            "resource_id": str(content_file.run.learning_resource.id),
+            "resource_readable_id": content_file.run.learning_resource.readable_id,
+            "resource_readable_num": content_file.run.learning_resource.readable_id.split(
+                "+"
+            )[
+                -1
+            ],
+            "resource_type": None,
+        },
+    )
