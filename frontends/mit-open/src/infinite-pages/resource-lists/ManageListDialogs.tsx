@@ -32,7 +32,7 @@ type ListFormSchema = Pick<
   "title" | "list_type" | "privacy_level" | "short_description" | "topics"
 >
 
-const getFormSchema = (mode: DialogMode): Yup.SchemaOf<ListFormSchema> => {
+const getFormSchema = (mode: DialogMode): Yup.Schema<ListFormSchema> => {
   const defaultListType = mode === "stafflist" ? LRT.StaffList : LRT.Userlist
   return Yup.object().shape({
     title: Yup.string().default("").required("Title is required."),
