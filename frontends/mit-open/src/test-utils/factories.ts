@@ -23,6 +23,7 @@ const makeUserSettings: Factory<User> = (overrides = {}) => {
     is_authenticated: false,
     is_public_list_editor: false,
     is_staff_list_editor: false,
+    is_learning_path_editor: false,
     ...calculated,
     ...overrides,
   }
