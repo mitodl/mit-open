@@ -357,6 +357,7 @@ class ContentFile(TimestampedModel):
         unique_together = (("key", "run"),)
         verbose_name = "contentfile"
 
+
 class UserList(TimestampedModel):
     """
     Similar in concept to a LearningPath: a list of learning resources.

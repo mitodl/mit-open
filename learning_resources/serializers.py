@@ -48,9 +48,9 @@ class WriteableTopicsMixin(serializers.Serializer):
                 topics = [topic["id"] for topic in topics]
             try:
                 valid_topic_ids = set(
-                    models.LearningResourceTopic.objects.filter(id__in=topics).values_list(
-                        "id", flat=True
-                    )
+                    models.LearningResourceTopic.objects.filter(
+                        id__in=topics
+                    ).values_list("id", flat=True)
                 )
             except ValueError as ve:
                 msg = "Topic ids must be integers"
@@ -507,7 +507,6 @@ class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
                     models.LearningResourceTopic.objects.filter(id__in=topics_data)
                 )
             return userlist
-
 
     class Meta:
         model = models.UserList
