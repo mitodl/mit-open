@@ -50,7 +50,14 @@ const mockAxiosInstance = {
         url: string
         data: unknown
       }, // Axios accepts lowercase or capital method names
-    ) => makeRequest(method.toLowerCase(), url, data),
+    ) => {
+      // OpenAPI Generator *always* serializes request bodies before passing to
+      // axios. This is fine, but annoying for tests where we may want to assert
+      // on object shape.
+      const deserialized =
+        typeof data === "string" ? JSON.parse(data) : undefined
+      return makeRequest(method.toLowerCase(), url, deserialized)
+    },
   ),
 }
 

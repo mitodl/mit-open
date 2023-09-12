@@ -4,7 +4,7 @@
   "sideEffects": false,
   "exports": {
     ".": "./src/generated/api.ts",
-    "./hooks/*": "./src/hooks/*.ts",
+    "./hooks/learningResources": "./src/hooks/learningResources/index.ts",
     "./test-utils/factories": "./src/test-utils/factories/index.ts",
     "./test-utils": "./src/test-utils/index.ts"
   },
