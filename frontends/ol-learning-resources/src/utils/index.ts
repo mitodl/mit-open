@@ -33,9 +33,9 @@ const DEFAULT_RESOURCE_IMG = new URL(
 ).toString()
 
 const resourceThumbnailSrc = (
-  resource: Pick<LearningResource, "image">,
+  image: LearningResource["image"],
   config: EmbedlyConfig,
-) => embedlyThumbnail(resource.image?.url ?? DEFAULT_RESOURCE_IMG, config)
+) => embedlyThumbnail(image?.url ?? DEFAULT_RESOURCE_IMG, config)
 
 const DATE_FORMAT = "YYYY-MM-DD[T]HH:mm:ss[Z]"
 /**

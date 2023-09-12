@@ -9,11 +9,13 @@ import user from "@testing-library/user-event"
 import * as factories from "api/test-utils/factories"
 import { ResourceTypeEnum } from "api"
 
-const makeResource = factories.learningResources.resource
+const factory = factories.learningResources
 
 describe("LearningResourceCard", () => {
   it("renders title and cover image", () => {
-    const resource = makeResource({ resource_type: ResourceTypeEnum.Course })
+    const resource = factory.resource({
+      resource_type: ResourceTypeEnum.Course,
+    })
     const imgConfig = makeImgConfig()
     render(
       <LearningResourceCardTemplate
@@ -28,11 +30,11 @@ describe("LearningResourceCard", () => {
     assertInstanceOf(coverImg, HTMLImageElement)
     expect(heading).toHaveAccessibleName(resource.title)
     expect(coverImg.alt).toBe("") // Alert! This should be empty unless it is meaningful.
-    expect(coverImg.src).toBe(resourceThumbnailSrc(resource, imgConfig))
+    expect(coverImg.src).toBe(resourceThumbnailSrc(resource.image, imgConfig))
   })
 
   it("does not show an image iff suppressImage is true", () => {
-    const resource = makeResource({
+    const resource = factory.resource({
       resource_type: ResourceTypeEnum.Course,
     })
     const imgConfig = makeImgConfig()
@@ -56,7 +58,7 @@ describe("LearningResourceCard", () => {
   })
 
   it("Calls onActivate when clicking title", async () => {
-    const resource = makeResource({
+    const resource = factory.resource({
       resource_type: ResourceTypeEnum.Course,
     })
     const imgConfig = makeImgConfig()
@@ -82,7 +84,7 @@ describe("LearningResourceCard", () => {
   ])(
     "should render an icon if the object has a certificate",
     ({ certification, hasCertificate }) => {
-      const resource = makeResource({
+      const resource = factory.resource({
         certification,
         resource_type: ResourceTypeEnum.Course,
       })
@@ -102,11 +104,46 @@ describe("LearningResourceCard", () => {
     },
   )
 
+  it("Should show an item count iff the resource is a list", () => {
+    const resource = factory.learningPath()
+    const count = resource.learning_path?.item_count
+    const imgConfig = makeImgConfig()
+
+    render(
+      <LearningResourceCardTemplate
+        variant="column"
+        resource={resource}
+        imgConfig={imgConfig}
+      />,
+    )
+    const itemText = count === 1 ? "1 item" : `${count} items`
+    const itemCount = screen.getByText(itemText)
+    expect(itemCount).toBeVisible()
+  })
+
+  it("Should NOT show an item count iff the resource is NOT a list", () => {
+    const resource = factory.resource({
+      title: "Not a list",
+      resource_type: ResourceTypeEnum.Course,
+    })
+    const imgConfig = makeImgConfig()
+
+    render(
+      <LearningResourceCardTemplate
+        variant="column"
+        resource={resource}
+        imgConfig={imgConfig}
+      />,
+    )
+    const itemCount = screen.queryByText("item", { exact: false })
+    expect(itemCount).toBe(null)
+  })
+
   it.each([
     { sortable: true, shows: "Shows" },
     { sortable: false, shows: "Does not show" },
   ])("$shows a drag handle when sortable is $sortable", ({ sortable }) => {
-    const resource = makeResource()
+    const resource = factory.resource()
     const imgConfig = makeImgConfig()
     render(
       <LearningResourceCardTemplate
@@ -123,7 +160,7 @@ describe("LearningResourceCard", () => {
   it.each([{ variant: "row" }, { variant: "column" }] as const)(
     "Throws error if sortable & unsupported variant",
     ({ variant }) => {
-      const resource = makeResource()
+      const resource = factory.resource()
       const imgConfig = makeImgConfig()
       const shouldThrow = () => {
         render(
