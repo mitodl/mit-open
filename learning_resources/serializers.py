@@ -134,9 +134,12 @@ class MicroRelationshipSerializer(serializers.ModelSerializer):
     Serializer containing only the parent and child ids
     """
 
+    parent = serializers.ReadOnlyField(source="parent_id")
+    child = serializers.ReadOnlyField(source="child_id")
+
     class Meta:
         model = models.LearningResourceRelationship
-        fields = ("id", "parent_id", "child_id")
+        fields = ("id", "parent", "child")
 
 
 class LearningResourceBaseSerializer(serializers.ModelSerializer):

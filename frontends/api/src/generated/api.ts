@@ -1262,13 +1262,13 @@ export interface MicroRelationship {
    * @type {number}
    * @memberof MicroRelationship
    */
-  parent_id: number
+  parent: number
   /**
    *
    * @type {number}
    * @memberof MicroRelationship
    */
-  child_id: number
+  child: number
 }
 /**
  *
