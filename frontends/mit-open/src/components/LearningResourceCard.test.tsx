@@ -1,18 +1,14 @@
 import React from "react"
 import * as NiceModal from "@ebay/nice-modal-react"
-import {
-  makeLearningResource,
-  makeListItemMember,
-  makeSearchResult,
-} from "ol-search-ui/src/factories"
-import { renderWithProviders, user, screen, within } from "../test-utils"
+import { makeLearningResource } from "ol-search-ui/src/factories"
+import { renderWithProviders, user, screen } from "../test-utils"
 import type { User } from "../test-utils"
 import LearningResourceCard from "./LearningResourceCard"
 import type {
   LearningResourceCardPropsOld,
   LearningResourceCardPropsNew,
 } from "./LearningResourceCard"
-import AddToListDialog from "../infinite-pages/resource-lists/AddToListDialog"
+import AddToListDialog from "../pages/learningpaths/AddToListDialog"
 import * as factories from "api/test-utils/factories"
 
 jest.mock("@ebay/nice-modal-react", () => {
@@ -38,11 +34,6 @@ describe("LearningResourceCard (old interface)", () => {
     return { resource, view, history }
   }
 
-  const labels = {
-    addToUserLists: "Add to my lists",
-    addToStaffLists: "Add to MIT lists",
-  }
-
   test("Clicking resource title routes to LearningResourceDrawer", async () => {
     const { resource, history } = setup()
     expect(history.location.search).toBe("") // Drawer is closed
@@ -58,133 +49,9 @@ describe("LearningResourceCard (old interface)", () => {
     expect(actual).toEqual(expected)
   })
 
-  test.each([
-    { userSettings: { is_authenticated: true }, canAddToList: true },
-    { userSettings: { is_authenticated: false }, canAddToList: false },
-    {
-      userSettings: { is_authenticated: false },
-      canAddToList: false,
-      // Unauthenticated users have search results with lists = undefined
-      resource: { ...makeSearchResult()._source, lists: undefined },
-    },
-  ])(
-    "Shows 'Add to my lists' button if and only if user is logged in",
-    ({ userSettings, canAddToList, resource }) => {
-      setup({ userSettings, props: { resource } })
-      const button = screen.queryByRole("button", {
-        name: labels.addToUserLists,
-      })
-      expect(!!button).toBe(canAddToList)
-    },
-  )
-
-  test.each([
-    // The testId is added by MUI
-    {
-      style: "outlined",
-      is: "is not",
-      testId: "BookmarkBorderIcon",
-      resource: makeLearningResource({ lists: [] }),
-    },
-    {
-      style: "filled",
-      is: "is",
-      testId: "BookmarkIcon",
-      resource: makeLearningResource({ lists: [makeListItemMember()] }),
-    },
-  ])(
-    "Bookmark icon is $style if resource $is in list",
-    ({ testId, resource }) => {
-      const props = { resource }
-      setup({ props, userSettings: { is_authenticated: true } })
-      const button = screen.getByRole("button", { name: labels.addToUserLists })
-      within(button).getByTestId(testId)
-    },
-  )
-
-  test.each([
-    // The testId is added by MUI
-    {
-      style: "outlined",
-      testId: "BookmarkBorderIcon",
-      resource: makeLearningResource({ is_favorite: false }),
-    },
-    {
-      style: "filled",
-      testId: "BookmarkIcon",
-      resource: makeLearningResource({ is_favorite: true }),
-    },
-  ])(
-    "Bookmark icon is $style if resource.is_favorite=$resource.is_favorite",
-    ({ testId, resource }) => {
-      setup({
-        userSettings: { is_authenticated: true },
-        props: { resource },
-      })
-      const button = screen.getByRole("button", { name: labels.addToUserLists })
-      within(button).getByTestId(testId)
-    },
-  )
-
-  test.each([
-    {
-      userSettings: { is_authenticated: true },
-      btnLabel: labels.addToUserLists,
-      mode: "userlist",
-    },
-    {
-      userSettings: { is_staff_list_editor: true },
-      btnLabel: labels.addToStaffLists,
-      mode: "stafflist",
-    },
-  ])(
-    "Clicking $btnLabel button opens AddToListDialog(mode=$mode)",
-    async ({ userSettings, mode, btnLabel }) => {
-      const showModal = jest.mocked(NiceModal.show)
-
-      const { resource } = setup({ userSettings })
-      const button = screen.getByRole("button", { name: btnLabel })
-
-      expect(showModal).not.toHaveBeenCalled()
-      await user.click(button)
-      expect(showModal).toHaveBeenCalledWith(AddToListDialog, {
-        resourceKey: resource,
-        mode,
-      })
-    },
-  )
-
   test("Applies className to the resource card", () => {
     const { view } = setup({ props: { className: "test-class" } })
     expect(view.container.firstChild).toHaveClass("test-class")
-  })
-
-  test.each([
-    { userSettings: { is_staff_list_editor: false }, shouldShow: false },
-    { userSettings: { is_staff_list_editor: true }, shouldShow: true },
-  ])(
-    "Shows 'Add to my lists' button if and only if user is logged in",
-    ({ userSettings, shouldShow }) => {
-      setup({ userSettings })
-      const button = screen.queryByRole("button", {
-        name: labels.addToStaffLists,
-      })
-      expect(!!button).toBe(shouldShow)
-    },
-  )
-
-  test("Clicking 'Add to MIT lists' button opens AddToListDialog", async () => {
-    const showModal = jest.mocked(NiceModal.show)
-
-    const { resource } = setup({ userSettings: { is_staff_list_editor: true } })
-    const button = screen.getByRole("button", { name: labels.addToStaffLists })
-
-    expect(showModal).not.toHaveBeenCalled()
-    await user.click(button)
-    expect(showModal).toHaveBeenCalledWith(AddToListDialog, {
-      resourceKey: resource,
-      mode: "stafflist",
-    })
   })
 })
 
@@ -203,8 +70,49 @@ describe("LearningResourceCard (new interface)", () => {
     return { resource, view, history }
   }
 
+  const labels = {
+    addToLearningPaths: "Add to Learning Path",
+  }
+
   test("Applies className to the resource card", () => {
     const { view } = setup({ props: { className: "test-class" } })
     expect(view.container.firstChild).toHaveClass("test-class")
+  })
+
+  test.each([
+    {
+      userSettings: { is_learning_path_editor: false },
+      expectButton: false,
+    },
+    {
+      userSettings: { is_learning_path_editor: true },
+      expectButton: true,
+    },
+  ])(
+    "Shows LearningPaths button if and only if user has editing priveleges",
+    async ({ userSettings, expectButton }) => {
+      setup({ userSettings })
+      const button = screen.queryByRole("button", {
+        name: labels.addToLearningPaths,
+      })
+      expect(!!button).toBe(expectButton)
+    },
+  )
+
+  test("Clicking LearningPath button opens AddToListDialog", async () => {
+    const showModal = jest.mocked(NiceModal.show)
+
+    const { resource } = setup({
+      userSettings: { is_learning_path_editor: true },
+    })
+    const button = screen.getByRole("button", {
+      name: labels.addToLearningPaths,
+    })
+
+    expect(showModal).not.toHaveBeenCalled()
+    await user.click(button)
+    expect(showModal).toHaveBeenCalledWith(AddToListDialog, {
+      resourceId: resource.id,
+    })
   })
 })

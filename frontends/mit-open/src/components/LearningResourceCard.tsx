@@ -12,10 +12,7 @@ import type { LearningResourceCardTemplateProps } from "ol-learning-resources"
 import { useActivateResourceDrawer } from "./LearningResourceDrawer"
 import { deprecatedImgConfig, imgConfigs } from "../util/constants"
 import IconButton from "@mui/material/IconButton"
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
-import BookmarkIcon from "@mui/icons-material/Bookmark"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
-import AddToListDialogOld from "../infinite-pages/resource-lists/AddToListDialog"
 import AddToListDialog from "../pages/learningpaths/AddToListDialog"
 import { LearningResource } from "api"
 
@@ -60,24 +57,12 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   suppressImage,
 }) => {
   const activateResource = useActivateResourceDrawer()
-  const showAddToListDialog = useCallback(() => {
-    if (isNewStyleResource(resource)) {
-      throw new Error("Not implemented")
-    }
-    NiceModal.show(AddToListDialogOld, {
-      resourceKey: resource,
-      mode: "userlist",
-    })
-  }, [resource])
   const showAddToStaffListDialog = useCallback(() => {
     if (isNewStyleResource(resource)) {
       NiceModal.show(AddToListDialog, { resourceId: resource.id })
       return
     }
-    NiceModal.show(AddToListDialogOld, {
-      resourceKey: resource,
-      mode: "stafflist",
-    })
+    throw new Error("Not implemented")
   }, [resource])
 
   const { user } = window.SETTINGS
@@ -94,10 +79,10 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
         onActivate={console.log}
         footerActionSlot={
           <div>
-            {user.is_staff_list_editor && (
+            {user.is_learning_path_editor && (
               <IconButton
                 size="small"
-                aria-label="Add to MIT lists"
+                aria-label="Add to Learning Path"
                 onClick={showAddToStaffListDialog}
               >
                 <PlaylistAddIcon />
@@ -109,7 +94,6 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     )
   }
 
-  const isInList = (resource.lists?.length ?? 0) > 0 || resource.is_favorite
   return (
     <>
       <LearningResourceCardTemplateOld
@@ -120,28 +104,6 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
         resource={resource}
         imgConfig={deprecatedImgConfig(imgConfigs[variant])}
         onActivate={activateResource}
-        footerActionSlot={
-          <div>
-            {user.is_staff_list_editor && (
-              <IconButton
-                size="small"
-                aria-label="Add to MIT lists"
-                onClick={showAddToStaffListDialog}
-              >
-                <PlaylistAddIcon />
-              </IconButton>
-            )}
-            {user.is_authenticated && (
-              <IconButton
-                size="small"
-                aria-label="Add to my lists"
-                onClick={showAddToListDialog}
-              >
-                {isInList ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-              </IconButton>
-            )}
-          </div>
-        }
       />
     </>
   )
