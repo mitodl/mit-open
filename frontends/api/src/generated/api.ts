@@ -518,6 +518,12 @@ export interface LearningResource {
   learning_path: LearningPath | null
   /**
    *
+   * @type {Video}
+   * @memberof LearningResource
+   */
+  video: Video | null
+  /**
+   *
    * @type {Array<LearningResourceRun>}
    * @memberof LearningResource
    */
@@ -674,6 +680,12 @@ export interface LearningResourceBase {
    * @memberof LearningResourceBase
    */
   learning_path: LearningPath | null
+  /**
+   *
+   * @type {Video}
+   * @memberof LearningResourceBase
+   */
+  video: Video | null
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -1657,7 +1669,7 @@ export interface Program {
   courses: Array<LearningResourceBase> | null
 }
 /**
- * * `course` - course * `program` - program * `learning_path` - learning_path
+ * * `course` - course * `program` - program * `learning_path` - learning_path * `video` - video
  * @export
  * @enum {string}
  */
@@ -1666,6 +1678,7 @@ export const ResourceTypeEnum = {
   Course: "course",
   Program: "program",
   LearningPath: "learning_path",
+  Video: "video",
 } as const
 
 export type ResourceTypeEnum =
@@ -1806,6 +1819,50 @@ export interface UserListRequest {
    * @memberof UserListRequest
    */
   description?: string | null
+}
+/**
+ * Serializer for the Video model
+ * @export
+ * @interface Video
+ */
+export interface Video {
+  /**
+   *
+   * @type {number}
+   * @memberof Video
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof Video
+   */
+  duration?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof Video
+   */
+  transcript?: string
+}
+/**
+ * Serializer for the Video model
+ * @export
+ * @interface VideoRequest
+ */
+export interface VideoRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof VideoRequest
+   */
+  duration?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof VideoRequest
+   */
+  transcript?: string
 }
 
 /**
@@ -2367,7 +2424,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2377,7 +2434,7 @@ export const CoursesApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/`
@@ -2444,7 +2501,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2454,7 +2511,7 @@ export const CoursesApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/new/`
@@ -2569,7 +2626,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2579,7 +2636,7 @@ export const CoursesApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/upcoming/`
@@ -2722,7 +2779,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2732,7 +2789,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -2764,7 +2821,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2774,7 +2831,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -2833,7 +2890,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2843,7 +2900,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -3113,11 +3170,11 @@ export interface CoursesApiCoursesListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof CoursesApiCoursesList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -3162,11 +3219,11 @@ export interface CoursesApiCoursesNewListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof CoursesApiCoursesNewList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -3225,11 +3282,11 @@ export interface CoursesApiCoursesUpcomingListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof CoursesApiCoursesUpcomingList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -3525,7 +3582,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3535,7 +3592,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/`
@@ -3602,7 +3659,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3612,7 +3669,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/new/`
@@ -3727,7 +3784,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3737,7 +3794,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/upcoming/`
@@ -3881,7 +3938,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3891,7 +3948,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -3924,7 +3981,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3934,7 +3991,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -3992,7 +4049,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4002,7 +4059,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -4272,11 +4329,11 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof LearningResourcesApiLearningResourcesList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -4321,11 +4378,11 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof LearningResourcesApiLearningResourcesNewList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -4384,11 +4441,11 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -4652,7 +4709,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4662,7 +4719,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/`
@@ -4729,7 +4786,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4739,7 +4796,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/new/`
@@ -5265,7 +5322,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5275,7 +5332,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/upcoming/`
@@ -5463,7 +5520,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5473,7 +5530,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -5506,7 +5563,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5516,7 +5573,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -5790,7 +5847,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5800,7 +5857,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -6204,11 +6261,11 @@ export interface LearningpathsApiLearningpathsListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof LearningpathsApiLearningpathsList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -6253,11 +6310,11 @@ export interface LearningpathsApiLearningpathsNewListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof LearningpathsApiLearningpathsNewList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -6484,11 +6541,11 @@ export interface LearningpathsApiLearningpathsUpcomingListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof LearningpathsApiLearningpathsUpcomingList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -6826,7 +6883,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -6836,7 +6893,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/`
@@ -6903,7 +6960,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -6913,7 +6970,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/new/`
@@ -7028,7 +7085,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7038,7 +7095,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/upcoming/`
@@ -7115,7 +7172,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7125,7 +7182,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -7157,7 +7214,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7167,7 +7224,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -7224,7 +7281,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7234,7 +7291,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offered_by__name?: string,
       offset?: number,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?: "course" | "learning_path" | "program" | "video",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -7402,11 +7459,11 @@ export interface ProgramsApiProgramsListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof ProgramsApiProgramsList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -7451,11 +7508,11 @@ export interface ProgramsApiProgramsNewListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof ProgramsApiProgramsNewList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -7514,11 +7571,11 @@ export interface ProgramsApiProgramsUpcomingListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
    * @memberof ProgramsApiProgramsUpcomingList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
 }
 
 /**
@@ -9629,6 +9686,819 @@ export class UserlistsApi extends BaseAPI {
       .userlistsUpdate(
         requestParameters.id,
         requestParameters.UserListRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * VideosApi - axios parameter creator
+ * @export
+ */
+export const VideosApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    videosList: async (
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      platform?: string,
+      resource_type?: "course" | "learning_path" | "program" | "video",
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/videos/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (department__id !== undefined) {
+        localVarQueryParameter["department__id"] = department__id
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by__name !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offered_by__name
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    videosNewList: async (
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      platform?: string,
+      resource_type?: "course" | "learning_path" | "program" | "video",
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/videos/new/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (department__id !== undefined) {
+        localVarQueryParameter["department__id"] = department__id
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by__name !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offered_by__name
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    videosRetrieve: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("videosRetrieve", "id", id)
+      const localVarPath = `/api/v1/videos/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    videosUpcomingList: async (
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      platform?: string,
+      resource_type?: "course" | "learning_path" | "program" | "video",
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/videos/upcoming/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (department__id !== undefined) {
+        localVarQueryParameter["department__id"] = department__id
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by__name !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offered_by__name
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * VideosApi - functional programming interface
+ * @export
+ */
+export const VideosApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = VideosApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async videosList(
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      platform?: string,
+      resource_type?: "course" | "learning_path" | "program" | "video",
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.videosList(
+        department__id,
+        limit,
+        offered_by__name,
+        offset,
+        platform,
+        resource_type,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async videosNewList(
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      platform?: string,
+      resource_type?: "course" | "learning_path" | "program" | "video",
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.videosNewList(
+        department__id,
+        limit,
+        offered_by__name,
+        offset,
+        platform,
+        resource_type,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async videosRetrieve(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.videosRetrieve(
+        id,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'program' | 'video'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async videosUpcomingList(
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      platform?: string,
+      resource_type?: "course" | "learning_path" | "program" | "video",
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.videosUpcomingList(
+          department__id,
+          limit,
+          offered_by__name,
+          offset,
+          platform,
+          resource_type,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * VideosApi - factory interface
+ * @export
+ */
+export const VideosApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = VideosApiFp(configuration)
+  return {
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {VideosApiVideosListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    videosList(
+      requestParameters: VideosApiVideosListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .videosList(
+          requestParameters.department__id,
+          requestParameters.limit,
+          requestParameters.offered_by__name,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resource_type,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {VideosApiVideosNewListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    videosNewList(
+      requestParameters: VideosApiVideosNewListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .videosNewList(
+          requestParameters.department__id,
+          requestParameters.limit,
+          requestParameters.offered_by__name,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resource_type,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {VideosApiVideosRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    videosRetrieve(
+      requestParameters: VideosApiVideosRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<LearningResource> {
+      return localVarFp
+        .videosRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {VideosApiVideosUpcomingListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    videosUpcomingList(
+      requestParameters: VideosApiVideosUpcomingListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .videosUpcomingList(
+          requestParameters.department__id,
+          requestParameters.limit,
+          requestParameters.offered_by__name,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.resource_type,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for videosList operation in VideosApi.
+ * @export
+ * @interface VideosApiVideosListRequest
+ */
+export interface VideosApiVideosListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof VideosApiVideosList
+   */
+  readonly department__id?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof VideosApiVideosList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof VideosApiVideosList
+   */
+  readonly offered_by__name?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof VideosApiVideosList
+   */
+  readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof VideosApiVideosList
+   */
+  readonly platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
+   * @memberof VideosApiVideosList
+   */
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
+}
+
+/**
+ * Request parameters for videosNewList operation in VideosApi.
+ * @export
+ * @interface VideosApiVideosNewListRequest
+ */
+export interface VideosApiVideosNewListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof VideosApiVideosNewList
+   */
+  readonly department__id?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof VideosApiVideosNewList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof VideosApiVideosNewList
+   */
+  readonly offered_by__name?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof VideosApiVideosNewList
+   */
+  readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof VideosApiVideosNewList
+   */
+  readonly platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
+   * @memberof VideosApiVideosNewList
+   */
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
+}
+
+/**
+ * Request parameters for videosRetrieve operation in VideosApi.
+ * @export
+ * @interface VideosApiVideosRetrieveRequest
+ */
+export interface VideosApiVideosRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof VideosApiVideosRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for videosUpcomingList operation in VideosApi.
+ * @export
+ * @interface VideosApiVideosUpcomingListRequest
+ */
+export interface VideosApiVideosUpcomingListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof VideosApiVideosUpcomingList
+   */
+  readonly department__id?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof VideosApiVideosUpcomingList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof VideosApiVideosUpcomingList
+   */
+  readonly offered_by__name?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof VideosApiVideosUpcomingList
+   */
+  readonly offset?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof VideosApiVideosUpcomingList
+   */
+  readonly platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;video&#x60; - video
+   * @type {'course' | 'learning_path' | 'program' | 'video'}
+   * @memberof VideosApiVideosUpcomingList
+   */
+  readonly resource_type?: "course" | "learning_path" | "program" | "video"
+}
+
+/**
+ * VideosApi - object-oriented interface
+ * @export
+ * @class VideosApi
+ * @extends {BaseAPI}
+ */
+export class VideosApi extends BaseAPI {
+  /**
+   * Get a paginated list of learning resources.
+   * @summary List
+   * @param {VideosApiVideosListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VideosApi
+   */
+  public videosList(
+    requestParameters: VideosApiVideosListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return VideosApiFp(this.configuration)
+      .videosList(
+        requestParameters.department__id,
+        requestParameters.limit,
+        requestParameters.offered_by__name,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of newly released resources.
+   * @summary List New
+   * @param {VideosApiVideosNewListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VideosApi
+   */
+  public videosNewList(
+    requestParameters: VideosApiVideosNewListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return VideosApiFp(this.configuration)
+      .videosNewList(
+        requestParameters.department__id,
+        requestParameters.limit,
+        requestParameters.offered_by__name,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a single learning resource.
+   * @summary Retrieve
+   * @param {VideosApiVideosRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VideosApi
+   */
+  public videosRetrieve(
+    requestParameters: VideosApiVideosRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return VideosApiFp(this.configuration)
+      .videosRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of upcoming resources.
+   * @summary List Upcoming
+   * @param {VideosApiVideosUpcomingListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VideosApi
+   */
+  public videosUpcomingList(
+    requestParameters: VideosApiVideosUpcomingListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return VideosApiFp(this.configuration)
+      .videosUpcomingList(
+        requestParameters.department__id,
+        requestParameters.limit,
+        requestParameters.offered_by__name,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.resource_type,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

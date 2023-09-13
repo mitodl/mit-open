@@ -30,7 +30,8 @@ from learning_resources.constants import (
     VALID_TEXT_FILE_TYPES,
     PlatformType,
 )
-from learning_resources.models import ContentFile, LearningResourceRun
+from learning_resources.models import ContentFile, LearningResource, LearningResourceRun
+from search.api import get_similar_topics
 
 log = logging.getLogger(__name__)
 
@@ -469,3 +470,27 @@ def calc_checksum(filename) -> str:
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
+
+
+def extract_topics(resource: LearningResource) -> list[dict]:
+    """
+    Extract a resource's topics based on search results for similar topics
+
+    Args:
+        resource (learning_resources.models.LearningResource):
+            the LearningResource to find similar topics for
+
+    Returns:
+        list of dict:
+            list of topic data for the resource
+    """
+    text_doc = {"title": resource.title, "short_description": resource.description}
+
+    topic_names = get_similar_topics(
+        text_doc,
+        settings.OPEN_VIDEO_MAX_TOPICS,
+        settings.OPEN_VIDEO_MIN_TERM_FREQ,
+        settings.OPEN_VIDEO_MIN_DOC_FREQ,
+    )
+
+    return [{"name": topic_name} for topic_name in topic_names]

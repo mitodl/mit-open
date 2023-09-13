@@ -31,7 +31,7 @@ class LearningResourceType(Enum):
     course = "course"
     program = "program"
     learning_path = "learning_path"
-    # uncomment the following as models are added
+    video = "video"
 
 
 class OfferedBy(Enum):

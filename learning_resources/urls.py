@@ -27,6 +27,7 @@ router.register(r"courses", views.CourseViewSet, basename="lr_courses_api").regi
     parents_query_lookups=["run__learning_resource"],
 )
 router.register(r"programs", views.ProgramViewSet, basename="lr_programs_api")
+router.register(r"videos", views.VideoViewSet, basename="lr_videos_api")
 router.register(
     r"learningpaths", views.LearningPathViewSet, basename="lr_learningpaths_api"
 ).register(

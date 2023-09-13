@@ -48,9 +48,9 @@ class WriteableTopicsMixin(serializers.Serializer):
                 topics = [topic["id"] for topic in topics]
             try:
                 valid_topic_ids = set(
-                    models.LearningResourceTopic.objects.filter(id__in=topics).values_list(
-                        "id", flat=True
-                    )
+                    models.LearningResourceTopic.objects.filter(
+                        id__in=topics
+                    ).values_list("id", flat=True)
                 )
             except ValueError as ve:
                 msg = "Topic ids must be integers"
@@ -155,6 +155,14 @@ class CourseSerializer(serializers.ModelSerializer):
         exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
+class VideoSerializer(serializers.ModelSerializer):
+    """Serializer for the Video model"""
+
+    class Meta:
+        model = models.Video
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
+
+
 class LearningPathSerializer(serializers.ModelSerializer, ResourceListMixin):
     """Serializer for the LearningPath model"""
 
@@ -197,6 +205,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     prices = serializers.ReadOnlyField()
     course = CourseSerializer(read_only=True, allow_null=True)
     learning_path = LearningPathSerializer(read_only=True, allow_null=True)
+    video = VideoSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
     learning_path_parents = serializers.SerializerMethodField()
     user_list_parents = serializers.SerializerMethodField()
@@ -507,7 +516,6 @@ class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
                     models.LearningResourceTopic.objects.filter(id__in=topics_data)
                 )
             return userlist
-
 
     class Meta:
         model = models.UserList

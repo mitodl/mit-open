@@ -9,6 +9,7 @@ from learning_resources.factories import (
     LearningResourceFactory,
     LearningResourceRunFactory,
     ProgramFactory,
+    VideoFactory,
 )
 from learning_resources.serializers import ContentFileSerializer
 from learning_resources.views import CourseViewSet
@@ -181,6 +182,34 @@ def test_program_detail_endpoint(client, url):
         assert (
             response_courses[idx]["resource_type"] == LearningResourceType.course.value
         )
+
+
+@pytest.mark.parametrize(
+    ("url", "params"),
+    [
+        ["lr_videos_api-list", ""],  # noqa: PT007
+        ["learning_resources_api-list", "resource_type=video"],  # noqa: PT007
+    ],
+)
+def test_video_endpoint(client, url, params):
+    """Test video endpoint"""
+    videos = VideoFactory.create_batch(3)
+
+    resp = client.get(f"{reverse(url)}?{params}")
+    for i in range(3):
+        assert resp.data.get("results")[i]["id"] == videos[i].learning_resource.id
+
+
+@pytest.mark.parametrize(
+    "url", ["lr_videos_api-detail", "learning_resources_api-detail"]
+)
+def test_video_detail_endpoint(client, url):
+    """Test video detail endpoint"""
+    video = VideoFactory.create()
+    resp = client.get(reverse(url, args=[video.learning_resource.id]))
+    assert resp.data.get("title") == video.learning_resource.title
+    assert resp.data.get("resource_type") == LearningResourceType.video.value
+    assert resp.data["video"]["duration"] == video.duration
 
 
 def test_list_resources_endpoint(client):

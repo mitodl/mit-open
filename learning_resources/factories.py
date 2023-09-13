@@ -10,6 +10,7 @@ from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyInteger, FuzzyText
 
 from learning_resources import constants, models
+from learning_resources.constants import PlatformType
 from open_discussions.factories import UserFactory
 
 # pylint:disable=unused-argument
@@ -463,3 +464,50 @@ class UserListRelationshipFactory(DjangoModelFactory):
 
     class Meta:
         model = models.UserListRelationship
+
+
+class VideoFactory(DjangoModelFactory):
+    """Factory for Videos"""
+
+    learning_resource = factory.SubFactory(
+        LearningResourceFactory,
+        resource_type=constants.LearningResourceType.video.value,
+        platform=factory.SubFactory(
+            LearningResourcePlatformFactory, platform=PlatformType.youtube.value
+        ),
+    )
+
+    class Meta:
+        model = models.Video
+
+    class Params:
+        is_unpublished = factory.Trait(learning_resource__published=False)
+
+
+class VideoChannelFactory(DjangoModelFactory):
+    """Factory for VideoChannel"""
+
+    channel_id = factory.Sequence(lambda n: "VIDEO-CHANNEL-%03d.MIT" % n)
+    title = factory.Faker("word")
+    playlists = factory.RelatedFactoryList(
+        "learning_resources.factories.PlaylistFactory", "channel", size=1
+    )
+
+    class Params:
+        is_unpublished = factory.Trait(published=False)
+
+    class Meta:
+        model = models.VideoChannel
+
+
+class PlaylistFactory(DjangoModelFactory):
+    """Factory for Playlist"""
+
+    playlist_id = factory.Sequence(lambda n: "VIDEO-PLAYLIST-%03d.MIT" % n)
+    channel = factory.SubFactory("learning_resources.factories.VideoChannelFactory")
+
+    class Params:
+        is_unpublished = factory.Trait(published=False)
+
+    class Meta:
+        model = models.Playlist

@@ -15,7 +15,11 @@ from learning_resources.constants import (
     PlatformType,
 )
 from learning_resources.etl import utils
-from learning_resources.factories import ContentFileFactory, LearningResourceRunFactory
+from learning_resources.factories import (
+    ContentFileFactory,
+    LearningResourceRunFactory,
+    VideoFactory,
+)
 
 pytestmark = pytest.mark.django_db
 
@@ -296,4 +300,27 @@ def test_get_learning_course_bucket(
         aws_settings.EDX_LEARNING_COURSE_BUCKET_NAME
         if platform == PlatformType.mitx.value
         else aws_settings.XPRO_LEARNING_COURSE_BUCKET_NAME
+    )
+
+
+def test_extract_topics(settings, mocker):
+    """Tests that extract_topics looks up similar topics given a video"""
+    video = VideoFactory.create()
+    topics = ["topic a", "topic b"]
+    mock_get_similar_topics = mocker.patch(
+        "learning_resources.etl.utils.get_similar_topics", return_value=topics
+    )
+
+    assert utils.extract_topics(video.learning_resource) == [
+        {"name": topic} for topic in topics
+    ]
+
+    mock_get_similar_topics.assert_called_once_with(
+        {
+            "title": video.learning_resource.title,
+            "short_description": video.learning_resource.description,
+        },
+        settings.OPEN_VIDEO_MAX_TOPICS,
+        settings.OPEN_VIDEO_MIN_TERM_FREQ,
+        settings.OPEN_VIDEO_MIN_DOC_FREQ,
     )

@@ -229,6 +229,23 @@ class ProgramViewSet(LearningResourceViewSet):
         ).filter(published=True)
 
 
+class VideoViewSet(LearningResourceViewSet):
+    """
+    Viewset for Videos
+    """
+
+    def get_queryset(self):
+        """
+        Generate a QuerySet for fetching valid Videos
+
+        Returns:
+            QuerySet of LearningResource objects that are Videos
+        """
+        return self._get_base_queryset(
+            resource_type=LearningResourceType.video.value
+        ).filter(published=True)
+
+
 class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
     """
     Viewset for LearningPaths

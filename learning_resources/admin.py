@@ -90,15 +90,60 @@ class LearningPathInline(TabularInline):
     show_change_link = True
 
 
+class VideoInline(TabularInline):
+    """PodcastAdmin"""
+
+    model = models.Video
+    show_change_link = True
+
+
+class ProgramInline(TabularInline):
+    """PodcastAdmin"""
+
+    model = models.Program
+    show_change_link = True
+
+
 class LearningResourceAdmin(admin.ModelAdmin):
     """LearningResource Admin"""
 
     model = models.LearningResource
     search_fields = ("readable_id", "title")
     list_display = ("readable_id", "title", "platform", "resource_type", "published")
-    list_filter = ("platform", "resource_type", "published")
-    inlines = [CourseInline, LearningPathInline]
+    list_filter = ("platform", "resource_type", "published", "offered_by", "department")
+    inlines = [CourseInline, ProgramInline, VideoInline, LearningPathInline]
     autocomplete_fields = ("topics",)
+
+
+class PlaylistInline(TabularInline):
+    """Inline list items for Playlists"""
+
+    model = models.Playlist
+    extra = 0
+    show_change_link = True
+
+
+class PlaylistVideoInline(TabularInline):
+    """Inline list items for PlaylistVideos"""
+
+    model = models.PlaylistVideo
+    extra = 0
+    show_change_link = True
+
+
+class VideoChannelAdmin(admin.ModelAdmin):
+    model = models.VideoChannel
+    list_display = ("title", "channel_id", "published")
+    search_fields = ("title", "channel_id")
+    list_filter = ("published",)
+    inlines = (PlaylistInline,)
+
+
+class PlaylistAdmin(admin.ModelAdmin):
+    model = models.Playlist
+    list_display = ("title", "playlist_id", "published")
+    search_fields = ("title", "playlist_id")
+    inlines = (PlaylistVideoInline,)
 
 
 admin.site.register(models.LearningResourceTopic, LearningResourceTopicAdmin)
@@ -108,3 +153,5 @@ admin.site.register(models.LearningResourceRun, LearningResourceRunAdmin)
 admin.site.register(models.LearningResourceDepartment, LearningResourceDepartmentAdmin)
 admin.site.register(models.LearningResourcePlatform, LearningResourcePlatformAdmin)
 admin.site.register(models.LearningResourceOfferor, LearningResourceOfferorAdmin)
+admin.site.register(models.VideoChannel, VideoChannelAdmin)
+admin.site.register(models.Playlist, PlaylistAdmin)

@@ -52,16 +52,18 @@ CELERY_BEAT_SCHEDULE = {
     # },
     # "update-prolearn-courses-every-1-days": {
     # },
-    # "update-youtube-videos": {
-    #     "schedule": get_int(
-    #         "YOUTUBE_FETCH_SCHEDULE_SECONDS", 60 * 30
-    #     ),  # default is every 30 minutes
-    # },
-    # "update-youtube-transcripts": {
-    #     "schedule": get_int(
-    #         "YOUTUBE_FETCH_TRANSCRIPT_SCHEDULE_SECONDS", 60 * 60 * 12
-    #     ),  # default is 12 hours
-    # },
+    "update-youtube-videos": {
+        "task": "learning_resources.tasks.get_youtube_data",
+        "schedule": get_int(
+            "YOUTUBE_FETCH_SCHEDULE_SECONDS", 60 * 30
+        ),  # default is every 30 minutes
+    },
+    "update-youtube-transcripts": {
+        "task": "learning_resources.tasks.get_youtube_transcripts",
+        "schedule": get_int(
+            "YOUTUBE_FETCH_TRANSCRIPT_SCHEDULE_SECONDS", 60 * 60 * 12
+        ),  # default is 12 hours
+    },
 }
 
 CELERY_TASK_SERIALIZER = "json"

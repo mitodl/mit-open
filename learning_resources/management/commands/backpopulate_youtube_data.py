@@ -4,9 +4,9 @@ from datetime import datetime
 import pytz
 from django.core.management import BaseCommand
 
-from course_catalog.constants import PlatformType
-from course_catalog.models import Video
-from course_catalog.tasks import get_youtube_data, get_youtube_transcripts
+from learning_resources.constants import PlatformType
+from learning_resources.models import Video
+from learning_resources.tasks import get_youtube_data, get_youtube_transcripts
 from open_discussions.constants import ISOFORMAT
 from open_discussions.utils import now_in_utc
 from search.search_index_helpers import deindex_video

@@ -178,6 +178,9 @@ class LearningResource(TimestampedModel):
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
 
+    def __str__(self):
+        return f"{self.title} - {self.readable_id} - {self.resource_type}"
+
 
 class LearningResourceRun(TimestampedModel):
     """
@@ -242,6 +245,9 @@ class Course(TimestampedModel):
         """Get the parent LearningResource runs"""
         return self.learning_resource.runs
 
+    def __str__(self):
+        return f"Course: {self.id} -  {self.learning_resource.readable_id}"
+
 
 class Program(TimestampedModel):
     """
@@ -267,6 +273,9 @@ class Program(TimestampedModel):
         """Get the associated resources (should all be courses)"""
         return self.learning_resource.children
 
+    def __str__(self):
+        return f"Program: {self.id} - {self.learning_resource.readable_id}"
+
 
 class LearningPath(TimestampedModel):
     """
@@ -284,7 +293,7 @@ class LearningPath(TimestampedModel):
     )
 
     def __str__(self):
-        return f"Learning Path: {self.learning_resource.title}"
+        return f"Learning Path: {self.id} - {self.learning_resource.readable_id}"
 
 
 class LearningResourceRelationship(TimestampedModel):
@@ -357,6 +366,7 @@ class ContentFile(TimestampedModel):
         unique_together = (("key", "run"),)
         verbose_name = "contentfile"
 
+
 class UserList(TimestampedModel):
     """
     Similar in concept to a LearningPath: a list of learning resources.
@@ -388,3 +398,78 @@ class UserListRelationship(TimestampedModel):
         LearningResource, related_name="user_lists", on_delete=models.deletion.CASCADE
     )
     position = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"ContentFile: {self.id} - {self.title}"
+
+
+class VideoChannel(TimestampedModel):
+    """Data model for video channels"""
+
+    channel_id = models.CharField(max_length=80)
+    title = models.CharField(max_length=256)
+    published = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"VideoChannel: {self.title} - {self.channel_id}"
+
+
+class Video(TimestampedModel):
+    """Data model for video resources"""
+
+    learning_resource = models.OneToOneField(
+        LearningResource,
+        related_name="video",
+        on_delete=models.CASCADE,
+    )
+    duration = models.CharField(null=True, blank=True, max_length=11)  # noqa: DJ001
+    transcript = models.TextField(blank=True, default="")
+
+    @property
+    def audience(self):
+        """Returns the audience"""
+        return [constants.OPEN]
+
+    @property
+    def certification(self):
+        """Returns the certification"""
+        return []
+
+    def __str__(self):
+        return f"Video: {self.id} - {self.learning_resource.readable_id}"
+
+
+class Playlist(TimestampedModel):
+    """
+    Video playlist model, contains videos
+    """
+
+    playlist_id = models.CharField(max_length=80)
+    title = models.CharField(max_length=256)
+    channel = models.ForeignKey(
+        VideoChannel, on_delete=models.CASCADE, related_name="playlists"
+    )
+
+    videos = models.ManyToManyField(
+        Video, through="PlaylistVideo", through_fields=("playlist", "video")
+    )
+    published = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"Playlist: {self.title} - {self.playlist_id}"
+
+
+class PlaylistVideo(TimestampedModel):
+    """Join table for Playlist -> Video"""
+
+    video = models.ForeignKey(
+        Video, on_delete=models.CASCADE, related_name="playlist_videos"
+    )
+    playlist = models.ForeignKey(
+        Playlist, on_delete=models.CASCADE, related_name="playlist_videos"
+    )
+
+    position = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = ("playlist", "video")

@@ -7,7 +7,6 @@ from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
 )
-from learning_resources.factories import CourseFactory
 from learning_resources.utils import update_editor_group
 from open_discussions.factories import UserFactory
 

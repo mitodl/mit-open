@@ -8,7 +8,7 @@ import celery
 from django.conf import settings
 
 from learning_resources.constants import PlatformType
-from learning_resources.etl import pipelines
+from learning_resources.etl import pipelines, youtube
 from learning_resources.etl.edx_shared import (
     get_most_recent_course_archives,
     sync_edx_course_files,
@@ -82,3 +82,47 @@ def import_all_xpro_files(self, chunk_size=None):
             chunk_size,
         )
     )
+
+
+@app.task
+def get_youtube_data(*, channel_ids=None):
+    """
+    Execute the YouTube ETL pipeline
+
+    Args:
+        channel_ids (list of str or None):
+            if a list the extraction is limited to those channels
+
+    Returns:
+        int:
+            The number of results that were fetched
+    """
+    results = pipelines.youtube_etl(channel_ids=channel_ids)
+
+    return len(list(results))
+
+
+@app.task
+def get_youtube_transcripts(
+    *, created_after=None, created_minutes=None, overwrite=False
+):
+    """
+    Fetch transcripts for Youtube videos
+
+    Args:
+        created_after (date or None):
+            if a string transcripts are pulled only for videos added to the course catalog after that date
+        created_minutes (int or None):
+            if a string transcripts are pulled only from videos added created_minutes ago and after
+        overwrite (bool):
+            if true youtube transcriptsipts are updated for videos that already have transcripts
+    """  # noqa: E501
+
+    videos = youtube.get_youtube_videos_for_transcripts_job(
+        created_after=created_after,
+        created_minutes=created_minutes,
+        overwrite=overwrite,
+    )
+
+    log.info("Updating transcripts for %i videos", videos.count())
+    youtube.get_youtube_transcripts(videos)

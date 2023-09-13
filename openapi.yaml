@@ -116,10 +116,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - courses
       security:
@@ -260,10 +262,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - courses
       security:
@@ -313,10 +317,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - courses
       security:
@@ -366,10 +372,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - learning_resources
       security:
@@ -510,10 +518,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - learning_resources
       security:
@@ -563,10 +573,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - learning_resources
       security:
@@ -616,10 +628,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - learningpaths
       security:
@@ -989,10 +1003,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - learningpaths
       security:
@@ -1042,10 +1058,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - learningpaths
       security:
@@ -1095,10 +1113,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - programs
       security:
@@ -1171,10 +1191,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - programs
       security:
@@ -1224,10 +1246,12 @@ paths:
           - course
           - learning_path
           - program
+          - video
         description: |-
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
+          * `video` - video
       tags:
       - programs
       security:
@@ -1636,6 +1660,194 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/videos/:
+    get:
+      operationId: videos_list
+      description: Get a paginated list of learning resources.
+      summary: List
+      parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
+          enum:
+          - course
+          - learning_path
+          - program
+          - video
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
+          * `video` - video
+      tags:
+      - videos
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
+          description: ''
+  /api/v1/videos/{id}/:
+    get:
+      operationId: videos_retrieve
+      description: Retrieve a single learning resource.
+      summary: Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - videos
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResource'
+          description: ''
+  /api/v1/videos/new/:
+    get:
+      operationId: videos_new_list
+      description: Get a paginated list of newly released resources.
+      summary: List New
+      parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
+          enum:
+          - course
+          - learning_path
+          - program
+          - video
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
+          * `video` - video
+      tags:
+      - videos
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
+          description: ''
+  /api/v1/videos/upcoming/:
+    get:
+      operationId: videos_upcoming_list
+      description: Get a paginated list of upcoming resources.
+      summary: List Upcoming
+      parameters:
+      - in: query
+        name: department__id
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by__name
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+      - in: query
+        name: resource_type
+        schema:
+          type: string
+          enum:
+          - course
+          - learning_path
+          - program
+          - video
+        description: |-
+          * `course` - course
+          * `program` - program
+          * `learning_path` - learning_path
+          * `video` - video
+      tags:
+      - videos
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
+          description: ''
 components:
   schemas:
     ContentFile:
@@ -1956,6 +2168,11 @@ components:
           - $ref: '#/components/schemas/LearningPath'
           readOnly: true
           nullable: true
+        video:
+          allOf:
+          - $ref: '#/components/schemas/Video'
+          readOnly: true
+          nullable: true
         runs:
           type: array
           items:
@@ -2032,6 +2249,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - video
     LearningResourceBase:
       type: object
       description: Serializer for LearningResource, minus program
@@ -2089,6 +2307,11 @@ components:
         learning_path:
           allOf:
           - $ref: '#/components/schemas/LearningPath'
+          readOnly: true
+          nullable: true
+        video:
+          allOf:
+          - $ref: '#/components/schemas/Video'
           readOnly: true
           nullable: true
         runs:
@@ -2161,6 +2384,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - video
     LearningResourceDepartment:
       type: object
       description: Serializer for LearningResourceDepartment
@@ -2777,11 +3001,13 @@ components:
       - course
       - program
       - learning_path
+      - video
       type: string
       description: |-
         * `course` - course
         * `program` - program
         * `learning_path` - learning_path
+        * `video` - video
     UserList:
       type: object
       description: Simplified serializer for UserList model.
@@ -2875,6 +3101,31 @@ components:
           nullable: true
       required:
       - title
+    Video:
+      type: object
+      description: Serializer for the Video model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        duration:
+          type: string
+          nullable: true
+          maxLength: 11
+        transcript:
+          type: string
+      required:
+      - id
+    VideoRequest:
+      type: object
+      description: Serializer for the Video model
+      properties:
+        duration:
+          type: string
+          nullable: true
+          maxLength: 11
+        transcript:
+          type: string
   securitySchemes:
     cookieAuth:
       type: apiKey

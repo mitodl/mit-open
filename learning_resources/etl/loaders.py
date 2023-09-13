@@ -3,6 +3,7 @@ import logging
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.db.models import Exists, OuterRef
 
 from learning_resources.constants import (
     LearningResourceRelationTypes,
@@ -11,9 +12,13 @@ from learning_resources.constants import (
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
     OfferedByLoaderConfig,
+    PlaylistLoaderConfig,
     ProgramLoaderConfig,
+    VideoLoaderConfig,
 )
 from learning_resources.etl.deduplication import get_most_relevant_run
+from learning_resources.etl.exceptions import ExtractException
+from learning_resources.etl.utils import extract_topics
 from learning_resources.models import (
     ContentFile,
     Course,
@@ -24,7 +29,11 @@ from learning_resources.models import (
     LearningResourcePlatform,
     LearningResourceRun,
     LearningResourceTopic,
+    Playlist,
+    PlaylistVideo,
     Program,
+    Video,
+    VideoChannel,
 )
 from learning_resources.utils import load_course_blocklist, load_course_duplicates
 
@@ -426,3 +435,186 @@ def load_content_files(course_run, content_files_data):
 
         return content_files_ids
     return None
+
+
+def load_video(video_data, *, config=VideoLoaderConfig()):
+    """Load a video into the database"""
+    readable_id = video_data.pop("readable_id")
+    platform = video_data.pop("platform")
+    topics_data = video_data.pop("topics", None)
+    offered_bys_data = video_data.pop("offered_by", None)
+    video_fields = video_data.pop("video", {})
+    image_data = video_data.pop("image", None)
+    with transaction.atomic():
+        # lock on the video record
+        (
+            learning_resource,
+            created,
+        ) = LearningResource.objects.select_for_update().update_or_create(
+            platform=LearningResourcePlatform.objects.get(platform=platform),
+            readable_id=readable_id,
+            resource_type=LearningResourceType.video.value,
+            defaults=video_data,
+        )
+        video, _ = Video.objects.select_for_update().update_or_create(
+            learning_resource=learning_resource, defaults=video_fields
+        )
+        if not topics_data:
+            topics_data = extract_topics(learning_resource)
+        load_image(learning_resource, image_data)
+        load_topics(learning_resource, topics_data)
+        load_offered_bys(learning_resource, offered_bys_data, config=config.offered_by)
+
+    return learning_resource
+
+
+def load_videos(videos_data, *, config=VideoLoaderConfig()):
+    """
+    Loads a list of videos data
+
+    Args:
+        videos_data (iter of dict): iterable of the video data
+
+    Returns:
+        list of Video:
+            the list of loaded videos
+    """  # noqa: D401
+    return [load_video(video_data, config=config) for video_data in videos_data]
+
+
+def load_playlist(video_channel, playlist_data, *, config=PlaylistLoaderConfig()):
+    """
+    Load a playlist
+
+    Args:
+        video_channel (VideoChannel): the video channel instance this playlist is under
+        playlist_data (dict): the video playlist
+
+    Returns:
+        Playlist:
+            the created or updated playlist
+    """
+
+    playlist_id = playlist_data.pop("playlist_id")
+    videos_data = playlist_data.pop("videos", [])
+
+    with transaction.atomic():
+        playlist, _ = Playlist.objects.update_or_create(
+            playlist_id=playlist_id,
+            defaults={"channel": video_channel, **playlist_data},
+        )
+
+    video_resources = load_videos(videos_data, config=config.videos)
+
+    # atomically remove existing videos in the playlist and add the current ones in bulk
+    with transaction.atomic():
+        for position, resource in enumerate(video_resources):
+            PlaylistVideo.objects.update_or_create(
+                playlist=playlist, video=resource.video, defaults={"position": position}
+            )
+        PlaylistVideo.objects.filter(playlist=playlist).exclude(
+            video_id__in=[resource.video.id for resource in video_resources]
+        ).delete()
+    return playlist
+
+
+def load_playlists(video_channel, playlists_data):
+    """
+    Load a list of channel playlists
+
+    Args:
+        video_channel (VideoChannel): the video channel instance this playlist is under
+        playlists_data (iter of dict): iterable of the video playlists
+
+
+    Returns:
+        list of Playlist:
+            the created or updated playlists
+    """
+    playlists = [
+        load_playlist(video_channel, playlist_data) for playlist_data in playlists_data
+    ]
+    playlist_ids = [playlist.id for playlist in playlists]
+
+    # remove playlists that no longer exist
+    playlists_to_unpublish = Playlist.objects.filter(channel=video_channel).exclude(
+        id__in=playlist_ids
+    )
+
+    playlists_to_unpublish.update(published=False)
+
+    return playlists
+
+
+def load_video_channel(video_channel_data):
+    """
+    Load a single video channel
+
+    Arg:
+        video_channel_data (dict):
+            the normalized video channel data
+    Returns:
+        VideoChannel:
+            the updated or created video channel
+    """
+    channel_id = video_channel_data.pop("channel_id")
+    playlists_data = video_channel_data.pop("playlists", [])
+
+    with transaction.atomic():
+        video_channel, _ = VideoChannel.objects.select_for_update().update_or_create(
+            channel_id=channel_id, defaults=video_channel_data
+        )
+        load_playlists(video_channel, playlists_data)
+
+    return video_channel
+
+
+def load_video_channels(video_channels_data):
+    """
+    Load a list of video channels
+
+    Args:
+        video_channels_data (iter of dict): iterable of the video channels data
+
+    Returns:
+        list of VideoChannel:
+            list of the loaded videos
+    """
+    video_channels = []
+
+    # video_channels_data is a generator
+    for video_channel_data in video_channels_data:
+        channel_id = video_channel_data["channel_id"]
+        try:
+            video_channel = load_video_channel(video_channel_data)
+        except ExtractException:
+            # video_channel_data has lazily evaluated generators, one of them could raise an extraction error  # noqa: E501
+            # this is a small pollution of separation of concerns
+            # but this allows us to stream the extracted data w/ generators
+            # as opposed to having to load everything into memory, which will eventually fail  # noqa: E501
+            log.exception(
+                "Error with extracted video channel: channel_id=%s", channel_id
+            )
+        else:
+            video_channels.append(video_channel)
+
+    channel_ids = list(video_channels_data)
+    VideoChannel.objects.exclude(channel_id__in=channel_ids).update(published=False)
+
+    # finally, unpublish any published videos that aren't in at least one published playlist  # noqa: E501
+    for video in (
+        Video.objects.select_related("learning_resource")
+        .annotate(
+            in_published_playlist=Exists(
+                PlaylistVideo.objects.filter(
+                    video_id=OuterRef("pk"), playlist__published=True
+                )
+            )
+        )
+        .filter(learning_resource__published=True)
+        .exclude(in_published_playlist=True)
+    ):
+        resource = video.learning_resource
+        resource.published = False
+        resource.save()
+    return video_channels
