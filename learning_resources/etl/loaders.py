@@ -33,6 +33,7 @@ from learning_resources.models import (
     Program,
 )
 from learning_resources.utils import load_course_blocklist, load_course_duplicates
+from learning_resources_search import search_index_helpers
 
 log = logging.getLogger()
 
@@ -212,6 +213,8 @@ def load_course(  # noqa: C901
                 if duplicate_resource:
                     duplicate_resource.published = False
                     duplicate_resource.save()
+                    search_index_helpers.deindex_course(duplicate_resource)
+
         else:
             (
                 learning_resource,
@@ -249,8 +252,10 @@ def load_course(  # noqa: C901
         load_offered_bys(learning_resource, offered_bys_data, config=config.offered_by)
         load_image(learning_resource, image_data)
 
-    # if not created and not course.published:
-    #    for run_id in unpublished_runs:
+        if not created and not learning_resource.published:
+            search_index_helpers.deindex_course(learning_resource)
+        elif learning_resource.published:
+            search_index_helpers.upsert_course(learning_resource.id)
 
     return learning_resource
 
@@ -276,11 +281,12 @@ def load_courses(platform, courses_data, *, config=CourseLoaderConfig()):
     ]
 
     if courses and config.prune:
-        for course in LearningResource.objects.filter(
+        for learning_resource in LearningResource.objects.filter(
             platform__platform=platform, resource_type=LearningResourceType.course.value
-        ).exclude(id__in=[course.id for course in courses]):
-            course.published = False
-            course.save()
+        ).exclude(id__in=[learning_resource.id for learning_resource in courses]):
+            learning_resource.published = False
+            learning_resource.save()
+            search_index_helpers.deindex_course(learning_resource)
 
     return courses
 
@@ -365,7 +371,10 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
             },
         )
 
-    # if not created and not program.published:
+    if not created and not program.learning_resource.published:
+        search_index_helpers.deindex_program(program.learning_resource)
+    elif program.learning_resource.published:
+        search_index_helpers.upsert_program(program.learning_resource.id)
 
     return learning_resource
 

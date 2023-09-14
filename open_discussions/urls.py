@@ -39,7 +39,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("profiles.urls")),
     re_path(r"", include("mail.urls")),
     re_path(r"", include("embedly.urls")),
-    re_path(r"", include("search.urls")),
+    re_path(r"", include("learning_resources_search.urls")),
     re_path(r"", include("ckeditor.urls")),
     re_path(r"", include("widgets.urls")),
     re_path(r"", include("learning_resources.urls")),

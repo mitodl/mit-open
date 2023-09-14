@@ -1,19 +1,16 @@
-"""Management command to index content"""
+"""Management command to index reddit content"""
 from django.core.management.base import BaseCommand, CommandError
 
-from course_catalog.constants import PlatformType
+from learning_resources.constants import PlatformType
+from learning_resources_search.constants import VALID_OBJECT_TYPES
+from learning_resources_search.tasks import start_update_index
 from open_discussions.utils import now_in_utc
-from search.constants import COURSE_TYPE, RESOURCE_FILE_TYPE, VALID_OBJECT_TYPES
-from search.tasks import start_update_index
 
 valid_object_types = list(VALID_OBJECT_TYPES)
-valid_object_types.append(RESOURCE_FILE_TYPE)
 
 
 class Command(BaseCommand):
     """Indexes opensearch content"""
-
-    help = "Update opensearch index"  # noqa: A003
 
     def add_arguments(self, parser):
         allowed_course_platforms = [
@@ -46,15 +43,13 @@ class Command(BaseCommand):
 
         super().add_arguments(parser)
 
-    def handle(self, *args, **options):  # noqa: ARG002
-        """Index all learning resources"""
+    def handle(self, **options):
+        """Index the comments and posts for the channels the user is subscribed to"""
 
         if options["all"]:
             task = start_update_index.delay(valid_object_types, options["platform"])
             self.stdout.write(
-                "Started celery task {task} to update index content for all indexes".format(  # noqa: E501, UP032
-                    task=task
-                )
+                f"Started celery task {task} to update index content for all indexes"
             )
             if options["platform"]:
                 self.stdout.write(
@@ -73,13 +68,11 @@ class Command(BaseCommand):
                 for object_type in sorted(valid_object_types):
                     self.stdout.write(f"  --{object_type}s")
                 return
-            if (
-                COURSE_TYPE in indexes_to_update
-                and RESOURCE_FILE_TYPE not in indexes_to_update
-            ):
-                self.stderr.write(
-                    "WARNING: Courses will be updated but not course content files"
-                )
+            # if (
+            #     COURSE_TYPE in indexes_to_update
+            #    and RESOURCE_FILE_TYPE not in indexes_to_update
+            # ):
+            #    self.stderr.write(
             task = start_update_index.delay(indexes_to_update, options["platform"])
             self.stdout.write(
                 "Started celery task {task} to update index content for the following indexes: {indexes}".format(  # noqa: E501
