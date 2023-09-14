@@ -349,7 +349,9 @@ def test_load_video(mocker, mock_upsert_tasks, video_exists, is_published, pass_
         "learning_resources.etl.loaders.extract_topics",
         return_value=[{"name": topic.name} for topic in extracted_topics],
     )
-    expected_topics = passed_topics if pass_topics else extracted_topics
+    expected_topics = sorted(
+        passed_topics if pass_topics else extracted_topics, key=lambda topic: topic.id
+    )
     if video_exists:
         video_resource.topics.set(topics)
 
@@ -379,7 +381,7 @@ def test_load_video(mocker, mock_upsert_tasks, video_exists, is_published, pass_
     # assert we got a video resource back
     assert isinstance(result, LearningResource)
     assert result.published == is_published
-    assert list(result.topics.all()) == expected_topics
+    assert list(result.topics.all().order_by("id")) == expected_topics
 
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"

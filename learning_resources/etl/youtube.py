@@ -261,9 +261,11 @@ def get_captions_for_video(video_resource: LearningResource):
 
     """  # noqa: D401
     pytube_client = pytube.YouTube(video_resource.url)
-    all_captions = pytube_client.captions.all()
+    all_captions = pytube_client.captions
 
-    english_captions = [caption for caption in all_captions if caption.code == "en"]
+    english_captions = [
+        caption for caption in all_captions if caption.code.lower().startswith("en")
+    ]
     # sort auto-generated captions to the bottom of the list
     sorted_captions = sorted(
         english_captions, key=lambda caption: "auto-generated" in caption.name
