@@ -43,6 +43,7 @@ const LearningPathDetailsPage: React.FC = () => {
       src="/static/images/course_search_banner.png"
       alt=""
       compactOnMobile
+      className="learningpaths-page"
     >
       <MetaTags>
         <title>{pathQuery.data?.title}</title>

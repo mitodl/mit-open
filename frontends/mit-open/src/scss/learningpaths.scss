@@ -10,37 +10,41 @@
     font-style: italic;
   }
 
-  .manage-list-form {
-    .radio-option {
-      .MuiFormControlLabel-label {
-        border: 1pt solid theme.$input-border-grey;
-        border-radius: theme.$border-radius;
-        width: 200px;
-        padding: 0.5rem;
-        margin: 0.5rem;
-        align-self: stretch;
-      }
+  .sorting-disabled {
+    opacity: 0.5;
+  }
+}
 
-      .option-header {
-        font-weight: bold;
-        font-size: theme.$font-normal;
-        display: block;
-      }
+.manage-list-form {
+  .radio-option {
+    .MuiFormControlLabel-label {
+      border: 1pt solid theme.$input-border-grey;
+      border-radius: theme.$border-radius;
+      width: 200px;
+      padding: 0.5rem;
+      margin: 0.5rem;
+      align-self: stretch;
+    }
 
-      .option-detail {
-        font-size: theme.$font-sm;
-      }
+    .option-header {
+      font-weight: bold;
+      font-size: theme.$font-normal;
+      display: block;
+    }
+
+    .option-detail {
+      font-size: theme.$font-sm;
     }
   }
+}
 
-  .add-to-list-dialog {
-    .MuiDialog-paper {
-      width: 325px;
-    }
+.add-to-list-dialog {
+  .MuiDialog-paper {
+    width: 325px;
+  }
 
-    .resource-title-inline {
-      font-style: italic;
-    }
+  .resource-title-inline {
+    font-style: italic;
   }
 
   .add-to-list-description {
@@ -62,9 +66,5 @@
       padding-top: 0;
       padding-bottom: 0;
     }
-  }
-
-  .sorting-disabled {
-    opacity: 0.5;
   }
 }
