@@ -99,6 +99,7 @@ const UpsertListDialog = NiceModal.create(
       <FormDialog
         {...NiceModal.muiDialogV5(modal)}
         title={title}
+        fullWidth
         formClassName="manage-list-form"
         onReset={formik.resetForm}
         onSubmit={formik.handleSubmit}
