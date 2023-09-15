@@ -3,6 +3,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 ci:
   skip:
+    - prettier-django
     # Because these are local hooks it seems like they won't easily run in pre-commit CI
     - eslint
     - scss-lint
@@ -80,7 +81,7 @@ repos:
       - id: eslint
         name: eslint
         description: "Lint JS/TS files and apply automatic fixes"
-        entry: bash -c "npx eslint --fix $@"
+        entry: npx eslint --fix
         language: node
         types_or: [javascript, jsx, ts, tsx]
         args: []
@@ -89,7 +90,7 @@ repos:
       - id: scss-lint
         name: scss-lint
         description: "Lint SCSS files"
-        entry: bash -c "npx stylelint --allow-empty-input --fix $@"
+        entry: npx stylelint --allow-empty-input --fix
         language: node
         types: [scss]
         args: []
