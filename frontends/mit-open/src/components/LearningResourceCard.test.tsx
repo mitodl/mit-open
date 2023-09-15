@@ -89,7 +89,7 @@ describe("LearningResourceCard (new interface)", () => {
       expectButton: true,
     },
   ])(
-    "Shows LearningPaths button if and only if user has editing priveleges",
+    "Shows LearningPaths button if and only if user has editing privileges",
     async ({ userSettings, expectButton }) => {
       setup({ userSettings })
       const button = screen.queryByRole("button", {
