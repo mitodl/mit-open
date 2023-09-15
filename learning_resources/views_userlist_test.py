@@ -3,6 +3,7 @@ import pytest
 from django.urls import reverse
 
 from learning_resources import factories
+from learning_resources.constants import PrivacyLevel
 from learning_resources.models import UserList
 from open_discussions.factories import UserFactory
 
@@ -10,32 +11,55 @@ from open_discussions.factories import UserFactory
 
 
 @pytest.mark.parametrize("is_author", [True, False])
-def test_user_list_endpoint_get(client, is_author, user):
+@pytest.mark.parametrize("has_image", [True, False])
+@pytest.mark.parametrize("is_unlisted", [True, False])
+def test_user_list_endpoint_get(client, user, is_author, has_image, is_unlisted):
     """Test learning path endpoint"""
     author = UserFactory.create()
     user_list = factories.UserListFactory.create(author=author)
 
-    another_user_list = factories.UserListFactory.create(author=UserFactory.create())
+    another_user_list = factories.UserListFactory.create(
+        author=UserFactory.create(),
+        privacy_level=PrivacyLevel.unlisted.value
+        if is_unlisted
+        else PrivacyLevel.private.value,
+    )
 
-    factories.UserListRelationshipFactory.create(parent=user_list, position=1)
+    first_item = factories.UserListRelationshipFactory.create(
+        parent=user_list, position=1
+    )
     factories.UserListRelationshipFactory.create(parent=user_list, position=2)
 
-    # Anonymous users should get no results
-    resp = client.get(reverse("lr_userlists_api-list"))
-    assert resp.status_code == 403
+    first_resource = first_item.child
+    if not has_image:
+        first_resource.image = None
+        first_resource.save()
+        image_url = None
+    else:
+        image_url = first_resource.image.url
 
-    # Logged in user should get own lists
+    # Anonymous users should get empty results
+    resp = client.get(reverse("lr_userlists_api-list"))
+    assert resp.data.get("count") == 0
+
+    # Logged in user should get own lists only
     client.force_login(author if is_author else user)
     resp = client.get(reverse("lr_userlists_api-list"))
     assert resp.data.get("count") == (1 if is_author else 0)
 
+    # Only author should get details of own private list
     resp = client.get(reverse("lr_userlists_api-detail", args=[user_list.id]))
     assert resp.status_code == (404 if not is_author else 200)
     if resp.status_code == 200:
         assert resp.data.get("title") == user_list.title
         assert resp.data.get("item_count") == 2
+        if has_image:
+            assert resp.data.get("image").get("url") == image_url
+        else:
+            assert resp.data.get("image") is None
+    # Author should get details of another user's list only if privacy is unlisted
     resp = client.get(reverse("lr_userlists_api-detail", args=[another_user_list.id]))
-    assert resp.status_code == 404
+    assert resp.status_code == 404 if not is_unlisted else 200
 
 
 @pytest.mark.parametrize("is_anonymous", [True, False])
@@ -220,16 +244,20 @@ def test_user_list_endpoint_delete(client, user, is_author):
     client.force_login(author if is_author else user)
 
     resp = client.delete(reverse("lr_userlists_api-detail", args=[userlist.id]))
-    assert resp.status_code == (204 if is_author else 404)
+    assert resp.status_code == (204 if is_author else 403)
     assert UserList.objects.filter(id=userlist.id).exists() is not is_author
 
 
 @pytest.mark.parametrize("is_author", [True, False])
-def test_get_resource_user_lists(client, user, is_author):
+@pytest.mark.parametrize("is_unlisted", [True, False])
+def test_get_resource_user_lists(client, user, is_author, is_unlisted):
     """Test course detail endpoint"""
     course = factories.CourseFactory.create()
     userlist = factories.UserListFactory.create(
-        author=user if is_author else UserFactory.create()
+        author=user if is_author else UserFactory.create(),
+        privacy_level=PrivacyLevel.unlisted.value
+        if is_unlisted
+        else PrivacyLevel.private.value,
     )
     path_items = sorted(
         factories.UserListRelationshipFactory.create_batch(

@@ -76,6 +76,15 @@ class PlatformType(Enum):
     ctl = "ctl"
 
 
+class PrivacyLevel(Enum):
+    """
+    Enum tracking privacy levels for user-created UserLists
+    """
+
+    private = "private"
+    unlisted = "unlisted"
+
+
 semester_mapping = {"1T": "spring", "2T": "summer", "3T": "fall"}
 
 
@@ -120,6 +129,7 @@ CONTENT_TYPE_PAGE = "page"
 CONTENT_TYPE_FILE = "file"
 CONTENT_TYPE_VIDEO = "video"
 CONTENT_TYPE_PDF = "pdf"
+
 
 CONTENT_TYPE_VERTICAL = "vertical"
 VALID_COURSE_CONTENT_TYPES = (

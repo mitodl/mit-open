@@ -358,6 +358,96 @@ export interface LearningPathResource {
   id: number
   /**
    *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof LearningPathResource
+   */
+  topics?: Array<LearningResourceTopic> | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResource
+   */
+  offered_by: Array<string> | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResource
+   */
+  resource_content_tags: Array<string> | null
+  /**
+   *
+   * @type {LearningResourceDepartment}
+   * @memberof LearningPathResource
+   */
+  department: LearningResourceDepartment | null
+  /**
+   * Returns the audience for the learning resource
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  audience: string | null
+  /**
+   * Returns the certification for the learning resource
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  certification: string | null
+  /**
+   * Returns the prices for the learning resource
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  prices: string | null
+  /**
+   *
+   * @type {Course}
+   * @memberof LearningPathResource
+   */
+  course: Course | null
+  /**
+   *
+   * @type {LearningPath}
+   * @memberof LearningPathResource
+   */
+  learning_path: LearningPath | null
+  /**
+   *
+   * @type {Array<LearningResourceRun>}
+   * @memberof LearningPathResource
+   */
+  runs: Array<LearningResourceRun> | null
+  /**
+   * Return the resource.image if it exists. Otherwise, for learning paths only, return the image of the first child resource.
+   * @type {{ [key: string]: any; }}
+   * @memberof LearningPathResource
+   */
+  image: { [key: string]: any }
+  /**
+   *
+   * @type {Array<MicroLearningPathRelationship>}
+   * @memberof LearningPathResource
+   */
+  learning_path_parents: Array<MicroLearningPathRelationship> | null
+  /**
+   *
+   * @type {Array<MicroUserListRelationship>}
+   * @memberof LearningPathResource
+   */
+  user_list_parents: Array<MicroUserListRelationship> | null
+  /**
+   *
+   * @type {Program}
+   * @memberof LearningPathResource
+   */
+  program: Program | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  readable_id: string
+  /**
+   *
    * @type {string}
    * @memberof LearningPathResource
    */
@@ -373,13 +463,31 @@ export interface LearningPathResource {
    * @type {string}
    * @memberof LearningPathResource
    */
-  readable_id: string
+  full_description?: string | null
   /**
    *
-   * @type {Array<LearningResourceTopic>}
+   * @type {string}
    * @memberof LearningPathResource
    */
-  topics?: Array<LearningResourceTopic> | null
+  last_modified?: string | null
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningPathResource
+   */
+  published?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResource
+   */
+  languages?: Array<string> | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  url?: string | null
   /**
    *
    * @type {ResourceTypeEnum}
@@ -388,16 +496,16 @@ export interface LearningPathResource {
   resource_type: ResourceTypeEnum
   /**
    *
-   * @type {LearningPath}
+   * @type {string}
    * @memberof LearningPathResource
    */
-  learning_path: LearningPath | null
+  platform: string | null
   /**
    *
-   * @type {boolean}
+   * @type {Array<number>}
    * @memberof LearningPathResource
    */
-  published?: boolean
+  resources: Array<number>
 }
 
 /**
@@ -408,6 +516,18 @@ export interface LearningPathResource {
 export interface LearningPathResourceRequest {
   /**
    *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof LearningPathResourceRequest
+   */
+  topics?: Array<LearningResourceTopic> | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResourceRequest
+   */
+  readable_id: string
+  /**
+   *
    * @type {string}
    * @memberof LearningPathResourceRequest
    */
@@ -423,25 +543,37 @@ export interface LearningPathResourceRequest {
    * @type {string}
    * @memberof LearningPathResourceRequest
    */
-  readable_id: string
+  full_description?: string | null
   /**
    *
-   * @type {Array<LearningResourceTopic>}
+   * @type {string}
    * @memberof LearningPathResourceRequest
    */
-  topics?: Array<LearningResourceTopic> | null
-  /**
-   *
-   * @type {ResourceTypeEnum}
-   * @memberof LearningPathResourceRequest
-   */
-  resource_type: ResourceTypeEnum
+  last_modified?: string | null
   /**
    *
    * @type {boolean}
    * @memberof LearningPathResourceRequest
    */
   published?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResourceRequest
+   */
+  languages?: Array<string> | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResourceRequest
+   */
+  url?: string | null
+  /**
+   *
+   * @type {ResourceTypeEnum}
+   * @memberof LearningPathResourceRequest
+   */
+  resource_type: ResourceTypeEnum
 }
 
 /**
@@ -474,12 +606,6 @@ export interface LearningResource {
    * @memberof LearningResource
    */
   resource_content_tags: Array<string> | null
-  /**
-   *
-   * @type {LearningResourceImage}
-   * @memberof LearningResource
-   */
-  image: LearningResourceImage | null
   /**
    *
    * @type {LearningResourceDepartment}
@@ -522,6 +648,12 @@ export interface LearningResource {
    * @memberof LearningResource
    */
   runs: Array<LearningResourceRun> | null
+  /**
+   * Return the resource.image if it exists. Otherwise, for learning paths only, return the image of the first child resource.
+   * @type {{ [key: string]: any; }}
+   * @memberof LearningResource
+   */
+  image: { [key: string]: any }
   /**
    *
    * @type {Array<MicroLearningPathRelationship>}
@@ -634,12 +766,6 @@ export interface LearningResourceBase {
   resource_content_tags: Array<string> | null
   /**
    *
-   * @type {LearningResourceImage}
-   * @memberof LearningResourceBase
-   */
-  image: LearningResourceImage | null
-  /**
-   *
    * @type {LearningResourceDepartment}
    * @memberof LearningResourceBase
    */
@@ -680,6 +806,12 @@ export interface LearningResourceBase {
    * @memberof LearningResourceBase
    */
   runs: Array<LearningResourceRun> | null
+  /**
+   * Return the resource.image if it exists. Otherwise, for learning paths only, return the image of the first child resource.
+   * @type {{ [key: string]: any; }}
+   * @memberof LearningResourceBase
+   */
+  image: { [key: string]: any }
   /**
    *
    * @type {Array<MicroLearningPathRelationship>}
@@ -1557,6 +1689,18 @@ export interface PatchedLearningPathRelationshipRequest {
 export interface PatchedLearningPathResourceRequest {
   /**
    *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  topics?: Array<LearningResourceTopic> | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  readable_id?: string
+  /**
+   *
    * @type {string}
    * @memberof PatchedLearningPathResourceRequest
    */
@@ -1572,25 +1716,37 @@ export interface PatchedLearningPathResourceRequest {
    * @type {string}
    * @memberof PatchedLearningPathResourceRequest
    */
-  readable_id?: string
+  full_description?: string | null
   /**
    *
-   * @type {Array<LearningResourceTopic>}
+   * @type {string}
    * @memberof PatchedLearningPathResourceRequest
    */
-  topics?: Array<LearningResourceTopic> | null
-  /**
-   *
-   * @type {ResourceTypeEnum}
-   * @memberof PatchedLearningPathResourceRequest
-   */
-  resource_type?: ResourceTypeEnum
+  last_modified?: string | null
   /**
    *
    * @type {boolean}
    * @memberof PatchedLearningPathResourceRequest
    */
   published?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  languages?: Array<string> | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  url?: string | null
+  /**
+   *
+   * @type {ResourceTypeEnum}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  resource_type?: ResourceTypeEnum
 }
 
 /**
@@ -1695,6 +1851,12 @@ export interface UserList {
    * @memberof UserList
    */
   item_count: number
+  /**
+   * Return the image of the first item
+   * @type {{ [key: string]: any; }}
+   * @memberof UserList
+   */
+  image: { [key: string]: any }
   /**
    *
    * @type {string}

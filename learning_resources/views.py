@@ -9,12 +9,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from learning_resources import permissions
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import LearningResourceType, PrivacyLevel
 from learning_resources.models import (
     ContentFile,
     LearningResource,
@@ -370,10 +372,29 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         """Return a queryset for this user"""
         return (
-            UserList.objects.filter(author_id=self.request.user.id)
+            UserList.objects.all()
             .prefetch_related("author", "topics")
             .annotate(item_count=Count("children"))
         )
+
+    def list(self, request, **kwargs):  # noqa: A003,ARG002
+        queryset = self.get_queryset().filter(author_id=self.request.user.id)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None, **kwargs):  # noqa: ARG002
+        queryset = self.get_queryset().filter(
+            Q(author_id=self.request.user.id)
+            | Q(privacy_level=PrivacyLevel.unlisted.value)
+        )
+        userlist = get_object_or_404(queryset, pk=pk)
+        serializer = self.get_serializer(userlist)
+        return Response(serializer.data)
 
     def perform_destroy(self, instance):
         instance.delete()

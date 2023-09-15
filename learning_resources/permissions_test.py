@@ -5,6 +5,7 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.http import Http404
 
+from learning_resources.constants import PrivacyLevel
 from learning_resources.factories import (
     LearningPathFactory,
     UserListFactory,
@@ -137,27 +138,24 @@ def test_userlist_permissions(mocker, user, is_safe, is_anonymous):
         method="GET" if is_safe else "POST",
         user=(AnonymousUser() if is_anonymous else user),
     )
-    assert (
-        HasUserListPermissions().has_permission(request, mocker.MagicMock())
-        is not is_anonymous
+    assert HasUserListPermissions().has_permission(request, mocker.MagicMock()) is (
+        not is_anonymous or is_safe
     )
 
 
 @pytest.mark.parametrize("is_author", [True, False])
-def test_userlist_object_permissions(mocker, user, is_author):
+@pytest.mark.parametrize("privacy_level", [level.value for level in PrivacyLevel])
+def test_userlist_object_permissions(mocker, user, is_author, privacy_level):
     """
     HasUserListPermissions.has_object_permission should return correct permission depending on author.
     """
-    userlist = UserListFactory.create(author=user)
+    userlist = UserListFactory.create(author=user, privacy_level=privacy_level)
 
     requester = user if is_author else UserFactory.create()
     request = mocker.MagicMock(method="GET", user=requester)
-    assert (
-        HasUserListPermissions().has_object_permission(
-            request, mocker.MagicMock(), userlist
-        )
-        is is_author
-    )
+    assert HasUserListPermissions().has_object_permission(
+        request, mocker.MagicMock(), userlist
+    ) is (is_author or privacy_level == PrivacyLevel.unlisted.value)
 
 
 def test_userlistitems_permissions_404(mocker, user):
@@ -173,35 +171,40 @@ def test_userlistitems_permissions_404(mocker, user):
 
 @pytest.mark.parametrize("is_author", [True, False])
 @pytest.mark.parametrize("is_safe", [True, False])
-def test_userlistitems_permissions(mocker, user, is_safe, is_author):
+@pytest.mark.parametrize("privacy_level", [level.value for level in PrivacyLevel])
+def test_userlistitems_permissions(mocker, user, is_safe, is_author, privacy_level):
     """
     HasUserListItemPermissions.has_permission should return correct permission depending
     on privacy level, author, and request method.
     """
     userlist = UserListFactory.create(
-        author=user if is_author else UserFactory.create()
+        author=user if is_author else UserFactory.create(), privacy_level=privacy_level
     )
     request = mocker.MagicMock(method="GET" if is_safe else "POST", user=user)
 
     view = mocker.MagicMock(kwargs={"parent_id": userlist.id})
-    assert HasUserListItemPermissions().has_permission(request, view) is is_author
+    assert HasUserListItemPermissions().has_permission(request, view) is (
+        is_author or (is_safe and privacy_level == PrivacyLevel.unlisted.value)
+    )
 
 
 @pytest.mark.parametrize("is_safe", [True, False])
 @pytest.mark.parametrize("is_author", [True, False])
-def test_userlistitems_object_permissions(mocker, user, is_author, is_safe):
+@pytest.mark.parametrize("privacy_level", [level.value for level in PrivacyLevel])
+def test_userlistitems_object_permissions(
+    mocker, user, is_author, is_safe, privacy_level
+):
     """
     HasUserListItemPermissions.has_object_permission should return correct permission depending
     on privacy level, author, and request method.
     """
     userlist = UserListFactory.create(
-        author=user if is_author else UserFactory.create()
+        author=user if is_author else UserFactory.create(), privacy_level=privacy_level
     )
     userlist_item = UserListRelationshipFactory.create(parent=userlist)
 
     request = mocker.MagicMock(method="GET" if is_safe else "POST", user=user)
     view = mocker.MagicMock(kwargs={"parent_id": userlist.id})
-    assert (
-        HasUserListItemPermissions().has_object_permission(request, view, userlist_item)
-        is is_author
-    )
+    assert HasUserListItemPermissions().has_object_permission(
+        request, view, userlist_item
+    ) is (is_author or (is_safe and privacy_level == PrivacyLevel.unlisted.value))

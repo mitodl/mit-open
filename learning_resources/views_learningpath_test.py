@@ -15,7 +15,8 @@ from open_discussions.factories import UserFactory
 
 @pytest.mark.parametrize("is_public", [True, False])
 @pytest.mark.parametrize("is_editor", [True, False])
-def test_learning_path_endpoint_get(client, is_public, is_editor, user):
+@pytest.mark.parametrize("has_image", [True, False])
+def test_learning_path_endpoint_get(client, user, is_public, is_editor, has_image):
     """Test learning path endpoint"""
     update_editor_group(user, is_editor)
 
@@ -45,6 +46,14 @@ def test_learning_path_endpoint_get(client, is_public, is_editor, user):
     resp = client.get(reverse("lr_learningpaths_api-list"))
     assert resp.data["count"] == (2 if is_public or is_editor else 0)
 
+    if has_image:
+        image_url = learning_path.learning_resource.image.url
+    else:
+        learning_path.learning_resource.image.delete()
+        first_resource_child = (
+            learning_path.learning_resource.children.order_by("position").first().child
+        )
+        image_url = first_resource_child.image.url
     resp = client.get(
         reverse(
             "lr_learningpaths_api-detail", args=[learning_path.learning_resource.id]
@@ -57,6 +66,7 @@ def test_learning_path_endpoint_get(client, is_public, is_editor, user):
             resp.data["learning_path"]["item_count"]
             == learning_path.learning_resource.children.count()
         )
+        assert resp.data["image"]["url"] == image_url
 
     # Logged in user should see other person's public list
     resp = client.get(

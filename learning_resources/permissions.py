@@ -5,7 +5,7 @@ from django.http import HttpRequest
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import SAFE_METHODS, BasePermission
 
-from learning_resources.constants import GROUP_STAFF_LISTS_EDITORS
+from learning_resources.constants import GROUP_STAFF_LISTS_EDITORS, PrivacyLevel
 from learning_resources.models import LearningPath, UserList
 from open_discussions.permissions import is_admin_user, is_readonly
 from open_discussions.settings import DRF_NESTED_PARENT_LOOKUP_PREFIX
@@ -73,9 +73,16 @@ class HasUserListPermissions(BasePermission):
     """Permission to view/modify UserLists"""
 
     def has_permission(self, request, view):  # noqa: ARG002
+        if request.method in SAFE_METHODS:
+            return True
         return not request.user.is_anonymous
 
     def has_object_permission(self, request, view, obj):  # noqa: ARG002
+        if request.method in SAFE_METHODS:
+            return (
+                request.user == obj.author
+                or obj.privacy_level == PrivacyLevel.unlisted.value
+            )
         return request.user == obj.author
 
 
@@ -87,7 +94,17 @@ class HasUserListItemPermissions(BasePermission):
             UserList,
             id=view.kwargs.get(f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}parent_id", None),
         )
+        if request.method in SAFE_METHODS:
+            return (
+                request.user == user_list.author
+                or user_list.privacy_level == PrivacyLevel.unlisted.value
+            )
         return request.user == user_list.author
 
     def has_object_permission(self, request, view, obj):  # noqa: ARG002
+        if request.method in SAFE_METHODS:
+            return (
+                request.user == obj.parent.author
+                or obj.parent.privacy_level == PrivacyLevel.unlisted.value
+            )
         return request.user == obj.parent.author

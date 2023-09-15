@@ -42,7 +42,7 @@ class WriteableTopicsMixin(serializers.Serializer):
     topics = WriteableSerializerMethodField()
 
     def validate_topics(self, topics):
-        """Validator for topics"""  # noqa: D401
+        """Validate specified topics exist."""
         if len(topics) > 0:
             if isinstance(topics[0], dict):
                 topics = [topic["id"] for topic in topics]
@@ -61,7 +61,7 @@ class WriteableTopicsMixin(serializers.Serializer):
                 raise ValidationError(msg)
         return {"topics": topics}
 
-    @extend_schema_field(LearningResourceTopicSerializer(many=True, allow_null=True))
+    @extend_schema_field(LearningResourceTopicSerializer(many=True))
     def get_topics(self, instance):
         """Returns the list of topics"""  # noqa: D401
         return [
@@ -75,7 +75,7 @@ class LearningResourceOfferorField(serializers.Field):
     """Serializer for LearningResourceOfferor"""
 
     def to_representation(self, value):
-        """Serializes offered_by as a list of OfferedBy names"""  # noqa: D401
+        """Serialize offered_by as a list of OfferedBy names"""
         return [offeror.name for offeror in value.all()]
 
 
@@ -175,12 +175,15 @@ class MicroLearningPathRelationshipSerializer(serializers.ModelSerializer):
 
 class MicroUserListRelationshipSerializer(serializers.ModelSerializer):
     """
-    Serializer containing only  parent and child ids for a user list relationship
+    Serializer containing only parent and child ids for a user list relationship
     """
+
+    parent = serializers.ReadOnlyField(source="parent_id")
+    child = serializers.ReadOnlyField(source="child_id")
 
     class Meta:
         model = models.UserListRelationship
-        fields = ("id", "parent_id", "child_id")
+        fields = ("id", "parent", "child")
 
 
 class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
@@ -190,7 +193,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     resource_content_tags = LearningResourceContentTagField(
         read_only=True, allow_null=True
     )
-    image = LearningResourceImageSerializer(read_only=True, allow_null=True)
     department = LearningResourceDepartmentSerializer(read_only=True, allow_null=True)
     audience = serializers.ReadOnlyField()
     certification = serializers.ReadOnlyField()
@@ -198,8 +200,27 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     course = CourseSerializer(read_only=True, allow_null=True)
     learning_path = LearningPathSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
+    image = serializers.SerializerMethodField()
     learning_path_parents = serializers.SerializerMethodField()
     user_list_parents = serializers.SerializerMethodField()
+
+    def get_image(self, instance) -> dict:
+        """
+        Return the resource.image if it exists. Otherwise, for learning paths only,
+        return the image of the first child resource.
+        """
+        if instance.image:
+            return LearningResourceImageSerializer(instance=instance.image).data
+        elif (
+            instance.resource_type == constants.LearningResourceType.learning_path.value
+        ):
+            list_item = instance.children.order_by("position").first()
+            if list_item and list_item.child.image:
+                return LearningResourceImageSerializer(
+                    instance=list_item.child.image
+                ).data
+            return None
+        return None
 
     @extend_schema_field(
         MicroLearningPathRelationshipSerializer(many=True, allow_null=True)
@@ -232,7 +253,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         MicroUserListRelationshipSerializer(many=True, allow_null=True)
     )
     def get_user_list_parents(self, instance):
-        """Returns a list of user lists that the resource is in, for specific user"""  # noqa: D401, E501
+        """Return a list of user lists that the resource is in, for specific user"""
         request = self.context.get("request")
         user = request.user if request else None
         if user and user.is_authenticated:
@@ -324,16 +345,8 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
 
     class Meta:
         model = models.LearningResource
-        fields = (
-            "id",
-            "title",
-            "description",
-            "readable_id",
-            "topics",
-            "resource_type",
-            "learning_path",
-            "published",
-        )
+        exclude = COMMON_IGNORED_FIELDS
+        read_only_fields = ["platform", "offered_by"]
 
 
 class LearningResourceChildSerializer(serializers.ModelSerializer):
@@ -476,6 +489,14 @@ class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
     """
 
     item_count = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, instance) -> dict:
+        """Return the image of the first item"""
+        list_item = instance.children.order_by("position").first()
+        if list_item and list_item.child.image:
+            return LearningResourceImageSerializer(instance=list_item.child.image).data
+        return None
 
     def get_item_count(self, instance) -> int:
         """Return the number of items in the list"""

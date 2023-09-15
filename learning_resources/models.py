@@ -8,6 +8,7 @@ from learning_resources import constants
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
+    PrivacyLevel,
 )
 from open_discussions.models import TimestampedModel
 
@@ -369,10 +370,15 @@ class UserList(TimestampedModel):
         User, on_delete=models.deletion.CASCADE, related_name="user_lists"
     )
     title = models.CharField(max_length=256)
-    description = models.TextField(null=True, blank=True)  # noqa: DJ001
+    description = models.TextField(default="", blank=True)
     topics = models.ManyToManyField(LearningResourceTopic)
     resources = models.ManyToManyField(
         LearningResource, through="UserListRelationship", symmetrical=False, blank=True
+    )
+    privacy_level = models.CharField(
+        max_length=24,
+        default=PrivacyLevel.private.value,
+        choices=tuple((level.value, level.value) for level in PrivacyLevel),
     )
 
 
