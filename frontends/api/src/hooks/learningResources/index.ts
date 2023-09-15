@@ -15,7 +15,7 @@ import type {
   LearningpathsApiLearningpathsDestroyRequest as LPDestroyRequest,
   LearningPathResource,
   LearningPathRelationshipRequest,
-  MicroRelationship,
+  MicroLearningPathRelationship,
   LearningResource,
 } from "../../generated"
 import learningResources, { invalidateResourceQueries } from "./keyFactory"
@@ -169,7 +169,7 @@ const useLearningpathRelationshipCreate = () => {
 const useLearningpathRelationshipDestroy = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (params: MicroRelationship) =>
+    mutationFn: (params: MicroLearningPathRelationship) =>
       learningpathsApi.learningpathsResourcesDestroy({
         id: params.id,
         parent_id: params.parent,

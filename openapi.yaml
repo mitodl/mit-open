@@ -1289,6 +1289,353 @@ paths:
               schema:
                 $ref: '#/components/schemas/LearningResourceTopic'
           description: ''
+  /api/v1/userlists/:
+    get:
+      operationId: userlists_list
+      description: Viewset for UserLists
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - userlists
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserListList'
+          description: ''
+    post:
+      operationId: userlists_create
+      description: Viewset for UserLists
+      tags:
+      - userlists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserListRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+          description: ''
+  /api/v1/userlists/{parent_id}/resources/:
+    get:
+      operationId: userlists_resources_list
+      description: Viewset for UserListRelationships
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - userlists
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserListRelationshipList'
+          description: ''
+    post:
+      operationId: userlists_resources_create
+      description: Viewset for UserListRelationships
+      parameters:
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - userlists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserListRelationshipRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserListRelationshipRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserListRelationshipRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListRelationship'
+          description: ''
+  /api/v1/userlists/{parent_id}/resources/{id}/:
+    get:
+      operationId: userlists_resources_retrieve
+      description: Viewset for UserListRelationships
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - userlists
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListRelationship'
+          description: ''
+    put:
+      operationId: userlists_resources_update
+      description: Viewset for UserListRelationships
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - userlists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserListRelationshipRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserListRelationshipRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserListRelationshipRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListRelationship'
+          description: ''
+    patch:
+      operationId: userlists_resources_partial_update
+      description: Viewset for UserListRelationships
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - userlists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListRelationship'
+          description: ''
+    delete:
+      operationId: userlists_resources_destroy
+      description: Viewset for UserListRelationships
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list relationship.
+        required: true
+      - in: path
+        name: parent_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - userlists
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/userlists/{id}/:
+    get:
+      operationId: userlists_retrieve
+      description: Viewset for UserLists
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list.
+        required: true
+      tags:
+      - userlists
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+          description: ''
+    put:
+      operationId: userlists_update
+      description: Viewset for UserLists
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list.
+        required: true
+      tags:
+      - userlists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserListRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+          description: ''
+    patch:
+      operationId: userlists_partial_update
+      description: Viewset for UserLists
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list.
+        required: true
+      tags:
+      - userlists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRequest'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+          description: ''
+    delete:
+      operationId: userlists_destroy
+      description: Viewset for UserLists
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list.
+        required: true
+      tags:
+      - userlists
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
 components:
   schemas:
     ContentFile:
@@ -1493,70 +1840,10 @@ components:
         id:
           type: integer
           readOnly: true
-        title:
-          type: string
-          maxLength: 256
-        description:
-          type: string
-          nullable: true
-        readable_id:
-          type: string
-          maxLength: 128
         topics:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
-        resource_type:
-          $ref: '#/components/schemas/ResourceTypeEnum'
-        learning_path:
-          allOf:
-          - $ref: '#/components/schemas/LearningPath'
-          readOnly: true
-          nullable: true
-        published:
-          type: boolean
-      required:
-      - id
-      - learning_path
-      - readable_id
-      - resource_type
-      - title
-    LearningPathResourceRequest:
-      type: object
-      description: CRUD serializer for LearningPath resources
-      properties:
-        title:
-          type: string
-          minLength: 1
-          maxLength: 256
-        description:
-          type: string
-          nullable: true
-        readable_id:
-          type: string
-          minLength: 1
-          maxLength: 128
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
-        resource_type:
-          $ref: '#/components/schemas/ResourceTypeEnum'
-        published:
-          type: boolean
-      required:
-      - readable_id
-      - resource_type
-      - title
-    LearningResource:
-      type: object
-      description: Serializer for LearningResource, with program included
-      properties:
-        id:
-          type: integer
-          readOnly: true
         offered_by:
           type: array
           items:
@@ -1567,11 +1854,6 @@ components:
           type: array
           items:
             type: string
-          readOnly: true
-          nullable: true
-        image:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceImage'
           readOnly: true
           nullable: true
         department:
@@ -1594,11 +1876,6 @@ components:
           nullable: true
           description: Returns the prices for the learning resource
           readOnly: true
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         course:
           allOf:
           - $ref: '#/components/schemas/Course'
@@ -1615,10 +1892,209 @@ components:
             $ref: '#/components/schemas/LearningResourceRun'
           readOnly: true
           nullable: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          nullable: true
+          readOnly: true
         learning_path_parents:
           type: array
           items:
-            $ref: '#/components/schemas/MicroRelationship'
+            $ref: '#/components/schemas/MicroLearningPathRelationship'
+          nullable: true
+          readOnly: true
+        user_list_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroUserListRelationship'
+          nullable: true
+          readOnly: true
+        program:
+          allOf:
+          - $ref: '#/components/schemas/Program'
+          readOnly: true
+          nullable: true
+        readable_id:
+          type: string
+          maxLength: 128
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 2048
+        resource_type:
+          $ref: '#/components/schemas/ResourceTypeEnum'
+        platform:
+          type: string
+          readOnly: true
+          nullable: true
+        resources:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+      required:
+      - audience
+      - certification
+      - course
+      - department
+      - id
+      - image
+      - learning_path
+      - learning_path_parents
+      - offered_by
+      - platform
+      - prices
+      - program
+      - readable_id
+      - resource_content_tags
+      - resource_type
+      - resources
+      - runs
+      - title
+      - user_list_parents
+    LearningPathResourceRequest:
+      type: object
+      description: CRUD serializer for LearningPath resources
+      properties:
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        title:
+          type: string
+          minLength: 1
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 2048
+        resource_type:
+          $ref: '#/components/schemas/ResourceTypeEnum'
+      required:
+      - readable_id
+      - resource_type
+      - title
+    LearningResource:
+      type: object
+      description: Serializer for LearningResource, with program included
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        offered_by:
+          type: array
+          items:
+            type: string
+          readOnly: true
+          nullable: true
+        resource_content_tags:
+          type: array
+          items:
+            type: string
+          readOnly: true
+          nullable: true
+        department:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceDepartment'
+          readOnly: true
+          nullable: true
+        audience:
+          type: string
+          nullable: true
+          description: Returns the audience for the learning resource
+          readOnly: true
+        certification:
+          type: string
+          nullable: true
+          description: Returns the certification for the learning resource
+          readOnly: true
+        prices:
+          type: string
+          nullable: true
+          description: Returns the prices for the learning resource
+          readOnly: true
+        course:
+          allOf:
+          - $ref: '#/components/schemas/Course'
+          readOnly: true
+          nullable: true
+        learning_path:
+          allOf:
+          - $ref: '#/components/schemas/LearningPath'
+          readOnly: true
+          nullable: true
+        runs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceRun'
+          readOnly: true
+          nullable: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          nullable: true
+          readOnly: true
+        learning_path_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroLearningPathRelationship'
+          nullable: true
+          readOnly: true
+        user_list_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
         program:
@@ -1678,6 +2154,7 @@ components:
       - resource_type
       - runs
       - title
+      - user_list_parents
     LearningResourceBase:
       type: object
       description: Serializer for LearningResource, minus program
@@ -1685,6 +2162,10 @@ components:
         id:
           type: integer
           readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
         offered_by:
           type: array
           items:
@@ -1695,11 +2176,6 @@ components:
           type: array
           items:
             type: string
-          readOnly: true
-          nullable: true
-        image:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceImage'
           readOnly: true
           nullable: true
         department:
@@ -1722,11 +2198,6 @@ components:
           nullable: true
           description: Returns the prices for the learning resource
           readOnly: true
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         course:
           allOf:
           - $ref: '#/components/schemas/Course'
@@ -1743,10 +2214,21 @@ components:
             $ref: '#/components/schemas/LearningResourceRun'
           readOnly: true
           nullable: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          nullable: true
+          readOnly: true
         learning_path_parents:
           type: array
           items:
-            $ref: '#/components/schemas/MicroRelationship'
+            $ref: '#/components/schemas/MicroLearningPathRelationship'
+          nullable: true
+          readOnly: true
+        user_list_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
         readable_id:
@@ -1800,6 +2282,7 @@ components:
       - resource_type
       - runs
       - title
+      - user_list_parents
     LearningResourceDepartment:
       type: object
       description: Serializer for LearningResourceDepartment
@@ -1912,7 +2395,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         readable_id:
           type: string
           minLength: 1
@@ -2159,9 +2641,28 @@ components:
       required:
       - id
       - name
-    MicroRelationship:
+    MicroLearningPathRelationship:
       type: object
-      description: Serializer containing only the parent and child ids
+      description: Serializer containing only parent and child ids for a learning
+        path relationship
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          readOnly: true
+        child:
+          type: integer
+          readOnly: true
+      required:
+      - child
+      - id
+      - parent
+    MicroUserListRelationship:
+      type: object
+      description: Serializer containing only parent and child ids for a user list
+        relationship
       properties:
         id:
           type: integer
@@ -2276,6 +2777,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
+    PaginatedUserListList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserList'
+    PaginatedUserListRelationshipList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserListRelationship'
     PatchedLearningPathRelationshipRequest:
       type: object
       description: Specialized serializer for a LearningPath relationship
@@ -2292,6 +2833,14 @@ components:
       type: object
       description: CRUD serializer for LearningPath resources
       properties:
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          minLength: 1
+          maxLength: 128
         title:
           type: string
           minLength: 1
@@ -2299,19 +2848,66 @@ components:
         description:
           type: string
           nullable: true
-        readable_id:
+        full_description:
           type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
           minLength: 1
-          maxLength: 128
+          maxLength: 2048
+        resource_type:
+          $ref: '#/components/schemas/ResourceTypeEnum'
+    PatchedUserListRelationshipRequest:
+      type: object
+      description: Serializer for UserListRelationship model
+      properties:
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        parent:
+          type: integer
+        child:
+          type: integer
+    PatchedUserListRequest:
+      type: object
+      description: Simplified serializer for UserList model.
+      properties:
         topics:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
-        resource_type:
-          $ref: '#/components/schemas/ResourceTypeEnum'
-        published:
-          type: boolean
+        title:
+          type: string
+          minLength: 1
+          maxLength: 256
+        description:
+          type: string
+        privacy_level:
+          $ref: '#/components/schemas/PrivacyLevelEnum'
+    PrivacyLevelEnum:
+      enum:
+      - private
+      - unlisted
+      type: string
+      description: |-
+        * `private` - private
+        * `unlisted` - unlisted
     Program:
       type: object
       description: Serializer for the Program model
@@ -2334,6 +2930,99 @@ components:
         * `course` - course
         * `program` - program
         * `learning_path` - learning_path
+    UserList:
+      type: object
+      description: Simplified serializer for UserList model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        item_count:
+          type: integer
+          description: Return the number of items in the list
+          readOnly: true
+        image:
+          type: object
+          additionalProperties: {}
+          description: Return the image of the first item
+          readOnly: true
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+        privacy_level:
+          $ref: '#/components/schemas/PrivacyLevelEnum'
+        author:
+          type: integer
+          readOnly: true
+      required:
+      - author
+      - id
+      - image
+      - item_count
+      - title
+    UserListRelationship:
+      type: object
+      description: Serializer for UserListRelationship model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        resource:
+          allOf:
+          - $ref: '#/components/schemas/LearningResource'
+          readOnly: true
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        parent:
+          type: integer
+        child:
+          type: integer
+      required:
+      - child
+      - id
+      - parent
+      - resource
+    UserListRelationshipRequest:
+      type: object
+      description: Serializer for UserListRelationship model
+      properties:
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        parent:
+          type: integer
+        child:
+          type: integer
+      required:
+      - child
+      - parent
+    UserListRequest:
+      type: object
+      description: Simplified serializer for UserList model.
+      properties:
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 256
+        description:
+          type: string
+        privacy_level:
+          $ref: '#/components/schemas/PrivacyLevelEnum'
+      required:
+      - title
   securitySchemes:
     cookieAuth:
       type: apiKey

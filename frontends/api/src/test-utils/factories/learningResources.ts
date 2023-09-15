@@ -12,7 +12,7 @@ import type {
   LearningPathRelationship,
   LearningPath,
   LearningPathResource,
-  MicroRelationship,
+  MicroLearningPathRelationship,
 } from "api"
 import { ResourceTypeEnum } from "api"
 import invariant from "tiny-invariant"
@@ -122,9 +122,9 @@ const learningResource: Factory<LearningResource> = (
     runs: [],
     published: faker.datatype.boolean(),
     title: faker.lorem.words(),
-    topics:
-      maybe(() => repeat(learningResourceTopic, { min: 1, max: 3 })) ?? null,
+    topics: repeat(learningResourceTopic),
     learning_path_parents: [],
+    user_list_parents: [],
     ...typeSpecificOverrides(resourceType),
     ...overrides,
   }
@@ -174,11 +174,13 @@ const learningPath: Factory<LearningPathResource, Partial<LearningPath>> = (
   })
   invariant(resource.learning_path)
   resource.learning_path = { ...resource.learning_path, ...pathOverrides }
-  return resource
+  return { ...resource, resources: [] }
 }
 const learningPaths = makePaginatedFactory(learningPath)
 
-const microRelationship: Factory<MicroRelationship> = (overrides = {}) => {
+const microRelationship: Factory<MicroLearningPathRelationship> = (
+  overrides = {},
+) => {
   return {
     id: faker.unique(faker.datatype.number),
     child: faker.unique(faker.datatype.number),

@@ -74,7 +74,7 @@ const UpsertListDialog = NiceModal.create(
     >["onSubmit"] = useCallback(
       async (values) => {
         if (resource?.id) {
-          await updateList.mutateAsync({ id: resource.id, ...values })
+          await updateList.mutateAsync({ ...values, id: resource.id })
         } else {
           await createList.mutateAsync(values)
         }

@@ -358,6 +358,96 @@ export interface LearningPathResource {
   id: number
   /**
    *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof LearningPathResource
+   */
+  topics?: Array<LearningResourceTopic>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResource
+   */
+  offered_by: Array<string> | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResource
+   */
+  resource_content_tags: Array<string> | null
+  /**
+   *
+   * @type {LearningResourceDepartment}
+   * @memberof LearningPathResource
+   */
+  department: LearningResourceDepartment | null
+  /**
+   * Returns the audience for the learning resource
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  audience: string | null
+  /**
+   * Returns the certification for the learning resource
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  certification: string | null
+  /**
+   * Returns the prices for the learning resource
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  prices: string | null
+  /**
+   *
+   * @type {Course}
+   * @memberof LearningPathResource
+   */
+  course: Course | null
+  /**
+   *
+   * @type {LearningPath}
+   * @memberof LearningPathResource
+   */
+  learning_path: LearningPath | null
+  /**
+   *
+   * @type {Array<LearningResourceRun>}
+   * @memberof LearningPathResource
+   */
+  runs: Array<LearningResourceRun> | null
+  /**
+   *
+   * @type {LearningResourceImage}
+   * @memberof LearningPathResource
+   */
+  image: LearningResourceImage | null
+  /**
+   *
+   * @type {Array<MicroLearningPathRelationship>}
+   * @memberof LearningPathResource
+   */
+  learning_path_parents: Array<MicroLearningPathRelationship> | null
+  /**
+   *
+   * @type {Array<MicroUserListRelationship>}
+   * @memberof LearningPathResource
+   */
+  user_list_parents: Array<MicroUserListRelationship> | null
+  /**
+   *
+   * @type {Program}
+   * @memberof LearningPathResource
+   */
+  program: Program | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  readable_id: string
+  /**
+   *
    * @type {string}
    * @memberof LearningPathResource
    */
@@ -373,13 +463,31 @@ export interface LearningPathResource {
    * @type {string}
    * @memberof LearningPathResource
    */
-  readable_id: string
+  full_description?: string | null
   /**
    *
-   * @type {Array<LearningResourceTopic>}
+   * @type {string}
    * @memberof LearningPathResource
    */
-  topics?: Array<LearningResourceTopic> | null
+  last_modified?: string | null
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningPathResource
+   */
+  published?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResource
+   */
+  languages?: Array<string> | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  url?: string | null
   /**
    *
    * @type {ResourceTypeEnum}
@@ -388,16 +496,16 @@ export interface LearningPathResource {
   resource_type: ResourceTypeEnum
   /**
    *
-   * @type {LearningPath}
+   * @type {string}
    * @memberof LearningPathResource
    */
-  learning_path: LearningPath | null
+  platform: string | null
   /**
    *
-   * @type {boolean}
+   * @type {Array<number>}
    * @memberof LearningPathResource
    */
-  published?: boolean
+  resources: Array<number>
 }
 
 /**
@@ -408,6 +516,18 @@ export interface LearningPathResource {
 export interface LearningPathResourceRequest {
   /**
    *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof LearningPathResourceRequest
+   */
+  topics?: Array<LearningResourceTopic>
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResourceRequest
+   */
+  readable_id: string
+  /**
+   *
    * @type {string}
    * @memberof LearningPathResourceRequest
    */
@@ -423,25 +543,37 @@ export interface LearningPathResourceRequest {
    * @type {string}
    * @memberof LearningPathResourceRequest
    */
-  readable_id: string
+  full_description?: string | null
   /**
    *
-   * @type {Array<LearningResourceTopic>}
+   * @type {string}
    * @memberof LearningPathResourceRequest
    */
-  topics?: Array<LearningResourceTopic> | null
-  /**
-   *
-   * @type {ResourceTypeEnum}
-   * @memberof LearningPathResourceRequest
-   */
-  resource_type: ResourceTypeEnum
+  last_modified?: string | null
   /**
    *
    * @type {boolean}
    * @memberof LearningPathResourceRequest
    */
   published?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResourceRequest
+   */
+  languages?: Array<string> | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResourceRequest
+   */
+  url?: string | null
+  /**
+   *
+   * @type {ResourceTypeEnum}
+   * @memberof LearningPathResourceRequest
+   */
+  resource_type: ResourceTypeEnum
 }
 
 /**
@@ -458,6 +590,12 @@ export interface LearningResource {
   id: number
   /**
    *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof LearningResource
+   */
+  topics?: Array<LearningResourceTopic>
+  /**
+   *
    * @type {Array<string>}
    * @memberof LearningResource
    */
@@ -468,12 +606,6 @@ export interface LearningResource {
    * @memberof LearningResource
    */
   resource_content_tags: Array<string> | null
-  /**
-   *
-   * @type {LearningResourceImage}
-   * @memberof LearningResource
-   */
-  image: LearningResourceImage | null
   /**
    *
    * @type {LearningResourceDepartment}
@@ -500,12 +632,6 @@ export interface LearningResource {
   prices: string | null
   /**
    *
-   * @type {Array<LearningResourceTopic>}
-   * @memberof LearningResource
-   */
-  topics?: Array<LearningResourceTopic> | null
-  /**
-   *
    * @type {Course}
    * @memberof LearningResource
    */
@@ -524,10 +650,22 @@ export interface LearningResource {
   runs: Array<LearningResourceRun> | null
   /**
    *
-   * @type {Array<MicroRelationship>}
+   * @type {LearningResourceImage}
    * @memberof LearningResource
    */
-  learning_path_parents: Array<MicroRelationship> | null
+  image: LearningResourceImage | null
+  /**
+   *
+   * @type {Array<MicroLearningPathRelationship>}
+   * @memberof LearningResource
+   */
+  learning_path_parents: Array<MicroLearningPathRelationship> | null
+  /**
+   *
+   * @type {Array<MicroUserListRelationship>}
+   * @memberof LearningResource
+   */
+  user_list_parents: Array<MicroUserListRelationship> | null
   /**
    *
    * @type {Program}
@@ -610,6 +748,12 @@ export interface LearningResourceBase {
   id: number
   /**
    *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof LearningResourceBase
+   */
+  topics?: Array<LearningResourceTopic>
+  /**
+   *
    * @type {Array<string>}
    * @memberof LearningResourceBase
    */
@@ -620,12 +764,6 @@ export interface LearningResourceBase {
    * @memberof LearningResourceBase
    */
   resource_content_tags: Array<string> | null
-  /**
-   *
-   * @type {LearningResourceImage}
-   * @memberof LearningResourceBase
-   */
-  image: LearningResourceImage | null
   /**
    *
    * @type {LearningResourceDepartment}
@@ -652,12 +790,6 @@ export interface LearningResourceBase {
   prices: string | null
   /**
    *
-   * @type {Array<LearningResourceTopic>}
-   * @memberof LearningResourceBase
-   */
-  topics?: Array<LearningResourceTopic> | null
-  /**
-   *
    * @type {Course}
    * @memberof LearningResourceBase
    */
@@ -676,10 +808,22 @@ export interface LearningResourceBase {
   runs: Array<LearningResourceRun> | null
   /**
    *
-   * @type {Array<MicroRelationship>}
+   * @type {LearningResourceImage}
    * @memberof LearningResourceBase
    */
-  learning_path_parents: Array<MicroRelationship> | null
+  image: LearningResourceImage | null
+  /**
+   *
+   * @type {Array<MicroLearningPathRelationship>}
+   * @memberof LearningResourceBase
+   */
+  learning_path_parents: Array<MicroLearningPathRelationship> | null
+  /**
+   *
+   * @type {Array<MicroUserListRelationship>}
+   * @memberof LearningResourceBase
+   */
+  user_list_parents: Array<MicroUserListRelationship> | null
   /**
    *
    * @type {string}
@@ -903,7 +1047,7 @@ export interface LearningResourceRequest {
    * @type {Array<LearningResourceTopic>}
    * @memberof LearningResourceRequest
    */
-  topics?: Array<LearningResourceTopic> | null
+  topics?: Array<LearningResourceTopic>
   /**
    *
    * @type {string}
@@ -1246,27 +1390,52 @@ export interface LearningResourceTopic {
   name: string
 }
 /**
- * Serializer containing only the parent and child ids
+ * Serializer containing only parent and child ids for a learning path relationship
  * @export
- * @interface MicroRelationship
+ * @interface MicroLearningPathRelationship
  */
-export interface MicroRelationship {
+export interface MicroLearningPathRelationship {
   /**
    *
    * @type {number}
-   * @memberof MicroRelationship
+   * @memberof MicroLearningPathRelationship
    */
   id: number
   /**
    *
    * @type {number}
-   * @memberof MicroRelationship
+   * @memberof MicroLearningPathRelationship
    */
   parent: number
   /**
    *
    * @type {number}
-   * @memberof MicroRelationship
+   * @memberof MicroLearningPathRelationship
+   */
+  child: number
+}
+/**
+ * Serializer containing only parent and child ids for a user list relationship
+ * @export
+ * @interface MicroUserListRelationship
+ */
+export interface MicroUserListRelationship {
+  /**
+   *
+   * @type {number}
+   * @memberof MicroUserListRelationship
+   */
+  id: number
+  /**
+   *
+   * @type {number}
+   * @memberof MicroUserListRelationship
+   */
+  parent: number
+  /**
+   *
+   * @type {number}
+   * @memberof MicroUserListRelationship
    */
   child: number
 }
@@ -1426,6 +1595,68 @@ export interface PaginatedLearningResourceTopicList {
   results?: Array<LearningResourceTopic>
 }
 /**
+ *
+ * @export
+ * @interface PaginatedUserListList
+ */
+export interface PaginatedUserListList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedUserListList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedUserListList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedUserListList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<UserList>}
+   * @memberof PaginatedUserListList
+   */
+  results?: Array<UserList>
+}
+/**
+ *
+ * @export
+ * @interface PaginatedUserListRelationshipList
+ */
+export interface PaginatedUserListRelationshipList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedUserListRelationshipList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedUserListRelationshipList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedUserListRelationshipList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<UserListRelationship>}
+   * @memberof PaginatedUserListRelationshipList
+   */
+  results?: Array<UserListRelationship>
+}
+/**
  * Specialized serializer for a LearningPath relationship
  * @export
  * @interface PatchedLearningPathRelationshipRequest
@@ -1458,6 +1689,18 @@ export interface PatchedLearningPathRelationshipRequest {
 export interface PatchedLearningPathResourceRequest {
   /**
    *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  topics?: Array<LearningResourceTopic>
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  readable_id?: string
+  /**
+   *
    * @type {string}
    * @memberof PatchedLearningPathResourceRequest
    */
@@ -1473,26 +1716,109 @@ export interface PatchedLearningPathResourceRequest {
    * @type {string}
    * @memberof PatchedLearningPathResourceRequest
    */
-  readable_id?: string
+  full_description?: string | null
   /**
    *
-   * @type {Array<LearningResourceTopic>}
+   * @type {string}
    * @memberof PatchedLearningPathResourceRequest
    */
-  topics?: Array<LearningResourceTopic> | null
-  /**
-   *
-   * @type {ResourceTypeEnum}
-   * @memberof PatchedLearningPathResourceRequest
-   */
-  resource_type?: ResourceTypeEnum
+  last_modified?: string | null
   /**
    *
    * @type {boolean}
    * @memberof PatchedLearningPathResourceRequest
    */
   published?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  languages?: Array<string> | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  url?: string | null
+  /**
+   *
+   * @type {ResourceTypeEnum}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  resource_type?: ResourceTypeEnum
 }
+
+/**
+ * Serializer for UserListRelationship model
+ * @export
+ * @interface PatchedUserListRelationshipRequest
+ */
+export interface PatchedUserListRelationshipRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedUserListRelationshipRequest
+   */
+  position?: number
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedUserListRelationshipRequest
+   */
+  parent?: number
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedUserListRelationshipRequest
+   */
+  child?: number
+}
+/**
+ * Simplified serializer for UserList model.
+ * @export
+ * @interface PatchedUserListRequest
+ */
+export interface PatchedUserListRequest {
+  /**
+   *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof PatchedUserListRequest
+   */
+  topics?: Array<LearningResourceTopic>
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedUserListRequest
+   */
+  title?: string
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedUserListRequest
+   */
+  description?: string
+  /**
+   *
+   * @type {PrivacyLevelEnum}
+   * @memberof PatchedUserListRequest
+   */
+  privacy_level?: PrivacyLevelEnum
+}
+
+/**
+ * * `private` - private * `unlisted` - unlisted
+ * @export
+ * @enum {string}
+ */
+
+export const PrivacyLevelEnum = {
+  Private: "private",
+  Unlisted: "unlisted",
+} as const
+
+export type PrivacyLevelEnum =
+  (typeof PrivacyLevelEnum)[keyof typeof PrivacyLevelEnum]
 
 /**
  * Serializer for the Program model
@@ -1521,6 +1847,156 @@ export const ResourceTypeEnum = {
 
 export type ResourceTypeEnum =
   (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
+
+/**
+ * Simplified serializer for UserList model.
+ * @export
+ * @interface UserList
+ */
+export interface UserList {
+  /**
+   *
+   * @type {number}
+   * @memberof UserList
+   */
+  id: number
+  /**
+   *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof UserList
+   */
+  topics?: Array<LearningResourceTopic>
+  /**
+   * Return the number of items in the list
+   * @type {number}
+   * @memberof UserList
+   */
+  item_count: number
+  /**
+   * Return the image of the first item
+   * @type {{ [key: string]: any; }}
+   * @memberof UserList
+   */
+  image: { [key: string]: any }
+  /**
+   *
+   * @type {string}
+   * @memberof UserList
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof UserList
+   */
+  description?: string
+  /**
+   *
+   * @type {PrivacyLevelEnum}
+   * @memberof UserList
+   */
+  privacy_level?: PrivacyLevelEnum
+  /**
+   *
+   * @type {number}
+   * @memberof UserList
+   */
+  author: number
+}
+
+/**
+ * Serializer for UserListRelationship model
+ * @export
+ * @interface UserListRelationship
+ */
+export interface UserListRelationship {
+  /**
+   *
+   * @type {number}
+   * @memberof UserListRelationship
+   */
+  id: number
+  /**
+   *
+   * @type {LearningResource}
+   * @memberof UserListRelationship
+   */
+  resource: LearningResource
+  /**
+   *
+   * @type {number}
+   * @memberof UserListRelationship
+   */
+  position?: number
+  /**
+   *
+   * @type {number}
+   * @memberof UserListRelationship
+   */
+  parent: number
+  /**
+   *
+   * @type {number}
+   * @memberof UserListRelationship
+   */
+  child: number
+}
+/**
+ * Serializer for UserListRelationship model
+ * @export
+ * @interface UserListRelationshipRequest
+ */
+export interface UserListRelationshipRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof UserListRelationshipRequest
+   */
+  position?: number
+  /**
+   *
+   * @type {number}
+   * @memberof UserListRelationshipRequest
+   */
+  parent: number
+  /**
+   *
+   * @type {number}
+   * @memberof UserListRelationshipRequest
+   */
+  child: number
+}
+/**
+ * Simplified serializer for UserList model.
+ * @export
+ * @interface UserListRequest
+ */
+export interface UserListRequest {
+  /**
+   *
+   * @type {Array<LearningResourceTopic>}
+   * @memberof UserListRequest
+   */
+  topics?: Array<LearningResourceTopic>
+  /**
+   *
+   * @type {string}
+   * @memberof UserListRequest
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof UserListRequest
+   */
+  description?: string
+  /**
+   *
+   * @type {PrivacyLevelEnum}
+   * @memberof UserListRequest
+   */
+  privacy_level?: PrivacyLevelEnum
+}
 
 /**
  * ContentfilesApi - axios parameter creator
@@ -7623,6 +8099,1728 @@ export class TopicsApi extends BaseAPI {
   ) {
     return TopicsApiFp(this.configuration)
       .topicsRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * UserlistsApi - axios parameter creator
+ * @export
+ */
+export const UserlistsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Viewset for UserLists
+     * @param {UserListRequest} UserListRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsCreate: async (
+      UserListRequest: UserListRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'UserListRequest' is not null or undefined
+      assertParamExists("userlistsCreate", "UserListRequest", UserListRequest)
+      const localVarPath = `/api/v1/userlists/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        UserListRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsDestroy: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsDestroy", "id", id)
+      const localVarPath = `/api/v1/userlists/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserLists
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsList: async (
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/userlists/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
+     * @param {PatchedUserListRequest} [PatchedUserListRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsPartialUpdate: async (
+      id: number,
+      PatchedUserListRequest?: PatchedUserListRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsPartialUpdate", "id", id)
+      const localVarPath = `/api/v1/userlists/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedUserListRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} parent_id
+     * @param {UserListRelationshipRequest} UserListRelationshipRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesCreate: async (
+      parent_id: number,
+      UserListRelationshipRequest: UserListRelationshipRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'parent_id' is not null or undefined
+      assertParamExists("userlistsResourcesCreate", "parent_id", parent_id)
+      // verify required parameter 'UserListRelationshipRequest' is not null or undefined
+      assertParamExists(
+        "userlistsResourcesCreate",
+        "UserListRelationshipRequest",
+        UserListRelationshipRequest,
+      )
+      const localVarPath = `/api/v1/userlists/{parent_id}/resources/`.replace(
+        `{${"parent_id"}}`,
+        encodeURIComponent(String(parent_id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        UserListRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} parent_id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesDestroy: async (
+      id: number,
+      parent_id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsResourcesDestroy", "id", id)
+      // verify required parameter 'parent_id' is not null or undefined
+      assertParamExists("userlistsResourcesDestroy", "parent_id", parent_id)
+      const localVarPath = `/api/v1/userlists/{parent_id}/resources/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} parent_id
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesList: async (
+      parent_id: number,
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'parent_id' is not null or undefined
+      assertParamExists("userlistsResourcesList", "parent_id", parent_id)
+      const localVarPath = `/api/v1/userlists/{parent_id}/resources/`.replace(
+        `{${"parent_id"}}`,
+        encodeURIComponent(String(parent_id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} parent_id
+     * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesPartialUpdate: async (
+      id: number,
+      parent_id: number,
+      PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsResourcesPartialUpdate", "id", id)
+      // verify required parameter 'parent_id' is not null or undefined
+      assertParamExists(
+        "userlistsResourcesPartialUpdate",
+        "parent_id",
+        parent_id,
+      )
+      const localVarPath = `/api/v1/userlists/{parent_id}/resources/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedUserListRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} parent_id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesRetrieve: async (
+      id: number,
+      parent_id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsResourcesRetrieve", "id", id)
+      // verify required parameter 'parent_id' is not null or undefined
+      assertParamExists("userlistsResourcesRetrieve", "parent_id", parent_id)
+      const localVarPath = `/api/v1/userlists/{parent_id}/resources/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} parent_id
+     * @param {UserListRelationshipRequest} UserListRelationshipRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesUpdate: async (
+      id: number,
+      parent_id: number,
+      UserListRelationshipRequest: UserListRelationshipRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsResourcesUpdate", "id", id)
+      // verify required parameter 'parent_id' is not null or undefined
+      assertParamExists("userlistsResourcesUpdate", "parent_id", parent_id)
+      // verify required parameter 'UserListRelationshipRequest' is not null or undefined
+      assertParamExists(
+        "userlistsResourcesUpdate",
+        "UserListRelationshipRequest",
+        UserListRelationshipRequest,
+      )
+      const localVarPath = `/api/v1/userlists/{parent_id}/resources/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        UserListRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsRetrieve: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsRetrieve", "id", id)
+      const localVarPath = `/api/v1/userlists/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
+     * @param {UserListRequest} UserListRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsUpdate: async (
+      id: number,
+      UserListRequest: UserListRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsUpdate", "id", id)
+      // verify required parameter 'UserListRequest' is not null or undefined
+      assertParamExists("userlistsUpdate", "UserListRequest", UserListRequest)
+      const localVarPath = `/api/v1/userlists/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        UserListRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * UserlistsApi - functional programming interface
+ * @export
+ */
+export const UserlistsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = UserlistsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Viewset for UserLists
+     * @param {UserListRequest} UserListRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsCreate(
+      UserListRequest: UserListRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.userlistsCreate(
+        UserListRequest,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsDestroy(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsDestroy(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserLists
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsList(
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedUserListList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.userlistsList(
+        limit,
+        offset,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
+     * @param {PatchedUserListRequest} [PatchedUserListRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsPartialUpdate(
+      id: number,
+      PatchedUserListRequest?: PatchedUserListRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsPartialUpdate(
+          id,
+          PatchedUserListRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} parent_id
+     * @param {UserListRelationshipRequest} UserListRelationshipRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsResourcesCreate(
+      parent_id: number,
+      UserListRelationshipRequest: UserListRelationshipRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserListRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsResourcesCreate(
+          parent_id,
+          UserListRelationshipRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} parent_id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsResourcesDestroy(
+      id: number,
+      parent_id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsResourcesDestroy(
+          id,
+          parent_id,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} parent_id
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsResourcesList(
+      parent_id: number,
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedUserListRelationshipList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsResourcesList(
+          parent_id,
+          limit,
+          offset,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} parent_id
+     * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsResourcesPartialUpdate(
+      id: number,
+      parent_id: number,
+      PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserListRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsResourcesPartialUpdate(
+          id,
+          parent_id,
+          PatchedUserListRelationshipRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} parent_id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsResourcesRetrieve(
+      id: number,
+      parent_id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserListRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsResourcesRetrieve(
+          id,
+          parent_id,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} parent_id
+     * @param {UserListRelationshipRequest} UserListRelationshipRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsResourcesUpdate(
+      id: number,
+      parent_id: number,
+      UserListRelationshipRequest: UserListRelationshipRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserListRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsResourcesUpdate(
+          id,
+          parent_id,
+          UserListRelationshipRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsRetrieve(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for UserLists
+     * @param {number} id A unique integer value identifying this user list.
+     * @param {UserListRequest} UserListRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsUpdate(
+      id: number,
+      UserListRequest: UserListRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.userlistsUpdate(
+        id,
+        UserListRequest,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * UserlistsApi - factory interface
+ * @export
+ */
+export const UserlistsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = UserlistsApiFp(configuration)
+  return {
+    /**
+     * Viewset for UserLists
+     * @param {UserlistsApiUserlistsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsCreate(
+      requestParameters: UserlistsApiUserlistsCreateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<UserList> {
+      return localVarFp
+        .userlistsCreate(requestParameters.UserListRequest, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserLists
+     * @param {UserlistsApiUserlistsDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsDestroy(
+      requestParameters: UserlistsApiUserlistsDestroyRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .userlistsDestroy(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserLists
+     * @param {UserlistsApiUserlistsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsList(
+      requestParameters: UserlistsApiUserlistsListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedUserListList> {
+      return localVarFp
+        .userlistsList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserLists
+     * @param {UserlistsApiUserlistsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsPartialUpdate(
+      requestParameters: UserlistsApiUserlistsPartialUpdateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<UserList> {
+      return localVarFp
+        .userlistsPartialUpdate(
+          requestParameters.id,
+          requestParameters.PatchedUserListRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {UserlistsApiUserlistsResourcesCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesCreate(
+      requestParameters: UserlistsApiUserlistsResourcesCreateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<UserListRelationship> {
+      return localVarFp
+        .userlistsResourcesCreate(
+          requestParameters.parent_id,
+          requestParameters.UserListRelationshipRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {UserlistsApiUserlistsResourcesDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesDestroy(
+      requestParameters: UserlistsApiUserlistsResourcesDestroyRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .userlistsResourcesDestroy(
+          requestParameters.id,
+          requestParameters.parent_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {UserlistsApiUserlistsResourcesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesList(
+      requestParameters: UserlistsApiUserlistsResourcesListRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedUserListRelationshipList> {
+      return localVarFp
+        .userlistsResourcesList(
+          requestParameters.parent_id,
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesPartialUpdate(
+      requestParameters: UserlistsApiUserlistsResourcesPartialUpdateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<UserListRelationship> {
+      return localVarFp
+        .userlistsResourcesPartialUpdate(
+          requestParameters.id,
+          requestParameters.parent_id,
+          requestParameters.PatchedUserListRelationshipRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {UserlistsApiUserlistsResourcesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesRetrieve(
+      requestParameters: UserlistsApiUserlistsResourcesRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<UserListRelationship> {
+      return localVarFp
+        .userlistsResourcesRetrieve(
+          requestParameters.id,
+          requestParameters.parent_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @param {UserlistsApiUserlistsResourcesUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsResourcesUpdate(
+      requestParameters: UserlistsApiUserlistsResourcesUpdateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<UserListRelationship> {
+      return localVarFp
+        .userlistsResourcesUpdate(
+          requestParameters.id,
+          requestParameters.parent_id,
+          requestParameters.UserListRelationshipRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserLists
+     * @param {UserlistsApiUserlistsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsRetrieve(
+      requestParameters: UserlistsApiUserlistsRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<UserList> {
+      return localVarFp
+        .userlistsRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserLists
+     * @param {UserlistsApiUserlistsUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsUpdate(
+      requestParameters: UserlistsApiUserlistsUpdateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<UserList> {
+      return localVarFp
+        .userlistsUpdate(
+          requestParameters.id,
+          requestParameters.UserListRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for userlistsCreate operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsCreateRequest
+ */
+export interface UserlistsApiUserlistsCreateRequest {
+  /**
+   *
+   * @type {UserListRequest}
+   * @memberof UserlistsApiUserlistsCreate
+   */
+  readonly UserListRequest: UserListRequest
+}
+
+/**
+ * Request parameters for userlistsDestroy operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsDestroyRequest
+ */
+export interface UserlistsApiUserlistsDestroyRequest {
+  /**
+   * A unique integer value identifying this user list.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsDestroy
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for userlistsList operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsListRequest
+ */
+export interface UserlistsApiUserlistsListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for userlistsPartialUpdate operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsPartialUpdateRequest
+ */
+export interface UserlistsApiUserlistsPartialUpdateRequest {
+  /**
+   * A unique integer value identifying this user list.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {PatchedUserListRequest}
+   * @memberof UserlistsApiUserlistsPartialUpdate
+   */
+  readonly PatchedUserListRequest?: PatchedUserListRequest
+}
+
+/**
+ * Request parameters for userlistsResourcesCreate operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsResourcesCreateRequest
+ */
+export interface UserlistsApiUserlistsResourcesCreateRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesCreate
+   */
+  readonly parent_id: number
+
+  /**
+   *
+   * @type {UserListRelationshipRequest}
+   * @memberof UserlistsApiUserlistsResourcesCreate
+   */
+  readonly UserListRelationshipRequest: UserListRelationshipRequest
+}
+
+/**
+ * Request parameters for userlistsResourcesDestroy operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsResourcesDestroyRequest
+ */
+export interface UserlistsApiUserlistsResourcesDestroyRequest {
+  /**
+   * A unique integer value identifying this user list relationship.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesDestroy
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesDestroy
+   */
+  readonly parent_id: number
+}
+
+/**
+ * Request parameters for userlistsResourcesList operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsResourcesListRequest
+ */
+export interface UserlistsApiUserlistsResourcesListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesList
+   */
+  readonly parent_id: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for userlistsResourcesPartialUpdate operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsResourcesPartialUpdateRequest
+ */
+export interface UserlistsApiUserlistsResourcesPartialUpdateRequest {
+  /**
+   * A unique integer value identifying this user list relationship.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesPartialUpdate
+   */
+  readonly parent_id: number
+
+  /**
+   *
+   * @type {PatchedUserListRelationshipRequest}
+   * @memberof UserlistsApiUserlistsResourcesPartialUpdate
+   */
+  readonly PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest
+}
+
+/**
+ * Request parameters for userlistsResourcesRetrieve operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsResourcesRetrieveRequest
+ */
+export interface UserlistsApiUserlistsResourcesRetrieveRequest {
+  /**
+   * A unique integer value identifying this user list relationship.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesRetrieve
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesRetrieve
+   */
+  readonly parent_id: number
+}
+
+/**
+ * Request parameters for userlistsResourcesUpdate operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsResourcesUpdateRequest
+ */
+export interface UserlistsApiUserlistsResourcesUpdateRequest {
+  /**
+   * A unique integer value identifying this user list relationship.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof UserlistsApiUserlistsResourcesUpdate
+   */
+  readonly parent_id: number
+
+  /**
+   *
+   * @type {UserListRelationshipRequest}
+   * @memberof UserlistsApiUserlistsResourcesUpdate
+   */
+  readonly UserListRelationshipRequest: UserListRelationshipRequest
+}
+
+/**
+ * Request parameters for userlistsRetrieve operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsRetrieveRequest
+ */
+export interface UserlistsApiUserlistsRetrieveRequest {
+  /**
+   * A unique integer value identifying this user list.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for userlistsUpdate operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsUpdateRequest
+ */
+export interface UserlistsApiUserlistsUpdateRequest {
+  /**
+   * A unique integer value identifying this user list.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {UserListRequest}
+   * @memberof UserlistsApiUserlistsUpdate
+   */
+  readonly UserListRequest: UserListRequest
+}
+
+/**
+ * UserlistsApi - object-oriented interface
+ * @export
+ * @class UserlistsApi
+ * @extends {BaseAPI}
+ */
+export class UserlistsApi extends BaseAPI {
+  /**
+   * Viewset for UserLists
+   * @param {UserlistsApiUserlistsCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsCreate(
+    requestParameters: UserlistsApiUserlistsCreateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsCreate(requestParameters.UserListRequest, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserLists
+   * @param {UserlistsApiUserlistsDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsDestroy(
+    requestParameters: UserlistsApiUserlistsDestroyRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsDestroy(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserLists
+   * @param {UserlistsApiUserlistsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsList(
+    requestParameters: UserlistsApiUserlistsListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsList(requestParameters.limit, requestParameters.offset, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserLists
+   * @param {UserlistsApiUserlistsPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsPartialUpdate(
+    requestParameters: UserlistsApiUserlistsPartialUpdateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsPartialUpdate(
+        requestParameters.id,
+        requestParameters.PatchedUserListRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserListRelationships
+   * @param {UserlistsApiUserlistsResourcesCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsResourcesCreate(
+    requestParameters: UserlistsApiUserlistsResourcesCreateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsResourcesCreate(
+        requestParameters.parent_id,
+        requestParameters.UserListRelationshipRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserListRelationships
+   * @param {UserlistsApiUserlistsResourcesDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsResourcesDestroy(
+    requestParameters: UserlistsApiUserlistsResourcesDestroyRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsResourcesDestroy(
+        requestParameters.id,
+        requestParameters.parent_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserListRelationships
+   * @param {UserlistsApiUserlistsResourcesListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsResourcesList(
+    requestParameters: UserlistsApiUserlistsResourcesListRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsResourcesList(
+        requestParameters.parent_id,
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserListRelationships
+   * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsResourcesPartialUpdate(
+    requestParameters: UserlistsApiUserlistsResourcesPartialUpdateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsResourcesPartialUpdate(
+        requestParameters.id,
+        requestParameters.parent_id,
+        requestParameters.PatchedUserListRelationshipRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserListRelationships
+   * @param {UserlistsApiUserlistsResourcesRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsResourcesRetrieve(
+    requestParameters: UserlistsApiUserlistsResourcesRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsResourcesRetrieve(
+        requestParameters.id,
+        requestParameters.parent_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserListRelationships
+   * @param {UserlistsApiUserlistsResourcesUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsResourcesUpdate(
+    requestParameters: UserlistsApiUserlistsResourcesUpdateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsResourcesUpdate(
+        requestParameters.id,
+        requestParameters.parent_id,
+        requestParameters.UserListRelationshipRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserLists
+   * @param {UserlistsApiUserlistsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsRetrieve(
+    requestParameters: UserlistsApiUserlistsRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserLists
+   * @param {UserlistsApiUserlistsUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsUpdate(
+    requestParameters: UserlistsApiUserlistsUpdateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsUpdate(
+        requestParameters.id,
+        requestParameters.UserListRequest,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 }
