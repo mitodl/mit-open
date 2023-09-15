@@ -204,6 +204,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     learning_path_parents = serializers.SerializerMethodField()
     user_list_parents = serializers.SerializerMethodField()
 
+    @extend_schema_field(LearningResourceImageSerializer(allow_null=True))
     def get_image(self, instance) -> dict:
         """
         Return the resource.image if it exists. Otherwise, for learning paths only,
@@ -503,7 +504,7 @@ class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
         return getattr(instance, "item_count", None) or instance.resources.count()
 
     def create(self, validated_data):
-        """Ensure that the list is created by the requesting user"""
+        """Create a new user list"""
         request = self.context.get("request")
         if request and hasattr(request, "user") and isinstance(request.user, User):
             validated_data["author"] = request.user
@@ -517,7 +518,7 @@ class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
         return None
 
     def update(self, instance, validated_data):
-        """Ensure that the list is authored by the requesting user before modifying"""
+        """Update an existing user list"""
         request = self.context.get("request")
         validated_data["author"] = request.user
         topics_data = validated_data.pop("topics", None)
@@ -531,8 +532,8 @@ class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
 
     class Meta:
         model = models.UserList
-        exclude = COMMON_IGNORED_FIELDS
-        read_only_fields = ["author", "resources"]
+        exclude = ("resources", *COMMON_IGNORED_FIELDS)
+        read_only_fields = ["author"]
 
 
 class UserListRelationshipSerializer(serializers.ModelSerializer):

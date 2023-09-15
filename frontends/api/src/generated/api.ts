@@ -417,11 +417,11 @@ export interface LearningPathResource {
    */
   runs: Array<LearningResourceRun> | null
   /**
-   * Return the resource.image if it exists. Otherwise, for learning paths only, return the image of the first child resource.
-   * @type {{ [key: string]: any; }}
+   *
+   * @type {LearningResourceImage}
    * @memberof LearningPathResource
    */
-  image: { [key: string]: any }
+  image: LearningResourceImage | null
   /**
    *
    * @type {Array<MicroLearningPathRelationship>}
@@ -649,11 +649,11 @@ export interface LearningResource {
    */
   runs: Array<LearningResourceRun> | null
   /**
-   * Return the resource.image if it exists. Otherwise, for learning paths only, return the image of the first child resource.
-   * @type {{ [key: string]: any; }}
+   *
+   * @type {LearningResourceImage}
    * @memberof LearningResource
    */
-  image: { [key: string]: any }
+  image: LearningResourceImage | null
   /**
    *
    * @type {Array<MicroLearningPathRelationship>}
@@ -807,11 +807,11 @@ export interface LearningResourceBase {
    */
   runs: Array<LearningResourceRun> | null
   /**
-   * Return the resource.image if it exists. Otherwise, for learning paths only, return the image of the first child resource.
-   * @type {{ [key: string]: any; }}
+   *
+   * @type {LearningResourceImage}
    * @memberof LearningResourceBase
    */
-  image: { [key: string]: any }
+  image: LearningResourceImage | null
   /**
    *
    * @type {Array<MicroLearningPathRelationship>}
@@ -1902,12 +1902,6 @@ export interface UserList {
    * @memberof UserList
    */
   author: number
-  /**
-   *
-   * @type {Array<number>}
-   * @memberof UserList
-   */
-  resources: Array<number>
 }
 
 /**

@@ -1893,11 +1893,9 @@ components:
           readOnly: true
           nullable: true
         image:
-          type: object
-          additionalProperties: {}
-          description: |-
-            Return the resource.image if it exists. Otherwise, for learning paths only,
-            return the image of the first child resource.
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          nullable: true
           readOnly: true
         learning_path_parents:
           type: array
@@ -2083,11 +2081,9 @@ components:
           readOnly: true
           nullable: true
         image:
-          type: object
-          additionalProperties: {}
-          description: |-
-            Return the resource.image if it exists. Otherwise, for learning paths only,
-            return the image of the first child resource.
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          nullable: true
           readOnly: true
         learning_path_parents:
           type: array
@@ -2219,11 +2215,9 @@ components:
           readOnly: true
           nullable: true
         image:
-          type: object
-          additionalProperties: {}
-          description: |-
-            Return the resource.image if it exists. Otherwise, for learning paths only,
-            return the image of the first child resource.
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          nullable: true
           readOnly: true
         learning_path_parents:
           type: array
@@ -2966,17 +2960,11 @@ components:
         author:
           type: integer
           readOnly: true
-        resources:
-          type: array
-          items:
-            type: integer
-          readOnly: true
       required:
       - author
       - id
       - image
       - item_count
-      - resources
       - title
     UserListRelationship:
       type: object
