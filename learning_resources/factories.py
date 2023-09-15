@@ -90,7 +90,7 @@ class LearningResourceImageFactory(DjangoModelFactory):
     """Factory for learning resource images"""
 
     description = factory.Faker("text")
-    alt = factory.Faker("text")
+    alt = factory.Sequence(lambda n: "Alt %03d" % n)
     url = factory.Faker("url")
 
     class Meta:
