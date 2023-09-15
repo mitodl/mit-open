@@ -8,6 +8,7 @@ from learning_resources import constants
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
+    PrivacyLevel,
 )
 from open_discussions.models import TimestampedModel
 
@@ -356,3 +357,41 @@ class ContentFile(TimestampedModel):
     class Meta:
         unique_together = (("key", "run"),)
         verbose_name = "contentfile"
+
+
+class UserList(TimestampedModel):
+    """
+    Similar in concept to a LearningPath: a list of learning resources.
+    However, UserLists are not considered LearningResources because they
+    should only be accessible to the user who created them.
+    """
+
+    author = models.ForeignKey(
+        User, on_delete=models.deletion.CASCADE, related_name="user_lists"
+    )
+    title = models.CharField(max_length=256)
+    description = models.TextField(default="", blank=True)
+    topics = models.ManyToManyField(LearningResourceTopic)
+    resources = models.ManyToManyField(
+        LearningResource, through="UserListRelationship", symmetrical=False, blank=True
+    )
+    privacy_level = models.CharField(
+        max_length=24,
+        default=PrivacyLevel.private.value,
+        choices=tuple((level.value, level.value) for level in PrivacyLevel),
+    )
+
+
+class UserListRelationship(TimestampedModel):
+    """
+    UserListRelationship model tracks the resources belonging to a UserList
+    and their relative positions in the list.
+    """
+
+    parent = models.ForeignKey(
+        UserList, on_delete=models.deletion.CASCADE, related_name="children"
+    )
+    child = models.ForeignKey(
+        LearningResource, related_name="user_lists", on_delete=models.deletion.CASCADE
+    )
+    position = models.PositiveIntegerField(default=0)

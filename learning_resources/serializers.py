@@ -1,6 +1,7 @@
 """Serializers for learning_resources"""
 import logging
 
+from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import F, Max
 from drf_spectacular.utils import extend_schema_field
@@ -8,7 +9,6 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from learning_resources import constants, models
-from learning_resources.models import LearningPath, LearningResourceTopic
 from open_discussions.serializers import WriteableSerializerMethodField
 
 COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
@@ -36,12 +36,46 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
+class WriteableTopicsMixin(serializers.Serializer):
+    """Class for editable topics"""
+
+    topics = WriteableSerializerMethodField()
+
+    def validate_topics(self, topics):
+        """Validate specified topics exist."""
+        if len(topics) > 0:
+            if isinstance(topics[0], dict):
+                topics = [topic["id"] for topic in topics]
+            try:
+                valid_topic_ids = set(
+                    models.LearningResourceTopic.objects.filter(
+                        id__in=topics
+                    ).values_list("id", flat=True)
+                )
+            except ValueError as ve:
+                msg = "Topic ids must be integers"
+                raise ValidationError(msg) from ve
+            missing = set(topics).difference(valid_topic_ids)
+            if missing:
+                msg = f"Invalid topic ids: {missing}"
+                raise ValidationError(msg)
+        return {"topics": topics}
+
+    @extend_schema_field(LearningResourceTopicSerializer(many=True))
+    def get_topics(self, instance):
+        """Returns the list of topics"""  # noqa: D401
+        return [
+            LearningResourceTopicSerializer(topic).data
+            for topic in instance.topics.all()
+        ]
+
+
 @extend_schema_field({"type": "array", "items": {"type": "string"}})
 class LearningResourceOfferorField(serializers.Field):
     """Serializer for LearningResourceOfferor"""
 
     def to_representation(self, value):
-        """Serializes offered_by as a list of OfferedBy names"""  # noqa: D401
+        """Serialize offered_by as a list of OfferedBy names"""
         return [offeror.name for offeror in value.all()]
 
 
@@ -129,9 +163,9 @@ class LearningPathSerializer(serializers.ModelSerializer, ResourceListMixin):
         exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
-class MicroRelationshipSerializer(serializers.ModelSerializer):
+class MicroLearningPathRelationshipSerializer(serializers.ModelSerializer):
     """
-    Serializer containing only the parent and child ids
+    Serializer containing only parent and child ids for a learning path relationship
     """
 
     class Meta:
@@ -139,25 +173,59 @@ class MicroRelationshipSerializer(serializers.ModelSerializer):
         fields = ("id", "parent_id", "child_id")
 
 
-class LearningResourceBaseSerializer(serializers.ModelSerializer):
+class MicroUserListRelationshipSerializer(serializers.ModelSerializer):
+    """
+    Serializer containing only parent and child ids for a user list relationship
+    """
+
+    parent = serializers.ReadOnlyField(source="parent_id")
+    child = serializers.ReadOnlyField(source="child_id")
+
+    class Meta:
+        model = models.UserListRelationship
+        fields = ("id", "parent", "child")
+
+
+class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
     """Serializer for LearningResource, minus program"""
 
     offered_by = LearningResourceOfferorField(read_only=True, allow_null=True)
     resource_content_tags = LearningResourceContentTagField(
         read_only=True, allow_null=True
     )
-    image = LearningResourceImageSerializer(read_only=True, allow_null=True)
     department = LearningResourceDepartmentSerializer(read_only=True, allow_null=True)
     audience = serializers.ReadOnlyField()
     certification = serializers.ReadOnlyField()
     prices = serializers.ReadOnlyField()
-    topics = WriteableSerializerMethodField()
     course = CourseSerializer(read_only=True, allow_null=True)
     learning_path = LearningPathSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
+    image = serializers.SerializerMethodField()
     learning_path_parents = serializers.SerializerMethodField()
+    user_list_parents = serializers.SerializerMethodField()
 
-    @extend_schema_field(MicroRelationshipSerializer(many=True, allow_null=True))
+    @extend_schema_field(LearningResourceImageSerializer(allow_null=True))
+    def get_image(self, instance) -> dict:
+        """
+        Return the resource.image if it exists. Otherwise, for learning paths only,
+        return the image of the first child resource.
+        """
+        if instance.image:
+            return LearningResourceImageSerializer(instance=instance.image).data
+        elif (
+            instance.resource_type == constants.LearningResourceType.learning_path.value
+        ):
+            list_item = instance.children.order_by("position").first()
+            if list_item and list_item.child.image:
+                return LearningResourceImageSerializer(
+                    instance=list_item.child.image
+                ).data
+            return None
+        return None
+
+    @extend_schema_field(
+        MicroLearningPathRelationshipSerializer(many=True, allow_null=True)
+    )
     def get_learning_path_parents(self, instance):
         """# noqa: D401
         Returns list of learning paths that resource is in, if the user has permission
@@ -174,7 +242,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
                 is not None
             )
         ):
-            return MicroRelationshipSerializer(
+            return MicroLearningPathRelationshipSerializer(
                 instance.parents.filter(
                     relation_type=constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
                 ),
@@ -182,33 +250,21 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer):
             ).data
         return []
 
-    def validate_topics(self, topics):
-        """Validator for topics"""  # noqa: D401
-        if len(topics) > 0:
-            if isinstance(topics[0], dict):
-                topics = [topic["id"] for topic in topics]
-            try:
-                valid_topic_ids = set(
-                    LearningResourceTopic.objects.filter(id__in=topics).values_list(
-                        "id", flat=True
-                    )
-                )
-            except ValueError:
-                msg = "Topic ids must be integers"
-                raise ValidationError(msg)  # noqa: B904, TRY200
-            missing = set(topics).difference(valid_topic_ids)
-            if missing:
-                msg = f"Invalid topic ids: {missing}"
-                raise ValidationError(msg)
-        return {"topics": topics}
-
-    @extend_schema_field(LearningResourceTopicSerializer(many=True, allow_null=True))
-    def get_topics(self, instance):
-        """Returns the list of topics"""  # noqa: D401
-        return [
-            LearningResourceTopicSerializer(topic).data
-            for topic in instance.topics.all()
-        ]
+    @extend_schema_field(
+        MicroUserListRelationshipSerializer(many=True, allow_null=True)
+    )
+    def get_user_list_parents(self, instance):
+        """Return a list of user lists that the resource is in, for specific user"""
+        request = self.context.get("request")
+        user = request.user if request else None
+        if user and user.is_authenticated:
+            return MicroUserListRelationshipSerializer(
+                models.UserListRelationship.objects.filter(
+                    parent__author=user, child=instance
+                ),
+                many=True,
+            ).data
+        return []
 
     class Meta:
         model = models.LearningResource
@@ -270,9 +326,9 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
         with transaction.atomic():
             path_resource = super().create(validated_data)
             path_resource.topics.set(
-                LearningResourceTopic.objects.filter(id__in=topics_data)
+                models.LearningResourceTopic.objects.filter(id__in=topics_data)
             )
-            LearningPath.objects.create(
+            models.LearningPath.objects.create(
                 learning_resource=path_resource, author=request.user
             )
         return path_resource
@@ -284,26 +340,14 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
             resource = super().update(instance, validated_data)
             if topics_data is not None:
                 resource.topics.set(
-                    LearningResourceTopic.objects.filter(id__in=topics_data)
+                    models.LearningResourceTopic.objects.filter(id__in=topics_data)
                 )
-            # Uncomment when search indexing is ready
-            # if (
-            #     and instance.published
-            # ):
             return resource
 
     class Meta:
         model = models.LearningResource
-        fields = (
-            "id",
-            "title",
-            "description",
-            "readable_id",
-            "topics",
-            "resource_type",
-            "learning_path",
-            "published",
-        )
+        exclude = COMMON_IGNORED_FIELDS
+        read_only_fields = ["platform", "offered_by"]
 
 
 class LearningResourceChildSerializer(serializers.ModelSerializer):
@@ -438,3 +482,98 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "resource_readable_num",
             "resource_type",
         ]
+
+
+class UserListSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
+    """
+    Simplified serializer for UserList model.
+    """
+
+    item_count = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, instance) -> dict:
+        """Return the image of the first item"""
+        list_item = instance.children.order_by("position").first()
+        if list_item and list_item.child.image:
+            return LearningResourceImageSerializer(instance=list_item.child.image).data
+        return None
+
+    def get_item_count(self, instance) -> int:
+        """Return the number of items in the list"""
+        return getattr(instance, "item_count", None) or instance.resources.count()
+
+    def create(self, validated_data):
+        """Create a new user list"""
+        request = self.context.get("request")
+        if request and hasattr(request, "user") and isinstance(request.user, User):
+            validated_data["author"] = request.user
+            topics_data = validated_data.pop("topics", [])
+            with transaction.atomic():
+                userlist = super().create(validated_data)
+                userlist.topics.set(
+                    models.LearningResourceTopic.objects.filter(id__in=topics_data)
+                )
+            return userlist
+        return None
+
+    def update(self, instance, validated_data):
+        """Update an existing user list"""
+        request = self.context.get("request")
+        validated_data["author"] = request.user
+        topics_data = validated_data.pop("topics", None)
+        with transaction.atomic():
+            userlist = super().update(instance, validated_data)
+            if topics_data is not None:
+                userlist.topics.set(
+                    models.LearningResourceTopic.objects.filter(id__in=topics_data)
+                )
+            return userlist
+
+    class Meta:
+        model = models.UserList
+        exclude = ("resources", *COMMON_IGNORED_FIELDS)
+        read_only_fields = ["author"]
+
+
+class UserListRelationshipSerializer(serializers.ModelSerializer):
+    """
+    Serializer for UserListRelationship model
+    """
+
+    resource = LearningResourceSerializer(read_only=True, source="child")
+
+    def create(self, validated_data):
+        user_list = validated_data["parent"]
+        items = models.UserListRelationship.objects.filter(parent=user_list)
+        position = (
+            items.aggregate(Max("position"))["position__max"] or items.count()
+        ) + 1
+        item, _ = models.UserListRelationship.objects.get_or_create(
+            parent=validated_data["parent"],
+            child=validated_data["child"],
+            defaults={"position": position},
+        )
+        return item
+
+    def update(self, instance, validated_data):
+        position = validated_data["position"]
+        with transaction.atomic():
+            if position > instance.position:
+                # move items between old & new positions up, inclusive of new position
+                models.UserListRelationship.objects.filter(
+                    position__lte=position, position__gt=instance.position
+                ).update(position=F("position") - 1)
+            else:
+                models.UserListRelationship.objects.filter(
+                    position__lt=instance.position, position__gte=position
+                ).update(position=F("position") + 1)
+            instance.position = position
+            instance.save()
+
+        return instance
+
+    class Meta:
+        model = models.UserListRelationship
+        extra_kwargs = {"position": {"required": False}}
+        exclude = COMMON_IGNORED_FIELDS

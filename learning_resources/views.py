@@ -3,25 +3,33 @@ import logging
 from uuid import uuid4
 
 from django.db import transaction
-from django.db.models import F, Q, QuerySet
+from django.db.models import Count, F, Q, QuerySet
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from learning_resources import permissions
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import LearningResourceType, PrivacyLevel
 from learning_resources.models import (
     ContentFile,
     LearningResource,
     LearningResourceRelationship,
     LearningResourceTopic,
+    UserList,
+    UserListRelationship,
 )
-from learning_resources.permissions import is_learning_path_editor
+from learning_resources.permissions import (
+    HasUserListItemPermissions,
+    HasUserListPermissions,
+    is_learning_path_editor,
+)
 from learning_resources.serializers import (
     ContentFileSerializer,
     LearningPathRelationshipSerializer,
@@ -29,6 +37,8 @@ from learning_resources.serializers import (
     LearningResourceChildSerializer,
     LearningResourceSerializer,
     LearningResourceTopicSerializer,
+    UserListRelationshipSerializer,
+    UserListSerializer,
 )
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
@@ -252,7 +262,17 @@ class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
         instance.delete()
 
 
-class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+class NestedParentMixin(NestedViewSetMixin):
+    """
+    Mixin for nested viewsets that have a parent
+    """
+
+    def get_parent_id(self, id_field="parent_id"):
+        """Get the parent id for the nested view request"""
+        return self.get_parents_query_dict()[id_field]
+
+
+class ResourceListItemsViewSet(NestedParentMixin, viewsets.ModelViewSet):
     """
     Viewset for LearningResource related resources
     """
@@ -268,10 +288,6 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         .order_by("position")
     )
     pagination_class = DefaultPagination
-
-    def get_parent_id(self):
-        """Get the parent id for the nesteed view request"""
-        return self.get_parents_query_dict()["parent_id"]
 
 
 class LearningPathItemsViewSet(ResourceListItemsViewSet):
@@ -299,8 +315,6 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet):
                 position__gt=instance.position,
             ).update(position=F("position") - 1)
             instance.delete()
-        # Uncomment when search is ready
-        # if learning_path.items.count() > 0:
 
 
 class TopicViewSet(viewsets.ReadOnlyModelViewSet):
@@ -344,3 +358,74 @@ class LearningResourceContentFilesViewSet(NestedViewSetMixin, ContentFileViewSet
     def get_parent_id(self):
         """Get the parent learning resource id for the nested view request"""
         return self.get_parents_query_dict()["run__learning_resource"]
+
+
+class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
+    """
+    Viewset for UserLists
+    """
+
+    serializer_class = UserListSerializer
+    pagination_class = DefaultPagination
+    permission_classes = (HasUserListPermissions,)
+
+    def get_queryset(self):
+        """Return a queryset for this user"""
+        return (
+            UserList.objects.all()
+            .prefetch_related("author", "topics")
+            .annotate(item_count=Count("children"))
+        )
+
+    def list(self, request, **kwargs):  # noqa: A003,ARG002
+        queryset = self.get_queryset().filter(author_id=self.request.user.id)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None, **kwargs):  # noqa: ARG002
+        queryset = self.get_queryset().filter(
+            Q(author_id=self.request.user.id)
+            | Q(privacy_level=PrivacyLevel.unlisted.value)
+        )
+        userlist = get_object_or_404(queryset, pk=pk)
+        serializer = self.get_serializer(userlist)
+        return Response(serializer.data)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+
+class UserListItemViewSet(NestedParentMixin, viewsets.ModelViewSet):
+    """
+    Viewset for UserListRelationships
+    """
+
+    queryset = UserListRelationship.objects.prefetch_related("child").order_by(
+        "position"
+    )
+    serializer_class = UserListRelationshipSerializer
+    pagination_class = DefaultPagination
+    permission_classes = (HasUserListItemPermissions,)
+
+    def create(self, request, *args, **kwargs):
+        user_list_id = self.get_parent_id()
+        request.data["parent"] = user_list_id
+
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        user_list_id = self.get_parent_id()
+        request.data["parent"] = user_list_id
+        return super().update(request, *args, **kwargs)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+        UserListRelationship.objects.filter(
+            parent=instance.parent,
+            position__gt=instance.position,
+        ).update(position=F("position") - 1)
