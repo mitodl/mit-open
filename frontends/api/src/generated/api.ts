@@ -361,7 +361,7 @@ export interface LearningPathResource {
    * @type {Array<LearningResourceTopic>}
    * @memberof LearningPathResource
    */
-  topics?: Array<LearningResourceTopic> | null
+  topics?: Array<LearningResourceTopic>
   /**
    *
    * @type {Array<string>}
@@ -519,7 +519,7 @@ export interface LearningPathResourceRequest {
    * @type {Array<LearningResourceTopic>}
    * @memberof LearningPathResourceRequest
    */
-  topics?: Array<LearningResourceTopic> | null
+  topics?: Array<LearningResourceTopic>
   /**
    *
    * @type {string}
@@ -593,7 +593,7 @@ export interface LearningResource {
    * @type {Array<LearningResourceTopic>}
    * @memberof LearningResource
    */
-  topics?: Array<LearningResourceTopic> | null
+  topics?: Array<LearningResourceTopic>
   /**
    *
    * @type {Array<string>}
@@ -751,7 +751,7 @@ export interface LearningResourceBase {
    * @type {Array<LearningResourceTopic>}
    * @memberof LearningResourceBase
    */
-  topics?: Array<LearningResourceTopic> | null
+  topics?: Array<LearningResourceTopic>
   /**
    *
    * @type {Array<string>}
@@ -1047,7 +1047,7 @@ export interface LearningResourceRequest {
    * @type {Array<LearningResourceTopic>}
    * @memberof LearningResourceRequest
    */
-  topics?: Array<LearningResourceTopic> | null
+  topics?: Array<LearningResourceTopic>
   /**
    *
    * @type {string}
@@ -1415,7 +1415,7 @@ export interface MicroLearningPathRelationship {
   child_id: number
 }
 /**
- * Serializer containing only  parent and child ids for a user list relationship
+ * Serializer containing only parent and child ids for a user list relationship
  * @export
  * @interface MicroUserListRelationship
  */
@@ -1431,13 +1431,13 @@ export interface MicroUserListRelationship {
    * @type {number}
    * @memberof MicroUserListRelationship
    */
-  parent_id: number
+  parent: number
   /**
    *
    * @type {number}
    * @memberof MicroUserListRelationship
    */
-  child_id: number
+  child: number
 }
 /**
  *
@@ -1692,7 +1692,7 @@ export interface PatchedLearningPathResourceRequest {
    * @type {Array<LearningResourceTopic>}
    * @memberof PatchedLearningPathResourceRequest
    */
-  topics?: Array<LearningResourceTopic> | null
+  topics?: Array<LearningResourceTopic>
   /**
    *
    * @type {string}
@@ -1785,7 +1785,7 @@ export interface PatchedUserListRequest {
    * @type {Array<LearningResourceTopic>}
    * @memberof PatchedUserListRequest
    */
-  topics?: Array<LearningResourceTopic> | null
+  topics?: Array<LearningResourceTopic>
   /**
    *
    * @type {string}
@@ -1797,8 +1797,29 @@ export interface PatchedUserListRequest {
    * @type {string}
    * @memberof PatchedUserListRequest
    */
-  description?: string | null
+  description?: string
+  /**
+   *
+   * @type {PrivacyLevelEnum}
+   * @memberof PatchedUserListRequest
+   */
+  privacy_level?: PrivacyLevelEnum
 }
+
+/**
+ * * `private` - private * `unlisted` - unlisted
+ * @export
+ * @enum {string}
+ */
+
+export const PrivacyLevelEnum = {
+  Private: "private",
+  Unlisted: "unlisted",
+} as const
+
+export type PrivacyLevelEnum =
+  (typeof PrivacyLevelEnum)[keyof typeof PrivacyLevelEnum]
+
 /**
  * Serializer for the Program model
  * @export
@@ -1844,7 +1865,7 @@ export interface UserList {
    * @type {Array<LearningResourceTopic>}
    * @memberof UserList
    */
-  topics?: Array<LearningResourceTopic> | null
+  topics?: Array<LearningResourceTopic>
   /**
    * Return the number of items in the list
    * @type {number}
@@ -1868,7 +1889,13 @@ export interface UserList {
    * @type {string}
    * @memberof UserList
    */
-  description?: string | null
+  description?: string
+  /**
+   *
+   * @type {PrivacyLevelEnum}
+   * @memberof UserList
+   */
+  privacy_level?: PrivacyLevelEnum
   /**
    *
    * @type {number}
@@ -1882,6 +1909,7 @@ export interface UserList {
    */
   resources: Array<number>
 }
+
 /**
  * Serializer for UserListRelationship model
  * @export
@@ -1955,7 +1983,7 @@ export interface UserListRequest {
    * @type {Array<LearningResourceTopic>}
    * @memberof UserListRequest
    */
-  topics?: Array<LearningResourceTopic> | null
+  topics?: Array<LearningResourceTopic>
   /**
    *
    * @type {string}
@@ -1967,7 +1995,13 @@ export interface UserListRequest {
    * @type {string}
    * @memberof UserListRequest
    */
-  description?: string | null
+  description?: string
+  /**
+   *
+   * @type {PrivacyLevelEnum}
+   * @memberof UserListRequest
+   */
+  privacy_level?: PrivacyLevelEnum
 }
 
 /**

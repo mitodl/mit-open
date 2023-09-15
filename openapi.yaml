@@ -1844,7 +1844,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         offered_by:
           type: array
           items:
@@ -1985,7 +1984,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         readable_id:
           type: string
           minLength: 1
@@ -2036,7 +2034,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         offered_by:
           type: array
           items:
@@ -2173,7 +2170,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         offered_by:
           type: array
           items:
@@ -2405,7 +2401,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         readable_id:
           type: string
           minLength: 1
@@ -2672,22 +2667,22 @@ components:
       - parent_id
     MicroUserListRelationship:
       type: object
-      description: Serializer containing only  parent and child ids for a user list
+      description: Serializer containing only parent and child ids for a user list
         relationship
       properties:
         id:
           type: integer
           readOnly: true
-        parent_id:
+        parent:
           type: integer
           readOnly: true
-        child_id:
+        child:
           type: integer
           readOnly: true
       required:
-      - child_id
+      - child
       - id
-      - parent_id
+      - parent
     PaginatedContentFileList:
       type: object
       properties:
@@ -2848,7 +2843,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         readable_id:
           type: string
           minLength: 1
@@ -2904,14 +2898,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         title:
           type: string
           minLength: 1
           maxLength: 256
         description:
           type: string
-          nullable: true
+        privacy_level:
+          $ref: '#/components/schemas/PrivacyLevelEnum'
+    PrivacyLevelEnum:
+      enum:
+      - private
+      - unlisted
+      type: string
+      description: |-
+        * `private` - private
+        * `unlisted` - unlisted
     Program:
       type: object
       description: Serializer for the Program model
@@ -2945,7 +2947,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         item_count:
           type: integer
           description: Return the number of items in the list
@@ -2960,7 +2961,8 @@ components:
           maxLength: 256
         description:
           type: string
-          nullable: true
+        privacy_level:
+          $ref: '#/components/schemas/PrivacyLevelEnum'
         author:
           type: integer
           readOnly: true
@@ -3023,14 +3025,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-          nullable: true
         title:
           type: string
           minLength: 1
           maxLength: 256
         description:
           type: string
-          nullable: true
+        privacy_level:
+          $ref: '#/components/schemas/PrivacyLevelEnum'
       required:
       - title
   securitySchemes:
