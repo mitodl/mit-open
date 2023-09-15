@@ -168,9 +168,12 @@ class MicroLearningPathRelationshipSerializer(serializers.ModelSerializer):
     Serializer containing only parent and child ids for a learning path relationship
     """
 
+    parent = serializers.ReadOnlyField(source="parent_id")
+    child = serializers.ReadOnlyField(source="child_id")
+
     class Meta:
         model = models.LearningResourceRelationship
-        fields = ("id", "parent_id", "child_id")
+        fields = ("id", "parent", "child")
 
 
 class MicroUserListRelationshipSerializer(serializers.ModelSerializer):

@@ -17,57 +17,37 @@ import Chip from "@mui/material/Chip"
 import AddIcon from "@mui/icons-material/Add"
 import * as NiceModal from "@ebay/nice-modal-react"
 
-import {
-  LearningResource,
-  PrivacyLevel,
-  StaffList,
-  UserList,
-} from "ol-search-ui"
 import { LoadingSpinner } from "ol-util"
+import type { LearningPathResource, LearningResource } from "api"
 
 import {
-  useAddToListItems,
-  useDeleteFromListItems,
-  useFavorite,
-  useResource,
-  useStaffListsListing,
-  useUnfavorite,
-  useUserListsListing,
-} from "../../api/learning-resources"
+  useLearningPathsList,
+  useLearningResourcesDetail,
+  useLearningpathRelationshipCreate,
+  useLearningpathRelationshipDestroy,
+} from "api/hooks/learningResources"
 import { manageListDialogs } from "./ManageListDialogs"
 
-type ResourceKey = Pick<LearningResource, "id" | "object_type">
-
 type AddToListDialogProps = {
-  resourceKey: ResourceKey
-  mode: "userlist" | "stafflist"
+  resourceId: number
 }
-
-type ListOrFavorites =
-  | UserList
-  | StaffList
-  | {
-      id: "favorites"
-      title: string
-      privacy_level: PrivacyLevel
-    }
 
 const useRequestRecord = () => {
   const [pending, setPending] = useState<Map<string, "delete" | "add">>(
     new Map(),
   )
-  const key = (resource: LearningResource, list: ListOrFavorites) =>
-    `${resource.object_type}-${resource.id}-${list.id}`
-  const get = (resource: LearningResource, list: ListOrFavorites) =>
+  const key = (resource: LearningResource, list: LearningPathResource) =>
+    `${resource.id}-${list.id}`
+  const get = (resource: LearningResource, list: LearningPathResource) =>
     pending.get(key(resource, list))
   const set = (
     resource: LearningResource,
-    list: ListOrFavorites,
+    list: LearningPathResource,
     value: "delete" | "add",
   ) => {
     setPending((current) => new Map(current).set(key(resource, list), value))
   }
-  const clear = (resource: LearningResource, list: ListOrFavorites) => {
+  const clear = (resource: LearningResource, list: LearningPathResource) => {
     setPending((current) => {
       const next = new Map(current)
       next.delete(key(resource, list))
@@ -77,114 +57,72 @@ const useRequestRecord = () => {
   return { get, set, clear }
 }
 
-const useToggleItemInList = (
-  mode: "stafflist" | "userlist",
-  resource?: LearningResource,
-) => {
+const useToggleItemInList = (resource?: LearningResource) => {
   const requestRecord = useRequestRecord()
-  const addTo = useAddToListItems()
-  const deleteFrom = useDeleteFromListItems()
-  const favorite = useFavorite()
-  const unfavorite = useUnfavorite()
-  const handleAdd = async (list: ListOrFavorites) => {
+  const addTo = useLearningpathRelationshipCreate()
+  const deleteFrom = useLearningpathRelationshipDestroy()
+  const handleAdd = async (list: LearningPathResource) => {
     if (!resource) return
+    requestRecord.set(resource, list, "add")
     try {
-      requestRecord.set(resource, list, "add")
-      if (list.id === "favorites") {
-        await favorite.mutateAsync(resource)
-      } else {
-        await addTo.mutateAsync({
-          list,
-          item: { object_id: resource.id, content_type: resource.object_type },
-        })
-      }
+      await addTo.mutateAsync({ child: resource.id, parent: list.id })
     } finally {
       requestRecord.clear(resource, list)
     }
   }
-  const handleRemove = async (list: ListOrFavorites) => {
+  const handleRemove = async (list: LearningPathResource) => {
     if (!resource) return
-    const lists = mode === "userlist" ? resource.lists : resource.stafflists
+    requestRecord.set(resource, list, "delete")
+    const relationship = resource.learning_path_parents?.find(
+      ({ parent }) => parent === list.id,
+    )
+    if (!relationship) return // should not happen
     try {
-      requestRecord.set(resource, list, "delete")
-      if (list.id === "favorites") {
-        await unfavorite.mutateAsync(resource)
-      } else {
-        const listItem = lists.find((l) => l.list_id === list.id)
-        if (!listItem) return // should not happen
-        await deleteFrom.mutateAsync({ list, item: listItem })
-      }
+      await deleteFrom.mutateAsync(relationship)
     } finally {
       requestRecord.clear(resource, list)
     }
   }
 
-  const isChecked = (list: ListOrFavorites): boolean => {
-    if (!resource) return false
-    if (list.id === "favorites") {
-      return !!resource.is_favorite
-    }
-    const lists = mode === "userlist" ? resource.lists : resource.stafflists
-    return lists.some((l) => l.list_id === list.id)
-  }
+  const isChecked = (list: LearningPathResource): boolean =>
+    resource?.learning_path_parents?.some(({ parent }) => parent === list.id) ??
+    false
 
-  const isAdding = (list: ListOrFavorites) =>
+  const isAdding = (list: LearningPathResource) =>
     !!resource && requestRecord.get(resource, list) === "add"
-  const isRemoving = (list: ListOrFavorites) =>
+  const isRemoving = (list: LearningPathResource) =>
     !!resource && requestRecord.get(resource, list) === "delete"
 
-  const handleToggle = (list: ListOrFavorites) => async () => {
+  const handleToggle = (list: LearningPathResource) => async () => {
     return isChecked(list) ? handleRemove(list) : handleAdd(list)
   }
   return { handleToggle, isChecked, isAdding, isRemoving }
 }
 
-type PrivacyChipProps = { privacyLevel: PrivacyLevel }
-const PrivacyChip: React.FC<PrivacyChipProps> = ({ privacyLevel }) => {
-  const isPrivate = privacyLevel === PrivacyLevel.Private
-  const icon = isPrivate ? <LockIcon /> : <LockOpenIcon />
-  const label = isPrivate ? "Private" : "Public"
+type PrivacyChipProps = { isPublic?: boolean }
+const PrivacyChip: React.FC<PrivacyChipProps> = ({ isPublic = false }) => {
+  const icon = isPublic ? <LockOpenIcon /> : <LockIcon />
+  const label = isPublic ? "Public" : "Private"
   return <Chip icon={icon} label={label} size="small" />
 }
 
-const FAVORITES = [
-  {
-    id: "favorites",
-    title: "Favorites",
-    privacy_level: PrivacyLevel.Private,
-  },
-] as const
 const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
-  resourceKey,
-  mode,
+  resourceId,
 }) => {
   const modal = NiceModal.useModal()
-  const resourceQuery = useResource(resourceKey.object_type, resourceKey.id)
+  const resourceQuery = useLearningResourcesDetail(resourceId)
   const resource = resourceQuery.data
-  const userListsQuery = useUserListsListing({ enabled: mode === "userlist" })
-  const staffListsQuery = useStaffListsListing({
-    enabled: mode === "stafflist",
-  })
-  const listsQuery = mode === "userlist" ? userListsQuery : staffListsQuery
-  const lists: ListOrFavorites[] = [
-    ...(mode === "userlist" ? FAVORITES : []),
-    ...(listsQuery.data?.results || []),
-  ]
-  if (mode === "userlist") {
-    lists
-  }
+  const listsQuery = useLearningPathsList()
 
-  const { handleToggle, isChecked, isAdding, isRemoving } = useToggleItemInList(
-    mode,
-    resource,
-  )
+  const { handleToggle, isChecked, isAdding, isRemoving } =
+    useToggleItemInList(resource)
 
   const isReady = resource && listsQuery.isSuccess
+  const lists = listsQuery.data?.results ?? []
 
-  const title = mode === "userlist" ? "Add to My Lists" : "Add to Learning List"
   return (
     <Dialog className="add-to-list-dialog" {...NiceModal.muiDialogV5(modal)}>
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle>Add to Learning List</DialogTitle>
       <Box position="absolute" top={0} right={0}>
         <IconButton onClick={modal.hide} aria-label="Close">
           <CloseIcon />
@@ -207,9 +145,7 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
               return (
                 <ListItem
                   key={list.id}
-                  secondaryAction={
-                    <PrivacyChip privacyLevel={list.privacy_level} />
-                  }
+                  secondaryAction={<PrivacyChip isPublic={list.published} />}
                 >
                   <ListItemButton
                     aria-disabled={disabled}
@@ -228,9 +164,7 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
               )
             })}
             <ListItem className="add-to-list-new">
-              <ListItemButton
-                onClick={() => manageListDialogs.createList(mode)}
-              >
+              <ListItemButton onClick={() => manageListDialogs.upsert()}>
                 <AddIcon />
                 <ListItemText primary="Create a new list" />
               </ListItemButton>

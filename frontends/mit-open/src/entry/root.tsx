@@ -18,4 +18,5 @@ const root = createRoot(container)
 
 const browserHistory = createBrowserHistory()
 const queryClient = createQueryClient(browserHistory)
+
 root.render(<App queryClient={queryClient} history={browserHistory} />)

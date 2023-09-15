@@ -1406,13 +1406,13 @@ export interface MicroLearningPathRelationship {
    * @type {number}
    * @memberof MicroLearningPathRelationship
    */
-  parent_id: number
+  parent: number
   /**
    *
    * @type {number}
    * @memberof MicroLearningPathRelationship
    */
-  child_id: number
+  child: number
 }
 /**
  * Serializer containing only parent and child ids for a user list relationship

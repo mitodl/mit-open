@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react"
 import classNames from "classnames"
-import type { ListItem } from "ol-search-ui"
+import type { LearningPathRelationship } from "api"
 import LearningResourceCard from "../../components/LearningResourceCard"
 import {
   SortableItem,
@@ -10,20 +10,18 @@ import {
   arrayMove,
   OnSortEnd,
 } from "ol-util"
-import { useMoveListItem } from "../../api/learning-resources"
+import { useLearningpathRelationshipMove } from "api/hooks/learningResources"
 
-type ResourceListItemsProps = {
-  id?: number
-  items?: ListItem[]
+type ItemsListingProps = {
+  items?: LearningPathRelationship[]
   isLoading?: boolean
   isRefetching?: boolean
   emptyMessage: string
   sortable?: boolean
-  mode?: "userlist" | "stafflist"
 }
 
-const ResourceListItemsViewOnly: React.FC<{
-  items: ListItem[]
+const ItemsListingViewOnly: React.FC<{
+  items: NonNullable<ItemsListingProps["items"]>
 }> = ({ items }) => {
   return (
     <ul className="ic-card-row-list">
@@ -32,7 +30,7 @@ const ResourceListItemsViewOnly: React.FC<{
           <li key={item.id}>
             <LearningResourceCard
               variant="row-reverse"
-              resource={item.content_data}
+              resource={item.resource}
             />
           </li>
         )
@@ -41,14 +39,11 @@ const ResourceListItemsViewOnly: React.FC<{
   )
 }
 
-const ResourceListItemsSortable: React.FC<{
-  listId: number
-  items: ListItem[]
+const ItemsListingSortable: React.FC<{
+  items: NonNullable<ItemsListingProps["items"]>
   isRefetching?: boolean
-  mode: NonNullable<ResourceListItemsProps["mode"]>
-}> = ({ items, listId, isRefetching, mode }) => {
-  const move = useMoveListItem(mode)
-
+}> = ({ items, isRefetching }) => {
+  const move = useLearningpathRelationshipMove()
   /**
    * `sorted` is a local copy of `items`:
    *  - `onSortEnd`, we'll update `sorted` copy immediately to prevent UI from
@@ -56,39 +51,36 @@ const ResourceListItemsSortable: React.FC<{
    *  - `items` is the source of truth (most likely, this is coming from an API)
    *    so sync `items` -> `sorted` when `items` changes.
    */
-  const [sorted, setSorted] = React.useState<ListItem[]>([])
+  const [sorted, setSorted] = React.useState<LearningPathRelationship[]>([])
   useEffect(() => setSorted(items), [items])
-
   const renderDragging: RenderActive = useCallback((active) => {
-    const item = active.data.current as ListItem
+    const item = active.data.current as LearningPathRelationship
     return (
       <LearningResourceCard
         className="ic-dragging"
         sortable
         suppressImage
         variant="row-reverse"
-        resource={item.content_data}
+        resource={item.resource}
       />
     )
   }, [])
-
   const onSortEnd: OnSortEnd<number> = useCallback(
     async (e) => {
-      const active = e.active.data.current as unknown as ListItem
-      const over = e.over.data.current as unknown as ListItem
+      const active = e.active.data
+        .current as unknown as LearningPathRelationship
+      const over = e.over.data.current as unknown as LearningPathRelationship
       setSorted((current) => {
         const newOrder = arrayMove(current, e.activeIndex, e.overIndex)
         return newOrder
       })
       move.mutate({
-        item: {
-          item_id: active.id,
-          list_id: listId,
-        },
+        id: active.id,
+        parent: active.parent,
         position: over.position,
       })
     },
-    [move, listId],
+    [move],
   )
   const disabled = isRefetching || move.isLoading
   return (
@@ -118,7 +110,7 @@ const ResourceListItemsSortable: React.FC<{
                       sortable
                       suppressImage
                       variant="row-reverse"
-                      resource={item.content_data}
+                      resource={item.resource}
                     />
                   </div>
                 )
@@ -131,36 +123,26 @@ const ResourceListItemsSortable: React.FC<{
   )
 }
 
-const ResourceListItems: React.FC<ResourceListItemsProps> = ({
-  id,
-  items,
+const ItemsListing: React.FC<ItemsListingProps> = ({
+  items = [],
   isLoading,
   isRefetching,
   emptyMessage,
   sortable = false,
-  mode,
 }) => {
-  if (sortable && !id) throw new Error("Sortable list must have an id")
-  if (sortable && !mode) throw new Error("Sortable list must have a mode")
   return (
     <>
       {isLoading && <LoadingSpinner loading />}
-      {items &&
-        (items.length === 0 ? (
-          <p className="empty-message">{emptyMessage}</p>
-        ) : sortable && id && mode ? (
-          <ResourceListItemsSortable
-            listId={id}
-            mode={mode}
-            items={items}
-            isRefetching={isRefetching}
-          />
-        ) : (
-          <ResourceListItemsViewOnly items={items} />
-        ))}
+      {items.length === 0 ? (
+        <p className="empty-message">{emptyMessage}</p>
+      ) : sortable ? (
+        <ItemsListingSortable items={items} isRefetching={isRefetching} />
+      ) : (
+        <ItemsListingViewOnly items={items} />
+      )}
     </>
   )
 }
 
-export default ResourceListItems
-export type { ResourceListItemsProps as ResourceListItemsProps }
+export default ItemsListing
+export type { ItemsListingProps }

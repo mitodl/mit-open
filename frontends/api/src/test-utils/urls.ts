@@ -5,7 +5,11 @@
  * mocking requests during tests.
  */
 
-import type { LearningResourcesApi as LRApi } from "../generated"
+import type {
+  LearningResourcesApi as LRApi,
+  TopicsApi,
+  LearningpathsApi,
+} from "../generated"
 import type { BaseAPI } from "../generated/base"
 
 // OpenAPI Generator declares parameters using interfaces, which makes passing
@@ -26,4 +30,26 @@ const learningResources = {
     `/api/v1/learning_resources/${params.id}/`,
 }
 
-export { learningResources }
+const topics = {
+  list: (params?: Params<TopicsApi, "topicsList">) =>
+    `/api/v1/topics/${query(params)}`,
+}
+
+const learningPaths = {
+  list: (params?: Params<LearningpathsApi, "learningpathsList">) =>
+    `/api/v1/learningpaths/${query(params)}`,
+  resources: ({
+    parent_id: parentId,
+    ...others
+  }: Params<LearningpathsApi, "learningpathsResourcesList">) =>
+    `/api/v1/learningpaths/${parentId}/resources/${query(others)}`,
+  resourceDetails: ({
+    parent_id: parentId,
+    id,
+  }: Params<LearningpathsApi, "learningpathsResourcesPartialUpdate">) =>
+    `/api/v1/learningpaths/${parentId}/resources/${id}/`,
+  details: (params: Params<LearningpathsApi, "learningpathsRetrieve">) =>
+    `/api/v1/learningpaths/${params.id}/`,
+}
+
+export { learningResources, topics, learningPaths }

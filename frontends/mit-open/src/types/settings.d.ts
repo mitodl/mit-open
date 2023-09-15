@@ -3,7 +3,7 @@ export type User = {
   id: number | null
   is_authenticated: boolean
   is_public_list_editor: boolean
-  is_staff_list_editor: boolean
+  is_learning_path_editor: boolean
 }
 
 export declare global {

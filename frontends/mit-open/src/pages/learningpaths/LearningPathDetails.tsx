@@ -1,65 +1,60 @@
 import React, { useMemo } from "react"
-import { BannerPage, useToggle, pluralize } from "ol-util"
-import { GridColumn, GridContainer } from "../../components/layout"
-import {
-  useStaffList,
-  useStaffListItems,
-  useUserList,
-  useUserListItems,
-} from "../../api/learning-resources"
 import Container from "@mui/material/Container"
 import EditIcon from "@mui/icons-material/Edit"
 import Grid from "@mui/material/Grid"
 import Button from "@mui/material/Button"
+import SwapVertIcon from "@mui/icons-material/SwapVert"
 
 import { useParams } from "react-router"
-import ResourceListItems from "./ItemsListing"
+
 import {
-  LearningResourceType as LRT,
-  PaginatedListItems,
-  StaffList,
-  UserList,
-} from "ol-search-ui"
-import SwapVertIcon from "@mui/icons-material/SwapVert"
+  useInfiniteLearningPathItems,
+  useLearningPathsDetail,
+} from "api/hooks/learningResources"
+
+import { BannerPage, useToggle, pluralize, MetaTags } from "ol-util"
+import { GridColumn, GridContainer } from "../../components/layout"
 import { manageListDialogs } from "./ManageListDialogs"
-import { UseInfiniteQueryResult, UseQueryResult } from "@tanstack/react-query"
+
+import ItemsListing from "./ItemsListing"
 
 type RouteParams = {
   id: string
 }
 
-const ResourceListDetailsPage: React.FC<{
-  mode: "userlist" | "stafflist"
-  listQuery: UseQueryResult<StaffList | UserList>
-  itemsQuery: UseInfiniteQueryResult<PaginatedListItems>
-  canEdit: boolean
-  canSort: boolean
-}> = ({ mode, listQuery, itemsQuery, canEdit, canSort }) => {
+const LearningPathDetailsPage: React.FC = () => {
   const id = Number(useParams<RouteParams>().id)
+  const pathQuery = useLearningPathsDetail(id)
+  const itemsQuery = useInfiniteLearningPathItems({ parent_id: id })
   const [isSorting, toggleIsSorting] = useToggle(false)
 
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages
-    return pages?.flatMap((p) => p.results.map((r) => r))
+    return pages?.flatMap((p) => p.results ?? []) ?? []
   }, [itemsQuery.data])
 
-  const showSort = !!items?.length && canSort
-  const description = listQuery.data?.short_description
-  const count = listQuery.data?.item_count
+  const canEdit = window.SETTINGS.user.is_learning_path_editor
+  const showSort = canEdit && !!items.length
+  const description = pathQuery.data?.description
+  const count = pathQuery?.data?.learning_path?.item_count
 
   return (
     <BannerPage
       src="/static/images/course_search_banner.png"
       alt=""
       compactOnMobile
+      className="learningpaths-page"
     >
+      <MetaTags>
+        <title>{pathQuery.data?.title}</title>
+      </MetaTags>
       <Container maxWidth="sm" className="userlist-page">
         <GridContainer>
           <GridColumn variant="single-full">
-            {listQuery.data && (
+            {pathQuery.data && (
               <Grid container className="ic-list-header">
                 <Grid item xs={12}>
-                  <h1>{listQuery.data.title}</h1>
+                  <h1>{pathQuery.data.title}</h1>
                   {description && <p>{description}</p>}
                 </Grid>
                 <Grid
@@ -94,7 +89,7 @@ const ResourceListDetailsPage: React.FC<{
                     <Button
                       color="secondary"
                       startIcon={<EditIcon />}
-                      onClick={() => manageListDialogs.editList(listQuery.data)}
+                      onClick={() => manageListDialogs.upsert(pathQuery.data)}
                     >
                       Edit
                     </Button>
@@ -102,9 +97,7 @@ const ResourceListDetailsPage: React.FC<{
                 </Grid>
               </Grid>
             )}
-            <ResourceListItems
-              id={id}
-              mode={mode}
+            <ItemsListing
               items={items}
               isLoading={itemsQuery.isLoading}
               isRefetching={itemsQuery.isFetching}
@@ -118,39 +111,4 @@ const ResourceListDetailsPage: React.FC<{
   )
 }
 
-const UserListDetailsPage: React.FC = () => {
-  const id = Number(useParams<RouteParams>().id)
-  const listQuery = useUserList(id)
-  const itemsQuery = useUserListItems(id)
-  const canEdit = window.SETTINGS.user.id === listQuery.data?.author
-  const canSort = canEdit && listQuery.data?.object_type === LRT.LearningPath
-  return (
-    <ResourceListDetailsPage
-      mode="userlist"
-      listQuery={listQuery}
-      itemsQuery={itemsQuery}
-      canEdit={canEdit}
-      canSort={canSort}
-    />
-  )
-}
-
-const StaffListDetailsPage: React.FC = () => {
-  const id = Number(useParams<RouteParams>().id)
-  const listQuery = useStaffList(id)
-  const itemsQuery = useStaffListItems(id)
-
-  const canEdit = window.SETTINGS.user.is_staff_list_editor
-  const canSort = canEdit && listQuery.data?.object_type === LRT.StaffPath
-  return (
-    <ResourceListDetailsPage
-      mode="stafflist"
-      listQuery={listQuery}
-      itemsQuery={itemsQuery}
-      canEdit={canEdit}
-      canSort={canSort}
-    />
-  )
-}
-
-export { UserListDetailsPage, StaffListDetailsPage }
+export default LearningPathDetailsPage

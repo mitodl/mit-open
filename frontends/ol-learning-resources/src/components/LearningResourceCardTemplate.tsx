@@ -2,7 +2,7 @@ import React, { useCallback } from "react"
 import Dotdotdot from "react-dotdotdot"
 import invariant from "tiny-invariant"
 import classNames from "classnames"
-import type { LearningResource } from "api"
+import type { LearningPathResource, LearningResource } from "api"
 
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
@@ -18,17 +18,11 @@ import {
   findBestRun,
 } from "../utils"
 import type { EmbedlyConfig } from "../utils"
+import { pluralize } from "ol-util"
 
-type CardResource = Pick<
-  LearningResource,
-  | "runs"
-  | "certification"
-  | "title"
-  | "offered_by"
-  | "platform"
-  | "image"
-  | "resource_type"
->
+type CardResource = Partial<LearningResource> &
+  Partial<LearningPathResource> &
+  Pick<LearningResource, "id" | "resource_type" | "title">
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard<R extends CardResource = CardResource> = (
@@ -84,6 +78,15 @@ const ResourceFooterDetails: React.FC<
     ? moment(startDate).format("MMMM DD, YYYY")
     : null
 
+  if (resource?.learning_path) {
+    const count = resource.learning_path.item_count
+    return (
+      <span>
+        {count} {pluralize("item", count)}
+      </span>
+    )
+  }
+
   if (!startDate) return null
 
   return (
@@ -115,7 +118,7 @@ const LRCImage: React.FC<LRCImageProps> = ({
       component="img"
       className="ol-lrc-image"
       sx={dims}
-      src={resourceThumbnailSrc(resource, imgConfig)}
+      src={resourceThumbnailSrc(resource.image ?? null, imgConfig)}
       alt=""
     />
   )
