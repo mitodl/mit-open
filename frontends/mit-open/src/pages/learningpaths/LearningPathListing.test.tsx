@@ -12,6 +12,7 @@ import {
   expectProps,
   waitFor,
 } from "../../test-utils"
+import type { User } from "../../types/settings"
 
 jest.mock("ol-learning-resources", () => {
   const actual = jest.requireActual("ol-learning-resources")
@@ -27,12 +28,18 @@ const spyLRCardTemplate = jest.mocked(LearningResourceCardTemplate)
  */
 const setup = ({
   listsCount = faker.datatype.number({ min: 2, max: 5 }),
+  user = { is_learning_path_editor: true },
+}: {
+  user?: Partial<User>
+  listsCount?: number
 } = {}) => {
   const paths = factories.learningResources.learningPaths({ count: listsCount })
 
   setMockResponse.get(urls.learningPaths.list(), paths)
 
-  const { history } = renderWithProviders(<LearningPathListingPage />)
+  const { history } = renderWithProviders(<LearningPathListingPage />, {
+    user,
+  })
 
   return { paths, history }
 }
@@ -60,6 +67,31 @@ describe("LearningPathListingPage", () => {
     })
   })
 
+  it.each([
+    { user: { is_learning_path_editor: true }, canEdit: true },
+    { user: { is_learning_path_editor: false }, canEdit: false },
+  ])(
+    "Only shows editting buttons for users with permission",
+    async ({ canEdit, user }) => {
+      const { paths } = setup({ user })
+      const newListButton = screen.queryByRole("button", {
+        name: "Create new list",
+      })
+
+      // Ensure the lists have loaded
+      const path = paths.results[0]
+      await screen.findAllByRole("heading", {
+        name: path.title,
+      })
+      const menuButton = screen.queryByRole("button", {
+        name: `Edit list ${path.title}`,
+      })
+
+      expect(!!newListButton).toBe(canEdit)
+      expect(!!menuButton).toBe(canEdit)
+    },
+  )
+
   test("Clicking edit -> Edit on opens the editing dialog", async () => {
     const editList = jest
       .spyOn(manageListDialogs, "upsert")
@@ -78,7 +110,7 @@ describe("LearningPathListingPage", () => {
     expect(editList).toHaveBeenCalledWith(path)
   })
 
-  test("$pageName: Clicking edit -> Delete opens the deletion dialog", async () => {
+  test("Clicking edit -> Delete opens the deletion dialog", async () => {
     const deleteList = jest
       .spyOn(manageListDialogs, "destroy")
       .mockImplementationOnce(jest.fn())

@@ -69,15 +69,16 @@ const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
 type ListCardProps = {
   list: LearningPathResource
   onActivate: (resource: LearningPathResource) => void
+  canEdit: boolean
 }
-const ListCard: React.FC<ListCardProps> = ({ list, onActivate }) => {
+const ListCard: React.FC<ListCardProps> = ({ list, onActivate, canEdit }) => {
   return (
     <LearningResourceCardTemplate
       variant="row-reverse"
       className="ic-resource-card"
       resource={list}
       imgConfig={imgConfigs["row-reverse-small"]}
-      footerActionSlot={<EditListMenu resource={list} />}
+      footerActionSlot={canEdit ? <EditListMenu resource={list} /> : null}
       onActivate={onActivate}
     />
   )
@@ -98,6 +99,8 @@ const LearningPathListingPage: React.FC = () => {
     manageListDialogs.upsert()
   }, [])
 
+  const canEdit = window.SETTINGS.user.is_learning_path_editor
+
   return (
     <BannerPage
       src="/static/images/course_search_banner.png"
@@ -116,9 +119,11 @@ const LearningPathListingPage: React.FC = () => {
                 <h1>Learning Paths</h1>
               </Grid>
               <Grid item xs={6} className="ic-centered-right">
-                <Button variant="contained" onClick={handleCreate}>
-                  Create new list
-                </Button>
+                {canEdit ? (
+                  <Button variant="contained" onClick={handleCreate}>
+                    Create new list
+                  </Button>
+                ) : null}
               </Grid>
             </Grid>
             <section>
@@ -128,7 +133,11 @@ const LearningPathListingPage: React.FC = () => {
                   {listingQuery.data.results?.map((list) => {
                     return (
                       <li key={list.id}>
-                        <ListCard list={list} onActivate={handleActivate} />
+                        <ListCard
+                          list={list}
+                          onActivate={handleActivate}
+                          canEdit={canEdit}
+                        />
                       </li>
                     )
                   })}
