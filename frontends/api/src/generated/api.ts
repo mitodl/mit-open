@@ -412,6 +412,18 @@ export interface LearningPathResource {
   learning_path: LearningPath | null
   /**
    *
+   * @type {Podcast}
+   * @memberof LearningPathResource
+   */
+  podcast: Podcast | null
+  /**
+   *
+   * @type {PodcastEpisode}
+   * @memberof LearningPathResource
+   */
+  podcast_episode: PodcastEpisode | null
+  /**
+   *
    * @type {Array<LearningResourceRun>}
    * @memberof LearningPathResource
    */
@@ -644,6 +656,18 @@ export interface LearningResource {
   learning_path: LearningPath | null
   /**
    *
+   * @type {Podcast}
+   * @memberof LearningResource
+   */
+  podcast: Podcast | null
+  /**
+   *
+   * @type {PodcastEpisode}
+   * @memberof LearningResource
+   */
+  podcast_episode: PodcastEpisode | null
+  /**
+   *
    * @type {Array<LearningResourceRun>}
    * @memberof LearningResource
    */
@@ -802,6 +826,18 @@ export interface LearningResourceBase {
   learning_path: LearningPath | null
   /**
    *
+   * @type {Podcast}
+   * @memberof LearningResourceBase
+   */
+  podcast: Podcast | null
+  /**
+   *
+   * @type {PodcastEpisode}
+   * @memberof LearningResourceBase
+   */
+  podcast_episode: PodcastEpisode | null
+  /**
+   *
    * @type {Array<LearningResourceRun>}
    * @memberof LearningResourceBase
    */
@@ -886,6 +922,19 @@ export interface LearningResourceBase {
   platform: string | null
 }
 
+/**
+ * Serializer for LearningResourceRelationship children
+ * @export
+ * @interface LearningResourceChild
+ */
+export interface LearningResourceChild {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceChild
+   */
+  child: number
+}
 /**
  * Serializer for LearningResourceDepartment
  * @export
@@ -1535,6 +1584,37 @@ export interface PaginatedLearningPathResourceList {
 /**
  *
  * @export
+ * @interface PaginatedLearningResourceChildList
+ */
+export interface PaginatedLearningResourceChildList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedLearningResourceChildList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceChildList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceChildList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<LearningResourceChild>}
+   * @memberof PaginatedLearningResourceChildList
+   */
+  results?: Array<LearningResourceChild>
+}
+/**
+ *
+ * @export
  * @interface PaginatedLearningResourceList
  */
 export interface PaginatedLearningResourceList {
@@ -1807,6 +1887,136 @@ export interface PatchedUserListRequest {
 }
 
 /**
+ * Serializer for Podcasts
+ * @export
+ * @interface Podcast
+ */
+export interface Podcast {
+  /**
+   *
+   * @type {number}
+   * @memberof Podcast
+   */
+  id: number
+  /**
+   * Return the number of episodes in the podcast
+   * @type {number}
+   * @memberof Podcast
+   */
+  episode_count: number
+  /**
+   *
+   * @type {string}
+   * @memberof Podcast
+   */
+  apple_podcasts_url?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof Podcast
+   */
+  google_podcasts_url?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof Podcast
+   */
+  rss_url?: string | null
+}
+/**
+ * Serializer for PodcastEpisode
+ * @export
+ * @interface PodcastEpisode
+ */
+export interface PodcastEpisode {
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastEpisode
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisode
+   */
+  transcript?: string
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisode
+   */
+  episode_link?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisode
+   */
+  duration?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisode
+   */
+  rss?: string | null
+}
+/**
+ * Serializer for PodcastEpisode
+ * @export
+ * @interface PodcastEpisodeRequest
+ */
+export interface PodcastEpisodeRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeRequest
+   */
+  transcript?: string
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeRequest
+   */
+  episode_link?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeRequest
+   */
+  duration?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeRequest
+   */
+  rss?: string | null
+}
+/**
+ * Serializer for Podcasts
+ * @export
+ * @interface PodcastRequest
+ */
+export interface PodcastRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastRequest
+   */
+  apple_podcasts_url?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastRequest
+   */
+  google_podcasts_url?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastRequest
+   */
+  rss_url?: string | null
+}
+/**
  * * `private` - private * `unlisted` - unlisted
  * @export
  * @enum {string}
@@ -1834,7 +2044,7 @@ export interface Program {
   courses: Array<LearningResourceBase> | null
 }
 /**
- * * `course` - course * `program` - program * `learning_path` - learning_path
+ * * `course` - course * `program` - program * `learning_path` - learning_path * `podcast` - podcast * `podcast_episode` - podcast_episode
  * @export
  * @enum {string}
  */
@@ -1843,6 +2053,8 @@ export const ResourceTypeEnum = {
   Course: "course",
   Program: "program",
   LearningPath: "learning_path",
+  Podcast: "podcast",
+  PodcastEpisode: "podcast_episode",
 } as const
 
 export type ResourceTypeEnum =
@@ -2556,8 +2768,9 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2566,8 +2779,14 @@ export const CoursesApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/`
@@ -2604,6 +2823,10 @@ export const CoursesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -2633,8 +2856,9 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2643,8 +2867,14 @@ export const CoursesApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/new/`
@@ -2679,6 +2909,10 @@ export const CoursesApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
       }
 
       if (platform !== undefined) {
@@ -2758,8 +2992,9 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2768,8 +3003,14 @@ export const CoursesApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/upcoming/`
@@ -2804,6 +3045,10 @@ export const CoursesApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
       }
 
       if (platform !== undefined) {
@@ -2911,8 +3156,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2921,8 +3167,14 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -2935,6 +3187,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         limit,
         offered_by__name,
         offset,
+        ordering,
         platform,
         resource_type,
         options,
@@ -2953,8 +3206,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2963,8 +3217,14 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -2977,6 +3237,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         limit,
         offered_by__name,
         offset,
+        ordering,
         platform,
         resource_type,
         options,
@@ -3022,8 +3283,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3032,8 +3294,14 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -3047,6 +3315,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by__name,
           offset,
+          ordering,
           platform,
           resource_type,
           options,
@@ -3128,6 +3397,7 @@ export const CoursesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -3151,6 +3421,7 @@ export const CoursesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -3189,6 +3460,7 @@ export const CoursesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -3296,6 +3568,13 @@ export interface CoursesApiCoursesListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof CoursesApiCoursesList
@@ -3303,11 +3582,16 @@ export interface CoursesApiCoursesListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof CoursesApiCoursesList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -3345,6 +3629,13 @@ export interface CoursesApiCoursesNewListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof CoursesApiCoursesNewList
@@ -3352,11 +3643,16 @@ export interface CoursesApiCoursesNewListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof CoursesApiCoursesNewList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -3408,6 +3704,13 @@ export interface CoursesApiCoursesUpcomingListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof CoursesApiCoursesUpcomingList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof CoursesApiCoursesUpcomingList
@@ -3415,11 +3718,16 @@ export interface CoursesApiCoursesUpcomingListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof CoursesApiCoursesUpcomingList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -3490,6 +3798,7 @@ export class CoursesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -3515,6 +3824,7 @@ export class CoursesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -3557,6 +3867,7 @@ export class CoursesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -3708,14 +4019,165 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
+     * Viewset for LearningResource related resources
+     * @param {number} parent_id
+     * @param {number} [child__department__id]
+     * @param {string} [child__offered_by__name]
+     * @param {string} [child__platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [child__resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesItemsList: async (
+      parent_id: number,
+      child__department__id?: number,
+      child__offered_by__name?: string,
+      child__platform?: string,
+      child__resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      limit?: number,
+      offset?: number,
+      ordering?: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'parent_id' is not null or undefined
+      assertParamExists("learningResourcesItemsList", "parent_id", parent_id)
+      const localVarPath =
+        `/api/v1/learning_resources/{parent_id}/items/`.replace(
+          `{${"parent_id"}}`,
+          encodeURIComponent(String(parent_id)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (child__department__id !== undefined) {
+        localVarQueryParameter["child__department__id"] = child__department__id
+      }
+
+      if (child__offered_by__name !== undefined) {
+        localVarQueryParameter["child__offered_by__name"] =
+          child__offered_by__name
+      }
+
+      if (child__platform !== undefined) {
+        localVarQueryParameter["child__platform"] = child__platform
+      }
+
+      if (child__resource_type !== undefined) {
+        localVarQueryParameter["child__resource_type"] = child__resource_type
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for LearningResource related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parent_id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesItemsRetrieve: async (
+      id: number,
+      parent_id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningResourcesItemsRetrieve", "id", id)
+      // verify required parameter 'parent_id' is not null or undefined
+      assertParamExists(
+        "learningResourcesItemsRetrieve",
+        "parent_id",
+        parent_id,
+      )
+      const localVarPath = `/api/v1/learning_resources/{parent_id}/items/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
      * @param {number} [department__id]
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3724,8 +4186,14 @@ export const LearningResourcesApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/`
@@ -3762,6 +4230,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -3791,8 +4263,9 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3801,8 +4274,14 @@ export const LearningResourcesApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/new/`
@@ -3837,6 +4316,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
       }
 
       if (platform !== undefined) {
@@ -3916,8 +4399,9 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3926,8 +4410,14 @@ export const LearningResourcesApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/upcoming/`
@@ -3962,6 +4452,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
       }
 
       if (platform !== undefined) {
@@ -4064,14 +4558,98 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
+     * Viewset for LearningResource related resources
+     * @param {number} parent_id
+     * @param {number} [child__department__id]
+     * @param {string} [child__offered_by__name]
+     * @param {string} [child__platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [child__resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesItemsList(
+      parent_id: number,
+      child__department__id?: number,
+      child__offered_by__name?: string,
+      child__platform?: string,
+      child__resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      limit?: number,
+      offset?: number,
+      ordering?: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceChildList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesItemsList(
+          parent_id,
+          child__department__id,
+          child__offered_by__name,
+          child__platform,
+          child__resource_type,
+          limit,
+          offset,
+          ordering,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for LearningResource related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parent_id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesItemsRetrieve(
+      id: number,
+      parent_id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResourceChild>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesItemsRetrieve(
+          id,
+          parent_id,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
      * @param {number} [department__id]
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4080,8 +4658,14 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -4095,6 +4679,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by__name,
           offset,
+          ordering,
           platform,
           resource_type,
           options,
@@ -4113,8 +4698,9 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4123,8 +4709,14 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -4138,6 +4730,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by__name,
           offset,
+          ordering,
           platform,
           resource_type,
           options,
@@ -4181,8 +4774,9 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4191,8 +4785,14 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -4206,6 +4806,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by__name,
           offset,
+          ordering,
           platform,
           resource_type,
           options,
@@ -4271,6 +4872,48 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     * Viewset for LearningResource related resources
+     * @param {LearningResourcesApiLearningResourcesItemsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesItemsList(
+      requestParameters: LearningResourcesApiLearningResourcesItemsListRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceChildList> {
+      return localVarFp
+        .learningResourcesItemsList(
+          requestParameters.parent_id,
+          requestParameters.child__department__id,
+          requestParameters.child__offered_by__name,
+          requestParameters.child__platform,
+          requestParameters.child__resource_type,
+          requestParameters.limit,
+          requestParameters.offset,
+          requestParameters.ordering,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningResource related resources
+     * @param {LearningResourcesApiLearningResourcesItemsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesItemsRetrieve(
+      requestParameters: LearningResourcesApiLearningResourcesItemsRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<LearningResourceChild> {
+      return localVarFp
+        .learningResourcesItemsRetrieve(
+          requestParameters.id,
+          requestParameters.parent_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
      * @param {LearningResourcesApiLearningResourcesListRequest} requestParameters Request parameters.
@@ -4287,6 +4930,7 @@ export const LearningResourcesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -4310,6 +4954,7 @@ export const LearningResourcesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -4348,6 +4993,7 @@ export const LearningResourcesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -4421,6 +5067,95 @@ export interface LearningResourcesApiLearningResourcesContentfilesRetrieveReques
 }
 
 /**
+ * Request parameters for learningResourcesItemsList operation in LearningResourcesApi.
+ * @export
+ * @interface LearningResourcesApiLearningResourcesItemsListRequest
+ */
+export interface LearningResourcesApiLearningResourcesItemsListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesItemsList
+   */
+  readonly parent_id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesItemsList
+   */
+  readonly child__department__id?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesItemsList
+   */
+  readonly child__offered_by__name?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesItemsList
+   */
+  readonly child__platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof LearningResourcesApiLearningResourcesItemsList
+   */
+  readonly child__resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesItemsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesItemsList
+   */
+  readonly offset?: number
+
+  /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesItemsList
+   */
+  readonly ordering?: string
+}
+
+/**
+ * Request parameters for learningResourcesItemsRetrieve operation in LearningResourcesApi.
+ * @export
+ * @interface LearningResourcesApiLearningResourcesItemsRetrieveRequest
+ */
+export interface LearningResourcesApiLearningResourcesItemsRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource relationship.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesItemsRetrieve
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesItemsRetrieve
+   */
+  readonly parent_id: number
+}
+
+/**
  * Request parameters for learningResourcesList operation in LearningResourcesApi.
  * @export
  * @interface LearningResourcesApiLearningResourcesListRequest
@@ -4455,6 +5190,13 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof LearningResourcesApiLearningResourcesList
@@ -4462,11 +5204,16 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof LearningResourcesApiLearningResourcesList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -4504,6 +5251,13 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof LearningResourcesApiLearningResourcesNewList
@@ -4511,11 +5265,16 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof LearningResourcesApiLearningResourcesNewList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -4567,6 +5326,13 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesUpcomingList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
@@ -4574,11 +5340,16 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -4632,6 +5403,52 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
+   * Viewset for LearningResource related resources
+   * @param {LearningResourcesApiLearningResourcesItemsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesItemsList(
+    requestParameters: LearningResourcesApiLearningResourcesItemsListRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesItemsList(
+        requestParameters.parent_id,
+        requestParameters.child__department__id,
+        requestParameters.child__offered_by__name,
+        requestParameters.child__platform,
+        requestParameters.child__resource_type,
+        requestParameters.limit,
+        requestParameters.offset,
+        requestParameters.ordering,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningResource related resources
+   * @param {LearningResourcesApiLearningResourcesItemsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesItemsRetrieve(
+    requestParameters: LearningResourcesApiLearningResourcesItemsRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesItemsRetrieve(
+        requestParameters.id,
+        requestParameters.parent_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
    * Get a paginated list of learning resources.
    * @summary List
    * @param {LearningResourcesApiLearningResourcesListRequest} requestParameters Request parameters.
@@ -4649,6 +5466,7 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -4674,6 +5492,7 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -4716,6 +5535,7 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -4841,8 +5661,9 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4851,8 +5672,14 @@ export const LearningpathsApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/`
@@ -4889,6 +5716,10 @@ export const LearningpathsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -4918,8 +5749,9 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4928,8 +5760,14 @@ export const LearningpathsApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/new/`
@@ -4964,6 +5802,10 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
       }
 
       if (platform !== undefined) {
@@ -5160,15 +6002,30 @@ export const LearningpathsApiAxiosParamCreator = function (
     /**
      * Viewset for LearningPath related resources
      * @param {number} parent_id
+     * @param {number} [child__department__id]
+     * @param {string} [child__offered_by__name]
+     * @param {string} [child__platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [child__resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningpathsResourcesList: async (
       parent_id: number,
+      child__department__id?: number,
+      child__offered_by__name?: string,
+      child__platform?: string,
+      child__resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       limit?: number,
       offset?: number,
+      ordering?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'parent_id' is not null or undefined
@@ -5195,12 +6052,33 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
+      if (child__department__id !== undefined) {
+        localVarQueryParameter["child__department__id"] = child__department__id
+      }
+
+      if (child__offered_by__name !== undefined) {
+        localVarQueryParameter["child__offered_by__name"] =
+          child__offered_by__name
+      }
+
+      if (child__platform !== undefined) {
+        localVarQueryParameter["child__platform"] = child__platform
+      }
+
+      if (child__resource_type !== undefined) {
+        localVarQueryParameter["child__resource_type"] = child__resource_type
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -5454,8 +6332,9 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5464,8 +6343,14 @@ export const LearningpathsApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/upcoming/`
@@ -5500,6 +6385,10 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
       }
 
       if (platform !== undefined) {
@@ -5652,8 +6541,9 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5662,8 +6552,14 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -5677,6 +6573,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           limit,
           offered_by__name,
           offset,
+          ordering,
           platform,
           resource_type,
           options,
@@ -5695,8 +6592,9 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5705,8 +6603,14 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -5720,6 +6624,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           limit,
           offered_by__name,
           offset,
+          ordering,
           platform,
           resource_type,
           options,
@@ -5821,15 +6726,30 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     /**
      * Viewset for LearningPath related resources
      * @param {number} parent_id
+     * @param {number} [child__department__id]
+     * @param {string} [child__offered_by__name]
+     * @param {string} [child__platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [child__resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningpathsResourcesList(
       parent_id: number,
+      child__department__id?: number,
+      child__offered_by__name?: string,
+      child__platform?: string,
+      child__resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       limit?: number,
       offset?: number,
+      ordering?: string,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -5840,8 +6760,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsResourcesList(
           parent_id,
+          child__department__id,
+          child__offered_by__name,
+          child__platform,
+          child__resource_type,
           limit,
           offset,
+          ordering,
           options,
         )
       return createRequestFunction(
@@ -5979,8 +6904,9 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5989,8 +6915,14 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -6004,6 +6936,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           limit,
           offered_by__name,
           offset,
+          ordering,
           platform,
           resource_type,
           options,
@@ -6107,6 +7040,7 @@ export const LearningpathsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -6130,6 +7064,7 @@ export const LearningpathsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -6203,8 +7138,13 @@ export const LearningpathsApiFactory = function (
       return localVarFp
         .learningpathsResourcesList(
           requestParameters.parent_id,
+          requestParameters.child__department__id,
+          requestParameters.child__offered_by__name,
+          requestParameters.child__platform,
+          requestParameters.child__resource_type,
           requestParameters.limit,
           requestParameters.offset,
+          requestParameters.ordering,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -6297,6 +7237,7 @@ export const LearningpathsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -6387,6 +7328,13 @@ export interface LearningpathsApiLearningpathsListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof LearningpathsApiLearningpathsList
@@ -6394,11 +7342,16 @@ export interface LearningpathsApiLearningpathsListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof LearningpathsApiLearningpathsList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -6436,6 +7389,13 @@ export interface LearningpathsApiLearningpathsNewListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsNewList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof LearningpathsApiLearningpathsNewList
@@ -6443,11 +7403,16 @@ export interface LearningpathsApiLearningpathsNewListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof LearningpathsApiLearningpathsNewList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -6527,6 +7492,39 @@ export interface LearningpathsApiLearningpathsResourcesListRequest {
   readonly parent_id: number
 
   /**
+   *
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsResourcesList
+   */
+  readonly child__department__id?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsResourcesList
+   */
+  readonly child__offered_by__name?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsResourcesList
+   */
+  readonly child__platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof LearningpathsApiLearningpathsResourcesList
+   */
+  readonly child__resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningpathsApiLearningpathsResourcesList
@@ -6539,6 +7537,13 @@ export interface LearningpathsApiLearningpathsResourcesListRequest {
    * @memberof LearningpathsApiLearningpathsResourcesList
    */
   readonly offset?: number
+
+  /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsResourcesList
+   */
+  readonly ordering?: string
 }
 
 /**
@@ -6667,6 +7672,13 @@ export interface LearningpathsApiLearningpathsUpcomingListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsUpcomingList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof LearningpathsApiLearningpathsUpcomingList
@@ -6674,11 +7686,16 @@ export interface LearningpathsApiLearningpathsUpcomingListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof LearningpathsApiLearningpathsUpcomingList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -6762,6 +7779,7 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -6787,6 +7805,7 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -6868,8 +7887,13 @@ export class LearningpathsApi extends BaseAPI {
     return LearningpathsApiFp(this.configuration)
       .learningpathsResourcesList(
         requestParameters.parent_id,
+        requestParameters.child__department__id,
+        requestParameters.child__offered_by__name,
+        requestParameters.child__platform,
+        requestParameters.child__resource_type,
         requestParameters.limit,
         requestParameters.offset,
+        requestParameters.ordering,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -6972,6 +7996,7 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -7001,6 +8026,2234 @@ export class LearningpathsApi extends BaseAPI {
 }
 
 /**
+ * PodcastEpisodesApi - axios parameter creator
+ * @export
+ */
+export const PodcastEpisodesApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastEpisodesList: async (
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/podcast_episodes/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (department__id !== undefined) {
+        localVarQueryParameter["department__id"] = department__id
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by__name !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offered_by__name
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastEpisodesNewList: async (
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/podcast_episodes/new/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (department__id !== undefined) {
+        localVarQueryParameter["department__id"] = department__id
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by__name !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offered_by__name
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastEpisodesRetrieve: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("podcastEpisodesRetrieve", "id", id)
+      const localVarPath = `/api/v1/podcast_episodes/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastEpisodesUpcomingList: async (
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/podcast_episodes/upcoming/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (department__id !== undefined) {
+        localVarQueryParameter["department__id"] = department__id
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by__name !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offered_by__name
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * PodcastEpisodesApi - functional programming interface
+ * @export
+ */
+export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    PodcastEpisodesApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async podcastEpisodesList(
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.podcastEpisodesList(
+          department__id,
+          limit,
+          offered_by__name,
+          offset,
+          ordering,
+          platform,
+          resource_type,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async podcastEpisodesNewList(
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.podcastEpisodesNewList(
+          department__id,
+          limit,
+          offered_by__name,
+          offset,
+          ordering,
+          platform,
+          resource_type,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async podcastEpisodesRetrieve(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.podcastEpisodesRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async podcastEpisodesUpcomingList(
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.podcastEpisodesUpcomingList(
+          department__id,
+          limit,
+          offered_by__name,
+          offset,
+          ordering,
+          platform,
+          resource_type,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * PodcastEpisodesApi - factory interface
+ * @export
+ */
+export const PodcastEpisodesApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = PodcastEpisodesApiFp(configuration)
+  return {
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {PodcastEpisodesApiPodcastEpisodesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastEpisodesList(
+      requestParameters: PodcastEpisodesApiPodcastEpisodesListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .podcastEpisodesList(
+          requestParameters.department__id,
+          requestParameters.limit,
+          requestParameters.offered_by__name,
+          requestParameters.offset,
+          requestParameters.ordering,
+          requestParameters.platform,
+          requestParameters.resource_type,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {PodcastEpisodesApiPodcastEpisodesNewListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastEpisodesNewList(
+      requestParameters: PodcastEpisodesApiPodcastEpisodesNewListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .podcastEpisodesNewList(
+          requestParameters.department__id,
+          requestParameters.limit,
+          requestParameters.offered_by__name,
+          requestParameters.offset,
+          requestParameters.ordering,
+          requestParameters.platform,
+          requestParameters.resource_type,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {PodcastEpisodesApiPodcastEpisodesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastEpisodesRetrieve(
+      requestParameters: PodcastEpisodesApiPodcastEpisodesRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<LearningResource> {
+      return localVarFp
+        .podcastEpisodesRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {PodcastEpisodesApiPodcastEpisodesUpcomingListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastEpisodesUpcomingList(
+      requestParameters: PodcastEpisodesApiPodcastEpisodesUpcomingListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .podcastEpisodesUpcomingList(
+          requestParameters.department__id,
+          requestParameters.limit,
+          requestParameters.offered_by__name,
+          requestParameters.offset,
+          requestParameters.ordering,
+          requestParameters.platform,
+          requestParameters.resource_type,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for podcastEpisodesList operation in PodcastEpisodesApi.
+ * @export
+ * @interface PodcastEpisodesApiPodcastEpisodesListRequest
+ */
+export interface PodcastEpisodesApiPodcastEpisodesListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly department__id?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly offered_by__name?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly offset?: number
+
+  /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly ordering?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+}
+
+/**
+ * Request parameters for podcastEpisodesNewList operation in PodcastEpisodesApi.
+ * @export
+ * @interface PodcastEpisodesApiPodcastEpisodesNewListRequest
+ */
+export interface PodcastEpisodesApiPodcastEpisodesNewListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
+   */
+  readonly department__id?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
+   */
+  readonly offered_by__name?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
+   */
+  readonly offset?: number
+
+  /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
+   */
+  readonly ordering?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
+   */
+  readonly platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
+   */
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+}
+
+/**
+ * Request parameters for podcastEpisodesRetrieve operation in PodcastEpisodesApi.
+ * @export
+ * @interface PodcastEpisodesApiPodcastEpisodesRetrieveRequest
+ */
+export interface PodcastEpisodesApiPodcastEpisodesRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof PodcastEpisodesApiPodcastEpisodesRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for podcastEpisodesUpcomingList operation in PodcastEpisodesApi.
+ * @export
+ * @interface PodcastEpisodesApiPodcastEpisodesUpcomingListRequest
+ */
+export interface PodcastEpisodesApiPodcastEpisodesUpcomingListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
+   */
+  readonly department__id?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
+   */
+  readonly offered_by__name?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
+   */
+  readonly offset?: number
+
+  /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
+   */
+  readonly ordering?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
+   */
+  readonly platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
+   */
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+}
+
+/**
+ * PodcastEpisodesApi - object-oriented interface
+ * @export
+ * @class PodcastEpisodesApi
+ * @extends {BaseAPI}
+ */
+export class PodcastEpisodesApi extends BaseAPI {
+  /**
+   * Get a paginated list of learning resources.
+   * @summary List
+   * @param {PodcastEpisodesApiPodcastEpisodesListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PodcastEpisodesApi
+   */
+  public podcastEpisodesList(
+    requestParameters: PodcastEpisodesApiPodcastEpisodesListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return PodcastEpisodesApiFp(this.configuration)
+      .podcastEpisodesList(
+        requestParameters.department__id,
+        requestParameters.limit,
+        requestParameters.offered_by__name,
+        requestParameters.offset,
+        requestParameters.ordering,
+        requestParameters.platform,
+        requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of newly released resources.
+   * @summary List New
+   * @param {PodcastEpisodesApiPodcastEpisodesNewListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PodcastEpisodesApi
+   */
+  public podcastEpisodesNewList(
+    requestParameters: PodcastEpisodesApiPodcastEpisodesNewListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return PodcastEpisodesApiFp(this.configuration)
+      .podcastEpisodesNewList(
+        requestParameters.department__id,
+        requestParameters.limit,
+        requestParameters.offered_by__name,
+        requestParameters.offset,
+        requestParameters.ordering,
+        requestParameters.platform,
+        requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a single learning resource.
+   * @summary Retrieve
+   * @param {PodcastEpisodesApiPodcastEpisodesRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PodcastEpisodesApi
+   */
+  public podcastEpisodesRetrieve(
+    requestParameters: PodcastEpisodesApiPodcastEpisodesRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return PodcastEpisodesApiFp(this.configuration)
+      .podcastEpisodesRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of upcoming resources.
+   * @summary List Upcoming
+   * @param {PodcastEpisodesApiPodcastEpisodesUpcomingListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PodcastEpisodesApi
+   */
+  public podcastEpisodesUpcomingList(
+    requestParameters: PodcastEpisodesApiPodcastEpisodesUpcomingListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return PodcastEpisodesApiFp(this.configuration)
+      .podcastEpisodesUpcomingList(
+        requestParameters.department__id,
+        requestParameters.limit,
+        requestParameters.offered_by__name,
+        requestParameters.offset,
+        requestParameters.ordering,
+        requestParameters.platform,
+        requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * PodcastsApi - axios parameter creator
+ * @export
+ */
+export const PodcastsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Viewset for LearningResource related resources
+     * @param {number} parent_id
+     * @param {number} [child__department__id]
+     * @param {string} [child__offered_by__name]
+     * @param {string} [child__platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [child__resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsItemsList: async (
+      parent_id: number,
+      child__department__id?: number,
+      child__offered_by__name?: string,
+      child__platform?: string,
+      child__resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      limit?: number,
+      offset?: number,
+      ordering?: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'parent_id' is not null or undefined
+      assertParamExists("podcastsItemsList", "parent_id", parent_id)
+      const localVarPath = `/api/v1/podcasts/{parent_id}/items/`.replace(
+        `{${"parent_id"}}`,
+        encodeURIComponent(String(parent_id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (child__department__id !== undefined) {
+        localVarQueryParameter["child__department__id"] = child__department__id
+      }
+
+      if (child__offered_by__name !== undefined) {
+        localVarQueryParameter["child__offered_by__name"] =
+          child__offered_by__name
+      }
+
+      if (child__platform !== undefined) {
+        localVarQueryParameter["child__platform"] = child__platform
+      }
+
+      if (child__resource_type !== undefined) {
+        localVarQueryParameter["child__resource_type"] = child__resource_type
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for LearningResource related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parent_id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsItemsRetrieve: async (
+      id: number,
+      parent_id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("podcastsItemsRetrieve", "id", id)
+      // verify required parameter 'parent_id' is not null or undefined
+      assertParamExists("podcastsItemsRetrieve", "parent_id", parent_id)
+      const localVarPath = `/api/v1/podcasts/{parent_id}/items/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsList: async (
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/podcasts/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (department__id !== undefined) {
+        localVarQueryParameter["department__id"] = department__id
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by__name !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offered_by__name
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsNewList: async (
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/podcasts/new/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (department__id !== undefined) {
+        localVarQueryParameter["department__id"] = department__id
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by__name !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offered_by__name
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsRetrieve: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("podcastsRetrieve", "id", id)
+      const localVarPath = `/api/v1/podcasts/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsUpcomingList: async (
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/podcasts/upcoming/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (department__id !== undefined) {
+        localVarQueryParameter["department__id"] = department__id
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by__name !== undefined) {
+        localVarQueryParameter["offered_by__name"] = offered_by__name
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * PodcastsApi - functional programming interface
+ * @export
+ */
+export const PodcastsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = PodcastsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Viewset for LearningResource related resources
+     * @param {number} parent_id
+     * @param {number} [child__department__id]
+     * @param {string} [child__offered_by__name]
+     * @param {string} [child__platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [child__resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async podcastsItemsList(
+      parent_id: number,
+      child__department__id?: number,
+      child__offered_by__name?: string,
+      child__platform?: string,
+      child__resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      limit?: number,
+      offset?: number,
+      ordering?: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceChildList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.podcastsItemsList(
+          parent_id,
+          child__department__id,
+          child__offered_by__name,
+          child__platform,
+          child__resource_type,
+          limit,
+          offset,
+          ordering,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for LearningResource related resources
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} parent_id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async podcastsItemsRetrieve(
+      id: number,
+      parent_id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResourceChild>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.podcastsItemsRetrieve(
+          id,
+          parent_id,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async podcastsList(
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.podcastsList(
+        department__id,
+        limit,
+        offered_by__name,
+        offset,
+        ordering,
+        platform,
+        resource_type,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async podcastsNewList(
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.podcastsNewList(
+        department__id,
+        limit,
+        offered_by__name,
+        offset,
+        ordering,
+        platform,
+        resource_type,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async podcastsRetrieve(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.podcastsRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {number} [department__id]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [offered_by__name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [platform]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async podcastsUpcomingList(
+      department__id?: number,
+      limit?: number,
+      offered_by__name?: string,
+      offset?: number,
+      ordering?: string,
+      platform?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.podcastsUpcomingList(
+          department__id,
+          limit,
+          offered_by__name,
+          offset,
+          ordering,
+          platform,
+          resource_type,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * PodcastsApi - factory interface
+ * @export
+ */
+export const PodcastsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = PodcastsApiFp(configuration)
+  return {
+    /**
+     * Viewset for LearningResource related resources
+     * @param {PodcastsApiPodcastsItemsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsItemsList(
+      requestParameters: PodcastsApiPodcastsItemsListRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceChildList> {
+      return localVarFp
+        .podcastsItemsList(
+          requestParameters.parent_id,
+          requestParameters.child__department__id,
+          requestParameters.child__offered_by__name,
+          requestParameters.child__platform,
+          requestParameters.child__resource_type,
+          requestParameters.limit,
+          requestParameters.offset,
+          requestParameters.ordering,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningResource related resources
+     * @param {PodcastsApiPodcastsItemsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsItemsRetrieve(
+      requestParameters: PodcastsApiPodcastsItemsRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<LearningResourceChild> {
+      return localVarFp
+        .podcastsItemsRetrieve(
+          requestParameters.id,
+          requestParameters.parent_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of learning resources.
+     * @summary List
+     * @param {PodcastsApiPodcastsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsList(
+      requestParameters: PodcastsApiPodcastsListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .podcastsList(
+          requestParameters.department__id,
+          requestParameters.limit,
+          requestParameters.offered_by__name,
+          requestParameters.offset,
+          requestParameters.ordering,
+          requestParameters.platform,
+          requestParameters.resource_type,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of newly released resources.
+     * @summary List New
+     * @param {PodcastsApiPodcastsNewListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsNewList(
+      requestParameters: PodcastsApiPodcastsNewListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .podcastsNewList(
+          requestParameters.department__id,
+          requestParameters.limit,
+          requestParameters.offered_by__name,
+          requestParameters.offset,
+          requestParameters.ordering,
+          requestParameters.platform,
+          requestParameters.resource_type,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Retrieve a single learning resource.
+     * @summary Retrieve
+     * @param {PodcastsApiPodcastsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsRetrieve(
+      requestParameters: PodcastsApiPodcastsRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<LearningResource> {
+      return localVarFp
+        .podcastsRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get a paginated list of upcoming resources.
+     * @summary List Upcoming
+     * @param {PodcastsApiPodcastsUpcomingListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    podcastsUpcomingList(
+      requestParameters: PodcastsApiPodcastsUpcomingListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .podcastsUpcomingList(
+          requestParameters.department__id,
+          requestParameters.limit,
+          requestParameters.offered_by__name,
+          requestParameters.offset,
+          requestParameters.ordering,
+          requestParameters.platform,
+          requestParameters.resource_type,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for podcastsItemsList operation in PodcastsApi.
+ * @export
+ * @interface PodcastsApiPodcastsItemsListRequest
+ */
+export interface PodcastsApiPodcastsItemsListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastsApiPodcastsItemsList
+   */
+  readonly parent_id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastsApiPodcastsItemsList
+   */
+  readonly child__department__id?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsItemsList
+   */
+  readonly child__offered_by__name?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsItemsList
+   */
+  readonly child__platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof PodcastsApiPodcastsItemsList
+   */
+  readonly child__resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof PodcastsApiPodcastsItemsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof PodcastsApiPodcastsItemsList
+   */
+  readonly offset?: number
+
+  /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof PodcastsApiPodcastsItemsList
+   */
+  readonly ordering?: string
+}
+
+/**
+ * Request parameters for podcastsItemsRetrieve operation in PodcastsApi.
+ * @export
+ * @interface PodcastsApiPodcastsItemsRetrieveRequest
+ */
+export interface PodcastsApiPodcastsItemsRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource relationship.
+   * @type {number}
+   * @memberof PodcastsApiPodcastsItemsRetrieve
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastsApiPodcastsItemsRetrieve
+   */
+  readonly parent_id: number
+}
+
+/**
+ * Request parameters for podcastsList operation in PodcastsApi.
+ * @export
+ * @interface PodcastsApiPodcastsListRequest
+ */
+export interface PodcastsApiPodcastsListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly department__id?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly offered_by__name?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly offset?: number
+
+  /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly ordering?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+}
+
+/**
+ * Request parameters for podcastsNewList operation in PodcastsApi.
+ * @export
+ * @interface PodcastsApiPodcastsNewListRequest
+ */
+export interface PodcastsApiPodcastsNewListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastsApiPodcastsNewList
+   */
+  readonly department__id?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof PodcastsApiPodcastsNewList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsNewList
+   */
+  readonly offered_by__name?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof PodcastsApiPodcastsNewList
+   */
+  readonly offset?: number
+
+  /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof PodcastsApiPodcastsNewList
+   */
+  readonly ordering?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsNewList
+   */
+  readonly platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof PodcastsApiPodcastsNewList
+   */
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+}
+
+/**
+ * Request parameters for podcastsRetrieve operation in PodcastsApi.
+ * @export
+ * @interface PodcastsApiPodcastsRetrieveRequest
+ */
+export interface PodcastsApiPodcastsRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof PodcastsApiPodcastsRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for podcastsUpcomingList operation in PodcastsApi.
+ * @export
+ * @interface PodcastsApiPodcastsUpcomingListRequest
+ */
+export interface PodcastsApiPodcastsUpcomingListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastsApiPodcastsUpcomingList
+   */
+  readonly department__id?: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof PodcastsApiPodcastsUpcomingList
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsUpcomingList
+   */
+  readonly offered_by__name?: string
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof PodcastsApiPodcastsUpcomingList
+   */
+  readonly offset?: number
+
+  /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof PodcastsApiPodcastsUpcomingList
+   */
+  readonly ordering?: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsUpcomingList
+   */
+  readonly platform?: string
+
+  /**
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof PodcastsApiPodcastsUpcomingList
+   */
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+}
+
+/**
+ * PodcastsApi - object-oriented interface
+ * @export
+ * @class PodcastsApi
+ * @extends {BaseAPI}
+ */
+export class PodcastsApi extends BaseAPI {
+  /**
+   * Viewset for LearningResource related resources
+   * @param {PodcastsApiPodcastsItemsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PodcastsApi
+   */
+  public podcastsItemsList(
+    requestParameters: PodcastsApiPodcastsItemsListRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return PodcastsApiFp(this.configuration)
+      .podcastsItemsList(
+        requestParameters.parent_id,
+        requestParameters.child__department__id,
+        requestParameters.child__offered_by__name,
+        requestParameters.child__platform,
+        requestParameters.child__resource_type,
+        requestParameters.limit,
+        requestParameters.offset,
+        requestParameters.ordering,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningResource related resources
+   * @param {PodcastsApiPodcastsItemsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PodcastsApi
+   */
+  public podcastsItemsRetrieve(
+    requestParameters: PodcastsApiPodcastsItemsRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return PodcastsApiFp(this.configuration)
+      .podcastsItemsRetrieve(
+        requestParameters.id,
+        requestParameters.parent_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of learning resources.
+   * @summary List
+   * @param {PodcastsApiPodcastsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PodcastsApi
+   */
+  public podcastsList(
+    requestParameters: PodcastsApiPodcastsListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return PodcastsApiFp(this.configuration)
+      .podcastsList(
+        requestParameters.department__id,
+        requestParameters.limit,
+        requestParameters.offered_by__name,
+        requestParameters.offset,
+        requestParameters.ordering,
+        requestParameters.platform,
+        requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of newly released resources.
+   * @summary List New
+   * @param {PodcastsApiPodcastsNewListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PodcastsApi
+   */
+  public podcastsNewList(
+    requestParameters: PodcastsApiPodcastsNewListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return PodcastsApiFp(this.configuration)
+      .podcastsNewList(
+        requestParameters.department__id,
+        requestParameters.limit,
+        requestParameters.offered_by__name,
+        requestParameters.offset,
+        requestParameters.ordering,
+        requestParameters.platform,
+        requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a single learning resource.
+   * @summary Retrieve
+   * @param {PodcastsApiPodcastsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PodcastsApi
+   */
+  public podcastsRetrieve(
+    requestParameters: PodcastsApiPodcastsRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return PodcastsApiFp(this.configuration)
+      .podcastsRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a paginated list of upcoming resources.
+   * @summary List Upcoming
+   * @param {PodcastsApiPodcastsUpcomingListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PodcastsApi
+   */
+  public podcastsUpcomingList(
+    requestParameters: PodcastsApiPodcastsUpcomingListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return PodcastsApiFp(this.configuration)
+      .podcastsUpcomingList(
+        requestParameters.department__id,
+        requestParameters.limit,
+        requestParameters.offered_by__name,
+        requestParameters.offset,
+        requestParameters.ordering,
+        requestParameters.platform,
+        requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
  * ProgramsApi - axios parameter creator
  * @export
  */
@@ -7015,8 +10268,9 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7025,8 +10279,14 @@ export const ProgramsApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/`
@@ -7063,6 +10323,10 @@ export const ProgramsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
+      }
+
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -7092,8 +10356,9 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7102,8 +10367,14 @@ export const ProgramsApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/new/`
@@ -7138,6 +10409,10 @@ export const ProgramsApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
       }
 
       if (platform !== undefined) {
@@ -7217,8 +10492,9 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7227,8 +10503,14 @@ export const ProgramsApiAxiosParamCreator = function (
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/upcoming/`
@@ -7263,6 +10545,10 @@ export const ProgramsApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (ordering !== undefined) {
+        localVarQueryParameter["ordering"] = ordering
       }
 
       if (platform !== undefined) {
@@ -7304,8 +10590,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7314,8 +10601,14 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -7328,6 +10621,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         limit,
         offered_by__name,
         offset,
+        ordering,
         platform,
         resource_type,
         options,
@@ -7346,8 +10640,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7356,8 +10651,14 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -7370,6 +10671,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         limit,
         offered_by__name,
         offset,
+        ordering,
         platform,
         resource_type,
         options,
@@ -7413,8 +10715,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {string} [platform]
-     * @param {'course' | 'learning_path' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7423,8 +10726,14 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       limit?: number,
       offered_by__name?: string,
       offset?: number,
+      ordering?: string,
       platform?: string,
-      resource_type?: "course" | "learning_path" | "program",
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -7438,6 +10747,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
           limit,
           offered_by__name,
           offset,
+          ordering,
           platform,
           resource_type,
           options,
@@ -7480,6 +10790,7 @@ export const ProgramsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -7503,6 +10814,7 @@ export const ProgramsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -7541,6 +10853,7 @@ export const ProgramsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by__name,
           requestParameters.offset,
+          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.resource_type,
           options,
@@ -7585,6 +10898,13 @@ export interface ProgramsApiProgramsListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof ProgramsApiProgramsList
@@ -7592,11 +10912,16 @@ export interface ProgramsApiProgramsListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof ProgramsApiProgramsList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -7634,6 +10959,13 @@ export interface ProgramsApiProgramsNewListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof ProgramsApiProgramsNewList
@@ -7641,11 +10973,16 @@ export interface ProgramsApiProgramsNewListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof ProgramsApiProgramsNewList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -7697,6 +11034,13 @@ export interface ProgramsApiProgramsUpcomingListRequest {
   readonly offset?: number
 
   /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof ProgramsApiProgramsUpcomingList
+   */
+  readonly ordering?: string
+
+  /**
    *
    * @type {string}
    * @memberof ProgramsApiProgramsUpcomingList
@@ -7704,11 +11048,16 @@ export interface ProgramsApiProgramsUpcomingListRequest {
   readonly platform?: string
 
   /**
-   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path
-   * @type {'course' | 'learning_path' | 'program'}
+   * * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof ProgramsApiProgramsUpcomingList
    */
-  readonly resource_type?: "course" | "learning_path" | "program"
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
 }
 
 /**
@@ -7736,6 +11085,7 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -7761,6 +11111,7 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
@@ -7803,6 +11154,7 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by__name,
         requestParameters.offset,
+        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.resource_type,
         options,
