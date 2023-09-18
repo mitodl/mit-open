@@ -395,3 +395,43 @@ class UserListRelationship(TimestampedModel):
         LearningResource, related_name="user_lists", on_delete=models.deletion.CASCADE
     )
     position = models.PositiveIntegerField(default=0)
+
+
+class Podcast(TimestampedModel):
+    """Data model for podcasts"""
+
+    learning_resource = models.OneToOneField(
+        LearningResource,
+        related_name="podcast",
+        on_delete=models.CASCADE,
+    )
+    apple_podcasts_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
+    google_podcasts_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
+    rss_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
+
+    def __str__(self):
+        return f"Podcast {self.id}"
+
+    class Meta:
+        ordering = ("id",)
+
+
+class PodcastEpisode(TimestampedModel):
+    """Data model for podcast episodes"""
+
+    learning_resource = models.OneToOneField(
+        LearningResource,
+        related_name="podcast_episode",
+        on_delete=models.CASCADE,
+    )
+
+    transcript = models.TextField(blank=True, default="")
+    episode_link = models.URLField(null=True, max_length=2048)  # noqa: DJ001
+    duration = models.CharField(null=True, blank=True, max_length=10)  # noqa: DJ001
+    rss = models.TextField(null=True, blank=True)  # noqa: DJ001
+
+    def __str__(self):
+        return f"Podcast Episode {self.id}"
+
+    class Meta:
+        ordering = ("id",)

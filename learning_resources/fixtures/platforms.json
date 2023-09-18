@@ -154,5 +154,17 @@
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
+  },
+  {
+    "model": "learning_resources.LearningResourcePlatform",
+    "fields": {
+      "platform": "podcast",
+      "audience": "Open Content",
+      "is_edx": false,
+      "has_content_files": false,
+      "url": "",
+      "created_on": "2023-08-14T14:27:25.128989+00:00",
+      "updated_on": "2023-08-14T14:27:25.128989+00:00"
+    }
   }
 ]

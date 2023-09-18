@@ -10,6 +10,7 @@ from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyInteger, FuzzyText
 
 from learning_resources import constants, models
+from learning_resources.constants import PlatformType
 from open_discussions.factories import UserFactory
 
 # pylint:disable=unused-argument
@@ -90,7 +91,7 @@ class LearningResourceImageFactory(DjangoModelFactory):
     """Factory for learning resource images"""
 
     description = factory.Faker("text")
-    alt = factory.Sequence(lambda n: "Alt %03d" % n)
+    alt = factory.Faker("text")
     url = factory.Faker("url")
 
     class Meta:
@@ -463,3 +464,67 @@ class UserListRelationshipFactory(DjangoModelFactory):
 
     class Meta:
         model = models.UserListRelationship
+
+
+class PodcastEpisodeFactory(DjangoModelFactory):
+    """Factory for Podcast Episode"""
+
+    learning_resource = factory.SubFactory(
+        LearningResourceFactory,
+        resource_type=constants.LearningResourceType.podcast_episode.value,
+        platform=factory.SubFactory(
+            LearningResourcePlatformFactory, platform=PlatformType.podcast.value
+        ),
+    )
+
+    transcript = factory.Faker("text")
+    episode_link = factory.Faker("url")
+    rss = factory.Faker("text")
+
+    class Params:
+        is_unpublished = factory.Trait(learning_resource__published=False)
+
+    class Meta:
+        model = models.PodcastEpisode
+
+
+class PodcastFactory(DjangoModelFactory):
+    """Factory for Podcast"""
+
+    learning_resource = factory.SubFactory(
+        LearningResourceFactory,
+        resource_type=constants.LearningResourceType.podcast.value,
+        platform=factory.SubFactory(
+            LearningResourcePlatformFactory, platform=PlatformType.podcast.value
+        ),
+    )
+    apple_podcasts_url = factory.Faker("uri")
+    google_podcasts_url = factory.Faker("uri")
+    rss_url = factory.Faker("uri")
+
+    @factory.post_generation
+    def episodes(self, create, extracted, **kwargs):  # noqa: ARG002
+        """Create courses for program"""
+        if not create:
+            return
+
+        if extracted is None:
+            extracted = [
+                episode.learning_resource
+                for episode in PodcastEpisodeFactory.create_batch(
+                    random.randint(1, 3)  # noqa: S311
+                )
+            ]
+
+        self.learning_resource.resources.set(
+            extracted,
+            through_defaults={
+                "relation_type": constants.LearningResourceRelationTypes.PODCAST_EPISODES.value  # noqa: E501
+            },
+        )
+
+    class Params:
+        is_unpublished = factory.Trait(learning_resource__published=False)
+
+    class Meta:
+        model = models.Podcast

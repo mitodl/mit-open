@@ -2,13 +2,17 @@
 import logging
 from uuid import uuid4
 
+from django.conf import settings
 from django.db import transaction
 from django.db.models import Count, F, Q, QuerySet
+from django.http import HttpResponse
 from django.utils import timezone
+from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.filters import OrderingFilter
 from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.request import Request
@@ -17,6 +21,7 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from learning_resources import permissions
 from learning_resources.constants import LearningResourceType, PrivacyLevel
+from learning_resources.etl.podcast import generate_aggregate_podcast_rss
 from learning_resources.models import (
     ContentFile,
     LearningResource,
@@ -90,13 +95,15 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceSerializer
     permission_classes = (AnonymousAccessReadonlyPermission,)
     pagination_class = DefaultPagination
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = [
         "resource_type",
         "department__id",
         "platform",
         "offered_by__name",
     ]
+    ordering_fields = ["id", "readable_id", "last_modified", "title"]
+    ordering = ["id"]
 
     def _get_base_queryset(self, resource_type: str | None = None) -> QuerySet:
         """
@@ -111,9 +118,6 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         # Valid fields to filter by, just resource_type for now
 
         lr_query = LearningResource.objects.all()
-        query_params_filter = {}
-        if query_params_filter != {}:
-            lr_query = lr_query.filter(Q(**query_params_filter))
         if resource_type:
             lr_query = lr_query.filter(resource_type=resource_type)
 
@@ -272,25 +276,40 @@ class NestedParentMixin(NestedViewSetMixin):
         return self.get_parents_query_dict()[id_field]
 
 
-class ResourceListItemsViewSet(NestedParentMixin, viewsets.ModelViewSet):
+class ResourceListItemsViewSet(NestedParentMixin, viewsets.ReadOnlyModelViewSet):
     """
     Viewset for LearningResource related resources
     """
 
     permission_classes = (AnonymousAccessReadonlyPermission,)
     serializer_class = LearningResourceChildSerializer
+    pagination_class = DefaultPagination
     queryset = (
         LearningResourceRelationship.objects.select_related("child")
         .prefetch_related(
             "child__runs",
             "child__runs__instructors",
         )
-        .order_by("position")
+        .filter(child__published=True)
     )
-    pagination_class = DefaultPagination
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = [
+        "child__resource_type",
+        "child__department__id",
+        "child__platform",
+        "child__offered_by__name",
+    ]
+    ordering_fields = [
+        "child__id",
+        "child__readable_id",
+        "child__last_modified",
+        "child__title",
+        "position",
+    ]
+    ordering = ["position", "-child__last_modified"]
 
 
-class LearningPathItemsViewSet(ResourceListItemsViewSet):
+class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
     """
     Viewset for LearningPath related resources
     """
@@ -429,3 +448,49 @@ class UserListItemViewSet(NestedParentMixin, viewsets.ModelViewSet):
             parent=instance.parent,
             position__gt=instance.position,
         ).update(position=F("position") - 1)
+
+
+class PodcastViewSet(LearningResourceViewSet):
+    """
+    Viewset for Podcasts
+    """
+
+    def get_queryset(self):
+        """
+        Generate a QuerySet for fetching valid Programs
+
+        Returns:
+            QuerySet of LearningResource objects that are Programs
+        """
+        return self._get_base_queryset(
+            resource_type=LearningResourceType.podcast.value
+        ).filter(published=True)
+
+
+class PodcastEpisodeViewSet(LearningResourceViewSet):
+    """
+    Viewset for Podcast Episodes
+    """
+
+    def get_queryset(self):
+        """
+        Generate a QuerySet for fetching valid Programs
+
+        Returns:
+            QuerySet of LearningResource objects that are Programs
+        """
+        return self._get_base_queryset(
+            resource_type=LearningResourceType.podcast_episode.value
+        ).filter(published=True)
+
+
+@cache_page(60 * settings.RSS_FEED_CACHE_MINUTES)
+def podcast_rss_feed(request):  # noqa: ARG001
+    """
+    View to display the combined podcast rss file
+    """
+
+    rss = generate_aggregate_podcast_rss()
+    return HttpResponse(
+        rss.prettify(), content_type="application/rss+xml; charset=utf-8"
+    )

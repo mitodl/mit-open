@@ -3,7 +3,7 @@
 from toolz import compose, curry
 
 from learning_resources.constants import PlatformType
-from learning_resources.etl import loaders, xpro
+from learning_resources.etl import loaders, podcast, xpro
 
 load_programs = curry(loaders.load_programs)
 load_courses = curry(loaders.load_courses)
@@ -19,3 +19,5 @@ xpro_courses_etl = compose(
     xpro.transform_courses,
     xpro.extract_courses,
 )
+
+podcast_etl = compose(loaders.load_podcasts, podcast.transform, podcast.extract)

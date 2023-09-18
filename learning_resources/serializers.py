@@ -163,6 +163,34 @@ class LearningPathSerializer(serializers.ModelSerializer, ResourceListMixin):
         exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
+class PodcastEpisodeSerializer(serializers.ModelSerializer):
+    """
+    Serializer for PodcastEpisode
+    """
+
+    class Meta:
+        model = models.PodcastEpisode
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
+
+
+class PodcastSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Podcasts
+    """
+
+    episode_count = serializers.SerializerMethodField()
+
+    def get_episode_count(self, instance) -> int:
+        """Return the number of episodes in the podcast"""
+        return instance.learning_resource.children.filter(
+            relation_type=constants.LearningResourceRelationTypes.PODCAST_EPISODES.value
+        ).count()
+
+    class Meta:
+        model = models.Podcast
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
+
+
 class MicroLearningPathRelationshipSerializer(serializers.ModelSerializer):
     """
     Serializer containing only parent and child ids for a learning path relationship
@@ -202,6 +230,8 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     prices = serializers.ReadOnlyField()
     course = CourseSerializer(read_only=True, allow_null=True)
     learning_path = LearningPathSerializer(read_only=True, allow_null=True)
+    podcast = PodcastSerializer(read_only=True, allow_null=True)
+    podcast_episode = PodcastEpisodeSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
     image = serializers.SerializerMethodField()
     learning_path_parents = serializers.SerializerMethodField()

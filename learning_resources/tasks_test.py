@@ -119,3 +119,10 @@ def test_get_content_files_missing_settings(mocker, settings):
     tasks.get_content_files([1, 2], platform, ["foo.tar.gz"])
     mock_sync_edx_course_files.assert_not_called()
     mock_log.assert_called_once_with("Required settings missing for %s files", platform)
+
+
+def test_get_podcast_data(mocker):
+    """Verify that get_podcast_data invokes the podcast ETL pipeline with expected params"""
+    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
+    tasks.get_podcast_data.delay()
+    mock_pipelines.podcast_etl.assert_called_once()

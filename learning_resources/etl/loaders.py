@@ -7,13 +7,17 @@ from django.db import transaction
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
+    PlatformType,
 )
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
     OfferedByLoaderConfig,
+    PodcastEpisodeLoaderConfig,
+    PodcastLoaderConfig,
     ProgramLoaderConfig,
 )
 from learning_resources.etl.deduplication import get_most_relevant_run
+from learning_resources.etl.exceptions import ExtractException
 from learning_resources.models import (
     ContentFile,
     Course,
@@ -24,6 +28,8 @@ from learning_resources.models import (
     LearningResourcePlatform,
     LearningResourceRun,
     LearningResourceTopic,
+    Podcast,
+    PodcastEpisode,
     Program,
 )
 from learning_resources.utils import load_course_blocklist, load_course_duplicates
@@ -426,3 +432,137 @@ def load_content_files(course_run, content_files_data):
 
         return content_files_ids
     return None
+
+
+def load_podcast_episode(episode_data, *, config=PodcastEpisodeLoaderConfig()):
+    """
+    Load a podcast_episode into the database
+    Args:
+        episode_data (dict): data for the episode
+        config (PodcastLoaderConfig):
+            configuration for this loader
+
+    Returns:
+        list of LearningResource objects that were created/updated
+    """
+    readable_id = episode_data.pop("readable_id")
+    topics_data = episode_data.pop("topics", [])
+    offered_bys_data = episode_data.pop("offered_by", [])
+    image_data = episode_data.pop("image", {})
+
+    episode_model_data = episode_data.pop("podcast_episode", {})
+    with transaction.atomic():
+        learning_resource, created = LearningResource.objects.update_or_create(
+            readable_id=readable_id,
+            platform=LearningResourcePlatform.objects.get(
+                platform=PlatformType.podcast.value
+            ),
+            defaults=episode_data,
+        )
+
+        PodcastEpisode.objects.update_or_create(
+            learning_resource=learning_resource, defaults=episode_model_data
+        )
+    load_image(learning_resource, image_data)
+    load_topics(learning_resource, topics_data)
+    load_offered_bys(learning_resource, offered_bys_data, config=config.offered_by)
+
+    return learning_resource
+
+
+def load_podcast(podcast_data, *, config=PodcastLoaderConfig()):
+    """
+    Load a single podcast
+
+    Arg:
+        podcast_data (dict):
+            the normalized podcast data
+        config (PodcastLoaderConfig):
+            configuration for this loader
+    Returns:
+        Podcast:
+            the updated or created podcast
+    """
+    readable_id = podcast_data.pop("readable_id")
+    episodes_data = podcast_data.pop("episodes", [])
+    topics_data = podcast_data.pop("topics", [])
+    offered_by_data = podcast_data.pop("offered_by", [])
+    image_data = podcast_data.pop("image", {})
+
+    podcast_model_data = podcast_data.pop("podcast", {})
+    with transaction.atomic():
+        log.error(podcast_data)
+        learning_resource, created = LearningResource.objects.update_or_create(
+            readable_id=readable_id,
+            platform=LearningResourcePlatform.objects.get(
+                platform=PlatformType.podcast.value
+            ),
+            defaults=podcast_data,
+        )
+        load_image(learning_resource, image_data)
+        load_topics(learning_resource, topics_data)
+        load_offered_bys(learning_resource, offered_by_data, config=config.offered_by)
+
+        Podcast.objects.update_or_create(
+            learning_resource=learning_resource, defaults=podcast_model_data
+        )
+
+        episode_ids = []
+
+        for episode_data in episodes_data:
+            episode = load_podcast_episode(episode_data, config=config.episodes)
+            episode_ids.append(episode.id)
+
+        unpublished_episode_ids = (
+            learning_resource.children.filter(
+                relation_type=LearningResourceRelationTypes.PODCAST_EPISODES.value,
+            )
+            .exclude(child__id__in=episode_ids)
+            .values_list("child__id", flat=True)
+        )
+        LearningResource.objects.filter(id__in=unpublished_episode_ids).update(
+            published=False
+        )
+        episode_ids.extend(unpublished_episode_ids)
+        learning_resource.resources.set(
+            episode_ids,
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.PODCAST_EPISODES,
+            },
+        )
+
+        return learning_resource
+
+
+def load_podcasts(podcasts_data):
+    """
+    Load a list of podcasts
+
+    Args:
+        podcasts_data (iter of dict): iterable of podcast data
+
+    Returns:
+        list of Podcasts:
+            list of the loaded podcasts
+    """
+    podcast_resources = []
+
+    for podcast_data in podcasts_data:
+        readable_id = podcast_data["readable_id"]
+        try:
+            podcast_resource = load_podcast(podcast_data)
+        except ExtractException:
+            log.exception("Error with extracted podcast: podcast_id=%s", readable_id)
+        else:
+            podcast_resources.append(podcast_resource)
+
+    # unpublish the podcasts and episodes we're no longer tracking
+    ids = [podcast.id for podcast in podcast_resources]
+    LearningResource.objects.filter(
+        resource_type=LearningResourceType.podcast.value
+    ).exclude(id__in=ids).update(published=False)
+    LearningResource.objects.filter(
+        resource_type=LearningResourceType.podcast_episode.value
+    ).exclude(parents__parent__in=ids).update(published=False)
+
+    return podcast_resources
