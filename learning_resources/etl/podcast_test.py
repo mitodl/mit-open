@@ -5,18 +5,26 @@ from unittest.mock import Mock
 from urllib.parse import urljoin
 
 import pytest
-import pytz
 import yaml
 from bs4 import BeautifulSoup as bs  # noqa: N813
+from dateutil.tz import tzutc
 from django.conf import settings
 from freezegun import freeze_time
 
-from course_catalog.etl.podcast import (
+from learning_resources.constants import LearningResourceType, OfferedBy
+from learning_resources.etl.podcast import (
     extract,
     generate_aggregate_podcast_rss,
+    github_podcast_config_files,
     transform,
 )
-from course_catalog.factories import PodcastEpisodeFactory
+from learning_resources.factories import PodcastEpisodeFactory
+
+
+@pytest.fixture()
+def mock_github_client(mocker):
+    """Return a mock github client"""
+    return mocker.patch("github.Github")
 
 
 def rss_content():
@@ -57,7 +65,7 @@ def mock_rss_request(mocker):  # noqa: PT004
     """
 
     mocker.patch(
-        "course_catalog.etl.podcast.requests.get",
+        "learning_resources.etl.podcast.requests.get",
         side_effect=[mocker.Mock(content=rss_content())],
     )
 
@@ -69,17 +77,16 @@ def mock_rss_request_with_bad_rss_file(mocker):  # noqa: PT004
     """
 
     mocker.patch(
-        "course_catalog.etl.podcast.requests.get",
+        "learning_resources.etl.podcast.requests.get",
         side_effect=[mocker.Mock(content=""), mocker.Mock(content=rss_content())],
     )
 
 
 @pytest.mark.usefixtures("mock_rss_request")
-def test_extract(mocker):
+def test_extract(mock_github_client):
     """Test extract function"""
 
     podcast_list = [mock_podcast_file()]
-    mock_github_client = mocker.patch("github.Github")
     mock_github_client.return_value.get_repo.return_value.get_contents.return_value = (
         podcast_list
     )
@@ -97,11 +104,10 @@ def test_extract(mocker):
 @pytest.mark.usefixtures("mock_rss_request")
 @pytest.mark.parametrize("title", [None, "Custom Title"])
 @pytest.mark.parametrize("topics", [None, "Science,  Technology"])
-@pytest.mark.parametrize("offered_by", [None, "Department"])
-def test_transform(mocker, title, topics, offered_by):
+@pytest.mark.parametrize("offered_by", [None, OfferedBy.ocw.value, "fake"])
+def test_transform(mock_github_client, title, topics, offered_by):
     """Test transform function"""
     podcast_list = [mock_podcast_file(title, topics, "website_url", offered_by)]
-    mock_github_client = mocker.patch("github.Github")
     mock_github_client.return_value.get_repo.return_value.get_contents.return_value = (
         podcast_list
     )
@@ -121,52 +127,61 @@ def test_transform(mocker, title, topics, offered_by):
 
     expected_results = [
         {
-            "podcast_id": "d4c3dcd45dc93fbc9c3634ba0545c2e0",
+            "readable_id": "d4c3dcd45dc93fbc9c3634ba0545c2e0",
             "title": expected_title,
             "offered_by": expected_offered_by,
             "full_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "short_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "image_src": "apicture.jpg",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "image": {"url": "apicture.jpg"},
             "published": True,
             "url": "website_url",
-            "google_podcasts_url": "google_podcasts_url",
-            "apple_podcasts_url": "apple_podcasts_url",
-            "rss_url": "rss_url",
+            "podcast": {
+                "google_podcasts_url": "google_podcasts_url",
+                "apple_podcasts_url": "apple_podcasts_url",
+                "rss_url": "rss_url",
+            },
+            "resource_type": LearningResourceType.podcast.value,
             "topics": expected_topics,
             "episodes": [
                 {
-                    "episode_id": "0a19bfc1f30334389fc039e716d35306",
+                    "readable_id": "0a19bfc1f30334389fc039e716d35306",
                     "title": "Episode1",
                     "offered_by": expected_offered_by,
-                    "short_description": "SMorbi id consequat nisl. Morbi leo elit, vulputate nec aliquam molestie, ullamcorper sit amet tortor",
+                    "description": "SMorbi id consequat nisl. Morbi leo elit, vulputate nec aliquam molestie, ullamcorper sit amet tortor",
                     "full_description": "SMorbi id consequat nisl. Morbi leo elit, vulputate nec aliquam molestie, ullamcorper sit amet tortor",
                     "url": "http://feeds.soundcloud.com/stream/episode1.mp3",
-                    "episode_link": "https://soundcloud.com/podcast/episode1",
-                    "image_src": "apicture.jpg",
+                    "image": {"url": "apicture.jpg"},
                     "last_modified": datetime.datetime(
-                        2020, 4, 1, 18, 20, 31, tzinfo=datetime.UTC
+                        2020, 4, 1, 18, 20, 31, tzinfo=tzutc()
                     ),
                     "published": True,
-                    "duration": "00:17:16",
+                    "podcast_episode": {
+                        "episode_link": "https://soundcloud.com/podcast/episode1",
+                        "duration": "00:17:16",
+                        "rss": episodes_rss[0].prettify(),
+                    },
+                    "resource_type": LearningResourceType.podcast_episode.value,
                     "topics": expected_topics,
-                    "rss": episodes_rss[0].prettify(),
                 },
                 {
-                    "episode_id": "85855fa506bf36999f8978302f3413ec",
+                    "readable_id": "85855fa506bf36999f8978302f3413ec",
                     "title": "Episode2",
                     "offered_by": expected_offered_by,
-                    "short_description": "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit felis ut varius facilisis.",
+                    "description": "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit felis ut varius facilisis.",
                     "full_description": "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit felis ut varius facilisis.",
                     "url": "http://feeds.soundcloud.com/stream/episode2.mp3",
-                    "episode_link": "https://soundcloud.com/podcast/episode2",
-                    "image_src": "image1.jpg",
+                    "image": {"url": "image1.jpg"},
                     "last_modified": datetime.datetime(
-                        2020, 4, 1, 18, 20, 31, tzinfo=datetime.UTC
+                        2020, 4, 1, 18, 20, 31, tzinfo=tzutc()
                     ),
                     "published": True,
-                    "duration": "00:17:16",
+                    "podcast_episode": {
+                        "episode_link": "https://soundcloud.com/podcast/episode2",
+                        "duration": "00:17:16",
+                        "rss": episodes_rss[1].prettify(),
+                    },
+                    "resource_type": LearningResourceType.podcast_episode.value,
                     "topics": expected_topics,
-                    "rss": episodes_rss[1].prettify(),
                 },
             ],
         }
@@ -182,13 +197,12 @@ def test_transform(mocker, title, topics, offered_by):
 
 
 @pytest.mark.usefixtures("mock_rss_request_with_bad_rss_file")
-def test_transform_with_error(mocker):
+def test_transform_with_error(mocker, mock_github_client):
     """Test transform function with bad rss file"""
 
-    mock_exception_log = mocker.patch("course_catalog.etl.podcast.log.exception")
+    mock_exception_log = mocker.patch("learning_resources.etl.podcast.log.exception")
 
     podcast_list = [mock_podcast_file(None, None, "website_url2"), mock_podcast_file()]
-    mock_github_client = mocker.patch("github.Github")
     mock_github_client.return_value.get_repo.return_value.get_contents.return_value = (
         podcast_list
     )
@@ -208,15 +222,13 @@ def test_transform_with_error(mocker):
 @pytest.mark.django_db()
 @freeze_time("2020-07-20")
 def test_generate_aggregate_podcast_rss():
-    """Testgenerate_aggregate_podcast_rss"""
+    """Test generate_aggregate_podcast_rss"""
 
     PodcastEpisodeFactory.create(
         rss="<item>rss1</item>",
-        last_modified=datetime.datetime(2020, 2, 1, tzinfo=pytz.UTC),
     )
     PodcastEpisodeFactory.create(
         rss="<item>rss2</item>",
-        last_modified=datetime.datetime(2020, 1, 1, tzinfo=pytz.UTC),
     )
 
     podcasts_url = urljoin(settings.SITE_BASE_URL, "podcasts")
@@ -256,3 +268,17 @@ def test_generate_aggregate_podcast_rss():
     result = generate_aggregate_podcast_rss().prettify()
 
     assert result == bs(expected_rss, "xml").prettify()
+
+
+@pytest.mark.parametrize("github_token", [None, "token"])
+def test_github_podcast_config_files(settings, mock_github_client, github_token):
+    """Test the logic for retrieving podcast config files from github"""
+    settings.GITHUB_ACCESS_TOKEN = github_token
+    mock_github_client.return_value.get_repo.return_value.get_contents.return_value = [
+        mock_podcast_file(),
+        mock_podcast_file(),
+    ]
+
+    results = github_podcast_config_files()
+
+    assert len(results) == 2

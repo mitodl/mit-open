@@ -29,7 +29,8 @@ def test_learning_resource_filter_offered_by():
     assert mitx_course not in query
 
 
-def test_learning_resource_filter_audience():
+@pytest.mark.parametrize("is_open", [True, False])
+def test_learning_resource_filter_audience(is_open):
     """Test that the audience filter works"""
 
     professional_course = CourseFactory.create(
@@ -39,10 +40,12 @@ def test_learning_resource_filter_audience():
         platform=PlatformType.mitxonline.value
     ).learning_resource
 
-    query = LearningResourceFilter({"audience": "professional"}).qs
+    query = LearningResourceFilter(
+        {"audience": ("open" if is_open else "professional")}
+    ).qs
 
-    assert professional_course in query
-    assert open_course not in query
+    assert (professional_course not in query) is is_open
+    assert (open_course in query) is is_open
 
 
 def test_learning_resource_filter_resource_type():
