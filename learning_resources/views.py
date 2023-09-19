@@ -22,6 +22,7 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 from learning_resources import permissions
 from learning_resources.constants import LearningResourceType, PrivacyLevel
 from learning_resources.etl.podcast import generate_aggregate_podcast_rss
+from learning_resources.filters import LearningResourceFilter
 from learning_resources.models import (
     ContentFile,
     LearningResource,
@@ -96,12 +97,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (AnonymousAccessReadonlyPermission,)
     pagination_class = DefaultPagination
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = [
-        "resource_type",
-        "department__id",
-        "platform",
-        "offered_by__name",
-    ]
+    filterset_class = LearningResourceFilter
     ordering_fields = ["id", "readable_id", "last_modified", "title"]
     ordering = ["id"]
 
@@ -292,20 +288,7 @@ class ResourceListItemsViewSet(NestedParentMixin, viewsets.ReadOnlyModelViewSet)
         )
         .filter(child__published=True)
     )
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = [
-        "child__resource_type",
-        "child__department__id",
-        "child__platform",
-        "child__offered_by__name",
-    ]
-    ordering_fields = [
-        "child__id",
-        "child__readable_id",
-        "child__last_modified",
-        "child__title",
-        "position",
-    ]
+    filter_backends = [OrderingFilter]
     ordering = ["position", "-child__last_modified"]
 
 

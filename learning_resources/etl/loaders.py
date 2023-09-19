@@ -104,12 +104,13 @@ def load_offered_bys(resource, offered_bys_data, *, config=OfferedByLoaderConfig
     offered_bys = []
 
     for offered_by_data in offered_bys_data:
-        offered_by, _ = LearningResourceOfferor.objects.get_or_create(
+        offered_by = LearningResourceOfferor.objects.filter(
             name=offered_by_data["name"]
-        )
-        if config.additive:
-            resource.offered_by.add(offered_by)
-        offered_bys.append(offered_by)
+        ).first()
+        if offered_by:
+            if config.additive:
+                resource.offered_by.add(offered_by)
+            offered_bys.append(offered_by)
 
     if not config.additive:
         resource.offered_by.set(offered_bys)
@@ -491,7 +492,6 @@ def load_podcast(podcast_data, *, config=PodcastLoaderConfig()):
 
     podcast_model_data = podcast_data.pop("podcast", {})
     with transaction.atomic():
-        log.error(podcast_data)
         learning_resource, created = LearningResource.objects.update_or_create(
             readable_id=readable_id,
             platform=LearningResourcePlatform.objects.get(

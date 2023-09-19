@@ -85,15 +85,53 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -111,9 +149,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -125,6 +169,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -239,15 +285,53 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -265,9 +349,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -279,6 +369,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -302,15 +394,53 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -328,9 +458,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -342,6 +478,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -365,15 +503,53 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -391,9 +567,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -405,6 +587,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -426,34 +610,6 @@ paths:
       operationId: learning_resources_items_list
       description: Viewset for LearningResource related resources
       parameters:
-      - in: query
-        name: child__department__id
-        schema:
-          type: integer
-      - in: query
-        name: child__offered_by__name
-        schema:
-          type: string
-      - in: query
-        name: child__platform
-        schema:
-          type: string
-      - in: query
-        name: child__resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
       - name: limit
         required: false
         in: query
@@ -613,15 +769,53 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -639,9 +833,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -653,6 +853,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -676,15 +878,53 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -702,9 +942,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -716,6 +962,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -739,15 +987,53 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -765,9 +1051,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -779,6 +1071,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -826,34 +1120,6 @@ paths:
       operationId: learningpaths_resources_list
       description: Viewset for LearningPath related resources
       parameters:
-      - in: query
-        name: child__department__id
-        schema:
-          type: integer
-      - in: query
-        name: child__offered_by__name
-        schema:
-          type: string
-      - in: query
-        name: child__platform
-        schema:
-          type: string
-      - in: query
-        name: child__resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
       - name: limit
         required: false
         in: query
@@ -1156,15 +1422,53 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1182,9 +1486,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1196,6 +1506,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -1219,15 +1531,53 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1245,9 +1595,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1259,6 +1615,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -1282,15 +1640,53 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1308,9 +1704,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1322,6 +1724,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -1368,15 +1772,53 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1394,9 +1836,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1408,6 +1856,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -1431,15 +1881,53 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1457,9 +1945,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1471,6 +1965,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -1494,15 +1990,53 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1520,9 +2054,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1534,6 +2074,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -1555,34 +2097,6 @@ paths:
       operationId: podcasts_items_list
       description: Viewset for LearningResource related resources
       parameters:
-      - in: query
-        name: child__department__id
-        schema:
-          type: integer
-      - in: query
-        name: child__offered_by__name
-        schema:
-          type: string
-      - in: query
-        name: child__platform
-        schema:
-          type: string
-      - in: query
-        name: child__resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
       - name: limit
         required: false
         in: query
@@ -1674,15 +2188,53 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1700,9 +2252,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1714,6 +2272,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -1737,15 +2297,53 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1763,9 +2361,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1777,6 +2381,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -1800,15 +2406,53 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1826,9 +2470,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1840,6 +2490,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -1886,15 +2538,53 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1912,9 +2602,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1926,6 +2622,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path
@@ -1949,15 +2647,53 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: department__id
+        name: audience
         schema:
-          type: integer
+          type: string
+          enum:
+          - open
+          - professional
+        description: |-
+          Audience
+
+          * `professional` - Professional Offerings
+          * `open` - Open Content
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - micromasters
+          - mitpe
+          - mitx
+          - ocw
+          - oll
+          - scc
+          - see
+          - xpro
+        description: |-
+          Offered By
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `micromasters` - MicroMasters
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `oll` - Open Learning Library
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
       - in: query
         name: offered_by__name
         schema:
@@ -1975,9 +2711,15 @@ paths:
         schema:
           type: string
       - in: query
-        name: platform
+        name: platform__audience
         schema:
           type: string
+          enum:
+          - Open Content
+          - Professional Offerings
+        description: |-
+          * `Open Content` - Open Content
+          * `Professional Offerings` - Professional Offerings
       - in: query
         name: resource_type
         schema:
@@ -1989,6 +2731,8 @@ paths:
           - podcast_episode
           - program
         description: |-
+          Resource Type
+
           * `course` - course
           * `program` - program
           * `learning_path` - learning_path

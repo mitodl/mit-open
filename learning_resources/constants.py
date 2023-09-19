@@ -41,6 +41,7 @@ class OfferedBy(Enum):
     (Courses, Bootcamps, Programs) and are independent of what platform.
     User generated lists UserLists (like a learning path) don't have offered by "brand".
     Values are user-facing.
+    These should be kept in sync with the LearningResourceOfferor model objects
     """
 
     mitx = "MITx"

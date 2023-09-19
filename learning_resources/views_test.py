@@ -20,7 +20,6 @@ from learning_resources.serializers import (
     PodcastEpisodeSerializer,
     PodcastSerializer,
 )
-from learning_resources.views import CourseViewSet
 
 pytestmark = [pytest.mark.django_db]
 
@@ -220,6 +219,8 @@ def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
     There should only be 8 queries made (based on number of related models),
     regardless of number of results returned.
     """
+    from learning_resources.views import CourseViewSet
+
     CourseFactory.create_batch(course_count)
 
     with django_assert_num_queries(8):
