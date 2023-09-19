@@ -1,4 +1,5 @@
 {% load render_bundle from webpack_loader %}
+{% load noindex_meta %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -16,6 +17,7 @@
     />
     {% endspaceless %}
     {{ js_settings|json_script:'js-settings' }}
+    {% noindex_meta %}
     <script type="text/javascript">
       var SETTINGS = JSON.parse(
           document.getElementById('js-settings').textContent,
