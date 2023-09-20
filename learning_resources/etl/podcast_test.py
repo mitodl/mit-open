@@ -5,6 +5,7 @@ from unittest.mock import Mock
 from urllib.parse import urljoin
 
 import pytest
+import pytz
 import yaml
 from bs4 import BeautifulSoup as bs  # noqa: N813
 from dateutil.tz import tzutc
@@ -17,6 +18,7 @@ from learning_resources.etl.podcast import (
     generate_aggregate_podcast_rss,
     github_podcast_config_files,
     transform,
+    validate_podcast_config,
 )
 from learning_resources.factories import PodcastEpisodeFactory
 
@@ -223,13 +225,16 @@ def test_transform_with_error(mocker, mock_github_client):
 @freeze_time("2020-07-20")
 def test_generate_aggregate_podcast_rss():
     """Test generate_aggregate_podcast_rss"""
-
-    PodcastEpisodeFactory.create(
+    resource_1 = PodcastEpisodeFactory.create(
         rss="<item>rss1</item>",
-    )
-    PodcastEpisodeFactory.create(
+    ).learning_resource
+    resource_2 = PodcastEpisodeFactory.create(
         rss="<item>rss2</item>",
-    )
+    ).learning_resource
+    resource_1.last_modified = datetime.datetime(2020, 2, 1, tzinfo=pytz.UTC)
+    resource_1.save()
+    resource_2.last_modified = datetime.datetime(2020, 1, 1, tzinfo=pytz.UTC)
+    resource_2.save()
 
     podcasts_url = urljoin(settings.SITE_BASE_URL, "podcasts")
     cover_image_url = urljoin(
@@ -282,3 +287,20 @@ def test_github_podcast_config_files(settings, mock_github_client, github_token)
     results = github_podcast_config_files()
 
     assert len(results) == 2
+
+
+@pytest.mark.parametrize(
+    ("config", "errors"),
+    [
+        ({}, ["podcast config data is empty"]),
+        (
+            [{"rss_url": "http://test.edu"}, {"website": "http://test.edu"}],
+            ["Podcast data should be a dict"],
+        ),
+        (None, ["podcast config data is empty"]),
+        ({"rss_url": "http://test.edu", "website": "http://test.edu"}, []),
+    ],
+)
+def test_validate_podcast_config(config, errors):
+    """Test the logic for validating podcast config files"""
+    assert validate_podcast_config(config) == errors
