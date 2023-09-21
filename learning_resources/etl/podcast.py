@@ -12,7 +12,7 @@ from django.conf import settings
 from requests.exceptions import HTTPError
 
 from learning_resources.constants import LearningResourceType
-from learning_resources.etl.utils import generate_unique_id
+from learning_resources.etl.utils import generate_readable_id
 from learning_resources.models import PodcastEpisode
 from open_discussions.utils import now_in_utc
 
@@ -140,11 +140,10 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
             normalized podcast episode data
     """
 
-    episode_id = generate_unique_id(rss_data.guid.text)
     rss_data.guid.string = f"{podcast_id}: {rss_data.guid.text}"
 
     return {
-        "readable_id": episode_id,
+        "readable_id": generate_readable_id(rss_data.title.text[:95]),
         "resource_type": LearningResourceType.podcast_episode.value,
         "title": rss_data.title.text,
         "offered_by": offered_by,
@@ -207,12 +206,11 @@ def transform(extracted_podcasts):
                 if "google_podcasts_url" in config_data
                 else None
             )
-            podcast_id = generate_unique_id(config_data["website"])
+            title = config_data.get("podcast_title", rss_data.channel.title.text)
+            podcast_id = generate_readable_id(title[:95])
             yield {
                 "readable_id": podcast_id,
-                "title": config_data["podcast_title"]
-                if "podcast_title" in config_data
-                else rss_data.channel.title.text,
+                "title": title,
                 "resource_type": LearningResourceType.podcast.value,
                 "offered_by": offered_by,
                 "description": rss_data.channel.description.text,

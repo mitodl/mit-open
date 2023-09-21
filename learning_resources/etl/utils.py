@@ -21,6 +21,7 @@ import rapidjson
 import requests
 from django.conf import settings
 from django.utils.functional import SimpleLazyObject
+from django.utils.text import slugify
 from tika import parser as tika_parser
 from xbundle import XBundle
 
@@ -152,18 +153,18 @@ def extract_text_from_url(url, *, mime_type=None):
     return None
 
 
-def generate_unique_id(text):
+def generate_readable_id(text):
     """
-    Generate a unique UUID based on a string
+    Generate a unique id based on a string
 
     Args:
-        text(str): The string to base the uuid on
+        text(str): The string to base the id on
 
     Returns:
-        str: The UUID in hex string format
+        str: The unique id
 
     """
-    return uuid.uuid3(uuid.NAMESPACE_URL, text).hex
+    return f"{slugify(text)}{uuid.uuid3(uuid.NAMESPACE_URL, text).hex}"
 
 
 def get_max_contentfile_length(field):

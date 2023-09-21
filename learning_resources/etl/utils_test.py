@@ -108,21 +108,21 @@ def test_extract_text_from_url(mocker, content):
 
 
 @pytest.mark.parametrize(
-    ("url", "uuid"),
+    ("text", "readable_id"),
     [
         (
-            "https://executive.mit.edu/openenrollment/program/managing-product-platforms",
-            "6626ef0d6c8e3000a9ba7a7f509156aa",
+            "The cat sat on the mat",
+            "the-cat-sat-on-the-mat65e998f1508038ccb0e8afbb2fe10b7b",
         ),
         (
-            "https://executive.mit.edu/openenrollment/program/negotiation-for-executives",
-            "6b7d9f0b7a193048aae11054cbd38753",
+            "the dog chased a hog",
+            "the-dog-chased-a-hog0adcc86118883d4b8bf121c4a0e036d6",
         ),
     ],
 )
-def test_generate_unique_id(url, uuid):
-    """Test that the same uuid is always created for a given URL"""
-    assert utils.generate_unique_id(url) == uuid
+def test_generate_readable_id(text, readable_id):
+    """Test that the same readable_id is always created for a given string"""
+    assert utils.generate_readable_id(text) == readable_id
 
 
 def test_strip_extra_whitespace():

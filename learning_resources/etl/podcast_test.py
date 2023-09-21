@@ -119,17 +119,22 @@ def test_transform(mock_github_client, title, topics, offered_by):
     )
 
     expected_title = title if title else "A Podcast"
+    expected_readable_id = (
+        "custom-titleb04b26d38dd63a2c829393e9e075927d"
+        if title
+        else "a-podcast7e3a1ebb0c4d3196ba4c7f8254af4d2d"
+    )
 
     expected_offered_by = [{"name": offered_by}] if offered_by else []
 
     episodes_rss = list(bs(rss_content(), "xml").find_all("item"))
 
     for episode in episodes_rss:
-        episode.guid.string = f"d4c3dcd45dc93fbc9c3634ba0545c2e0: {episode.guid.text}"
+        episode.guid.string = f"{expected_readable_id}: {episode.guid.text}"
 
     expected_results = [
         {
-            "readable_id": "d4c3dcd45dc93fbc9c3634ba0545c2e0",
+            "readable_id": expected_readable_id,
             "title": expected_title,
             "offered_by": expected_offered_by,
             "full_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -146,7 +151,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
             "topics": expected_topics,
             "episodes": [
                 {
-                    "readable_id": "0a19bfc1f30334389fc039e716d35306",
+                    "readable_id": "episode15ede89915db9342fb76bc91918d22016",
                     "title": "Episode1",
                     "offered_by": expected_offered_by,
                     "description": "SMorbi id consequat nisl. Morbi leo elit, vulputate nec aliquam molestie, ullamcorper sit amet tortor",
@@ -166,7 +171,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "topics": expected_topics,
                 },
                 {
-                    "readable_id": "85855fa506bf36999f8978302f3413ec",
+                    "readable_id": "episode205c066df9ed531e48c6414f6e72d3b96",
                     "title": "Episode2",
                     "offered_by": expected_offered_by,
                     "description": "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit felis ut varius facilisis.",
