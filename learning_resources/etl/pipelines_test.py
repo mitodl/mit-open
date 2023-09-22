@@ -59,3 +59,21 @@ def test_xpro_courses_etl():
     )
 
     assert result == mock_load_courses.return_value
+
+
+def test_podcast_etl():
+    """Verify that podcast etl pipeline executes correctly"""
+
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.podcast.extract", autospec=True),
+        patch("learning_resources.etl.podcast.transform", autospec=True),
+        patch("learning_resources.etl.loaders.load_podcasts", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_podcasts = patches
+        result = pipelines.podcast_etl()
+
+    mock_extract.assert_called_once_with()
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+    mock_load_podcasts.assert_called_once_with(mock_transform.return_value)
+
+    assert result == mock_load_podcasts.return_value

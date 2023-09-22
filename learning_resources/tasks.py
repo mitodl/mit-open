@@ -82,3 +82,17 @@ def import_all_xpro_files(self, chunk_size=None):
             chunk_size,
         )
     )
+
+
+@app.task
+def get_podcast_data():
+    """
+    Execute the Podcast ETL pipeline
+
+    Returns:
+        int:
+            The number of results that were fetched
+    """
+    results = pipelines.podcast_etl()
+
+    return len(list(results))

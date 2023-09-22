@@ -67,45 +67,43 @@ def test_lr_audience(platform, audience):
 
 
 @pytest.mark.parametrize(
-    ("platform", "audience", "availability", "has_cert"),
+    ("platform", "availability", "has_cert"),
     [
         [  # noqa: PT007
             constants.PlatformType.ocw.value,
-            constants.PROFESSIONAL,
             constants.AvailabilityType.archived.value,
-            True,
+            False,
         ],
         [  # noqa: PT007
             constants.PlatformType.ocw.value,
-            constants.OPEN,
-            constants.AvailabilityType.archived.value,
+            constants.AvailabilityType.current.value,
             False,
         ],
         [  # noqa: PT007
-            constants.PlatformType.mitx.value,
-            constants.PROFESSIONAL,
+            constants.PlatformType.xpro.value,
             constants.AvailabilityType.archived.value,
             True,
         ],
         [  # noqa: PT007
+            constants.PlatformType.xpro.value,
+            constants.AvailabilityType.current.value,
+            True,
+        ],
+        [  # noqa: PT007
             constants.PlatformType.mitx.value,
-            constants.OPEN,
             constants.AvailabilityType.archived.value,
             False,
         ],
         [  # noqa: PT007
             constants.PlatformType.mitx.value,
-            constants.OPEN,
             constants.AvailabilityType.current.value,
             True,
         ],
     ],
 )
-def test_lr_certification(platform, audience, availability, has_cert):
+def test_lr_certification(platform, availability, has_cert):
     """The certification property should return the expected value"""
-    platform_object = LearningResourcePlatformFactory.create(
-        platform=platform, audience=audience
-    )
+    platform_object = LearningResourcePlatformFactory.create(platform=platform)
 
     course = CourseFactory.create(
         platform=platform_object,
@@ -114,6 +112,7 @@ def test_lr_certification(platform, audience, availability, has_cert):
     course.learning_resource.runs.set(
         [LearningResourceRunFactory.create(availability=availability)]
     )
+
     assert course.learning_resource.certification == (
         constants.CERTIFICATE if has_cert else None
     )

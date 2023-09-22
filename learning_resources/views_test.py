@@ -2,16 +2,24 @@
 import pytest
 from rest_framework.reverse import reverse
 
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import (
+    LearningResourceRelationTypes,
+    LearningResourceType,
+)
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
     LearningResourceFactory,
     LearningResourceRunFactory,
+    PodcastEpisodeFactory,
+    PodcastFactory,
     ProgramFactory,
 )
-from learning_resources.serializers import ContentFileSerializer
-from learning_resources.views import CourseViewSet
+from learning_resources.serializers import (
+    ContentFileSerializer,
+    PodcastEpisodeSerializer,
+    PodcastSerializer,
+)
 
 pytestmark = [pytest.mark.django_db]
 
@@ -40,7 +48,7 @@ def test_list_course_endpoint(client, url, params):
 @pytest.mark.parametrize(
     "url", ["lr_courses_api-detail", "learning_resources_api-detail"]
 )
-def test_get_course_endpoint(client, url):
+def test_get_course_detail_endpoint(client, url):
     """Test course detail endpoint"""
     course = CourseFactory.create()
 
@@ -211,6 +219,8 @@ def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
     There should only be 8 queries made (based on number of related models),
     regardless of number of results returned.
     """
+    from learning_resources.views import CourseViewSet
+
     CourseFactory.create_batch(course_count)
 
     with django_assert_num_queries(8):
@@ -265,3 +275,130 @@ def test_get_contentfiles_detail_endpoint(client):
     resp = client.get(reverse("lr_contentfiles_api-detail", args=[content_file.id]))
 
     assert resp.data == ContentFileSerializer(instance=content_file).data
+
+
+@pytest.mark.parametrize(
+    ("url", "params"),
+    [
+        ("lr_podcasts_api-list", ""),
+        ("learning_resources_api-list", "resource_type=podcast"),
+    ],
+)
+def test_list_podcast_endpoint(client, url, params):
+    """Test podcast endpoint"""
+    podcasts = sorted(
+        PodcastFactory.create_batch(2), key=lambda podcast: podcast.learning_resource.id
+    )
+    # this should be filtered out
+    PodcastFactory.create_batch(5, is_unpublished=True)
+
+    resp = client.get(f"{reverse(url)}?{params}")
+    assert resp.data.get("count") == 2
+
+    for idx, podcast in enumerate(podcasts):
+        assert resp.data.get("results")[idx]["id"] == podcast.learning_resource.id
+        assert (
+            resp.data.get("results")[idx]["podcast"]
+            == PodcastSerializer(instance=podcast).data
+        )
+
+
+@pytest.mark.parametrize(
+    "url", ["lr_podcasts_api-detail", "learning_resources_api-detail"]
+)
+def test_get_podcast_detail_endpoint(client, url):
+    """Test podcast detail endpoint"""
+    podcast = PodcastFactory.create()
+
+    resp = client.get(reverse(url, args=[podcast.learning_resource.id]))
+
+    assert resp.data.get("readable_id") == podcast.learning_resource.readable_id
+    assert resp.data.get("podcast") == PodcastSerializer(instance=podcast).data
+
+
+@pytest.mark.parametrize(
+    ("url", "params"),
+    [
+        ("lr_podcast_episodes_api-list", "ordering=-last_modified"),
+        (
+            "learning_resources_api-list",
+            "resource_type=podcast_episode&ordering=-last_modified",
+        ),
+    ],
+)
+def test_list_podcast_episode_endpoint(client, url, params):
+    """Test podcast episode endpoint"""
+    podcast = PodcastFactory.create().learning_resource
+
+    # this should be filtered out
+    podcast.resources.add(
+        PodcastEpisodeFactory.create(is_unpublished=True).learning_resource,
+        through_defaults={
+            "relation_type": LearningResourceRelationTypes.PODCAST_EPISODES.value
+        },
+    )
+
+    resp = client.get(f"{reverse(url)}?{params}")
+    assert resp.data.get("count") == podcast.resources.count() - 1
+
+    for idx, episode in enumerate(
+        sorted(
+            podcast.resources.filter(published=True),
+            key=lambda episode: episode.last_modified,
+            reverse=True,
+        )
+    ):
+        assert resp.data.get("results")[idx]["id"] == episode.id
+        assert (
+            resp.data.get("results")[idx]["podcast_episode"]
+            == PodcastEpisodeSerializer(instance=episode.podcast_episode).data
+        )
+
+
+@pytest.mark.parametrize(
+    "url", ["lr_podcast_episodes_api-detail", "learning_resources_api-detail"]
+)
+def test_get_podcast_episode_detail_endpoint(client, url):
+    """Test podcast episode detail endpoint"""
+    episode = PodcastEpisodeFactory.create()
+
+    resp = client.get(reverse(url, args=[episode.learning_resource.id]))
+
+    assert resp.data.get("readable_id") == episode.learning_resource.readable_id
+    assert (
+        resp.data.get("podcast_episode")
+        == PodcastEpisodeSerializer(instance=episode).data
+    )
+
+
+@pytest.mark.parametrize(
+    "url", ["lr_learning_resource_items_api-list", "lr_podcast_items_api-list"]
+)
+def test_get_podcast_items_endpoint(client, url):
+    """Test podcast items endpoint"""
+    podcast = PodcastFactory.create()
+
+    # this should be filtered out
+    podcast.learning_resource.resources.add(
+        PodcastEpisodeFactory.create(is_unpublished=True).learning_resource,
+        through_defaults={
+            "relation_type": LearningResourceRelationTypes.PODCAST_EPISODES.value
+        },
+    )
+
+    resp = client.get(reverse(url, args=[podcast.learning_resource.id]))
+
+    assert resp.data.get("count") == podcast.learning_resource.resources.count() - 1
+
+    for idx, episode in enumerate(
+        sorted(
+            podcast.learning_resource.resources.filter(published=True),
+            key=lambda episode: episode.last_modified,
+            reverse=True,
+        )
+    ):
+        assert resp.data.get("results")[idx]["id"] == episode.id
+        assert (
+            resp.data.get("results")[idx]["podcast_episode"]
+            == PodcastEpisodeSerializer(instance=episode.podcast_episode).data
+        )
