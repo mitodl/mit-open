@@ -108,10 +108,8 @@ describe("LearningPathDetailsPage", () => {
       await user.click(reorderButton)
       expectLastProps(spyItemsListing, { sortable: true })
 
-      const doneButton = await screen.findByRole("button", {
-        name: "Done ordering",
-      })
-      await user.click(doneButton)
+      expect(reorderButton).toHaveAccessibleName("Done ordering")
+      await user.click(reorderButton)
       expectLastProps(spyItemsListing, { sortable: false })
     },
   )
