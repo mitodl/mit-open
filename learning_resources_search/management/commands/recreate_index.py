@@ -1,9 +1,9 @@
 """Management command to index content"""
 from django.core.management.base import BaseCommand, CommandError
 
+from learning_resources_search.constants import VALID_OBJECT_TYPES
+from learning_resources_search.tasks import start_recreate_index
 from open_discussions.utils import now_in_utc
-from search.constants import VALID_OBJECT_TYPES
-from search.tasks import start_recreate_index
 
 
 class Command(BaseCommand):

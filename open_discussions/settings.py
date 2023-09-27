@@ -118,6 +118,7 @@ INSTALLED_APPS = (
     "discussions",
     "learning_resources",  # to replace below when ready
     "course_catalog",
+    "learning_resources_search",
 )
 
 MIDDLEWARE = (
