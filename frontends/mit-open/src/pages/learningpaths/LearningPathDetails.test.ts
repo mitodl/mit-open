@@ -99,15 +99,15 @@ describe("LearningPathDetailsPage", () => {
   test("Clicking reorder makes items reorderable, clicking Done makes them static", async () => {
     const path = factories.learningResources.learningPath()
     setup({ path, userSettings: { is_learning_path_editor: true } })
-    const reorderButton = await screen.findByRole("button", { name: "Reorder" })
+    const reorderButton = await screen.findByRole("button", {
+      name: "Reorder",
+    })
     expectLastProps(spyItemsListing, { sortable: false })
     await user.click(reorderButton)
     expectLastProps(spyItemsListing, { sortable: true })
 
-    const doneButton = await screen.findByRole("button", {
-      name: "Done ordering",
-    })
-    await user.click(doneButton)
+    expect(reorderButton).toHaveAccessibleName("Done ordering")
+    await user.click(reorderButton)
     expectLastProps(spyItemsListing, { sortable: false })
   })
 
