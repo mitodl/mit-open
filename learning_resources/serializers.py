@@ -225,7 +225,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         read_only=True, allow_null=True
     )
     department = LearningResourceDepartmentSerializer(read_only=True, allow_null=True)
-    audience = serializers.ReadOnlyField()
     certification = serializers.ReadOnlyField()
     prices = serializers.ReadOnlyField()
     course = CourseSerializer(read_only=True, allow_null=True)

@@ -8,7 +8,6 @@ from learning_resources import constants
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
-    PlatformType,
     PrivacyLevel,
 )
 from open_discussions.models import TimestampedModel
@@ -20,13 +19,6 @@ class LearningResourcePlatform(TimestampedModel):
     platform = models.CharField(max_length=12, primary_key=True)
     name = models.CharField(max_length=256, blank=False, default="")
     url = models.URLField(null=True, blank=True)  # noqa: DJ001
-    audience = models.CharField(
-        max_length=24,
-        choices=(
-            (constants.OPEN, constants.OPEN),
-            (constants.PROFESSIONAL, constants.PROFESSIONAL),
-        ),
-    )
     is_edx = models.BooleanField(default=False)
     has_content_files = models.BooleanField(default=False)
 
@@ -150,6 +142,8 @@ class LearningResource(TimestampedModel):
             return self.platform.audience
         return None
 
+    is_professional = models.BooleanField(default=False)
+
     @property
     def prices(self) -> str | None:
         """Returns the prices for the learning resource"""
@@ -166,8 +160,8 @@ class LearningResource(TimestampedModel):
     @property
     def certification(self) -> str | None:
         """Returns the certification for the learning resource"""
-        if self.platform.audience == constants.PROFESSIONAL or (
-            self.platform.platform == PlatformType.edx.value
+        if self.is_professional or (
+            self.offered_by.name == constants.OfferedBy.mitx.value
             and any(
                 availability != constants.AvailabilityType.archived.value
                 for availability in self.runs.values_list("availability", flat=True)

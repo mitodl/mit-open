@@ -2,8 +2,6 @@
 import pytest
 
 from learning_resources.constants import (
-    OPEN,
-    PROFESSIONAL,
     LearningResourceType,
     OfferedBy,
     PlatformType,
@@ -11,7 +9,6 @@ from learning_resources.constants import (
 from learning_resources.factories import (
     CourseFactory,
     LearningResourceOfferorFactory,
-    LearningResourcePlatformFactory,
     PodcastFactory,
 )
 from learning_resources.filters import LearningResourceFilter
@@ -52,27 +49,24 @@ def test_learning_resource_filter_platform():
     assert mitx_course not in query
 
 
-@pytest.mark.parametrize("is_open", [True, False])
-def test_learning_resource_filter_audience(is_open):
-    """Test that the audience filter works"""
+@pytest.mark.parametrize("is_professional", [True, False])
+def test_learning_resource_filter_professional(is_professional):
+    """Test that the professional filter works"""
 
     professional_course = CourseFactory.create(
-        platform=LearningResourcePlatformFactory.create(
-            platform=PlatformType.xpro.value, audience=PROFESSIONAL
-        )
+        platform=PlatformType.xpro.value, is_professional=True
     ).learning_resource
     open_course = CourseFactory.create(
-        platform=LearningResourcePlatformFactory.create(
-            platform=PlatformType.ocw.value, audience=OPEN
-        )
+        platform=PlatformType.xpro.value
     ).learning_resource
 
-    query = LearningResourceFilter(
-        {"audience": ("open" if is_open else "professional")}
-    ).qs
+    assert professional_course.is_professional is True
+    assert open_course.is_professional is False
 
-    assert (professional_course not in query) is is_open
-    assert (open_course in query) is is_open
+    query = LearningResourceFilter({"professional": is_professional}).qs
+
+    assert (professional_course in query) is is_professional
+    assert (open_course in query) is not is_professional
 
 
 def test_learning_resource_filter_resource_type():

@@ -85,17 +85,9 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -187,19 +179,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -327,17 +314,9 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -429,19 +408,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -478,17 +452,9 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -580,19 +546,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -629,17 +590,9 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -731,19 +684,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -937,17 +885,9 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -1039,19 +979,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -1088,17 +1023,9 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -1190,19 +1117,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -1239,17 +1161,9 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -1341,19 +1255,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -1716,17 +1625,9 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -1818,19 +1719,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -1867,17 +1763,9 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -1969,19 +1857,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2018,17 +1901,9 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -2120,19 +1995,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2192,17 +2062,9 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -2294,19 +2156,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2343,17 +2200,9 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -2445,19 +2294,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2494,17 +2338,9 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -2596,19 +2432,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2734,17 +2565,9 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -2836,19 +2659,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2885,17 +2703,9 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -2987,19 +2797,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -3036,17 +2841,9 @@ paths:
       summary: List
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -3138,19 +2935,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -3210,17 +3002,9 @@ paths:
       summary: List New
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -3312,19 +3096,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -3361,17 +3140,9 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
-        name: audience
+        name: is_professional
         schema:
-          type: string
-          enum:
-          - open
-          - professional
-        description: |-
-          Audience
-
-          * `professional` - Professional Offerings
-          * `open` - Open Content
+          type: boolean
       - name: limit
         required: false
         in: query
@@ -3463,19 +3234,14 @@ paths:
           * `emeritus` - emeritus
           * `podcast` - podcast
       - in: query
-        name: platform__audience
-        schema:
-          type: string
-          enum:
-          - Open Content
-          - Professional Offerings
-        description: |-
-          * `Open Content` - Open Content
-          * `Professional Offerings` - Professional Offerings
-      - in: query
         name: platform__platform
         schema:
           type: string
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -4125,11 +3891,6 @@ components:
           - $ref: '#/components/schemas/LearningResourceDepartment'
           readOnly: true
           nullable: true
-        audience:
-          type: string
-          nullable: true
-          description: Returns the audience for the learning resource
-          readOnly: true
         certification:
           type: string
           nullable: true
@@ -4219,6 +3980,8 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
+        is_professional:
+          type: boolean
         platform:
           type: string
           readOnly: true
@@ -4229,7 +3992,6 @@ components:
             type: integer
           readOnly: true
       required:
-      - audience
       - certification
       - course
       - department
@@ -4293,6 +4055,8 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
+        is_professional:
+          type: boolean
       required:
       - readable_id
       - resource_type
@@ -4323,11 +4087,6 @@ components:
           - $ref: '#/components/schemas/LearningResourceDepartment'
           readOnly: true
           nullable: true
-        audience:
-          type: string
-          nullable: true
-          description: Returns the audience for the learning resource
-          readOnly: true
         certification:
           type: string
           nullable: true
@@ -4417,11 +4176,12 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
+        is_professional:
+          type: boolean
         platform:
           type: string
           nullable: true
       required:
-      - audience
       - certification
       - course
       - department
@@ -4467,11 +4227,6 @@ components:
           - $ref: '#/components/schemas/LearningResourceDepartment'
           readOnly: true
           nullable: true
-        audience:
-          type: string
-          nullable: true
-          description: Returns the audience for the learning resource
-          readOnly: true
         certification:
           type: string
           nullable: true
@@ -4556,11 +4311,12 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
+        is_professional:
+          type: boolean
         platform:
           type: string
           nullable: true
       required:
-      - audience
       - certification
       - course
       - department
@@ -4734,6 +4490,8 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
+        is_professional:
+          type: boolean
         platform:
           type: string
           minLength: 1
@@ -5196,6 +4954,8 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
+        is_professional:
+          type: boolean
     PatchedUserListRelationshipRequest:
       type: object
       description: Serializer for UserListRelationship model

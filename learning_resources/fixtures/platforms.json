@@ -4,7 +4,6 @@
     "fields": {
       "platform": "ocw",
       "name": "OCW",
-      "audience": "Open Content",
       "is_edx": false,
       "has_content_files": true,
       "url": "https://ocw.mit.edu/",
@@ -17,7 +16,6 @@
     "fields": {
       "platform": "edx",
       "name": "edX",
-      "audience": "Open Content",
       "is_edx": true,
       "has_content_files": true,
       "url": "https://www.edx.org/",
@@ -29,8 +27,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "mitxonline",
-      "name": "MITx Online",
-      "audience": "Open Content",
+      "name": "MITxOnline",
       "is_edx": true,
       "has_content_files": true,
       "url": "https://mitxonline.mit.edu",
@@ -43,7 +40,6 @@
     "fields": {
       "platform": "bootcamps",
       "name": "Bootcamps",
-      "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
       "url": "http://bootcamps.mit.edu",
@@ -56,7 +52,6 @@
     "fields": {
       "platform": "xpro",
       "name": "xPRO",
-      "audience": "Professional Offerings",
       "is_edx": true,
       "has_content_files": true,
       "url": "https://xpro.mit.edu/",
@@ -69,7 +64,6 @@
     "fields": {
       "platform": "podcast",
       "name": "Podcast",
-      "audience": "Open Content",
       "is_edx": false,
       "has_content_files": false,
       "url": "",
@@ -82,7 +76,6 @@
     "fields": {
       "platform": "csail",
       "name": "CSAIL",
-      "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
       "url": "https://cap.csail.mit.edu/",
@@ -95,7 +88,6 @@
     "fields": {
       "platform": "mitpe",
       "name": "MIT Professional Education",
-      "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
       "url": "https://professional.mit.edu/",
@@ -108,7 +100,6 @@
     "fields": {
       "platform": "see",
       "name": "Sloan Executive Education",
-      "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
       "url": "https://executive.mit.edu/",
@@ -121,7 +112,6 @@
     "fields": {
       "platform": "scc",
       "name": "Schwarzman College of Computing",
-      "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
       "url": "https://computing.mit.edu/",
@@ -134,7 +124,6 @@
     "fields": {
       "platform": "ctl",
       "name": "Center for Transporation & Logistics",
-      "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
       "url": "https://ctl.mit.edu/",
@@ -147,7 +136,6 @@
     "fields": {
       "platform": "podcast",
       "name": "Podcast",
-      "audience": "Open Content",
       "is_edx": false,
       "has_content_files": false,
       "url": "",
@@ -160,7 +148,6 @@
     "fields": {
       "platform": "emeritus",
       "name": "Emeritus",
-      "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
       "url": "",
@@ -173,7 +160,6 @@
     "fields": {
       "platform": "simplilearn",
       "name": "Simplilearn",
-      "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
       "url": "",
@@ -186,7 +172,6 @@
     "fields": {
       "platform": "globalalumni",
       "name": "Global Alumni",
-      "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
       "url": "",
@@ -199,7 +184,6 @@
     "fields": {
       "platform": "susskind",
       "name": "Susskind",
-      "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
       "url": "",
@@ -211,7 +195,6 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "whu",
-      "audience": "Professional Offerings",
       "name": "WHU",
       "is_edx": false,
       "has_content_files": false,

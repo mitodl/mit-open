@@ -91,7 +91,6 @@ class LearningResourcePlatformFactory(DjangoModelFactory):
 
     platform = FuzzyChoice([platform.value for platform in constants.PlatformType])
     name = FuzzyChoice([platform.value for platform in constants.PlatformType])
-    audience = FuzzyChoice([constants.OPEN, constants.PROFESSIONAL])
     is_edx = Faker("boolean")
     has_content_files = Faker("boolean")
 
@@ -219,6 +218,7 @@ class CourseFactory(DjangoModelFactory):
 
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
+        is_professional = factory.Trait(learning_resource__is_professional=True)
 
 
 class LearningResourceRunFactory(DjangoModelFactory):
@@ -390,6 +390,7 @@ class ProgramFactory(DjangoModelFactory):
 
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
+        is_professional = factory.Trait(learning_resource__is_professional=True)
 
 
 class LearningPathRelationshipFactory(DjangoModelFactory):

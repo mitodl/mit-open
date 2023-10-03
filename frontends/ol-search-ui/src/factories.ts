@@ -21,8 +21,6 @@ import {
 import { times } from "lodash"
 import moment from "moment"
 
-const OPEN_CONTENT = "Open Content"
-const PROFESSIONAL = "Professional Offerings"
 const CERTIFICATE = "Certificates"
 
 export const makeTopic: Factory<CourseTopic> = (overrides) => {
@@ -80,12 +78,7 @@ export const makeCourse: Factory<Course> = (overrides) => ({
   is_favorite: casual.coin_flip,
   lists: times(faker.datatype.number(3), () => makeListItemMember()),
   stafflists: times(faker.datatype.number(3), () => makeListItemMember()),
-  audience: casual.random_element([
-    [],
-    [OPEN_CONTENT],
-    [PROFESSIONAL],
-    [OPEN_CONTENT, PROFESSIONAL],
-  ]),
+  is_professional: casual.boolean,
   certification: casual.random_element([[], [CERTIFICATE]]),
   ...overrides,
 })
@@ -103,12 +96,7 @@ export const makeProgram: Factory<LearningResource> = (overrides) => ({
   is_favorite: casual.coin_flip,
   lists: times(faker.datatype.number(3), () => makeListItemMember()),
   stafflists: times(faker.datatype.number(3), () => makeListItemMember()),
-  audience: casual.random_element([
-    [],
-    [OPEN_CONTENT],
-    [PROFESSIONAL],
-    [OPEN_CONTENT, PROFESSIONAL],
-  ]),
+  is_professional: casual.boolean,
   certification: casual.random_element([[], [CERTIFICATE]]),
   platform: faker.word.noun(),
   ...overrides,
@@ -129,7 +117,7 @@ export const makeVideo: Factory<LearningResource> = (overrides) => ({
   runs: undefined,
   lists: times(faker.datatype.number(3), () => makeListItemMember()),
   stafflists: times(faker.datatype.number(3), () => makeListItemMember()),
-  audience: [],
+  is_professional: false,
   certification: [],
   topics: [],
   platform: faker.word.noun(),
@@ -179,6 +167,7 @@ export const makeStaffList: Factory<StaffList> = (overrides) => {
     id: faker.unique(faker.datatype.number),
     short_description: faker.lorem.paragraph(),
     offered_by: null,
+    is_professional: false,
     title: faker.lorem.words(),
     topics: times(2, () => makeTopic()),
     is_favorite: faker.datatype.boolean(),
@@ -278,6 +267,7 @@ export const makeLearningResource: Factory<LearningResource> = (overrides) => {
     object_type: makeLearningResourceType(),
     platform: faker.lorem.word(),
     runs: times(3, () => makeRun()),
+    is_professional: faker.datatype.boolean(),
     lists: [],
     stafflists: [],
     certification: [],
