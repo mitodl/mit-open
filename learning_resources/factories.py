@@ -42,19 +42,6 @@ def _post_gen_tags(obj, create, extracted, **kwargs):  # noqa: ARG001
     obj.resource_content_tags.set(extracted)
 
 
-def _post_gen_offered_by(obj, create, extracted, **kwargs):  # noqa: ARG001
-    """PostGeneration function for offered_by"""
-    if not create:
-        return
-
-    if extracted is None:
-        extracted = LearningResourceOfferorFactory.create_batch(
-            random.randint(1, 2)  # noqa: S311
-        )
-
-    obj.offered_by.set(extracted)
-
-
 class LearningResourceContentTagFactory(DjangoModelFactory):
     """Factory for LearningResourceContentTag objects"""
 
@@ -103,6 +90,7 @@ class LearningResourcePlatformFactory(DjangoModelFactory):
     """Factory for LearningResourcePlatform"""
 
     platform = FuzzyChoice([platform.value for platform in constants.PlatformType])
+    name = FuzzyChoice([platform.value for platform in constants.PlatformType])
     audience = FuzzyChoice([constants.OPEN, constants.PROFESSIONAL])
     is_edx = Faker("boolean")
     has_content_files = Faker("boolean")
@@ -136,7 +124,6 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
         is_xpro = factory.Trait(name=constants.OfferedBy.xpro.value)
         is_bootcamps = factory.Trait(name=constants.OfferedBy.bootcamps.value)
         is_mitx = factory.Trait(name=constants.OfferedBy.mitx.value)
-        is_oll = factory.Trait(name=constants.OfferedBy.oll.value)
         is_ocw = factory.Trait(name=constants.OfferedBy.ocw.value)
 
 
@@ -147,6 +134,7 @@ class LearningResourceFactory(DjangoModelFactory):
         lambda n: "RESOURCEN%03d_%03d.MIT_run"
         % (n, random.randint(1, 1000))  # noqa: S311
     )
+    etl_source = "mock"
     title = factory.Faker("word")
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
@@ -156,7 +144,7 @@ class LearningResourceFactory(DjangoModelFactory):
     image = factory.SubFactory(LearningResourceImageFactory)
     platform = factory.SubFactory(LearningResourcePlatformFactory)
     department = factory.SubFactory(LearningResourceDepartmentFactory)
-    offered_by = factory.PostGeneration(_post_gen_offered_by)
+    offered_by = factory.SubFactory(LearningResourceOfferorFactory)
     topics = factory.PostGeneration(_post_gen_topics)
     resource_content_tags = factory.PostGeneration(_post_gen_tags)
 
@@ -203,6 +191,26 @@ class CourseFactory(DjangoModelFactory):
 
         self.learning_resource.platform = LearningResourcePlatformFactory.create(
             platform=extracted
+        )
+        self.learning_resource.save()
+
+    @factory.post_generation
+    def etl_source(self, create, extracted, **kwargs):  # noqa: ARG002
+        """Create etl_source for course.learning_resource"""
+        if not create or not extracted:
+            return
+
+        self.learning_resource.etl_source = extracted
+        self.learning_resource.save()
+
+    @factory.post_generation
+    def offered_by(self, create, extracted, **kwargs):  # noqa: ARG002
+        """Create LearningResourceOfferor for course.learning_resource"""
+        if not create or not extracted:
+            return
+
+        self.learning_resource.offered_by = LearningResourceOfferorFactory.create(
+            name=extracted
         )
         self.learning_resource.save()
 

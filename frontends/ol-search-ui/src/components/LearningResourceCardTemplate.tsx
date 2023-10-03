@@ -52,35 +52,27 @@ type LearningResourceCardTemplateProps<
 }
 
 type OffererProps = {
-  offerers: string[]
+  offerer: string
 }
 
-const Offerers: React.FC<OffererProps> = ({ offerers }) => {
-  return (
-    <>
-      {offerers.map((offerer, i) => {
-        const isLast = i === offerers.length - 1
-        return (
-          <React.Fragment key={`${offerer}-${i}`}>
-            <a href={`/infinite/search?${toQueryString({ o: offerer })}`}>
-              {offerer}
-            </a>
-            {!isLast && ", "}
-          </React.Fragment>
-        )
-      })}
-    </>
-  )
+const Offerer: React.FC<OffererProps> = ({ offerer }) => {
+  return offerer ? (
+    <React.Fragment key={`${offerer}`}>
+      <a href={`/infinite/search?${toQueryString({ o: offerer })}`}>
+        {offerer}
+      </a>
+    </React.Fragment>
+  ) : null
 }
 
 const CardBody: React.FC<
   Pick<LearningResourceCardTemplateProps, "resource">
 > = ({ resource }) => {
-  const offerers = resource.offered_by ?? []
-  return offerers.length > 0 ? (
+  const offerer = resource.offered_by ?? null
+  return offerer ? (
     <div>
       <span className="ol-lrc-offered-by">Offered by &ndash;</span>
-      <Offerers offerers={offerers} />
+      <Offerer offerer={offerer} />
     </div>
   ) : null
 }

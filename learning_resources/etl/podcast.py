@@ -19,6 +19,7 @@ from open_discussions.utils import now_in_utc
 CONFIG_FILE_REPO = "mitodl/open-podcast-data"
 CONFIG_FILE_FOLDER = "podcasts"
 TIMESTAMP_FORMAT = "%a, %d %b %Y  %H:%M:%S %z"
+ETL_SOURCE = "podcast"
 
 log = logging.getLogger()
 
@@ -131,7 +132,7 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
 
     Args:
         rss_data (beautiful soup object): the extracted episode data
-        offered_by (str): the offered_by value for this episode
+        offered_by (atr): the offered_by value for this episode
         topics (list of dict): the topics for the podcast
         parent_image (str): url for podcast image
         podcast_id (str): unique id for podcast
@@ -144,6 +145,7 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
 
     return {
         "readable_id": generate_readable_id(rss_data.title.text[:95]),
+        "etl_source": ETL_SOURCE,
         "resource_type": LearningResourceType.podcast_episode.value,
         "title": rss_data.title.text,
         "offered_by": offered_by,
@@ -192,9 +194,9 @@ def transform(extracted_podcasts):
                 else []
             )
             offered_by = (
-                [{"name": config_data["offered_by"]}]
+                {"name": config_data["offered_by"]}
                 if "offered_by" in config_data
-                else []
+                else None
             )
             apple_podcasts_url = (
                 config_data["apple_podcasts_url"]
@@ -211,6 +213,7 @@ def transform(extracted_podcasts):
             yield {
                 "readable_id": podcast_id,
                 "title": title,
+                "etl_source": ETL_SOURCE,
                 "resource_type": LearningResourceType.podcast.value,
                 "offered_by": offered_by,
                 "description": rss_data.channel.description.text,

@@ -287,13 +287,15 @@ def test_documents_from_olx_bad_vertical(mocker):
     assert len(parsed_documents) == 92
 
 
-@pytest.mark.parametrize("platform", [PlatformType.mitx.value, PlatformType.xpro.value])
+@pytest.mark.parametrize(
+    "platform", [PlatformType.mitxonline.value, PlatformType.xpro.value]
+)
 def test_get_learning_course_bucket(
     aws_settings, mock_mitx_learning_bucket, mock_xpro_learning_bucket, platform
 ):  # pylint: disable=unused-argument
     """The correct bucket should be returned by the function"""
     assert utils.get_learning_course_bucket(platform).name == (
-        aws_settings.EDX_LEARNING_COURSE_BUCKET_NAME
-        if platform == PlatformType.mitx.value
+        aws_settings.MITX_ONLINE_LEARNING_COURSE_BUCKET_NAME
+        if platform == PlatformType.mitxonline.value
         else aws_settings.XPRO_LEARNING_COURSE_BUCKET_NAME
     )

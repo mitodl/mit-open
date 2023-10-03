@@ -33,31 +33,31 @@ def fixture_test_instructors_data():
         [  # noqa: PT007
             "MITX-01",
             {"course_runs": [{"marketing_url": "https://www.edx.org/course/someurl"}]},
-            PlatformType.mitx.value,
+            PlatformType.mitxonline.value,
             "https://www.edx.org/course/someurl",
         ],
         [  # noqa: PT007
             "MITX-01",
             {"course_runs": [{"marketing_url": "https://www.edx.org/"}]},
-            PlatformType.mitx.value,
+            PlatformType.mitxonline.value,
             "https://courses.edx.org/courses/MITX-01/course/",
         ],
         [  # noqa: PT007
             "MITX-01",
             {"course_runs": [{"marketing_url": ""}]},
-            PlatformType.mitx.value,
+            PlatformType.mitxonline.value,
             "https://courses.edx.org/courses/MITX-01/course/",
         ],
         [  # noqa: PT007
             "MITX-01",
             {"course_runs": [{}]},
-            PlatformType.mitx.value,
+            PlatformType.mitxonline.value,
             "https://courses.edx.org/courses/MITX-01/course/",
         ],
         [  # noqa: PT007
             "MITX-01",
             {},
-            PlatformType.mitx.value,
+            PlatformType.mitxonline.value,
             "https://courses.edx.org/courses/MITX-01/course/",
         ],
         [  # noqa: PT007
@@ -138,8 +138,8 @@ def test_load_blocklist(url, settings, mocker):
 
 
 @pytest.mark.parametrize("url", [None, "http://test.me"])
-@pytest.mark.parametrize("platform", ["mitx", "other"])
-def test_load_course_duplicates(url, platform, settings, mocker):
+@pytest.mark.parametrize("etl_source", ["mitx", "other"])
+def test_load_course_duplicates(url, etl_source, settings, mocker):
     """Test that a list of duplicate course id sets is returned if a URL is set"""
     settings.DUPLICATE_COURSES_URL = url
     file_content = """
@@ -155,11 +155,11 @@ mitx:
     mock_request = mocker.patch(
         "requests.get", autospec=True, return_value=mocker.Mock(text=file_content)
     )
-    duplicates = load_course_duplicates(platform)
+    duplicates = load_course_duplicates(etl_source)
     if url is None:
         mock_request.assert_not_called()
         assert duplicates == []
-    elif platform == "other":
+    elif etl_source == "other":
         mock_request.assert_called_once_with(url, timeout=settings.REQUESTS_TIMEOUT)
         assert duplicates == []
     else:

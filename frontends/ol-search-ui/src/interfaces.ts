@@ -43,7 +43,7 @@ export type LearningResource = {
   stafflists: ListItemMember[]
   image_src: string | null
   runs?: LearningResourceRun[]
-  offered_by?: string[]
+  offered_by?: string | null
   platform?: string
   is_favorite?: boolean
   audience?: string[]

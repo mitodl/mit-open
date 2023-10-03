@@ -8,6 +8,7 @@ from learning_resources import constants
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
+    PlatformType,
     PrivacyLevel,
 )
 from open_discussions.models import TimestampedModel
@@ -17,6 +18,7 @@ class LearningResourcePlatform(TimestampedModel):
     """Platforms for all learning resources"""
 
     platform = models.CharField(max_length=12, primary_key=True)
+    name = models.CharField(max_length=256, blank=False, default="")
     url = models.URLField(null=True, blank=True)  # noqa: DJ001
     audience = models.CharField(
         max_length=24,
@@ -118,7 +120,7 @@ class LearningResource(TimestampedModel):
         LearningResourcePlatform,
         null=True,
         blank=True,
-        on_delete=models.deletion.RESTRICT,
+        on_delete=models.deletion.SET_NULL,
     )
     department = models.ForeignKey(
         LearningResourceDepartment,
@@ -132,11 +134,14 @@ class LearningResource(TimestampedModel):
         choices=((member.value, member.value) for member in LearningResourceType),
     )
     topics = models.ManyToManyField(LearningResourceTopic)
-    offered_by = models.ManyToManyField(LearningResourceOfferor)
+    offered_by = models.ForeignKey(
+        LearningResourceOfferor, null=True, on_delete=models.SET_NULL
+    )
     resource_content_tags = models.ManyToManyField(LearningResourceContentTag)
     resources = models.ManyToManyField(
         "self", through="LearningResourceRelationship", symmetrical=False, blank=True
     )
+    etl_source = models.CharField(max_length=12, default="")
 
     @property
     def audience(self) -> str | None:
@@ -162,7 +167,7 @@ class LearningResource(TimestampedModel):
     def certification(self) -> str | None:
         """Returns the certification for the learning resource"""
         if self.platform.audience == constants.PROFESSIONAL or (
-            self.platform.platform == "mitx"
+            self.platform.platform == PlatformType.edx.value
             and any(
                 availability != constants.AvailabilityType.archived.value
                 for availability in self.runs.values_list("availability", flat=True)

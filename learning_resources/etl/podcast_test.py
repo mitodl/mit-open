@@ -14,13 +14,18 @@ from freezegun import freeze_time
 
 from learning_resources.constants import LearningResourceType, OfferedBy
 from learning_resources.etl.podcast import (
+    ETL_SOURCE,
     extract,
     generate_aggregate_podcast_rss,
     github_podcast_config_files,
     transform,
     validate_podcast_config,
 )
-from learning_resources.factories import PodcastEpisodeFactory
+from learning_resources.factories import (
+    PodcastEpisodeFactory,
+)
+
+pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture()
@@ -125,7 +130,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
         else "a-podcast7e3a1ebb0c4d3196ba4c7f8254af4d2d"
     )
 
-    expected_offered_by = [{"name": offered_by}] if offered_by else []
+    expected_offered_by = {"name": offered_by} if offered_by else None
 
     episodes_rss = list(bs(rss_content(), "xml").find_all("item"))
 
@@ -135,6 +140,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
     expected_results = [
         {
             "readable_id": expected_readable_id,
+            "etl_source": ETL_SOURCE,
             "title": expected_title,
             "offered_by": expected_offered_by,
             "full_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -152,6 +158,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
             "episodes": [
                 {
                     "readable_id": "episode15ede89915db9342fb76bc91918d22016",
+                    "etl_source": ETL_SOURCE,
                     "title": "Episode1",
                     "offered_by": expected_offered_by,
                     "description": "SMorbi id consequat nisl. Morbi leo elit, vulputate nec aliquam molestie, ullamcorper sit amet tortor",
@@ -172,6 +179,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
                 },
                 {
                     "readable_id": "episode205c066df9ed531e48c6414f6e72d3b96",
+                    "etl_source": ETL_SOURCE,
                     "title": "Episode2",
                     "offered_by": expected_offered_by,
                     "description": "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit felis ut varius facilisis.",

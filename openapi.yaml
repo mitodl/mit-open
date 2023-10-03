@@ -110,11 +110,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -123,10 +121,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -149,6 +145,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -158,6 +196,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -310,11 +352,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -323,10 +363,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -349,6 +387,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -358,6 +438,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -419,11 +503,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -432,10 +514,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -458,6 +538,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -467,6 +589,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -528,11 +654,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -541,10 +665,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -567,6 +689,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -576,6 +740,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -794,11 +962,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -807,10 +973,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -833,6 +997,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -842,6 +1048,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -903,11 +1113,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -916,10 +1124,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -942,6 +1148,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -951,6 +1199,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -1012,11 +1264,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -1025,10 +1275,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -1051,6 +1299,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -1060,6 +1350,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -1447,11 +1741,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -1460,10 +1752,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -1486,6 +1776,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -1495,6 +1827,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -1556,11 +1892,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -1569,10 +1903,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -1595,6 +1927,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -1604,6 +1978,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -1665,11 +2043,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -1678,10 +2054,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -1704,6 +2078,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -1713,6 +2129,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -1797,11 +2217,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -1810,10 +2228,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -1836,6 +2252,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -1845,6 +2303,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -1906,11 +2368,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -1919,10 +2379,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -1945,6 +2403,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -1954,6 +2454,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -2015,11 +2519,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -2028,10 +2530,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -2054,6 +2554,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -2063,6 +2605,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -2213,11 +2759,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -2226,10 +2770,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -2252,6 +2794,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -2261,6 +2845,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -2322,11 +2910,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -2335,10 +2921,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -2361,6 +2945,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -2370,6 +2996,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -2431,11 +3061,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -2444,10 +3072,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -2470,6 +3096,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -2479,6 +3147,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -2563,11 +3235,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -2576,10 +3246,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -2602,6 +3270,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -2611,6 +3321,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -2672,11 +3386,9 @@ paths:
           - bootcamps
           - csail
           - ctl
-          - micromasters
           - mitpe
           - mitx
           - ocw
-          - oll
           - scc
           - see
           - xpro
@@ -2685,10 +3397,8 @@ paths:
 
           * `mitx` - MITx
           * `ocw` - OCW
-          * `micromasters` - MicroMasters
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `oll` - Open Learning Library
           * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
@@ -2711,6 +3421,48 @@ paths:
         schema:
           type: string
       - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          Platform
+
+          * `edx` - edx
+          * `ocw` - ocw
+          * `oll` - oll
+          * `mitxonline` - mitxonline
+          * `bootcamps` - bootcamps
+          * `xpro` - xpro
+          * `csail` - csail
+          * `mitpe` - mitpe
+          * `see` - see
+          * `scc` - scc
+          * `ctl` - ctl
+          * `whu` - whu
+          * `susskind` - susskind
+          * `globalalumni` - globalalumni
+          * `simplilearn` - simplilearn
+          * `emeritus` - emeritus
+          * `podcast` - podcast
+      - in: query
         name: platform__audience
         schema:
           type: string
@@ -2720,6 +3472,10 @@ paths:
         description: |-
           * `Open Content` - Open Content
           * `Professional Offerings` - Professional Offerings
+      - in: query
+        name: platform__platform
+        schema:
+          type: string
       - in: query
         name: resource_type
         schema:
@@ -3355,9 +4111,7 @@ components:
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
         offered_by:
-          type: array
-          items:
-            type: string
+          type: string
           readOnly: true
           nullable: true
         resource_content_tags:
@@ -3555,9 +4309,7 @@ components:
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
         offered_by:
-          type: array
-          items:
-            type: string
+          type: string
           readOnly: true
           nullable: true
         resource_content_tags:
@@ -3701,9 +4453,7 @@ components:
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
         offered_by:
-          type: array
-          items:
-            type: string
+          type: string
           readOnly: true
           nullable: true
         resource_content_tags:

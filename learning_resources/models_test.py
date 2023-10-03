@@ -5,7 +5,6 @@ from learning_resources import constants
 from learning_resources.constants import LearningResourceType
 from learning_resources.factories import (
     CourseFactory,
-    LearningResourceFactory,
     LearningResourcePlatformFactory,
     LearningResourceRunFactory,
     ProgramFactory,
@@ -29,7 +28,7 @@ def test_program_creation():
     assert len(run.prices) > 0
     assert run.instructors.count() > 0
     assert resource.topics.count() > 0
-    assert resource.offered_by.count() > 0
+    assert resource.offered_by is not None
     assert resource.runs.count() == program.runs.count()
 
 
@@ -48,22 +47,8 @@ def test_course_creation():
     assert len(run.prices) > 0
     assert run.instructors.count() > 0
     assert resource.topics.count() > 0
-    assert resource.offered_by.count() > 0
+    assert resource.offered_by is not None
     assert resource.runs.count() == course.runs.count()
-
-
-@pytest.mark.parametrize(
-    "platform", [constants.PlatformType.ocw.value, constants.PlatformType.mitx.value]
-)
-@pytest.mark.parametrize("audience", [constants.OPEN, constants.PROFESSIONAL])
-def test_lr_audience(platform, audience):
-    """The audience property should return the expected value"""
-    lr = LearningResourceFactory.create(
-        platform=LearningResourcePlatformFactory.create(
-            platform=platform, audience=audience
-        )
-    )
-    assert lr.audience == lr.platform.audience
 
 
 @pytest.mark.parametrize(
@@ -90,12 +75,12 @@ def test_lr_audience(platform, audience):
             True,
         ],
         [  # noqa: PT007
-            constants.PlatformType.mitx.value,
+            constants.PlatformType.edx.value,
             constants.AvailabilityType.archived.value,
             False,
         ],
         [  # noqa: PT007
-            constants.PlatformType.mitx.value,
+            constants.PlatformType.edx.value,
             constants.AvailabilityType.current.value,
             True,
         ],
@@ -103,7 +88,14 @@ def test_lr_audience(platform, audience):
 )
 def test_lr_certification(platform, availability, has_cert):
     """The certification property should return the expected value"""
-    platform_object = LearningResourcePlatformFactory.create(platform=platform)
+    platform_object = LearningResourcePlatformFactory.create(
+        platform=platform,
+        audience=(
+            constants.PROFESSIONAL
+            if platform == constants.PlatformType.xpro.value
+            else constants.OPEN
+        ),
+    )
 
     course = CourseFactory.create(
         platform=platform_object,

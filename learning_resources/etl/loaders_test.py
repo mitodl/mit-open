@@ -1,4 +1,6 @@
 """Tests for ETL loaders"""
+import json
+
 # pylint: disable=redefined-outer-name,too-many-locals,too-many-lines
 from types import SimpleNamespace
 
@@ -10,12 +12,15 @@ from learning_resources.constants import (
     LearningResourceType,
     PlatformType,
 )
-from learning_resources.etl.constants import CourseLoaderConfig, OfferedByLoaderConfig
+from learning_resources.etl import xpro
+from learning_resources.etl.constants import CourseLoaderConfig, ProgramLoaderConfig
 from learning_resources.etl.loaders import (
+    load_content_file,
+    load_content_files,
     load_course,
     load_courses,
     load_instructors,
-    load_offered_bys,
+    load_offered_by,
     load_podcast,
     load_podcast_episode,
     load_podcasts,
@@ -26,6 +31,7 @@ from learning_resources.etl.loaders import (
 )
 from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.factories import (
+    ContentFileFactory,
     CourseFactory,
     LearningResourceInstructorFactory,
     LearningResourceOfferorFactory,
@@ -37,6 +43,7 @@ from learning_resources.factories import (
     ProgramFactory,
 )
 from learning_resources.models import (
+    ContentFile,
     Course,
     LearningResource,
     LearningResourceOfferor,
@@ -44,6 +51,7 @@ from learning_resources.models import (
     PodcastEpisode,
     Program,
 )
+from open_discussions.utils import now_in_utc
 
 pytestmark = pytest.mark.django_db
 
@@ -211,6 +219,27 @@ def test_load_program(
         assert relationship.child.readable_id == data.learning_resource.readable_id
 
 
+def test_load_program_bad_platform(mocker):
+    """A bad platform should log an exception and not create the program"""
+    mock_log = mocker.patch("learning_resources.etl.loaders.log.exception")
+    bad_platform = "bad_platform"
+    props = {
+        "readable_id": "abc123",
+        "platform": bad_platform,
+        "title": "program title",
+        "image": {"url": "https://www.test.edu/image.jpg"},
+        "description": "description",
+        "url": "https://test.edu",
+        "published": True,
+        "courses": [],
+    }
+    result = load_program(props, [], [], config=ProgramLoaderConfig(prune=True))
+    assert result is None
+    mock_log.assert_called_once_with(
+        "Platform %s is null or not in database: %s", bad_platform, json.dumps(props)
+    )
+
+
 @pytest.mark.parametrize("course_exists", [True, False])
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("is_run_published", [True, False])
@@ -295,6 +324,34 @@ def test_load_course(  # noqa: PLR0913
 
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"
+
+
+def test_load_course_bad_platform(mocker):
+    """A bad platform should log an exception and not create the course"""
+    mock_log = mocker.patch("learning_resources.etl.loaders.log.exception")
+    bad_platform = "bad_platform"
+    props = {
+        "readable_id": "abc123",
+        "platform": bad_platform,
+        "title": "course title",
+        "image": {"url": "https://www.test.edu/image.jpg"},
+        "description": "description",
+        "url": "https://test.edu",
+        "published": True,
+        "runs": [
+            {
+                "run_id": "test_run_id",
+                "enrollment_start": now_in_utc(),
+                "start_date": now_in_utc(),
+                "end_date": now_in_utc(),
+            }
+        ],
+    }
+    result = load_course(props, [], [], config=CourseLoaderConfig(prune=True))
+    assert result is None
+    mock_log.assert_called_once_with(
+        "Platform %s is null or not in database: %s", bad_platform, json.dumps(props)
+    )
 
 
 @pytest.mark.parametrize("course_exists", [True, False])
@@ -461,56 +518,37 @@ def test_load_instructors(instructor_exists):
 @pytest.mark.parametrize("parent_factory", [CourseFactory, ProgramFactory])
 @pytest.mark.parametrize("offeror_exists", [True, False])
 @pytest.mark.parametrize("has_other_offered_by", [True, False])
-@pytest.mark.parametrize("additive", [True, False])
 @pytest.mark.parametrize("null_data", [True, False])
 def test_load_offered_bys(
-    parent_factory, offeror_exists, has_other_offered_by, additive, null_data
+    parent_factory, offeror_exists, has_other_offered_by, null_data
 ):
     """Test that load_offered_bys creates and/or assigns offeror to the parent object"""
-    parent = parent_factory.create()
-    parent.learning_resource.offered_by.set([])
+    resource = parent_factory.create().learning_resource
     LearningResourceOfferor.objects.all().delete()
 
     ocw_offeror = (
-        LearningResourceOfferorFactory.create(is_ocw=True)
-        if offeror_exists
-        else LearningResourceOfferorFactory.build(is_ocw=True)
+        LearningResourceOfferorFactory.create(is_ocw=True) if offeror_exists else None
     )
     mitx_offeror = LearningResourceOfferorFactory.create(is_mitx=True)
 
-    expected = []
+    resource.offered_by = mitx_offeror if has_other_offered_by else None
+    resource.save()
 
-    if not null_data and offeror_exists:
-        expected.append(ocw_offeror.name)
+    expected = None
+    if offeror_exists and not null_data:
+        expected = ocw_offeror
 
-    if has_other_offered_by and (additive or null_data):
-        expected.append(mitx_offeror.name)
+    load_offered_by(resource, None if null_data else {"name": "OCW"})
 
-    if has_other_offered_by:
-        parent.learning_resource.offered_by.set([mitx_offeror])
-
-    assert parent.learning_resource.offered_by.count() == (
-        1 if has_other_offered_by else 0
-    )
-
-    load_offered_bys(
-        parent.learning_resource,
-        None if null_data else [{"name": ocw_offeror.name}],
-        config=OfferedByLoaderConfig(additive=additive),
-    )
-
-    assert set(
-        parent.learning_resource.offered_by.values_list("name", flat=True)
-    ) == set(expected)
+    assert resource.offered_by == expected
 
 
 @pytest.mark.parametrize("prune", [True, False])
 def test_load_courses(mocker, mock_blocklist, mock_duplicates, prune):
     """Test that load_courses calls the expected functions"""
-    platform = LearningResourcePlatformFactory.create()
 
-    course_to_unpublish = CourseFactory.create(platform=platform)
-    courses = CourseFactory.create_batch(3, platform=platform)
+    course_to_unpublish = CourseFactory.create(etl_source=xpro.ETL_SOURCE)
+    courses = CourseFactory.create_batch(3, etl_source=xpro.ETL_SOURCE)
 
     courses_data = [
         {"readable_id": course.learning_resource.readable_id} for course in courses
@@ -522,9 +560,7 @@ def test_load_courses(mocker, mock_blocklist, mock_duplicates, prune):
         side_effect=[course.learning_resource for course in courses],
     )
     config = CourseLoaderConfig(prune=prune)
-    load_courses(
-        course_to_unpublish.learning_resource.platform, courses_data, config=config
-    )
+    load_courses(xpro.ETL_SOURCE, courses_data, config=config)
     assert mock_load_course.call_count == len(courses)
     for course_data in courses_data:
         mock_load_course.assert_any_call(
@@ -534,7 +570,7 @@ def test_load_courses(mocker, mock_blocklist, mock_duplicates, prune):
             config=config,
         )
     mock_blocklist.assert_called_once_with()
-    mock_duplicates.assert_called_once_with(platform)
+    mock_duplicates.assert_called_once_with(xpro.ETL_SOURCE)
     course_to_unpublish.refresh_from_db()
     assert course_to_unpublish.learning_resource.published is not prune
 
@@ -551,7 +587,61 @@ def test_load_programs(mocker, mock_blocklist, mock_duplicates):
     mock_duplicates.assert_called_once_with("mitx")
 
 
-def test_load_podcasts(learning_resource_offeror):
+@pytest.mark.parametrize("is_published", [True, False])
+def test_load_content_files(mocker, is_published):
+    """Test that load_content_files calls the expected functions"""
+    course = CourseFactory.create()
+    course_run = LearningResourceRunFactory.create(
+        published=is_published, learning_resource=course.learning_resource
+    )
+
+    returned_content_file_id = 1
+
+    content_data = [{"a": "b"}, {"a": "c"}]
+    mock_load_content_file = mocker.patch(
+        "learning_resources.etl.loaders.load_content_file",
+        return_value=returned_content_file_id,
+        autospec=True,
+    )
+    load_content_files(course_run, content_data)
+    assert mock_load_content_file.call_count == len(content_data)
+
+
+def test_load_content_file():
+    """Test that load_content_file saves a ContentFile object"""
+    learning_resource_run = LearningResourceRunFactory.create()
+
+    props = model_to_dict(ContentFileFactory.build(run_id=learning_resource_run.id))
+    props.pop("run")
+    props.pop("id")
+
+    result = load_content_file(learning_resource_run, props)
+
+    assert ContentFile.objects.count() == 1
+
+    # assert we got an integer back
+    assert isinstance(result, int)
+
+    loaded_file = ContentFile.objects.get(pk=result)
+    assert loaded_file.run == learning_resource_run
+
+    for key, value in props.items():
+        assert (
+            getattr(loaded_file, key) == value
+        ), f"Property {key} should equal {value}"
+
+
+def test_load_content_file_error(mocker):
+    """Test that an exception in load_content_file is logged"""
+    learning_resource_run = LearningResourceRunFactory.create()
+    mock_log = mocker.patch("learning_resources.etl.loaders.log.exception")
+    load_content_file(learning_resource_run, {"uid": "badfile", "bad": "data"})
+    mock_log.assert_called_once_with(
+        "ERROR syncing course file %s for run %d", "badfile", learning_resource_run.id
+    )
+
+
+def test_load_podcasts(learning_resource_offeror, podcast_platform):
     """Test load_podcasts"""
 
     podcasts_data = []
@@ -561,7 +651,7 @@ def test_load_podcasts(learning_resource_offeror):
             podcast.learning_resource, exclude=non_transformable_attributes
         )
         podcast_data["image"] = {"url": podcast.learning_resource.image.url}
-        podcast_data["offered_by"] = [{"name": learning_resource_offeror.name}]
+        podcast_data["offered_by"] = {"name": learning_resource_offeror.name}
         episodes_data = [
             model_to_dict(
                 episode.learning_resource, exclude=non_transformable_attributes
@@ -591,7 +681,7 @@ def test_load_podcasts(learning_resource_offeror):
             )
 
 
-def test_load_podcasts_unpublish():
+def test_load_podcasts_unpublish(podcast_platform):
     """Test load_podcast when a podcast gets unpublished"""
     podcast = PodcastFactory.create().learning_resource
     assert podcast.published is True
@@ -612,7 +702,7 @@ def test_load_podcasts_unpublish():
 @pytest.mark.parametrize("podcast_episode_exists", [True, False])
 @pytest.mark.parametrize("is_published", [True, False])
 def test_load_podcast_episode(
-    learning_resource_offeror, podcast_episode_exists, is_published
+    learning_resource_offeror, podcast_platform, podcast_episode_exists, is_published
 ):
     """Test that load_podcast_episode loads the podcast episode"""
     podcast_episode = (
@@ -623,7 +713,7 @@ def test_load_podcast_episode(
 
     props = model_to_dict(podcast_episode, exclude=non_transformable_attributes)
     props["image"] = {"url": podcast_episode.image.url}
-    props["offered_by"] = [{"name": learning_resource_offeror.name}]
+    props["offered_by"] = {"name": learning_resource_offeror.name}
     topics = (
         podcast_episode.topics.all()
         if podcast_episode_exists
@@ -645,7 +735,7 @@ def test_load_podcast_episode(
 
 
 @pytest.mark.parametrize("podcast_exists", [True, False])
-def test_load_podcast(learning_resource_offeror, podcast_exists):
+def test_load_podcast(learning_resource_offeror, podcast_platform, podcast_exists):
     """Test that load_podcast loads the podcast"""
     podcast = (
         PodcastFactory.create(episodes=[])
@@ -667,7 +757,7 @@ def test_load_podcast(learning_resource_offeror, podcast_exists):
     podcast_data = model_to_dict(podcast, exclude=non_transformable_attributes)
     podcast_data["title"] = "New Title"
     podcast_data["image"] = {"url": podcast.image.url}
-    podcast_data["offered_by"] = [{"name": learning_resource_offeror.name}]
+    podcast_data["offered_by"] = {"name": learning_resource_offeror.name}
     topics = (
         podcast.topics.all()
         if podcast_exists
@@ -678,7 +768,7 @@ def test_load_podcast(learning_resource_offeror, podcast_exists):
     episode = PodcastEpisodeFactory.build().learning_resource
     episode_data = model_to_dict(episode, exclude=non_transformable_attributes)
     episode_data["image"] = {"url": episode.image.url}
-    episode_data["offered_by"] = [{"name": learning_resource_offeror.name}]
+    episode_data["offered_by"] = {"name": learning_resource_offeror.name}
 
     podcast_data["episodes"] = [episode_data]
     load_podcast(podcast_data)

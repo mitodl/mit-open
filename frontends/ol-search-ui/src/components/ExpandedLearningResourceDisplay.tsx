@@ -123,9 +123,7 @@ const LearningResourceDetails: React.FC<LearningResourceDetailsProps> = ({
         </button>
         <div className="offered-by">
           <span className="label">Offered by -&nbsp;</span>
-          <span className="offeror">
-            {resource.offered_by?.length && resource.offered_by.join(", ")}
-          </span>
+          <span className="offeror">{resource.offered_by || ""}</span>
         </div>
       </div>
       <div className="description">

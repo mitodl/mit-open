@@ -20,7 +20,7 @@ pytestmark = pytest.mark.django_db
     [
         (PlatformType.mitxonline.value, "courses"),
         (PlatformType.xpro.value, "courses"),
-        (PlatformType.mitx.value, "simeon-mitx-course-tarballs"),
+        (PlatformType.edx.value, "simeon-mitx-course-tarballs"),
     ],
 )
 @pytest.mark.parametrize("published", [True, False])
@@ -211,7 +211,7 @@ def test_sync_edx_course_files_error(
     assert mock_log.call_args[0][0].startswith("Error ingesting OLX content data for ")
 
 
-@pytest.mark.parametrize("platform", [PlatformType.mitx.value, PlatformType.xpro.value])
+@pytest.mark.parametrize("platform", [PlatformType.edx.value, PlatformType.xpro.value])
 def test_get_most_recent_course_archives(
     mocker, mock_mitxonline_learning_bucket, platform
 ):
@@ -236,7 +236,7 @@ def test_get_most_recent_course_archives(
     mock_get_bucket.assert_called_once_with(platform)
 
 
-@pytest.mark.parametrize("platform", [PlatformType.mitx.value, PlatformType.xpro.value])
+@pytest.mark.parametrize("platform", [PlatformType.edx.value, PlatformType.xpro.value])
 def test_get_most_recent_course_archives_empty(
     mocker, mock_mitxonline_learning_bucket, platform
 ):
@@ -254,7 +254,7 @@ def test_get_most_recent_course_archives_empty(
     )
 
 
-@pytest.mark.parametrize("platform", [PlatformType.mitx.value, PlatformType.xpro.value])
+@pytest.mark.parametrize("platform", [PlatformType.edx.value, PlatformType.xpro.value])
 def test_get_most_recent_course_archives_no_bucket(settings, mocker, platform):
     """Empty list should be returned and a warning logged if no bucket is found"""
     settings.EDX_LEARNING_COURSE_BUCKET_NAME = None

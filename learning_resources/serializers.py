@@ -70,13 +70,13 @@ class WriteableTopicsMixin(serializers.Serializer):
         ]
 
 
-@extend_schema_field({"type": "array", "items": {"type": "string"}})
+@extend_schema_field({"type": "string"})
 class LearningResourceOfferorField(serializers.Field):
     """Serializer for LearningResourceOfferor"""
 
     def to_representation(self, value):
-        """Serialize offered_by as a list of OfferedBy names"""
-        return [offeror.name for offeror in value.all()]
+        """Serialize offered_by as the name only"""
+        return value.name
 
 
 @extend_schema_field({"type": "array", "items": {"type": "string"}})
@@ -301,7 +301,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
 
     class Meta:
         model = models.LearningResource
-        exclude = ["resources", *COMMON_IGNORED_FIELDS]
+        exclude = ["resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 
 class ProgramSerializer(serializers.ModelSerializer):
@@ -379,7 +379,7 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
 
     class Meta:
         model = models.LearningResource
-        exclude = COMMON_IGNORED_FIELDS
+        exclude = ["etl_source", *COMMON_IGNORED_FIELDS]
         read_only_fields = ["platform", "offered_by"]
 
 

@@ -12,8 +12,18 @@ from learning_resources.etl.utils import transform_topics
 
 log = logging.getLogger(__name__)
 
+ETL_SOURCE = "xpro"
+OFFERED_BY = {"name": OfferedBy.xpro.value}
 
-OFFERED_BY = [{"name": OfferedBy.xpro.value}]
+# This needs to be kept up to date with valid xpro platforms
+XPRO_PLATFORM_TRANSFORM = {
+    "Emeritus": PlatformType.emeritus.value,
+    "Global Alumni": PlatformType.globalalumni.value,
+    "Simplilearn": PlatformType.simplilearn.value,
+    "Susskind": PlatformType.susskind.value,
+    "WHU": PlatformType.whu.value,
+    "xPRO": PlatformType.xpro.value,
+}
 
 
 def _parse_datetime(value):
@@ -77,13 +87,15 @@ def _transform_learning_resource_course(course):
 
     Args:
         course (dict): course data
+        xpro_platform_map (dict): dict of xpro platform names to platform values
 
     Returns:
         dict: normalized learning resource data
     """  # noqa: D401
     return {
         "readable_id": course["readable_id"],
-        "platform": PlatformType.xpro.value,
+        "platform": XPRO_PLATFORM_TRANSFORM.get(course["platform"], None),
+        "etl_source": ETL_SOURCE,
         "title": course["title"],
         "image": {"url": course["thumbnail_url"]},
         "offered_by": copy.deepcopy(OFFERED_BY),
@@ -104,6 +116,7 @@ def transform_courses(courses):
 
     Args:
         courses (list of dict): courses data
+        xpro_platform_map (dict): dict of xpro platform names to platform values
 
     Returns:
         list of dict: normalized courses data
@@ -117,6 +130,7 @@ def transform_programs(programs):
     return [
         {
             "readable_id": program["readable_id"],
+            "etl_source": ETL_SOURCE,
             "title": program["title"],
             "image": {"url": program["thumbnail_url"]},
             "description": program["description"],
@@ -126,7 +140,7 @@ def transform_programs(programs):
             ),  # a program is only considered published if it has a product/price
             "url": program["url"],
             "topics": transform_topics(program.get("topics", [])),
-            "platform": PlatformType.xpro.value,
+            "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
             "resource_type": LearningResourceType.program.value,
             "runs": [
                 {
