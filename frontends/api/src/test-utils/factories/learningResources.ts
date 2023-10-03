@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker/locale/en"
-import type { Factory } from "ol-util/factories"
+import { mergeWith } from "lodash"
+import type { Factory, PartialFactory } from "ol-util/factories"
 import { makePaginatedFactory } from "ol-util/factories"
 import type { PaginatedResult } from "ol-util"
 import type {
@@ -10,15 +11,20 @@ import type {
   LearningResourceInstructor,
   LearningResourceTopic,
   LearningPathRelationship,
-  LearningPath,
   LearningPathResource,
   MicroLearningPathRelationship,
+  ProgramResource,
+  CourseResource,
+  PodcastResource,
+  PodcastEpisodeResource,
 } from "api"
 import { ResourceTypeEnum } from "api"
-import invariant from "tiny-invariant"
+import { PartialDeep } from "type-fest"
 
 const maybe = faker.helpers.maybe
 type RepeatOptins = { min?: number; max?: number }
+
+type LearningResourceFactory<T> = PartialFactory<Omit<T, "resource_type">, T>
 /**
  * Repeat a callback a random number of times
  */
@@ -29,6 +35,22 @@ const repeat = <T>(cb: () => T, { min = 2, max = 4 }: RepeatOptins = {}) => {
 
 const language = () =>
   faker.helpers.arrayElement(["en", "es", "ar", "zh", "fr", "pt"])
+
+const mergeOverrides = <T>(
+  object: Partial<T>,
+  ...sources: PartialDeep<T>[]
+): T =>
+  mergeWith(
+    object,
+    ...sources,
+    // arrays overwrite existing values, this way tests can force a singular value for arrays
+    (objValue: any, srcValue: any) => {
+      if (Array.isArray(objValue)) {
+        return srcValue
+      }
+      return undefined
+    },
+  )
 
 const learningResourceImage: Factory<LearningResourceImage> = (
   overrides = {},
@@ -99,25 +121,19 @@ const learningResourceTopics = makePaginatedFactory(learningResourceTopic)
 const learningResourceType = () =>
   faker.helpers.arrayElement(Object.values(ResourceTypeEnum))
 
-const learningResource: Factory<LearningResource> = (
-  overrides = {},
-): LearningResource => {
-  const resourceType = overrides.resource_type ?? learningResourceType()
-  const resource: LearningResource = {
+const _learnerResourceShared = (
+  resourceType: ResourceTypeEnum,
+): Partial<LearningResource> => {
+  return {
     id: faker.unique(faker.datatype.number),
     professional: faker.datatype.boolean(),
     certification: null,
-    course: null,
     departments: [learningResourceDepartment()],
     description: faker.lorem.paragraph(),
     image: learningResourceImage(),
     offered_by: null,
     platform: null,
     prices: null,
-    program: null,
-    podcast: null,
-    podcast_episode: null,
-    learning_path: null,
     readable_id: faker.lorem.slug(),
     resource_content_tags: repeat(faker.lorem.word),
     resource_type: resourceType,
@@ -127,56 +143,91 @@ const learningResource: Factory<LearningResource> = (
     topics: repeat(learningResourceTopic),
     learning_path_parents: [],
     user_list_parents: [],
-    ...typeSpecificOverrides(resourceType),
-    ...overrides,
   }
-
-  function typeSpecificOverrides(type: string): Partial<LearningResource> {
-    if (type === ResourceTypeEnum.Course) {
-      return {
-        platform: faker.lorem.word(),
-        runs: repeat(learningResourceRun, { min: 1, max: 5 }),
-        certification: faker.lorem.word(),
-        offered_by: faker.lorem.word(),
-        course: {
-          extra_course_numbers: maybe(() => repeat(faker.lorem.word)) ?? null,
-        },
-      }
-    } else if (type === ResourceTypeEnum.Program) {
-      return {
-        platform: faker.lorem.word(),
-        certification: faker.lorem.word(),
-        offered_by: faker.lorem.word(),
-      }
-    } else if (type === ResourceTypeEnum.LearningPath) {
-      return {
-        learning_path: {
-          id: faker.unique(faker.datatype.number),
-          item_count: faker.datatype.number({ min: 1, max: 30 }),
-          author: faker.datatype.number(),
-        },
-        learning_path_parents: [],
-      }
-    }
-    return {}
-  }
-
-  return resource
 }
+
+const learningResource: PartialFactory<LearningResource> = (
+  overrides = {},
+): LearningResource => {
+  overrides = mergeOverrides(
+    {
+      resource_type: learningResourceType(),
+    },
+    overrides,
+  )
+  switch (overrides.resource_type) {
+    case ResourceTypeEnum.Program:
+      // @ts-expect-error TODO
+      return program(overrides)
+    case ResourceTypeEnum.Course:
+      // @ts-expect-error TODO
+      return course(overrides)
+    case ResourceTypeEnum.LearningPath:
+      // @ts-expect-error TODO
+      return learningPath(overrides)
+    case ResourceTypeEnum.Podcast:
+      // @ts-expect-error TODO
+      return podcast(overrides)
+    case ResourceTypeEnum.PodcastEpisode:
+      // @ts-expect-error TODO
+      return podcastEpisode(overrides)
+    default:
+      throw Error(`Invalid resource type: ${overrides.resource_type}`)
+  }
+}
+
+const program: PartialFactory<ProgramResource> = (overrides = {}) => {
+  return mergeOverrides<ProgramResource>(
+    _learnerResourceShared(ResourceTypeEnum.Program),
+    {
+      platform: faker.lorem.word(),
+      certification: faker.lorem.word(),
+      offered_by: faker.lorem.word(),
+      program: {
+        courses: repeat(course, { min: 0, max: 5 }),
+      },
+    },
+    overrides,
+  )
+}
+const programs = makePaginatedFactory(program)
+
+const course: LearningResourceFactory<CourseResource> = (
+  overrides = {},
+): CourseResource => {
+  return mergeOverrides<CourseResource>(
+    _learnerResourceShared(ResourceTypeEnum.Program),
+    {
+      platform: faker.lorem.word(),
+      runs: repeat(learningResourceRun, { min: 1, max: 5 }),
+      certification: faker.lorem.word(),
+      offered_by: faker.lorem.word(),
+      course: {
+        extra_course_numbers: maybe(() => repeat(faker.lorem.word)) ?? null,
+      },
+    },
+    overrides,
+  )
+}
+const courses = makePaginatedFactory(course)
 
 const learningResources = makePaginatedFactory(learningResource)
 
-const learningPath: Factory<LearningPathResource, Partial<LearningPath>> = (
+const learningPath: LearningResourceFactory<LearningPathResource> = (
   overrides = {},
-  pathOverrides,
 ) => {
-  const resource = learningResource({
-    resource_type: ResourceTypeEnum.LearningPath,
-    ...overrides,
-  })
-  invariant(resource.learning_path)
-  resource.learning_path = { ...resource.learning_path, ...pathOverrides }
-  return { ...resource, resources: [] }
+  return mergeOverrides<LearningPathResource>(
+    _learnerResourceShared(ResourceTypeEnum.LearningPath),
+    {
+      learning_path: {
+        id: faker.unique(faker.datatype.number),
+        item_count: faker.datatype.number({ min: 1, max: 30 }),
+        author: faker.datatype.number(),
+      },
+      learning_path_parents: [],
+    },
+    overrides,
+  )
 }
 const learningPaths = makePaginatedFactory(learningPath)
 
@@ -235,6 +286,36 @@ const learningPathRelationships = ({
   }
 }
 
+const podcast: LearningResourceFactory<PodcastResource> = (overrides = {}) => {
+  return mergeOverrides<PodcastResource>(
+    _learnerResourceShared(ResourceTypeEnum.Podcast),
+    {
+      podcast: {
+        id: faker.unique(faker.datatype.number),
+        episode_count: faker.datatype.number({ min: 1, max: 70 }),
+      },
+    },
+    overrides,
+  )
+}
+const podcasts = makePaginatedFactory(podcast)
+
+const podcastEpisode: LearningResourceFactory<PodcastEpisodeResource> = (
+  overrides = {},
+) => {
+  return mergeOverrides<PodcastEpisodeResource>(
+    _learnerResourceShared(ResourceTypeEnum.PodcastEpisode),
+    {
+      podcast_episode: {
+        id: faker.unique(faker.datatype.number),
+      },
+    },
+    overrides,
+  )
+}
+
+const podcastEpisodes = makePaginatedFactory(podcastEpisode)
+
 export {
   learningResource as resource,
   learningResources as resources,
@@ -247,4 +328,12 @@ export {
   microRelationship,
   learningPathRelationship,
   learningPathRelationships,
+  program,
+  programs,
+  course,
+  courses,
+  podcast,
+  podcasts,
+  podcastEpisode,
+  podcastEpisodes,
 }

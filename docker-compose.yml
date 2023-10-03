@@ -80,7 +80,9 @@ services:
       - watch
 
   watch:
-    image: node:16.20.1
+    build:
+      context: .
+      dockerfile: Dockerfile-node
     working_dir: /src
     command: ./scripts/run-watch-dev.sh
     ports:

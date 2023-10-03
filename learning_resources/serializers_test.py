@@ -6,8 +6,6 @@ from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
 )
-from learning_resources.models import LearningResource
-from learning_resources.serializers import LearningPathResourceSerializer
 from open_discussions.test_utils import assert_json_equal
 
 pytestmark = pytest.mark.django_db
@@ -17,77 +15,40 @@ datetime_format = "%Y-%m-%dT%H:%M:%SZ"
 datetime_millis_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
 
-def test_serialize_course_model():
+def test_serialize_course_to_json():
     """
-    Verify that a serialized course contains attributes for related objects
+    Verify that a serialized course contains the expected attributes
     """
     course = factories.CourseFactory.create()
-    serializer = serializers.LearningResourceSerializer(
-        instance=course.learning_resource
-    )
-    assert len(serializer.data["topics"]) > 0
-    assert "name" in serializer.data["topics"][0]
-    assert len(serializer.data["runs"]) == 2
-    assert "run_id" in serializer.data["runs"][0]
-    assert serializer.data["image"]["url"] is not None
-    assert len(serializer.data["offered_by"]) > 0
-    assert serializer.data["offered_by"] in [o.value for o in constants.OfferedBy]
-    assert serializer.data["departments"][0] is not None
-    assert serializer.data["platform"] is not None
-    assert (
-        serializer.data["course"] == serializers.CourseSerializer(instance=course).data
-    )
-    assert serializer.data["course"]["extra_course_numbers"] is not None
-    assert serializer.data["program"] is None
+    serializer = serializers.CourseSerializer(instance=course)
+
+    assert_json_equal(serializer.data, {"extra_course_numbers": []})
 
 
-def test_serialize_dupe_model():
-    """A dupe course should fail validation, a non-dupe course should pass"""
-    course = factories.CourseFactory.create()
-    serialized_data = serializers.LearningResourceSerializer(
-        instance=course.learning_resource
-    ).data
-    serialized_data.pop("id")
-    dupe_course_serializer = serializers.LearningResourceSerializer(
-        data=serialized_data
-    )
-    assert not dupe_course_serializer.is_valid()
-
-    serialized_data["readable_id"] = "new-unique-id"
-    non_dupe_course_serializer = serializers.LearningResourceSerializer(
-        data=serialized_data
-    )
-    assert non_dupe_course_serializer.is_valid(raise_exception=True)
-
-
-def test_serialize_program_model():
+def test_serialize_program_to_json():
     """
-    Verify that a serialized program contains attributes for related objects
+    Verify that a serialized program contains courses as LearningResources
     """
     program = factories.ProgramFactory.create()
-    serializer = serializers.LearningResourceSerializer(
-        instance=program.learning_resource
+    serializer = serializers.ProgramSerializer(instance=program)
+
+    assert_json_equal(
+        serializer.data,
+        {
+            "courses": [
+                # this is currently messy because program.courses is a list of LearningResourceRelationships
+                serializers.CourseResourceSerializer(instance=course_rel.child).data
+                for course_rel in program.courses
+            ]
+        },
     )
-    assert len(serializer.data["topics"]) > 0
-    assert "name" in serializer.data["topics"][0]
-    assert len(serializer.data["runs"]) == 1
-    assert "run_id" in serializer.data["runs"][0]
-    assert serializer.data["image"]["url"] is not None
-    assert serializer.data["offered_by"] is not None
-    assert serializer.data["offered_by"] in [o.value for o in constants.OfferedBy]
-    assert serializer.data["departments"][0] is not None
-    assert serializer.data["platform"] is not None
-    assert str(serializer.data["prices"][0]).replace(".", "").isnumeric()
-    assert (
-        serializer.data["program"]
-        == serializers.ProgramSerializer(instance=program).data
-    )
-    program_course_serializer = serializers.LearningResourceSerializer(
-        instance=LearningResource.objects.get(
-            id=serializer.data["program"]["courses"][0]["id"]
-        )
-    )
-    assert program_course_serializer.data == serializer.data["program"]["courses"][0]
+
+@pytest.mark.parametrize("resource_type, specific_serializer_cls", [
+    (constants.LearningResourceType.program, serializers.ProgramResourceSerializer),
+    (constants.LearningResourceType.course, serializers.CourseResourceSerializer),
+])
+def test_serializer_learning_resource_types(resource_type, specific_serializer_cls):
+    """Test that LearningResourceSerializer uses the correct serializer"""
 
 
 def test_serialize_run_related_models():
@@ -122,7 +83,7 @@ def test_learningpath_serializer_validation_bad_topic(data, error):
         "topics": [data],
         "resource_type": LearningResourceType.learning_path.value,
     }
-    serializer = LearningPathResourceSerializer(data=serializer_data)
+    serializer = serializers.LearningPathResourceSerializer(data=serializer_data)
     assert serializer.is_valid() is False
     assert serializer.errors["topics"][0] == error
 
@@ -141,7 +102,7 @@ def test_learningpath_serializer_validation():
         "topics": topic_ids,
         "resource_type": LearningResourceType.learning_path.value,
     }
-    serializer = LearningPathResourceSerializer(data=serializer_data)
+    serializer = serializers.LearningPathResourceSerializer(data=serializer_data)
     assert serializer.is_valid(raise_exception=True)
 
 

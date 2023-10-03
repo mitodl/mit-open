@@ -3693,6 +3693,16 @@ files = [
 ]
 
 [[package]]
+name = "traceback-with-variables"
+version = "2.0.4"
+description = "Adds variables to python traceback. Simple, lightweight, controllable. Debug reasons of exceptions by logging or pretty printing colorful variable contexts for each frame in a stacktrace, showing every value. Dump locals environments after errors to console, files, and loggers. Works with Jupiter and IPython."
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "traceback-with-variables-2.0.4.tar.gz", hash = "sha256:a30c79b7c206fb255967f3f5d125ce114b3dae4fd92d268f901dd35ee23f9cc0"},
+]
+
+[[package]]
 name = "traitlets"
 version = "5.9.0"
 description = "Traitlets Python configuration system"
@@ -3977,4 +3987,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.4"
-content-hash = "7e161efbf6ace9a1d5ee7f2fdcdc583296a959d94dca61f9ae5ca532c667b5af"
+content-hash = "83e45dccc56ba5d93ad785ea84b2f7e417565ddcd4985a9c57c098c57cff031f"

@@ -121,6 +121,7 @@ responses = "^0.14.0"
 ruff = "*"
 safety = "^2.3.4"
 semantic-version = "^2.10.0"
+traceback-with-variables = "^2.0.4"
 
 [build-system]
 requires = ["poetry_core>=1.0.0"]

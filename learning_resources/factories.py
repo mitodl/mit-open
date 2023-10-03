@@ -123,7 +123,7 @@ class LearningResourceDepartmentFactory(DjangoModelFactory):
 class LearningResourceOfferorFactory(DjangoModelFactory):
     """Factory for LearningResourceOfferor"""
 
-    name = FuzzyChoice([offeror.value for offeror in constants.OfferedBy])
+    name = FuzzyChoice(constants.OfferedBy.values())
 
     class Meta:
         model = models.LearningResourceOfferor
@@ -190,7 +190,7 @@ class CourseFactory(DjangoModelFactory):
                 2, learning_resource=self.learning_resource
             )
 
-        self.runs.set(extracted)
+        self.learning_resource.runs.set(extracted)
 
     @factory.post_generation
     def platform(self, create, extracted, **kwargs):  # noqa: ARG002
@@ -379,7 +379,7 @@ class ProgramFactory(DjangoModelFactory):
                 run_id=f"{self.learning_resource.resource_type}_{self.learning_resource.readable_id}.MIT_run",
             )
 
-        self.runs.set([extracted])
+        self.learning_resource.runs.set([extracted])
 
     @factory.post_generation
     def platform(self, create, extracted, **kwargs):  # noqa: ARG002
@@ -492,6 +492,7 @@ class UserListRelationshipFactory(DjangoModelFactory):
 
     child = factory.SubFactory(
         LearningResourceFactory,
+        resource_type=constants.LearningResourceType.course.value,
         course=factory.SubFactory(CourseFactory),
     )
 

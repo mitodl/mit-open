@@ -9,7 +9,7 @@ fi
 ##################################################
 # Generate OpenAPI Schema
 ##################################################
-docker compose run --rm web \
+docker compose run --no-deps --rm web \
 	./manage.py spectacular \
 	--urlconf open_discussions.urls_spectacular \
 	--file ./openapi.yaml \

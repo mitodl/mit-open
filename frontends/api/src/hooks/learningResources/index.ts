@@ -82,7 +82,6 @@ const useLearningpathCreate = () => {
   return useMutation({
     mutationFn: (params: LearningPathCreateRequest) =>
       learningpathsApi.learningpathsCreate({
-        // @ts-expect-error 'readable_id' and 'resource_type' are erroneously required
         LearningPathResourceRequest: params,
       }),
     onSettled: () => {

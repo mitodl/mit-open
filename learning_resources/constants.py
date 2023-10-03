@@ -54,6 +54,10 @@ class OfferedBy(Enum):
     scc = "Schwarzman College of Computing"
     ctl = "Center for Transportation & Logistics"
 
+    @staticmethod
+    def values() -> list[str]:
+        return [c.value for c in OfferedBy]
+
 
 class PlatformType(Enum):
     """

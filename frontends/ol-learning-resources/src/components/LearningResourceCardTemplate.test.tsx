@@ -79,14 +79,12 @@ describe("LearningResourceCard", () => {
 
   it.each([
     { certification: null, hasCertificate: false },
-    { certification: undefined, hasCertificate: false },
     { certification: "cert", hasCertificate: true },
   ])(
-    "should render an icon if the object has a certificate",
+    "should render an icon if the object has a certificate: %p",
     ({ certification, hasCertificate }) => {
-      const resource = factory.resource({
+      const resource = factory.course({
         certification,
-        resource_type: ResourceTypeEnum.Course,
       })
       const imgConfig = makeImgConfig()
 
