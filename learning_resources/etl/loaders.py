@@ -1,4 +1,5 @@
 """Course catalog data loaders"""
+import json
 import logging
 
 from django.contrib.auth import get_user_model
@@ -11,9 +12,6 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
-    OfferedByLoaderConfig,
-    PodcastEpisodeLoaderConfig,
-    PodcastLoaderConfig,
     ProgramLoaderConfig,
 )
 from learning_resources.etl.deduplication import get_most_relevant_run
@@ -87,37 +85,26 @@ def load_image(resource, image_data):
     return image
 
 
-def load_offered_bys(resource, offered_bys_data, *, config=OfferedByLoaderConfig()):
+def load_offered_by(resource, offered_by_data):
     """# noqa: D401
-    Loads a list of offered_by into the resource.
+    Saves an offered_by to the resource.
 
     Args:
         resource (LearningResource): learning resource
-        offered_bys_data (list of dict): the offered by data for the resource
-        config (OfferedByLoaderConfig): loader configuration
+        offered_by_data (dict): the offered by data for the resource
 
     Returns:
-        offered_bys (list of LearningResourceOfferor): list of created or updated offered_bys
-    """  # noqa: E501
-    if offered_bys_data is None:
-        return resource.offered_by.all()
-
-    offered_bys = []
-
-    for offered_by_data in offered_bys_data:
+        offered_by (LearningResourceOfferor): Created or updated offered_by
+    """
+    if offered_by_data is None:
+        resource.offered_by = None
+    else:
         offered_by = LearningResourceOfferor.objects.filter(
             name=offered_by_data["name"]
         ).first()
-        if offered_by:
-            if config.additive:
-                resource.offered_by.add(offered_by)
-            offered_bys.append(offered_by)
-
-    if not config.additive:
-        resource.offered_by.set(offered_bys)
-
+        resource.offered_by = offered_by
     resource.save()
-    return offered_bys
+    return resource.offered_by
 
 
 def load_run(learning_resource, run_data):
@@ -176,7 +163,7 @@ def load_course(  # noqa: C901
     readable_id = course_data.pop("readable_id")
     runs_data = course_data.pop("runs", [])
     topics_data = course_data.pop("topics", None)
-    offered_bys_data = course_data.pop("offered_by", [])
+    offered_bys_data = course_data.pop("offered_by", None)
     image_data = course_data.pop("image", None)
 
     if readable_id in blocklist or not runs_data:
@@ -192,7 +179,16 @@ def load_course(  # noqa: C901
     )
 
     with transaction.atomic():
-        platform = LearningResourcePlatform.objects.get(platform=platform_name)
+        platform = LearningResourcePlatform.objects.filter(
+            platform=platform_name
+        ).first()
+        if not platform:
+            log.exception(
+                "Platform %s is null or not in database: %s",
+                platform_name,
+                json.dumps(course_data),
+            )
+            return None
 
         if deduplicated_course_id:
             # intentionally not updating if the course doesn't exist
@@ -249,7 +245,7 @@ def load_course(  # noqa: C901
                 unpublished_runs.append(run.id)
 
         load_topics(learning_resource, topics_data)
-        load_offered_bys(learning_resource, offered_bys_data, config=config.offered_by)
+        load_offered_by(learning_resource, offered_bys_data)
         load_image(learning_resource, image_data)
 
         if not created and not learning_resource.published:
@@ -260,29 +256,37 @@ def load_course(  # noqa: C901
     return learning_resource
 
 
-def load_courses(platform, courses_data, *, config=CourseLoaderConfig()):
+def load_courses(etl_source, courses_data, *, config=CourseLoaderConfig()):
     """
     Load a list of courses
 
     Args:
+        etl_source (str): The ETL source of the course data
         courses_data (list of dict):
             a list of course data values
         config (CourseLoaderConfig):
             configuration on how to load this program
+
+    Returns:
+        A list of course LearningResources
     """
     blocklist = load_course_blocklist()
-    duplicates = load_course_duplicates(platform)
+    duplicates = load_course_duplicates(etl_source)
 
     courses_list = list(courses_data or [])
 
     courses = [
-        load_course(course, blocklist, duplicates, config=config)
-        for course in courses_list
+        course
+        for course in [
+            load_course(course, blocklist, duplicates, config=config)
+            for course in courses_list
+        ]
+        if course is not None
     ]
 
     if courses and config.prune:
         for learning_resource in LearningResource.objects.filter(
-            platform__platform=platform, resource_type=LearningResourceType.course.value
+            etl_source=etl_source, resource_type=LearningResourceType.course.value
         ).exclude(id__in=[learning_resource.id for learning_resource in courses]):
             learning_resource.published = False
             learning_resource.save()
@@ -315,15 +319,23 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
     courses_data = program_data.pop("courses")
     topics_data = program_data.pop("topics", [])
     runs_data = program_data.pop("runs", [])
-    offered_bys_data = program_data.pop("offered_by", [])
+    offered_by_data = program_data.pop("offered_by", None)
     image_data = program_data.pop("image", None)
     platform_name = program_data.pop("platform")
 
     course_resources = []
     with transaction.atomic():
         # lock on the program record
-        platform = LearningResourcePlatform.objects.get(platform=platform_name)
-
+        platform = LearningResourcePlatform.objects.filter(
+            platform=platform_name
+        ).first()
+        if not platform:
+            log.exception(
+                "Platform %s is null or not in database: %s",
+                platform_name,
+                json.dumps(program_data),
+            )
+            return None
         (
             learning_resource,
             created,  # pylint: disable=unused-variable
@@ -336,7 +348,7 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
 
         load_topics(learning_resource, topics_data)
         load_image(learning_resource, image_data)
-        load_offered_bys(learning_resource, offered_bys_data, config=config.offered_by)
+        load_offered_by(learning_resource, offered_by_data)
 
         program, _ = Program.objects.get_or_create(learning_resource=learning_resource)
 
@@ -363,7 +375,8 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
             course_resource = load_course(
                 course_data, blocklist, duplicates, config=config.courses
             )
-            course_resources.append(course_resource)
+            if course_resource:
+                course_resources.append(course_resource)
         program.learning_resource.resources.set(
             course_resources,
             through_defaults={
@@ -379,14 +392,18 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
     return learning_resource
 
 
-def load_programs(platform, programs_data, *, config=ProgramLoaderConfig()):
+def load_programs(etl_source, programs_data, *, config=ProgramLoaderConfig()):
     """Load a list of programs"""
     blocklist = load_course_blocklist()
-    duplicates = load_course_duplicates(platform)
+    duplicates = load_course_duplicates(etl_source)
 
     return [
-        load_program(program_data, blocklist, duplicates, config=config)
-        for program_data in programs_data
+        program
+        for program in [
+            load_program(program_data, blocklist, duplicates, config=config)
+            for program_data in programs_data
+        ]
+        if program is not None
     ]
 
 
@@ -444,7 +461,7 @@ def load_content_files(course_run, content_files_data):
     return None
 
 
-def load_podcast_episode(episode_data, *, config=PodcastEpisodeLoaderConfig()):
+def load_podcast_episode(episode_data):
     """
     Load a podcast_episode into the database
     Args:
@@ -457,7 +474,7 @@ def load_podcast_episode(episode_data, *, config=PodcastEpisodeLoaderConfig()):
     """
     readable_id = episode_data.pop("readable_id")
     topics_data = episode_data.pop("topics", [])
-    offered_bys_data = episode_data.pop("offered_by", [])
+    offered_bys_data = episode_data.pop("offered_by", {})
     image_data = episode_data.pop("image", {})
 
     episode_model_data = episode_data.pop("podcast_episode", {})
@@ -475,12 +492,12 @@ def load_podcast_episode(episode_data, *, config=PodcastEpisodeLoaderConfig()):
         )
     load_image(learning_resource, image_data)
     load_topics(learning_resource, topics_data)
-    load_offered_bys(learning_resource, offered_bys_data, config=config.offered_by)
+    load_offered_by(learning_resource, offered_bys_data)
 
     return learning_resource
 
 
-def load_podcast(podcast_data, *, config=PodcastLoaderConfig()):
+def load_podcast(podcast_data):
     """
     Load a single podcast
 
@@ -496,7 +513,7 @@ def load_podcast(podcast_data, *, config=PodcastLoaderConfig()):
     readable_id = podcast_data.pop("readable_id")
     episodes_data = podcast_data.pop("episodes", [])
     topics_data = podcast_data.pop("topics", [])
-    offered_by_data = podcast_data.pop("offered_by", [])
+    offered_by_data = podcast_data.pop("offered_by", None)
     image_data = podcast_data.pop("image", {})
 
     podcast_model_data = podcast_data.pop("podcast", {})
@@ -510,7 +527,7 @@ def load_podcast(podcast_data, *, config=PodcastLoaderConfig()):
         )
         load_image(learning_resource, image_data)
         load_topics(learning_resource, topics_data)
-        load_offered_bys(learning_resource, offered_by_data, config=config.offered_by)
+        load_offered_by(learning_resource, offered_by_data)
 
         Podcast.objects.update_or_create(
             learning_resource=learning_resource, defaults=podcast_model_data
@@ -519,7 +536,7 @@ def load_podcast(podcast_data, *, config=PodcastLoaderConfig()):
         episode_ids = []
 
         for episode_data in episodes_data:
-            episode = load_podcast_episode(episode_data, config=config.episodes)
+            episode = load_podcast_episode(episode_data)
             episode_ids.append(episode.id)
 
         unpublished_episode_ids = (

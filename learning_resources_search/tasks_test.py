@@ -341,9 +341,9 @@ def test_start_update_index(
 
     platforms = [
         PlatformType.ocw,
-        PlatformType.mitx,
+        PlatformType.edx,
         PlatformType.xpro,
-        PlatformType.micromasters,
+        PlatformType.mitxonline,
     ]
 
     if COURSE_TYPE in indexes:

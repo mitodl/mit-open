@@ -28,7 +28,7 @@ describe("ExpandedLearningResourceDisplay", () => {
   it("renders the expected fields for a course", () => {
     const run = makeRun()
     const offerer = "ocw"
-    const resource = makeCourse({ runs: [run], offered_by: [offerer] })
+    const resource = makeCourse({ runs: [run], offered_by: offerer })
 
     const { imgConfig } = renderLearningResourceDetails({ resource })
 
@@ -66,7 +66,7 @@ describe("ExpandedLearningResourceDisplay", () => {
 
   it("renders the expected fields for a video", () => {
     const offeredBy = faker.word.noun()
-    const resource = makeVideo({ offered_by: [offeredBy] })
+    const resource = makeVideo({ offered_by: offeredBy })
 
     renderLearningResourceDetails({ resource })
 

@@ -1,10 +1,17 @@
 """Tests for Course Catalog Filters"""
 import pytest
 
-from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.constants import (
+    OPEN,
+    PROFESSIONAL,
+    LearningResourceType,
+    OfferedBy,
+    PlatformType,
+)
 from learning_resources.factories import (
     CourseFactory,
     LearningResourceOfferorFactory,
+    LearningResourcePlatformFactory,
     PodcastFactory,
 )
 from learning_resources.filters import LearningResourceFilter
@@ -20,10 +27,26 @@ def test_learning_resource_filter_offered_by():
     ocw_course = CourseFactory.create().learning_resource
     mitx_course = CourseFactory.create().learning_resource
 
-    ocw_course.offered_by.set([ocw])
-    mitx_course.offered_by.set([mitx])
+    ocw_course.offered_by = ocw
+    ocw_course.save()
+    mitx_course.offered_by = mitx
+    mitx_course.save()
 
     query = LearningResourceFilter({"offered_by": OfferedBy.ocw.name}).qs
+
+    assert ocw_course in query
+    assert mitx_course not in query
+
+
+def test_learning_resource_filter_platform():
+    """Test that the platform filter works"""
+
+    ocw_course = CourseFactory.create(platform=PlatformType.ocw.value).learning_resource
+    mitx_course = CourseFactory.create(
+        platform=PlatformType.mitxonline.value
+    ).learning_resource
+
+    query = LearningResourceFilter({"platform": PlatformType.ocw.value}).qs
 
     assert ocw_course in query
     assert mitx_course not in query
@@ -34,10 +57,14 @@ def test_learning_resource_filter_audience(is_open):
     """Test that the audience filter works"""
 
     professional_course = CourseFactory.create(
-        platform=PlatformType.xpro.value
+        platform=LearningResourcePlatformFactory.create(
+            platform=PlatformType.xpro.value, audience=PROFESSIONAL
+        )
     ).learning_resource
     open_course = CourseFactory.create(
-        platform=PlatformType.mitxonline.value
+        platform=LearningResourcePlatformFactory.create(
+            platform=PlatformType.ocw.value, audience=OPEN
+        )
     ).learning_resource
 
     query = LearningResourceFilter(

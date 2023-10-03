@@ -364,10 +364,10 @@ export interface LearningPathResource {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {Array<string>}
+   * @type {string}
    * @memberof LearningPathResource
    */
-  offered_by: Array<string> | null
+  offered_by: string | null
   /**
    *
    * @type {Array<string>}
@@ -608,10 +608,10 @@ export interface LearningResource {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {Array<string>}
+   * @type {string}
    * @memberof LearningResource
    */
-  offered_by: Array<string> | null
+  offered_by: string | null
   /**
    *
    * @type {Array<string>}
@@ -778,10 +778,10 @@ export interface LearningResourceBase {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {Array<string>}
+   * @type {string}
    * @memberof LearningResourceBase
    */
-  offered_by: Array<string> | null
+  offered_by: string | null
   /**
    *
    * @type {Array<string>}
@@ -2766,11 +2766,13 @@ export const CoursesApiAxiosParamCreator = function (
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2782,18 +2784,35 @@ export const CoursesApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -2844,8 +2863,16 @@ export const CoursesApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -2871,11 +2898,13 @@ export const CoursesApiAxiosParamCreator = function (
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2887,18 +2916,35 @@ export const CoursesApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -2949,8 +2995,16 @@ export const CoursesApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -3024,11 +3078,13 @@ export const CoursesApiAxiosParamCreator = function (
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3040,18 +3096,35 @@ export const CoursesApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -3102,8 +3175,16 @@ export const CoursesApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -3205,11 +3286,13 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3221,18 +3304,35 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -3253,7 +3353,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         offered_by__name,
         offset,
         ordering,
+        platform,
         platform__audience,
+        platform__platform,
         resource_type,
         options,
       )
@@ -3269,11 +3371,13 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3285,18 +3389,35 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -3317,7 +3438,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         offered_by__name,
         offset,
         ordering,
+        platform,
         platform__audience,
+        platform__platform,
         resource_type,
         options,
       )
@@ -3360,11 +3483,13 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3376,18 +3501,35 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -3409,7 +3551,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -3492,7 +3636,9 @@ export const CoursesApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -3517,7 +3663,9 @@ export const CoursesApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -3557,7 +3705,9 @@ export const CoursesApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -3650,19 +3800,17 @@ export interface CoursesApiCoursesListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof CoursesApiCoursesList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -3689,11 +3837,42 @@ export interface CoursesApiCoursesListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof CoursesApiCoursesList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -3729,19 +3908,17 @@ export interface CoursesApiCoursesNewListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof CoursesApiCoursesNewList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -3768,11 +3945,42 @@ export interface CoursesApiCoursesNewListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof CoursesApiCoursesNewList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -3822,19 +4030,17 @@ export interface CoursesApiCoursesUpcomingListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof CoursesApiCoursesUpcomingList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -3861,11 +4067,42 @@ export interface CoursesApiCoursesUpcomingListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof CoursesApiCoursesUpcomingList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof CoursesApiCoursesUpcomingList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof CoursesApiCoursesUpcomingList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -3950,7 +4187,9 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -3977,7 +4216,9 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -4021,7 +4262,9 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -4296,11 +4539,13 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4312,18 +4557,35 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -4374,8 +4636,16 @@ export const LearningResourcesApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -4401,11 +4671,13 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4417,18 +4689,35 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -4479,8 +4768,16 @@ export const LearningResourcesApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -4554,11 +4851,13 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4570,18 +4869,35 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -4632,8 +4948,16 @@ export const LearningResourcesApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -4802,11 +5126,13 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4818,18 +5144,35 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -4851,7 +5194,9 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -4867,11 +5212,13 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4883,18 +5230,35 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -4916,7 +5280,9 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -4957,11 +5323,13 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4973,18 +5341,35 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -5006,7 +5391,9 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -5127,7 +5514,9 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -5152,7 +5541,9 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -5192,7 +5583,9 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -5341,19 +5734,17 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof LearningResourcesApiLearningResourcesList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -5380,11 +5771,42 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof LearningResourcesApiLearningResourcesList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -5420,19 +5842,17 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof LearningResourcesApiLearningResourcesNewList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -5459,11 +5879,42 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof LearningResourcesApiLearningResourcesNewList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -5513,19 +5964,17 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -5552,11 +6001,42 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof LearningResourcesApiLearningResourcesUpcomingList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesUpcomingList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -5683,7 +6163,9 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -5710,7 +6192,9 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -5754,7 +6238,9 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -5877,11 +6363,13 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5893,18 +6381,35 @@ export const LearningpathsApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -5955,8 +6460,16 @@ export const LearningpathsApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -5982,11 +6495,13 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5998,18 +6513,35 @@ export const LearningpathsApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -6060,8 +6592,16 @@ export const LearningpathsApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -6552,11 +7092,13 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6568,18 +7110,35 @@ export const LearningpathsApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -6630,8 +7189,16 @@ export const LearningpathsApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -6778,11 +7345,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6794,18 +7363,35 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -6827,7 +7413,9 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -6843,11 +7431,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6859,18 +7449,35 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -6892,7 +7499,9 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -7152,11 +7761,13 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7168,18 +7779,35 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -7201,7 +7829,9 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -7306,7 +7936,9 @@ export const LearningpathsApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -7331,7 +7963,9 @@ export const LearningpathsApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -7501,7 +8135,9 @@ export const LearningpathsApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -7577,19 +8213,17 @@ export interface LearningpathsApiLearningpathsListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof LearningpathsApiLearningpathsList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -7616,11 +8250,42 @@ export interface LearningpathsApiLearningpathsListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof LearningpathsApiLearningpathsList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -7656,19 +8321,17 @@ export interface LearningpathsApiLearningpathsNewListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof LearningpathsApiLearningpathsNewList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -7695,11 +8358,42 @@ export interface LearningpathsApiLearningpathsNewListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof LearningpathsApiLearningpathsNewList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof LearningpathsApiLearningpathsNewList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsNewList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -7924,19 +8618,17 @@ export interface LearningpathsApiLearningpathsUpcomingListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof LearningpathsApiLearningpathsUpcomingList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -7963,11 +8655,42 @@ export interface LearningpathsApiLearningpathsUpcomingListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof LearningpathsApiLearningpathsUpcomingList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof LearningpathsApiLearningpathsUpcomingList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsUpcomingList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -8065,7 +8788,9 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -8092,7 +8817,9 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -8280,7 +9007,9 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -8321,11 +9050,13 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8337,18 +9068,35 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -8399,8 +9147,16 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -8426,11 +9182,13 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8442,18 +9200,35 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -8504,8 +9279,16 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -8579,11 +9362,13 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8595,18 +9380,35 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -8657,8 +9459,16 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -8695,11 +9505,13 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8711,18 +9523,35 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -8744,7 +9573,9 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -8760,11 +9591,13 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8776,18 +9609,35 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -8809,7 +9659,9 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -8850,11 +9702,13 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8866,18 +9720,35 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -8899,7 +9770,9 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -8943,7 +9816,9 @@ export const PodcastEpisodesApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -8968,7 +9843,9 @@ export const PodcastEpisodesApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -9008,7 +9885,9 @@ export const PodcastEpisodesApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -9038,19 +9917,17 @@ export interface PodcastEpisodesApiPodcastEpisodesListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof PodcastEpisodesApiPodcastEpisodesList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -9077,11 +9954,42 @@ export interface PodcastEpisodesApiPodcastEpisodesListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof PodcastEpisodesApiPodcastEpisodesList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -9117,19 +10025,17 @@ export interface PodcastEpisodesApiPodcastEpisodesNewListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof PodcastEpisodesApiPodcastEpisodesNewList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -9156,11 +10062,42 @@ export interface PodcastEpisodesApiPodcastEpisodesNewListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof PodcastEpisodesApiPodcastEpisodesNewList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -9210,19 +10147,17 @@ export interface PodcastEpisodesApiPodcastEpisodesUpcomingListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -9249,11 +10184,42 @@ export interface PodcastEpisodesApiPodcastEpisodesUpcomingListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -9295,7 +10261,9 @@ export class PodcastEpisodesApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -9322,7 +10290,9 @@ export class PodcastEpisodesApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -9366,7 +10336,9 @@ export class PodcastEpisodesApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -9502,11 +10474,13 @@ export const PodcastsApiAxiosParamCreator = function (
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9518,18 +10492,35 @@ export const PodcastsApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -9580,8 +10571,16 @@ export const PodcastsApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -9607,11 +10606,13 @@ export const PodcastsApiAxiosParamCreator = function (
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9623,18 +10624,35 @@ export const PodcastsApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -9685,8 +10703,16 @@ export const PodcastsApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -9760,11 +10786,13 @@ export const PodcastsApiAxiosParamCreator = function (
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9776,18 +10804,35 @@ export const PodcastsApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -9838,8 +10883,16 @@ export const PodcastsApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -9941,11 +10994,13 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9957,18 +11012,35 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -9989,7 +11061,9 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         offered_by__name,
         offset,
         ordering,
+        platform,
         platform__audience,
+        platform__platform,
         resource_type,
         options,
       )
@@ -10005,11 +11079,13 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -10021,18 +11097,35 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -10053,7 +11146,9 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         offered_by__name,
         offset,
         ordering,
+        platform,
         platform__audience,
+        platform__platform,
         resource_type,
         options,
       )
@@ -10094,11 +11189,13 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -10110,18 +11207,35 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -10143,7 +11257,9 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -10225,7 +11341,9 @@ export const PodcastsApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -10250,7 +11368,9 @@ export const PodcastsApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -10290,7 +11410,9 @@ export const PodcastsApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -10376,19 +11498,17 @@ export interface PodcastsApiPodcastsListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof PodcastsApiPodcastsList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -10415,11 +11535,42 @@ export interface PodcastsApiPodcastsListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof PodcastsApiPodcastsList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -10455,19 +11606,17 @@ export interface PodcastsApiPodcastsNewListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof PodcastsApiPodcastsNewList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -10494,11 +11643,42 @@ export interface PodcastsApiPodcastsNewListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof PodcastsApiPodcastsNewList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof PodcastsApiPodcastsNewList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsNewList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -10548,19 +11728,17 @@ export interface PodcastsApiPodcastsUpcomingListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof PodcastsApiPodcastsUpcomingList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -10587,11 +11765,42 @@ export interface PodcastsApiPodcastsUpcomingListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof PodcastsApiPodcastsUpcomingList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof PodcastsApiPodcastsUpcomingList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastsApiPodcastsUpcomingList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -10675,7 +11884,9 @@ export class PodcastsApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -10702,7 +11913,9 @@ export class PodcastsApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -10746,7 +11959,9 @@ export class PodcastsApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -10767,11 +11982,13 @@ export const ProgramsApiAxiosParamCreator = function (
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -10783,18 +12000,35 @@ export const ProgramsApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -10845,8 +12079,16 @@ export const ProgramsApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -10872,11 +12114,13 @@ export const ProgramsApiAxiosParamCreator = function (
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -10888,18 +12132,35 @@ export const ProgramsApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -10950,8 +12211,16 @@ export const ProgramsApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -11025,11 +12294,13 @@ export const ProgramsApiAxiosParamCreator = function (
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11041,18 +12312,35 @@ export const ProgramsApiAxiosParamCreator = function (
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -11103,8 +12391,16 @@ export const ProgramsApiAxiosParamCreator = function (
         localVarQueryParameter["ordering"] = ordering
       }
 
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (platform__audience !== undefined) {
         localVarQueryParameter["platform__audience"] = platform__audience
+      }
+
+      if (platform__platform !== undefined) {
+        localVarQueryParameter["platform__platform"] = platform__platform
       }
 
       if (resource_type !== undefined) {
@@ -11140,11 +12436,13 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @summary List
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11156,18 +12454,35 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -11188,7 +12503,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         offered_by__name,
         offset,
         ordering,
+        platform,
         platform__audience,
+        platform__platform,
         resource_type,
         options,
       )
@@ -11204,11 +12521,13 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @summary List New
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11220,18 +12539,35 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -11252,7 +12588,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         offered_by__name,
         offset,
         ordering,
+        platform,
         platform__audience,
+        platform__platform,
         resource_type,
         options,
       )
@@ -11293,11 +12631,13 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @summary List Upcoming
      * @param {'open' | 'professional'} [audience] Audience  * &#x60;professional&#x60; - Professional Offerings * &#x60;open&#x60; - Open Content
      * @param {number} [limit] Number of results to return per page.
-     * @param {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {'Open Content' | 'Professional Offerings'} [platform__audience] * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
+     * @param {string} [platform__platform]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11309,18 +12649,35 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "bootcamps"
         | "csail"
         | "ctl"
-        | "micromasters"
         | "mitpe"
         | "mitx"
         | "ocw"
-        | "oll"
         | "scc"
         | "see"
         | "xpro",
       offered_by__name?: string,
       offset?: number,
       ordering?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
       platform__audience?: "Open Content" | "Professional Offerings",
+      platform__platform?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -11342,7 +12699,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
           offered_by__name,
           offset,
           ordering,
+          platform,
           platform__audience,
+          platform__platform,
           resource_type,
           options,
         )
@@ -11386,7 +12745,9 @@ export const ProgramsApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -11411,7 +12772,9 @@ export const ProgramsApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -11451,7 +12814,9 @@ export const ProgramsApiFactory = function (
           requestParameters.offered_by__name,
           requestParameters.offset,
           requestParameters.ordering,
+          requestParameters.platform,
           requestParameters.platform__audience,
+          requestParameters.platform__platform,
           requestParameters.resource_type,
           options,
         )
@@ -11481,19 +12846,17 @@ export interface ProgramsApiProgramsListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof ProgramsApiProgramsList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -11520,11 +12883,42 @@ export interface ProgramsApiProgramsListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof ProgramsApiProgramsList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -11560,19 +12954,17 @@ export interface ProgramsApiProgramsNewListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof ProgramsApiProgramsNewList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -11599,11 +12991,42 @@ export interface ProgramsApiProgramsNewListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof ProgramsApiProgramsNewList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -11653,19 +13076,17 @@ export interface ProgramsApiProgramsUpcomingListRequest {
   readonly limit?: number
 
   /**
-   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;micromasters&#x60; - MicroMasters * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;oll&#x60; - Open Learning Library * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {'bootcamps' | 'csail' | 'ctl' | 'micromasters' | 'mitpe' | 'mitx' | 'ocw' | 'oll' | 'scc' | 'see' | 'xpro'}
+   * Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
    * @memberof ProgramsApiProgramsUpcomingList
    */
   readonly offered_by?:
     | "bootcamps"
     | "csail"
     | "ctl"
-    | "micromasters"
     | "mitpe"
     | "mitx"
     | "ocw"
-    | "oll"
     | "scc"
     | "see"
     | "xpro"
@@ -11692,11 +13113,42 @@ export interface ProgramsApiProgramsUpcomingListRequest {
   readonly ordering?: string
 
   /**
+   * Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof ProgramsApiProgramsUpcomingList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
    * * &#x60;Open Content&#x60; - Open Content * &#x60;Professional Offerings&#x60; - Professional Offerings
    * @type {'Open Content' | 'Professional Offerings'}
    * @memberof ProgramsApiProgramsUpcomingList
    */
   readonly platform__audience?: "Open Content" | "Professional Offerings"
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramsApiProgramsUpcomingList
+   */
+  readonly platform__platform?: string
 
   /**
    * Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
@@ -11738,7 +13190,9 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -11765,7 +13219,9 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )
@@ -11809,7 +13265,9 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offered_by__name,
         requestParameters.offset,
         requestParameters.ordering,
+        requestParameters.platform,
         requestParameters.platform__audience,
+        requestParameters.platform__platform,
         requestParameters.resource_type,
         options,
       )

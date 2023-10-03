@@ -46,10 +46,8 @@ class OfferedBy(Enum):
 
     mitx = "MITx"
     ocw = "OCW"
-    micromasters = "MicroMasters"
     bootcamps = "Bootcamps"
     xpro = "xPRO"
-    oll = "Open Learning Library"
     csail = "CSAIL"
     mitpe = "Professional Education"
     see = "Sloan Executive Education"
@@ -59,23 +57,27 @@ class OfferedBy(Enum):
 
 class PlatformType(Enum):
     """
-    Enum for platforms
+    Enum for platforms, this should be kept in sync
+    with LearningResourcePlatform model objects
     """
 
+    edx = "edx"
     ocw = "ocw"
-    mitx = "mitx"
+    oll = "oll"
     mitxonline = "mitxonline"
-    micromasters = "micromasters"
     bootcamps = "bootcamps"
     xpro = "xpro"
-    oll = "oll"
-    youtube = "youtube"
-    podcast = "podcast"
     csail = "csail"
     mitpe = "mitpe"
     see = "see"
     scc = "scc"
     ctl = "ctl"
+    whu = "whu"
+    susskind = "susskind"
+    globalalumni = "globalalumni"
+    simplilearn = "simplilearn"
+    emeritus = "emeritus"
+    podcast = "podcast"
 
 
 class PrivacyLevel(Enum):

@@ -95,8 +95,15 @@ class LearningResourceAdmin(admin.ModelAdmin):
 
     model = models.LearningResource
     search_fields = ("readable_id", "title")
-    list_display = ("readable_id", "title", "platform", "resource_type", "published")
-    list_filter = ("platform", "resource_type", "published")
+    list_display = (
+        "readable_id",
+        "title",
+        "platform",
+        "offered_by",
+        "resource_type",
+        "published",
+    )
+    list_filter = ("platform", "offered_by", "resource_type", "published")
     inlines = [CourseInline, LearningPathInline]
     autocomplete_fields = ("topics",)
 

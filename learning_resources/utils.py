@@ -95,7 +95,7 @@ def get_course_url(course_id, course_json, platform):
             urlpath = course_json.get("url")
             if urlpath:
                 return urljoin(settings.OCW_BASE_URL, urlpath)
-    elif platform == PlatformType.mitx.value:
+    elif platform == PlatformType.mitxonline.value:
         if course_json is not None:
             preferred_urls = []
             for run in course_json.get("course_runs", []):
@@ -151,11 +151,11 @@ def load_course_blocklist():
     return []
 
 
-def load_course_duplicates(platform):
+def load_course_duplicates(etl_source: str) -> list:
     """
-    Get a list of blocklisted course ids for a platform
+    Get a list of blocklisted course ids for an ETL pipeline source
     Args:
-        platform (string): the platform for which course duplicates are needed
+        etl_source (string): the ETL source for which course duplicates are needed
     Returns:
         list of lists of courses which are duplicates of each other
     """
@@ -163,9 +163,9 @@ def load_course_duplicates(platform):
     if duplicates_url is not None:
         response = requests.get(duplicates_url, timeout=settings.REQUESTS_TIMEOUT)
         response.raise_for_status()
-        duplicates_for_all_platforms = yaml.safe_load(response.text)
-        if platform in duplicates_for_all_platforms:
-            return duplicates_for_all_platforms[platform]
+        duplicates_for_all_sources = yaml.safe_load(response.text)
+        if etl_source in duplicates_for_all_sources:
+            return duplicates_for_all_sources[etl_source]
     return []
 
 

@@ -6,6 +6,7 @@ from learning_resources.constants import (
     PROFESSIONAL,
     LearningResourceType,
     OfferedBy,
+    PlatformType,
 )
 from learning_resources.models import LearningResource
 
@@ -37,6 +38,13 @@ class LearningResourceFilter(FilterSet):
         choices=([(offeror.name, offeror.value) for offeror in OfferedBy]),
     )
 
+    platform = ChoiceFilter(
+        label="Platform",
+        method="filter_platform",
+        field_name="platform__name",
+        choices=([(platform.value, platform.value) for platform in PlatformType]),
+    )
+
     def filter_resource_type(self, queryset, _, value):
         """resource_type Filter for learning resources"""
         return queryset.filter(resource_type=value)
@@ -53,6 +61,15 @@ class LearningResourceFilter(FilterSet):
             queryset = queryset.exclude(platform__audience=PROFESSIONAL)
         return queryset
 
+    def filter_platform(self, queryset, _, value):
+        """Platform Filter for learning resources"""
+        return queryset.filter(platform__platform=value)
+
     class Meta:
         model = LearningResource
-        fields = ["platform__audience", "offered_by__name", "resource_type"]
+        fields = [
+            "platform__audience",
+            "platform__platform",
+            "offered_by__name",
+            "resource_type",
+        ]

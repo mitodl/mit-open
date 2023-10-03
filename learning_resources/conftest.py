@@ -3,6 +3,9 @@ from os import listdir
 from pathlib import Path
 
 import boto3
+import pytest
+
+from learning_resources.factories import LearningResourcePlatformFactory
 
 TEST_PREFIX = "PROD/9/9.15/Fall_2007/9-15-biochemistry-and-pharmacology-of-synaptic-transmission-fall-2007/"  # noqa: E501
 
@@ -10,6 +13,12 @@ TEST_JSON_PATH = f"./test_json/{TEST_PREFIX}0"
 TEST_JSON_FILES = [
     f for f in listdir(TEST_JSON_PATH) if Path.is_file(Path(TEST_JSON_PATH, f))
 ]
+
+
+@pytest.fixture()
+def podcast_platform():
+    """Return a  podcast platform"""
+    return LearningResourcePlatformFactory.create(platform="podcast")
 
 
 def setup_s3(settings):

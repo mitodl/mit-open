@@ -428,7 +428,7 @@ def get_learning_course_bucket_name(platform: str) -> str:
         str: The name of the edx archive bucket for the platform
     """
     bucket_names = {
-        PlatformType.mitx.value: settings.EDX_LEARNING_COURSE_BUCKET_NAME,
+        PlatformType.mitxonline.value: settings.EDX_LEARNING_COURSE_BUCKET_NAME,
         PlatformType.xpro.value: settings.XPRO_LEARNING_COURSE_BUCKET_NAME,
         PlatformType.mitxonline.value: settings.MITX_ONLINE_LEARNING_COURSE_BUCKET_NAME,
     }

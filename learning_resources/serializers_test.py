@@ -31,7 +31,7 @@ def test_serialize_course_model():
     assert "run_id" in serializer.data["runs"][0]
     assert serializer.data["image"]["url"] is not None
     assert len(serializer.data["offered_by"]) > 0
-    assert serializer.data["offered_by"][0] in [o.value for o in constants.OfferedBy]
+    assert serializer.data["offered_by"] in [o.value for o in constants.OfferedBy]
     assert serializer.data["department"]["name"] is not None
     assert serializer.data["platform"] is not None
     assert (
@@ -73,8 +73,8 @@ def test_serialize_program_model():
     assert len(serializer.data["runs"]) == 1
     assert "run_id" in serializer.data["runs"][0]
     assert serializer.data["image"]["url"] is not None
-    assert len(serializer.data["offered_by"]) > 0
-    assert serializer.data["offered_by"][0] in [o.value for o in constants.OfferedBy]
+    assert serializer.data["offered_by"] is not None
+    assert serializer.data["offered_by"] in [o.value for o in constants.OfferedBy]
     assert serializer.data["department"]["name"] is not None
     assert serializer.data["platform"] is not None
     assert str(serializer.data["prices"][0]).replace(".", "").isnumeric()

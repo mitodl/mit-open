@@ -111,7 +111,7 @@ const learningResource: Factory<LearningResource> = (
     department: learningResourceDepartment(),
     description: faker.lorem.paragraph(),
     image: learningResourceImage(),
-    offered_by: [],
+    offered_by: null,
     platform: null,
     prices: null,
     program: null,
@@ -137,7 +137,7 @@ const learningResource: Factory<LearningResource> = (
         platform: faker.lorem.word(),
         runs: repeat(learningResourceRun, { min: 1, max: 5 }),
         certification: faker.lorem.word(),
-        offered_by: repeat(faker.lorem.word),
+        offered_by: faker.lorem.word(),
         course: {
           extra_course_numbers: maybe(() => repeat(faker.lorem.word)) ?? null,
         },
@@ -146,7 +146,7 @@ const learningResource: Factory<LearningResource> = (
       return {
         platform: faker.lorem.word(),
         certification: faker.lorem.word(),
-        offered_by: repeat(faker.lorem.word),
+        offered_by: faker.lorem.word(),
       }
     } else if (type === ResourceTypeEnum.LearningPath) {
       return {

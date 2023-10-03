@@ -85,14 +85,10 @@ const ResultsList: React.FC<ResultsListProps> = ({ results }) => {
           key={hit._source.object_type.concat(hit._source.id.toString())}
         >
           {hit._source.title}{" "}
-          {hit._source.offered_by && hit._source.offered_by.length > 0 ? (
+          {hit._source.offered_by ? (
             <span>
               {" "}
-              (
-              <span className="offeror">
-                {hit._source.offered_by.join(", ")}
-              </span>
-              ){" "}
+              (<span className="offeror">{hit._source.offered_by}</span>){" "}
             </span>
           ) : null}
         </li>

@@ -3,6 +3,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "ocw",
+      "name": "OCW",
       "audience": "Open Content",
       "is_edx": false,
       "has_content_files": true,
@@ -14,7 +15,8 @@
   {
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
-      "platform": "mitx",
+      "platform": "edx",
+      "name": "edX",
       "audience": "Open Content",
       "is_edx": true,
       "has_content_files": true,
@@ -27,6 +29,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "mitxonline",
+      "name": "MITx Online",
       "audience": "Open Content",
       "is_edx": true,
       "has_content_files": true,
@@ -39,6 +42,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "bootcamps",
+      "name": "Bootcamps",
       "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
@@ -51,6 +55,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "xpro",
+      "name": "xPRO",
       "audience": "Professional Offerings",
       "is_edx": true,
       "has_content_files": true,
@@ -62,31 +67,8 @@
   {
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
-      "platform": "oll",
-      "audience": "Open Content",
-      "is_edx": true,
-      "has_content_files": true,
-      "url": "https://discovery.openlearninglibrary.mit.edu/",
-      "created_on": "2023-08-08T14:27:25.128989+00:00",
-      "updated_on": "2023-08-08T14:27:25.128989+00:00"
-    }
-  },
-  {
-    "model": "learning_resources.LearningResourcePlatform",
-    "fields": {
-      "platform": "youtube",
-      "audience": "Open Content",
-      "is_edx": false,
-      "has_content_files": false,
-      "url": "https://youtube.com",
-      "created_on": "2023-08-08T14:27:25.128989+00:00",
-      "updated_on": "2023-08-08T14:27:25.128989+00:00"
-    }
-  },
-  {
-    "model": "learning_resources.LearningResourcePlatform",
-    "fields": {
       "platform": "podcast",
+      "name": "Podcast",
       "audience": "Open Content",
       "is_edx": false,
       "has_content_files": false,
@@ -99,6 +81,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "csail",
+      "name": "CSAIL",
       "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
@@ -111,6 +94,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "mitpe",
+      "name": "MIT Professional Education",
       "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
@@ -123,6 +107,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "see",
+      "name": "Sloan Executive Education",
       "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
@@ -135,6 +120,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "scc",
+      "name": "Schwarzman College of Computing",
       "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
@@ -147,6 +133,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "ctl",
+      "name": "Center for Transporation & Logistics",
       "audience": "Professional Offerings",
       "is_edx": false,
       "has_content_files": false,
@@ -159,12 +146,78 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "podcast",
+      "name": "Podcast",
       "audience": "Open Content",
       "is_edx": false,
       "has_content_files": false,
       "url": "",
       "created_on": "2023-08-14T14:27:25.128989+00:00",
       "updated_on": "2023-08-14T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourcePlatform",
+    "fields": {
+      "platform": "emeritus",
+      "name": "Emeritus",
+      "audience": "Professional Offerings",
+      "is_edx": false,
+      "has_content_files": false,
+      "url": "",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourcePlatform",
+    "fields": {
+      "platform": "simplilearn",
+      "name": "Simplilearn",
+      "audience": "Professional Offerings",
+      "is_edx": false,
+      "has_content_files": false,
+      "url": "",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourcePlatform",
+    "fields": {
+      "platform": "globalalumni",
+      "name": "Global Alumni",
+      "audience": "Professional Offerings",
+      "is_edx": false,
+      "has_content_files": false,
+      "url": "",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourcePlatform",
+    "fields": {
+      "platform": "susskind",
+      "name": "Susskind",
+      "audience": "Professional Offerings",
+      "is_edx": false,
+      "has_content_files": false,
+      "url": "",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourcePlatform",
+    "fields": {
+      "platform": "whu",
+      "audience": "Professional Offerings",
+      "name": "WHU",
+      "is_edx": false,
+      "has_content_files": false,
+      "url": "",
+      "created_on": "2023-08-08T14:27:25.128989+00:00",
+      "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
   }
 ]

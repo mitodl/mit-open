@@ -512,7 +512,7 @@ def test_load_instructors(instructor_exists):
 def test_load_offered_bys(
     parent_factory, offeror_exists, has_other_offered_by, additive, null_data
 ):
-    """Test that load_offered_bys creates and/or assigns offeror to the parent object"""
+    """Test that load_offered_by creates and/or assigns offeror to the parent object"""
     xpro_offeror = (
         LearningResourceOfferorFactory.create(is_xpro=True)
         if offeror_exists

@@ -14,6 +14,7 @@
       { "name": "Business:Leadership & Organizations" },
       { "name": "Planning" }
     ],
+    "platform": "xPRO",
     "courses": [
       {
         "id": 18,
@@ -23,7 +24,8 @@
         "readable_id": "course-v1:xPRO+SysEngxB1",
         "courseruns": [],
         "next_run_id": null,
-        "topics": [{ "name": "Business:Leadership & Organizations" }]
+        "topics": [{ "name": "Business:Leadership & Organizations" }],
+        "platform": "xPRO"
       },
       {
         "id": 20,
@@ -32,6 +34,7 @@
         "thumbnail_url": "/static/images/mit-dome.png",
         "readable_id": "course-v1:xPRO+SysEngxB3",
         "topics": [],
+        "platform": "xPRO",
         "courseruns": [
           {
             "title": "SEED Model-Based Systems Engineering: Documentation and Analysis - Fall 2020",
@@ -57,6 +60,7 @@
         "thumbnail_url": "/static/images/mit-dome.png",
         "readable_id": "course-v1:xPRO+SysEngxB2",
         "topics": [{ "name": "Business:Leadership & Organizations" }],
+        "platform": "xPRO",
         "courseruns": [
           {
             "title": "SEED Models in Engineering - Spring 2020",
@@ -83,7 +87,8 @@
         "readable_id": "course-v1:xPRO+SysEngxB4",
         "courseruns": [],
         "next_run_id": null,
-        "topics": []
+        "topics": [],
+        "platform": "xPRO"
       }
     ]
   },
@@ -99,6 +104,7 @@
     "end_date": "2019-12-10T00:00:00Z",
     "enrollment_start": null,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
+    "platform": "xPRO",
     "courses": [
       {
         "id": 30,
@@ -107,6 +113,7 @@
         "thumbnail_url": "/static/images/mit-dome.png",
         "readable_id": "course-v1:xPRO+DgtlLearn1",
         "topics": [{ "name": "Business:Leadership & Organizations" }],
+        "platform": "xPRO",
         "courseruns": [
           {
             "title": "SEED Digital Learning 100 - August 2020",
@@ -155,7 +162,8 @@
         "readable_id": "course-v1:xPRO+DgtlLearn2",
         "courseruns": [],
         "next_run_id": null,
-        "topics": [{ "name": "Business:Leadership & Organizations" }]
+        "topics": [{ "name": "Business:Leadership & Organizations" }],
+        "platform": "xPRO"
       },
       {
         "id": 32,
@@ -165,7 +173,8 @@
         "readable_id": "course-v1:xPRO+DgtlLearn3",
         "courseruns": [],
         "next_run_id": null,
-        "topics": []
+        "topics": [],
+        "platform": "xPRO"
       }
     ]
   }

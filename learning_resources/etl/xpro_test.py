@@ -81,6 +81,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
     expected = [
         {
             "readable_id": program_data["readable_id"],
+            "etl_source": xpro.ETL_SOURCE,
             "title": program_data["title"],
             "image": {"url": program_data["thumbnail_url"]},
             "description": program_data["description"],
@@ -118,6 +119,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
             "courses": [
                 {
                     "readable_id": course_data["readable_id"],
+                    "etl_source": xpro.ETL_SOURCE,
                     "platform": PlatformType.xpro.value,
                     "title": course_data["title"],
                     "image": {"url": course_data["thumbnail_url"]},
@@ -172,6 +174,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
     expected = [
         {
             "readable_id": course_data["readable_id"],
+            "etl_source": xpro.ETL_SOURCE,
             "platform": PlatformType.xpro.value,
             "title": course_data["title"],
             "image": {"url": course_data["thumbnail_url"]},
