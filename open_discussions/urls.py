@@ -43,6 +43,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("ckeditor.urls")),
     re_path(r"", include("widgets.urls")),
     re_path(r"", include("learning_resources.urls")),
+    re_path(r"", include("staff_posts.urls")),
     re_path(r"", include("course_catalog.urls")),
     re_path(r"", include("livestream.urls")),
     re_path(r"", include("interactions.urls")),
@@ -61,6 +62,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"^podcasts/", index, name="podcasts"),
     re_path(r"^terms-and-conditions/", index, name="terms-and-conditions"),
     re_path(r"^learningpaths/", index, name="learningpaths"),
+    re_path(r"^staffposts/", index, name="staffposts"),
     # Hijack
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

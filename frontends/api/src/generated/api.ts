@@ -1677,6 +1677,37 @@ export interface PaginatedLearningResourceTopicList {
 /**
  *
  * @export
+ * @interface PaginatedStaffPostList
+ */
+export interface PaginatedStaffPostList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedStaffPostList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedStaffPostList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedStaffPostList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<StaffPost>}
+   * @memberof PaginatedStaffPostList
+   */
+  results?: Array<StaffPost>
+}
+/**
+ *
+ * @export
  * @interface PaginatedUserListList
  */
 export interface PaginatedUserListList {
@@ -1829,6 +1860,25 @@ export interface PatchedLearningPathResourceRequest {
   resource_type?: ResourceTypeEnum
 }
 
+/**
+ * Serializer for LearningResourceInstructor model
+ * @export
+ * @interface PatchedStaffPostRequest
+ */
+export interface PatchedStaffPostRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedStaffPostRequest
+   */
+  html?: string
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedStaffPostRequest
+   */
+  title?: string
+}
 /**
  * Serializer for UserListRelationship model
  * @export
@@ -2060,6 +2110,50 @@ export const ResourceTypeEnum = {
 export type ResourceTypeEnum =
   (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
 
+/**
+ * Serializer for LearningResourceInstructor model
+ * @export
+ * @interface StaffPost
+ */
+export interface StaffPost {
+  /**
+   *
+   * @type {string}
+   * @memberof StaffPost
+   */
+  html: string
+  /**
+   *
+   * @type {number}
+   * @memberof StaffPost
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof StaffPost
+   */
+  title: string
+}
+/**
+ * Serializer for LearningResourceInstructor model
+ * @export
+ * @interface StaffPostRequest
+ */
+export interface StaffPostRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof StaffPostRequest
+   */
+  html: string
+  /**
+   *
+   * @type {string}
+   * @memberof StaffPostRequest
+   */
+  title: string
+}
 /**
  * Simplified serializer for UserList model.
  * @export
@@ -11811,6 +11905,827 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.ordering,
         requestParameters.platform__audience,
         requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * StaffPostsApi - axios parameter creator
+ * @export
+ */
+export const StaffPostsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {StaffPostRequest} StaffPostRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsCreate: async (
+      StaffPostRequest: StaffPostRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'StaffPostRequest' is not null or undefined
+      assertParamExists(
+        "staffPostsCreate",
+        "StaffPostRequest",
+        StaffPostRequest,
+      )
+      const localVarPath = `/api/v1/staff_posts/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        StaffPostRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {number} id A unique integer value identifying this staff post.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsDestroy: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("staffPostsDestroy", "id", id)
+      const localVarPath = `/api/v1/staff_posts/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsList: async (
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/staff_posts/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {number} id A unique integer value identifying this staff post.
+     * @param {PatchedStaffPostRequest} [PatchedStaffPostRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsPartialUpdate: async (
+      id: number,
+      PatchedStaffPostRequest?: PatchedStaffPostRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("staffPostsPartialUpdate", "id", id)
+      const localVarPath = `/api/v1/staff_posts/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedStaffPostRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {number} id A unique integer value identifying this staff post.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsRetrieve: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("staffPostsRetrieve", "id", id)
+      const localVarPath = `/api/v1/staff_posts/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {number} id A unique integer value identifying this staff post.
+     * @param {StaffPostRequest} StaffPostRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsUpdate: async (
+      id: number,
+      StaffPostRequest: StaffPostRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("staffPostsUpdate", "id", id)
+      // verify required parameter 'StaffPostRequest' is not null or undefined
+      assertParamExists(
+        "staffPostsUpdate",
+        "StaffPostRequest",
+        StaffPostRequest,
+      )
+      const localVarPath = `/api/v1/staff_posts/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        StaffPostRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * StaffPostsApi - functional programming interface
+ * @export
+ */
+export const StaffPostsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    StaffPostsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {StaffPostRequest} StaffPostRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async staffPostsCreate(
+      StaffPostRequest: StaffPostRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StaffPost>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.staffPostsCreate(
+          StaffPostRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {number} id A unique integer value identifying this staff post.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async staffPostsDestroy(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.staffPostsDestroy(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async staffPostsList(
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedStaffPostList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.staffPostsList(
+        limit,
+        offset,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {number} id A unique integer value identifying this staff post.
+     * @param {PatchedStaffPostRequest} [PatchedStaffPostRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async staffPostsPartialUpdate(
+      id: number,
+      PatchedStaffPostRequest?: PatchedStaffPostRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StaffPost>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.staffPostsPartialUpdate(
+          id,
+          PatchedStaffPostRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {number} id A unique integer value identifying this staff post.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async staffPostsRetrieve(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StaffPost>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.staffPostsRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {number} id A unique integer value identifying this staff post.
+     * @param {StaffPostRequest} StaffPostRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async staffPostsUpdate(
+      id: number,
+      StaffPostRequest: StaffPostRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StaffPost>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.staffPostsUpdate(
+          id,
+          StaffPostRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * StaffPostsApi - factory interface
+ * @export
+ */
+export const StaffPostsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = StaffPostsApiFp(configuration)
+  return {
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {StaffPostsApiStaffPostsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsCreate(
+      requestParameters: StaffPostsApiStaffPostsCreateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<StaffPost> {
+      return localVarFp
+        .staffPostsCreate(requestParameters.StaffPostRequest, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {StaffPostsApiStaffPostsDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsDestroy(
+      requestParameters: StaffPostsApiStaffPostsDestroyRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .staffPostsDestroy(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {StaffPostsApiStaffPostsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsList(
+      requestParameters: StaffPostsApiStaffPostsListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedStaffPostList> {
+      return localVarFp
+        .staffPostsList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {StaffPostsApiStaffPostsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsPartialUpdate(
+      requestParameters: StaffPostsApiStaffPostsPartialUpdateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<StaffPost> {
+      return localVarFp
+        .staffPostsPartialUpdate(
+          requestParameters.id,
+          requestParameters.PatchedStaffPostRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {StaffPostsApiStaffPostsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsRetrieve(
+      requestParameters: StaffPostsApiStaffPostsRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<StaffPost> {
+      return localVarFp
+        .staffPostsRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for StaffPost viewing and editing.
+     * @param {StaffPostsApiStaffPostsUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    staffPostsUpdate(
+      requestParameters: StaffPostsApiStaffPostsUpdateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<StaffPost> {
+      return localVarFp
+        .staffPostsUpdate(
+          requestParameters.id,
+          requestParameters.StaffPostRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for staffPostsCreate operation in StaffPostsApi.
+ * @export
+ * @interface StaffPostsApiStaffPostsCreateRequest
+ */
+export interface StaffPostsApiStaffPostsCreateRequest {
+  /**
+   *
+   * @type {StaffPostRequest}
+   * @memberof StaffPostsApiStaffPostsCreate
+   */
+  readonly StaffPostRequest: StaffPostRequest
+}
+
+/**
+ * Request parameters for staffPostsDestroy operation in StaffPostsApi.
+ * @export
+ * @interface StaffPostsApiStaffPostsDestroyRequest
+ */
+export interface StaffPostsApiStaffPostsDestroyRequest {
+  /**
+   * A unique integer value identifying this staff post.
+   * @type {number}
+   * @memberof StaffPostsApiStaffPostsDestroy
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for staffPostsList operation in StaffPostsApi.
+ * @export
+ * @interface StaffPostsApiStaffPostsListRequest
+ */
+export interface StaffPostsApiStaffPostsListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof StaffPostsApiStaffPostsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof StaffPostsApiStaffPostsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for staffPostsPartialUpdate operation in StaffPostsApi.
+ * @export
+ * @interface StaffPostsApiStaffPostsPartialUpdateRequest
+ */
+export interface StaffPostsApiStaffPostsPartialUpdateRequest {
+  /**
+   * A unique integer value identifying this staff post.
+   * @type {number}
+   * @memberof StaffPostsApiStaffPostsPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {PatchedStaffPostRequest}
+   * @memberof StaffPostsApiStaffPostsPartialUpdate
+   */
+  readonly PatchedStaffPostRequest?: PatchedStaffPostRequest
+}
+
+/**
+ * Request parameters for staffPostsRetrieve operation in StaffPostsApi.
+ * @export
+ * @interface StaffPostsApiStaffPostsRetrieveRequest
+ */
+export interface StaffPostsApiStaffPostsRetrieveRequest {
+  /**
+   * A unique integer value identifying this staff post.
+   * @type {number}
+   * @memberof StaffPostsApiStaffPostsRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for staffPostsUpdate operation in StaffPostsApi.
+ * @export
+ * @interface StaffPostsApiStaffPostsUpdateRequest
+ */
+export interface StaffPostsApiStaffPostsUpdateRequest {
+  /**
+   * A unique integer value identifying this staff post.
+   * @type {number}
+   * @memberof StaffPostsApiStaffPostsUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {StaffPostRequest}
+   * @memberof StaffPostsApiStaffPostsUpdate
+   */
+  readonly StaffPostRequest: StaffPostRequest
+}
+
+/**
+ * StaffPostsApi - object-oriented interface
+ * @export
+ * @class StaffPostsApi
+ * @extends {BaseAPI}
+ */
+export class StaffPostsApi extends BaseAPI {
+  /**
+   * Viewset for StaffPost viewing and editing.
+   * @param {StaffPostsApiStaffPostsCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof StaffPostsApi
+   */
+  public staffPostsCreate(
+    requestParameters: StaffPostsApiStaffPostsCreateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return StaffPostsApiFp(this.configuration)
+      .staffPostsCreate(requestParameters.StaffPostRequest, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for StaffPost viewing and editing.
+   * @param {StaffPostsApiStaffPostsDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof StaffPostsApi
+   */
+  public staffPostsDestroy(
+    requestParameters: StaffPostsApiStaffPostsDestroyRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return StaffPostsApiFp(this.configuration)
+      .staffPostsDestroy(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for StaffPost viewing and editing.
+   * @param {StaffPostsApiStaffPostsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof StaffPostsApi
+   */
+  public staffPostsList(
+    requestParameters: StaffPostsApiStaffPostsListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return StaffPostsApiFp(this.configuration)
+      .staffPostsList(
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for StaffPost viewing and editing.
+   * @param {StaffPostsApiStaffPostsPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof StaffPostsApi
+   */
+  public staffPostsPartialUpdate(
+    requestParameters: StaffPostsApiStaffPostsPartialUpdateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return StaffPostsApiFp(this.configuration)
+      .staffPostsPartialUpdate(
+        requestParameters.id,
+        requestParameters.PatchedStaffPostRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for StaffPost viewing and editing.
+   * @param {StaffPostsApiStaffPostsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof StaffPostsApi
+   */
+  public staffPostsRetrieve(
+    requestParameters: StaffPostsApiStaffPostsRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return StaffPostsApiFp(this.configuration)
+      .staffPostsRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for StaffPost viewing and editing.
+   * @param {StaffPostsApiStaffPostsUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof StaffPostsApi
+   */
+  public staffPostsUpdate(
+    requestParameters: StaffPostsApiStaffPostsUpdateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return StaffPostsApiFp(this.configuration)
+      .staffPostsUpdate(
+        requestParameters.id,
+        requestParameters.StaffPostRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
