@@ -4,7 +4,7 @@ from django.db import models
 from open_discussions.models import TimestampedModel
 
 
-class StaffPost(TimestampedModel):
+class Article(TimestampedModel):
     """
     Stores rich-text content created by staff members.
     """

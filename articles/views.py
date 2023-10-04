@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAdminUser
 
-from staff_posts.models import StaffPost
-from staff_posts.serializers import StaffPostSerializer
+from articles.models import Article
+from articles.serializers import ArticleSerializer
 
 # Create your views here.
 
@@ -17,13 +17,13 @@ class DefaultPagination(LimitOffsetPagination):
     max_limit = 100
 
 
-class StaffPostViewSet(viewsets.ModelViewSet):
+class ArticleViewSet(viewsets.ModelViewSet):
     """
-    Viewset for StaffPost viewing and editing.
+    Viewset for Article viewing and editing.
     """
 
-    serializer_class = StaffPostSerializer
-    queryset = StaffPost.objects.all()
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
     pagination_class = DefaultPagination
 
     permission_classes = [IsAdminUser]

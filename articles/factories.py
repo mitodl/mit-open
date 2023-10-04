@@ -3,14 +3,14 @@
 import factory
 from factory.django import DjangoModelFactory
 
-from staff_posts import models
+from articles import models
 
 
-class StaffPostFactory(DjangoModelFactory):
-    """Factory for StaffPost"""
+class ArticleFactory(DjangoModelFactory):
+    """Factory for Articles"""
 
     html = factory.Faker("paragraph")
     title = factory.Faker("sentence", nb_words=4)
 
     class Meta:
-        model = models.StaffPost
+        model = models.Article

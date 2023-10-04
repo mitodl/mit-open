@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from staff_posts.serializers import SanitizedHtmlField
+from articles.serializers import SanitizedHtmlField
 
 
 class HTMLSantizingSerializer(serializers.Serializer):

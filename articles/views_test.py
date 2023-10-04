@@ -1,4 +1,4 @@
-"""Test for staff_posts views"""
+"""Test for articles views"""
 import pytest
 from rest_framework.reverse import reverse
 
@@ -7,10 +7,10 @@ from open_discussions.factories import UserFactory
 pytestmark = [pytest.mark.django_db]
 
 
-def test_staffpost_creation(staff_client, user):
-    """Test staffpost creation HTML sanitization."""
+def test_article_creation(staff_client, user):
+    """Test article creation HTML sanitization."""
 
-    url = reverse("staff_posts-list")
+    url = reverse("articles-list")
     data = {
         "html": "<div><script>console.log('hax')</script></div>",
         "title": "Some title",
@@ -22,10 +22,10 @@ def test_staffpost_creation(staff_client, user):
 
 
 @pytest.mark.parametrize("is_staff", [True, False])
-def test_staffpost_permissions(client, is_staff):
+def test_article_permissions(client, is_staff):
     user = UserFactory.create(is_staff=True)
     client.force_login(user)
-    url = reverse("staff_posts-list")
+    url = reverse("articles-list")
     resp = client.get(url)
     resp.json()
     assert resp.status_code == 200 if is_staff else 403
