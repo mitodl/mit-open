@@ -15,7 +15,7 @@
 @use "ol-util/assets/loading_spinner";
 @use "ol-util/assets/sortable";
 @use "demopage";
-@use "article-editor";
+@use "articles";
 
 html {
   font-family: theme.$font-family-default;

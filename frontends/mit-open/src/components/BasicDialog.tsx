@@ -14,7 +14,7 @@ type BasicDialog = {
   /**
    * MUI Dialog's [TransitionProps](https://mui.com/material-ui/api/dialog/#props)
    */
-  TransitionProps: DialogProps["TransitionProps"]
+  TransitionProps?: DialogProps["TransitionProps"]
   onConfirm?: () => void | Promise<void>
   title: string
   children?: React.ReactNode

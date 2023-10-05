@@ -1,6 +1,5 @@
 import { RouteProps } from "react-router"
 import * as urls from "./urls"
-import ArticlePage from "./ArticlePage"
 import DemoPage from "./DemoPage"
 import SearchPage from "./SearchPage"
 import FieldAdminApp from "./field-details/FieldAdminApp"
@@ -29,11 +28,6 @@ const routes: RouteProps[] = [
   {
     path: urls.FIELD_EDIT,
     component: FieldAdminApp,
-    exact: true,
-  },
-  {
-    path: "/infinite/article",
-    component: ArticlePage,
     exact: true,
   },
 ]
