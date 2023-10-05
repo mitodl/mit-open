@@ -46,7 +46,7 @@ export type LearningResource = {
   offered_by?: string | null
   platform?: string
   is_favorite?: boolean
-  audience?: string[]
+  is_professional?: boolean
   certification: string[]
   duration?: string | null
   url?: string | null

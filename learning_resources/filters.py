@@ -2,8 +2,6 @@
 from django_filters import ChoiceFilter, FilterSet
 
 from learning_resources.constants import (
-    OPEN,
-    PROFESSIONAL,
     LearningResourceType,
     OfferedBy,
     PlatformType,
@@ -14,12 +12,6 @@ from learning_resources.models import LearningResource
 class LearningResourceFilter(FilterSet):
     """LearningResource filter"""
 
-    audience = ChoiceFilter(
-        label="Audience",
-        method="filter_audience",
-        field_name="platform__audience",
-        choices=(("professional", PROFESSIONAL), ("open", OPEN)),
-    )
     resource_type = ChoiceFilter(
         label="Resource Type",
         method="filter_resource_type",
@@ -53,14 +45,6 @@ class LearningResourceFilter(FilterSet):
         """OfferedBy Filter for learning resources"""
         return queryset.filter(offered_by__name__contains=OfferedBy[value].value)
 
-    def filter_audience(self, queryset, _, value):
-        """Audience filter for learning resources"""
-        if value == "professional":
-            queryset = queryset.filter(platform__audience=PROFESSIONAL)
-        else:
-            queryset = queryset.exclude(platform__audience=PROFESSIONAL)
-        return queryset
-
     def filter_platform(self, queryset, _, value):
         """Platform Filter for learning resources"""
         return queryset.filter(platform__platform=value)
@@ -68,8 +52,8 @@ class LearningResourceFilter(FilterSet):
     class Meta:
         model = LearningResource
         fields = [
-            "platform__audience",
-            "platform__platform",
+            "professional",
             "offered_by__name",
+            "platform__platform",
             "resource_type",
         ]

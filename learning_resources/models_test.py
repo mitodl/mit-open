@@ -5,8 +5,7 @@ from learning_resources import constants
 from learning_resources.constants import LearningResourceType
 from learning_resources.factories import (
     CourseFactory,
-    LearningResourcePlatformFactory,
-    LearningResourceRunFactory,
+    LearningResourceOfferorFactory,
     ProgramFactory,
 )
 
@@ -52,57 +51,48 @@ def test_course_creation():
 
 
 @pytest.mark.parametrize(
-    ("platform", "availability", "has_cert"),
+    ("offered_by", "availability", "has_cert"),
     [
         [  # noqa: PT007
-            constants.PlatformType.ocw.value,
+            constants.OfferedBy.ocw.value,
             constants.AvailabilityType.archived.value,
             False,
         ],
         [  # noqa: PT007
-            constants.PlatformType.ocw.value,
+            constants.OfferedBy.ocw.value,
             constants.AvailabilityType.current.value,
             False,
         ],
         [  # noqa: PT007
-            constants.PlatformType.xpro.value,
+            constants.OfferedBy.xpro.value,
             constants.AvailabilityType.archived.value,
             True,
         ],
         [  # noqa: PT007
-            constants.PlatformType.xpro.value,
+            constants.OfferedBy.xpro.value,
             constants.AvailabilityType.current.value,
             True,
         ],
         [  # noqa: PT007
-            constants.PlatformType.edx.value,
+            constants.OfferedBy.mitx.value,
             constants.AvailabilityType.archived.value,
             False,
         ],
         [  # noqa: PT007
-            constants.PlatformType.edx.value,
+            constants.OfferedBy.mitx.value,
             constants.AvailabilityType.current.value,
             True,
         ],
     ],
 )
-def test_lr_certification(platform, availability, has_cert):
+def test_lr_certification(offered_by, availability, has_cert):
     """The certification property should return the expected value"""
-    platform_object = LearningResourcePlatformFactory.create(
-        platform=platform,
-        audience=(
-            constants.PROFESSIONAL
-            if platform == constants.PlatformType.xpro.value
-            else constants.OPEN
-        ),
-    )
+    offered_by = LearningResourceOfferorFactory.create(name=offered_by)
 
     course = CourseFactory.create(
-        platform=platform_object,
+        offered_by=offered_by,
         runs=[],
-    )
-    course.learning_resource.runs.set(
-        [LearningResourceRunFactory.create(availability=availability)]
+        is_professional=(has_cert and offered_by != constants.OfferedBy.mitx.value),
     )
 
     assert course.learning_resource.certification == (

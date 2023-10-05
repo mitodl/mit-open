@@ -225,7 +225,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         read_only=True, allow_null=True
     )
     department = LearningResourceDepartmentSerializer(read_only=True, allow_null=True)
-    audience = serializers.ReadOnlyField()
     certification = serializers.ReadOnlyField()
     prices = serializers.ReadOnlyField()
     course = CourseSerializer(read_only=True, allow_null=True)
@@ -301,6 +300,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
 
     class Meta:
         model = models.LearningResource
+        read_only_fields = ["professional"]
         exclude = ["resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 
