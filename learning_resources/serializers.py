@@ -300,6 +300,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
 
     class Meta:
         model = models.LearningResource
+        read_only_fields = ["professional"]
         exclude = ["resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 

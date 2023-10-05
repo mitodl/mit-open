@@ -1,5 +1,5 @@
 """Course Catalog Filters for API"""
-from django_filters import BooleanFilter, ChoiceFilter, FilterSet
+from django_filters import ChoiceFilter, FilterSet
 
 from learning_resources.constants import (
     LearningResourceType,
@@ -12,10 +12,6 @@ from learning_resources.models import LearningResource
 class LearningResourceFilter(FilterSet):
     """LearningResource filter"""
 
-    professional = BooleanFilter(
-        label="Professional Offering",
-        field_name="is_professional",
-    )
     resource_type = ChoiceFilter(
         label="Resource Type",
         method="filter_resource_type",
@@ -56,7 +52,7 @@ class LearningResourceFilter(FilterSet):
     class Meta:
         model = LearningResource
         fields = [
-            "is_professional",
+            "professional",
             "offered_by__name",
             "platform__platform",
             "resource_type",

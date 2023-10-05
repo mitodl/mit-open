@@ -83,7 +83,7 @@ LEARNING_RESOURCE_TYPE = {
     },
     "platform": {"type": "keyword"},
     "department": {"type": "keyword"},
-    "is_professional": {"type": "boolean"},
+    "professional": {"type": "boolean"},
     "resource_type": {"type": "keyword"},
     "topics": {
         "type": "nested",

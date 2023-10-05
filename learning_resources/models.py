@@ -142,7 +142,7 @@ class LearningResource(TimestampedModel):
             return self.platform.audience
         return None
 
-    is_professional = models.BooleanField(default=False)
+    professional = models.BooleanField(default=False)
 
     @property
     def prices(self) -> str | None:
@@ -160,7 +160,7 @@ class LearningResource(TimestampedModel):
     @property
     def certification(self) -> str | None:
         """Returns the certification for the learning resource"""
-        if self.is_professional or (
+        if self.professional or (
             self.offered_by.name == constants.OfferedBy.mitx.value
             and any(
                 availability != constants.AvailabilityType.archived.value

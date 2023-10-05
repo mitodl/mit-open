@@ -169,7 +169,7 @@ def test_load_program(
         {
             "platform": platform.platform,
             "readable_id": program.learning_resource.readable_id,
-            "is_professional": False,
+            "professional": False,
             "title": program.learning_resource.title,
             "url": program.learning_resource.url,
             "image": {"url": program.learning_resource.image.url},
@@ -200,7 +200,7 @@ def test_load_program(
 
     # assert we got a program back and that each course is in a program
     assert isinstance(result, LearningResource)
-    assert result.is_professional is False
+    assert result.professional is False
     assert result.children.count() == len(courses)
     assert result.program.courses.count() == len(courses)
     assert result.runs.filter(published=True).count() == 1
@@ -227,7 +227,7 @@ def test_load_program_bad_platform(mocker):
     props = {
         "readable_id": "abc123",
         "platform": bad_platform,
-        "is_professional": False,
+        "professional": False,
         "title": "program title",
         "image": {"url": "https://www.test.edu/image.jpg"},
         "description": "description",
@@ -281,7 +281,7 @@ def test_load_course(  # noqa: PLR0913
     props = {
         "readable_id": learning_resource.readable_id,
         "platform": platform,
-        "is_professional": True,
+        "professional": True,
         "title": learning_resource.title,
         "image": {"url": learning_resource.image.url},
         "description": learning_resource.description,
@@ -303,7 +303,7 @@ def test_load_course(  # noqa: PLR0913
     blocklist = [learning_resource.readable_id] if blocklisted else []
 
     result = load_course(props, blocklist, [], config=CourseLoaderConfig(prune=True))
-    assert result.is_professional is True
+    assert result.professional is True
 
     if course_exists and (not is_published or not is_run_published) and not blocklisted:
         mock_upsert_tasks.delete_course.assert_called_with(result)

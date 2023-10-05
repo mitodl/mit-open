@@ -105,7 +105,7 @@ const learningResource: Factory<LearningResource> = (
   const resourceType = overrides.resource_type ?? learningResourceType()
   const resource: LearningResource = {
     id: faker.unique(faker.datatype.number),
-    is_professional: faker.datatype.boolean(),
+    professional: faker.datatype.boolean(),
     certification: null,
     course: null,
     department: learningResourceDepartment(),

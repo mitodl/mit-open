@@ -505,7 +505,7 @@ export interface LearningPathResource {
    * @type {boolean}
    * @memberof LearningPathResource
    */
-  is_professional?: boolean
+  professional?: boolean
   /**
    *
    * @type {string}
@@ -591,7 +591,7 @@ export interface LearningPathResourceRequest {
    * @type {boolean}
    * @memberof LearningPathResourceRequest
    */
-  is_professional?: boolean
+  professional?: boolean
 }
 
 /**
@@ -755,7 +755,7 @@ export interface LearningResource {
    * @type {boolean}
    * @memberof LearningResource
    */
-  is_professional?: boolean
+  professional: boolean
   /**
    *
    * @type {string}
@@ -919,7 +919,7 @@ export interface LearningResourceBase {
    * @type {boolean}
    * @memberof LearningResourceBase
    */
-  is_professional?: boolean
+  professional: boolean
   /**
    *
    * @type {string}
@@ -1157,12 +1157,6 @@ export interface LearningResourceRequest {
    * @memberof LearningResourceRequest
    */
   resource_type: ResourceTypeEnum
-  /**
-   *
-   * @type {boolean}
-   * @memberof LearningResourceRequest
-   */
-  is_professional?: boolean
   /**
    *
    * @type {string}
@@ -1844,7 +1838,7 @@ export interface PatchedLearningPathResourceRequest {
    * @type {boolean}
    * @memberof PatchedLearningPathResourceRequest
    */
-  is_professional?: boolean
+  professional?: boolean
 }
 
 /**
@@ -2782,7 +2776,6 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -2790,13 +2783,12 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     coursesList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -2857,10 +2849,6 @@ export const CoursesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -2914,7 +2902,6 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -2922,13 +2909,12 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     coursesNewList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -2988,10 +2974,6 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -3094,7 +3076,6 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -3102,13 +3083,12 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     coursesUpcomingList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -3168,10 +3148,6 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -3302,7 +3278,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -3310,13 +3285,12 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async coursesList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -3365,7 +3339,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesList(
-        is_professional,
         limit,
         offered_by,
         offered_by__name,
@@ -3387,7 +3360,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -3395,13 +3367,12 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async coursesNewList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -3450,7 +3421,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesNewList(
-        is_professional,
         limit,
         offered_by,
         offered_by__name,
@@ -3499,7 +3469,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -3507,13 +3476,12 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async coursesUpcomingList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -3563,7 +3531,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.coursesUpcomingList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -3648,7 +3615,6 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .coursesList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -3675,7 +3641,6 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .coursesNewList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -3717,7 +3682,6 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .coursesUpcomingList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -3804,13 +3768,6 @@ export interface CoursesApiCoursesContentfilesRetrieveRequest {
  */
 export interface CoursesApiCoursesListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof CoursesApiCoursesList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof CoursesApiCoursesList
@@ -3886,7 +3843,7 @@ export interface CoursesApiCoursesListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof CoursesApiCoursesList
    */
@@ -3912,13 +3869,6 @@ export interface CoursesApiCoursesListRequest {
  */
 export interface CoursesApiCoursesNewListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof CoursesApiCoursesNewList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof CoursesApiCoursesNewList
@@ -3994,7 +3944,7 @@ export interface CoursesApiCoursesNewListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof CoursesApiCoursesNewList
    */
@@ -4034,13 +3984,6 @@ export interface CoursesApiCoursesRetrieveRequest {
  */
 export interface CoursesApiCoursesUpcomingListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof CoursesApiCoursesUpcomingList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof CoursesApiCoursesUpcomingList
@@ -4116,7 +4059,7 @@ export interface CoursesApiCoursesUpcomingListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof CoursesApiCoursesUpcomingList
    */
@@ -4199,7 +4142,6 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -4228,7 +4170,6 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesNewList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -4274,7 +4215,6 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesUpcomingList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -4555,7 +4495,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -4563,13 +4502,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -4630,10 +4568,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -4687,7 +4621,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -4695,13 +4628,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesNewList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -4761,10 +4693,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -4867,7 +4795,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -4875,13 +4802,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesUpcomingList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -4941,10 +4867,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -5142,7 +5064,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -5150,13 +5071,12 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -5206,7 +5126,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -5228,7 +5147,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -5236,13 +5154,12 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesNewList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -5292,7 +5209,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesNewList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -5339,7 +5255,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -5347,13 +5262,12 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesUpcomingList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -5403,7 +5317,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesUpcomingList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -5526,7 +5439,6 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -5553,7 +5465,6 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesNewList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -5595,7 +5506,6 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesUpcomingList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -5738,13 +5648,6 @@ export interface LearningResourcesApiLearningResourcesItemsRetrieveRequest {
  */
 export interface LearningResourcesApiLearningResourcesListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof LearningResourcesApiLearningResourcesList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesList
@@ -5820,7 +5723,7 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof LearningResourcesApiLearningResourcesList
    */
@@ -5846,13 +5749,6 @@ export interface LearningResourcesApiLearningResourcesListRequest {
  */
 export interface LearningResourcesApiLearningResourcesNewListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof LearningResourcesApiLearningResourcesNewList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesNewList
@@ -5928,7 +5824,7 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof LearningResourcesApiLearningResourcesNewList
    */
@@ -5968,13 +5864,6 @@ export interface LearningResourcesApiLearningResourcesRetrieveRequest {
  */
 export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof LearningResourcesApiLearningResourcesUpcomingList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
@@ -6050,7 +5939,7 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
    */
@@ -6175,7 +6064,6 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -6204,7 +6092,6 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesNewList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -6250,7 +6137,6 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesUpcomingList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -6379,7 +6265,6 @@ export const LearningpathsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -6387,13 +6272,12 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningpathsList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -6454,10 +6338,6 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -6511,7 +6391,6 @@ export const LearningpathsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -6519,13 +6398,12 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningpathsNewList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -6585,10 +6463,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -7108,7 +6982,6 @@ export const LearningpathsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -7116,13 +6989,12 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningpathsUpcomingList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -7182,10 +7054,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -7361,7 +7229,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -7369,13 +7236,12 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningpathsList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -7425,7 +7291,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -7447,7 +7312,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -7455,13 +7319,12 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningpathsNewList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -7511,7 +7374,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsNewList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -7777,7 +7639,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -7785,13 +7646,12 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningpathsUpcomingList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -7841,7 +7701,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsUpcomingList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -7948,7 +7807,6 @@ export const LearningpathsApiFactory = function (
     ): AxiosPromise<PaginatedLearningPathResourceList> {
       return localVarFp
         .learningpathsList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -7975,7 +7833,6 @@ export const LearningpathsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningpathsNewList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -8147,7 +8004,6 @@ export const LearningpathsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningpathsUpcomingList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -8217,13 +8073,6 @@ export interface LearningpathsApiLearningpathsDestroyRequest {
  */
 export interface LearningpathsApiLearningpathsListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof LearningpathsApiLearningpathsList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningpathsApiLearningpathsList
@@ -8299,7 +8148,7 @@ export interface LearningpathsApiLearningpathsListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof LearningpathsApiLearningpathsList
    */
@@ -8325,13 +8174,6 @@ export interface LearningpathsApiLearningpathsListRequest {
  */
 export interface LearningpathsApiLearningpathsNewListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof LearningpathsApiLearningpathsNewList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningpathsApiLearningpathsNewList
@@ -8407,7 +8249,7 @@ export interface LearningpathsApiLearningpathsNewListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof LearningpathsApiLearningpathsNewList
    */
@@ -8622,13 +8464,6 @@ export interface LearningpathsApiLearningpathsRetrieveRequest {
  */
 export interface LearningpathsApiLearningpathsUpcomingListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof LearningpathsApiLearningpathsUpcomingList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningpathsApiLearningpathsUpcomingList
@@ -8704,7 +8539,7 @@ export interface LearningpathsApiLearningpathsUpcomingListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof LearningpathsApiLearningpathsUpcomingList
    */
@@ -8800,7 +8635,6 @@ export class LearningpathsApi extends BaseAPI {
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -8829,7 +8663,6 @@ export class LearningpathsApi extends BaseAPI {
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsNewList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -9019,7 +8852,6 @@ export class LearningpathsApi extends BaseAPI {
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsUpcomingList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -9066,7 +8898,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -9074,13 +8905,12 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     podcastEpisodesList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -9141,10 +8971,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -9198,7 +9024,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -9206,13 +9031,12 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     podcastEpisodesNewList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -9272,10 +9096,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -9378,7 +9198,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -9386,13 +9205,12 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     podcastEpisodesUpcomingList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -9452,10 +9270,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -9521,7 +9335,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -9529,13 +9342,12 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async podcastEpisodesList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -9585,7 +9397,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.podcastEpisodesList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -9607,7 +9418,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -9615,13 +9425,12 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async podcastEpisodesNewList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -9671,7 +9480,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.podcastEpisodesNewList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -9718,7 +9526,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -9726,13 +9533,12 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async podcastEpisodesUpcomingList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -9782,7 +9588,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.podcastEpisodesUpcomingList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -9828,7 +9633,6 @@ export const PodcastEpisodesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .podcastEpisodesList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -9855,7 +9659,6 @@ export const PodcastEpisodesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .podcastEpisodesNewList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -9897,7 +9700,6 @@ export const PodcastEpisodesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .podcastEpisodesUpcomingList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -9920,13 +9722,6 @@ export const PodcastEpisodesApiFactory = function (
  * @interface PodcastEpisodesApiPodcastEpisodesListRequest
  */
 export interface PodcastEpisodesApiPodcastEpisodesListRequest {
-  /**
-   *
-   * @type {boolean}
-   * @memberof PodcastEpisodesApiPodcastEpisodesList
-   */
-  readonly is_professional?: boolean
-
   /**
    * Number of results to return per page.
    * @type {number}
@@ -10003,7 +9798,7 @@ export interface PodcastEpisodesApiPodcastEpisodesListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof PodcastEpisodesApiPodcastEpisodesList
    */
@@ -10029,13 +9824,6 @@ export interface PodcastEpisodesApiPodcastEpisodesListRequest {
  */
 export interface PodcastEpisodesApiPodcastEpisodesNewListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof PodcastEpisodesApiPodcastEpisodesNewList
@@ -10111,7 +9899,7 @@ export interface PodcastEpisodesApiPodcastEpisodesNewListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof PodcastEpisodesApiPodcastEpisodesNewList
    */
@@ -10151,13 +9939,6 @@ export interface PodcastEpisodesApiPodcastEpisodesRetrieveRequest {
  */
 export interface PodcastEpisodesApiPodcastEpisodesUpcomingListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
@@ -10233,7 +10014,7 @@ export interface PodcastEpisodesApiPodcastEpisodesUpcomingListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
    */
@@ -10273,7 +10054,6 @@ export class PodcastEpisodesApi extends BaseAPI {
   ) {
     return PodcastEpisodesApiFp(this.configuration)
       .podcastEpisodesList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -10302,7 +10082,6 @@ export class PodcastEpisodesApi extends BaseAPI {
   ) {
     return PodcastEpisodesApiFp(this.configuration)
       .podcastEpisodesNewList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -10348,7 +10127,6 @@ export class PodcastEpisodesApi extends BaseAPI {
   ) {
     return PodcastEpisodesApiFp(this.configuration)
       .podcastEpisodesUpcomingList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -10490,7 +10268,6 @@ export const PodcastsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -10498,13 +10275,12 @@ export const PodcastsApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     podcastsList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -10565,10 +10341,6 @@ export const PodcastsApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -10622,7 +10394,6 @@ export const PodcastsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -10630,13 +10401,12 @@ export const PodcastsApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     podcastsNewList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -10696,10 +10466,6 @@ export const PodcastsApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -10802,7 +10568,6 @@ export const PodcastsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -10810,13 +10575,12 @@ export const PodcastsApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     podcastsUpcomingList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -10876,10 +10640,6 @@ export const PodcastsApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -11010,7 +10770,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -11018,13 +10777,12 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async podcastsList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -11073,7 +10831,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.podcastsList(
-        is_professional,
         limit,
         offered_by,
         offered_by__name,
@@ -11095,7 +10852,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -11103,13 +10859,12 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async podcastsNewList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -11158,7 +10913,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.podcastsNewList(
-        is_professional,
         limit,
         offered_by,
         offered_by__name,
@@ -11205,7 +10959,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -11213,13 +10966,12 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async podcastsUpcomingList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -11269,7 +11021,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.podcastsUpcomingList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -11353,7 +11104,6 @@ export const PodcastsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .podcastsList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -11380,7 +11130,6 @@ export const PodcastsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .podcastsNewList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -11422,7 +11171,6 @@ export const PodcastsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .podcastsUpcomingList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -11502,13 +11250,6 @@ export interface PodcastsApiPodcastsItemsRetrieveRequest {
  */
 export interface PodcastsApiPodcastsListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof PodcastsApiPodcastsList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof PodcastsApiPodcastsList
@@ -11584,7 +11325,7 @@ export interface PodcastsApiPodcastsListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof PodcastsApiPodcastsList
    */
@@ -11610,13 +11351,6 @@ export interface PodcastsApiPodcastsListRequest {
  */
 export interface PodcastsApiPodcastsNewListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof PodcastsApiPodcastsNewList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof PodcastsApiPodcastsNewList
@@ -11692,7 +11426,7 @@ export interface PodcastsApiPodcastsNewListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof PodcastsApiPodcastsNewList
    */
@@ -11732,13 +11466,6 @@ export interface PodcastsApiPodcastsRetrieveRequest {
  */
 export interface PodcastsApiPodcastsUpcomingListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof PodcastsApiPodcastsUpcomingList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof PodcastsApiPodcastsUpcomingList
@@ -11814,7 +11541,7 @@ export interface PodcastsApiPodcastsUpcomingListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof PodcastsApiPodcastsUpcomingList
    */
@@ -11896,7 +11623,6 @@ export class PodcastsApi extends BaseAPI {
   ) {
     return PodcastsApiFp(this.configuration)
       .podcastsList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -11925,7 +11651,6 @@ export class PodcastsApi extends BaseAPI {
   ) {
     return PodcastsApiFp(this.configuration)
       .podcastsNewList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -11971,7 +11696,6 @@ export class PodcastsApi extends BaseAPI {
   ) {
     return PodcastsApiFp(this.configuration)
       .podcastsUpcomingList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -11998,7 +11722,6 @@ export const ProgramsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -12006,13 +11729,12 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     programsList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -12073,10 +11795,6 @@ export const ProgramsApiAxiosParamCreator = function (
 
       // authentication cookieAuth required
 
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -12130,7 +11848,6 @@ export const ProgramsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -12138,13 +11855,12 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     programsNewList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -12204,10 +11920,6 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -12310,7 +12022,6 @@ export const ProgramsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -12318,13 +12029,12 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     programsUpcomingList: async (
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -12384,10 +12094,6 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       // authentication cookieAuth required
-
-      if (is_professional !== undefined) {
-        localVarQueryParameter["is_professional"] = is_professional
-      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -12452,7 +12158,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -12460,13 +12165,12 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async programsList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -12515,7 +12219,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsList(
-        is_professional,
         limit,
         offered_by,
         offered_by__name,
@@ -12537,7 +12240,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released resources.
      * @summary List New
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -12545,13 +12247,12 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async programsNewList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -12600,7 +12301,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsNewList(
-        is_professional,
         limit,
         offered_by,
         offered_by__name,
@@ -12647,7 +12347,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming resources.
      * @summary List Upcoming
-     * @param {boolean} [is_professional]
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {string} [offered_by__name]
@@ -12655,13 +12354,12 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edx * &#x60;ocw&#x60; - ocw * &#x60;oll&#x60; - oll * &#x60;mitxonline&#x60; - mitxonline * &#x60;bootcamps&#x60; - bootcamps * &#x60;xpro&#x60; - xpro * &#x60;csail&#x60; - csail * &#x60;mitpe&#x60; - mitpe * &#x60;see&#x60; - see * &#x60;scc&#x60; - scc * &#x60;ctl&#x60; - ctl * &#x60;whu&#x60; - whu * &#x60;susskind&#x60; - susskind * &#x60;globalalumni&#x60; - globalalumni * &#x60;simplilearn&#x60; - simplilearn * &#x60;emeritus&#x60; - emeritus * &#x60;podcast&#x60; - podcast
      * @param {string} [platform__platform]
-     * @param {boolean} [professional] Professional Offering
+     * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning_path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast_episode
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async programsUpcomingList(
-      is_professional?: boolean,
       limit?: number,
       offered_by?:
         | "bootcamps"
@@ -12711,7 +12409,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.programsUpcomingList(
-          is_professional,
           limit,
           offered_by,
           offered_by__name,
@@ -12757,7 +12454,6 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .programsList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -12784,7 +12480,6 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .programsNewList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -12826,7 +12521,6 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .programsUpcomingList(
-          requestParameters.is_professional,
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offered_by__name,
@@ -12849,13 +12543,6 @@ export const ProgramsApiFactory = function (
  * @interface ProgramsApiProgramsListRequest
  */
 export interface ProgramsApiProgramsListRequest {
-  /**
-   *
-   * @type {boolean}
-   * @memberof ProgramsApiProgramsList
-   */
-  readonly is_professional?: boolean
-
   /**
    * Number of results to return per page.
    * @type {number}
@@ -12932,7 +12619,7 @@ export interface ProgramsApiProgramsListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof ProgramsApiProgramsList
    */
@@ -12958,13 +12645,6 @@ export interface ProgramsApiProgramsListRequest {
  */
 export interface ProgramsApiProgramsNewListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof ProgramsApiProgramsNewList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof ProgramsApiProgramsNewList
@@ -13040,7 +12720,7 @@ export interface ProgramsApiProgramsNewListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof ProgramsApiProgramsNewList
    */
@@ -13080,13 +12760,6 @@ export interface ProgramsApiProgramsRetrieveRequest {
  */
 export interface ProgramsApiProgramsUpcomingListRequest {
   /**
-   *
-   * @type {boolean}
-   * @memberof ProgramsApiProgramsUpcomingList
-   */
-  readonly is_professional?: boolean
-
-  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof ProgramsApiProgramsUpcomingList
@@ -13162,7 +12835,7 @@ export interface ProgramsApiProgramsUpcomingListRequest {
   readonly platform__platform?: string
 
   /**
-   * Professional Offering
+   *
    * @type {boolean}
    * @memberof ProgramsApiProgramsUpcomingList
    */
@@ -13202,7 +12875,6 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -13231,7 +12903,6 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsNewList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,
@@ -13277,7 +12948,6 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsUpcomingList(
-        requestParameters.is_professional,
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offered_by__name,

@@ -84,10 +84,6 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -186,7 +182,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -313,10 +308,6 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -415,7 +406,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -451,10 +441,6 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -553,7 +539,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -589,10 +574,6 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -691,7 +672,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -884,10 +864,6 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -986,7 +962,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -1022,10 +997,6 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -1124,7 +1095,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -1160,10 +1130,6 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -1262,7 +1228,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -1624,10 +1589,6 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -1726,7 +1687,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -1762,10 +1722,6 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -1864,7 +1820,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -1900,10 +1855,6 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -2002,7 +1953,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2061,10 +2011,6 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -2163,7 +2109,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2199,10 +2144,6 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -2301,7 +2242,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2337,10 +2277,6 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -2439,7 +2375,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2564,10 +2499,6 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -2666,7 +2597,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2702,10 +2632,6 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -2804,7 +2730,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -2840,10 +2765,6 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -2942,7 +2863,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -3001,10 +2921,6 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -3103,7 +3019,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -3139,10 +3054,6 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
-      - in: query
-        name: is_professional
-        schema:
-          type: boolean
       - name: limit
         required: false
         in: query
@@ -3241,7 +3152,6 @@ paths:
         name: professional
         schema:
           type: boolean
-        description: Professional Offering
       - in: query
         name: resource_type
         schema:
@@ -3980,7 +3890,7 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
-        is_professional:
+        professional:
           type: boolean
         platform:
           type: string
@@ -4055,7 +3965,7 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
-        is_professional:
+        professional:
           type: boolean
       required:
       - readable_id
@@ -4176,8 +4086,9 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
-        is_professional:
+        professional:
           type: boolean
+          readOnly: true
         platform:
           type: string
           nullable: true
@@ -4194,6 +4105,7 @@ components:
       - podcast
       - podcast_episode
       - prices
+      - professional
       - program
       - readable_id
       - resource_content_tags
@@ -4311,8 +4223,9 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
-        is_professional:
+        professional:
           type: boolean
+          readOnly: true
         platform:
           type: string
           nullable: true
@@ -4329,6 +4242,7 @@ components:
       - podcast
       - podcast_episode
       - prices
+      - professional
       - readable_id
       - resource_content_tags
       - resource_type
@@ -4490,8 +4404,6 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
-        is_professional:
-          type: boolean
         platform:
           type: string
           minLength: 1
@@ -4954,7 +4866,7 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
-        is_professional:
+        professional:
           type: boolean
     PatchedUserListRelationshipRequest:
       type: object

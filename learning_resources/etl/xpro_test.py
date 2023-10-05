@@ -86,7 +86,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
             "image": {"url": program_data["thumbnail_url"]},
             "description": program_data["description"],
             "offered_by": xpro.OFFERED_BY,
-            "is_professional": True,
+            "professional": True,
             "published": bool(program_data["current_price"]),
             "url": program_data["url"],
             "topics": [
@@ -127,7 +127,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                     "description": course_data["description"],
                     "url": course_data.get("url", None),
                     "offered_by": xpro.OFFERED_BY,
-                    "is_professional": True,
+                    "professional": True,
                     "published": any(
                         course_run.get("current_price", None)
                         for course_run in course_data["courseruns"]
@@ -180,7 +180,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
             "platform": PlatformType.xpro.value,
             "title": course_data["title"],
             "image": {"url": course_data["thumbnail_url"]},
-            "is_professional": True,
+            "professional": True,
             "description": course_data["description"],
             "url": course_data.get("url"),
             "offered_by": xpro.OFFERED_BY,

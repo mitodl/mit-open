@@ -218,7 +218,7 @@ class CourseFactory(DjangoModelFactory):
 
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
-        is_professional = factory.Trait(learning_resource__is_professional=True)
+        is_professional = factory.Trait(learning_resource__professional=True)
 
 
 class LearningResourceRunFactory(DjangoModelFactory):
@@ -390,7 +390,7 @@ class ProgramFactory(DjangoModelFactory):
 
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
-        is_professional = factory.Trait(learning_resource__is_professional=True)
+        is_professional = factory.Trait(learning_resource__professional=True)
 
 
 class LearningPathRelationshipFactory(DjangoModelFactory):

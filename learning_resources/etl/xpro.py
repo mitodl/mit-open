@@ -99,7 +99,7 @@ def _transform_learning_resource_course(course):
         "title": course["title"],
         "image": {"url": course["thumbnail_url"]},
         "offered_by": copy.deepcopy(OFFERED_BY),
-        "is_professional": True,
+        "professional": True,
         "description": course["description"],
         "url": course.get("url"),
         "published": any(
@@ -136,7 +136,7 @@ def transform_programs(programs):
             "image": {"url": program["thumbnail_url"]},
             "description": program["description"],
             "offered_by": copy.deepcopy(OFFERED_BY),
-            "is_professional": True,
+            "professional": True,
             "published": bool(
                 program["current_price"]
             ),  # a program is only considered published if it has a product/price

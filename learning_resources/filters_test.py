@@ -60,8 +60,8 @@ def test_learning_resource_filter_professional(is_professional):
         platform=PlatformType.xpro.value
     ).learning_resource
 
-    assert professional_course.is_professional is True
-    assert open_course.is_professional is False
+    assert professional_course.professional is True
+    assert open_course.professional is False
 
     query = LearningResourceFilter({"professional": is_professional}).qs
 

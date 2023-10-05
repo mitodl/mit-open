@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name="learningresource",
-            name="is_professional",
+            name="professional",
             field=models.BooleanField(default=False),
         ),
     ]
