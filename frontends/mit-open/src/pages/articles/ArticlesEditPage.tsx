@@ -10,7 +10,6 @@ import {
 } from "api/hooks/articles"
 import { useHistory, useParams } from "react-router"
 import Button from "@mui/material/Button"
-import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
 import * as Yup from "yup"
 import { useFormik } from "formik"
@@ -103,32 +102,26 @@ const ArticleForm = ({
           <FormHelperText error>{formik.errors.html}</FormHelperText>
         ) : null}
       </FormControl>
-      <Box
-        flexDirection={"row"}
-        justifyContent={"end"}
-        display="flex"
-        sx={{ marginTop: "0.5rem" }}
-      >
-        <Grid container>
-          <Grid item xs={6}>
-            <Button
-              variant="outlined"
-              disabled={!isReady}
-              onClick={toggleConfirmationOpen.on}
-            >
-              Delete
-            </Button>
-          </Grid>
-          <Grid item xs={6} className="form-submission-controls">
-            <Button variant="outlined" disabled={!isReady} onClick={onCancel}>
-              Cancel
-            </Button>
-            <Button variant="contained" disabled={!isReady} type="submit">
-              Save
-            </Button>
-          </Grid>
+
+      <Grid container className="form-footer">
+        <Grid item xs={6}>
+          <Button
+            variant="outlined"
+            disabled={!isReady}
+            onClick={toggleConfirmationOpen.on}
+          >
+            Delete
+          </Button>
         </Grid>
-      </Box>
+        <Grid item xs={6} className="form-submission-controls">
+          <Button variant="outlined" disabled={!isReady} onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button variant="contained" disabled={!isReady} type="submit">
+            Save
+          </Button>
+        </Grid>
+      </Grid>
       <BasicDialog
         open={confirmationOpen}
         onClose={toggleConfirmationOpen.off}
