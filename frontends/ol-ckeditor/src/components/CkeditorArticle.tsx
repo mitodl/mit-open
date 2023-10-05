@@ -53,7 +53,7 @@ const baseEditorConfig: EditorConfig = {
     ParagraphButtonUI,
     BlockEditorIcon,
   ],
-  blockToolbar: ["mediaEmbed", "imageUpload"],
+  // blockToolbar: ["mediaEmbed", "imageUpload"],
   toolbar: {
     items: [
       "heading",
