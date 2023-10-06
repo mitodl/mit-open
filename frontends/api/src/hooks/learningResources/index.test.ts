@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from "@testing-library/react"
 import { faker } from "@faker-js/faker/locale/en"
 
-import { setupReactQueryTest } from "./test-utils"
+import { setupReactQueryTest } from "../test-utils"
 import keyFactory, { invalidateResourceQueries } from "./keyFactory"
 import {
   useLearningResourcesDetail,

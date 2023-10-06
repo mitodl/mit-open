@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useEffect } from "react"
 import type { CkeditorMarkdownProps } from "./components/CkeditorMarkdown"
+import type { CkeditorArticleProps } from "./components/CkeditorArticle"
 /**
  * Replace the CkeditorMarkdown input with a textarea.
  *
@@ -16,6 +17,35 @@ const setupMockEditors = () => {
       <textarea onChange={(e) => onChange(e.target.value)} {...others} />
     ),
   }))
+  jest.mock("./components/CkeditorArticle", () => {
+    const MockCkeditorArticle = ({
+      onChange,
+      initialData,
+      onBlur,
+      onReady,
+    }: CkeditorArticleProps) => {
+      useEffect(() => {
+        if (onReady) {
+          onReady()
+        }
+      }, [onReady])
+      return (
+        <textarea
+          defaultValue={initialData}
+          onChange={(e) => {
+            if (onChange) {
+              onChange(e.target.value)
+            }
+          }}
+          onBlur={onBlur}
+        ></textarea>
+      )
+    }
+    return {
+      __esModule: true,
+      default: MockCkeditorArticle,
+    }
+  })
 }
 
 export { setupMockEditors }

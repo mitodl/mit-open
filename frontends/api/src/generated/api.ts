@@ -34,6 +34,50 @@ import type { RequestArgs } from "./base"
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from "./base"
 
 /**
+ * Serializer for LearningResourceInstructor model
+ * @export
+ * @interface Article
+ */
+export interface Article {
+  /**
+   *
+   * @type {string}
+   * @memberof Article
+   */
+  html: string
+  /**
+   *
+   * @type {number}
+   * @memberof Article
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof Article
+   */
+  title: string
+}
+/**
+ * Serializer for LearningResourceInstructor model
+ * @export
+ * @interface ArticleRequest
+ */
+export interface ArticleRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ArticleRequest
+   */
+  html: string
+  /**
+   *
+   * @type {string}
+   * @memberof ArticleRequest
+   */
+  title: string
+}
+/**
  * Serializer class for course run ContentFiles
  * @export
  * @interface ContentFile
@@ -1497,6 +1541,37 @@ export interface MicroUserListRelationship {
 /**
  *
  * @export
+ * @interface PaginatedArticleList
+ */
+export interface PaginatedArticleList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedArticleList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedArticleList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedArticleList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<Article>}
+   * @memberof PaginatedArticleList
+   */
+  results?: Array<Article>
+}
+/**
+ *
+ * @export
  * @interface PaginatedContentFileList
  */
 export interface PaginatedContentFileList {
@@ -1741,6 +1816,25 @@ export interface PaginatedUserListRelationshipList {
    * @memberof PaginatedUserListRelationshipList
    */
   results?: Array<UserListRelationship>
+}
+/**
+ * Serializer for LearningResourceInstructor model
+ * @export
+ * @interface PatchedArticleRequest
+ */
+export interface PatchedArticleRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedArticleRequest
+   */
+  html?: string
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedArticleRequest
+   */
+  title?: string
 }
 /**
  * Specialized serializer for a LearningPath relationship
@@ -2220,6 +2314,814 @@ export interface UserListRequest {
    * @memberof UserListRequest
    */
   privacy_level?: PrivacyLevelEnum
+}
+
+/**
+ * ArticlesApi - axios parameter creator
+ * @export
+ */
+export const ArticlesApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {ArticleRequest} ArticleRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesCreate: async (
+      ArticleRequest: ArticleRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'ArticleRequest' is not null or undefined
+      assertParamExists("articlesCreate", "ArticleRequest", ArticleRequest)
+      const localVarPath = `/api/v1/articles/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        ArticleRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {number} id A unique integer value identifying this article.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesDestroy: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("articlesDestroy", "id", id)
+      const localVarPath = `/api/v1/articles/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesList: async (
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/articles/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {number} id A unique integer value identifying this article.
+     * @param {PatchedArticleRequest} [PatchedArticleRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesPartialUpdate: async (
+      id: number,
+      PatchedArticleRequest?: PatchedArticleRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("articlesPartialUpdate", "id", id)
+      const localVarPath = `/api/v1/articles/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedArticleRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {number} id A unique integer value identifying this article.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesRetrieve: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("articlesRetrieve", "id", id)
+      const localVarPath = `/api/v1/articles/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {number} id A unique integer value identifying this article.
+     * @param {ArticleRequest} ArticleRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesUpdate: async (
+      id: number,
+      ArticleRequest: ArticleRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("articlesUpdate", "id", id)
+      // verify required parameter 'ArticleRequest' is not null or undefined
+      assertParamExists("articlesUpdate", "ArticleRequest", ArticleRequest)
+      const localVarPath = `/api/v1/articles/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        ArticleRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * ArticlesApi - functional programming interface
+ * @export
+ */
+export const ArticlesApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = ArticlesApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {ArticleRequest} ArticleRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async articlesCreate(
+      ArticleRequest: ArticleRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Article>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.articlesCreate(
+        ArticleRequest,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {number} id A unique integer value identifying this article.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async articlesDestroy(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.articlesDestroy(
+        id,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async articlesList(
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedArticleList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.articlesList(
+        limit,
+        offset,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {number} id A unique integer value identifying this article.
+     * @param {PatchedArticleRequest} [PatchedArticleRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async articlesPartialUpdate(
+      id: number,
+      PatchedArticleRequest?: PatchedArticleRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Article>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.articlesPartialUpdate(
+          id,
+          PatchedArticleRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {number} id A unique integer value identifying this article.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async articlesRetrieve(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Article>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.articlesRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {number} id A unique integer value identifying this article.
+     * @param {ArticleRequest} ArticleRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async articlesUpdate(
+      id: number,
+      ArticleRequest: ArticleRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Article>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.articlesUpdate(
+        id,
+        ArticleRequest,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * ArticlesApi - factory interface
+ * @export
+ */
+export const ArticlesApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = ArticlesApiFp(configuration)
+  return {
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {ArticlesApiArticlesCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesCreate(
+      requestParameters: ArticlesApiArticlesCreateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<Article> {
+      return localVarFp
+        .articlesCreate(requestParameters.ArticleRequest, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {ArticlesApiArticlesDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesDestroy(
+      requestParameters: ArticlesApiArticlesDestroyRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .articlesDestroy(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {ArticlesApiArticlesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesList(
+      requestParameters: ArticlesApiArticlesListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedArticleList> {
+      return localVarFp
+        .articlesList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {ArticlesApiArticlesPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesPartialUpdate(
+      requestParameters: ArticlesApiArticlesPartialUpdateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<Article> {
+      return localVarFp
+        .articlesPartialUpdate(
+          requestParameters.id,
+          requestParameters.PatchedArticleRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {ArticlesApiArticlesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesRetrieve(
+      requestParameters: ArticlesApiArticlesRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<Article> {
+      return localVarFp
+        .articlesRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for Article viewing and editing.
+     * @param {ArticlesApiArticlesUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    articlesUpdate(
+      requestParameters: ArticlesApiArticlesUpdateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<Article> {
+      return localVarFp
+        .articlesUpdate(
+          requestParameters.id,
+          requestParameters.ArticleRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for articlesCreate operation in ArticlesApi.
+ * @export
+ * @interface ArticlesApiArticlesCreateRequest
+ */
+export interface ArticlesApiArticlesCreateRequest {
+  /**
+   *
+   * @type {ArticleRequest}
+   * @memberof ArticlesApiArticlesCreate
+   */
+  readonly ArticleRequest: ArticleRequest
+}
+
+/**
+ * Request parameters for articlesDestroy operation in ArticlesApi.
+ * @export
+ * @interface ArticlesApiArticlesDestroyRequest
+ */
+export interface ArticlesApiArticlesDestroyRequest {
+  /**
+   * A unique integer value identifying this article.
+   * @type {number}
+   * @memberof ArticlesApiArticlesDestroy
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for articlesList operation in ArticlesApi.
+ * @export
+ * @interface ArticlesApiArticlesListRequest
+ */
+export interface ArticlesApiArticlesListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof ArticlesApiArticlesList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof ArticlesApiArticlesList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for articlesPartialUpdate operation in ArticlesApi.
+ * @export
+ * @interface ArticlesApiArticlesPartialUpdateRequest
+ */
+export interface ArticlesApiArticlesPartialUpdateRequest {
+  /**
+   * A unique integer value identifying this article.
+   * @type {number}
+   * @memberof ArticlesApiArticlesPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {PatchedArticleRequest}
+   * @memberof ArticlesApiArticlesPartialUpdate
+   */
+  readonly PatchedArticleRequest?: PatchedArticleRequest
+}
+
+/**
+ * Request parameters for articlesRetrieve operation in ArticlesApi.
+ * @export
+ * @interface ArticlesApiArticlesRetrieveRequest
+ */
+export interface ArticlesApiArticlesRetrieveRequest {
+  /**
+   * A unique integer value identifying this article.
+   * @type {number}
+   * @memberof ArticlesApiArticlesRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for articlesUpdate operation in ArticlesApi.
+ * @export
+ * @interface ArticlesApiArticlesUpdateRequest
+ */
+export interface ArticlesApiArticlesUpdateRequest {
+  /**
+   * A unique integer value identifying this article.
+   * @type {number}
+   * @memberof ArticlesApiArticlesUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {ArticleRequest}
+   * @memberof ArticlesApiArticlesUpdate
+   */
+  readonly ArticleRequest: ArticleRequest
+}
+
+/**
+ * ArticlesApi - object-oriented interface
+ * @export
+ * @class ArticlesApi
+ * @extends {BaseAPI}
+ */
+export class ArticlesApi extends BaseAPI {
+  /**
+   * Viewset for Article viewing and editing.
+   * @param {ArticlesApiArticlesCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ArticlesApi
+   */
+  public articlesCreate(
+    requestParameters: ArticlesApiArticlesCreateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return ArticlesApiFp(this.configuration)
+      .articlesCreate(requestParameters.ArticleRequest, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for Article viewing and editing.
+   * @param {ArticlesApiArticlesDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ArticlesApi
+   */
+  public articlesDestroy(
+    requestParameters: ArticlesApiArticlesDestroyRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return ArticlesApiFp(this.configuration)
+      .articlesDestroy(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for Article viewing and editing.
+   * @param {ArticlesApiArticlesListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ArticlesApi
+   */
+  public articlesList(
+    requestParameters: ArticlesApiArticlesListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return ArticlesApiFp(this.configuration)
+      .articlesList(requestParameters.limit, requestParameters.offset, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for Article viewing and editing.
+   * @param {ArticlesApiArticlesPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ArticlesApi
+   */
+  public articlesPartialUpdate(
+    requestParameters: ArticlesApiArticlesPartialUpdateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return ArticlesApiFp(this.configuration)
+      .articlesPartialUpdate(
+        requestParameters.id,
+        requestParameters.PatchedArticleRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for Article viewing and editing.
+   * @param {ArticlesApiArticlesRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ArticlesApi
+   */
+  public articlesRetrieve(
+    requestParameters: ArticlesApiArticlesRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return ArticlesApiFp(this.configuration)
+      .articlesRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for Article viewing and editing.
+   * @param {ArticlesApiArticlesUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ArticlesApi
+   */
+  public articlesUpdate(
+    requestParameters: ArticlesApiArticlesUpdateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return ArticlesApiFp(this.configuration)
+      .articlesUpdate(
+        requestParameters.id,
+        requestParameters.ArticleRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
 }
 
 /**

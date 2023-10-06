@@ -17,7 +17,7 @@ describe("CkeditorArticle", () => {
   it("should load embedlyPlatform exactly once when rendered multiple times", () => {
     render(
       <CkeditorArticle
-        value="Hello world"
+        initialData="Hello world"
         onChange={jest.fn()}
         config={{ cloudServices: undefined }}
       />,
@@ -30,7 +30,7 @@ describe("CkeditorArticle", () => {
       <CkeditorArticle
         className="test-class-a test-class-b"
         id={"test-id"}
-        value="Hello world"
+        initialData="Hello world"
         onChange={jest.fn()}
         config={{ cloudServices: undefined }}
       />,

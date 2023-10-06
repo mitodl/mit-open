@@ -30,6 +30,7 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
             and (is_admin_user(request) or is_staff_list_editor(request)),
             "is_learning_path_editor": user.is_authenticated
             and (is_admin_user(request) or is_learning_path_editor(request)),
+            "is_article_editor": is_admin_user(request),
         },
         "ckeditor_upload_url": settings.CKEDITOR_UPLOAD_URL,
         "environment": settings.ENVIRONMENT,

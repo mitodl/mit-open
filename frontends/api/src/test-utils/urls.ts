@@ -9,6 +9,7 @@ import type {
   LearningResourcesApi as LRApi,
   TopicsApi,
   LearningpathsApi,
+  ArticlesApi,
 } from "../generated"
 import type { BaseAPI } from "../generated/base"
 
@@ -52,4 +53,10 @@ const learningPaths = {
     `/api/v1/learningpaths/${params.id}/`,
 }
 
-export { learningResources, topics, learningPaths }
+const articles = {
+  list: (params?: Params<ArticlesApi, "articlesList">) =>
+    `/api/v1/articles/${query(params)}`,
+  details: (id: number) => `/api/v1/articles/${id}/`,
+}
+
+export { learningResources, topics, learningPaths, articles }

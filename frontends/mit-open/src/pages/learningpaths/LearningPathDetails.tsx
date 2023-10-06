@@ -48,7 +48,7 @@ const LearningPathDetailsPage: React.FC = () => {
       <MetaTags>
         <title>{pathQuery.data?.title}</title>
       </MetaTags>
-      <Container maxWidth="sm" className="userlist-page">
+      <Container maxWidth="sm">
         <GridContainer>
           <GridColumn variant="single-full">
             {pathQuery.data && (

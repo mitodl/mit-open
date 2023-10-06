@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react"
+import React, { useMemo, useEffect, useState, useCallback } from "react"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
 
 import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic"
@@ -26,8 +26,7 @@ import { CloudServices } from "@ckeditor/ckeditor5-cloud-services"
 // block toolbar setup
 import { BlockToolbar } from "@ckeditor/ckeditor5-ui"
 import { ParagraphButtonUI } from "@ckeditor/ckeditor5-paragraph"
-import getCloudServicesConfig from "./cloudServices"
-import { ensureEmbedlyPlatform, embedlyCardHtml } from "ol-util"
+import { ensureEmbedlyPlatform } from "ol-util"
 import BlockEditorIcon from "./BlockEditorIcon"
 import { icons } from "@ckeditor/ckeditor5-core"
 
@@ -54,7 +53,7 @@ const baseEditorConfig: EditorConfig = {
     ParagraphButtonUI,
     BlockEditorIcon,
   ],
-  blockToolbar: ["mediaEmbed", "imageUpload"],
+  // blockToolbar: ["mediaEmbed", "imageUpload"],
   toolbar: {
     items: [
       "heading",
@@ -75,29 +74,30 @@ const baseEditorConfig: EditorConfig = {
       "imageTextAlternative",
     ],
   },
-  cloudServices: getCloudServicesConfig(),
-  mediaEmbed: {
-    previewsInData: true,
-    providers: [
-      {
-        name: "embedly",
-        url: /.+/,
-        html: (match) => {
-          const url = match[0]
+  // cloudServices: getCloudServicesConfig(),
+  // mediaEmbed: {
+  //   previewsInData: true,
+  //   providers: [
+  //     {
+  //       name: "embedly",
+  //       url: /.+/,
+  //       html: (match) => {
+  //         const url = match[0]
 
-          return embedlyCardHtml(url)
-        },
-      },
-    ],
-  },
+  //         return embedlyCardHtml(url)
+  //       },
+  //     },
+  //   ],
+  // },
   blockEditorIcon: {
     icon: icons.plus,
   },
 }
 
 type CkeditorArticleProps = {
-  value: string
-  onChange: (value: string) => void
+  initialData?: string
+  onReady?: () => void
+  onChange?: (value: string) => void
   onBlur?: () => void
   id?: string
   className?: string
@@ -105,13 +105,15 @@ type CkeditorArticleProps = {
 }
 
 const CkeditorArticle: React.FC<CkeditorArticleProps> = ({
-  value,
+  initialData,
+  onReady,
   onChange,
   onBlur,
   id,
   className,
   config,
 }) => {
+  const [editor, setEditor] = useState<ClassicEditor | null>(null)
   const fullConfig = useMemo(() => {
     return {
       ...baseEditorConfig,
@@ -123,16 +125,29 @@ const CkeditorArticle: React.FC<CkeditorArticleProps> = ({
     ensureEmbedlyPlatform()
   }, [])
 
+  useEffect(() => {
+    if (editor && initialData !== undefined) {
+      editor.setData(initialData)
+    }
+  }, [initialData, editor])
+
+  const handleChange = useCallback(
+    (_event: unknown, editor: ClassicEditor) => {
+      onChange?.(editor.getData())
+    },
+    [onChange],
+  )
+
   return (
     <div id={id} className={className}>
       <CKEditor
         editor={ClassicEditor}
-        data={value}
         config={fullConfig}
-        onChange={(_event, editor) => {
-          const data = editor.getData()
-          onChange(data)
+        onReady={(editor) => {
+          setEditor(editor)
+          onReady?.()
         }}
+        onChange={handleChange}
         onBlur={onBlur}
       />
     </div>

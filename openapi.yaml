@@ -4,6 +4,164 @@ info:
   version: 0.0.1
   description: Open Discussions public API
 paths:
+  /api/v1/articles/:
+    get:
+      operationId: articles_list
+      description: Viewset for Article viewing and editing.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - articles
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedArticleList'
+          description: ''
+    post:
+      operationId: articles_create
+      description: Viewset for Article viewing and editing.
+      tags:
+      - articles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ArticleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ArticleRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+          description: ''
+  /api/v1/articles/{id}/:
+    get:
+      operationId: articles_retrieve
+      description: Viewset for Article viewing and editing.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this article.
+        required: true
+      tags:
+      - articles
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+          description: ''
+    put:
+      operationId: articles_update
+      description: Viewset for Article viewing and editing.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this article.
+        required: true
+      tags:
+      - articles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ArticleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ArticleRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+          description: ''
+    patch:
+      operationId: articles_partial_update
+      description: Viewset for Article viewing and editing.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this article.
+        required: true
+      tags:
+      - articles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedArticleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedArticleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedArticleRequest'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+          description: ''
+    delete:
+      operationId: articles_destroy
+      description: Viewset for Article viewing and editing.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this article.
+        required: true
+      tags:
+      - articles
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/contentfiles/:
     get:
       operationId: contentfiles_list
@@ -3580,6 +3738,35 @@ paths:
           description: No response body
 components:
   schemas:
+    Article:
+      type: object
+      description: Serializer for LearningResourceInstructor model
+      properties:
+        html:
+          type: string
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+      required:
+      - html
+      - id
+      - title
+    ArticleRequest:
+      type: object
+      description: Serializer for LearningResourceInstructor model
+      properties:
+        html:
+          type: string
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+      required:
+      - html
+      - title
     ContentFile:
       type: object
       description: Serializer class for course run ContentFiles
@@ -4651,6 +4838,26 @@ components:
       - child
       - id
       - parent
+    PaginatedArticleList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
     PaginatedContentFileList:
       type: object
       properties:
@@ -4811,6 +5018,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UserListRelationship'
+    PatchedArticleRequest:
+      type: object
+      description: Serializer for LearningResourceInstructor model
+      properties:
+        html:
+          type: string
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
     PatchedLearningPathRelationshipRequest:
       type: object
       description: Specialized serializer for a LearningPath relationship

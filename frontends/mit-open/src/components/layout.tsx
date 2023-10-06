@@ -15,7 +15,7 @@ type ColumnVariant =
   | "sidebar-2-wide-main"
 type GridItemProps = Omit<
   GridProps,
-  "item" | "container" | "xs" | "sm" | "md" | "lg" | "xl"
+  "item" | "xs" | "sm" | "md" | "lg" | "xl"
 > & { variant: ColumnVariant; component?: React.ElementType }
 
 const columnVariants: Record<ColumnVariant, GridProps> = {

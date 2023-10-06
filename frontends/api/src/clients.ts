@@ -2,6 +2,7 @@ import {
   LearningResourcesApi,
   LearningpathsApi,
   TopicsApi,
+  ArticlesApi,
 } from "./generated/api"
 import axiosInstance from "./axios"
 
@@ -20,4 +21,6 @@ const learningpathsApi = new LearningpathsApi(
 
 const topicsApi = new TopicsApi(undefined, BASE_PATH, axiosInstance)
 
-export { learningResourcesApi, learningpathsApi, topicsApi }
+const articlesApi = new ArticlesApi(undefined, BASE_PATH, axiosInstance)
+
+export { learningResourcesApi, learningpathsApi, topicsApi, articlesApi }
