@@ -26,9 +26,8 @@ import { CloudServices } from "@ckeditor/ckeditor5-cloud-services"
 // block toolbar setup
 import { BlockToolbar } from "@ckeditor/ckeditor5-ui"
 import { ParagraphButtonUI } from "@ckeditor/ckeditor5-paragraph"
-import { ensureEmbedlyPlatform } from "ol-util"
-import BlockEditorIcon from "./BlockEditorIcon"
-import { icons } from "@ckeditor/ckeditor5-core"
+// import { ensureEmbedlyPlatform, embedlyCardHtml } from "ol-util"
+import cloudServicesConfig from "./cloudServices"
 
 const baseEditorConfig: EditorConfig = {
   plugins: [
@@ -51,9 +50,12 @@ const baseEditorConfig: EditorConfig = {
     ImageToolbar,
     ImageUpload,
     ParagraphButtonUI,
-    BlockEditorIcon,
   ],
-  // blockToolbar: ["mediaEmbed", "imageUpload"],
+  blockToolbar: {
+    items: ["imageUpload"],
+    // @ts-expect-error See https://github.com/ckeditor/ckeditor5/issues/15151
+    icon: "plus",
+  },
   toolbar: {
     items: [
       "heading",
@@ -74,7 +76,7 @@ const baseEditorConfig: EditorConfig = {
       "imageTextAlternative",
     ],
   },
-  // cloudServices: getCloudServicesConfig(),
+  cloudServices: cloudServicesConfig(),
   // mediaEmbed: {
   //   previewsInData: true,
   //   providers: [
@@ -89,9 +91,6 @@ const baseEditorConfig: EditorConfig = {
   //     },
   //   ],
   // },
-  blockEditorIcon: {
-    icon: icons.plus,
-  },
 }
 
 type CkeditorArticleProps = {
@@ -121,9 +120,9 @@ const CkeditorArticle: React.FC<CkeditorArticleProps> = ({
     }
   }, [config])
 
-  useEffect(() => {
-    ensureEmbedlyPlatform()
-  }, [])
+  // useEffect(() => {
+  //   ensureEmbedlyPlatform()
+  // }, [])
 
   useEffect(() => {
     if (editor && initialData !== undefined) {
