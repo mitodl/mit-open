@@ -1,16 +1,19 @@
 """Views for learning_resources"""
 import logging
+from hmac import compare_digest
 from uuid import uuid4
 
+import rapidjson
 from django.conf import settings
 from django.db import transaction
 from django.db.models import Count, F, Q, QuerySet
 from django.http import HttpResponse
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework import viewsets
+from rest_framework import views, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import get_object_or_404
@@ -19,14 +22,21 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
+from authentication.decorators import blocked_ip_exempt
 from learning_resources import permissions
-from learning_resources.constants import LearningResourceType, PrivacyLevel
+from learning_resources.constants import (
+    LearningResourceType,
+    PlatformType,
+    PrivacyLevel,
+)
 from learning_resources.etl.podcast import generate_aggregate_podcast_rss
+from learning_resources.exceptions import WebhookException
 from learning_resources.filters import LearningResourceFilter
 from learning_resources.models import (
     ContentFile,
     LearningResource,
     LearningResourceRelationship,
+    LearningResourceRun,
     LearningResourceTopic,
     UserList,
     UserListRelationship,
@@ -46,6 +56,8 @@ from learning_resources.serializers import (
     UserListRelationshipSerializer,
     UserListSerializer,
 )
+from learning_resources.tasks import get_ocw_courses
+from learning_resources_search.search_index_helpers import deindex_course
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
@@ -120,6 +132,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         prefetches = [
             "topics",
             "offered_by",
+            "departments",
             "resource_content_tags",
             "runs",
             "runs__instructors",
@@ -131,7 +144,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
             "children__child__course",
             "children__child__program",
             "children__child__learning_path",
-            "children__child__department",
+            "children__child__departments",
             "children__child__platform",
             "children__child__topics",
             "children__child__image",
@@ -141,7 +154,6 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
 
         lr_query = lr_query.select_related(
             "image",
-            "department",
             "platform",
             *([item.value for item in LearningResourceType]),
         )
@@ -477,3 +489,54 @@ def podcast_rss_feed(request):  # noqa: ARG001
     return HttpResponse(
         rss.prettify(), content_type="application/rss+xml; charset=utf-8"
     )
+
+
+@method_decorator(blocked_ip_exempt, name="dispatch")
+class WebhookOCWNextView(views.APIView):
+    """
+    Handle webhooks coming from the OCW Next bucket
+    """
+
+    permission_classes = ()
+    authentication_classes = ()
+
+    def handle_exception(self, exc):
+        """
+        Raise any exception with request info instead of returning response
+        with error status/message
+        """
+        msg = (
+            f"Error ({exc}). BODY: {self.request.body or ''}, META: {self.request.META}"
+        )
+        raise WebhookException(msg) from exc
+
+    def post(self, request):
+        """Process webhook request"""
+        content = rapidjson.loads(request.body.decode())
+
+        if not compare_digest(content.get("webhook_key", ""), settings.OCW_WEBHOOK_KEY):
+            msg = "Incorrect webhook key"
+            raise WebhookException(msg)
+
+        version = content.get("version")
+        prefix = content.get("prefix")
+        site_uid = content.get("site_uid")
+        unpublished = content.get("unpublished", False)
+
+        if version == "live":
+            if prefix is not None:
+                # Index the course
+                get_ocw_courses.delay(url_paths=[prefix], force_overwrite=False)
+            elif site_uid is not None and unpublished is True:
+                # Remove the course from the search index
+                run = LearningResourceRun.objects.filter(
+                    run_id=site_uid,
+                    learning_resource__platform__platform=PlatformType.ocw.value,
+                ).first()
+                if run:
+                    resource = run.learning_resource
+                    resource.published = False
+                    resource.save()
+                    deindex_course(resource)
+
+        return Response({})

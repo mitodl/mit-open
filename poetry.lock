@@ -3139,6 +3139,19 @@ urllib3 = ">=1.25.10"
 tests = ["coverage (>=3.7.1,<6.0.0)", "flake8", "mypy", "pytest (>=4.6)", "pytest (>=4.6,<5.0)", "pytest-cov", "pytest-localserver", "types-mock", "types-requests", "types-six"]
 
 [[package]]
+name = "retry2"
+version = "0.9.5"
+description = "Easy to use retry decorator."
+optional = false
+python-versions = ">=2.6"
+files = [
+    {file = "retry2-0.9.5-py2.py3-none-any.whl", hash = "sha256:f7fee13b1e15d0611c462910a6aa72a8919823988dd0412152bc3719c89a4e55"},
+]
+
+[package.dependencies]
+decorator = ">=3.4.2"
+
+[[package]]
 name = "rpds-py"
 version = "0.8.10"
 description = "Python bindings to Rust's persistent data structures (rpds)"
@@ -3964,4 +3977,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.4"
-content-hash = "48cee5521714849565c585558cecf999be4c67bd7c8cf7dfb5ebdc7e8ae3c666"
+content-hash = "7e161efbf6ace9a1d5ee7f2fdcdc583296a959d94dca61f9ae5ca532c667b5af"

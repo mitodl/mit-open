@@ -1,7 +1,9 @@
-"""Course Catalog Filters for API"""
+"""Filters for learning_resources API"""
+
 from django_filters import ChoiceFilter, FilterSet
 
 from learning_resources.constants import (
+    DEPARTMENTS,
     LearningResourceType,
     OfferedBy,
     PlatformType,
@@ -11,6 +13,13 @@ from learning_resources.models import LearningResource
 
 class LearningResourceFilter(FilterSet):
     """LearningResource filter"""
+
+    department = ChoiceFilter(
+        label="Department ID",
+        method="filter_department",
+        field_name="departments__department_id",
+        choices=([(key, value) for (key, value) in DEPARTMENTS.items()]),
+    )
 
     resource_type = ChoiceFilter(
         label="Resource Type",
@@ -49,11 +58,10 @@ class LearningResourceFilter(FilterSet):
         """Platform Filter for learning resources"""
         return queryset.filter(platform__platform=value)
 
+    def filter_department(self, queryset, _, value):
+        """Department ID Filter for learning resources"""
+        return queryset.filter(departments__department_id=value)
+
     class Meta:
         model = LearningResource
-        fields = [
-            "professional",
-            "offered_by__name",
-            "platform__platform",
-            "resource_type",
-        ]
+        fields = ["professional"]

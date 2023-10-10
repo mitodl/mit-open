@@ -419,57 +419,6 @@ class OCWSerializer(CourseSerializer):
         return super().to_internal_value(course_fields)
 
 
-class OCWNextSerializer(CourseSerializer):
-    """
-    Serializer for creating Course objects from ocw next data
-    """
-
-    def to_internal_value(self, data):
-        """
-        Custom function to parse data out of the raw ocw json
-        """  # noqa: D401
-
-        topics = [
-            topic for topic_sublist in data.get("topics", []) for topic in topic_sublist
-        ]
-
-        topics = list(set(topics))
-
-        topics = [{"name": topic_name} for topic_name in topics]
-
-        extra_course_numbers = data.get("extra_course_numbers", None)
-
-        if extra_course_numbers:
-            extra_course_numbers = extra_course_numbers.split(", ")
-        else:
-            extra_course_numbers = []
-
-        if data.get("primary_course_number"):
-            course_id = f"{data.get('uid')}+{data.get('primary_course_number')}"
-        else:
-            course_id = None
-
-        course_fields = {
-            "course_id": course_id,
-            "title": data.get("course_title"),
-            "short_description": data.get("course_description"),
-            "image_src": data.get("image_src"),
-            "image_description": data.get("course_image_metadata", {}).get(
-                "description"
-            ),
-            "last_modified": data.get("last_modified"),
-            "published": True,
-            "ocw_next_course": True,
-            "course_feature_tags": data.get("learning_resource_types", []),
-            "platform": PlatformType.ocw.value,
-            "department": data.get("department_numbers", []),
-            "extra_course_numbers": extra_course_numbers,
-        }
-
-        self.topics = topics
-        return super().to_internal_value(course_fields)
-
-
 class ListItemListSerializer(serializers.ListSerializer):
     """
     This class exists to handle the limitation that prefetch_related

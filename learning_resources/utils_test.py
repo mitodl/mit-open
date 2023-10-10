@@ -7,9 +7,14 @@ from datetime import datetime
 import pytest
 import pytz
 
-from learning_resources.constants import PlatformType
+from learning_resources.constants import (
+    CONTENT_TYPE_FILE,
+    CONTENT_TYPE_PDF,
+    CONTENT_TYPE_VIDEO,
+)
+from learning_resources.etl.utils import get_content_type
 from learning_resources.utils import (
-    get_course_url,
+    get_ocw_topics,
     load_course_blocklist,
     load_course_duplicates,
     parse_instructors,
@@ -28,82 +33,20 @@ def fixture_test_instructors_data():
 
 
 @pytest.mark.parametrize(
-    ("course_id", "course_json", "platform", "expected"),
-    [
-        [  # noqa: PT007
-            "MITX-01",
-            {"course_runs": [{"marketing_url": "https://www.edx.org/course/someurl"}]},
-            PlatformType.mitxonline.value,
-            "https://www.edx.org/course/someurl",
-        ],
-        [  # noqa: PT007
-            "MITX-01",
-            {"course_runs": [{"marketing_url": "https://www.edx.org/"}]},
-            PlatformType.mitxonline.value,
-            "https://courses.edx.org/courses/MITX-01/course/",
-        ],
-        [  # noqa: PT007
-            "MITX-01",
-            {"course_runs": [{"marketing_url": ""}]},
-            PlatformType.mitxonline.value,
-            "https://courses.edx.org/courses/MITX-01/course/",
-        ],
-        [  # noqa: PT007
-            "MITX-01",
-            {"course_runs": [{}]},
-            PlatformType.mitxonline.value,
-            "https://courses.edx.org/courses/MITX-01/course/",
-        ],
-        [  # noqa: PT007
-            "MITX-01",
-            {},
-            PlatformType.mitxonline.value,
-            "https://courses.edx.org/courses/MITX-01/course/",
-        ],
-        [  # noqa: PT007
-            "e9387c256bae4ca99cce88fd8b7f8272",
-            {"url": "/someurl"},
-            PlatformType.ocw.value,
-            "http://ocw.mit.edu/someurl",
-        ],
-        [  # noqa: PT007
-            "e9387c256bae4ca99cce88fd8b7f8272",
-            {"url": ""},
-            PlatformType.ocw.value,
-            None,
-        ],
-        [  # noqa: PT007
-            "e9387c256bae4ca99cce88fd8b7f8272",
-            {},
-            PlatformType.ocw.value,
-            None,
-        ],
-    ],
-)
-def test_get_course_url(course_id, course_json, platform, expected):
-    """Test that url's are calculated as expected"""
-    actual_url = get_course_url(course_id, course_json, platform)
-    if expected is None:
-        assert actual_url is expected
-    else:
-        assert actual_url == expected
-
-
-@pytest.mark.parametrize(
     ("semester", "year", "ending", "expected"),
     [
-        ["spring", 2020, True, "2020-05-31"],  # noqa: PT007
-        ["spring", 2020, False, "2020-01-01"],  # noqa: PT007
-        ["fall", 2020, True, "2020-12-31"],  # noqa: PT007
-        ["fall", 2020, False, "2020-09-01"],  # noqa: PT007
-        ["summer", 2021, True, "2021-08-30"],  # noqa: PT007
-        ["summer", 2021, False, "2021-06-01"],  # noqa: PT007
-        ["spring", None, False, None],  # noqa: PT007
-        [None, 2020, False, None],  # noqa: PT007
-        ["something", 2020, False, None],  # noqa: PT007
-        ["something", 2020, True, None],  # noqa: PT007
-        ["January IAP", 2018, False, "2018-01-01"],  # noqa: PT007
-        ["January IAP", 2018, True, "2018-01-31"],  # noqa: PT007
+        ("spring", 2020, True, "2020-05-31"),
+        ("spring", 2020, False, "2020-01-01"),
+        ("fall", 2020, True, "2020-12-31"),
+        ("fall", 2020, False, "2020-09-01"),
+        ("summer", 2021, True, "2021-08-30"),
+        ("summer", 2021, False, "2021-06-01"),
+        ("spring", None, False, None),
+        (None, 2020, False, None),
+        ("something", 2020, False, None),
+        ("something", 2020, True, None),
+        ("January IAP", 2018, False, "2018-01-01"),
+        ("January IAP", 2018, True, "2018-01-31"),
     ],
 )
 def test_semester_year_to_date(semester, year, ending, expected):
@@ -189,3 +132,43 @@ def test_parse_instructors(test_instructors_data):
         assert parsed_instructor.get("first_name") == instructor["result"]["first_name"]
         assert parsed_instructor.get("last_name") == instructor["result"]["last_name"]
         assert parsed_instructor.get("full_name") == instructor["result"]["full_name"]
+
+
+def test_get_ocw_topics():
+    """get_ocw_topics should return the expected list of topics"""
+    collection = [
+        {
+            "ocw_feature": "Engineering",
+            "ocw_subfeature": "Mechanical Engineering",
+            "ocw_speciality": "Dynamics and Control",
+        },
+        {
+            "ocw_feature": "Engineering",
+            "ocw_subfeature": "Electrical Engineering",
+            "ocw_speciality": "Signal Processing",
+        },
+    ]
+
+    assert sorted(get_ocw_topics(collection)) == [
+        "Dynamics and Control",
+        "Electrical Engineering",
+        "Engineering",
+        "Mechanical Engineering",
+        "Signal Processing",
+    ]
+
+
+@pytest.mark.parametrize(
+    ("file_type", "output"),
+    [
+        ("video/mp4", CONTENT_TYPE_VIDEO),
+        ("application/pdf", CONTENT_TYPE_PDF),
+        ("application/zip", CONTENT_TYPE_FILE),
+        (None, CONTENT_TYPE_FILE),
+    ],
+)
+def test_get_content_type(file_type, output):
+    """
+    get_content_type should return expected value
+    """
+    assert get_content_type(file_type) == output

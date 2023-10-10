@@ -45,29 +45,6 @@ def program_image_upload_uri(instance, filename):
     return generate_filepath(filename, instance.title, "", "program")
 
 
-def get_ocw_topics(topics_collection):
-    """
-    Extracts OCW topics and subtopics and returns a unique list of them
-
-    Args:
-        topics_collection (dict): The JSON object representing the topic
-
-    Returns:
-        list of str: list of topics
-    """  # noqa: D401
-    topics = []
-
-    for topic_object in topics_collection:
-        if topic_object["ocw_feature"]:
-            topics.append(topic_object["ocw_feature"])
-        if topic_object["ocw_subfeature"]:
-            topics.append(topic_object["ocw_subfeature"])
-        if topic_object["ocw_speciality"]:
-            topics.append(topic_object["ocw_speciality"])
-
-    return list(set(topics))
-
-
 def get_year_and_semester(course_run):
     """
     Parse year and semester out of course run key. If course run key cannot be parsed attempt to get year from start.
@@ -129,28 +106,6 @@ def get_course_url(course_id, course_json, platform):
                 return preferred_urls[0].split("?")[0]
         return f"{settings.MITX_ALT_URL}{course_id}/course/"
     return None
-
-
-def get_ocw_department_list(course_json):
-    """
-    Get list of OCW department numbers
-    Args:
-        course_json (dict): The raw json for the course
-    Returns:
-        List of string department identifiers
-
-    """
-    departments = [course_json.get("department_number")]
-
-    for extra_course_number_json in course_json.get("extra_course_number") or []:
-        if extra_course_number_json:
-            department_number = extra_course_number_json.get(
-                "linked_course_number_col"
-            ).split(".")[0]
-            if department_number not in departments:
-                departments.append(department_number)
-
-    return departments
 
 
 def semester_year_to_date(semester, year, ending=False):  # noqa: FBT002

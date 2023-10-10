@@ -4,7 +4,6 @@ Test course_catalog serializers
 import pytest
 
 from course_catalog import factories
-from course_catalog.api_test import ocw_next_valid_data  # noqa: F401
 from course_catalog.constants import (
     OCW_DEPARTMENTS,
     OfferedBy,
@@ -36,7 +35,6 @@ from course_catalog.serializers import (
     LearningResourceRunSerializer,
     MicroStaffListItemSerializer,
     MicroUserListItemSerializer,
-    OCWNextSerializer,
     PodcastEpisodeSerializer,
     PodcastSerializer,
     ProgramSerializer,
@@ -448,44 +446,4 @@ def test_podcast_episode_serializer():
         "duration": None,
         "audience": ["Open Content"],
         "certification": [],
-    }
-
-
-def test_ocw_next_serializer(
-    ocw_next_valid_data,  # noqa: F811
-):  # pylint:disable=redefined-outer-name
-    """OCWNextSerializer should generate a course with the correct data"""
-    ocw_next_valid_data["uid"] = "97db384ef34009a64df7cb86cf701970"
-    ocw_next_valid_data[
-        "course_prefix"
-    ] = "courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/"
-    ocw_serializer = OCWNextSerializer(data=ocw_next_valid_data, instance=None)
-    assert ocw_serializer.is_valid()
-    assert ocw_serializer.data == {
-        "course_feature_tags": [
-            "Lecture Videos",
-            "Course Introduction",
-            "Competition Videos",
-            "Problem Sets with Solutions",
-            "Exams with Solutions",
-        ],
-        "course_id": "97db384ef34009a64df7cb86cf701970+16.01",
-        "department": ["16"],
-        "extra_course_numbers": ["16.02", "16.03", "16.04", "17.01"],
-        "image_description": "An abstracted aircraft wing with illustrated systems. (Image by MIT OCW.)",
-        "image_src": "https://open-learning-course-data-production.s3.amazonaws.com/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg",
-        "last_modified": None,
-        "location": None,
-        "object_type": "course",
-        "ocw_next_course": True,
-        "offered_by": None,
-        "platform": "ocw",
-        "program_name": None,
-        "program_type": None,
-        "published": True,
-        "runs": None,
-        "short_description": "The basic objective of Unified Engineering is to give a solid understanding of the fundamental disciplines of aerospace engineering, as well as their interrelationships and applications. These disciplines are Materials and Structures (M); Computers and Programming (C); Fluid Mechanics (F); Thermodynamics (T); Propulsion (P); and Signals and Systems (S). In choosing to teach these subjects in a unified manner, the instructors seek to explain the common intellectual threads in these disciplines, as well as their combined application to solve engineering Systems Problems (SP). Throughout the year, the instructors emphasize the connections among the disciplines",
-        "title": "Unified Engineering I, II, III, & IV",
-        "topics": None,
-        "url": None,
     }

@@ -27,7 +27,9 @@ from xbundle import XBundle
 
 from learning_resources.constants import (
     CONTENT_TYPE_FILE,
+    CONTENT_TYPE_PDF,
     CONTENT_TYPE_VERTICAL,
+    CONTENT_TYPE_VIDEO,
     VALID_TEXT_FILE_TYPES,
     PlatformType,
 )
@@ -44,8 +46,8 @@ def _load_ucc_topic_mappings():
         dict:
             the mapping dictionary
     """
-    with open(  # noqa: PTH123
-        "learning_resources/data/ucc-topic-mappings.csv"
+    with Path.open(
+        Path("learning_resources/data/ucc-topic-mappings.csv")
     ) as mapping_file:
         rows = list(csv.reader(mapping_file))
         # drop the column headers (first row)
@@ -128,6 +130,7 @@ def extract_text_metadata(data, *, other_headers=None):
     if settings.TIKA_ACCESS_TOKEN:
         headers["X-Access-Token"] = settings.TIKA_ACCESS_TOKEN
     request_options = {"headers": headers} if headers else {}
+    request_options["timeout"] = settings.TIKA_TIMEOUT
 
     return tika_parser.from_buffer(data, requestOptions=request_options)
 
@@ -255,8 +258,8 @@ def parse_dates(date_string, hour=12):
 
 
 def _get_text_from_element(element, content):
-    """# noqa: D401
-    Helper method to recurse through XML elements
+    """
+    Recurse through XML elements
 
     Args:
         element (Element): An XML element
@@ -313,7 +316,7 @@ def get_xbundle_docs(olx_path: str) -> Generator[dict, None, None]:
 
 def documents_from_olx(
     olx_path: str,
-) -> Generator[tuple, None, None]:  # pylint: disable=too-many-locals
+) -> Generator[tuple, None, None]:
     """
     Extract text from OLX directory
 
@@ -470,3 +473,23 @@ def calc_checksum(filename) -> str:
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
+
+
+def get_content_type(file_type: str) -> str:
+    """
+    Return the appropriate content type for a file type
+    TODO: add more content types (text? spreadsheet?)
+
+    Args:
+        file_type (str): The file type
+
+    Returns:
+        str: The content type
+    """
+    if not file_type:
+        return CONTENT_TYPE_FILE
+    if file_type.startswith("video/"):
+        return CONTENT_TYPE_VIDEO
+    if file_type == "application/pdf":
+        return CONTENT_TYPE_PDF
+    return CONTENT_TYPE_FILE

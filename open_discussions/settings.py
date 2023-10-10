@@ -625,6 +625,7 @@ RSS_FEED_EPISODE_LIMIT = get_int("RSS_FEED_EPISODE_LIMIT", 100)
 RSS_FEED_CACHE_MINUTES = get_int("RSS_FEED_CACHE_MINUTES", 15)
 
 REQUESTS_TIMEOUT = get_int("REQUESTS_TIMEOUT", 30)
+TIKA_TIMEOUT = get_int("TIKA_TIMEOUT", 60)
 
 if DEBUG:
     # allow for all IPs to be routable, including localhost, for testing

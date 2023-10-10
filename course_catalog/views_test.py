@@ -4,13 +4,11 @@ from operator import itemgetter
 
 import pytest
 import pytz
-import rapidjson
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 
 from course_catalog.constants import PlatformType, PrivacyLevel, ResourceType
-from course_catalog.exceptions import WebhookException
 from course_catalog.factories import (
     CourseFactory,
     CourseTopicFactory,
@@ -324,155 +322,6 @@ def test_video_endpoint(client):
 
     resp = client.get(reverse("videos-detail", args=[video1.id]))
     assert resp.data.get("video_id") == video1.video_id
-
-
-@pytest.mark.parametrize("data", [OCW_WEBHOOK_RESPONSE, {}, {"foo": "bar"}])
-def test_ocw_webhook_endpoint(client, mocker, settings, data):
-    """Test that the OCW webhook endpoint schedules a get_ocw_courses task"""
-    settings.OCW_WEBHOOK_KEY = "fake_key"
-    mock_get_ocw = mocker.patch(
-        "course_catalog.views.get_ocw_courses.apply_async", autospec=True
-    )
-    mock_log = mocker.patch("course_catalog.views.log.error")
-    mocker.patch("course_catalog.views.load_course_blocklist", return_value=[])
-    client.post(
-        f"{reverse('ocw-webhook')}?webhook_key={settings.OCW_WEBHOOK_KEY}",
-        data=data,
-        headers={"Content-Type": "text/plain"},
-    )
-    if data == OCW_WEBHOOK_RESPONSE:
-        mock_get_ocw.assert_called_once_with(
-            countdown=settings.OCW_WEBHOOK_DELAY,
-            kwargs={
-                "course_prefixes": [
-                    OCW_WEBHOOK_RESPONSE["Records"][0]["s3"]["object"]["key"].split(
-                        "0/1.json"
-                    )[0]
-                ],
-                "blocklist": [],
-                "force_overwrite": False,
-                "upload_to_s3": True,
-            },
-        )
-    else:
-        mock_get_ocw.assert_not_called()
-        mock_log.assert_called_once_with(
-            "No records found in webhook: %s", rapidjson.dumps(data)
-        )
-
-
-@pytest.mark.parametrize(
-    "data",
-    [
-        None,
-        "notjson",
-        {"Records": [{"foo": "bar"}]},
-        {"Records": [{"s3": {"object": {"bucket": "test-bucket-1"}}}]},
-    ],
-)
-def test_ocw_webhook_endpoint_bad_data(mocker, settings, client, data):
-    """Test that a webhook exception is raised if bad data is sent"""
-    mocker.patch("course_catalog.views.load_course_blocklist", return_value=[])
-    settings.OCW_WEBHOOK_KEY = "fake_key"
-    with pytest.raises(WebhookException):
-        client.post(
-            f"{reverse('ocw-webhook')}?webhook_key={settings.OCW_WEBHOOK_KEY}",
-            data=f"{data}".encode(),
-            headers={"Content-Type": "text/plain"},
-        )
-
-
-def test_ocw_webhook_endpoint_bad_key(settings, client):
-    """Test that a webhook exception is raised if a bad key is sent"""
-    settings.OCW_WEBHOOK_KEY = "fake_key"
-    with pytest.raises(WebhookException):
-        client.post(
-            f"{reverse('ocw-webhook')}?webhook_key=invalid_key",
-            data=OCW_WEBHOOK_RESPONSE,
-            headers={"Content-Type": "text/plain"},
-        )
-
-
-@pytest.mark.parametrize(
-    "data",
-    [
-        {"webhook_key": "fake_key", "prefix": "prefix", "version": "live"},
-        {"webhook_key": "fake_key", "prefix": "prefix", "version": "draft"},
-        {"webhook_key": "fake_key", "version": "live"},
-    ],
-)
-def test_ocw_next_webhook_endpoint(client, mocker, settings, data):
-    """Test that the OCW webhook endpoint schedules a get_ocw_next_courses task"""
-    settings.OCW_NEXT_SEARCH_WEBHOOK_KEY = "fake_key"
-    mock_get_ocw = mocker.patch(
-        "course_catalog.views.get_ocw_next_courses.delay", autospec=True
-    )
-    client.post(
-        reverse("ocw-next-webhook"), data=data, headers={"Content-Type": "text/plain"}
-    )
-
-    prefix = data.get("prefix")
-
-    if prefix is not None and data.get("version") == "live":
-        mock_get_ocw.assert_called_once_with(url_paths=[prefix], force_overwrite=False)
-    else:
-        mock_get_ocw.assert_not_called()
-
-
-@pytest.mark.parametrize(
-    "data",
-    [
-        {"site_uid": "254605fe779d5edd86f55a421e82b544", "version": "live"},
-        {
-            "site_uid": "254605fe779d5edd86f55a421e82b544",
-            "version": "live",
-            "unpublished": True,
-        },
-        {
-            "site_uid": "254605fe779d5edd86f55a421e82b544",
-            "version": "draft",
-            "unpublished": True,
-        },
-        {"site_uid": None, "version": "live", "unpublished": True},
-    ],
-)
-def test_ocw_next_webhook_endpoint_unpublished(client, mocker, settings, data):
-    """Test that the OCW webhook endpoint removes an unpublished task from the search index"""
-    settings.OCW_NEXT_SEARCH_WEBHOOK_KEY = "fake_key"
-    mock_delete_course = mocker.patch(
-        "course_catalog.views.deindex_course", autospec=True
-    )
-    run_id = data.get("site_uid")
-    course_run = None
-    if run_id:
-        course_run = LearningResourceRunFactory.create(
-            run_id=run_id, platform=PlatformType.ocw.value
-        )
-    client.post(
-        reverse("ocw-next-webhook"),
-        data={"webhook_key": "fake_key", **data},
-        headers={"Content-Type": "text/plain"},
-    )
-
-    if (
-        data.get("site_uid")
-        and data.get("unpublished") is True
-        and data.get("version") == "live"
-    ):
-        mock_delete_course.assert_called_once_with(course_run.content_object)
-    else:
-        mock_delete_course.assert_not_called()
-
-
-def test_ocw_next_webhook_endpoint_bad_key(settings, client):
-    """Test that a webhook exception is raised if a bad key is sent"""
-    settings.OCW_NEXT_SEARCH_WEBHOOK_KEY = "fake_key"
-    with pytest.raises(WebhookException):
-        client.post(
-            reverse("ocw-next-webhook"),
-            data={"webhook_key": "bad_key", "prefix": "prefix", "version": "live"},
-            headers={"Content-Type": "text/plain"},
-        )
 
 
 def test_podcasts_no_feature_flag(settings, client):

@@ -1,4 +1,6 @@
-"""Tests for Course Catalog Filters"""
+"""Tests for learning_resources Filters"""
+from types import SimpleNamespace
+
 import pytest
 
 from learning_resources.constants import (
@@ -8,7 +10,6 @@ from learning_resources.constants import (
 )
 from learning_resources.factories import (
     CourseFactory,
-    LearningResourceOfferorFactory,
     PodcastFactory,
 )
 from learning_resources.filters import LearningResourceFilter
@@ -16,37 +17,54 @@ from learning_resources.filters import LearningResourceFilter
 pytestmark = pytest.mark.django_db
 
 
-def test_learning_resource_filter_offered_by():
+@pytest.fixture()
+def mock_courses():
+    """Mock courses"""
+    ocw_course = CourseFactory.create(
+        platform=PlatformType.ocw.value,
+        department="7",
+        offered_by=OfferedBy.ocw.value,
+    ).learning_resource
+
+    mitx_course = CourseFactory.create(
+        platform=PlatformType.mitxonline.value,
+        department="8",
+        offered_by=OfferedBy.mitx.value,
+    ).learning_resource
+
+    return SimpleNamespace(
+        ocw_course=ocw_course,
+        mitx_course=mitx_course,
+    )
+
+
+def test_learning_resource_filter_department(mock_courses):
+    """Test that the department_id filter works"""
+    ocw_department_id = mock_courses.ocw_course.departments.first().department_id
+
+    query = LearningResourceFilter({"department": ocw_department_id}).qs
+    assert query.count() == 1
+
+    assert mock_courses.ocw_course in query
+    assert mock_courses.mitx_course not in query
+
+
+def test_learning_resource_filter_offered_by(mock_courses):
     """Test that the offered_by filter works"""
-    ocw = LearningResourceOfferorFactory.create(is_ocw=True)
-    mitx = LearningResourceOfferorFactory.create(is_mitx=True)
-
-    ocw_course = CourseFactory.create().learning_resource
-    mitx_course = CourseFactory.create().learning_resource
-
-    ocw_course.offered_by = ocw
-    ocw_course.save()
-    mitx_course.offered_by = mitx
-    mitx_course.save()
 
     query = LearningResourceFilter({"offered_by": OfferedBy.ocw.name}).qs
 
-    assert ocw_course in query
-    assert mitx_course not in query
+    assert mock_courses.ocw_course in query
+    assert mock_courses.mitx_course not in query
 
 
-def test_learning_resource_filter_platform():
+def test_learning_resource_filter_platform(mock_courses):
     """Test that the platform filter works"""
-
-    ocw_course = CourseFactory.create(platform=PlatformType.ocw.value).learning_resource
-    mitx_course = CourseFactory.create(
-        platform=PlatformType.mitxonline.value
-    ).learning_resource
 
     query = LearningResourceFilter({"platform": PlatformType.ocw.value}).qs
 
-    assert ocw_course in query
-    assert mitx_course not in query
+    assert mock_courses.ocw_course in query
+    assert mock_courses.mitx_course not in query
 
 
 @pytest.mark.parametrize("is_professional", [True, False])

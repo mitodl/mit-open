@@ -1,4 +1,4 @@
-"""Constants for course catalog ETL processes"""
+"""Constants for learning_resources ETL processes"""
 from collections import namedtuple
 
 CourseLoaderConfig = namedtuple(  # noqa: PYI024

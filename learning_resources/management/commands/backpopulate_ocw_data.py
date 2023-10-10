@@ -1,18 +1,18 @@
 """Management command for populating ocw course data"""
 from django.core.management import BaseCommand
 
-from course_catalog.constants import PlatformType
-from course_catalog.models import LearningResourceRun
-from course_catalog.tasks import get_ocw_next_data
+from learning_resources.constants import PlatformType
+from learning_resources.models import LearningResource
+from learning_resources.tasks import get_ocw_data
+from learning_resources_search.search_index_helpers import deindex_course
 from open_discussions.constants import ISOFORMAT
 from open_discussions.utils import now_in_utc
-from search.search_index_helpers import deindex_course
 
 
 class Command(BaseCommand):
-    """Populate ocw courses"""
+    """Populate OCW learning resources"""
 
-    help = "Populate ocw courses"  # noqa: A003
+    help = "Populate OCW learning resources"  # noqa: A003
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -25,39 +25,37 @@ class Command(BaseCommand):
             "--delete",
             dest="delete",
             action="store_true",
-            help="Delete all existing records first",
+            help="Delete existing records first",
         )
         parser.add_argument(
             "--course-name",
             dest="course_name",
             required=False,
-            help="If set, backpopulate only the course with this name",
+            help="If set,backpopulate only the course with this ocw-studio name",
         )
         super().add_arguments(parser)
 
     def handle(self, *args, **options):  # noqa: ARG002
-        """Run Populate ocw courses"""
+        """Run Populate OCW courses"""
         course_name = options.get("course_name")
+
         if options["delete"]:
+            ocw_resources = LearningResource.objects.filter(
+                platform=PlatformType.ocw.value
+            )
             if course_name:
-                self.stdout.write(f"Deleting course={course_name}")
-                runs = LearningResourceRun.objects.filter(
-                    slug=f"courses/{course_name}",
-                    platform=PlatformType.ocw.value,
+                ocw_resources = ocw_resources.filter(
+                    runs__slug=f"courses/{course_name}"
                 )
 
-                for run in runs:
-                    course = run.content_object
-                    course.published = False
-                    course.save()
-                    deindex_course(course)
-            else:
-                self.stdout.write("You must specify a course_name with --delete")
+            self.stdout.write(f"Deleting OCW course(s) {course_name or ''}")
+            for resource in ocw_resources:
+                deindex_course(resource)
+                resource.delete()
 
         else:
             start = now_in_utc()
-
-            task = get_ocw_next_data.delay(
+            task = get_ocw_data.delay(
                 force_overwrite=options["force_overwrite"],
                 course_url_substring=course_name,
                 utc_start_timestamp=start.strftime(ISOFORMAT),

@@ -4,29 +4,23 @@ course_catalog views
 import contextlib
 import logging
 import operator
-from hmac import compare_digest
 
-import rapidjson
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError
 from django.db.models import Count, Prefetch, Q
 from django.http import HttpResponse
 from django.utils import timezone
-from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters import rest_framework as filters
 from rest_framework import status, viewsets
 from rest_framework.decorators import action, api_view
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
-from authentication.decorators import blocked_ip_exempt
 from course_catalog.constants import PlatformType, PrivacyLevel, ResourceType
 from course_catalog.etl.podcast import generate_aggregate_podcast_rss
-from course_catalog.exceptions import WebhookException
 from course_catalog.filters import CourseFilter
 from course_catalog.models import (
     Course,
@@ -63,8 +57,6 @@ from course_catalog.serializers import (
     UserListSerializer,
     VideoSerializer,
 )
-from course_catalog.tasks import get_ocw_courses, get_ocw_next_courses
-from course_catalog.utils import load_course_blocklist
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
     PodcastFeatureFlag,
@@ -73,7 +65,6 @@ from open_discussions.permissions import (
 )
 from open_discussions.settings import DRF_NESTED_PARENT_LOOKUP_PREFIX
 from search.search_index_helpers import (
-    deindex_course,
     deindex_staff_list,
     deindex_user_list,
     upsert_staff_list,
@@ -470,95 +461,6 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CourseTopicSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
-
-
-@method_decorator(blocked_ip_exempt, name="dispatch")
-class WebhookOCWView(APIView):
-    """
-    Handle webhooks coming from the OCW bucket
-    """
-
-    permission_classes = ()
-    authentication_classes = ()
-
-    def handle_exception(self, exc):
-        """Raise any exception with request info instead of returning response with error status/message"""  # noqa: E501
-        msg = f"REST Error ({exc}). BODY: {self.request.body or ''}, META: {self.request.META}"  # noqa: E501
-        raise WebhookException(msg) from exc
-
-    def post(self, request):
-        """Process webhook request"""
-        if not compare_digest(
-            request.GET.get("webhook_key", ""), settings.OCW_WEBHOOK_KEY
-        ):
-            msg = "Incorrect webhook key"
-            raise WebhookException(msg)
-        content = rapidjson.loads(request.body.decode())
-        records = content.get("Records")
-        if records is not None:
-            blocklist = load_course_blocklist()
-            for record in content.get("Records"):
-                s3_key = record.get("s3", {}).get("object", {}).get("key")
-                prefix = s3_key.split("0/1.json")[0]
-                get_ocw_courses.apply_async(
-                    countdown=settings.OCW_WEBHOOK_DELAY,
-                    kwargs={
-                        "course_prefixes": [prefix],
-                        "blocklist": blocklist,
-                        "force_overwrite": False,
-                        "upload_to_s3": True,
-                    },
-                )
-        else:
-            log.error("No records found in webhook: %s", request.body.decode())
-        return Response({})
-
-
-@method_decorator(blocked_ip_exempt, name="dispatch")
-class WebhookOCWNextView(APIView):
-    """
-    Handle webhooks coming from the OCW Next bucket
-    """
-
-    permission_classes = ()
-    authentication_classes = ()
-
-    def handle_exception(self, exc):
-        """Raise any exception with request info instead of returning response with error status/message"""  # noqa: E501
-        msg = f"REST Error ({exc}). BODY: {self.request.body or ''}, META: {self.request.META}"  # noqa: E501
-        raise WebhookException(msg) from exc
-
-    def post(self, request):
-        """Process webhook request"""
-        content = rapidjson.loads(request.body.decode())
-
-        if not compare_digest(
-            content.get("webhook_key", ""), settings.OCW_NEXT_SEARCH_WEBHOOK_KEY
-        ):
-            msg = "Incorrect webhook key"
-            raise WebhookException(msg)
-
-        version = content.get("version")
-        prefix = content.get("prefix")
-        site_uid = content.get("site_uid")
-        unpublished = content.get("unpublished", False)
-
-        if version == "live":
-            if prefix is not None:
-                # Index the course
-                get_ocw_next_courses.delay(url_paths=[prefix], force_overwrite=False)
-            elif site_uid is not None and unpublished is True:
-                # Remove the course from the search index
-                course_run = LearningResourceRun.objects.filter(
-                    run_id=site_uid, platform=PlatformType.ocw.value
-                ).first()
-                if course_run:
-                    course = course_run.content_object
-                    course.published = False
-                    course.save()
-                    deindex_course(course)
-
-        return Response({})
 
 
 class PodcastViewSet(viewsets.ReadOnlyModelViewSet, FavoriteViewMixin):

@@ -21,7 +21,7 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
 
     js_settings = {
         "embedlyKey": settings.EMBEDLY_KEY,
-        "ocw_next_base_url": settings.OCW_NEXT_BASE_URL,
+        "ocw_next_base_url": settings.OCW_BASE_URL,
         "search_page_size": settings.OPENSEARCH_DEFAULT_PAGE_SIZE,
         "user": {
             "id": user.id,

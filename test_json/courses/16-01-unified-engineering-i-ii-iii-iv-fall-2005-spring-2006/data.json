@@ -96,7 +96,7 @@
   "term": "Fall",
   "year": "2005",
   "level": ["Undergraduate"],
-  "image_src": "https://open-learning-course-data-production.s3.amazonaws.com/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg",
+  "image_src": "/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg",
   "course_image_metadata": {
     "description": "An abstracted aircraft wing with illustrated systems. (Image by MIT OCW.)",
     "draft": false,

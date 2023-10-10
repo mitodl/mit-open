@@ -2,18 +2,18 @@
 import logging
 import re
 from datetime import datetime
-from urllib.parse import urljoin
 
 import pytz
 import rapidjson
 import requests
 import yaml
+from botocore.exceptions import ClientError
 from django.conf import settings
 from django.contrib.auth.models import Group, User
+from retry import retry
 
 from learning_resources.constants import (
     GROUP_STAFF_LISTS_EDITORS,
-    PlatformType,
     semester_mapping,
 )
 from open_discussions.utils import generate_filepath
@@ -78,36 +78,6 @@ def get_year_and_semester(course_run):
     return year, semester
 
 
-def get_course_url(course_id, course_json, platform):
-    """
-    Get the url for a course if any
-
-    Args:
-        course_id (str): The course_id of the course
-        course_json (dict): The raw json for the course
-        platform (str): The platform (mitx or ocw)
-
-    Returns:
-        str: The url for the course if any
-    """
-    if platform == PlatformType.ocw.value:
-        if course_json is not None:
-            urlpath = course_json.get("url")
-            if urlpath:
-                return urljoin(settings.OCW_BASE_URL, urlpath)
-    elif platform == PlatformType.mitxonline.value:
-        if course_json is not None:
-            preferred_urls = []
-            for run in course_json.get("course_runs", []):
-                url = run.get("marketing_url", "")
-                if url and settings.MITX_BASE_URL in url:
-                    preferred_urls.append(url)
-            if preferred_urls:
-                return preferred_urls[0].split("?")[0]
-        return f"{settings.MITX_ALT_URL}{course_id}/course/"
-    return None
-
-
 def semester_year_to_date(semester, year, ending=False):  # noqa: FBT002
     """
     Convert semester and year to a rough date
@@ -169,25 +139,21 @@ def load_course_duplicates(etl_source: str) -> list:
     return []
 
 
-def get_s3_object_and_read(obj, iteration=0):
+@retry(
+    ClientError, tries=settings.MAX_S3_GET_ITERATIONS, delay=1, backoff=2, jitter=(1, 5)
+)
+def get_s3_object_and_read(obj):
     """
     Attempts to read S3 data, and tries again up to MAX_S3_GET_ITERATIONS if it encounters an error.
     This helps to prevent read timeout errors from stopping sync.
 
     Args:
         obj (s3.ObjectSummary): The S3 ObjectSummary we are trying to read
-        iteration (int): A number tracking how many times this function has been run
 
     Returns:
         bytes: The contents of a json file read from S3
     """  # noqa: D401, E501
-    try:
-        return obj.get()["Body"].read()
-    except Exception:  # pylint: disable=broad-except  # noqa: BLE001
-        if iteration < settings.MAX_S3_GET_ITERATIONS:
-            return get_s3_object_and_read(obj, iteration + 1)
-        else:
-            raise
+    return obj.get()["Body"].read()
 
 
 def safe_load_json(json_string, json_file_key):
@@ -277,3 +243,26 @@ def update_editor_group(user: User, is_editor: False):
         user.groups.add(group)
     else:
         user.groups.remove(group)
+
+
+def get_ocw_topics(topics_collection):
+    """
+    Extracts OCW topics and subtopics and returns a unique list of them
+
+    Args:
+        topics_collection (dict): The JSON object representing the topic
+
+    Returns:
+        list of str: list of topics
+    """  # noqa: D401
+    topics = []
+
+    for topic_object in topics_collection:
+        if topic_object["ocw_feature"]:
+            topics.append(topic_object["ocw_feature"])
+        if topic_object["ocw_subfeature"]:
+            topics.append(topic_object["ocw_subfeature"])
+        if topic_object["ocw_speciality"]:
+            topics.append(topic_object["ocw_speciality"])
+
+    return list(set(topics))
