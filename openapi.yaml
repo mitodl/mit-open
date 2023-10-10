@@ -242,6 +242,88 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -274,10 +356,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -332,10 +410,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -466,6 +540,88 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -498,10 +654,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -556,10 +708,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -599,6 +747,88 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -631,10 +861,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -689,10 +915,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -732,6 +954,88 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -764,10 +1068,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -822,10 +1122,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -1022,6 +1318,88 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -1054,10 +1432,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -1112,10 +1486,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -1155,6 +1525,88 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -1187,10 +1639,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -1245,10 +1693,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -1288,6 +1732,88 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -1320,10 +1846,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -1378,10 +1900,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -1747,6 +2265,88 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -1779,10 +2379,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -1837,10 +2433,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -1880,6 +2472,88 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -1912,10 +2586,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -1970,10 +2640,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -2007,12 +2673,103 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
+  /api/v1/ocw_next_webhook/:
+    post:
+      operationId: ocw_next_webhook_create
+      description: Process webhook request
+      tags:
+      - ocw_next_webhook
+      responses:
+        '200':
+          description: No response body
   /api/v1/podcast_episodes/:
     get:
       operationId: podcast_episodes_list
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -2045,10 +2802,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -2103,10 +2856,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -2169,6 +2918,88 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -2201,10 +3032,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -2259,10 +3086,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -2302,6 +3125,88 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -2334,10 +3239,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -2392,10 +3293,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -2435,6 +3332,88 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -2467,10 +3446,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -2525,10 +3500,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -2657,6 +3628,88 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -2689,10 +3742,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -2747,10 +3796,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -2790,6 +3835,88 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -2822,10 +3949,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -2880,10 +4003,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -2923,6 +4042,88 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -2955,10 +4156,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -3013,10 +4210,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -3079,6 +4272,88 @@ paths:
       description: Get a paginated list of newly released resources.
       summary: List New
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -3111,10 +4386,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -3169,10 +4440,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -3212,6 +4479,88 @@ paths:
       description: Get a paginated list of upcoming resources.
       summary: List Upcoming
       parameters:
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          Department ID
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
       - name: limit
         required: false
         in: query
@@ -3244,10 +4593,6 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
-      - in: query
-        name: offered_by__name
-        schema:
-          type: string
       - name: offset
         required: false
         in: query
@@ -3302,10 +4647,6 @@ paths:
           * `simplilearn` - simplilearn
           * `emeritus` - emeritus
           * `podcast` - podcast
-      - in: query
-        name: platform__platform
-        schema:
-          type: string
       - in: query
         name: professional
         schema:
@@ -3780,8 +5121,10 @@ components:
           type: string
         run_slug:
           type: string
-        department:
-          type: string
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceDepartment'
         semester:
           type: string
         year:
@@ -3854,7 +5197,7 @@ components:
           type: string
           readOnly: true
       required:
-      - department
+      - departments
       - id
       - resource_id
       - resource_readable_id
@@ -3983,9 +5326,10 @@ components:
             type: string
           readOnly: true
           nullable: true
-        department:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceDepartment'
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceDepartment'
           readOnly: true
           nullable: true
         certification:
@@ -4091,7 +5435,7 @@ components:
       required:
       - certification
       - course
-      - department
+      - departments
       - id
       - image
       - learning_path
@@ -4179,9 +5523,10 @@ components:
             type: string
           readOnly: true
           nullable: true
-        department:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceDepartment'
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceDepartment'
           readOnly: true
           nullable: true
         certification:
@@ -4282,7 +5627,7 @@ components:
       required:
       - certification
       - course
-      - department
+      - departments
       - id
       - image
       - learning_path
@@ -4321,9 +5666,10 @@ components:
             type: string
           readOnly: true
           nullable: true
-        department:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceDepartment'
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceDepartment'
           readOnly: true
           nullable: true
         certification:
@@ -4419,7 +5765,7 @@ components:
       required:
       - certification
       - course
-      - department
+      - departments
       - id
       - image
       - learning_path

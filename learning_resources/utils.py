@@ -8,8 +8,10 @@ import pytz
 import rapidjson
 import requests
 import yaml
+from botocore.exceptions import ClientError
 from django.conf import settings
 from django.contrib.auth.models import Group, User
+from retry import retry
 
 from learning_resources.constants import (
     GROUP_STAFF_LISTS_EDITORS,
@@ -169,25 +171,21 @@ def load_course_duplicates(etl_source: str) -> list:
     return []
 
 
-def get_s3_object_and_read(obj, iteration=0):
+@retry(
+    ClientError, tries=settings.MAX_S3_GET_ITERATIONS, delay=1, backoff=2, jitter=(1, 5)
+)
+def get_s3_object_and_read(obj):
     """
     Attempts to read S3 data, and tries again up to MAX_S3_GET_ITERATIONS if it encounters an error.
     This helps to prevent read timeout errors from stopping sync.
 
     Args:
         obj (s3.ObjectSummary): The S3 ObjectSummary we are trying to read
-        iteration (int): A number tracking how many times this function has been run
 
     Returns:
         bytes: The contents of a json file read from S3
     """  # noqa: D401, E501
-    try:
-        return obj.get()["Body"].read()
-    except Exception:  # pylint: disable=broad-except  # noqa: BLE001
-        if iteration < settings.MAX_S3_GET_ITERATIONS:
-            return get_s3_object_and_read(obj, iteration + 1)
-        else:
-            raise
+    return obj.get()["Body"].read()
 
 
 def safe_load_json(json_string, json_file_key):
@@ -277,3 +275,26 @@ def update_editor_group(user: User, is_editor: False):
         user.groups.add(group)
     else:
         user.groups.remove(group)
+
+
+def get_ocw_topics(topics_collection):
+    """
+    Extracts OCW topics and subtopics and returns a unique list of them
+
+    Args:
+        topics_collection (dict): The JSON object representing the topic
+
+    Returns:
+        list of str: list of topics
+    """  # noqa: D401
+    topics = []
+
+    for topic_object in topics_collection:
+        if topic_object["ocw_feature"]:
+            topics.append(topic_object["ocw_feature"])
+        if topic_object["ocw_subfeature"]:
+            topics.append(topic_object["ocw_subfeature"])
+        if topic_object["ocw_speciality"]:
+            topics.append(topic_object["ocw_speciality"])
+
+    return list(set(topics))

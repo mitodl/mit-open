@@ -32,7 +32,7 @@ def test_serialize_course_model():
     assert serializer.data["image"]["url"] is not None
     assert len(serializer.data["offered_by"]) > 0
     assert serializer.data["offered_by"] in [o.value for o in constants.OfferedBy]
-    assert serializer.data["department"]["name"] is not None
+    assert serializer.data["departments"][0] is not None
     assert serializer.data["platform"] is not None
     assert (
         serializer.data["course"] == serializers.CourseSerializer(instance=course).data
@@ -75,7 +75,7 @@ def test_serialize_program_model():
     assert serializer.data["image"]["url"] is not None
     assert serializer.data["offered_by"] is not None
     assert serializer.data["offered_by"] in [o.value for o in constants.OfferedBy]
-    assert serializer.data["department"]["name"] is not None
+    assert serializer.data["departments"][0] is not None
     assert serializer.data["platform"] is not None
     assert str(serializer.data["prices"][0]).replace(".", "").isnumeric()
     assert (
@@ -193,7 +193,10 @@ def test_content_file_serializer():
             "run_id": content_file.run.run_id,
             "run_title": content_file.run.title,
             "run_slug": content_file.run.slug,
-            "department": content_file.run.learning_resource.department.name,
+            "departments": [
+                {"name": dept.name, "department_id": dept.department_id}
+                for dept in content_file.run.learning_resource.departments.all()
+            ],
             "semester": content_file.run.semester,
             "year": int(content_file.run.year),
             "topics": list(

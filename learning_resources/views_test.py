@@ -5,7 +5,9 @@ from rest_framework.reverse import reverse
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
+    PlatformType,
 )
+from learning_resources.exceptions import WebhookException
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
@@ -223,7 +225,7 @@ def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
 
     CourseFactory.create_batch(course_count)
 
-    with django_assert_num_queries(8):
+    with django_assert_num_queries(9):
         view = CourseViewSet(request=mocker.Mock(query_params=[]))
         results = view.get_queryset().all()
         assert len(results) == course_count
@@ -401,4 +403,89 @@ def test_get_podcast_items_endpoint(client, url):
         assert (
             resp.data.get("results")[idx]["podcast_episode"]
             == PodcastEpisodeSerializer(instance=episode.podcast_episode).data
+        )
+
+
+@pytest.mark.parametrize(
+    "data",
+    [
+        {"webhook_key": "fake_key", "prefix": "prefix", "version": "live"},
+        {"webhook_key": "fake_key", "prefix": "prefix", "version": "draft"},
+        {"webhook_key": "fake_key", "version": "live"},
+    ],
+)
+def test_ocw_next_webhook_endpoint(client, mocker, settings, data):
+    """Test that the OCW webhook endpoint schedules a get_ocw_courses task"""
+    settings.OCW_NEXT_SEARCH_WEBHOOK_KEY = "fake_key"
+    mock_get_ocw = mocker.patch(
+        "learning_resources.views.get_ocw_courses.delay", autospec=True
+    )
+    client.post(
+        reverse("ocw-next-webhook"), data=data, headers={"Content-Type": "text/plain"}
+    )
+
+    prefix = data.get("prefix")
+
+    if prefix is not None and data.get("version") == "live":
+        mock_get_ocw.assert_called_once_with(url_paths=[prefix], force_overwrite=False)
+    else:
+        mock_get_ocw.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "data",
+    [
+        {"site_uid": "254605fe779d5edd86f55a421e82b544", "version": "live"},
+        {
+            "site_uid": "254605fe779d5edd86f55a421e82b544",
+            "version": "live",
+            "unpublished": True,
+        },
+        {
+            "site_uid": "254605fe779d5edd86f55a421e82b544",
+            "version": "draft",
+            "unpublished": True,
+        },
+        {"site_uid": None, "version": "live", "unpublished": True},
+    ],
+)
+def test_ocw_next_webhook_endpoint_unpublished(client, mocker, settings, data):
+    """Test that the OCW webhook endpoint removes an unpublished task from the search index"""
+    settings.OCW_NEXT_SEARCH_WEBHOOK_KEY = "fake_key"
+    mock_delete_course = mocker.patch(
+        "learning_resources.views.deindex_course", autospec=True
+    )
+    run_id = data.get("site_uid")
+    course_run = None
+    if run_id:
+        course_run = LearningResourceRunFactory.create(
+            run_id=run_id,
+            learning_resource=CourseFactory.create(
+                platform=PlatformType.ocw.value
+            ).learning_resource,
+        )
+    client.post(
+        reverse("ocw-next-webhook"),
+        data={"webhook_key": "fake_key", **data},
+        headers={"Content-Type": "text/plain"},
+    )
+
+    if (
+        data.get("site_uid")
+        and data.get("unpublished") is True
+        and data.get("version") == "live"
+    ):
+        mock_delete_course.assert_called_once_with(course_run.learning_resource)
+    else:
+        mock_delete_course.assert_not_called()
+
+
+def test_ocw_next_webhook_endpoint_bad_key(settings, client):
+    """Test that a webhook exception is raised if a bad key is sent"""
+    settings.OCW_NEXT_SEARCH_WEBHOOK_KEY = "fake_key"
+    with pytest.raises(WebhookException):
+        client.post(
+            reverse("ocw-next-webhook"),
+            data={"webhook_key": "bad_key", "prefix": "prefix", "version": "live"},
+            headers={"Content-Type": "text/plain"},
         )

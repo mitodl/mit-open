@@ -8,6 +8,7 @@ from drf_spectacular.views import (
 from rest_framework_extensions.routers import ExtendedSimpleRouter
 
 from learning_resources import views
+from learning_resources.views import WebhookOCWNextView
 
 router = ExtendedSimpleRouter()
 resource_router = router.register(
@@ -79,4 +80,9 @@ urlpatterns = [
         name="redoc",
     ),
     re_path(r"^podcasts/rss_feed", views.podcast_rss_feed, name="podcast-rss-feed"),
+    re_path(
+        r"^api/v1/ocw_next_webhook/$",
+        WebhookOCWNextView.as_view(),
+        name="ocw-next-webhook",
+    ),
 ]

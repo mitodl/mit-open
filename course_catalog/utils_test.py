@@ -10,8 +10,6 @@ import pytz
 from course_catalog.constants import PlatformType
 from course_catalog.utils import (
     get_course_url,
-    get_ocw_department_list,
-    get_ocw_topics,
     load_course_blocklist,
     load_course_duplicates,
     parse_instructors,
@@ -172,53 +170,6 @@ mitx:
                 "course_id": "MITx+1",
             }
         ]
-
-
-def test_get_ocw_topics():
-    """get_ocw_topics should return the expected list of topics"""
-    collection = [
-        {
-            "ocw_feature": "Engineering",
-            "ocw_subfeature": "Mechanical Engineering",
-            "ocw_speciality": "Dynamics and Control",
-        },
-        {
-            "ocw_feature": "Engineering",
-            "ocw_subfeature": "Electrical Engineering",
-            "ocw_speciality": "Signal Processing",
-        },
-    ]
-
-    assert sorted(get_ocw_topics(collection)) == [
-        "Dynamics and Control",
-        "Electrical Engineering",
-        "Engineering",
-        "Mechanical Engineering",
-        "Signal Processing",
-    ]
-
-
-@pytest.mark.parametrize(
-    ("course_json", "expected_departments"),
-    [
-        ({"department_number": "22"}, ["22"]),
-        ({"department_number": "22", "extra_course_number": None}, ["22"]),
-        (
-            {
-                "department_number": "22",
-                "extra_course_number": [
-                    {"linked_course_number_col": "3.1"},
-                    {"linked_course_number_col": "4.1"},
-                    {"linked_course_number_col": "4.2"},
-                ],
-            },
-            ["22", "3", "4"],
-        ),
-    ],
-)
-def test_get_ocw_department(course_json, expected_departments):
-    """test_get_ocw_department should return the expected list of departments"""
-    assert get_ocw_department_list(course_json) == expected_departments
 
 
 def test_safe_load_bad_json(mocker):

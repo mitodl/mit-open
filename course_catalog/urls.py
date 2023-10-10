@@ -17,7 +17,6 @@ from django.urls import include, re_path
 from rest_framework_extensions.routers import ExtendedSimpleRouter
 
 from course_catalog import views
-from course_catalog.views import WebhookOCWNextView, WebhookOCWView
 
 router = ExtendedSimpleRouter()
 
@@ -56,12 +55,6 @@ urlpatterns = [
         name="episodes-in-podcast",
     ),
     re_path(r"^api/v0/", include(router.urls)),
-    re_path(r"^api/v0/ocw_webhook/$", WebhookOCWView.as_view(), name="ocw-webhook"),
-    re_path(
-        r"^api/v0/ocw_next_webhook/$",
-        WebhookOCWNextView.as_view(),
-        name="ocw-next-webhook",
-    ),
     re_path(
         r"^api/v0/ocw-course-report", views.ocw_course_report, name="ocw-course-report"
     ),

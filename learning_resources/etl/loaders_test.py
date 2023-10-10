@@ -58,7 +58,7 @@ pytestmark = pytest.mark.django_db
 non_transformable_attributes = (
     "id",
     "platform",
-    "department",
+    "departments",
     "resource_content_tags",
     "resources",
 )

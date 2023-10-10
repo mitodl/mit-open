@@ -15,14 +15,6 @@ TEST_JSON_FILES = [
     if isfile(join(TEST_JSON_PATH, f))  # noqa: PTH113, PTH118
 ]
 
-OCW_NEXT_TEST_PREFIX = (
-    "courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/"
-)
-
-OCW_NEXT_TEST_JSON_PATH = join(  # noqa: PTH118
-    "./test_json/", OCW_NEXT_TEST_PREFIX[:-1]
-)
-
 
 @pytest.fixture()
 def mock_course_index_functions(mocker):
@@ -63,49 +55,3 @@ def setup_s3(settings):
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
     )
     conn.create_bucket(Bucket=settings.OCW_LEARNING_COURSE_BUCKET_NAME)
-
-
-def setup_s3_ocw_next(settings):
-    """
-    Set up the fake s3 data
-    """
-    # Fake the settings
-    settings.AWS_ACCESS_KEY_ID = "abc"
-    settings.AWS_SECRET_ACCESS_KEY = "abc"  # noqa: S105
-    settings.OCW_NEXT_LIVE_BUCKET = "test_bucket"
-    settings.OCW_NEXT_AWS_STORAGE_BUCKET_NAME = "test_bucket"
-    # Create our fake bucket
-    conn = boto3.resource(
-        "s3",
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-    )
-    conn.create_bucket(Bucket=settings.OCW_NEXT_LIVE_BUCKET)
-
-    # Add data to the fake ocw next bucket
-    ocw_next_bucket = conn.Bucket(name=settings.OCW_NEXT_LIVE_BUCKET)
-
-    base_folder = OCW_NEXT_TEST_JSON_PATH.replace("./test_json/", "")
-
-    for file in listdir(OCW_NEXT_TEST_JSON_PATH):
-        add_file_to_bucket_recursive(
-            ocw_next_bucket, OCW_NEXT_TEST_JSON_PATH, base_folder, file
-        )
-
-
-def add_file_to_bucket_recursive(bucket, file_base, s3_base, file_object):
-    """
-    Add file to fake s3 bucket
-    """
-    local_path = file_base + "/" + file_object
-    file_key = s3_base + "/" + file_object
-
-    if file_object[0] == ".":
-        return
-
-    elif isfile(join(file_base, file_object)):  # noqa: PTH113, PTH118
-        with open(local_path) as f:  # noqa: PTH123
-            bucket.put_object(Key=file_key, Body=f.read())
-    else:
-        for child in listdir(local_path):
-            add_file_to_bucket_recursive(bucket, local_path, file_key, child)

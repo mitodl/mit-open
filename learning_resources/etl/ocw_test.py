@@ -1,41 +1,42 @@
 """Next OCW ETL tests"""
+import json
 from datetime import datetime
+from pathlib import Path
 
 import boto3
 import pytest
 import pytz
 from moto import mock_s3
 
-from course_catalog.conftest import OCW_NEXT_TEST_PREFIX, setup_s3_ocw_next
-from course_catalog.etl.ocw_next import (
-    transform_ocw_next_content_files,
-    transform_resource,
+from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3_ocw
+from learning_resources.etl.ocw import (
+    transform_content_files,
+    transform_contentfile,
+    transform_course,
 )
-from course_catalog.factories import ContentFileFactory
-from course_catalog.models import ContentFile
-from course_catalog.utils import get_s3_object_and_read, safe_load_json
+from learning_resources.factories import ContentFileFactory
+from learning_resources.models import ContentFile
+from learning_resources.utils import get_s3_object_and_read, safe_load_json
+from open_discussions.utils import now_in_utc
 
 pytestmark = pytest.mark.django_db
-# pylint:disable=redefined-outer-name,unused-argument
 
 
 @mock_s3
-def test_transform_ocw_next_content_files(settings, mocker):
+def test_transform_content_files(settings, mocker):
     """
-    Test transform_ocw_next_content_files
+    Test transform_content_files
     """
 
-    setup_s3_ocw_next(settings)
+    setup_s3_ocw(settings)
     s3_resource = boto3.resource("s3")
     mocker.patch(
-        "course_catalog.etl.ocw_next.extract_text_metadata",
+        "learning_resources.etl.ocw.extract_text_metadata",
         return_value={"content": "TEXT"},
     )
 
     content_data = list(
-        transform_ocw_next_content_files(
-            s3_resource, OCW_NEXT_TEST_PREFIX, False  # noqa: FBT003
-        )  # noqa: FBT003, RUF100
+        transform_content_files(s3_resource, OCW_TEST_PREFIX, False)  # noqa: FBT003
     )
 
     assert len(content_data) == 4
@@ -92,19 +93,38 @@ def test_transform_ocw_next_content_files(settings, mocker):
 
 
 @mock_s3
+def test_transform_content_files_exceptions(settings, mocker):
+    """
+    Test transform_content_files
+    """
+
+    setup_s3_ocw(settings)
+    s3_resource = boto3.resource("s3")
+    mock_log = mocker.patch("learning_resources.etl.ocw.log.exception")
+    mocker.patch(
+        "learning_resources.etl.ocw.get_s3_object_and_read", side_effect=Exception
+    )
+    content_data = list(
+        transform_content_files(s3_resource, OCW_TEST_PREFIX, False)  # noqa: FBT003
+    )
+    assert len(content_data) == 0
+    assert mock_log.call_count == 5
+
+
+@mock_s3
 @pytest.mark.parametrize("overwrite", [True, False])
 @pytest.mark.parametrize("modified_after_last_import", [True, False])
-def test_transform_resource_needs_text_update(
+def test_transform_content_file_needs_text_update(
     settings, mocker, overwrite, modified_after_last_import
 ):
     """
     Test transform_resource
     """
 
-    setup_s3_ocw_next(settings)
+    setup_s3_ocw(settings)
     s3_resource = boto3.resource("s3")
     mock_tika = mocker.patch(
-        "course_catalog.etl.ocw_next.extract_text_metadata",
+        "learning_resources.etl.ocw.extract_text_metadata",
         return_value={"content": "TEXT"},
     )
     s3_resource_object = s3_resource.Object(
@@ -122,7 +142,7 @@ def test_transform_resource_needs_text_update(
     if modified_after_last_import:
         ContentFile.objects.update(updated_on=datetime(2020, 12, 1, tzinfo=pytz.utc))
 
-    content_data = transform_resource(
+    content_data = transform_contentfile(
         s3_resource_object.key, resource_json, s3_resource, overwrite
     )
 
@@ -133,3 +153,40 @@ def test_transform_resource_needs_text_update(
     else:
         mock_tika.assert_not_called()
         assert "content" not in content_data
+
+
+@mock_s3
+@pytest.mark.parametrize(
+    ("legacy_uid", "site_uid", "expected_uid", "has_extra_num"),
+    [
+        ("legacy-uid", None, "legacyuid", False),
+        (None, "site-uid", "siteuid", True),
+        (None, None, None, True),
+    ],
+)
+def test_transform_course(legacy_uid, site_uid, expected_uid, has_extra_num):
+    """transform_course should return expected data"""
+    with Path.open(
+        Path(__file__).parent.parent.parent
+        / "test_json/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+        / "data.json"
+    ) as inf:
+        course_json = json.load(inf)
+
+    course_json["legacy_uid"] = legacy_uid
+    course_json["site_uid"] = site_uid
+    course_json["extra_course_numbers"] = "1, 2" if has_extra_num else None
+    extracted_json = {
+        **course_json,
+        "last_modified": now_in_utc(),
+        "slug": "slug",
+        "url": "http://test.edu/slug",
+    }
+    transformed_json = transform_course(extracted_json)
+    if expected_uid:
+        assert transformed_json["runs"][0]["run_id"] == expected_uid
+        assert transformed_json["course"]["extra_course_numbers"] == (
+            ["1", "2"] if has_extra_num else []
+        )
+    else:
+        assert transformed_json is None

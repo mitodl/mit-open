@@ -20,6 +20,8 @@ from learning_resources.models import (
     ContentFile,
     Course,
     LearningResource,
+    LearningResourceContentTag,
+    LearningResourceDepartment,
     LearningResourceImage,
     LearningResourceInstructor,
     LearningResourceOfferor,
@@ -54,10 +56,27 @@ def load_topics(resource, topics_data):
     return resource.topics.all()
 
 
-def load_instructors(resource, instructors_data):
+def load_departments(
+    resource: LearningResource, department_data: list[str]
+) -> list[LearningResourceDepartment]:
+    """Load the departments for a resource into the database"""
+    if department_data:
+        departments = []
+
+        for department_id in department_data:
+            department = LearningResourceDepartment.objects.get(
+                department_id=department_id
+            )
+            departments.append(department)
+        resource.departments.set(departments)
+    return resource.departments.all()
+
+
+def load_instructors(
+    resource: LearningResource, instructors_data: list[dict]
+) -> list[LearningResourceInstructor]:
     """Load the instructors for a resource into the database"""
     instructors = []
-
     for instructor_data in instructors_data:
         if "full_name" not in instructor_data:
             instructor_data["full_name"] = instructor_data.get("title", None)
@@ -72,7 +91,7 @@ def load_instructors(resource, instructors_data):
     return instructors
 
 
-def load_image(resource, image_data):
+def load_image(resource: LearningResource, image_data: dict) -> LearningResourceImage:
     """Load the image for a resource into the database"""
     if image_data:
         image, _ = LearningResourceImage.objects.get_or_create(**image_data)
@@ -85,7 +104,9 @@ def load_image(resource, image_data):
     return image
 
 
-def load_offered_by(resource, offered_by_data):
+def load_offered_by(
+    resource: LearningResource, offered_by_data: dict
+) -> LearningResourceOfferor:
     """# noqa: D401
     Saves an offered_by to the resource.
 
@@ -107,7 +128,23 @@ def load_offered_by(resource, offered_by_data):
     return resource.offered_by
 
 
-def load_run(learning_resource, run_data):
+def load_resource_content_tags(
+    resource: LearningResource, content_tags_data: list[str]
+) -> list[LearningResourceContentTag]:
+    """Load the content tags for a resource into the database"""
+    if content_tags_data is not None:
+        tags = []
+        for content_tag in content_tags_data:
+            tag, _ = LearningResourceContentTag.objects.get_or_create(name=content_tag)
+            tags.append(tag)
+        resource.resource_content_tags.set(tags)
+        resource.save()
+    return resource.topics.all()
+
+
+def load_run(
+    learning_resource: LearningResource, run_data: dict
+) -> LearningResourceRun:
     """
     Load the resource run into the database
 
@@ -119,6 +156,7 @@ def load_run(learning_resource, run_data):
         LearningResourceRun: the created/updated resource run
     """
     run_id = run_data.pop("run_id")
+    image_data = run_data.pop("image", None)
     instructors_data = run_data.pop("instructors", [])
 
     with transaction.atomic():
@@ -134,18 +172,23 @@ def load_run(learning_resource, run_data):
         )
 
         load_instructors(learning_resource_run, instructors_data)
+        load_image(learning_resource_run, image_data)
 
     return learning_resource_run
 
 
 def load_course(  # noqa: C901
-    course_data, blocklist, duplicates, *, config=CourseLoaderConfig()
-):  # noqa: C901, RUF100
+    resource_data: dict,
+    blocklist: list[str],
+    duplicates: list[dict],
+    *,
+    config=CourseLoaderConfig()
+) -> LearningResource:
     """
     Load the course into the database
 
     Args:
-        course_data (dict):
+        resource_data (dict):
             a dict of course data values
         blocklist (list of str):
             list of course ids not to load
@@ -158,16 +201,18 @@ def load_course(  # noqa: C901
         Course:
             the created/updated course
     """
-    # pylint: disable=too-many-branches,too-many-locals
-    platform_name = course_data.pop("platform")
-    readable_id = course_data.pop("readable_id")
-    runs_data = course_data.pop("runs", [])
-    topics_data = course_data.pop("topics", None)
-    offered_bys_data = course_data.pop("offered_by", None)
-    image_data = course_data.pop("image", None)
+    platform_name = resource_data.pop("platform")
+    readable_id = resource_data.pop("readable_id")
+    runs_data = resource_data.pop("runs", [])
+    topics_data = resource_data.pop("topics", None)
+    offered_bys_data = resource_data.pop("offered_by", None)
+    image_data = resource_data.pop("image", None)
+    course_data = resource_data.pop("course", None)
+    department_data = resource_data.pop("departments", [])
+    content_tags_data = resource_data.pop("resource_content_tags", [])
 
     if readable_id in blocklist or not runs_data:
-        course_data["published"] = False
+        resource_data["published"] = False
 
     deduplicated_course_id = next(
         (
@@ -186,7 +231,7 @@ def load_course(  # noqa: C901
             log.exception(
                 "Platform %s is null or not in database: %s",
                 platform_name,
-                json.dumps(course_data),
+                json.dumps(resource_data),
             )
             return None
 
@@ -199,7 +244,7 @@ def load_course(  # noqa: C901
                 platform=platform,
                 readable_id=deduplicated_course_id,
                 resource_type=LearningResourceType.course.value,
-                defaults=course_data,
+                defaults=resource_data,
             )
 
             if readable_id != deduplicated_course_id:
@@ -216,10 +261,12 @@ def load_course(  # noqa: C901
                 learning_resource,
                 created,
             ) = LearningResource.objects.select_for_update().update_or_create(
-                platform=platform, readable_id=readable_id, defaults=course_data
+                platform=platform, readable_id=readable_id, defaults=resource_data
             )
 
-        Course.objects.get_or_create(learning_resource=learning_resource)
+        Course.objects.get_or_create(
+            learning_resource=learning_resource, defaults=course_data
+        )
 
         run_ids_to_update_or_create = [run["run_id"] for run in runs_data]
 
@@ -230,7 +277,7 @@ def load_course(  # noqa: C901
             most_relevent_run = get_most_relevant_run(learning_resource.runs.all())
 
             if most_relevent_run.run_id in run_ids_to_update_or_create:
-                for attr, val in course_data.items():
+                for attr, val in resource_data.items():
                     setattr(learning_resource, attr, val)
                 learning_resource.save()
 
@@ -247,16 +294,19 @@ def load_course(  # noqa: C901
         load_topics(learning_resource, topics_data)
         load_offered_by(learning_resource, offered_bys_data)
         load_image(learning_resource, image_data)
+        load_departments(learning_resource, department_data)
+        load_resource_content_tags(learning_resource, content_tags_data)
 
         if not created and not learning_resource.published:
             search_index_helpers.deindex_course(learning_resource)
         elif learning_resource.published:
             search_index_helpers.upsert_course(learning_resource.id)
-
     return learning_resource
 
 
-def load_courses(etl_source, courses_data, *, config=CourseLoaderConfig()):
+def load_courses(
+    etl_source: str, courses_data: list[dict], *, config=CourseLoaderConfig()
+) -> list[LearningResource]:
     """
     Load a list of courses
 
@@ -295,7 +345,13 @@ def load_courses(etl_source, courses_data, *, config=CourseLoaderConfig()):
     return courses
 
 
-def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderConfig()):
+def load_program(
+    program_data: dict,
+    blocklist: list[str],
+    duplicates: list[dict],
+    *,
+    config=ProgramLoaderConfig()
+) -> LearningResource:
     """
     Load the program into the database
 
@@ -392,7 +448,9 @@ def load_program(program_data, blocklist, duplicates, *, config=ProgramLoaderCon
     return learning_resource
 
 
-def load_programs(etl_source, programs_data, *, config=ProgramLoaderConfig()):
+def load_programs(
+    etl_source: str, programs_data: list[dict], *, config=ProgramLoaderConfig()
+) -> list[LearningResource]:
     """Load a list of programs"""
     blocklist = load_course_blocklist()
     duplicates = load_course_duplicates(etl_source)
@@ -407,7 +465,9 @@ def load_programs(etl_source, programs_data, *, config=ProgramLoaderConfig()):
     ]
 
 
-def load_content_file(course_run, content_file_data):
+def load_content_file(
+    course_run: LearningResourceRun, content_file_data: dict
+) -> ContentFile:
     """
     Sync a course run file/page to the database
 
@@ -431,7 +491,9 @@ def load_content_file(course_run, content_file_data):
         )
 
 
-def load_content_files(course_run, content_files_data):
+def load_content_files(
+    course_run: LearningResourceRun, content_files_data: list[dict]
+) -> list[int]:
     """
     Sync all content files for a course run to database and S3 if not present in DB
 
@@ -461,7 +523,7 @@ def load_content_files(course_run, content_files_data):
     return None
 
 
-def load_podcast_episode(episode_data):
+def load_podcast_episode(episode_data: dict) -> LearningResource:
     """
     Load a podcast_episode into the database
     Args:
@@ -470,12 +532,13 @@ def load_podcast_episode(episode_data):
             configuration for this loader
 
     Returns:
-        list of LearningResource objects that were created/updated
+        LearningResource: Podcast episode resource object that was created/updated
     """
     readable_id = episode_data.pop("readable_id")
     topics_data = episode_data.pop("topics", [])
     offered_bys_data = episode_data.pop("offered_by", {})
     image_data = episode_data.pop("image", {})
+    departments_data = episode_data.pop("departments", [])
 
     episode_model_data = episode_data.pop("podcast_episode", {})
     with transaction.atomic():
@@ -493,11 +556,12 @@ def load_podcast_episode(episode_data):
     load_image(learning_resource, image_data)
     load_topics(learning_resource, topics_data)
     load_offered_by(learning_resource, offered_bys_data)
+    load_departments(learning_resource, departments_data)
 
     return learning_resource
 
 
-def load_podcast(podcast_data):
+def load_podcast(podcast_data: dict) -> LearningResource:
     """
     Load a single podcast
 
@@ -507,16 +571,17 @@ def load_podcast(podcast_data):
         config (PodcastLoaderConfig):
             configuration for this loader
     Returns:
-        Podcast:
-            the updated or created podcast
+        LearningResource:
+            the updated or created podcast resource
     """
     readable_id = podcast_data.pop("readable_id")
     episodes_data = podcast_data.pop("episodes", [])
     topics_data = podcast_data.pop("topics", [])
     offered_by_data = podcast_data.pop("offered_by", None)
     image_data = podcast_data.pop("image", {})
-
     podcast_model_data = podcast_data.pop("podcast", {})
+    departments_data = podcast_data.pop("departments", [])
+
     with transaction.atomic():
         learning_resource, created = LearningResource.objects.update_or_create(
             readable_id=readable_id,
@@ -528,6 +593,7 @@ def load_podcast(podcast_data):
         load_image(learning_resource, image_data)
         load_topics(learning_resource, topics_data)
         load_offered_by(learning_resource, offered_by_data)
+        load_departments(learning_resource, departments_data)
 
         Podcast.objects.update_or_create(
             learning_resource=learning_resource, defaults=podcast_model_data
@@ -560,7 +626,7 @@ def load_podcast(podcast_data):
         return learning_resource
 
 
-def load_podcasts(podcasts_data):
+def load_podcasts(podcasts_data: list[dict]) -> list[LearningResource]:
     """
     Load a list of podcasts
 
@@ -568,8 +634,8 @@ def load_podcasts(podcasts_data):
         podcasts_data (iter of dict): iterable of podcast data
 
     Returns:
-        list of Podcasts:
-            list of the loaded podcasts
+        list of LearningResources:
+            list of the loaded podcast resources
     """
     podcast_resources = []
 

@@ -1,4 +1,4 @@
-"""xPro course catalog ETL"""
+"""xPro learning_resources ETL"""
 import copy
 import logging
 

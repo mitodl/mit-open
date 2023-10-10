@@ -114,11 +114,8 @@ class LearningResource(TimestampedModel):
         blank=True,
         on_delete=models.deletion.SET_NULL,
     )
-    department = models.ForeignKey(
+    departments = models.ManyToManyField(
         LearningResourceDepartment,
-        null=True,
-        blank=True,
-        on_delete=models.deletion.SET_NULL,
     )
     resource_type = models.CharField(
         max_length=24,

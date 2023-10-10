@@ -1,6 +1,6 @@
 """ETL pipelines"""
 
-from toolz import compose, curried, curry
+from toolz import compose, curry
 
 from course_catalog.constants import PlatformType
 from course_catalog.etl import (
@@ -8,7 +8,6 @@ from course_catalog.etl import (
     micromasters,
     mitx,
     mitxonline,
-    ocw,
     oll,
     podcast,
     prolearn,
@@ -94,7 +93,6 @@ mitx_etl = compose(
     # it takes the concatenated raw results from MITx and uploads them as a json file to the OCW bucket  # noqa: E501
     # we'll probably do away with this at later date when we can easily move it into OCW
     # NOTE: do() runs the func with the input and then returns the input
-    curried.do(ocw.upload_mitx_course_manifest),
     mitx.extract,
 )
 

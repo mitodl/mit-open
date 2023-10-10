@@ -3,8 +3,11 @@ learning_resources tasks
 """
 
 import logging
+from datetime import datetime
 
+import boto3
 import celery
+import pytz
 from django.conf import settings
 
 from learning_resources.constants import PlatformType
@@ -13,10 +16,12 @@ from learning_resources.etl.edx_shared import (
     get_most_recent_course_archives,
     sync_edx_course_files,
 )
+from learning_resources.etl.pipelines import ocw_courses_etl
 from learning_resources.etl.utils import get_learning_course_bucket_name
 from learning_resources.models import LearningResource
 from learning_resources.utils import load_course_blocklist
 from open_discussions.celery import app
+from open_discussions.constants import ISOFORMAT
 from open_discussions.utils import chunks
 
 log = logging.getLogger(__name__)
@@ -96,3 +101,83 @@ def get_podcast_data():
     results = pipelines.podcast_etl()
 
     return len(list(results))
+
+
+@app.task(acks_late=True)
+def get_ocw_courses(*, url_paths, force_overwrite, utc_start_timestamp=None):
+    """
+    Task to sync a batch of OCW Next courses
+    """
+    if utc_start_timestamp:
+        utc_start_timestamp = datetime.strptime(  # noqa: DTZ007
+            utc_start_timestamp, ISOFORMAT
+        )
+        utc_start_timestamp = utc_start_timestamp.replace(tzinfo=pytz.UTC)
+
+    ocw_courses_etl(
+        url_paths=url_paths,
+        force_overwrite=force_overwrite,
+        start_timestamp=utc_start_timestamp,
+    )
+
+
+@app.task(bind=True, acks_late=True)
+def get_ocw_data(
+    self,
+    force_overwrite=False,  # noqa: FBT002
+    course_url_substring=None,
+    utc_start_timestamp=None,
+    prefix=None,
+):
+    """
+    Task to sync OCW Next course data with database
+    """
+    if not (
+        settings.AWS_ACCESS_KEY_ID
+        and settings.AWS_SECRET_ACCESS_KEY
+        and settings.OCW_NEXT_LIVE_BUCKET
+    ):
+        log.warning("Required settings missing for get_ocw_data")
+        return
+
+    # get all the courses prefixes we care about
+    raw_data_bucket = boto3.resource(
+        "s3",
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    ).Bucket(name=settings.OCW_NEXT_LIVE_BUCKET)
+
+    ocw_courses = set()
+    log.info("Assembling list of courses...")
+
+    if not prefix:
+        prefix = "courses/"
+
+    if course_url_substring:
+        prefix = prefix + course_url_substring + "/"
+
+    for bucket_file in raw_data_bucket.objects.filter(Prefix=prefix):
+        key_pieces = bucket_file.key.split("/")
+        if "/".join(key_pieces[:2]) != "":
+            path = "/".join(key_pieces[:2]) + "/"
+            ocw_courses.add(path)
+
+    if len(ocw_courses) == 0:
+        log.info("No courses matching url substring")
+        return
+
+    log.info("Backpopulating %d  OCW courses...", len(ocw_courses))
+
+    ocw_tasks = celery.group(
+        [
+            get_ocw_courses.si(
+                url_paths=url_path,
+                force_overwrite=force_overwrite,
+                utc_start_timestamp=utc_start_timestamp,
+            )
+            for url_path in chunks(
+                ocw_courses, chunk_size=settings.OCW_ITERATOR_CHUNK_SIZE
+            )
+        ]
+    )
+    raise self.replace(ocw_tasks)

@@ -63,6 +63,7 @@ def test_extract_text_metadata(mocker, data, token, settings, headers):
     """
     Verify that tika is called and returns a response
     """
+    settings.TIKA_TIMEOUT = 120
     settings.TIKA_ACCESS_TOKEN = token
     mock_response = {"metadata": {"Author:": "MIT"}, "content": "Extracted text"}
     mock_tika = mocker.patch(
@@ -72,17 +73,18 @@ def test_extract_text_metadata(mocker, data, token, settings, headers):
     response = utils.extract_text_metadata(data, other_headers=headers)
 
     expected_headers = {}
+    expected_options = {"timeout": 120}
+
     if token:
         expected_headers["X-Access-Token"] = token
     if headers:
         expected_headers = {**expected_headers, **headers}
+    if expected_headers:
+        expected_options["headers"] = expected_headers
 
     if data:
         assert response == mock_response
-        mock_tika.assert_called_once_with(
-            data,
-            requestOptions={"headers": expected_headers} if expected_headers else {},
-        )
+        mock_tika.assert_called_once_with(data, requestOptions=expected_options)
     else:
         assert response is None
         mock_tika.assert_not_called()

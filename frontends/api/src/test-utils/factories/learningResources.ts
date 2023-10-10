@@ -108,7 +108,7 @@ const learningResource: Factory<LearningResource> = (
     professional: faker.datatype.boolean(),
     certification: null,
     course: null,
-    department: learningResourceDepartment(),
+    departments: [learningResourceDepartment()],
     description: faker.lorem.paragraph(),
     image: learningResourceImage(),
     offered_by: null,

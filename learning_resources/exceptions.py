@@ -1,4 +1,4 @@
-"""Custom exceptions for course_catalog"""
+"""Custom exceptions for learning_resources"""
 
 
 class WebhookException(Exception):  # noqa: N818

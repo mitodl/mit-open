@@ -8,8 +8,9 @@ from decorator import contextmanager
 from moto import mock_s3
 
 from learning_resources import factories, models, tasks
-from learning_resources.conftest import setup_s3
+from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3, setup_s3_ocw
 from learning_resources.constants import LearningResourceType, PlatformType
+from learning_resources.tasks import get_ocw_data
 
 pytestmark = pytest.mark.django_db
 # pylint:disable=redefined-outer-name,unused-argument,too-many-arguments
@@ -126,3 +127,82 @@ def test_get_podcast_data(mocker):
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     tasks.get_podcast_data.delay()
     mock_pipelines.podcast_etl.assert_called_once()
+
+
+@mock_s3
+@pytest.mark.parametrize("force_overwrite", [True, False])
+@pytest.mark.parametrize(
+    "url_substring",
+    [
+        None,
+        "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006",
+        "not-a-match",
+    ],
+)
+def test_get_ocw_data(settings, mocker, mocked_celery, force_overwrite, url_substring):
+    """Test get_ocw_data task"""
+    setup_s3_ocw(settings)
+    get_ocw_courses_mock = mocker.patch(
+        "learning_resources.tasks.get_ocw_courses", autospec=True
+    )
+
+    if url_substring == "not-a-match":
+        error_expectation = does_not_raise()
+    else:
+        error_expectation = pytest.raises(mocked_celery.replace_exception_class)
+
+    with error_expectation:
+        tasks.get_ocw_data.delay(
+            force_overwrite=force_overwrite, course_url_substring=url_substring
+        )
+
+    if url_substring == "not-a-match":
+        assert mocked_celery.group.call_count == 0
+    else:
+        assert mocked_celery.group.call_count == 1
+        get_ocw_courses_mock.si.assert_called_once_with(
+            url_paths=[OCW_TEST_PREFIX],
+            force_overwrite=force_overwrite,
+            utc_start_timestamp=None,
+        )
+
+
+def test_get_ocw_data_no_settings(settings, mocker):
+    """Test get_ocw_data task without required settings"""
+    settings.OCW_NEXT_LIVE_BUCKET = None
+    mock_log = mocker.patch("learning_resources.tasks.log.warning")
+    get_ocw_data()
+    mock_log.assert_called_once_with("Required settings missing for get_ocw_data")
+
+
+@mock_s3
+@pytest.mark.parametrize("timestamp", [None, "2020-12-15T00:00:00Z"])
+@pytest.mark.parametrize("overwrite", [True, False])
+def test_get_ocw_courses(settings, mocker, mocked_celery, timestamp, overwrite):
+    """
+    Test get_ocw_courses
+    """
+    setup_s3_ocw(settings)
+    mocker.patch("learning_resources.etl.loaders.search_index_helpers.upsert_course")
+    mocker.patch("learning_resources.etl.pipelines.loaders.load_content_files")
+    mocker.patch("learning_resources.etl.ocw.transform_content_files")
+    tasks.get_ocw_courses.delay(
+        url_paths=[OCW_TEST_PREFIX],
+        force_overwrite=overwrite,
+        utc_start_timestamp=timestamp,
+    )
+
+    assert models.LearningResource.objects.count() == 1
+    assert models.Course.objects.count() == 1
+    assert models.LearningResourceInstructor.objects.count() == 10
+    assert models.LearningResourceTopic.objects.count() == 11
+
+    course_resource = models.Course.objects.first().learning_resource
+    assert course_resource.title == "Unified Engineering I, II, III, & IV"
+    assert course_resource.readable_id == "16.01"
+    assert course_resource.runs.count() == 1
+    assert course_resource.runs.first().run_id == "97db384ef34009a64df7cb86cf701979"
+    assert (
+        course_resource.runs.first().slug
+        == "courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+    )

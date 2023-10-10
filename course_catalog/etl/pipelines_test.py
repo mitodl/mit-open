@@ -112,16 +112,14 @@ def test_mitx_etl():
         patch("course_catalog.etl.mitx.extract", autospec=True),
         patch("course_catalog.etl.mitx.transform", autospec=False),
         patch("course_catalog.etl.loaders.load_courses", autospec=True),
-        patch("course_catalog.etl.ocw.upload_mitx_course_manifest", autospec=True),
     ) as patches:
-        mock_extract, mock_transform, mock_load_courses, mock_upload_manifest = patches
+        mock_extract, mock_transform, mock_load_courses = patches
         result = pipelines.mitx_etl()
 
     mock_extract.assert_called_once_with()
 
     # each of these should be called with the return value of the extract
     mock_transform.assert_called_once_with(mock_extract.return_value)
-    mock_upload_manifest.assert_called_once_with(mock_extract.return_value)
 
     # load_courses should be called *only* with the return value of transform
     mock_load_courses.assert_called_once_with(

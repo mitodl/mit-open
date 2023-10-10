@@ -7,13 +7,23 @@ import factory
 import pytz
 from factory import Faker
 from factory.django import DjangoModelFactory
-from factory.fuzzy import FuzzyChoice, FuzzyInteger, FuzzyText
+from factory.fuzzy import FuzzyChoice, FuzzyText
 
 from learning_resources import constants, models
-from learning_resources.constants import PlatformType
+from learning_resources.constants import DEPARTMENTS, PlatformType
 from open_discussions.factories import UserFactory
 
 # pylint:disable=unused-argument
+
+
+def _post_gen_departments(obj, create, extracted, **kwargs):  # noqa: ARG001
+    """PostGeneration function for departments"""
+    if not create:
+        return
+
+    if extracted is None:
+        extracted = LearningResourceDepartmentFactory.create_batch(1)
+        obj.departments.set(extracted)
 
 
 def _post_gen_topics(obj, create, extracted, **kwargs):  # noqa: ARG001
@@ -102,8 +112,8 @@ class LearningResourcePlatformFactory(DjangoModelFactory):
 class LearningResourceDepartmentFactory(DjangoModelFactory):
     """Factory for LearningResourcePlatform"""
 
-    department_id = FuzzyInteger(1, 20)
-    name = Faker("word")
+    department_id = factory.Sequence(lambda n: "%03d" % n)
+    name = factory.Sequence(lambda n: "%03d name" % n)
 
     class Meta:
         model = models.LearningResourceDepartment
@@ -142,8 +152,8 @@ class LearningResourceFactory(DjangoModelFactory):
     last_modified = factory.Faker("date_time", tzinfo=pytz.utc)
     image = factory.SubFactory(LearningResourceImageFactory)
     platform = factory.SubFactory(LearningResourcePlatformFactory)
-    department = factory.SubFactory(LearningResourceDepartmentFactory)
     offered_by = factory.SubFactory(LearningResourceOfferorFactory)
+    departments = factory.PostGeneration(_post_gen_departments)
     topics = factory.PostGeneration(_post_gen_topics)
     resource_content_tags = factory.PostGeneration(_post_gen_tags)
 
@@ -210,6 +220,22 @@ class CourseFactory(DjangoModelFactory):
 
         self.learning_resource.offered_by = LearningResourceOfferorFactory.create(
             name=extracted
+        )
+        self.learning_resource.save()
+
+    @factory.post_generation
+    def department(self, create, extracted, **kwargs):  # noqa: ARG002
+        """Create LearningResourceDepartment for course.learning_resource"""
+        if not create or not extracted:
+            return
+
+        self.learning_resource.departments.set(
+            [
+                LearningResourceDepartmentFactory.create(
+                    department_id=extracted,
+                    name=DEPARTMENTS[extracted],
+                )
+            ]
         )
         self.learning_resource.save()
 

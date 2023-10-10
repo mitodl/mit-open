@@ -224,7 +224,9 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     resource_content_tags = LearningResourceContentTagField(
         read_only=True, allow_null=True
     )
-    department = LearningResourceDepartmentSerializer(read_only=True, allow_null=True)
+    departments = LearningResourceDepartmentSerializer(
+        read_only=True, allow_null=True, many=True
+    )
     certification = serializers.ReadOnlyField()
     prices = serializers.ReadOnlyField()
     course = CourseSerializer(read_only=True, allow_null=True)
@@ -468,7 +470,9 @@ class ContentFileSerializer(serializers.ModelSerializer):
     topics = LearningResourceTopicsField(source="run.learning_resource.topics")
     short_description = serializers.CharField(source="description")
     resource_id = serializers.CharField(source="run.learning_resource.id")
-    department = serializers.CharField(source="run.learning_resource.department")
+    departments = LearningResourceDepartmentSerializer(
+        source="run.learning_resource.departments", many=True
+    )
     resource_readable_id = serializers.CharField(
         source="run.learning_resource.readable_id"
     )
@@ -491,7 +495,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "run_id",
             "run_title",
             "run_slug",
-            "department",
+            "departments",
             "semester",
             "year",
             "topics",
