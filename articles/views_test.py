@@ -12,12 +12,12 @@ def test_article_creation(staff_client, user):
 
     url = reverse("articles-list")
     data = {
-        "html": "<div><script>console.log('hax')</script></div>",
+        "html": "<p><script>console.log('hax')</script></p>",
         "title": "Some title",
     }
     resp = staff_client.post(url, data)
     json = resp.json()
-    assert json["html"] == "<div></div>"
+    assert json["html"] == "<p></p>"
     assert json["title"] == "Some title"
 
 

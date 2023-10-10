@@ -4,7 +4,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./test_utils": "./src/test_utils.tsx",
-    "./webpack-utils": "./src/webpack-utils.js"
+    "./webpack-utils": "./src/webpack-utils.js",
+    "./assets/vendor/ckeditor_content_styles": "./assets/vendor/ckeditor_content_styles"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-adapter-ckfinder": "^40.0.0",

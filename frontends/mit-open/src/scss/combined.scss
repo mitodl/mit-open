@@ -16,6 +16,7 @@
 @use "ol-util/assets/sortable";
 @use "demopage";
 @use "articles";
+@use "ol-ckeditor/assets/vendor/ckeditor_content_styles";
 
 html {
   font-family: theme.$font-family-default;
