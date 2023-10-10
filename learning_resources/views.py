@@ -514,9 +514,7 @@ class WebhookOCWNextView(views.APIView):
         """Process webhook request"""
         content = rapidjson.loads(request.body.decode())
 
-        if not compare_digest(
-            content.get("webhook_key", ""), settings.OCW_NEXT_SEARCH_WEBHOOK_KEY
-        ):
+        if not compare_digest(content.get("webhook_key", ""), settings.OCW_WEBHOOK_KEY):
             msg = "Incorrect webhook key"
             raise WebhookException(msg)
 

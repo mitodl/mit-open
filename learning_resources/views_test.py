@@ -416,7 +416,7 @@ def test_get_podcast_items_endpoint(client, url):
 )
 def test_ocw_next_webhook_endpoint(client, mocker, settings, data):
     """Test that the OCW webhook endpoint schedules a get_ocw_courses task"""
-    settings.OCW_NEXT_SEARCH_WEBHOOK_KEY = "fake_key"
+    settings.OCW_WEBHOOK_KEY = "fake_key"
     mock_get_ocw = mocker.patch(
         "learning_resources.views.get_ocw_courses.delay", autospec=True
     )
@@ -451,7 +451,7 @@ def test_ocw_next_webhook_endpoint(client, mocker, settings, data):
 )
 def test_ocw_next_webhook_endpoint_unpublished(client, mocker, settings, data):
     """Test that the OCW webhook endpoint removes an unpublished task from the search index"""
-    settings.OCW_NEXT_SEARCH_WEBHOOK_KEY = "fake_key"
+    settings.OCW_WEBHOOK_KEY = "fake_key"
     mock_delete_course = mocker.patch(
         "learning_resources.views.deindex_course", autospec=True
     )
@@ -482,7 +482,7 @@ def test_ocw_next_webhook_endpoint_unpublished(client, mocker, settings, data):
 
 def test_ocw_next_webhook_endpoint_bad_key(settings, client):
     """Test that a webhook exception is raised if a bad key is sent"""
-    settings.OCW_NEXT_SEARCH_WEBHOOK_KEY = "fake_key"
+    settings.OCW_WEBHOOK_KEY = "fake_key"
     with pytest.raises(WebhookException):
         client.post(
             reverse("ocw-next-webhook"),

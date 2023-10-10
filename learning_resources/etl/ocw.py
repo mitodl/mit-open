@@ -56,7 +56,7 @@ def transform_content_files(
         dict: transformed content file data
 
     """
-    bucket = s3_resource.Bucket(name=settings.OCW_NEXT_LIVE_BUCKET)
+    bucket = s3_resource.Bucket(name=settings.OCW_LIVE_BUCKET)
 
     for obj in bucket.objects.filter(Prefix=course_prefix + "pages/"):
         if obj.key.endswith("data.json"):
@@ -87,7 +87,7 @@ def transform_content_files(
 
 def transform_page(s3_key: str, page_data: dict) -> dict:
     """
-    Transforms the data from data.json for a page into content_file data
+    Transform the data from data.json for a page into content_file data
 
     Args:
         s3_key (str):S3 path for the data.json file for the page
@@ -96,7 +96,7 @@ def transform_page(s3_key: str, page_data: dict) -> dict:
     Returns:
         dict: transformed content file data
 
-    """  # noqa: D401
+    """
 
     s3_path = s3_key.split("data.json")[0]
     return {
@@ -131,14 +131,9 @@ def get_file_content(
     content_json = None
 
     if ext_lower in VALID_TEXT_FILE_TYPES:
-        try:
-            s3_obj = s3_resource.Object(
-                settings.OCW_NEXT_AWS_STORAGE_BUCKET_NAME, unquote(file_s3_path)
-            ).get()
-        except ClientError:
-            s3_obj = s3_resource.Object(
-                settings.OCW_NEXT_LIVE_BUCKET, unquote(file_s3_path)
-            ).get()
+        s3_obj = s3_resource.Object(
+            settings.OCW_LIVE_BUCKET, unquote(file_s3_path)
+        ).get()
 
         course_file_obj = ContentFile.objects.filter(key=s3_path).first()
 
@@ -230,6 +225,7 @@ def transform_contentfile(
 
 def transform_run(course_data: dict) -> dict:
     """Convert ocw course data into a dict for a run"""
+    image_src = course_data.get("image_src")
     return {
         "run_id": course_data["run_id"],
         "published": True,
@@ -239,10 +235,13 @@ def transform_run(course_data: dict) -> dict:
         "semester": course_data.get("term"),
         "availability": AvailabilityType.current.value,
         "image": {
-            "url": course_data.get("image_src"),
+            "url": urljoin(settings.OCW_BASE_URL, image_src) if image_src else None,
             "description": course_data.get("course_image_metadata", {}).get(
                 "description"
             ),
+            "alt": course_data.get("course_image_metadata", {})
+            .get("image_metadata", {})
+            .get("image-alt"),
         },
         "level": ", ".join(course_data.get("level", [])),
         "last_modified": course_data.get("last_modified"),
@@ -254,14 +253,14 @@ def transform_run(course_data: dict) -> dict:
 
 def transform_course(course_data: dict) -> dict:
     """
-    Transforms a course into our normalized data structure
+    Transform a course into our normalized data structure
 
     Args:
         course_data (dict): course data
 
     Returns:
         dict: normalized learning resource data
-    """  # noqa: D401
+    """
 
     uid = course_data.get("legacy_uid")
 
@@ -295,6 +294,7 @@ def transform_course(course_data: dict) -> dict:
             }
         )
     ]
+    image_src = course_data.get("image_src")
 
     return {
         "readable_id": course_id,
@@ -303,10 +303,13 @@ def transform_course(course_data: dict) -> dict:
         "departments": course_data.get("department_numbers", []),
         "resource_content_tags": course_data.get("learning_resource_types", []),
         "image": {
-            "url": course_data.get("image_src"),
+            "url": urljoin(settings.OCW_BASE_URL, image_src) if image_src else None,
             "description": course_data.get("course_image_metadata", {}).get(
                 "description"
             ),
+            "alt": course_data.get("course_image_metadata", {})
+            .get("image_metadata", {})
+            .get("image-alt"),
         },
         "offered_by": copy.deepcopy(OFFERED_BY),
         "description": course_data["course_description"],
@@ -345,7 +348,7 @@ def extract_course(
     if not url_path.endswith("/"):
         url_path = f"{url_path}/"
     s3_data_object = s3_resource.Object(
-        settings.OCW_NEXT_LIVE_BUCKET, url_path + "data.json"
+        settings.OCW_LIVE_BUCKET, url_path + "data.json"
     )
 
     try:
@@ -357,7 +360,7 @@ def extract_course(
         log.exception("Error encountered reading data.json for %s", url_path)
         return None
 
-    # if course  synced before, check if modified since then
+    # if course synced before, check if modified since then
     course_instance = LearningResource.objects.filter(
         platform=PlatformType.ocw.value, readable_id=course_json.get(PRIMARY_COURSE_ID)
     ).first()
@@ -384,5 +387,5 @@ def extract_course(
         **course_json,
         "last_modified": last_modified,
         "slug": run_slug,
-        "url": urljoin(settings.OCW_NEXT_BASE_URL, run_slug),
+        "url": urljoin(settings.OCW_BASE_URL, run_slug),
     }

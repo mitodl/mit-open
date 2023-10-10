@@ -169,7 +169,7 @@ def test_get_ocw_data(settings, mocker, mocked_celery, force_overwrite, url_subs
 
 def test_get_ocw_data_no_settings(settings, mocker):
     """Test get_ocw_data task without required settings"""
-    settings.OCW_NEXT_LIVE_BUCKET = None
+    settings.OCW_LIVE_BUCKET = None
     mock_log = mocker.patch("learning_resources.tasks.log.warning")
     get_ocw_data()
     mock_log.assert_called_once_with("Required settings missing for get_ocw_data")

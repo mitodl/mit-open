@@ -135,7 +135,7 @@ def get_ocw_data(
     if not (
         settings.AWS_ACCESS_KEY_ID
         and settings.AWS_SECRET_ACCESS_KEY
-        and settings.OCW_NEXT_LIVE_BUCKET
+        and settings.OCW_LIVE_BUCKET
     ):
         log.warning("Required settings missing for get_ocw_data")
         return
@@ -145,7 +145,7 @@ def get_ocw_data(
         "s3",
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-    ).Bucket(name=settings.OCW_NEXT_LIVE_BUCKET)
+    ).Bucket(name=settings.OCW_LIVE_BUCKET)
 
     ocw_courses = set()
     log.info("Assembling list of courses...")
@@ -166,7 +166,7 @@ def get_ocw_data(
         log.info("No courses matching url substring")
         return
 
-    log.info("Backpopulating %d  OCW courses...", len(ocw_courses))
+    log.info("Backpopulating %d OCW courses...", len(ocw_courses))
 
     ocw_tasks = celery.group(
         [

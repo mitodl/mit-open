@@ -139,7 +139,7 @@ def load_resource_content_tags(
             tags.append(tag)
         resource.resource_content_tags.set(tags)
         resource.save()
-    return resource.topics.all()
+    return resource.resource_content_tags.all()
 
 
 def load_run(

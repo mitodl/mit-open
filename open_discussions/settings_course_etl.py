@@ -1,7 +1,7 @@
 """
-Django settings specific to course catalog ingestion
+Django settings specific to learning_resources ingestion
 """
-from open_discussions.envs import get_bool, get_int, get_string
+from open_discussions.envs import get_int, get_string
 
 # EDX API Credentials
 EDX_API_URL = get_string("EDX_API_URL", None)
@@ -15,22 +15,12 @@ EDX_LEARNING_COURSE_BUCKET_PREFIX = get_string(
 # Authentication for the github api
 GITHUB_ACCESS_TOKEN = get_string("GITHUB_ACCESS_TOKEN", None)
 
-# S3 Bucket info for OCW Plone CMS exports
-OCW_CONTENT_BUCKET_NAME = get_string("OCW_CONTENT_BUCKET_NAME", None)
-
-# s3 Buckets for OCW Next imports
-OCW_NEXT_LIVE_BUCKET = get_string("OCW_NEXT_LIVE_BUCKET", None)
-OCW_NEXT_AWS_STORAGE_BUCKET_NAME = get_string("OCW_NEXT_AWS_STORAGE_BUCKET_NAME", None)
-
-# S3 Bucket info for exporting OCW Plone media files
-OCW_LEARNING_COURSE_BUCKET_NAME = get_string("OCW_LEARNING_COURSE_BUCKET_NAME", None)
-OCW_UPLOAD_IMAGE_ONLY = get_bool("OCW_UPLOAD_IMAGE_ONLY", False)  # noqa: FBT003
+# OCW settings
+OCW_LIVE_BUCKET = get_string("OCW_LIVE_BUCKET", None)
 OCW_ITERATOR_CHUNK_SIZE = get_int("OCW_ITERATOR_CHUNK_SIZE", 1000)
-OCW_WEBHOOK_DELAY = get_int("OCW_WEBHOOK_DELAY", 120)
 OCW_WEBHOOK_KEY = get_string("OCW_WEBHOOK_KEY", None)
-OCW_NEXT_SEARCH_WEBHOOK_KEY = get_string("OCW_NEXT_SEARCH_WEBHOOK_KEY", None)
 MAX_S3_GET_ITERATIONS = get_int("MAX_S3_GET_ITERATIONS", 3)
-OCW_NEXT_BASE_URL = get_string("OCW_NEXT_BASE_URL", "http://ocw.mit.edu/")
+
 
 # Base URL's for courses
 OCW_BASE_URL = get_string("OCW_BASE_URL", "http://ocw.mit.edu/")

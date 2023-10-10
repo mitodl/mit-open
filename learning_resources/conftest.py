@@ -88,18 +88,17 @@ def setup_s3_ocw(settings):
     # Fake the settings
     settings.AWS_ACCESS_KEY_ID = "abc"
     settings.AWS_SECRET_ACCESS_KEY = "abc"  # noqa: S105
-    settings.OCW_NEXT_LIVE_BUCKET = "test_bucket"
-    settings.OCW_NEXT_AWS_STORAGE_BUCKET_NAME = "test_bucket"
+    settings.OCW_LIVE_BUCKET = "test_bucket"
     # Create our fake bucket
     conn = boto3.resource(
         "s3",
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
     )
-    conn.create_bucket(Bucket=settings.OCW_NEXT_LIVE_BUCKET)
+    conn.create_bucket(Bucket=settings.OCW_LIVE_BUCKET)
 
     # Add data to the fake ocw next bucket
-    ocw_next_bucket = conn.Bucket(name=settings.OCW_NEXT_LIVE_BUCKET)
+    ocw_next_bucket = conn.Bucket(name=settings.OCW_LIVE_BUCKET)
 
     base_folder = OCW_TEST_JSON_PATH.replace("./test_json/", "")
 

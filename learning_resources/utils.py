@@ -2,7 +2,6 @@
 import logging
 import re
 from datetime import datetime
-from urllib.parse import urljoin
 
 import pytz
 import rapidjson
@@ -15,7 +14,6 @@ from retry import retry
 
 from learning_resources.constants import (
     GROUP_STAFF_LISTS_EDITORS,
-    PlatformType,
     semester_mapping,
 )
 from open_discussions.utils import generate_filepath
@@ -78,36 +76,6 @@ def get_year_and_semester(course_run):
             semester = None
             year = course_run.get("start")[:4] if course_run.get("start") else None
     return year, semester
-
-
-def get_course_url(course_id, course_json, platform):
-    """
-    Get the url for a course if any
-
-    Args:
-        course_id (str): The course_id of the course
-        course_json (dict): The raw json for the course
-        platform (str): The platform (mitx or ocw)
-
-    Returns:
-        str: The url for the course if any
-    """
-    if platform == PlatformType.ocw.value:
-        if course_json is not None:
-            urlpath = course_json.get("url")
-            if urlpath:
-                return urljoin(settings.OCW_BASE_URL, urlpath)
-    elif platform == PlatformType.mitxonline.value:
-        if course_json is not None:
-            preferred_urls = []
-            for run in course_json.get("course_runs", []):
-                url = run.get("marketing_url", "")
-                if url and settings.MITX_BASE_URL in url:
-                    preferred_urls.append(url)
-            if preferred_urls:
-                return preferred_urls[0].split("?")[0]
-        return f"{settings.MITX_ALT_URL}{course_id}/course/"
-    return None
 
 
 def semester_year_to_date(semester, year, ending=False):  # noqa: FBT002

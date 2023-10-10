@@ -11,11 +11,9 @@ from learning_resources.constants import (
     CONTENT_TYPE_FILE,
     CONTENT_TYPE_PDF,
     CONTENT_TYPE_VIDEO,
-    PlatformType,
 )
 from learning_resources.etl.utils import get_content_type
 from learning_resources.utils import (
-    get_course_url,
     get_ocw_topics,
     load_course_blocklist,
     load_course_duplicates,
@@ -32,68 +30,6 @@ def fixture_test_instructors_data():
     """
     with open("./test_json/test_instructors_data.json") as test_data:  # noqa: PTH123
         return json.load(test_data)["instructors"]
-
-
-@pytest.mark.parametrize(
-    ("course_id", "course_json", "platform", "expected"),
-    [
-        [  # noqa: PT007
-            "MITX-01",
-            {"course_runs": [{"marketing_url": "https://www.edx.org/course/someurl"}]},
-            PlatformType.mitxonline.value,
-            "https://www.edx.org/course/someurl",
-        ],
-        [  # noqa: PT007
-            "MITX-01",
-            {"course_runs": [{"marketing_url": "https://www.edx.org/"}]},
-            PlatformType.mitxonline.value,
-            "https://courses.edx.org/courses/MITX-01/course/",
-        ],
-        [  # noqa: PT007
-            "MITX-01",
-            {"course_runs": [{"marketing_url": ""}]},
-            PlatformType.mitxonline.value,
-            "https://courses.edx.org/courses/MITX-01/course/",
-        ],
-        [  # noqa: PT007
-            "MITX-01",
-            {"course_runs": [{}]},
-            PlatformType.mitxonline.value,
-            "https://courses.edx.org/courses/MITX-01/course/",
-        ],
-        [  # noqa: PT007
-            "MITX-01",
-            {},
-            PlatformType.mitxonline.value,
-            "https://courses.edx.org/courses/MITX-01/course/",
-        ],
-        [  # noqa: PT007
-            "e9387c256bae4ca99cce88fd8b7f8272",
-            {"url": "/someurl"},
-            PlatformType.ocw.value,
-            "http://ocw.mit.edu/someurl",
-        ],
-        [  # noqa: PT007
-            "e9387c256bae4ca99cce88fd8b7f8272",
-            {"url": ""},
-            PlatformType.ocw.value,
-            None,
-        ],
-        [  # noqa: PT007
-            "e9387c256bae4ca99cce88fd8b7f8272",
-            {},
-            PlatformType.ocw.value,
-            None,
-        ],
-    ],
-)
-def test_get_course_url(course_id, course_json, platform, expected):
-    """Test that url's are calculated as expected"""
-    actual_url = get_course_url(course_id, course_json, platform)
-    if expected is None:
-        assert actual_url is expected
-    else:
-        assert actual_url == expected
 
 
 @pytest.mark.parametrize(

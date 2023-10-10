@@ -128,7 +128,7 @@ def test_transform_content_file_needs_text_update(
         return_value={"content": "TEXT"},
     )
     s3_resource_object = s3_resource.Object(
-        settings.OCW_NEXT_LIVE_BUCKET,
+        settings.OCW_LIVE_BUCKET,
         "courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/resources/resource/data.json",
     )
     resource_json = safe_load_json(
@@ -164,8 +164,9 @@ def test_transform_content_file_needs_text_update(
         (None, None, None, True),
     ],
 )
-def test_transform_course(legacy_uid, site_uid, expected_uid, has_extra_num):
+def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extra_num):
     """transform_course should return expected data"""
+    settings.OCW_BASE_URL = "http://test.edu/"
     with Path.open(
         Path(__file__).parent.parent.parent
         / "test_json/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
@@ -185,6 +186,12 @@ def test_transform_course(legacy_uid, site_uid, expected_uid, has_extra_num):
     transformed_json = transform_course(extracted_json)
     if expected_uid:
         assert transformed_json["runs"][0]["run_id"] == expected_uid
+        assert transformed_json["image"]["url"] == (
+            "http://test.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg"
+        )
+        assert transformed_json["image"]["alt"] == (
+            "Illustration of an aircraft wing showing connections between the disciplines of the course."
+        )
         assert transformed_json["course"]["extra_course_numbers"] == (
             ["1", "2"] if has_extra_num else []
         )
