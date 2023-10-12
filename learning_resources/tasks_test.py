@@ -199,7 +199,7 @@ def test_get_ocw_courses(settings, mocker, mocked_celery, timestamp, overwrite):
 
     course_resource = models.Course.objects.first().learning_resource
     assert course_resource.title == "Unified Engineering I, II, III, & IV"
-    assert course_resource.readable_id == "16.01"
+    assert course_resource.readable_id == "16.01+Fall_2005"
     assert course_resource.runs.count() == 1
     assert course_resource.runs.first().run_id == "97db384ef34009a64df7cb86cf701979"
     assert (
