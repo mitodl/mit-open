@@ -10,6 +10,7 @@ from moto import mock_s3
 
 from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3_ocw
 from learning_resources.etl.ocw import (
+    ETL_SOURCE,
     transform_content_files,
     transform_contentfile,
     transform_course,
@@ -185,6 +186,8 @@ def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extr
     }
     transformed_json = transform_course(extracted_json)
     if expected_uid:
+        assert transformed_json["readable_id"] == "16.01+Fall_2005"
+        assert transformed_json["etl_source"] == ETL_SOURCE
         assert transformed_json["runs"][0]["run_id"] == expected_uid
         assert transformed_json["image"]["url"] == (
             "http://test.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg"
@@ -193,7 +196,7 @@ def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extr
             "Illustration of an aircraft wing showing connections between the disciplines of the course."
         )
         assert transformed_json["course"]["extra_course_numbers"] == (
-            ["1", "2"] if has_extra_num else []
+            ["16.01", "1", "2"] if has_extra_num else ["16.01"]
         )
     else:
         assert transformed_json is None

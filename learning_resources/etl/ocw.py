@@ -37,6 +37,7 @@ log = logging.getLogger(__name__)
 
 OFFERED_BY = {"name": OfferedBy.ocw.value}
 PRIMARY_COURSE_ID = "primary_course_number"
+ETL_SOURCE = "ocw"
 
 
 def transform_content_files(
@@ -276,14 +277,16 @@ def transform_course(course_data: dict) -> dict:
     else:
         uid = uid.replace("-", "")
     course_data["run_id"] = uid
+    course_id = f"{course_data.get(PRIMARY_COURSE_ID)}"
+    readable_id = f"{course_id}+{course_data.get('term')}_{course_data.get('year')}"
     extra_course_numbers = course_data.get("extra_course_numbers", None)
 
     if extra_course_numbers:
         extra_course_numbers = [num.strip() for num in extra_course_numbers.split(",")]
     else:
         extra_course_numbers = []
+    extra_course_numbers.insert(0, course_id)
 
-    course_id = f"{course_data.get(PRIMARY_COURSE_ID)}"
     topics = [
         {"name": topic_name}
         for topic_name in list(
@@ -297,7 +300,9 @@ def transform_course(course_data: dict) -> dict:
     image_src = course_data.get("image_src")
 
     return {
-        "readable_id": course_id,
+        "readable_id": readable_id,
+        "etl_source": ETL_SOURCE,
+        "offered_by": copy.deepcopy(OFFERED_BY),
         "platform": PlatformType.ocw.value,
         "title": course_data["course_title"],
         "departments": course_data.get("department_numbers", []),
@@ -311,7 +316,6 @@ def transform_course(course_data: dict) -> dict:
             .get("image_metadata", {})
             .get("image-alt"),
         },
-        "offered_by": copy.deepcopy(OFFERED_BY),
         "description": course_data["course_description"],
         "url": course_data.get("url"),
         "last_modified": course_data.get("last_modified"),
