@@ -50,6 +50,7 @@ const ArticlesDetailPage: React.FC = () => {
               </Grid>
             )}
             <div
+              className="ck-content"
               dangerouslySetInnerHTML={{
                 __html: article.data?.html ?? "",
               }}

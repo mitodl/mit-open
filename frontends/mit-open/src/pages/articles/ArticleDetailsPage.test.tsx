@@ -1,5 +1,5 @@
 import React from "react"
-import { renderWithProviders, screen } from "../../test-utils"
+import { renderWithProviders, screen, waitFor } from "../../test-utils"
 import ArticleDetailsPage from "./ArticleDetailsPage"
 import { Route } from "react-router"
 import type { Article } from "api"
@@ -25,7 +25,9 @@ describe("ArticleDetailsPage", () => {
     })
     screen.getByText(article.html)
 
-    expect(document.title).toBe(article.title)
+    await waitFor(() => {
+      expect(document.title).toBe(article.title)
+    })
   })
 
   it("Shows a link to the edit page", async () => {

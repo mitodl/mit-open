@@ -16,6 +16,7 @@ import {
   ImageStyle,
   ImageToolbar,
   ImageUpload,
+  ImageCaption,
 } from "@ckeditor/ckeditor5-image"
 import { Link } from "@ckeditor/ckeditor5-link"
 import { List } from "@ckeditor/ckeditor5-list"
@@ -26,9 +27,8 @@ import { CloudServices } from "@ckeditor/ckeditor5-cloud-services"
 // block toolbar setup
 import { BlockToolbar } from "@ckeditor/ckeditor5-ui"
 import { ParagraphButtonUI } from "@ckeditor/ckeditor5-paragraph"
-import { ensureEmbedlyPlatform } from "ol-util"
-import BlockEditorIcon from "./BlockEditorIcon"
-import { icons } from "@ckeditor/ckeditor5-core"
+import { ensureEmbedlyPlatform, embedlyCardHtml } from "ol-util"
+import cloudServicesConfig from "./cloudServices"
 
 const baseEditorConfig: EditorConfig = {
   plugins: [
@@ -50,10 +50,14 @@ const baseEditorConfig: EditorConfig = {
     ImageStyle,
     ImageToolbar,
     ImageUpload,
+    ImageCaption,
     ParagraphButtonUI,
-    BlockEditorIcon,
   ],
-  // blockToolbar: ["mediaEmbed", "imageUpload"],
+  blockToolbar: {
+    items: ["imageUpload", "mediaEmbed"],
+    // @ts-expect-error See https://github.com/ckeditor/ckeditor5/issues/15151
+    icon: "plus",
+  },
   toolbar: {
     items: [
       "heading",
@@ -72,25 +76,22 @@ const baseEditorConfig: EditorConfig = {
       "imageStyle:side",
       "|",
       "imageTextAlternative",
+      "toggleImageCaption",
     ],
   },
-  // cloudServices: getCloudServicesConfig(),
-  // mediaEmbed: {
-  //   previewsInData: true,
-  //   providers: [
-  //     {
-  //       name: "embedly",
-  //       url: /.+/,
-  //       html: (match) => {
-  //         const url = match[0]
+  cloudServices: cloudServicesConfig(),
+  mediaEmbed: {
+    providers: [
+      {
+        name: "embedly",
+        url: /.+/,
+        html: (match) => {
+          const url = match[0]
 
-  //         return embedlyCardHtml(url)
-  //       },
-  //     },
-  //   ],
-  // },
-  blockEditorIcon: {
-    icon: icons.plus,
+          return embedlyCardHtml(url)
+        },
+      },
+    ],
   },
 }
 

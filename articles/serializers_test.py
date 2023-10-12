@@ -9,8 +9,8 @@ class HTMLSantizingSerializer(serializers.Serializer):
 
 def test_html_sanitization():
     serializer = HTMLSantizingSerializer(
-        data={"html": "<div><script>console.error('danger!')</script></div>"}
+        data={"html": "<p><script>console.error('danger!')</script></p>"}
     )
     serializer.is_valid()
 
-    assert serializer.data["html"] == "<div></div>"
+    assert serializer.data["html"] == "<p></p>"
