@@ -10,6 +10,7 @@ from urllib.parse import unquote, urljoin, urlparse
 import boto3
 from botocore.exceptions import ClientError
 from django.conf import settings
+from django.utils.text import slugify
 from requests import ReadTimeout
 from retry import retry
 
@@ -278,7 +279,9 @@ def transform_course(course_data: dict) -> dict:
         uid = uid.replace("-", "")
     course_data["run_id"] = uid
     course_id = f"{course_data.get(PRIMARY_COURSE_ID)}"
-    readable_id = f"{course_id}+{course_data.get('term')}_{course_data.get('year')}"
+    readable_id = (
+        f"{course_id}+{slugify(course_data.get('term'))}_{course_data.get('year')}"
+    )
     extra_course_numbers = course_data.get("extra_course_numbers", None)
 
     if extra_course_numbers:

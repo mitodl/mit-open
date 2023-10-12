@@ -186,7 +186,7 @@ def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extr
     }
     transformed_json = transform_course(extracted_json)
     if expected_uid:
-        assert transformed_json["readable_id"] == "16.01+Fall_2005"
+        assert transformed_json["readable_id"] == "16.01+fall_2005"
         assert transformed_json["etl_source"] == ETL_SOURCE
         assert transformed_json["runs"][0]["run_id"] == expected_uid
         assert transformed_json["image"]["url"] == (

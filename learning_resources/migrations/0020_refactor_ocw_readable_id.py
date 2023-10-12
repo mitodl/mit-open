@@ -1,6 +1,7 @@
 # Generated manually to convert the readable_id for OCW learning resources
 
 from django.db import migrations
+from django.utils.text import slugify
 
 from learning_resources.constants import PlatformType
 from learning_resources.etl import ocw
@@ -24,7 +25,9 @@ def update_ocw_readable_id(apps, schema_editor):
         course.save()
         resource.etl_source = ocw.ETL_SOURCE
         run = resource.runs.first()
-        resource.readable_id = f"{resource.readable_id}+{run.semester}_{run.year}"
+        resource.readable_id = (
+            f"{resource.readable_id}+{slugify(run.semester)}_{run.year}"
+        )
         resource.runs.exclude(pk=run.pk).delete()
         resource.save()
 
