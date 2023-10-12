@@ -25,6 +25,7 @@ def update_ocw_readable_id(apps, schema_editor):
         resource.etl_source = ocw.ETL_SOURCE
         run = resource.runs.first()
         resource.readable_id = f"{resource.readable_id}+{run.semester}_{run.year}"
+        resource.runs.exclude(pk=run.pk).delete()
         resource.save()
 
 
