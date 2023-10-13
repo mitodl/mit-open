@@ -107,7 +107,7 @@ def test_ocw_courses_etl(settings, mocker):
 
     resource = LearningResource.objects.first()
     assert resource.readable_id == "16.01+fall_2005"
-    assert resource.course.extra_course_numbers == ["16.01", "16.02", "16.03", "16.04"]
+    assert resource.course.extra_course_numbers == ["16.02", "16.03", "16.04"]
     assert resource.platform.platform == PlatformType.ocw.value
     assert resource.offered_by.name == OfferedBy.ocw.value
     assert resource.departments.first().department_id == "16"

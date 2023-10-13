@@ -278,17 +278,16 @@ def transform_course(course_data: dict) -> dict:
     else:
         uid = uid.replace("-", "")
     course_data["run_id"] = uid
-    course_id = f"{course_data.get(PRIMARY_COURSE_ID)}"
-    readable_id = (
-        f"{course_id}+{slugify(course_data.get('term'))}_{course_data.get('year')}"
-    )
+
     extra_course_numbers = course_data.get("extra_course_numbers", None)
 
     if extra_course_numbers:
         extra_course_numbers = [num.strip() for num in extra_course_numbers.split(",")]
     else:
         extra_course_numbers = []
-    extra_course_numbers.insert(0, course_id)
+
+    readable_id = f"{course_data.get(PRIMARY_COURSE_ID)}+\
+    {slugify(course_data.get('term'))}_{course_data.get('year')}"
 
     topics = [
         {"name": topic_name}

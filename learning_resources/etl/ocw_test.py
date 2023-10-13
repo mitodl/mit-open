@@ -196,7 +196,7 @@ def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extr
             "Illustration of an aircraft wing showing connections between the disciplines of the course."
         )
         assert transformed_json["course"]["extra_course_numbers"] == (
-            ["16.01", "1", "2"] if has_extra_num else ["16.01"]
+            ["1", "2"] if has_extra_num else []
         )
     else:
         assert transformed_json is None

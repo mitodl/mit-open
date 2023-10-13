@@ -13,16 +13,9 @@ def update_ocw_readable_id(apps, schema_editor):
     OCW learning resources
     """
     LearningResource = apps.get_model("learning_resources", "LearningResource")
-    for resource in (
-        LearningResource.objects.filter(platform__platform=PlatformType.ocw.value)
-        .select_related("course")
-        .prefetch_related("runs")
-    ):
-        course = resource.course
-        course.extra_course_numbers = [course.learning_resource.readable_id] + (
-            course.extra_course_numbers or []
-        )
-        course.save()
+    for resource in LearningResource.objects.filter(
+        platform__platform=PlatformType.ocw.value
+    ).prefetch_related("runs"):
         resource.etl_source = ocw.ETL_SOURCE
         run = resource.runs.first()
         resource.readable_id = (
@@ -43,13 +36,6 @@ def revert_ocw_readable_id(apps, schema_editor):
     ).select_related("course"):
         resource.readable_id = resource.readable_id.split("+")[0]
         resource.save()
-        course = resource.course
-        course.extra_course_numbers = (
-            None
-            if course.extra_course_numbers == [resource.readable_id]
-            else course.extra_course_numbers[1:]
-        )
-        course.save()
 
 
 class Migration(migrations.Migration):
