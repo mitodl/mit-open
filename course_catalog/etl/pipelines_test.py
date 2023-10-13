@@ -66,98 +66,6 @@ def test_micromasters_etl():
     assert result == mock_load_programs.return_value
 
 
-def test_xpro_programs_etl():
-    """Verify that xpro programs etl pipeline executes correctly"""
-    with reload_mocked_pipeline(
-        patch("course_catalog.etl.xpro.extract_programs", autospec=True),
-        patch("course_catalog.etl.xpro.transform_programs", autospec=True),
-        patch("course_catalog.etl.loaders.load_programs", autospec=True),
-    ) as patches:
-        mock_extract, mock_transform, mock_load_programs = patches
-        result = pipelines.xpro_programs_etl()
-
-    mock_extract.assert_called_once_with()
-    mock_transform.assert_called_once_with(mock_extract.return_value)
-    mock_load_programs.assert_called_once_with(
-        PlatformType.xpro.value, mock_transform.return_value
-    )
-
-    assert result == mock_load_programs.return_value
-
-
-def test_xpro_courses_etl():
-    """Verify that xpro courses etl pipeline executes correctly"""
-    with reload_mocked_pipeline(
-        patch("course_catalog.etl.xpro.extract_courses", autospec=True),
-        patch("course_catalog.etl.xpro.transform_courses", autospec=True),
-        patch("course_catalog.etl.loaders.load_courses", autospec=True),
-    ) as patches:
-        mock_extract, mock_transform, mock_load_courses = patches
-        result = pipelines.xpro_courses_etl()
-
-    mock_extract.assert_called_once_with()
-    mock_transform.assert_called_once_with(mock_extract.return_value)
-    mock_load_courses.assert_called_once_with(
-        PlatformType.xpro.value,
-        mock_transform.return_value,
-        config=CourseLoaderConfig(prune=True),
-    )
-
-    assert result == mock_load_courses.return_value
-
-
-def test_mitx_etl():
-    """Verify that mitx etl pipeline executes correctly"""
-    with reload_mocked_pipeline(
-        patch("course_catalog.etl.mitx.extract", autospec=True),
-        patch("course_catalog.etl.mitx.transform", autospec=False),
-        patch("course_catalog.etl.loaders.load_courses", autospec=True),
-    ) as patches:
-        mock_extract, mock_transform, mock_load_courses = patches
-        result = pipelines.mitx_etl()
-
-    mock_extract.assert_called_once_with()
-
-    # each of these should be called with the return value of the extract
-    mock_transform.assert_called_once_with(mock_extract.return_value)
-
-    # load_courses should be called *only* with the return value of transform
-    mock_load_courses.assert_called_once_with(
-        PlatformType.mitx.value,
-        mock_transform.return_value,
-        config=CourseLoaderConfig(
-            prune=True,
-            offered_by=OfferedByLoaderConfig(additive=True),
-            runs=LearningResourceRunLoaderConfig(
-                offered_by=OfferedByLoaderConfig(additive=True)
-            ),
-        ),
-    )
-
-    assert result == mock_load_courses.return_value
-
-
-def test_oll_etl():
-    """Verify that OLL etl pipeline executes correctly"""
-    with reload_mocked_pipeline(
-        patch("course_catalog.etl.oll.extract", autospec=True),
-        patch("course_catalog.etl.oll.transform", autospec=False),
-        patch("course_catalog.etl.loaders.load_courses", autospec=True),
-    ) as patches:
-        mock_extract, mock_transform, mock_load_courses = patches
-        result = pipelines.oll_etl()
-
-    mock_extract.assert_called_once_with()
-    mock_transform.assert_called_once_with(mock_extract.return_value)
-    mock_load_courses.assert_called_once_with(
-        PlatformType.oll.value,
-        mock_transform.return_value,
-        config=CourseLoaderConfig(prune=True),
-    )
-
-    assert result == mock_load_courses.return_value
-
-
 def test_youtube_etl():
     """Verify that youtube etl pipeline executes correctly"""
     with reload_mocked_pipeline(
@@ -173,24 +81,6 @@ def test_youtube_etl():
     mock_load_video_channels.assert_called_once_with(mock_transform.return_value)
 
     assert result == mock_load_video_channels.return_value
-
-
-def test_podcast_etl():
-    """Verify that podcast etl pipeline executes correctly"""
-
-    with reload_mocked_pipeline(
-        patch("course_catalog.etl.podcast.extract", autospec=True),
-        patch("course_catalog.etl.podcast.transform", autospec=True),
-        patch("course_catalog.etl.loaders.load_podcasts", autospec=True),
-    ) as patches:
-        mock_extract, mock_transform, mock_load_podcasts = patches
-        result = pipelines.podcast_etl()
-
-    mock_extract.assert_called_once_with()
-    mock_transform.assert_called_once_with(mock_extract.return_value)
-    mock_load_podcasts.assert_called_once_with(mock_transform.return_value)
-
-    assert result == mock_load_podcasts.return_value
 
 
 @pytest.mark.django_db()
