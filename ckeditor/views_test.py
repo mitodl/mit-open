@@ -32,7 +32,7 @@ def test_get_ckeditor(client, user, settings):
     ],
 )
 def test_get_ckeditor_status(  # noqa: PLR0913
-    client, user, settings, secret_key, feature_enabled, env_id, exp_status
+    client, user, settings, secret_key, env_id, exp_status
 ):  # pylint: disable=too-many-arguments
     """Test that we return the status we expect"""
     settings.CKEDITOR_SECRET_KEY = secret_key
