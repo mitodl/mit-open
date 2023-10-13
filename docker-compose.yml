@@ -7,7 +7,7 @@ x-environment: &py-environment
   DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
   MITOPEN_SECURE_SSL_REDIRECT: "False"
   MITOPEN_DB_DISABLE_SSL: "True"
-  MITOPEN_FEATURES_DEFAULT: "True"
+  MITOPEN_FEATURES_DEFAULT: ${MITOPEN_FEATURES_DEFAULT:-True}
   OPENSEARCH_URL: opensearch-node-mitopen:9200
   CELERY_TASK_ALWAYS_EAGER: "False"
   CELERY_BROKER_URL: redis://redis:6379/4
