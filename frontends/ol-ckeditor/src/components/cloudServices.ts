@@ -5,7 +5,7 @@ const cloudServicesConfig = () =>
   ({
     uploadUrl: window.SETTINGS.ckeditor_upload_url,
     tokenUrl: async () => {
-      const { data } = await axios.get("/api/v0/ckeditor/")
+      const { data } = await axios.get("/api/v1/ckeditor/")
       return data as string
     },
   }) satisfies CloudServicesConfig
