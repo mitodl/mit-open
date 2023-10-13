@@ -286,9 +286,7 @@ def transform_course(course_data: dict) -> dict:
     else:
         extra_course_numbers = []
 
-    readable_id = f"{course_data.get(PRIMARY_COURSE_ID)}+\
-    {slugify(course_data.get('term'))}_{course_data.get('year')}"
-
+    readable_id = f"{course_data.get(PRIMARY_COURSE_ID)}+{slugify(course_data.get('term'))}_{course_data.get('year')}"  # noqa: E501
     topics = [
         {"name": topic_name}
         for topic_name in list(
