@@ -17,7 +17,7 @@ def update_ocw_readable_id(apps, schema_editor):
         platform__platform=PlatformType.ocw.value
     ).prefetch_related("runs"):
         resource.etl_source = ocw.ETL_SOURCE
-        run = resource.runs.first()
+        run = resource.runs.get(url=resource.url)
         resource.readable_id = (
             f"{resource.readable_id}+{slugify(run.semester)}_{run.year}"
         )
