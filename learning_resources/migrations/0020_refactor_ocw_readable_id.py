@@ -17,12 +17,13 @@ def update_ocw_readable_id(apps, schema_editor):
         platform__platform=PlatformType.ocw.value
     ).prefetch_related("runs"):
         resource.etl_source = ocw.ETL_SOURCE
-        run = resource.runs.get(url=resource.url)
-        resource.readable_id = (
-            f"{resource.readable_id}+{slugify(run.semester)}_{run.year}"
-        )
-        resource.runs.exclude(pk=run.pk).delete()
-        resource.save()
+        run = resource.runs.filter(url=resource.url).first()
+        if run:
+            resource.readable_id = (
+                f"{resource.readable_id}+{slugify(run.semester)}_{run.year}"
+            )
+            resource.runs.exclude(pk=run.pk).delete()
+            resource.save()
 
 
 def revert_ocw_readable_id(apps, schema_editor):
