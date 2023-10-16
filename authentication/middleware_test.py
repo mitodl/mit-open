@@ -75,7 +75,7 @@ def test_process_view_blocked_ip_middleware(  # pylint:disable=too-many-argument
 ):
     """Check that `process_view` raises a PermissionDenied error when appropriate"""
     user = UserFactory.create(is_superuser=is_super)
-    view = "search"
+    view = "learning_resources_search"
     request = rf.post(reverse(view))
     request.user = user
 

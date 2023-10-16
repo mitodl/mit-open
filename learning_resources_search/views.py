@@ -2,12 +2,18 @@
 import logging
 
 from django.utils.decorators import method_decorator
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from authentication.decorators import blocked_ip_exempt
 from learning_resources_search.api import execute_learn_search
+from learning_resources_search.serializers import (
+    LearningResourcesSearchRequestSerializer,
+    LearningResourcesSearchResponseSerializer,
+)
 
 log = logging.getLogger(__name__)
 
@@ -28,14 +34,24 @@ class ESView(APIView):
 
 
 @method_decorator(blocked_ip_exempt, name="dispatch")
-class SearchView(ESView):
+@extend_schema_view(
+    get=extend_schema(
+        parameters=[LearningResourcesSearchRequestSerializer()],
+        responses=LearningResourcesSearchResponseSerializer(),
+    ),
+)
+@action(methods=["GET"], detail=False, name="Search Learning Resources")
+class LearningResourcesSearchView(ESView):
     """
-    View for executing searches of posts, comments, profiles, learning resources
+    View for executing searches of learning resources
     """
 
     permission_classes = ()
 
-    def post(self, request):
-        """Execute a search. Despite being POST this should not modify any data."""
-        response = execute_learn_search(query=request.data)
-        return Response(response)
+    def get(self, request):
+        request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
+        if request_data.is_valid():
+            response = execute_learn_search(request_data.data)
+            return Response(LearningResourcesSearchResponseSerializer(response).data)
+        else:
+            return Response(request_data.errors, status=400)

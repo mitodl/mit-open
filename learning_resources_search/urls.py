@@ -1,8 +1,12 @@
 """URLs for search"""
 from django.urls import re_path
 
-from learning_resources_search.views import SearchView
+from learning_resources_search.views import LearningResourcesSearchView
 
 urlpatterns = [
-    re_path(r"api/v1/search/", SearchView.as_view(), name="search"),
+    re_path(
+        r"api/v1/learning_resources_search/",
+        LearningResourcesSearchView.as_view(),
+        name="learning_resources_search",
+    )
 ]
