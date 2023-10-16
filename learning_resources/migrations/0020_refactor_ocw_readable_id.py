@@ -1,10 +1,13 @@
 # Generated manually to convert the readable_id for OCW learning resources
+import logging
 
 from django.db import migrations
 from django.utils.text import slugify
 
 from learning_resources.constants import PlatformType
 from learning_resources.etl import ocw
+
+log = logging.getLogger()
 
 
 def update_ocw_readable_id(apps, schema_editor):
@@ -24,6 +27,8 @@ def update_ocw_readable_id(apps, schema_editor):
             )
             resource.runs.exclude(pk=run.pk).delete()
             resource.save()
+        else:
+            log.error("No run found for %s", resource.url)
 
 
 def revert_ocw_readable_id(apps, schema_editor):
