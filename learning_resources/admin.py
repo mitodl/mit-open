@@ -104,7 +104,7 @@ class LearningResourceAdmin(admin.ModelAdmin):
         "published",
     )
     list_filter = ("platform", "offered_by", "resource_type", "published")
-    inlines = [CourseInline, LearningPathInline]
+    inlines = [CourseInline, LearningPathInline, LearningResourceRunInline]
     autocomplete_fields = ("topics",)
 
 
