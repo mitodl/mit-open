@@ -4,3 +4,4 @@
 import "./styles.scss"
 
 export * from "./components/lazyEditors"
+export { default as CkeditorDisplay } from "./components/CkeditorDisplay"

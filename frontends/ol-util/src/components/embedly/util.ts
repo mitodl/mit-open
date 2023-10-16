@@ -95,8 +95,7 @@ const embedlyCardHtml = (url: string) => {
   data-card-controls="0"
   data-card-key=${embedlyKey}
   class="embedly-card"
-  href="${url}">
-</a>`
+  href="${url}"></a>`
 }
 
 export {

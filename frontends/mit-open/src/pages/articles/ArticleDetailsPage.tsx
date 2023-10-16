@@ -7,6 +7,7 @@ import { useParams } from "react-router"
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Grid"
 import { articlesEditView } from "../urls"
+import { CkeditorDisplay } from "ol-ckeditor"
 
 type RouteParams = {
   id: string
@@ -49,11 +50,8 @@ const ArticlesDetailPage: React.FC = () => {
                 <LoadingSpinner loading={true} />
               </Grid>
             )}
-            <div
-              className="ck-content"
-              dangerouslySetInnerHTML={{
-                __html: article.data?.html ?? "",
-              }}
+            <CkeditorDisplay
+              dangerouslySetInnerHTML={article.data?.html ?? ""}
             />
           </GridColumn>
         </GridContainer>
