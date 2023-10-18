@@ -2,8 +2,10 @@
 # pylint: disable=redefined-outer-name
 import pytest
 
-from course_catalog.constants import PlatformType
-from course_catalog.etl import micromasters
+from learning_resources.constants import PlatformType
+from learning_resources.etl import micromasters
+from learning_resources.etl.constants import ETLSource
+from learning_resources.etl.micromasters import READABLE_ID_PREFIX
 
 
 @pytest.fixture()
@@ -43,7 +45,7 @@ def mock_micromasters_data():
         {
             "id": 2,
             "title": "program title 2",
-            "programpage_url": "http://example.com/program/2/url",
+            "programpage_url": "http://example.com/dedp/program/2/url",
             "thumbnail_url": "http://example.com/program/2/image/url",
             "extra_field": "value",
             "courses": [
@@ -98,27 +100,27 @@ def test_micromasters_transform(mock_micromasters_data):
     """Test that micromasters data is correctly transformed into our normalized structure"""
     assert micromasters.transform(mock_micromasters_data) == [
         {
-            "program_id": 1,
+            "readable_id": f"{READABLE_ID_PREFIX}1",
             "title": "program title 1",
             "url": "http://example.com/program/1/url",
-            "image_src": "http://example.com/program/1/image/url",
+            "image": {"url": "http://example.com/program/1/image/url"},
             "offered_by": micromasters.OFFERED_BY,
+            "platform": PlatformType.edx.value,
+            "etl_source": ETLSource.micromasters.value,
             "courses": [
                 {
-                    "course_id": "1",
-                    "platform": PlatformType.mitx.value,
+                    "readable_id": "1",
+                    "platform": PlatformType.edx.value,
                     "offered_by": micromasters.OFFERED_BY,
                     "runs": [
                         {
                             "run_id": "course_key_1",
-                            "platform": PlatformType.mitx.value,
-                            "offered_by": micromasters.OFFERED_BY,
                         }
                     ],
                 },
                 {
-                    "course_id": "2",
-                    "platform": PlatformType.mitx.value,
+                    "readable_id": "2",
+                    "platform": PlatformType.edx.value,
                     "offered_by": micromasters.OFFERED_BY,
                     "runs": [],
                 },
@@ -126,62 +128,50 @@ def test_micromasters_transform(mock_micromasters_data):
             "runs": [
                 {
                     "run_id": 1,
-                    "platform": PlatformType.micromasters.value,
                     "title": "program title 1",
-                    "offered_by": micromasters.OFFERED_BY,
                     "instructors": [
                         {"full_name": "Dr. Doofenshmirtz"},
                         {"full_name": "Joey Jo Jo Shabadoo"},
                     ],
-                    "prices": [{"price": "123.45"}],
+                    "prices": ["123.45"],
                     "start_date": "2019-10-04T20:13:26.367297Z",
                     "end_date": None,
                     "enrollment_start": "2019-09-29T20:13:26.367297Z",
-                    "best_start_date": "2019-09-29T20:13:26.367297Z",
-                    "best_end_date": None,
                 }
             ],
             "topics": [{"name": "program"}, {"name": "first"}],
         },
         {
-            "program_id": 2,
+            "readable_id": f"{READABLE_ID_PREFIX}2",
             "title": "program title 2",
-            "url": "http://example.com/program/2/url",
-            "image_src": "http://example.com/program/2/image/url",
+            "url": "http://example.com/dedp/program/2/url",
+            "image": {"url": "http://example.com/program/2/image/url"},
             "offered_by": micromasters.OFFERED_BY,
+            "platform": PlatformType.mitxonline.value,
+            "etl_source": ETLSource.micromasters.value,
             "courses": [
                 {
-                    "course_id": "3",
-                    "platform": PlatformType.mitx.value,
+                    "readable_id": "3",
+                    "platform": PlatformType.mitxonline.value,
                     "offered_by": micromasters.OFFERED_BY,
                     "runs": [],
                 },
                 {
-                    "course_id": "4",
-                    "platform": PlatformType.mitx.value,
+                    "readable_id": "4",
+                    "platform": PlatformType.mitxonline.value,
                     "offered_by": micromasters.OFFERED_BY,
-                    "runs": [
-                        {
-                            "run_id": "course_key_4",
-                            "platform": PlatformType.mitx.value,
-                            "offered_by": micromasters.OFFERED_BY,
-                        }
-                    ],
+                    "runs": [{"run_id": "course_key_4"}],
                 },
             ],
             "runs": [
                 {
                     "run_id": 2,
-                    "platform": PlatformType.micromasters.value,
                     "title": "program title 2",
-                    "offered_by": micromasters.OFFERED_BY,
                     "instructors": [{"full_name": "Mia"}, {"full_name": "Leah"}],
-                    "prices": [{"price": "87.65"}],
+                    "prices": ["87.65"],
                     "start_date": None,
                     "end_date": "2019-10-04T20:14:50.271027Z",
                     "enrollment_start": None,
-                    "best_start_date": None,
-                    "best_end_date": "2019-10-04T20:14:50.271027Z",
                 }
             ],
             "topics": [{"name": "program"}, {"name": "second"}],

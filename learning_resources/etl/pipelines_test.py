@@ -14,6 +14,8 @@ from learning_resources.etl import pipelines
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
     ETLSource,
+    LearningResourceRunLoaderConfig,
+    OfferedByLoaderConfig,
     ProgramLoaderConfig,
 )
 from learning_resources.models import LearningResource
@@ -254,3 +256,37 @@ def test_ocw_courses_etl_exception(settings, mocker):
     mock_log.assert_called_once_with(
         "Error encountered parsing OCW json for %s", OCW_TEST_PREFIX
     )
+
+
+def test_micromasters_etl():
+    """Verify that micromasters etl pipeline executes correctly"""
+    values = [1, 2, 3]
+
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.micromasters.extract", autospec=True),
+        patch(
+            "learning_resources.etl.micromasters.transform",
+            return_value=values,
+            autospec=True,
+        ),
+        patch("learning_resources.etl.loaders.load_programs", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_programs = patches
+        result = pipelines.micromasters_etl()
+
+    mock_extract.assert_called_once_with()
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+    mock_load_programs.assert_called_once_with(
+        ETLSource.micromasters.value,
+        mock_transform.return_value,
+        config=ProgramLoaderConfig(
+            courses=CourseLoaderConfig(
+                offered_by=OfferedByLoaderConfig(additive=True),
+                runs=LearningResourceRunLoaderConfig(
+                    offered_by=OfferedByLoaderConfig(additive=True)
+                ),
+            )
+        ),
+    )
+
+    assert result == mock_load_programs.return_value

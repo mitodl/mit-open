@@ -1,13 +1,20 @@
 """MicroMasters course catalog ETL"""
-import copy
 
 import requests
 from django.conf import settings
 
-from course_catalog.constants import OfferedBy, PlatformType
-from course_catalog.etl.constants import COMMON_HEADERS
+from learning_resources.constants import OfferedBy, PlatformType
+from learning_resources.etl.constants import COMMON_HEADERS, ETLSource
 
-OFFERED_BY = [{"name": OfferedBy.micromasters.value}]
+OFFERED_BY = {"name": OfferedBy.mitx.value}
+READABLE_ID_PREFIX = "micromasters-program-"
+
+
+def _get_platform(program_data: dict) -> str:
+    """Get the correct platform for a program"""
+    if "/dedp/" in program_data.get("programpage_url"):
+        return PlatformType.mitxonline.value
+    return PlatformType.edx.value
 
 
 def extract():
@@ -19,50 +26,55 @@ def extract():
     return []
 
 
+def _transform_image(micromasters_data: dict) -> dict:
+    """
+    Transforms an image into our normalized data structure
+
+    Args:
+        micromasters_data (dict): micromasters program/course/run data
+
+    Returns:
+        dict: normalized image data
+    """  # noqa: D401
+    image_url = micromasters_data.get("thumbnail_url")
+    return {"url": image_url} if image_url else None
+
+
 def transform(programs):
     """Transform the micromasters catalog data"""
-    # normalize the micromasters data into the course_catalog/models.py data structures
     return [
         {
-            "program_id": program["id"],
+            "readable_id": f"{READABLE_ID_PREFIX}{program['id']}",
+            "etl_source": ETLSource.micromasters.value,
             "title": program["title"],
+            "platform": _get_platform(program),
+            "offered_by": OFFERED_BY,
             "url": program["programpage_url"],
-            "image_src": program["thumbnail_url"],
-            "offered_by": copy.deepcopy(OFFERED_BY),
+            "image": _transform_image(program),
             "runs": [
                 {
                     "run_id": program["id"],
-                    "platform": PlatformType.micromasters.value,
                     "title": program["title"],
-                    "offered_by": copy.deepcopy(OFFERED_BY),
                     "instructors": [
                         {"full_name": instructor["name"]}
                         for instructor in program["instructors"]
                     ],
-                    "prices": [{"price": program["total_price"]}],
+                    "prices": [program["total_price"]],
                     "start_date": program["start_date"],
                     "end_date": program["end_date"],
                     "enrollment_start": program["enrollment_start"],
-                    "best_start_date": program["enrollment_start"]
-                    or program["start_date"],
-                    "best_end_date": program["end_date"],
                 }
             ],
             "topics": program["topics"],
-            # all we need for course data is the relative positioning of courses by course_id  # noqa: E501
+            # only need positioning of courses by course_id for course data
             "courses": [
                 {
-                    # `platform` is specified as mitx here because that allows this data to merge with data sourced from MITx  # noqa: E501
-                    # we want this because all the course data is populated from MITx and we just want to  # noqa: E501
-                    # indicate that each of these courses are also offered by MicroMasters  # noqa: E501
-                    "course_id": course["edx_key"],
-                    "platform": PlatformType.mitx.value,
-                    "offered_by": copy.deepcopy(OFFERED_BY),
+                    "readable_id": course["edx_key"],
+                    "platform": _get_platform(program),
+                    "offered_by": OFFERED_BY,
                     "runs": [
                         {
                             "run_id": run["edx_course_key"],
-                            "platform": PlatformType.mitx.value,
-                            "offered_by": copy.deepcopy(OFFERED_BY),
                         }
                         for run in course["course_runs"]
                         if run.get("edx_course_key", None)

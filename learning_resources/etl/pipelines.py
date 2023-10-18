@@ -6,10 +6,21 @@ import boto3
 from django.conf import settings
 from toolz import compose, curry
 
-from learning_resources.etl import loaders, mit_edx, mitxonline, ocw, oll, podcast, xpro
+from learning_resources.etl import (
+    loaders,
+    micromasters,
+    mit_edx,
+    mitxonline,
+    ocw,
+    oll,
+    podcast,
+    xpro,
+)
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
     ETLSource,
+    LearningResourceRunLoaderConfig,
+    OfferedByLoaderConfig,
     ProgramLoaderConfig,
 )
 
@@ -17,6 +28,23 @@ log = logging.getLogger(__name__)
 
 load_programs = curry(loaders.load_programs)
 load_courses = curry(loaders.load_courses)
+
+micromasters_etl = compose(
+    load_programs(
+        ETLSource.micromasters.value,
+        # MicroMasters courses overlap with MITx, so configure course and run level offerors to be additive  # noqa: E501
+        config=ProgramLoaderConfig(
+            courses=CourseLoaderConfig(
+                offered_by=OfferedByLoaderConfig(additive=True),
+                runs=LearningResourceRunLoaderConfig(
+                    offered_by=OfferedByLoaderConfig(additive=True)
+                ),
+            )
+        ),
+    ),
+    micromasters.transform,
+    micromasters.extract,
+)
 
 mit_edx_etl = compose(
     load_courses(

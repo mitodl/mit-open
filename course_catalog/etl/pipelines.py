@@ -2,19 +2,11 @@
 
 from toolz import compose, curry
 
-from course_catalog.constants import PlatformType
 from course_catalog.etl import (
     loaders,
-    micromasters,
     prolearn,
     video,
     youtube,
-)
-from course_catalog.etl.constants import (
-    CourseLoaderConfig,
-    LearningResourceRunLoaderConfig,
-    OfferedByLoaderConfig,
-    ProgramLoaderConfig,
 )
 from course_catalog.models import Course, Program
 
@@ -28,23 +20,6 @@ from course_catalog.models import Course, Program
 
 load_programs = curry(loaders.load_programs)
 load_courses = curry(loaders.load_courses)
-
-micromasters_etl = compose(
-    load_programs(
-        PlatformType.micromasters.value,
-        # MicroMasters courses overlap with MITx, so configure course and run level offerors to be additive  # noqa: E501
-        config=ProgramLoaderConfig(
-            courses=CourseLoaderConfig(
-                offered_by=OfferedByLoaderConfig(additive=True),
-                runs=LearningResourceRunLoaderConfig(
-                    offered_by=OfferedByLoaderConfig(additive=True)
-                ),
-            )
-        ),
-    ),
-    micromasters.transform,
-    micromasters.extract,
-)
 
 
 youtube_etl = compose(loaders.load_video_channels, youtube.transform, youtube.extract)
