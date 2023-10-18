@@ -8,6 +8,11 @@
         "id": 1,
         "title": "Microeconomics",
         "readable_id": "course-v1:MITxT+14.100x",
+        "page": {
+          "feature_image_src": "/media/original_images/14.100x.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
+          "page_url": "/courses/course-v1:MITxT+14.100x/",
+          "financial_assistance_form_url": ""
+        },
         "courseruns": [
           {
             "title": "Microeconomics",
@@ -20,12 +25,24 @@
             "courseware_id": "course-v1:MITxT+14.100x+3T2022",
             "run_tag": "3T2022",
             "id": 35,
-            "products": [],
-            "page": {
-              "feature_image_src": "/media/original_images/14.100x.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
-              "page_url": "/courses/course-v1:MITxT+14.100x/",
-              "financial_assistance_form_url": ""
-            }
+            "products": [
+              {
+                "id": 22,
+                "description": "course-v1:MITxT+14.100x+3T2022",
+                "is_active": true,
+                "product_flexible_price": {
+                  "amount": null,
+                  "automatic": false,
+                  "discount_type": null,
+                  "redemption_type": null,
+                  "max_redemptions": null,
+                  "discount_code": "",
+                  "payment_type": null,
+                  "activation_date": null,
+                  "expiration_date": null
+                }
+              }
+            ]
           }
         ],
         "next_run_id": 35,
@@ -38,6 +55,11 @@
         "id": 2,
         "title": "Designing and Running Randomized Evaluations",
         "readable_id": "course-v1:MITxT+JPAL102x",
+        "page": {
+          "feature_image_src": "/media/original_images/JPAL102x.jpg?v=bf1f606cd8105828ceb9529ba5592d507d3b8d58",
+          "page_url": "/courses/course-v1:MITxT+JPAL102x/",
+          "financial_assistance_form_url": ""
+        },
         "courseruns": [
           {
             "title": "Designing and Running Randomized Evaluations",
@@ -50,12 +72,7 @@
             "courseware_id": "course-v1:MITxT+JPAL102x+3T2022",
             "run_tag": "3T2022",
             "id": 22,
-            "products": [],
-            "page": {
-              "feature_image_src": "/media/original_images/JPAL102x.jpg?v=bf1f606cd8105828ceb9529ba5592d507d3b8d58",
-              "page_url": "/courses/course-v1:MITxT+JPAL102x/",
-              "financial_assistance_form_url": ""
-            }
+            "products": []
           }
         ],
         "next_run_id": 22,
@@ -68,6 +85,11 @@
         "id": 3,
         "title": "Data Analysis for Social Scientists",
         "readable_id": "course-v1:MITxT+14.310x",
+        "page": {
+          "feature_image_src": "/media/original_images/14.310x.max-800x600.jpg?v=9db950769510bfdc810f3a84699f139c26d0ffb4",
+          "page_url": "/courses/course-v1:MITxT+14.310x/",
+          "financial_assistance_form_url": ""
+        },
         "courseruns": [
           {
             "title": "Data Analysis for Social Scientists",
@@ -80,12 +102,7 @@
             "courseware_id": "course-v1:MITxT+14.310x+3T2022",
             "run_tag": "3T2022",
             "id": 36,
-            "products": [],
-            "page": {
-              "feature_image_src": "/media/original_images/14.310x.max-800x600.jpg?v=9db950769510bfdc810f3a84699f139c26d0ffb4",
-              "page_url": "/courses/course-v1:MITxT+14.310x/",
-              "financial_assistance_form_url": ""
-            }
+            "products": []
           }
         ],
         "next_run_id": 36,
@@ -98,6 +115,11 @@
         "id": 4,
         "title": "The Challenges of Global Poverty",
         "readable_id": "course-v1:MITxT+14.73x",
+        "page": {
+          "feature_image_src": "/media/original_images/14.73x.jpg?v=b7ce961774d5d79edb9b0e22135f5b5b8ca006dc",
+          "page_url": "/courses/course-v1:MITxT+14.73x/",
+          "financial_assistance_form_url": ""
+        },
         "courseruns": [
           {
             "title": "The Challenges of Global Poverty",
@@ -110,12 +132,7 @@
             "courseware_id": "course-v1:MITxT+14.73x+3T2022",
             "run_tag": "3T2022",
             "id": 21,
-            "products": [],
-            "page": {
-              "feature_image_src": "/media/original_images/14.73x.jpg?v=b7ce961774d5d79edb9b0e22135f5b5b8ca006dc",
-              "page_url": "/courses/course-v1:MITxT+14.73x/",
-              "financial_assistance_form_url": ""
-            }
+            "products": []
           }
         ],
         "next_run_id": 21,
@@ -128,6 +145,11 @@
         "id": 5,
         "title": "Foundations of Development Policy",
         "readable_id": "course-v1:MITxT+14.740x",
+        "page": {
+          "feature_image_src": "/media/original_images/14.740x.jpg?v=ce04d2d27a6d4b2f20d60f48e3c437726d02dc08",
+          "page_url": "/courses/course-v1:MITxT+14.740x/",
+          "financial_assistance_form_url": ""
+        },
         "courseruns": [
           {
             "title": "Foundations of Development Policy",
@@ -140,12 +162,7 @@
             "courseware_id": "course-v1:MITxT+14.740x+1T2023",
             "run_tag": "1T2023",
             "id": 37,
-            "products": [],
-            "page": {
-              "feature_image_src": "/media/original_images/14.740x.jpg?v=ce04d2d27a6d4b2f20d60f48e3c437726d02dc08",
-              "page_url": "/courses/course-v1:MITxT+14.740x/",
-              "financial_assistance_form_url": ""
-            }
+            "products": []
           }
         ],
         "next_run_id": 37,
@@ -158,6 +175,11 @@
         "id": 6,
         "title": "Political Economy and Economic Development",
         "readable_id": "course-v1:MITxT+14.750x",
+        "page": {
+          "feature_image_src": "/media/original_images/14.750x.jpg?v=444c4611e9d1bccef38b160d01d2015d4a601d72",
+          "page_url": "/courses/course-v1:MITxT+14.750x/",
+          "financial_assistance_form_url": ""
+        },
         "courseruns": [
           {
             "title": "Political Economy and Economic Development",
@@ -170,12 +192,7 @@
             "courseware_id": "course-v1:MITxT+14.750x+3T2022",
             "run_tag": "3T2022",
             "id": 10,
-            "products": [],
-            "page": {
-              "feature_image_src": "/media/original_images/14.750x.jpg?v=444c4611e9d1bccef38b160d01d2015d4a601d72",
-              "page_url": "/courses/course-v1:MITxT+14.750x/",
-              "financial_assistance_form_url": ""
-            }
+            "products": []
           }
         ],
         "next_run_id": 10,
@@ -188,6 +205,11 @@
         "id": 16,
         "title": "Good Economics for Hard Times",
         "readable_id": "course-v1:MITxT+14.009x",
+        "page": {
+          "feature_image_src": "/media/original_images/14.009x_-_course_image_-_SMALL.jpg?v=52e6adb90be9d738874676756fe22cd1ad9e1965",
+          "page_url": "/courses/course-v1:MITxT+14.009x/",
+          "financial_assistance_form_url": ""
+        },
         "courseruns": [
           {
             "title": "Good Economics for Hard Times",
@@ -200,12 +222,7 @@
             "courseware_id": "course-v1:MITxT+14.009x+2T2023",
             "run_tag": "2T2023",
             "id": 38,
-            "products": [],
-            "page": {
-              "feature_image_src": "/media/original_images/14.009x_-_course_image_-_SMALL.jpg?v=52e6adb90be9d738874676756fe22cd1ad9e1965",
-              "page_url": "/courses/course-v1:MITxT+14.009x/",
-              "financial_assistance_form_url": ""
-            }
+            "products": []
           }
         ],
         "next_run_id": 38,

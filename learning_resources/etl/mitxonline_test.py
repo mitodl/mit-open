@@ -8,10 +8,14 @@ from urllib.parse import urljoin
 
 import pytest
 
-from course_catalog.constants import PlatformType
-from course_catalog.etl import mitxonline
-from course_catalog.etl.mitxonline import _parse_datetime, parse_page_attribute
-from course_catalog.etl.utils import (
+from learning_resources.constants import LearningResourceType, PlatformType
+from learning_resources.etl import mitxonline
+from learning_resources.etl.constants import ETLSource
+from learning_resources.etl.mitxonline import (
+    _transform_image,
+    parse_page_attribute,
+)
+from learning_resources.etl.utils import (
     UCC_TOPIC_MAPPINGS,
     extract_valid_department_from_id,
 )
@@ -91,13 +95,16 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
     result = mitxonline.transform_programs(mock_mitxonline_programs_data)
     expected = [
         {
-            "program_id": program_data["readable_id"],
+            "readable_id": program_data["readable_id"],
             "title": program_data["title"],
-            "image_src": parse_page_attribute(
-                program_data, "feature_image_src", is_url=True
-            ),
-            "short_description": program_data.get("page", {}).get("description", None),
             "offered_by": mitxonline.OFFERED_BY,
+            "etl_source": ETLSource.mitxonline.value,
+            "platform": PlatformType.mitxonline.value,
+            "resource_type": LearningResourceType.program.value,
+            "departments": [],
+            "professional": False,
+            "image": _transform_image(program_data),
+            "description": program_data.get("page", {}).get("description", None),
             "published": bool(
                 program_data.get("page", {}).get("page_url", None) is not None
             ),
@@ -114,41 +121,33 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
             "runs": [
                 {
                     "run_id": program_data["readable_id"],
-                    "platform": PlatformType.mitxonline.value,
                     "start_date": any_instance_of(datetime, type(None)),
                     "end_date": any_instance_of(datetime, type(None)),
                     "enrollment_start": any_instance_of(datetime, type(None)),
-                    "best_start_date": _parse_datetime(
-                        program_data["enrollment_start"] or program_data["start_date"]
-                    ),
+                    "enrollment_end": any_instance_of(datetime, type(None)),
                     "published": bool(
                         program_data.get("page", {}).get("page_url", None) is not None
                     ),
-                    "image_src": parse_page_attribute(
-                        program_data, "feature_image_src", is_url=True
-                    ),
-                    "best_end_date": _parse_datetime(program_data["end_date"]),
+                    "image": _transform_image(program_data),
                     "title": program_data["title"],
-                    "short_description": program_data.get("description", None),
-                    "offered_by": mitxonline.OFFERED_BY,
+                    "description": program_data.get("description", None),
                     "url": parse_page_attribute(program_data, "page_url", is_url=True),
                 }
             ],
             "courses": [
                 {
-                    "course_id": course_data["readable_id"],
+                    "readable_id": course_data["readable_id"],
+                    "offered_by": mitxonline.OFFERED_BY,
                     "platform": PlatformType.mitxonline.value,
-                    "department": extract_valid_department_from_id(
+                    "resource_type": LearningResourceType.course.value,
+                    "professional": False,
+                    "etl_source": ETLSource.mitxonline.value,
+                    "departments": extract_valid_department_from_id(
                         course_data["readable_id"]
                     ),
                     "title": course_data["title"],
-                    "image_src": parse_page_attribute(
-                        course_data, "feature_image_src", is_url=True
-                    ),
-                    "short_description": course_data.get("page", {}).get(
-                        "description", None
-                    ),
-                    "offered_by": mitxonline.OFFERED_BY,
+                    "image": _transform_image(course_data),
+                    "description": course_data.get("page", {}).get("description", None),
                     "published": bool(
                         course_data.get("page", {}).get("page_url", None)
                     ),
@@ -166,36 +165,23 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                         {
                             "run_id": course_run_data["courseware_id"],
                             "title": course_run_data["title"],
-                            "image_src": parse_page_attribute(
-                                course_run_data, "feature_image_src", is_url=True
-                            ),
-                            "platform": PlatformType.mitxonline.value,
+                            "image": _transform_image(course_run_data),
                             "start_date": any_instance_of(datetime, type(None)),
                             "end_date": any_instance_of(datetime, type(None)),
                             "enrollment_start": any_instance_of(datetime, type(None)),
                             "enrollment_end": any_instance_of(datetime, type(None)),
-                            "best_start_date": _parse_datetime(
-                                course_run_data["enrollment_start"]
-                                or course_run_data["start_date"]
-                            ),
-                            "best_end_date": _parse_datetime(
-                                course_run_data["enrollment_end"]
-                                or course_run_data["end_date"]
-                            ),
                             "url": parse_page_attribute(
-                                course_run_data, "page_url", is_url=True
+                                course_data, "page_url", is_url=True
                             ),
-                            "offered_by": mitxonline.OFFERED_BY,
-                            "short_description": any_instance_of(str, type(None)),
+                            "description": any_instance_of(str, type(None)),
                             "published": bool(
-                                parse_page_attribute(course_run_data, "page_url")
+                                parse_page_attribute(course_data, "page_url")
                             ),
                             "prices": [
-                                {"price": price}
+                                price
                                 for price in [
-                                    parse_page_attribute(
-                                        course_run_data, "current_price"
-                                    )
+                                    product.get("price")
+                                    for product in course_run_data.get("products", [])
                                 ]
                                 if price is not None
                             ],
@@ -223,16 +209,17 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
     result = mitxonline.transform_courses(mock_mitxonline_courses_data)
     expected = [
         {
-            "course_id": course_data["readable_id"],
+            "readable_id": course_data["readable_id"],
             "platform": PlatformType.mitxonline.value,
-            "department": extract_valid_department_from_id(course_data["readable_id"]),
+            "etl_source": ETLSource.mitxonline.value,
+            "resource_type": LearningResourceType.course.value,
+            "departments": extract_valid_department_from_id(course_data["readable_id"]),
             "title": course_data["title"],
-            "image_src": parse_page_attribute(
-                course_data, "feature_image_src", is_url=True
-            ),
-            "short_description": course_data.get("page", {}).get("description", None),
+            "image": _transform_image(course_data),
+            "description": course_data.get("page", {}).get("description", None),
             "offered_by": mitxonline.OFFERED_BY,
             "published": course_data.get("page", {}).get("page_url", None) is not None,
+            "professional": False,
             "topics": [
                 {"name": topic_name}
                 for topic_name in chain.from_iterable(
@@ -252,37 +239,29 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                 {
                     "run_id": course_run_data["courseware_id"],
                     "title": course_run_data["title"],
-                    "image_src": parse_page_attribute(
-                        course_run_data, "feature_image_src", is_url=True
-                    ),
+                    "image": _transform_image(course_run_data),
                     "url": urljoin(
                         settings.MITX_ONLINE_BASE_URL,
-                        course_run_data["page"]["page_url"],
+                        course_data["page"]["page_url"],
                     )
-                    if course_run_data.get("page", {}).get("page_url")
+                    if course_data.get("page", {}).get("page_url")
                     else None,
-                    "short_description": course_run_data.get("page", {}).get(
+                    "description": course_run_data.get("page", {}).get(
                         "description", None
                     ),
-                    "platform": PlatformType.mitxonline.value,
                     "start_date": any_instance_of(datetime, type(None)),
                     "end_date": any_instance_of(datetime, type(None)),
                     "enrollment_start": any_instance_of(datetime, type(None)),
                     "enrollment_end": any_instance_of(datetime, type(None)),
-                    "best_start_date": _parse_datetime(
-                        course_run_data["enrollment_start"]
-                        or course_run_data["start_date"]
-                    ),
-                    "best_end_date": _parse_datetime(
-                        course_run_data["enrollment_end"] or course_run_data["end_date"]
-                    ),
-                    "offered_by": mitxonline.OFFERED_BY,
-                    "published": True,
-                    "prices": parse_page_attribute(
-                        course_run_data, "current_price", is_list=True
-                    )
-                    if course_run_data.get("current_price", None)
-                    else [],
+                    "published": bool(course_data.get("page", {}).get("page_url")),
+                    "prices": [
+                        price
+                        for price in [
+                            product.get("price")
+                            for product in course_run_data.get("products", [])
+                        ]
+                        if price is not None
+                    ],
                     "instructors": [
                         {"full_name": instructor["name"]}
                         for instructor in parse_page_attribute(

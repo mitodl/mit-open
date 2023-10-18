@@ -5,6 +5,7 @@ from subprocess import CalledProcessError
 import pytest
 
 from learning_resources.constants import PlatformType
+from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.edx_shared import (
     get_most_recent_course_archives,
     sync_edx_course_files,
@@ -65,7 +66,9 @@ def test_sync_edx_course_files(  # noqa: PLR0913
             )
         run = LearningResourceRunFactory.create(
             run_id=run_id,
-            learning_resource=CourseFactory.create(platform=platform).learning_resource,
+            learning_resource=CourseFactory.create(
+                platform=platform, etl_source=platform
+            ).learning_resource,
             published=published,
         )
         course_ids.append(run.learning_resource.id)
@@ -91,7 +94,9 @@ def test_sync_edx_course_files_invalid_tarfile(
 ):
     """An invalid mitxonline tarball should be skipped"""
     run = LearningResourceRunFactory.create(
-        learning_resource=CourseFactory.create(platform=platform).learning_resource,
+        learning_resource=CourseFactory.create(
+            platform=platform, etl_source=platform
+        ).learning_resource,
     )
     key = f"20220101/courses/{run.run_id}.tar.gz"
     bucket = (
@@ -136,7 +141,9 @@ def test_sync_edx_course_files_empty_bucket(
 ):
     """If the mitxonline bucket has no tarballs matching a filename, it should be skipped"""
     run = LearningResourceRunFactory.create(
-        learning_resource=CourseFactory.create(platform=platform).learning_resource,
+        learning_resource=CourseFactory.create(
+            platform=platform, etl_source=platform
+        ).learning_resource,
     )
     key = "20220101/courses/some_other_course.tar.gz"
     bucket = (
@@ -173,7 +180,9 @@ def test_sync_edx_course_files_error(
 ):
     """Exceptions raised during sync_mitxonline_course_files should be logged"""
     run = LearningResourceRunFactory.create(
-        learning_resource=CourseFactory.create(platform=platform).learning_resource,
+        learning_resource=CourseFactory.create(
+            platform=platform, etl_source=platform
+        ).learning_resource,
     )
     key = f"20220101/courses/{run.run_id}.tar.gz"
     bucket = (
@@ -236,9 +245,9 @@ def test_get_most_recent_course_archives(
     mock_get_bucket.assert_called_once_with(platform)
 
 
-@pytest.mark.parametrize("platform", [PlatformType.edx.value, PlatformType.xpro.value])
+@pytest.mark.parametrize("source", [ETLSource.mit_edx.value, ETLSource.xpro.value])
 def test_get_most_recent_course_archives_empty(
-    mocker, mock_mitxonline_learning_bucket, platform
+    mocker, mock_mitxonline_learning_bucket, source
 ):
     """Empty list should be returned and a warning logged if no recent tar archives are found"""
     bucket = mock_mitxonline_learning_bucket.bucket
@@ -247,10 +256,10 @@ def test_get_most_recent_course_archives_empty(
         return_value=bucket,
     )
     mock_warning = mocker.patch("learning_resources.etl.edx_shared.log.warning")
-    assert get_most_recent_course_archives(platform) == []
-    mock_get_bucket.assert_called_once_with(platform)
+    assert get_most_recent_course_archives(source) == []
+    mock_get_bucket.assert_called_once_with(source)
     mock_warning.assert_called_once_with(
-        "No %s exported courses found in S3 bucket %s", platform, bucket.name
+        "No %s exported courses found in S3 bucket %s", source, bucket.name
     )
 
 

@@ -6,22 +6,54 @@ import boto3
 from django.conf import settings
 from toolz import compose, curry
 
-from learning_resources.constants import PlatformType
-from learning_resources.etl import loaders, ocw, podcast, xpro
+from learning_resources.etl import loaders, mit_edx, mitxonline, ocw, oll, podcast, xpro
+from learning_resources.etl.constants import (
+    CourseLoaderConfig,
+    ETLSource,
+    ProgramLoaderConfig,
+)
 
 log = logging.getLogger(__name__)
 
 load_programs = curry(loaders.load_programs)
 load_courses = curry(loaders.load_courses)
 
+mit_edx_etl = compose(
+    load_courses(
+        ETLSource.mit_edx.value,
+        config=CourseLoaderConfig(prune=True),
+    ),
+    mit_edx.transform,
+    mit_edx.extract,
+)
+
+mitxonline_programs_etl = compose(
+    load_programs(
+        ETLSource.mitxonline.value,
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
+    ),
+    mitxonline.transform_programs,
+    mitxonline.extract_programs,
+)
+mitxonline_courses_etl = compose(
+    load_courses(ETLSource.mitxonline.value, config=CourseLoaderConfig(prune=True)),
+    mitxonline.transform_courses,
+    mitxonline.extract_courses,
+)
+
+oll_etl = compose(
+    load_courses(ETLSource.oll.value, config=CourseLoaderConfig(prune=True)),
+    oll.transform,
+    oll.extract,
+)
 
 xpro_programs_etl = compose(
-    load_programs(PlatformType.xpro.value),
+    load_programs(ETLSource.xpro.value),
     xpro.transform_programs,
     xpro.extract_programs,
 )
 xpro_courses_etl = compose(
-    load_courses(PlatformType.xpro.value),
+    load_courses(ETLSource.xpro.value),
     xpro.transform_courses,
     xpro.extract_courses,
 )

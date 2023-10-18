@@ -15,8 +15,8 @@ def mitx_settings(settings):
         "http://localhost/fake/access/token/url"  # noqa: S105
     )
     settings.EDX_API_URL = "http://localhost/fake/api/url"
-    settings.MITX_BASE_URL = "http://localhost/fake/base/url"
-    settings.MITX_ALT_URL = "http://localhost/fake/alt/url"
+    settings.EDX_BASE_URL = "http://localhost/fake/base/url"
+    settings.EDX_ALT_URL = "http://localhost/fake/alt/url"
     return settings
 
 

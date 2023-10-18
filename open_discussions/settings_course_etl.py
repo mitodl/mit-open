@@ -24,8 +24,8 @@ MAX_S3_GET_ITERATIONS = get_int("MAX_S3_GET_ITERATIONS", 3)
 
 # Base URL's for courses
 OCW_BASE_URL = get_string("OCW_BASE_URL", "http://ocw.mit.edu/")
-MITX_BASE_URL = get_string("MITX_BASE_URL", "https://www.edx.org/course/")
-MITX_ALT_URL = get_string("MITX_ALT_URL", "https://courses.edx.org/courses/")
+EDX_BASE_URL = get_string("EDX_BASE_URL", "https://www.edx.org/")
+EDX_ALT_URL = get_string("EDX_ALT_URL", "https://courses.edx.org/")
 BLOCKLISTED_COURSES_URL = get_string(
     "BLOCKLISTED_COURSES_URL",
     "https://raw.githubusercontent.com/mitodl/open-resource-blocklists/master/courses.txt",

@@ -1,9 +1,9 @@
 """Management command for populating oll course data"""
 from django.core.management import BaseCommand
 
-from course_catalog.constants import PlatformType
-from course_catalog.models import Course
-from course_catalog.tasks import get_oll_data
+from learning_resources.etl.constants import ETLSource
+from learning_resources.models import LearningResource
+from learning_resources.tasks import get_oll_data
 from open_discussions.utils import now_in_utc
 from search.search_index_helpers import deindex_course
 
@@ -28,9 +28,11 @@ class Command(BaseCommand):
             self.stdout.write(
                 "Deleting all existing OLL courses from database and opensearch"
             )
-            for course in Course.objects.filter(platform=PlatformType.oll.value):
-                course.delete()
-                deindex_course(course)
+            for learning_resource in LearningResource.objects.filter(
+                etl_source=ETLSource.oll.value
+            ):
+                learning_resource.delete()
+                deindex_course(learning_resource)
         else:
             task = get_oll_data.delay()
             self.stdout.write(f"Started task {task} to get oll course data")

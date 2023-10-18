@@ -23,6 +23,7 @@ from learning_resources.constants import (
     OfferedBy,
     PlatformType,
 )
+from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     extract_text_metadata,
     get_content_type,
@@ -38,7 +39,6 @@ log = logging.getLogger(__name__)
 
 OFFERED_BY = {"name": OfferedBy.ocw.value}
 PRIMARY_COURSE_ID = "primary_course_number"
-ETL_SOURCE = "ocw"
 
 
 def transform_content_files(
@@ -301,9 +301,9 @@ def transform_course(course_data: dict) -> dict:
 
     return {
         "readable_id": readable_id,
-        "etl_source": ETL_SOURCE,
         "offered_by": copy.deepcopy(OFFERED_BY),
         "platform": PlatformType.ocw.value,
+        "etl_source": ETLSource.ocw.value,
         "title": course_data["course_title"],
         "departments": course_data.get("department_numbers", []),
         "resource_content_tags": course_data.get("learning_resource_types", []),

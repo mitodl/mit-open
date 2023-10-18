@@ -5,8 +5,9 @@ from urllib.parse import urlencode
 
 import pytest
 
-from course_catalog.etl.constants import COMMON_HEADERS
-from course_catalog.etl.openedx import (
+from learning_resources.constants import LearningResourceType
+from learning_resources.etl.constants import COMMON_HEADERS
+from learning_resources.etl.openedx import (
     OpenEdxConfiguration,
     openedx_extract_transform_factory,
 )
@@ -27,6 +28,7 @@ def openedx_config():
         "http://localhost/fake-alt-url/",
         "fake-platform-type",
         "fake-offered-by",
+        "fake-etl-source",
     )
 
 
@@ -94,9 +96,9 @@ def test_extract_disabled(openedx_config, config_arg_idx):
     assert extract() == []
 
 
-@pytest.mark.parametrize("has_runs", [True])
-@pytest.mark.parametrize("is_course_deleted", [False])
-@pytest.mark.parametrize("is_course_run_deleted", [False])
+@pytest.mark.parametrize("has_runs", [True, False])
+@pytest.mark.parametrize("is_course_deleted", [True, False])
+@pytest.mark.parametrize("is_course_run_deleted", [True, False])
 def test_transform_course(  # noqa: PLR0913
     openedx_config,
     openedx_extract_transform,
@@ -116,61 +118,59 @@ def test_transform_course(  # noqa: PLR0913
             for run in course["course_runs"]:
                 run["title"] = f"[delete] {run['title']}"
     transformed_courses = openedx_extract_transform.transform(extracted)
-    assert transformed_courses[0] == {
-        "title": "The Analytics Edge",
-        "course_id": "MITx+15.071x",
-        "department": ["15"],
-        "short_description": "short_description",
-        "full_description": "full description",
-        "platform": openedx_config.platform,
-        "offered_by": [{"name": openedx_config.offered_by}],
-        "image_src": "https://prod-discovery.edx-cdn.org/media/course/image/ff1df27b-3c97-42ee-a9b3-e031ffd41a4f-747c9c2f216e.small.jpg",
-        "image_description": "Image description",
-        "last_modified": any_instance_of(datetime),
-        "topics": [{"name": "Data Analysis & Statistics"}],
-        "url": f"{openedx_config.alt_url}MITx+15.071x/course/",
-        "published": True,
-        "runs": []
-        if is_course_run_deleted
-        else [
-            {
-                "availability": "Starting Soon",
-                "best_end_date": "2019-05-22T23:30:00Z",
-                "best_start_date": "2019-02-20T15:00:00Z",
-                "run_id": "course-v1:MITx+15.071x+1T2019",
-                "end_date": "2019-05-22T23:30:00Z",
-                "platform": openedx_config.platform,
-                "enrollment_end": None,
-                "enrollment_start": None,
-                "full_description": "<p>Full Description</p>",
-                "image_description": None,
-                "image_src": "https://prod-discovery.edx-cdn.org/media/course/image/ff1df27b-3c97-42ee-a9b3-e031ffd41a4f-747c9c2f216e.small.jpg",
-                "instructors": [
-                    {"first_name": "Dimitris", "last_name": "Bertsimas"},
-                    {"first_name": "Allison", "last_name": "O'Hair"},
-                ],
-                "language": "en-us",
-                "last_modified": any_instance_of(datetime),
-                "level": "Intermediate",
-                "offered_by": [{"name": openedx_config.offered_by}],
-                "prices": [
-                    {
-                        "mode": "verified",
-                        "price": "150.00",
-                        "upgrade_deadline": "2019-03-20T15:00:00Z",
+    if is_course_deleted or not has_runs:
+        assert transformed_courses == []
+    else:
+        assert transformed_courses[0] == {
+            "title": "The Analytics Edge",
+            "readable_id": "MITx+15.071x",
+            "resource_type": LearningResourceType.course.value,
+            "departments": ["15"],
+            "description": "short_description",
+            "full_description": "full description",
+            "platform": openedx_config.platform,
+            "etl_source": openedx_config.etl_source,
+            "offered_by": {"name": openedx_config.offered_by},
+            "image": {
+                "url": "https://prod-discovery.edx-cdn.org/media/course/image/ff1df27b-3c97-42ee-a9b3-e031ffd41a4f-747c9c2f216e.small.jpg",
+                "description": "Image description",
+            },
+            "last_modified": any_instance_of(datetime),
+            "topics": [{"name": "Data Analysis & Statistics"}],
+            "url": "http://localhost/fake-alt-url/this_course",
+            "published": True,
+            "runs": []
+            if is_course_run_deleted or not has_runs
+            else [
+                {
+                    "availability": "Starting Soon",
+                    "run_id": "course-v1:MITx+15.071x+1T2019",
+                    "end_date": "2019-05-22T23:30:00Z",
+                    "enrollment_end": None,
+                    "enrollment_start": None,
+                    "full_description": "<p>Full Description</p>",
+                    "image": {
+                        "url": "https://prod-discovery.edx-cdn.org/media/course/image/ff1df27b-3c97-42ee-a9b3-e031ffd41a4f-747c9c2f216e.small.jpg",
+                        "description": None,
                     },
-                    {"mode": "audit", "price": "0.00", "upgrade_deadline": None},
-                ],
-                "semester": "spring",
-                "short_description": "short_description",
-                "start_date": "2019-02-20T15:00:00Z",
-                "title": "The Analytics Edge",
-                "url": f"{openedx_config.alt_url}course-v1:MITx+15.071x+1T2019/course/",
-                "year": 2019,
-                "published": True,
-            }
-        ],
-        "raw_json": extracted[0],
-    }
-    assert transformed_courses[1]["published"] is False
-    assert transformed_courses[1]["runs"][0]["published"] is False
+                    "instructors": [
+                        {"first_name": "Dimitris", "last_name": "Bertsimas"},
+                        {"first_name": "Allison", "last_name": "O'Hair"},
+                    ],
+                    "languages": ["en-us"],
+                    "last_modified": any_instance_of(datetime),
+                    "level": "Intermediate",
+                    "prices": ["150.00", "0.00"],
+                    "semester": "spring",
+                    "description": "short_description",
+                    "start_date": "2019-02-20T15:00:00Z",
+                    "title": "The Analytics Edge",
+                    "url": "http://localhost/fake-alt-url/this_course",
+                    "year": 2019,
+                    "published": True,
+                }
+            ],
+        }
+        if not is_course_run_deleted:
+            assert transformed_courses[1]["published"] is False
+            assert transformed_courses[1]["runs"][0]["published"] is False

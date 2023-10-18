@@ -15,7 +15,25 @@
         "courseware_id": "course-v1:MITxT+14.310x+3T2022",
         "run_tag": "3T2022",
         "id": 36,
-        "products": [],
+        "products": [
+          {
+            "id": 22,
+            "price": "1000.00",
+            "description": "course-v1:MITxT+14.100x+3T2022",
+            "is_active": true,
+            "product_flexible_price": {
+              "amount": null,
+              "automatic": false,
+              "discount_type": null,
+              "redemption_type": null,
+              "max_redemptions": null,
+              "discount_code": "",
+              "payment_type": null,
+              "activation_date": null,
+              "expiration_date": null
+            }
+          }
+        ],
         "page": {
           "feature_image_src": "/media/original_images/14.310x.max-800x600.jpg?v=9db950769510bfdc810f3a84699f139c26d0ffb4",
           "page_url": "/courses/course-v1:MITxT+14.310x/",
@@ -30,6 +48,11 @@
     "id": 2,
     "title": "Designing and Running Randomized Evaluations",
     "readable_id": "course-v1:MITxT+JPAL102x",
+    "page": {
+      "feature_image_src": "/media/original_images/JPAL102x.jpg?v=bf1f606cd8105828ceb9529ba5592d507d3b8d58",
+      "page_url": "/courses/course-v1:MITxT+JPAL102x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Designing and Running Randomized Evaluations",
@@ -42,12 +65,25 @@
         "courseware_id": "course-v1:MITxT+JPAL102x+3T2022",
         "run_tag": "3T2022",
         "id": 22,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/JPAL102x.jpg?v=bf1f606cd8105828ceb9529ba5592d507d3b8d58",
-          "page_url": "/courses/course-v1:MITxT+JPAL102x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": [
+          {
+            "id": 22,
+            "price": "2000.00",
+            "description": "course-v2:MITxT+15.100x+3T2023",
+            "is_active": true,
+            "product_flexible_price": {
+              "amount": null,
+              "automatic": false,
+              "discount_type": null,
+              "redemption_type": null,
+              "max_redemptions": null,
+              "discount_code": "",
+              "payment_type": null,
+              "activation_date": null,
+              "expiration_date": null
+            }
+          }
+        ]
       }
     ],
     "next_run_id": 22,
@@ -69,12 +105,7 @@
         "courseware_id": "course-v1:MITxT+14.740x+1T2023",
         "run_tag": "1T2023",
         "id": 37,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/14.740x.jpg?v=ce04d2d27a6d4b2f20d60f48e3c437726d02dc08",
-          "page_url": "/courses/course-v1:MITxT+14.740x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 37,
@@ -96,12 +127,7 @@
         "courseware_id": "course-v1:MITxT+14.009x+2T2023",
         "run_tag": "2T2023",
         "id": 38,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/14.009x_-_course_image_-_SMALL.jpg?v=52e6adb90be9d738874676756fe22cd1ad9e1965",
-          "page_url": "/courses/course-v1:MITxT+14.009x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 38,
@@ -111,6 +137,11 @@
     "id": 1,
     "title": "Microeconomics",
     "readable_id": "course-v1:MITxT+14.100x",
+    "page": {
+      "feature_image_src": "/media/original_images/14.100x.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
+      "page_url": "/courses/course-v1:MITxT+14.100x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Microeconomics",
@@ -123,12 +154,7 @@
         "courseware_id": "course-v1:MITxT+14.100x+3T2022",
         "run_tag": "3T2022",
         "id": 35,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/14.100x.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
-          "page_url": "/courses/course-v1:MITxT+14.100x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 35,
@@ -138,6 +164,11 @@
     "id": 6,
     "title": "Political Economy and Economic Development",
     "readable_id": "course-v1:MITxT+14.750x",
+    "page": {
+      "feature_image_src": "/media/original_images/14.750x.jpg?v=444c4611e9d1bccef38b160d01d2015d4a601d72",
+      "page_url": "/courses/course-v1:MITxT+14.750x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Political Economy and Economic Development",
@@ -150,12 +181,24 @@
         "courseware_id": "course-v1:MITxT+14.750x+3T2022",
         "run_tag": "3T2022",
         "id": 10,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/14.750x.jpg?v=444c4611e9d1bccef38b160d01d2015d4a601d72",
-          "page_url": "/courses/course-v1:MITxT+14.750x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": [
+          {
+            "id": 22,
+            "description": "course-v4:MITxT+16.100x+3T2023",
+            "is_active": true,
+            "product_flexible_price": {
+              "amount": null,
+              "automatic": false,
+              "discount_type": null,
+              "redemption_type": null,
+              "max_redemptions": null,
+              "discount_code": "",
+              "payment_type": null,
+              "activation_date": null,
+              "expiration_date": null
+            }
+          }
+        ]
       }
     ],
     "next_run_id": 10,
@@ -165,6 +208,11 @@
     "id": 4,
     "title": "The Challenges of Global Poverty",
     "readable_id": "course-v1:MITxT+14.73x",
+    "page": {
+      "feature_image_src": "/media/original_images/14.73x.jpg?v=b7ce961774d5d79edb9b0e22135f5b5b8ca006dc",
+      "page_url": "/courses/course-v1:MITxT+14.73x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "The Challenges of Global Poverty",
@@ -177,12 +225,7 @@
         "courseware_id": "course-v1:MITxT+14.73x+3T2022",
         "run_tag": "3T2022",
         "id": 21,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/14.73x.jpg?v=b7ce961774d5d79edb9b0e22135f5b5b8ca006dc",
-          "page_url": "/courses/course-v1:MITxT+14.73x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 21,
@@ -192,6 +235,11 @@
     "id": 22,
     "title": "Bringing Workers Voice into Technology and Employment Strategies",
     "readable_id": "course-v1:MITxT+15.699x",
+    "page": {
+      "feature_image_src": "/media/original_images/negative-space-female-factory-worker-engine-hard-hat-yellow-chevanon-photo.jpg?v=fcf6e582d2d28a8c7c4b34b82759e145a2306269",
+      "page_url": "/courses/course-v1:MITxT+15.699x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Bringing Workers Voice into Technology and Employment Strategies",
@@ -204,12 +252,7 @@
         "courseware_id": "course-v1:MITxT+15.699x+3T2022",
         "run_tag": "3T2022",
         "id": 31,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/negative-space-female-factory-worker-engine-hard-hat-yellow-chevanon-photo.jpg?v=fcf6e582d2d28a8c7c4b34b82759e145a2306269",
-          "page_url": "/courses/course-v1:MITxT+15.699x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 31,
@@ -219,6 +262,11 @@
     "id": 9,
     "title": "Cellular Solids 1: Structures, Properties and Engineering Applications",
     "readable_id": "course-v1:MITxT+3.054x",
+    "page": {
+      "feature_image_src": "/media/original_images/3054AboutPageImage_Final_resized.png?v=8486faa001525f1d3350f87de992acbcb3cc70ba",
+      "page_url": "/courses/course-v1:MITxT+3.054x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Cellular Solids: Structure, Properties and Applications",
@@ -231,12 +279,7 @@
         "courseware_id": "course-v1:MITxT+3.054x+3T2021",
         "run_tag": "3T2021",
         "id": 14,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/3054AboutPageImage_Final_resized.png?v=8486faa001525f1d3350f87de992acbcb3cc70ba",
-          "page_url": "/courses/course-v1:MITxT+3.054x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 14,
@@ -246,6 +289,11 @@
     "id": 19,
     "title": "COVID-19 in Slums & Informal Settlements: Guidelines & Responses",
     "readable_id": "course-v1:MITxT+11.S952x",
+    "page": {
+      "feature_image_src": "/media/original_images/11.S952x_Course_Image.png?v=faba2ccb0ebef1badccda77298e5829b9eb9dd04",
+      "page_url": "/courses/course-v1:MITxT+11.S952x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "COVID-19 in Slums & Informal Settlements: Guidelines & Responses",
@@ -258,12 +306,7 @@
         "courseware_id": "course-v1:MITxT+11.S952x+2T2022",
         "run_tag": "2T2022",
         "id": 28,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/11.S952x_Course_Image.png?v=faba2ccb0ebef1badccda77298e5829b9eb9dd04",
-          "page_url": "/courses/course-v1:MITxT+11.S952x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 28,
@@ -273,6 +316,11 @@
     "id": 10,
     "title": "Data Analysis for Social Scientists - PROCTORED EXAM",
     "readable_id": "course-v1:MITxT+14.310PEx",
+    "page": {
+      "feature_image_src": "/media/original_images/14.310x.max-800x600.jpg?v=9db950769510bfdc810f3a84699f139c26d0ffb4",
+      "page_url": "/courses/course-v1:MITxT+14.310PEx/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Data Analysis for Social Scientists - PROCTORED EXAM",
@@ -285,12 +333,7 @@
         "courseware_id": "course-v1:MITxT+14.310PEx+2T2022",
         "run_tag": "2T2022",
         "id": 50,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/14.310x.max-800x600.jpg?v=9db950769510bfdc810f3a84699f139c26d0ffb4",
-          "page_url": "/courses/course-v1:MITxT+14.310PEx/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 50,
@@ -308,6 +351,11 @@
     "id": 30,
     "title": "Electrical, Optical & Magnetic Materials and Devices",
     "readable_id": "course-v1:MITxT+3.15x",
+    "page": {
+      "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
+      "page_url": "/courses/course-v1:MITxT+3.15x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Electrical, Optical & Magnetic Materials and Devices",
@@ -320,12 +368,7 @@
         "courseware_id": "course-v1:MITxT+3.15x+2T2022",
         "run_tag": "2T2022",
         "id": 43,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
-          "page_url": "/courses/course-v1:MITxT+3.15x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": null,
@@ -335,6 +378,11 @@
     "id": 29,
     "title": "Electronic, Optical, and Magnetic Properties of Materials",
     "readable_id": "course-v1:MITxT+3.024x",
+    "page": {
+      "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
+      "page_url": "/courses/course-v1:MITxT+3.024x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Electronic, Optical, and Magnetic Properties of Materials Course Navigation",
@@ -347,12 +395,7 @@
         "courseware_id": "course-v1:MITxT+3.024x+2T2022",
         "run_tag": "2T2022",
         "id": 42,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
-          "page_url": "/courses/course-v1:MITxT+3.024x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": null,
@@ -362,6 +405,11 @@
     "id": 18,
     "title": "Evaluating Social Programs",
     "readable_id": "course-v1:MITxT+JPAL_RCT101x",
+    "page": {
+      "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
+      "page_url": "/courses/course-v1:MITxT+JPAL_RCT101x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Evaluating Social Programs (RCT101x)",
@@ -374,12 +422,7 @@
         "courseware_id": "course-v1:MITxT+JPAL_RCT101x+1T2022",
         "run_tag": "1T2022",
         "id": 27,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
-          "page_url": "/courses/course-v1:MITxT+JPAL_RCT101x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 27,
@@ -389,6 +432,11 @@
     "id": 12,
     "title": "Foundations of Development Policy - PROCTORED EXAM",
     "readable_id": "course-v1:MITxT+14.740PEx",
+    "page": {
+      "feature_image_src": "/media/original_images/14.740x.jpg?v=ce04d2d27a6d4b2f20d60f48e3c437726d02dc08",
+      "page_url": "/courses/course-v1:MITxT+14.740PEx/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Foundations of Development Policy - PROCTORED EXAM",
@@ -401,12 +449,7 @@
         "courseware_id": "course-v1:MITxT+14.740PEx+2T2022",
         "run_tag": "2T2022",
         "id": 49,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/14.740x.jpg?v=ce04d2d27a6d4b2f20d60f48e3c437726d02dc08",
-          "page_url": "/courses/course-v1:MITxT+14.740PEx/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 49,
@@ -416,6 +459,11 @@
     "id": 34,
     "title": "Good Economics for Hard Times - PROCTORED EXAM",
     "readable_id": "course-v1:MITxT+14.009PEx",
+    "page": {
+      "feature_image_src": "/media/original_images/14.009x_-_course_image_-_SMALL.jpg?v=52e6adb90be9d738874676756fe22cd1ad9e1965",
+      "page_url": "/courses/course-v1:MITxT+14.009PEx/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Good Economics for Hard Times - PROCTORED EXAM",
@@ -428,12 +476,7 @@
         "courseware_id": "course-v1:MITxT+14.009PEx+2T2022",
         "run_tag": "2T2022",
         "id": 47,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/14.009x_-_course_image_-_SMALL.jpg?v=52e6adb90be9d738874676756fe22cd1ad9e1965",
-          "page_url": "/courses/course-v1:MITxT+14.009PEx/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 47,
@@ -443,6 +486,11 @@
     "id": 27,
     "title": "How Language Works",
     "readable_id": "course-v1:MITxT+24.900x",
+    "page": {
+      "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
+      "page_url": "/courses/course-v1:MITxT+24.900x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "How Language Works",
@@ -455,12 +503,7 @@
         "courseware_id": "course-v1:MITxT+24.900x+3T2022",
         "run_tag": "3T2022",
         "id": 40,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
-          "page_url": "/courses/course-v1:MITxT+24.900x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": null,
@@ -470,6 +513,11 @@
     "id": 23,
     "title": "Mechanics: Kinematics and Dynamics",
     "readable_id": "course-v1:MITxT+8.01.1x",
+    "page": {
+      "feature_image_src": "/media/original_images/8.01.1x_Image_2022_MITxO.png?v=593cb814d4e22283198eceb20855662bf41704d8",
+      "page_url": "/courses/course-v1:MITxT+8.01.1x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Mechanics: Kinematics and Dynamics",
@@ -482,12 +530,7 @@
         "courseware_id": "course-v1:MITxT+8.01.1x+3T2022",
         "run_tag": "3T2022",
         "id": 32,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/8.01.1x_Image_2022_MITxO.png?v=593cb814d4e22283198eceb20855662bf41704d8",
-          "page_url": "/courses/course-v1:MITxT+8.01.1x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 32,
@@ -497,6 +540,11 @@
     "id": 31,
     "title": "Mechanics: Momentum and Energy",
     "readable_id": "course-v1:MITxT+8.01.2x",
+    "page": {
+      "feature_image_src": "/media/original_images/8.01.2x_courseImage_435p-244p.png?v=50a30ec2256f4ebb8ae26b8904f1fab41fd36650",
+      "page_url": "/courses/course-v1:MITxT+8.01.2x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Mechanics: Momentum and Energy",
@@ -509,12 +557,7 @@
         "courseware_id": "course-v1:MITxT+8.01.2x+3T2022",
         "run_tag": "3T2022",
         "id": 44,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/8.01.2x_courseImage_435p-244p.png?v=50a30ec2256f4ebb8ae26b8904f1fab41fd36650",
-          "page_url": "/courses/course-v1:MITxT+8.01.2x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": null,
@@ -524,6 +567,11 @@
     "id": 32,
     "title": "Mechanics: Rotational Dynamics",
     "readable_id": "course-v1:MITxT+8.01.3x",
+    "page": {
+      "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
+      "page_url": "/courses/course-v1:MITxT+8.01.3x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Mechanics: Rotational Dynamics",
@@ -536,12 +584,7 @@
         "courseware_id": "course-v1:MITxT+8.01.3x+3T2022",
         "run_tag": "3T2022",
         "id": 45,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
-          "page_url": "/courses/course-v1:MITxT+8.01.3x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": null,
@@ -551,6 +594,11 @@
     "id": 33,
     "title": "Mechanics: Simple Harmonic Motion",
     "readable_id": "course-v1:MITxT+8.01.4x",
+    "page": {
+      "feature_image_src": "/media/original_images/8.01.4x_courseimage01_435p-244p.jpg?v=0a2fac7fe3be47df2d6b0651b7e57e2871f901ad",
+      "page_url": "/courses/course-v1:MITxT+8.01.4x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Mechanics: Simple Harmonic Motion",
@@ -563,12 +611,7 @@
         "courseware_id": "course-v1:MITxT+8.01.4x+3T2022",
         "run_tag": "3T2022",
         "id": 46,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/8.01.4x_courseimage01_435p-244p.jpg?v=0a2fac7fe3be47df2d6b0651b7e57e2871f901ad",
-          "page_url": "/courses/course-v1:MITxT+8.01.4x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": null,
@@ -578,6 +621,11 @@
     "id": 13,
     "title": "Microeconomics - PROCTORED EXAM",
     "readable_id": "course-v1:MITxT+14.100PEx",
+    "page": {
+      "feature_image_src": "/media/original_images/14.100x_xGKvQiK.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
+      "page_url": "/courses/course-v1:MITxT+14.100PEx/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Microeconomics - PROCTORED EXAM",
@@ -590,12 +638,7 @@
         "courseware_id": "course-v1:MITxT+14.100PEx+2T2022",
         "run_tag": "2T2022",
         "id": 48,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/14.100x_xGKvQiK.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
-          "page_url": "/courses/course-v1:MITxT+14.100PEx/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 48,
@@ -605,6 +648,11 @@
     "id": 21,
     "title": "Minds and Machines",
     "readable_id": "course-v1:MITxT+24.09x",
+    "page": {
+      "feature_image_src": "/media/original_images/2409x_FL15_Thumbnail.jpeg?v=cc95c149b6f5f3597bd83079320b347cd03da6ef",
+      "page_url": "/courses/course-v1:MITxT+24.09x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Minds and Machines",
@@ -617,12 +665,7 @@
         "courseware_id": "course-v1:MITxT+24.09x+2T2022",
         "run_tag": "2T2022",
         "id": 30,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/2409x_FL15_Thumbnail.jpeg?v=cc95c149b6f5f3597bd83079320b347cd03da6ef",
-          "page_url": "/courses/course-v1:MITxT+24.09x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 30,
@@ -632,6 +675,11 @@
     "id": 24,
     "title": "Moral Problems and the Good Life",
     "readable_id": "course-v1:MITxT+24.02x",
+    "page": {
+      "feature_image_src": "/media/original_images/24.02x_course_image_01.jpg?v=a6b6b81b428417cddb6966a998a9dcb4ca7867eb",
+      "page_url": "/courses/course-v1:MITxT+24.02x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Moral Problems and the Good Life",
@@ -644,12 +692,7 @@
         "courseware_id": "course-v1:MITxT+24.02x+3T2022",
         "run_tag": "3T2022",
         "id": 33,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/24.02x_course_image_01.jpg?v=a6b6b81b428417cddb6966a998a9dcb4ca7867eb",
-          "page_url": "/courses/course-v1:MITxT+24.02x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 33,
@@ -659,6 +702,11 @@
     "id": 20,
     "title": "Paradox and Infinity",
     "readable_id": "course-v1:MITxT+24.118x",
+    "page": {
+      "feature_image_src": "/media/original_images/24.118x_CourseImage_20170926_sm.png?v=5f596811c909028fcbc4361d295c0122e0d791b5",
+      "page_url": "/courses/course-v1:MITxT+24.118x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Paradox and Infinity",
@@ -671,12 +719,7 @@
         "courseware_id": "course-v1:MITxT+24.118x+2T2022",
         "run_tag": "2T2022",
         "id": 29,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/24.118x_CourseImage_20170926_sm.png?v=5f596811c909028fcbc4361d295c0122e0d791b5",
-          "page_url": "/courses/course-v1:MITxT+24.118x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 29,
@@ -702,6 +745,11 @@
     "id": 8,
     "title": "Qualitative Research Methods: Analyzing Data",
     "readable_id": "course-v1:MITxT+21A.819.2x",
+    "page": {
+      "feature_image_src": "/media/original_images/21A.819.2x_courseImage_1134p-675p.jpg?v=b7305a970e6cdaff78231fbf31853c9dc70d9cac",
+      "page_url": "/courses/course-v1:MITxT+21A.819.2x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Qualitative Research Methods: Analyzing Data",
@@ -714,12 +762,7 @@
         "courseware_id": "course-v1:MITxT+21A.819.2x+3T2021",
         "run_tag": "3T2021",
         "id": 13,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/21A.819.2x_courseImage_1134p-675p.jpg?v=b7305a970e6cdaff78231fbf31853c9dc70d9cac",
-          "page_url": "/courses/course-v1:MITxT+21A.819.2x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 13,
@@ -729,6 +772,11 @@
     "id": 7,
     "title": "Qualitative Research Methods: Conversational Interviewing",
     "readable_id": "course-v1:MITxT+21A.819.1x",
+    "page": {
+      "feature_image_src": "/media/original_images/21A.819x_CourseImage_1134p-675p.jpg?v=430c765ca446c319a4c920aa1846bf918599328a",
+      "page_url": "/courses/course-v1:MITxT+21A.819.1x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Qualitative Research Methods: Conversational Interviewing",
@@ -741,12 +789,7 @@
         "courseware_id": "course-v1:MITxT+21A.819.1x+3T2021",
         "run_tag": "3T2021",
         "id": 12,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/21A.819x_CourseImage_1134p-675p.jpg?v=430c765ca446c319a4c920aa1846bf918599328a",
-          "page_url": "/courses/course-v1:MITxT+21A.819.1x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": 12,
@@ -756,6 +799,11 @@
     "id": 26,
     "title": "Quantum Mechanics: A First Course",
     "readable_id": "course-v1:MITxT+8.04x",
+    "page": {
+      "feature_image_src": "/media/original_images/8.04x_replacement_20200917_DiIr66w.png?v=aa4947564bf5b8228085ee3139c62c873d21a66d",
+      "page_url": "/courses/course-v1:MITxT+8.04x/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Quantum Mechanics: A First Course",
@@ -768,12 +816,7 @@
         "courseware_id": "course-v1:MITxT+8.04x+3T2022",
         "run_tag": "3T2022",
         "id": 39,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/8.04x_replacement_20200917_DiIr66w.png?v=aa4947564bf5b8228085ee3139c62c873d21a66d",
-          "page_url": "/courses/course-v1:MITxT+8.04x/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": null,
@@ -783,6 +826,11 @@
     "id": 28,
     "title": "Structure of Materials",
     "readable_id": "course-v1:MITxT+3.012Sx",
+    "page": {
+      "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
+      "page_url": "/courses/course-v1:MITxT+3.012Sx/",
+      "financial_assistance_form_url": ""
+    },
     "courseruns": [
       {
         "title": "Structure of Materials",
@@ -795,12 +843,7 @@
         "courseware_id": "course-v1:MITxT+3.012Sx+2T2022",
         "run_tag": "2T2022",
         "id": 41,
-        "products": [],
-        "page": {
-          "feature_image_src": "/media/original_images/8.01.3x_courseImage_MITyoyo_435p-244p.jpg?v=ad82db903797ca19d9726a4db938fa16274321b8",
-          "page_url": "/courses/course-v1:MITxT+3.012Sx/",
-          "financial_assistance_form_url": ""
-        }
+        "products": []
       }
     ],
     "next_run_id": null,

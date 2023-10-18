@@ -4,7 +4,7 @@ import json
 
 import pytest
 
-from course_catalog.etl.oll import transform
+from learning_resources.etl.oll import transform
 
 
 @pytest.fixture()
@@ -22,4 +22,4 @@ def test_oll_transform(oll_course_data):
     for course in results:
         assert len(course["runs"]) == 1
         for run in course["runs"]:
-            assert run["prices"] == [{"price": 0}]
+            assert run["prices"] == []

@@ -164,16 +164,13 @@ def load_run(
             learning_resource_run,
             _,
         ) = LearningResourceRun.objects.select_for_update().update_or_create(
+            learning_resource=learning_resource,
             run_id=run_id,
-            defaults={
-                **run_data,
-                "learning_resource": learning_resource,
-            },
+            defaults={**run_data},
         )
 
         load_instructors(learning_resource_run, instructors_data)
         load_image(learning_resource_run, image_data)
-
     return learning_resource_run
 
 
@@ -182,7 +179,7 @@ def load_course(  # noqa: C901
     blocklist: list[str],
     duplicates: list[dict],
     *,
-    config=CourseLoaderConfig()
+    config=CourseLoaderConfig(),
 ) -> LearningResource:
     """
     Load the course into the database
@@ -231,7 +228,7 @@ def load_course(  # noqa: C901
             log.exception(
                 "Platform %s is null or not in database: %s",
                 platform_name,
-                json.dumps(resource_data),
+                json.dumps(readable_id),
             )
             return None
 
@@ -350,7 +347,7 @@ def load_program(
     blocklist: list[str],
     duplicates: list[dict],
     *,
-    config=ProgramLoaderConfig()
+    config=ProgramLoaderConfig(),
 ) -> LearningResource:
     """
     Load the program into the database
@@ -376,6 +373,7 @@ def load_program(
     topics_data = program_data.pop("topics", [])
     runs_data = program_data.pop("runs", [])
     offered_by_data = program_data.pop("offered_by", None)
+    departments_data = program_data.pop("departments", None)
     image_data = program_data.pop("image", None)
     platform_name = program_data.pop("platform")
 
@@ -405,6 +403,7 @@ def load_program(
         load_topics(learning_resource, topics_data)
         load_image(learning_resource, image_data)
         load_offered_by(learning_resource, offered_by_data)
+        load_departments(learning_resource, departments_data)
 
         program, _ = Program.objects.get_or_create(learning_resource=learning_resource)
 
@@ -516,7 +515,7 @@ def load_content_files(
         )
         deleted_files.update(published=False)
 
-        # Uncomment when search is enabled
+        # Uncomment when contentfile search is enabled
         # if course_run.published:
 
         return content_files_ids

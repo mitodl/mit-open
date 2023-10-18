@@ -12,6 +12,7 @@ from django.conf import settings
 from requests.exceptions import HTTPError
 
 from learning_resources.constants import LearningResourceType
+from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import generate_readable_id
 from learning_resources.models import PodcastEpisode
 from open_discussions.utils import now_in_utc
@@ -19,7 +20,6 @@ from open_discussions.utils import now_in_utc
 CONFIG_FILE_REPO = "mitodl/open-podcast-data"
 CONFIG_FILE_FOLDER = "podcasts"
 TIMESTAMP_FORMAT = "%a, %d %b %Y  %H:%M:%S %z"
-ETL_SOURCE = "podcast"
 
 log = logging.getLogger()
 
@@ -145,7 +145,7 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
 
     return {
         "readable_id": generate_readable_id(rss_data.title.text[:95]),
-        "etl_source": ETL_SOURCE,
+        "etl_source": ETLSource.podcast.value,
         "resource_type": LearningResourceType.podcast_episode.value,
         "title": rss_data.title.text,
         "offered_by": offered_by,
@@ -213,7 +213,7 @@ def transform(extracted_podcasts):
             yield {
                 "readable_id": podcast_id,
                 "title": title,
-                "etl_source": ETL_SOURCE,
+                "etl_source": ETLSource.podcast.value,
                 "resource_type": LearningResourceType.podcast.value,
                 "offered_by": offered_by,
                 "description": rss_data.channel.description.text,

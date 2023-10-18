@@ -13,8 +13,8 @@ from django.conf import settings
 from freezegun import freeze_time
 
 from learning_resources.constants import LearningResourceType, OfferedBy
+from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.podcast import (
-    ETL_SOURCE,
     extract,
     generate_aggregate_podcast_rss,
     github_podcast_config_files,
@@ -140,7 +140,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
     expected_results = [
         {
             "readable_id": expected_readable_id,
-            "etl_source": ETL_SOURCE,
+            "etl_source": ETLSource.podcast.value,
             "title": expected_title,
             "offered_by": expected_offered_by,
             "full_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -158,7 +158,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
             "episodes": [
                 {
                     "readable_id": "episode15ede89915db9342fb76bc91918d22016",
-                    "etl_source": ETL_SOURCE,
+                    "etl_source": ETLSource.podcast.value,
                     "title": "Episode1",
                     "offered_by": expected_offered_by,
                     "description": "SMorbi id consequat nisl. Morbi leo elit, vulputate nec aliquam molestie, ullamcorper sit amet tortor",
@@ -179,7 +179,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
                 },
                 {
                     "readable_id": "episode205c066df9ed531e48c6414f6e72d3b96",
-                    "etl_source": ETL_SOURCE,
+                    "etl_source": ETLSource.podcast.value,
                     "title": "Episode2",
                     "offered_by": expected_offered_by,
                     "description": "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit felis ut varius facilisis.",

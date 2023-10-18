@@ -11,6 +11,11 @@ from moto import mock_s3
 from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3_ocw
 from learning_resources.constants import OfferedBy, PlatformType
 from learning_resources.etl import pipelines
+from learning_resources.etl.constants import (
+    CourseLoaderConfig,
+    ETLSource,
+    ProgramLoaderConfig,
+)
 from learning_resources.models import LearningResource
 
 
@@ -27,6 +32,102 @@ def reload_mocked_pipeline(*patchers):
         patcher.stop()
 
     reload(pipelines)
+
+
+def test_mit_edx_etl():
+    """Verify that mit edx etl pipeline executes correctly"""
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.mit_edx.extract", autospec=True),
+        patch("learning_resources.etl.mit_edx.transform", autospec=False),
+        patch("learning_resources.etl.loaders.load_courses", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_courses = patches
+        result = pipelines.mit_edx_etl()
+
+    mock_extract.assert_called_once_with()
+
+    # each of these should be called with the return value of the extract
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+
+    # load_courses should be called *only* with the return value of transform
+    mock_load_courses.assert_called_once_with(
+        ETLSource.mit_edx.value,
+        mock_transform.return_value,
+        config=CourseLoaderConfig(prune=True),
+    )
+
+    assert result == mock_load_courses.return_value
+
+
+def test_mitxonline_programs_etl():
+    """Verify that mitxonline programs etl pipeline executes correctly"""
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.mitxonline.extract_programs", autospec=True),
+        patch("learning_resources.etl.mitxonline.transform_programs", autospec=False),
+        patch("learning_resources.etl.loaders.load_programs", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_programs = patches
+        result = pipelines.mitxonline_programs_etl()
+
+    mock_extract.assert_called_once_with()
+
+    # each of these should be called with the return value of the extract
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+
+    # load_courses should be called *only* with the return value of transform
+    mock_load_programs.assert_called_once_with(
+        ETLSource.mitxonline.value,
+        mock_transform.return_value,
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
+    )
+
+    assert result == mock_load_programs.return_value
+
+
+def test_mitxonline_courses_etl():
+    """Verify that mitxonline courses etl pipeline executes correctly"""
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.mitxonline.extract_courses", autospec=True),
+        patch("learning_resources.etl.mitxonline.transform_courses", autospec=False),
+        patch("learning_resources.etl.loaders.load_courses", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_courses = patches
+        result = pipelines.mitxonline_courses_etl()
+
+    mock_extract.assert_called_once_with()
+
+    # each of these should be called with the return value of the extract
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+
+    # load_courses should be called *only* with the return value of transform
+    mock_load_courses.assert_called_once_with(
+        ETLSource.mitxonline.value,
+        mock_transform.return_value,
+        config=CourseLoaderConfig(prune=True),
+    )
+
+    assert result == mock_load_courses.return_value
+
+
+def test_oll_etl():
+    """Verify that OLL etl pipeline executes correctly"""
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.oll.extract", autospec=True),
+        patch("learning_resources.etl.oll.transform", autospec=False),
+        patch("learning_resources.etl.loaders.load_courses", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_courses = patches
+        result = pipelines.oll_etl()
+
+    mock_extract.assert_called_once_with()
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+    mock_load_courses.assert_called_once_with(
+        PlatformType.oll.value,
+        mock_transform.return_value,
+        config=CourseLoaderConfig(prune=True),
+    )
+
+    assert result == mock_load_courses.return_value
 
 
 def test_xpro_programs_etl():

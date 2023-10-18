@@ -10,6 +10,7 @@ from moto import mock_s3
 from learning_resources import factories, models, tasks
 from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3, setup_s3_ocw
 from learning_resources.constants import LearningResourceType, PlatformType
+from learning_resources.etl.constants import ETLSource
 from learning_resources.tasks import get_ocw_data
 
 pytestmark = pytest.mark.django_db
@@ -40,12 +41,67 @@ def mock_blocklist(mocker):
     )
 
 
+def test_get_mit_edx_data_valid(mocker):
+    """Verify that the get_mit_edx_data invokes the MIT edX ETL pipeline"""
+    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
+
+    tasks.get_mit_edx_data.delay()
+    mock_pipelines.mit_edx_etl.assert_called_once_with()
+
+
+def test_get_mitxonline_data(mocker):
+    """Verify that the get_mitxonline_data invokes the MITx Online ETL pipeline"""
+    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
+    tasks.get_mitxonline_data.delay()
+    mock_pipelines.mitxonline_programs_etl.assert_called_once_with()
+    mock_pipelines.mitxonline_courses_etl.assert_called_once_with()
+
+
+def test_get_oll_data(mocker):
+    """Verify that the get_oll_data invokes the OLL ETL pipeline"""
+    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
+    tasks.get_oll_data.delay()
+    mock_pipelines.oll_etl.assert_called_once_with()
+
+
 def test_get_xpro_data(mocker):
     """Verify that the get_xpro_data invokes the xPro ETL pipeline"""
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     tasks.get_xpro_data.delay()
     mock_pipelines.xpro_programs_etl.assert_called_once_with()
     mock_pipelines.xpro_courses_etl.assert_called_once_with()
+
+
+@mock_s3
+def test_import_all_mit_edx_files(settings, mocker, mocked_celery, mock_blocklist):
+    """import_all_mit_edx_files should start chunked tasks with correct bucket, platform"""
+    setup_s3(settings)
+    get_content_tasks_mock = mocker.patch(
+        "learning_resources.tasks.get_content_tasks", autospec=True
+    )
+    with pytest.raises(mocked_celery.replace_exception_class):
+        tasks.import_all_mit_edx_files.delay(4)
+    get_content_tasks_mock.assert_called_once_with(
+        ETLSource.mit_edx.value,
+        4,
+        s3_prefix="simeon-mitx-course-tarballs",
+    )
+
+
+@mock_s3
+def test_import_all_mitxonline_files(settings, mocker, mocked_celery, mock_blocklist):
+    """import_all_mitxonline_files should be replaced with get_content_tasks"""
+    setup_s3(settings)
+    get_content_tasks_mock = mocker.patch(
+        "learning_resources.tasks.get_content_tasks", autospec=True
+    )
+
+    with pytest.raises(mocked_celery.replace_exception_class):
+        tasks.import_all_mitxonline_files.delay(3)
+    get_content_tasks_mock.assert_called_once_with(
+        PlatformType.mitxonline.value,
+        3,
+    )
 
 
 @mock_s3
@@ -73,24 +129,25 @@ def test_get_content_tasks(settings, mocker, mocked_celery, mock_xpro_learning_b
     )
     setup_s3(settings)
     settings.LEARNING_COURSE_ITERATOR_CHUNK_SIZE = 2
+    etl_source = ETLSource.xpro.value
     platform = PlatformType.xpro.value
-    factories.CourseFactory.create_batch(3, platform=platform)
-
+    factories.CourseFactory.create_batch(3, etl_source=etl_source, platform=platform)
     s3_prefix = "course-prefix"
-    tasks.get_content_tasks(platform, s3_prefix=s3_prefix)
+    tasks.get_content_tasks(etl_source, s3_prefix=s3_prefix)
     assert mocked_celery.group.call_count == 1
     assert (
         models.LearningResource.objects.filter(
             published=True,
             resource_type=LearningResourceType.course.value,
-            platform=platform,
+            etl_source=etl_source,
+            platform__platform=platform,
         )
         .order_by("id")
         .values_list("id", flat=True)
     ).count() == 3
     assert mock_get_content_files.call_count == 2
     mock_get_content_files.assert_any_call(
-        ANY, platform, ["foo.tar.gz"], s3_prefix=s3_prefix
+        ANY, etl_source, ["foo.tar.gz"], s3_prefix=s3_prefix
     )
 
 

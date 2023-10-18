@@ -301,3 +301,16 @@ def test_get_learning_course_bucket(
         if platform == PlatformType.mitxonline.value
         else aws_settings.XPRO_LEARNING_COURSE_BUCKET_NAME
     )
+
+
+def test_extract_valid_department_from_id():
+    """Test that correct department is extracted from ID"""
+    assert utils.extract_valid_department_from_id("MITx+7.03.2x") == ["7"]
+    assert utils.extract_valid_department_from_id("course-v1:MITxT+21A.819.2x") == [
+        "21A"
+    ]
+    # Has a department not in the list and thus should not be entered
+    assert utils.extract_valid_department_from_id("course-v1:MITxT+123.658.2x") == []
+    # Has no discernible department
+    assert utils.extract_valid_department_from_id("MITx+CITE101x") == []
+    assert utils.extract_valid_department_from_id("RanD0mStr1ng") == []

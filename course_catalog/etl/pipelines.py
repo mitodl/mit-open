@@ -6,13 +6,8 @@ from course_catalog.constants import PlatformType
 from course_catalog.etl import (
     loaders,
     micromasters,
-    mitx,
-    mitxonline,
-    oll,
-    podcast,
     prolearn,
     video,
-    xpro,
     youtube,
 )
 from course_catalog.etl.constants import (
@@ -51,63 +46,11 @@ micromasters_etl = compose(
     micromasters.extract,
 )
 
-xpro_programs_etl = compose(
-    load_programs(PlatformType.xpro.value),
-    xpro.transform_programs,
-    xpro.extract_programs,
-)
-xpro_courses_etl = compose(
-    load_courses(PlatformType.xpro.value, config=CourseLoaderConfig(prune=True)),
-    xpro.transform_courses,
-    xpro.extract_courses,
-)
-
-mitxonline_programs_etl = compose(
-    load_programs(
-        PlatformType.mitxonline.value,
-        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
-    ),
-    mitxonline.transform_programs,
-    mitxonline.extract_programs,
-)
-mitxonline_courses_etl = compose(
-    load_courses(PlatformType.mitxonline.value, config=CourseLoaderConfig(prune=True)),
-    mitxonline.transform_courses,
-    mitxonline.extract_courses,
-)
-
-mitx_etl = compose(
-    load_courses(
-        PlatformType.mitx.value,
-        # MicroMasters courses overlap with MITx, so configure course and run level offerors to be additive  # noqa: E501
-        config=CourseLoaderConfig(
-            prune=True,
-            offered_by=OfferedByLoaderConfig(additive=True),
-            runs=LearningResourceRunLoaderConfig(
-                offered_by=OfferedByLoaderConfig(additive=True)
-            ),
-        ),
-    ),
-    mitx.transform,
-    # for the sake of not touching OCW code, we've implementing this function here in discussions  # noqa: E501
-    # it takes the concatenated raw results from MITx and uploads them as a json file to the OCW bucket  # noqa: E501
-    # we'll probably do away with this at later date when we can easily move it into OCW
-    # NOTE: do() runs the func with the input and then returns the input
-    mitx.extract,
-)
-
-oll_etl = compose(
-    load_courses(PlatformType.oll.value, config=CourseLoaderConfig(prune=True)),
-    oll.transform,
-    oll.extract,
-)
 
 youtube_etl = compose(loaders.load_video_channels, youtube.transform, youtube.extract)
 
 # pipeline for generating topic data for videos based on course topics
 video_topics_etl = compose(loaders.load_videos, video.extract_videos_topics)
-
-podcast_etl = compose(loaders.load_podcasts, podcast.transform, podcast.extract)
 
 
 def prolearn_programs_etl() -> list[Program]:

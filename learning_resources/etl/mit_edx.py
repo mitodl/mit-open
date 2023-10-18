@@ -1,4 +1,4 @@
-"""MITx course catalog ETL"""
+"""MIT edX ETL"""
 import csv
 import logging
 
@@ -6,8 +6,10 @@ from django.conf import settings
 from django.utils.functional import SimpleLazyObject
 from toolz import compose, curried
 
-from course_catalog.constants import MIT_OWNER_KEYS, OfferedBy, PlatformType
-from course_catalog.etl.openedx import (
+from learning_resources.constants import OfferedBy, PlatformType
+from learning_resources.etl.constants import ETLSource
+from learning_resources.etl.openedx import (
+    MIT_OWNER_KEYS,
     OpenEdxConfiguration,
     openedx_extract_transform_factory,
 )
@@ -37,7 +39,7 @@ def _load_edx_topic_mappings():
             the mapping dictionary
     """  # noqa: D401
     with open(  # noqa: PTH123
-        "course_catalog/data/edx-topic-mappings.csv"
+        "learning_resources/data/edx-topic-mappings.csv"
     ) as mapping_file:
         # drop the column headers (first row)
         # assumes the csv is in "source topic, dest target" format
@@ -47,9 +49,9 @@ def _load_edx_topic_mappings():
 EDX_TOPIC_MAPPINGS = SimpleLazyObject(_load_edx_topic_mappings)
 
 
-def _remap_mitx_topics(course):
+def _remap_mit_edx_topics(course):
     """
-    Remap mitx topics using a crosswalk csv, excluding topics that don't appear in the mapping
+    Remap MIT edX topics using a crosswalk csv, excluding topics that don't appear in the mapping
 
     Args:
         course (dict): The JSON object representing the course with all its course runs
@@ -67,7 +69,7 @@ def _remap_mitx_topics(course):
             log.info(
                 "Failed to map mitx topic '%s' for course '%s'",
                 topic_name,
-                course["course_id"],
+                course["readable_id"],
             )
             continue
 
@@ -83,14 +85,15 @@ extract, _transform = openedx_extract_transform_factory(
         settings.EDX_API_CLIENT_SECRET,
         settings.EDX_API_ACCESS_TOKEN_URL,
         settings.EDX_API_URL,
-        settings.MITX_BASE_URL,
-        settings.MITX_ALT_URL,
-        PlatformType.mitx.value,
+        settings.EDX_BASE_URL,
+        settings.EDX_ALT_URL,
+        PlatformType.edx.value,
         OfferedBy.mitx.value,
+        ETLSource.mit_edx.value,
     )
 )
 
 # modified transform function that filters the course list to ones that pass the _is_mit_course() predicate  # noqa: E501
 transform = compose(
-    curried.map(_remap_mitx_topics), _transform, curried.filter(_is_mit_course)
+    curried.map(_remap_mit_edx_topics), _transform, curried.filter(_is_mit_course)
 )
