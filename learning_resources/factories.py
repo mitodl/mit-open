@@ -168,6 +168,15 @@ class LearningResourceFactory(DjangoModelFactory):
         is_program = factory.Trait(
             resource_type=constants.LearningResourceType.program.value
         )
+        is_learning_path = factory.Trait(
+            resource_type=constants.LearningResourceType.learning_path.value
+        )
+        is_podcast = factory.Trait(
+            resource_type=constants.LearningResourceType.podcast.value
+        )
+        is_podcast_episode = factory.Trait(
+            resource_type=constants.LearningResourceType.podcast_episode.value
+        )
 
 
 class CourseFactory(DjangoModelFactory):

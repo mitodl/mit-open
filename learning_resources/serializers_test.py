@@ -1,4 +1,5 @@
 """Tests for learning_resources serializers"""
+from anys import ANY_DICT
 import pytest
 
 from learning_resources import constants, factories, serializers
@@ -43,12 +44,26 @@ def test_serialize_program_to_json():
         },
     )
 
-@pytest.mark.parametrize("resource_type, specific_serializer_cls", [
-    (constants.LearningResourceType.program, serializers.ProgramResourceSerializer),
-    (constants.LearningResourceType.course, serializers.CourseResourceSerializer),
+
+@pytest.mark.parametrize("params, detail_key, specific_serializer_cls", [
+    (dict(is_program=True), "program", serializers.ProgramResourceSerializer),
+    (dict(is_course=True), "course", serializers.CourseResourceSerializer),
+    (dict(is_learning_path=True), "learning_path", serializers.LearningPathResourceSerializer),
+    (dict(is_podcast=True), "podcast", serializers.PodcastResourceSerializer),
+    (dict(is_podcast_episode=True), "podcast_episode", serializers.PodcastEpisodeResourceSerializer),
 ])
-def test_serializer_learning_resource_types(resource_type, specific_serializer_cls):
+def test_learning_resource_serializer(params, detail_key, specific_serializer_cls):
     """Test that LearningResourceSerializer uses the correct serializer"""
+    resource = factories.LearningResourceFactory.create(**params)
+
+    result = serializers.LearningResourceSerializer(instance=resource).data
+    expected = specific_serializer_cls(instance=resource).data
+
+    assert result == expected
+    
+    assert result == {
+        detail_key: ANY_DICT,
+    }
 
 
 def test_serialize_run_related_models():
