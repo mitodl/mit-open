@@ -54,6 +54,7 @@ class LearningResourceRunAdmin(admin.ModelAdmin):
         "year",
         "learning_resource__platform",
         "learning_resource__offered_by",
+        "learning_resource__etl_source",
         "learning_resource__resource_type",
     )
     autocomplete_fields = ("instructors", "learning_resource")
@@ -71,6 +72,7 @@ class LearningResourceRunInline(TabularInline):
         "start_date",
         "semester",
         "year",
+        "published",
     )
 
 
@@ -99,11 +101,12 @@ class LearningResourceAdmin(admin.ModelAdmin):
         "readable_id",
         "title",
         "platform",
+        "etl_source",
         "offered_by",
         "resource_type",
         "published",
     )
-    list_filter = ("platform", "offered_by", "resource_type", "published")
+    list_filter = ("platform", "offered_by", "etl_source", "resource_type", "published")
     inlines = [CourseInline, LearningPathInline, LearningResourceRunInline]
     autocomplete_fields = ("topics",)
 

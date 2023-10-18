@@ -1,7 +1,8 @@
 """Management command for populating xpro course data"""
 from django.core.management import BaseCommand
 
-from learning_resources.constants import LearningResourceType, PlatformType
+from learning_resources.constants import LearningResourceType
+from learning_resources.etl.constants import ETLSource
 from learning_resources.models import LearningResource
 from learning_resources.tasks import get_xpro_data
 from learning_resources_search import search_index_helpers
@@ -30,19 +31,19 @@ class Command(BaseCommand):
             )
 
             for course in LearningResource.objects.filter(
-                platform__platform=PlatformType.xpro.value,
+                etl_source=ETLSource.xpro.value,
                 resource_type=LearningResourceType.course.value,
             ):
                 search_index_helpers.deindex_course(course)
 
             for program in LearningResource.objects.filter(
-                platform__platform=PlatformType.xpro.value,
+                etl_source=ETLSource.xpro.value,
                 resource_type=LearningResourceType.program.value,
             ):
                 search_index_helpers.deindex_program(program)
 
             for learning_resources in LearningResource.objects.filter(
-                platform__platform=PlatformType.xpro.value
+                etl_source=ETLSource.xpro.value
             ):
                 learning_resources.delete()
         else:

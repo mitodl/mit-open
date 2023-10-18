@@ -10,8 +10,8 @@ import celery
 import pytz
 from django.conf import settings
 
-from learning_resources.constants import PlatformType
 from learning_resources.etl import pipelines
+from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.edx_shared import (
     get_most_recent_course_archives,
     sync_edx_course_files,
@@ -28,6 +28,25 @@ log = logging.getLogger(__name__)
 
 
 @app.task
+def get_mit_edx_data():
+    """Task to sync MIT edX data with the database"""
+    pipelines.mit_edx_etl()
+
+
+@app.task
+def get_mitxonline_data():
+    """Execute the MITX Online ETL pipeline"""
+    pipelines.mitxonline_courses_etl()
+    pipelines.mitxonline_programs_etl()
+
+
+@app.task
+def get_oll_data():
+    """Execute the OLL ETL pipeline"""
+    pipelines.oll_etl()
+
+
+@app.task
 def get_xpro_data():
     """Execute the xPro ETL pipeline"""
     pipelines.xpro_courses_etl()
@@ -36,7 +55,7 @@ def get_xpro_data():
 
 @app.task
 def get_content_files(
-    ids: list[int], platform: str, keys: list[str], s3_prefix: str | None = None
+    ids: list[int], etl_source: str, keys: list[str], s3_prefix: str | None = None
 ):
     """
     Task to sync edX course content files with database
@@ -44,15 +63,15 @@ def get_content_files(
     if not (
         settings.AWS_ACCESS_KEY_ID
         and settings.AWS_SECRET_ACCESS_KEY
-        and get_learning_course_bucket_name(platform) is not None
+        and get_learning_course_bucket_name(etl_source) is not None
     ):
-        log.warning("Required settings missing for %s files", platform)
+        log.warning("Required settings missing for %s files", etl_source)
         return
-    sync_edx_course_files(platform, ids, keys, s3_prefix=s3_prefix)
+    sync_edx_course_files(etl_source, ids, keys, s3_prefix=s3_prefix)
 
 
 def get_content_tasks(
-    platform: str, chunk_size: int | None = None, s3_prefix: str | None = None
+    etl_source: str, chunk_size: int | None = None, s3_prefix: str | None = None
 ) -> celery.group:
     """
     Return a list of grouped celery tasks for indexing edx content
@@ -61,13 +80,14 @@ def get_content_tasks(
         chunk_size = settings.LEARNING_COURSE_ITERATOR_CHUNK_SIZE
 
     blocklisted_ids = load_course_blocklist()
-    archive_keys = get_most_recent_course_archives(platform, s3_prefix=s3_prefix)
+    archive_keys = get_most_recent_course_archives(etl_source, s3_prefix=s3_prefix)
     return celery.group(
         [
-            get_content_files.si(ids, platform, archive_keys, s3_prefix=s3_prefix)
+            get_content_files.si(ids, etl_source, archive_keys, s3_prefix=s3_prefix)
             for ids in chunks(
-                LearningResource.objects.filter(published=True, course__isnull=False)
-                .filter(platform__platform=platform)
+                LearningResource.objects.filter(
+                    published=True, course__isnull=False, etl_source=etl_source
+                )
                 .exclude(readable_id__in=blocklisted_ids)
                 .order_by("-id")
                 .values_list("id", flat=True),
@@ -78,12 +98,35 @@ def get_content_tasks(
 
 
 @app.task(bind=True)
+def import_all_mit_edx_files(self, chunk_size=None):
+    """Ingest MIT edX files from an S3 bucket"""
+    raise self.replace(
+        get_content_tasks(
+            ETLSource.mit_edx.value,
+            chunk_size,
+            s3_prefix=settings.EDX_LEARNING_COURSE_BUCKET_PREFIX,
+        )
+    )
+
+
+@app.task(bind=True)
+def import_all_mitxonline_files(self, chunk_size=None):
+    """Ingest MITx Online files from an S3 bucket"""
+    raise self.replace(
+        get_content_tasks(
+            ETLSource.mitxonline.value,
+            chunk_size,
+        )
+    )
+
+
+@app.task(bind=True)
 def import_all_xpro_files(self, chunk_size=None):
     """Ingest xPRO OLX files from an S3 bucket"""
 
     raise self.replace(
         get_content_tasks(
-            PlatformType.xpro.value,
+            ETLSource.xpro.value,
             chunk_size,
         )
     )

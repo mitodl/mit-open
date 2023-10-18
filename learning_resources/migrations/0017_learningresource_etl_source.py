@@ -3,7 +3,7 @@
 from django.db import migrations, models
 
 from learning_resources.constants import LearningResourceType
-from learning_resources.etl import podcast, xpro
+from learning_resources.etl.constants import ETLSource
 
 
 def populate_etl_source(apps, schema_editor):
@@ -16,13 +16,13 @@ def populate_etl_source(apps, schema_editor):
             LearningResourceType.podcast.value,
             LearningResourceType.podcast_episode.value,
         )
-    ).update(etl_source=podcast.ETL_SOURCE)
+    ).update(etl_source=ETLSource.podcast.value)
     LearningResource.objects.filter(
         resource_type__in=(
             LearningResourceType.course.value,
             LearningResourceType.program.value,
         )
-    ).update(etl_source=xpro.ETL_SOURCE)
+    ).update(etl_source=ETLSource.xpro.value)
 
 
 class Migration(migrations.Migration):

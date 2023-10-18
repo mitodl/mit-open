@@ -1,4 +1,4 @@
-"""MITX Online course catalog ETL"""
+"""MITX Online ETL"""
 import copy
 import logging
 import re
@@ -9,15 +9,18 @@ import requests
 from dateutil.parser import parse
 from django.conf import settings
 
-from course_catalog.constants import OfferedBy, PlatformType
-from course_catalog.etl.utils import extract_valid_department_from_id, transform_topics
+from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.etl.constants import ETLSource
+from learning_resources.etl.utils import (
+    extract_valid_department_from_id,
+    transform_topics,
+)
 
 log = logging.getLogger(__name__)
 
-
 EXCLUDE_REGEX = r"PROCTORED EXAM"
 
-OFFERED_BY = [{"name": OfferedBy.mitx.value}]
+OFFERED_BY = {"name": OfferedBy.mitx.value}
 
 
 def _parse_datetime(value):
@@ -72,7 +75,21 @@ def extract_courses():
     return []
 
 
-def _transform_run(course_run):
+def _transform_image(mitxonline_data: dict) -> dict:
+    """
+    Transforms an image into our normalized data structure
+
+    Args:
+        mitxonline_data (dict): mitxonline data
+
+    Returns:
+        dict: normalized image data
+    """  # noqa: D401
+    image_url = parse_page_attribute(mitxonline_data, "feature_image_src", is_url=True)
+    return {"url": image_url} if image_url else None
+
+
+def _transform_run(course_run: dict, course: dict) -> dict:
     """
     Transforms a course run into our normalized data structure
 
@@ -85,30 +102,24 @@ def _transform_run(course_run):
     return {
         "title": course_run["title"],
         "run_id": course_run["courseware_id"],
-        "platform": PlatformType.mitxonline.value,
-        "start_date": _parse_datetime(course_run["start_date"]),
-        "end_date": _parse_datetime(course_run["end_date"]),
-        "enrollment_start": _parse_datetime(course_run["enrollment_start"]),
-        "enrollment_end": _parse_datetime(course_run["enrollment_end"]),
-        "best_start_date": _parse_datetime(course_run["enrollment_start"])
-        or _parse_datetime(course_run["start_date"]),
-        "best_end_date": _parse_datetime(course_run["enrollment_end"])
-        or _parse_datetime(course_run["end_date"]),
-        "offered_by": copy.deepcopy(OFFERED_BY),
-        "url": parse_page_attribute(course_run, "page_url", is_url=True),
-        "published": bool(parse_page_attribute(course_run, "page_url")),
-        "short_description": parse_page_attribute(course_run, "description"),
-        "image_src": parse_page_attribute(course_run, "feature_image_src", is_url=True),
+        "start_date": _parse_datetime(course_run.get("start_date")),
+        "end_date": _parse_datetime(course_run.get("end_date")),
+        "enrollment_start": _parse_datetime(course_run.get("enrollment_start")),
+        "enrollment_end": _parse_datetime(course_run.get("enrollment_end")),
+        "url": parse_page_attribute(course, "page_url", is_url=True),
+        "published": bool(parse_page_attribute(course, "page_url")),
+        "description": parse_page_attribute(course_run, "description"),
+        "image": _transform_image(course_run),
         "prices": [
-            {"price": price}
-            for price in [parse_page_attribute(course_run, "current_price")]
+            price
+            for price in [
+                product.get("price") for product in course_run.get("products", [])
+            ]
             if price is not None
         ],
         "instructors": [
             {"full_name": instructor["name"]}
-            for instructor in parse_page_attribute(
-                course_run, "instructors", is_list=True
-            )
+            for instructor in parse_page_attribute(course, "instructors", is_list=True)
         ],
     }
 
@@ -124,19 +135,24 @@ def _transform_course(course):
         dict: normalized course data
     """  # noqa: D401
     return {
-        "course_id": course["readable_id"],
+        "readable_id": course["readable_id"],
         "platform": PlatformType.mitxonline.value,
-        "department": extract_valid_department_from_id(course["readable_id"]),
+        "etl_source": ETLSource.mitxonline.value,
+        "resource_type": LearningResourceType.course.value,
         "title": course["title"],
         "offered_by": copy.deepcopy(OFFERED_BY),
         "topics": transform_topics(course.get("topics", [])),
-        "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
+        "departments": extract_valid_department_from_id(course["readable_id"]),
+        "runs": [
+            _transform_run(course_run, course) for course_run in course["courseruns"]
+        ],
         "published": bool(
             parse_page_attribute(course, "page_url")
         ),  # a course is only considered published if it has a page url
-        "image_src": parse_page_attribute(course, "feature_image_src", is_url=True),
+        "professional": False,
+        "image": _transform_image(course),
         "url": parse_page_attribute(course, "page_url", is_url=True),
-        "short_description": parse_page_attribute(course, "description"),
+        "description": parse_page_attribute(course, "description"),
     }
 
 
@@ -159,41 +175,40 @@ def transform_courses(courses):
 
 def transform_programs(programs):
     """Transform the MITX Online catalog data"""
-    # normalize the MITx Online data into the course_catalog/models.py data structures
+    # normalize the MITx Online data
     return [
         {
-            "program_id": program["readable_id"],
+            "readable_id": program["readable_id"],
             "title": program["title"],
-            "offered_by": copy.deepcopy(OFFERED_BY),
+            "offered_by": OFFERED_BY,
+            "etl_source": ETLSource.mitxonline.value,
+            "resource_type": LearningResourceType.program.value,
+            "departments": extract_valid_department_from_id(program["readable_id"]),
+            "platform": PlatformType.mitxonline.value,
+            "professional": False,
             "topics": transform_topics(program.get("topics", [])),
-            "short_description": parse_page_attribute(program, "description"),
+            "description": parse_page_attribute(program, "description"),
             "url": parse_page_attribute(program, "page_url", is_url=True),
-            "image_src": parse_page_attribute(
-                program, "feature_image_src", is_url=True
-            ),
+            "image": _transform_image(program),
             "published": bool(
                 parse_page_attribute(program, "page_url")
             ),  # a program is only considered published if it has a page url
             "runs": [
                 {
                     "run_id": program["readable_id"],
-                    "platform": PlatformType.mitxonline.value,
-                    "enrollment_start": _parse_datetime(program["enrollment_start"]),
-                    "start_date": _parse_datetime(program["start_date"]),
-                    "end_date": _parse_datetime(program["end_date"]),
-                    "best_start_date": _parse_datetime(program["enrollment_start"])
-                    or _parse_datetime(program["start_date"]),
-                    "best_end_date": _parse_datetime(program["end_date"]),
-                    "offered_by": copy.deepcopy(OFFERED_BY),
+                    "enrollment_start": _parse_datetime(
+                        program.get("enrollment_start")
+                    ),
+                    "enrollment_end": _parse_datetime(program.get("enrollment_end")),
+                    "start_date": _parse_datetime(program.get("start_date")),
+                    "end_date": _parse_datetime(program.get("end_date")),
                     "title": program["title"],
                     "published": bool(
                         parse_page_attribute(program, "page_url")
-                    ),  # a program is only considered published if it has a product/price  # noqa: E501
+                    ),  # program only considered published if it has a product/price
                     "url": parse_page_attribute(program, "page_url", is_url=True),
-                    "image_src": parse_page_attribute(
-                        program, "feature_image_src", is_url=True
-                    ),
-                    "short_description": parse_page_attribute(program, "description"),
+                    "image": _transform_image(program),
+                    "description": parse_page_attribute(program, "description"),
                 }
             ],
             "courses": [

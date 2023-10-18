@@ -1,7 +1,7 @@
-"""Tests for the MITx ETL functions"""
+"""Tests for the MIT edX ETL functions"""
 import copy
 
-from course_catalog.etl.mitx import EDX_TOPIC_MAPPINGS, transform
+from learning_resources.etl.mit_edx import EDX_TOPIC_MAPPINGS, transform
 
 
 def test_mitx_transform_non_mit_owner(non_mitx_course_data):
@@ -16,7 +16,7 @@ def test_mitx_transform_mit_owner(mitx_course_data):
 
 def test_mitx_transform_remap_topics(mocker, mitx_course_data):
     """Verify that course topics are remapped correctly"""
-    mock_log = mocker.patch("course_catalog.etl.mitx.log", autospec=True)
+    mock_log = mocker.patch("learning_resources.etl.mit_edx.log", autospec=True)
 
     for edx_topic, expected_topic in EDX_TOPIC_MAPPINGS.items():
         mock_log.reset_mock()
@@ -29,7 +29,7 @@ def test_mitx_transform_remap_topics(mocker, mitx_course_data):
         mock_log.info.assert_called_once_with(
             "Failed to map mitx topic '%s' for course '%s'",
             "this topic isn't mapped",
-            course["course_id"],
+            course["readable_id"],
         )
 
         assert course["topics"] == [{"name": expected_topic}]

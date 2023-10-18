@@ -8,11 +8,11 @@ from dateutil.parser import parse
 from django.conf import settings
 
 from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import transform_topics
 
 log = logging.getLogger(__name__)
 
-ETL_SOURCE = "xpro"
 OFFERED_BY = {"name": OfferedBy.xpro.value}
 
 # This needs to be kept up to date with valid xpro platforms
@@ -95,7 +95,7 @@ def _transform_learning_resource_course(course):
     return {
         "readable_id": course["readable_id"],
         "platform": XPRO_PLATFORM_TRANSFORM.get(course["platform"], None),
-        "etl_source": ETL_SOURCE,
+        "etl_source": ETLSource.xpro.value,
         "title": course["title"],
         "image": {"url": course["thumbnail_url"]},
         "offered_by": copy.deepcopy(OFFERED_BY),
@@ -131,7 +131,7 @@ def transform_programs(programs):
     return [
         {
             "readable_id": program["readable_id"],
-            "etl_source": ETL_SOURCE,
+            "etl_source": ETLSource.xpro.value,
             "title": program["title"],
             "image": {"url": program["thumbnail_url"]},
             "description": program["description"],

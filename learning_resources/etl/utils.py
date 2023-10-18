@@ -30,9 +30,10 @@ from learning_resources.constants import (
     CONTENT_TYPE_PDF,
     CONTENT_TYPE_VERTICAL,
     CONTENT_TYPE_VIDEO,
+    DEPARTMENTS,
     VALID_TEXT_FILE_TYPES,
-    PlatformType,
 )
+from learning_resources.etl.constants import ETLSource
 from learning_resources.models import ContentFile, LearningResourceRun
 
 log = logging.getLogger(__name__)
@@ -420,35 +421,35 @@ def transform_content_files(
             )
 
 
-def get_learning_course_bucket_name(platform: str) -> str:
+def get_learning_course_bucket_name(etl_source: str) -> str:
     """
     Get the name of the platform's edx content bucket
 
     Args:
-        platform(str): The edx platform
+        etl_source(str): The ETL source that determines which bucket to use
 
     Returns:
         str: The name of the edx archive bucket for the platform
     """
     bucket_names = {
-        PlatformType.mitxonline.value: settings.EDX_LEARNING_COURSE_BUCKET_NAME,
-        PlatformType.xpro.value: settings.XPRO_LEARNING_COURSE_BUCKET_NAME,
-        PlatformType.mitxonline.value: settings.MITX_ONLINE_LEARNING_COURSE_BUCKET_NAME,
+        ETLSource.mit_edx.value: settings.EDX_LEARNING_COURSE_BUCKET_NAME,
+        ETLSource.xpro.value: settings.XPRO_LEARNING_COURSE_BUCKET_NAME,
+        ETLSource.mitxonline.value: settings.MITX_ONLINE_LEARNING_COURSE_BUCKET_NAME,
     }
-    return bucket_names.get(platform)
+    return bucket_names.get(etl_source)
 
 
-def get_learning_course_bucket(platform: str) -> object:
+def get_learning_course_bucket(etl_source: str) -> object:
     """
-    Get the platform's learning course S3 Bucket holding content file data
+    Get the ETLSource-specific learning course S3 Bucket holding content file data
 
     Args:
-        platform(str): The platform value
+        etl_source(str): The ETL source of the course data
 
     Returns:
         boto3.Bucket: the OCW S3 Bucket or None
     """
-    bucket_name = get_learning_course_bucket_name(platform)
+    bucket_name = get_learning_course_bucket_name(etl_source)
     if bucket_name:
         s3 = boto3.resource(
             "s3",
@@ -493,3 +494,20 @@ def get_content_type(file_type: str) -> str:
     if file_type == "application/pdf":
         return CONTENT_TYPE_PDF
     return CONTENT_TYPE_FILE
+
+
+def extract_valid_department_from_id(course_string: str) -> list[str]:
+    """
+    Extracts a department from course data and returns
+
+    Args:
+        course_string (str): course name as string
+
+    Returns:
+        department (str): parsed department string
+    """  # noqa: D401
+    department_string = re.search(r"\+([^\.]*)\.", course_string)
+    if department_string:
+        dept_candidate = department_string.groups()[0]
+        return [dept_candidate] if dept_candidate in DEPARTMENTS else []
+    return []

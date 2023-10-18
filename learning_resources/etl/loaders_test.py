@@ -12,8 +12,11 @@ from learning_resources.constants import (
     LearningResourceType,
     PlatformType,
 )
-from learning_resources.etl import xpro
-from learning_resources.etl.constants import CourseLoaderConfig, ProgramLoaderConfig
+from learning_resources.etl.constants import (
+    CourseLoaderConfig,
+    ETLSource,
+    ProgramLoaderConfig,
+)
 from learning_resources.etl.loaders import (
     load_content_file,
     load_content_files,
@@ -337,6 +340,7 @@ def test_load_course_bad_platform(mocker):
     props = {
         "readable_id": "abc123",
         "platform": bad_platform,
+        "etl_source": ETLSource.ocw.value,
         "title": "course title",
         "image": {"url": "https://www.test.edu/image.jpg"},
         "description": "description",
@@ -354,7 +358,7 @@ def test_load_course_bad_platform(mocker):
     result = load_course(props, [], [], config=CourseLoaderConfig(prune=True))
     assert result is None
     mock_log.assert_called_once_with(
-        "Platform %s is null or not in database: %s", bad_platform, json.dumps(props)
+        "Platform %s is null or not in database: %s", bad_platform, '"abc123"'
     )
 
 
@@ -551,8 +555,8 @@ def test_load_offered_bys(
 def test_load_courses(mocker, mock_blocklist, mock_duplicates, prune):
     """Test that load_courses calls the expected functions"""
 
-    course_to_unpublish = CourseFactory.create(etl_source=xpro.ETL_SOURCE)
-    courses = CourseFactory.create_batch(3, etl_source=xpro.ETL_SOURCE)
+    course_to_unpublish = CourseFactory.create(etl_source=ETLSource.xpro.value)
+    courses = CourseFactory.create_batch(3, etl_source=ETLSource.xpro.value)
 
     courses_data = [
         {"readable_id": course.learning_resource.readable_id} for course in courses
@@ -564,7 +568,7 @@ def test_load_courses(mocker, mock_blocklist, mock_duplicates, prune):
         side_effect=[course.learning_resource for course in courses],
     )
     config = CourseLoaderConfig(prune=prune)
-    load_courses(xpro.ETL_SOURCE, courses_data, config=config)
+    load_courses(ETLSource.xpro.value, courses_data, config=config)
     assert mock_load_course.call_count == len(courses)
     for course_data in courses_data:
         mock_load_course.assert_any_call(
@@ -574,7 +578,7 @@ def test_load_courses(mocker, mock_blocklist, mock_duplicates, prune):
             config=config,
         )
     mock_blocklist.assert_called_once_with()
-    mock_duplicates.assert_called_once_with(xpro.ETL_SOURCE)
+    mock_duplicates.assert_called_once_with(ETLSource.xpro.value)
     course_to_unpublish.refresh_from_db()
     assert course_to_unpublish.learning_resource.published is not prune
 

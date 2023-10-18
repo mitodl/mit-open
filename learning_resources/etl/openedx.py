@@ -2,6 +2,7 @@
 ETL extract and transformations for openedx
 """
 import logging
+import re
 from collections import namedtuple
 
 import pytz
@@ -9,9 +10,12 @@ import requests
 from dateutil.parser import parse
 from toolz import compose
 
-from course_catalog.etl.constants import COMMON_HEADERS
-from course_catalog.etl.utils import extract_valid_department_from_id
-from course_catalog.utils import get_year_and_semester, semester_year_to_date
+from learning_resources.constants import LearningResourceType
+from learning_resources.etl.constants import COMMON_HEADERS
+from learning_resources.etl.utils import extract_valid_department_from_id
+from learning_resources.utils import get_year_and_semester
+
+MIT_OWNER_KEYS = ["MITx", "MITx_PRO"]
 
 OpenEdxConfiguration = namedtuple(  # noqa: PYI024
     "OpenEdxConfiguration",
@@ -24,6 +28,7 @@ OpenEdxConfiguration = namedtuple(  # noqa: PYI024
         "alt_url",
         "platform",
         "offered_by",
+        "etl_source",
     ],
 )
 OpenEdxExtractTransform = namedtuple(  # noqa: PYI024
@@ -102,10 +107,18 @@ def _get_course_marketing_url(config, course):
     Returns:
         str: The url for the course if any
     """
-    for course_run in course.get("course_runs", []):
-        url = course_run.get("marketing_url", "")
-        if url and config.base_url in url:
-            return url.split("?")[0]
+    marketing_url = course.get("marketing_url", "")
+    if not marketing_url:
+        for course_run in sorted(
+            course.get("course_runs", []), key=lambda x: x["start"], reverse=True
+        ):
+            marketing_url = course_run.get("marketing_url", "")
+            if marketing_url:
+                break
+    if marketing_url and re.match(
+        rf"^{config.base_url}|{config.alt_url}", marketing_url
+    ):
+        return marketing_url.split("?")[0]
     return None
 
 
@@ -161,6 +174,16 @@ def _filter_course_run(course_run):
     return not _is_course_or_run_deleted(course_run.get("title"))
 
 
+def _transform_image(image_data: dict) -> dict:
+    """Return the transformed image data if a url is provided"""
+    if image_data and image_data.get("src"):
+        return {
+            "url": image_data.get("src"),
+            "description": image_data.get("description"),
+        }
+    return None
+
+
 def _transform_course_run(config, course_run, course_last_modified, marketing_url):
     """
     Transform a course run into the normalized data structure
@@ -176,13 +199,12 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
     last_modified = max(course_last_modified, course_run_last_modified)
     return {
         "run_id": course_run.get("key"),
-        "platform": config.platform,
         "title": course_run.get("title"),
-        "short_description": course_run.get("short_description"),
+        "description": course_run.get("short_description"),
         "full_description": course_run.get("full_description"),
         "level": course_run.get("level_type"),
         "semester": semester,
-        "language": course_run.get("content_language"),
+        "languages": [course_run.get("content_language")],
         "year": year,
         "start_date": course_run.get("start"),
         "end_date": course_run.get("end"),
@@ -190,26 +212,11 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "published": course_run.get("status", "") == "published",
         "enrollment_start": course_run.get("enrollment_start"),
         "enrollment_end": course_run.get("enrollment_end"),
-        "best_start_date": course_run.get("enrollment_start")
-        or course_run.get("start")
-        or semester_year_to_date(semester, year),
-        "best_end_date": course_run.get("enrollment_end")
-        or course_run.get("end")
-        or semester_year_to_date(semester, year, ending=True),
-        "image_src": (course_run.get("image") or {}).get("src", None),
-        "image_description": (course_run.get("image") or {}).get("description", None),
-        "offered_by": [{"name": config.offered_by}],
+        "image": _transform_image(course_run.get("image")),
         "availability": course_run.get("availability"),
         "url": marketing_url
         or "{}{}/course/".format(config.alt_url, course_run.get("key")),
-        "prices": [
-            {
-                "price": seat.get("price"),
-                "mode": seat.get("type", seat.get("mode")),
-                "upgrade_deadline": seat.get("upgrade_deadline"),
-            }
-            for seat in course_run.get("seats")
-        ],
+        "prices": [seat.get("price") for seat in course_run.get("seats")],
         "instructors": [
             {
                 "first_name": person.get("given_name"),
@@ -234,16 +241,17 @@ def _transform_course(config, course):
     last_modified = _parse_openedx_datetime(course.get("modified"))
     marketing_url = _get_course_marketing_url(config, course)
     return {
-        "course_id": course.get("key"),
-        "title": course.get("title"),
-        "department": extract_valid_department_from_id(course.get("key")),
-        "short_description": course.get("short_description"),
-        "full_description": course.get("full_description"),
+        "readable_id": course.get("key"),
+        "etl_source": config.etl_source,
         "platform": config.platform,
-        "offered_by": [{"name": config.offered_by}],
+        "resource_type": LearningResourceType.course.value,
+        "offered_by": {"name": config.offered_by},
+        "title": course.get("title"),
+        "departments": extract_valid_department_from_id(course.get("key")),
+        "description": course.get("short_description"),
+        "full_description": course.get("full_description"),
         "last_modified": last_modified,
-        "image_src": (course.get("image") or {}).get("src", None),
-        "image_description": (course.get("image") or {}).get("description", None),
+        "image": _transform_image(course.get("image")),
         "url": marketing_url
         or "{}{}/course/".format(config.alt_url, course.get("key")),
         "topics": [
@@ -257,7 +265,6 @@ def _transform_course(config, course):
         "published": any(
             run["status"] == "published" for run in course.get("course_runs", [])
         ),
-        "raw_json": course,
     }
 
 
@@ -298,7 +305,6 @@ def openedx_extract_transform_factory(get_config):
 
         while url:
             courses, url = _get_openedx_catalog_page(url, access_token)
-
             yield from courses
 
     def transform(courses):
