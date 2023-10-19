@@ -11,14 +11,12 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework import views, viewsets
 from drf_spectacular.utils import (
     PolymorphicProxySerializer,
     extend_schema,
     extend_schema_view,
 )
-from rest_framework import viewsets
+from rest_framework import views, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import GenericAPIView, get_object_or_404
@@ -49,6 +47,7 @@ from learning_resources.models import (
 from learning_resources.permissions import (
     HasUserListItemPermissions,
     HasUserListPermissions,
+    is_learning_path_editor,
 )
 from learning_resources.serializers import (
     ContentFileSerializer,
@@ -68,6 +67,7 @@ from learning_resources.tasks import get_ocw_courses
 from learning_resources_search.search_index_helpers import deindex_course
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
+    is_admin_user,
 )
 
 log = logging.getLogger(__name__)
@@ -322,10 +322,12 @@ class LearningPathViewSet(BaseLearningResourceViewSet, viewsets.ModelViewSet):
         Returns:
             QuerySet of LearningResource objects that are Programs
         """
-        return self._get_base_queryset(
+        queryset = self._get_base_queryset(
             resource_type=LearningResourceType.learning_path.value,
         )
-        # if not (is_learning_path_editor(self.request) or is_admin_user(self.request)):
+        if not (is_learning_path_editor(self.request) or is_admin_user(self.request)):
+            queryset = queryset.filter(published=True)
+        return queryset
 
     def perform_destroy(self, instance):
         instance.delete()

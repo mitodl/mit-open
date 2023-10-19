@@ -33,6 +33,7 @@ from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
+    LearningResourceFactory,
     LearningResourceInstructorFactory,
     LearningResourceOfferorFactory,
     LearningResourcePlatformFactory,
@@ -710,10 +711,12 @@ def test_load_podcast_episode(
 ):
     """Test that load_podcast_episode loads the podcast episode"""
     podcast_episode = (
-        PodcastEpisodeFactory.create(is_unpublished=not is_published)
+        LearningResourceFactory.create(published=is_published, is_podcast_episode=True)
         if podcast_episode_exists
-        else PodcastEpisodeFactory.build(is_unpublished=not is_published)
-    ).learning_resource
+        else LearningResourceFactory.build(
+            published=is_published, is_podcast_episode=True
+        )
+    )
 
     props = model_to_dict(podcast_episode, exclude=non_transformable_attributes)
     props["image"] = {"url": podcast_episode.image.url}

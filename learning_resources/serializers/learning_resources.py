@@ -63,7 +63,7 @@ class BaseLearningResourceSerializer(BaseSerializer, WriteableTopicsMixin):
     resource_content_tags = LearningResourceContentTagField(
         read_only=True, allow_null=True
     )
-    department = LearningResourceDepartmentSerializer(read_only=True, allow_null=True)
+    departments = LearningResourceDepartmentSerializer(read_only=True, many=True)
     audience = serializers.ReadOnlyField()
     certification = serializers.ReadOnlyField()
     prices = serializers.ReadOnlyField()

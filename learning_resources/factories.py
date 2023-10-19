@@ -139,6 +139,9 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
 class LearningResourceFactory(DjangoModelFactory):
     """Factory for LearningResource subclasses"""
 
+    resource_type = factory.fuzzy.FuzzyChoice(
+        choices=constants.LearningResourceType.values()
+    )
     readable_id = factory.Sequence(
         lambda n: "RESOURCEN%03d_%03d.MIT_run"
         % (n, random.randint(1, 1000))  # noqa: S311
@@ -157,11 +160,53 @@ class LearningResourceFactory(DjangoModelFactory):
     topics = factory.PostGeneration(_post_gen_topics)
     resource_content_tags = factory.PostGeneration(_post_gen_tags)
 
+    course = factory.Maybe(
+        "create_course",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.CourseFactory",
+            factory_related_name="learning_resource",
+        ),
+        no_declaration=None,
+    )
+    program = factory.Maybe(
+        "create_program",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.ProgramFactory",
+            factory_related_name="learning_resource",
+        ),
+        no_declaration=None,
+    )
+    learning_path = factory.Maybe(
+        "create_learning_path",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.LearningPathFactory",
+            factory_related_name="learning_resource",
+        ),
+        no_declaration=None,
+    )
+    podcast = factory.Maybe(
+        "create_podcast",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.PodcastFactory",
+            factory_related_name="learning_resource",
+        ),
+        no_declaration=None,
+    )
+    podcast_episode = factory.Maybe(
+        "create_podcast_episode",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.PodcastEpisodeFactory",
+            factory_related_name="learning_resource",
+        ),
+        no_declaration=None,
+    )
+
     class Meta:
         model = models.LearningResource
 
     class Params:
         no_topics = factory.Trait(topics=[])
+
         is_course = factory.Trait(
             resource_type=constants.LearningResourceType.course.value
         )
@@ -178,13 +223,34 @@ class LearningResourceFactory(DjangoModelFactory):
             resource_type=constants.LearningResourceType.podcast_episode.value
         )
 
+        # these drive the RelatedFactory definitions, it's necessary to do it
+        # this way because resource_type can be set by either a Trait or directly
+        create_course = factory.LazyAttribute(
+            lambda lr: lr.resource_type == constants.LearningResourceType.course.value
+        )
+        create_program = factory.LazyAttribute(
+            lambda lr: lr.resource_type == constants.LearningResourceType.program.value
+        )
+        create_learning_path = factory.LazyAttribute(
+            lambda lr: lr.resource_type
+            == constants.LearningResourceType.learning_path.value
+        )
+        create_podcast = factory.LazyAttribute(
+            lambda lr: lr.resource_type == constants.LearningResourceType.podcast.value
+        )
+        create_podcast_episode = factory.LazyAttribute(
+            lambda lr: lr.resource_type
+            == constants.LearningResourceType.podcast_episode.value
+        )
+
 
 class CourseFactory(DjangoModelFactory):
     """Factory for Courses"""
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.course.value,
+        is_course=True,
+        create_course=False,
     )
     extra_course_numbers = factory.List([])
 
@@ -333,7 +399,8 @@ class LearningPathFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.learning_path.value,
+        is_learning_path=True,
+        create_learning_path=False,
     )
     author = factory.SubFactory(UserFactory)
 
@@ -373,7 +440,8 @@ class ProgramFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.program.value,
+        is_program=True,
+        create_program=False,
     )
 
     @factory.post_generation
@@ -433,14 +501,10 @@ class LearningPathRelationshipFactory(DjangoModelFactory):
 
     parent = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.learning_path.value,
+        is_learning_path=True,
     )
 
-    child = factory.SubFactory(
-        LearningResourceFactory,
-        resource_type=constants.LearningResourceType.course.value,
-        course=factory.SubFactory(CourseFactory),
-    )
+    child = factory.SubFactory(LearningResourceFactory)
 
     position = factory.Sequence(lambda n: n)
     relation_type = constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
@@ -501,8 +565,7 @@ class UserListRelationshipFactory(DjangoModelFactory):
 
     child = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.course.value,
-        course=factory.SubFactory(CourseFactory),
+        is_course=True,
     )
 
     position = factory.Sequence(lambda n: n)
@@ -516,7 +579,8 @@ class PodcastEpisodeFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.podcast_episode.value,
+        is_learning_path=True,
+        create_podcast_episode=False,
         platform=factory.SubFactory(
             LearningResourcePlatformFactory, platform=PlatformType.podcast.value
         ),
@@ -538,7 +602,8 @@ class PodcastFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.podcast.value,
+        is_podcast=True,
+        create_podcast=False,
         platform=factory.SubFactory(
             LearningResourcePlatformFactory, platform=PlatformType.podcast.value
         ),

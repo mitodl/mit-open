@@ -1,5 +1,4 @@
 """Tests for learning_resources serializers"""
-from anys import ANY_DICT
 import pytest
 
 from learning_resources import constants, factories, serializers
@@ -7,7 +6,8 @@ from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
 )
-from open_discussions.test_utils import assert_json_equal
+from learning_resources.serializers import fields
+from open_discussions.test_utils import assert_json_equal, drf_datetime
 
 pytestmark = pytest.mark.django_db
 
@@ -45,14 +45,44 @@ def test_serialize_program_to_json():
     )
 
 
-@pytest.mark.parametrize("params, detail_key, specific_serializer_cls", [
-    (dict(is_program=True), "program", serializers.ProgramResourceSerializer),
-    (dict(is_course=True), "course", serializers.CourseResourceSerializer),
-    (dict(is_learning_path=True), "learning_path", serializers.LearningPathResourceSerializer),
-    (dict(is_podcast=True), "podcast", serializers.PodcastResourceSerializer),
-    (dict(is_podcast_episode=True), "podcast_episode", serializers.PodcastEpisodeResourceSerializer),
-])
-def test_learning_resource_serializer(params, detail_key, specific_serializer_cls):
+@pytest.mark.parametrize(
+    ("params", "detail_key", "specific_serializer_cls", "detail_serializer_cls"),
+    [
+        (
+            {"is_program": True},
+            "program",
+            serializers.ProgramResourceSerializer,
+            serializers.ProgramSerializer,
+        ),
+        (
+            {"is_course": True},
+            "course",
+            serializers.CourseResourceSerializer,
+            serializers.CourseSerializer,
+        ),
+        (
+            {"is_learning_path": True},
+            "learning_path",
+            serializers.LearningPathResourceSerializer,
+            serializers.LearningPathSerializer,
+        ),
+        (
+            {"is_podcast": True},
+            "podcast",
+            serializers.PodcastResourceSerializer,
+            serializers.PodcastSerializer,
+        ),
+        (
+            {"is_podcast_episode": True},
+            "podcast_episode",
+            serializers.PodcastEpisodeResourceSerializer,
+            serializers.PodcastEpisodeSerializer,
+        ),
+    ],
+)
+def test_learning_resource_serializer(
+    params, detail_key, specific_serializer_cls, detail_serializer_cls
+):
     """Test that LearningResourceSerializer uses the correct serializer"""
     resource = factories.LearningResourceFactory.create(**params)
 
@@ -60,9 +90,37 @@ def test_learning_resource_serializer(params, detail_key, specific_serializer_cl
     expected = specific_serializer_cls(instance=resource).data
 
     assert result == expected
-    
+
     assert result == {
-        detail_key: ANY_DICT,
+        "id": resource.id,
+        "certification": resource.certification,
+        "title": resource.title,
+        "description": resource.description,
+        "full_description": resource.full_description,
+        "etl_source": resource.etl_source,
+        "languages": resource.languages,
+        "last_modified": drf_datetime(resource.last_modified),
+        "learning_path_parents": [],
+        "offered_by": resource.offered_by.name,
+        "platform": resource.platform.platform,
+        "prices": resource.prices,
+        "professional": resource.professional,
+        "published": resource.published,
+        "readable_id": resource.readable_id,
+        "resource_content_tags": [
+            tag.name for tag in resource.resource_content_tags.all()
+        ],
+        "resource_type": resource.resource_type,
+        "url": resource.url,
+        "user_list_parents": [],
+        "image": fields.LearningResourceImageSerializer(instance=resource.image).data,
+        "departments": list(resource.departments.values("department_id", "name")),
+        "topics": list(resource.topics.values("id", "name")),
+        "runs": [
+            serializers.LearningResourceRunSerializer(instance=run).data
+            for run in resource.runs.all()
+        ],
+        detail_key: detail_serializer_cls(instance=getattr(resource, detail_key)).data,
     }
 
 

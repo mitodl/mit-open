@@ -9,6 +9,7 @@ from learning_resources.serializers.fields import (
 )
 from learning_resources.serializers.learning_resource_details import (
     CourseSerializer,
+    LearningPathSerializer,
     PodcastEpisodeSerializer,
     PodcastSerializer,
     ProgramSerializer,

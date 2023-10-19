@@ -34,6 +34,10 @@ class LearningResourceType(Enum):
     podcast = "podcast"
     podcast_episode = "podcast_episode"
 
+    @staticmethod
+    def values() -> list[str]:
+        return [c.value for c in LearningResourceType]
+
 
 class OfferedBy(Enum):
     """
