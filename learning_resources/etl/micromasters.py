@@ -1,4 +1,4 @@
-"""MicroMasters course catalog ETL"""
+"""MicroMasters ETL"""
 
 import requests
 from django.conf import settings
