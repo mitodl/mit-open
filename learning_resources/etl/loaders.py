@@ -258,7 +258,10 @@ def load_course(  # noqa: C901
                 learning_resource,
                 created,
             ) = LearningResource.objects.select_for_update().update_or_create(
-                platform=platform, readable_id=readable_id, defaults=resource_data
+                platform=platform,
+                readable_id=readable_id,
+                resource_type=LearningResourceType.course.value,
+                defaults=resource_data,
             )
 
         Course.objects.get_or_create(

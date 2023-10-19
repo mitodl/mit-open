@@ -315,7 +315,7 @@ class ProgramSerializer(serializers.ModelSerializer):
     def get_courses(self, obj):
         """Get the learning resource courses for a program"""
         return LearningResourceRelationshipChildField(
-            obj.learning_resource.children.all(), many=True
+            obj.learning_resource.children.filter(child__published=True), many=True
         ).data
 
     class Meta:

@@ -41,6 +41,14 @@ def mock_blocklist(mocker):
     )
 
 
+def test_get_micromasters_data(mocker):
+    """Verify that the get_micromasters_data invokes the MicroMasters ETL pipeline"""
+    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
+
+    tasks.get_micromasters_data.delay()
+    mock_pipelines.micromasters_etl.assert_called_once_with()
+
+
 def test_get_mit_edx_data_valid(mocker):
     """Verify that the get_mit_edx_data invokes the MIT edX ETL pipeline"""
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")

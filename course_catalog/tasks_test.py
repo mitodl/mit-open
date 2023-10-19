@@ -5,7 +5,6 @@ Test tasks
 import pytest
 
 from course_catalog.tasks import (
-    get_micromasters_data,
     get_video_topics,
     get_youtube_data,
     get_youtube_transcripts,
@@ -13,14 +12,6 @@ from course_catalog.tasks import (
 
 pytestmark = pytest.mark.django_db
 # pylint:disable=redefined-outer-name,unused-argument,too-many-arguments
-
-
-def test_get_micromasters_data(mocker):
-    """Verify that the get_micromasters_data invokes the MicroMasters ETL pipeline"""
-    mock_pipelines = mocker.patch("course_catalog.tasks.pipelines")
-
-    get_micromasters_data.delay()
-    mock_pipelines.micromasters_etl.assert_called_once_with()
 
 
 @pytest.mark.parametrize("channel_ids", [["abc", "123"], None])

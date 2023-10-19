@@ -3,18 +3,28 @@
 import requests
 from django.conf import settings
 
-from learning_resources.constants import OfferedBy, PlatformType
+from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
 from learning_resources.etl.constants import COMMON_HEADERS, ETLSource
+from learning_resources.models import LearningResource
 
 OFFERED_BY = {"name": OfferedBy.mitx.value}
 READABLE_ID_PREFIX = "micromasters-program-"
+MITXONLINE_PREFIX = "course-v1:"
+DEDP = "/dedp/"
 
 
-def _get_platform(program_data: dict) -> str:
+def _get_platform(program_url: str) -> str:
     """Get the correct platform for a program"""
-    if "/dedp/" in program_data.get("programpage_url"):
+    if DEDP in program_url:
         return PlatformType.mitxonline.value
     return PlatformType.edx.value
+
+
+def _get_course_id(program_url: str, edx_key: str) -> str:
+    """Get the correct readable id for a course"""
+    if DEDP in program_url and not edx_key.startswith(MITXONLINE_PREFIX):
+        return f"{MITXONLINE_PREFIX}{edx_key}"
+    return edx_key
 
 
 def extract():
@@ -24,6 +34,18 @@ def extract():
             settings.MICROMASTERS_CATALOG_API_URL, headers={**COMMON_HEADERS}
         ).json()
     return []
+
+
+def _is_published(course_id: str) -> bool:
+    """Determine if the course should be considered published"""
+    existing_course = LearningResource.objects.filter(
+        readable_id=course_id,
+        resource_type=LearningResourceType.course.value,
+        etl_source__in=[ETLSource.mit_edx.value, ETLSource.mitxonline.value],
+    ).first()
+    if existing_course:
+        return existing_course.published
+    return False
 
 
 def _transform_image(micromasters_data: dict) -> dict:
@@ -47,7 +69,7 @@ def transform(programs):
             "readable_id": f"{READABLE_ID_PREFIX}{program['id']}",
             "etl_source": ETLSource.micromasters.value,
             "title": program["title"],
-            "platform": _get_platform(program),
+            "platform": _get_platform(program["programpage_url"]),
             "offered_by": OFFERED_BY,
             "url": program["programpage_url"],
             "image": _transform_image(program),
@@ -69,8 +91,11 @@ def transform(programs):
             # only need positioning of courses by course_id for course data
             "courses": [
                 {
-                    "readable_id": course["edx_key"],
-                    "platform": _get_platform(program),
+                    "readable_id": _get_course_id(
+                        program["programpage_url"], course["edx_key"]
+                    ),
+                    "published": _is_published(course["edx_key"]),
+                    "platform": _get_platform(program["programpage_url"]),
                     "offered_by": OFFERED_BY,
                     "runs": [
                         {

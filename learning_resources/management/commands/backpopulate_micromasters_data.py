@@ -1,11 +1,11 @@
 """Management command for populating micromasters course data"""
 from django.core.management import BaseCommand
 
-from course_catalog.constants import PlatformType
-from course_catalog.models import Program
-from course_catalog.tasks import get_micromasters_data
+from learning_resources.etl.constants import ETLSource
+from learning_resources.models import LearningResource
+from learning_resources.tasks import get_micromasters_data
+from learning_resources_search.search_index_helpers import deindex_program
 from open_discussions.utils import now_in_utc
-from search.search_index_helpers import deindex_program
 
 
 class Command(BaseCommand):
@@ -23,16 +23,17 @@ class Command(BaseCommand):
         super().add_arguments(parser)
 
     def handle(self, *args, **options):  # noqa: ARG002
-        """Run Populate micromasters courses"""
+        """Populate micromasters courses"""
         if options["delete"]:
             self.stdout.write(
-                "Deleting all existing xPro programs from database and opensearch"
+                "Deleting all existing Micromasters programs from database and search"
             )
-            # NOTE: we only delete programs, because courses are owned by the MITx integration  # noqa: E501
-            for program in Program.objects.filter(
-                platform=PlatformType.micromasters.value
+            # we only delete programs; courses are owned by the MIT edX integration
+            for program in LearningResource.objects.filter(
+                etl_source=ETLSource.micromasters.value
             ):
                 deindex_program(program)
+                program.delete()
         else:
             task = get_micromasters_data.delay()
             self.stdout.write(f"Started task {task} to get micromasters course data")

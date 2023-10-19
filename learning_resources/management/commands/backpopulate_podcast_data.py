@@ -21,14 +21,15 @@ class Command(BaseCommand):
         super().add_arguments(parser)
 
     def handle(self, *args, **options):  # noqa: ARG002
-        """Run Populate Sloan courses"""
+        """Run Populate Podcast data"""
         if options["delete"]:
             self.stdout.write("Deleting all existing Podcasts courses from database")
             for podcast_episode in PodcastEpisode.objects.all():
-                podcast_episode.delete()
+                podcast_episode.learning_resource.delete()
+                # NOTE: Deindex here when implemented
             for podcast in Podcast.objects.all():
-                podcast.delete()
-
+                podcast.learning_resource.delete()
+                # NOTE: Deindex here when implemented
         else:
             task = get_podcast_data.delay()
             self.stdout.write(f"Started task {task} to get podcast data")

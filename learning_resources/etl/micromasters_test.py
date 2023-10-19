@@ -2,10 +2,11 @@
 # pylint: disable=redefined-outer-name
 import pytest
 
-from learning_resources.constants import PlatformType
+from learning_resources.constants import LearningResourceType, PlatformType
 from learning_resources.etl import micromasters
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.micromasters import READABLE_ID_PREFIX
+from learning_resources.factories import LearningResourceFactory
 
 
 @pytest.fixture()
@@ -96,8 +97,14 @@ def test_micromasters_extract_disabled(settings):
     assert micromasters.extract() == []
 
 
+@pytest.mark.django_db()
 def test_micromasters_transform(mock_micromasters_data):
     """Test that micromasters data is correctly transformed into our normalized structure"""
+    LearningResourceFactory.create(
+        readable_id="1",
+        resource_type=LearningResourceType.course.value,
+        etl_source=ETLSource.mit_edx.value,
+    )
     assert micromasters.transform(mock_micromasters_data) == [
         {
             "readable_id": f"{READABLE_ID_PREFIX}1",
@@ -112,6 +119,7 @@ def test_micromasters_transform(mock_micromasters_data):
                     "readable_id": "1",
                     "platform": PlatformType.edx.value,
                     "offered_by": micromasters.OFFERED_BY,
+                    "published": True,
                     "runs": [
                         {
                             "run_id": "course_key_1",
@@ -122,6 +130,7 @@ def test_micromasters_transform(mock_micromasters_data):
                     "readable_id": "2",
                     "platform": PlatformType.edx.value,
                     "offered_by": micromasters.OFFERED_BY,
+                    "published": False,
                     "runs": [],
                 },
             ],
@@ -151,16 +160,18 @@ def test_micromasters_transform(mock_micromasters_data):
             "etl_source": ETLSource.micromasters.value,
             "courses": [
                 {
-                    "readable_id": "3",
+                    "readable_id": "course-v1:3",
                     "platform": PlatformType.mitxonline.value,
                     "offered_by": micromasters.OFFERED_BY,
                     "runs": [],
+                    "published": False,
                 },
                 {
-                    "readable_id": "4",
+                    "readable_id": "course-v1:4",
                     "platform": PlatformType.mitxonline.value,
                     "offered_by": micromasters.OFFERED_BY,
                     "runs": [{"run_id": "course_key_4"}],
+                    "published": False,
                 },
             ],
             "runs": [

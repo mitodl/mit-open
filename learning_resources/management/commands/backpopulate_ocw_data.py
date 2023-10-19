@@ -1,7 +1,7 @@
 """Management command for populating ocw course data"""
 from django.core.management import BaseCommand
 
-from learning_resources.constants import PlatformType
+from learning_resources.etl.constants import ETLSource
 from learning_resources.models import LearningResource
 from learning_resources.tasks import get_ocw_data
 from learning_resources_search.search_index_helpers import deindex_course
@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
         if options["delete"]:
             ocw_resources = LearningResource.objects.filter(
-                platform=PlatformType.ocw.value
+                etl_source=ETLSource.ocw.value
             )
             if course_name:
                 ocw_resources = ocw_resources.filter(
