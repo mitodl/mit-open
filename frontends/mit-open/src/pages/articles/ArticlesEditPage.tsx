@@ -47,6 +47,7 @@ const ArticleForm = ({
   onSaved,
 }: ArticleFormProps) => {
   const [editoryReady, setEditorReady] = useToggle(false)
+  const [busy, setBusy] = useToggle(false)
   const editArticle = useArticlePartialUpdate()
   const article = useArticleDetail(id)
 
@@ -87,12 +88,13 @@ const ArticleForm = ({
         error={!!formik.errors.title}
         helperText={formik.errors.title}
       />
-      <FormControl fullWidth>
+      <FormControl fullWidth sx={{ position: "relative" }}>
         <CkeditorArticleLazy
           fallbackLines={10}
           className="article-editor"
           initialData={article.data?.html}
           onReady={setEditorReady.on}
+          onChangeHasPendingActions={setBusy}
           onChange={(value) => {
             formik.setFieldValue("html", value)
           }}
@@ -117,7 +119,7 @@ const ArticleForm = ({
           <Button variant="outlined" disabled={!isReady} onClick={onCancel}>
             Cancel
           </Button>
-          <Button variant="contained" disabled={!isReady} type="submit">
+          <Button variant="contained" disabled={!isReady || busy} type="submit">
             Save
           </Button>
         </Grid>

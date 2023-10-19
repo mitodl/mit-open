@@ -3,6 +3,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react"
 
 import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic"
 import type { EditorConfig } from "@ckeditor/ckeditor5-core"
+import { PendingActions } from "@ckeditor/ckeditor5-core"
 
 import { Essentials } from "@ckeditor/ckeditor5-essentials"
 import { UploadAdapter } from "@ckeditor/ckeditor5-adapter-ckfinder"
@@ -29,6 +30,7 @@ import { BlockToolbar } from "@ckeditor/ckeditor5-ui"
 import { ParagraphButtonUI } from "@ckeditor/ckeditor5-paragraph"
 import { ensureEmbedlyPlatform, embedlyCardHtml } from "ol-util"
 import cloudServicesConfig from "./cloudServices"
+import { useOnChangePendingActions } from "./util"
 
 const baseEditorConfig: EditorConfig = {
   plugins: [
@@ -52,6 +54,7 @@ const baseEditorConfig: EditorConfig = {
     ImageUpload,
     ImageCaption,
     ParagraphButtonUI,
+    PendingActions,
   ],
   blockToolbar: {
     items: ["imageUpload", "mediaEmbed"],
@@ -99,6 +102,7 @@ type CkeditorArticleProps = {
   initialData?: string
   onReady?: () => void
   onChange?: (value: string) => void
+  onChangeHasPendingActions?: (hasPendingActions: boolean) => void
   onBlur?: () => void
   id?: string
   className?: string
@@ -109,6 +113,7 @@ const CkeditorArticle: React.FC<CkeditorArticleProps> = ({
   initialData,
   onReady,
   onChange,
+  onChangeHasPendingActions,
   onBlur,
   id,
   className,
@@ -138,6 +143,8 @@ const CkeditorArticle: React.FC<CkeditorArticleProps> = ({
     },
     [onChange],
   )
+
+  useOnChangePendingActions({ editor, onChange: onChangeHasPendingActions })
 
   return (
     <div id={id} className={className}>
