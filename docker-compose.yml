@@ -86,7 +86,7 @@ services:
       - django_media:/var/media
 
   watch:
-    image: node:16.20.1
+    image: node:18.18.2
     working_dir: /src
     command: ./scripts/run-watch-dev.sh
     ports:
