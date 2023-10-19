@@ -1,4 +1,4 @@
-FROM open-discussions_web
+FROM mit-open-web
 
 USER root
 
