@@ -19,8 +19,6 @@ from learning_resources.etl import (
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
     ETLSource,
-    LearningResourceRunLoaderConfig,
-    OfferedByLoaderConfig,
     ProgramLoaderConfig,
 )
 
@@ -32,15 +30,7 @@ load_courses = curry(loaders.load_courses)
 micromasters_etl = compose(
     load_programs(
         ETLSource.micromasters.value,
-        # MicroMasters courses overlap with MITx, so configure course and run level offerors to be additive  # noqa: E501
-        config=ProgramLoaderConfig(
-            courses=CourseLoaderConfig(
-                offered_by=OfferedByLoaderConfig(additive=True),
-                runs=LearningResourceRunLoaderConfig(
-                    offered_by=OfferedByLoaderConfig(additive=True)
-                ),
-            )
-        ),
+        config=ProgramLoaderConfig(prune=True, courses=CourseLoaderConfig()),
     ),
     micromasters.transform,
     micromasters.extract,

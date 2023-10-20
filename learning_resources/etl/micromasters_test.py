@@ -136,7 +136,7 @@ def test_micromasters_transform(mock_micromasters_data):
             ],
             "runs": [
                 {
-                    "run_id": 1,
+                    "run_id": f"{READABLE_ID_PREFIX}1",
                     "title": "program title 1",
                     "instructors": [
                         {"full_name": "Dr. Doofenshmirtz"},
@@ -149,42 +149,5 @@ def test_micromasters_transform(mock_micromasters_data):
                 }
             ],
             "topics": [{"name": "program"}, {"name": "first"}],
-        },
-        {
-            "readable_id": f"{READABLE_ID_PREFIX}2",
-            "title": "program title 2",
-            "url": "http://example.com/dedp/program/2/url",
-            "image": {"url": "http://example.com/program/2/image/url"},
-            "offered_by": micromasters.OFFERED_BY,
-            "platform": PlatformType.mitxonline.value,
-            "etl_source": ETLSource.micromasters.value,
-            "courses": [
-                {
-                    "readable_id": "course-v1:3",
-                    "platform": PlatformType.mitxonline.value,
-                    "offered_by": micromasters.OFFERED_BY,
-                    "runs": [],
-                    "published": False,
-                },
-                {
-                    "readable_id": "course-v1:4",
-                    "platform": PlatformType.mitxonline.value,
-                    "offered_by": micromasters.OFFERED_BY,
-                    "runs": [{"run_id": "course_key_4"}],
-                    "published": False,
-                },
-            ],
-            "runs": [
-                {
-                    "run_id": 2,
-                    "title": "program title 2",
-                    "instructors": [{"full_name": "Mia"}, {"full_name": "Leah"}],
-                    "prices": ["87.65"],
-                    "start_date": None,
-                    "end_date": "2019-10-04T20:14:50.271027Z",
-                    "enrollment_start": None,
-                }
-            ],
-            "topics": [{"name": "program"}, {"name": "second"}],
-        },
+        }
     ]

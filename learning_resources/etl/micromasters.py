@@ -9,22 +9,7 @@ from learning_resources.models import LearningResource
 
 OFFERED_BY = {"name": OfferedBy.mitx.value}
 READABLE_ID_PREFIX = "micromasters-program-"
-MITXONLINE_PREFIX = "course-v1:"
 DEDP = "/dedp/"
-
-
-def _get_platform(program_url: str) -> str:
-    """Get the correct platform for a program"""
-    if DEDP in program_url:
-        return PlatformType.mitxonline.value
-    return PlatformType.edx.value
-
-
-def _get_course_id(program_url: str, edx_key: str) -> str:
-    """Get the correct readable id for a course"""
-    if DEDP in program_url and not edx_key.startswith(MITXONLINE_PREFIX):
-        return f"{MITXONLINE_PREFIX}{edx_key}"
-    return edx_key
 
 
 def extract():
@@ -41,7 +26,7 @@ def _is_published(course_id: str) -> bool:
     existing_course = LearningResource.objects.filter(
         readable_id=course_id,
         resource_type=LearningResourceType.course.value,
-        etl_source__in=[ETLSource.mit_edx.value, ETLSource.mitxonline.value],
+        etl_source=ETLSource.mit_edx.value,
     ).first()
     if existing_course:
         return existing_course.published
@@ -50,14 +35,14 @@ def _is_published(course_id: str) -> bool:
 
 def _transform_image(micromasters_data: dict) -> dict:
     """
-    Transforms an image into our normalized data structure
+    Transform an image into our normalized data structure
 
     Args:
         micromasters_data (dict): micromasters program/course/run data
 
     Returns:
         dict: normalized image data
-    """  # noqa: D401
+    """
     image_url = micromasters_data.get("thumbnail_url")
     return {"url": image_url} if image_url else None
 
@@ -69,13 +54,13 @@ def transform(programs):
             "readable_id": f"{READABLE_ID_PREFIX}{program['id']}",
             "etl_source": ETLSource.micromasters.value,
             "title": program["title"],
-            "platform": _get_platform(program["programpage_url"]),
+            "platform": PlatformType.edx.value,
             "offered_by": OFFERED_BY,
             "url": program["programpage_url"],
             "image": _transform_image(program),
             "runs": [
                 {
-                    "run_id": program["id"],
+                    "run_id": f"{READABLE_ID_PREFIX}{program['id']}",
                     "title": program["title"],
                     "instructors": [
                         {"full_name": instructor["name"]}
@@ -91,12 +76,10 @@ def transform(programs):
             # only need positioning of courses by course_id for course data
             "courses": [
                 {
-                    "readable_id": _get_course_id(
-                        program["programpage_url"], course["edx_key"]
-                    ),
-                    "published": _is_published(course["edx_key"]),
-                    "platform": _get_platform(program["programpage_url"]),
+                    "readable_id": course["edx_key"],
+                    "platform": PlatformType.edx.value,
                     "offered_by": OFFERED_BY,
+                    "published": _is_published(course["edx_key"]),
                     "runs": [
                         {
                             "run_id": run["edx_course_key"],
@@ -111,4 +94,5 @@ def transform(programs):
             ],
         }
         for program in programs
+        if DEDP not in program["programpage_url"]
     ]
