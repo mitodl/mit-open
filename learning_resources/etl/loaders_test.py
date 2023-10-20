@@ -260,9 +260,9 @@ def test_load_course(  # noqa: PLR0913
     platform = LearningResourcePlatformFactory.create()
 
     course = (
-        CourseFactory.create(runs=[], platform=platform)
+        CourseFactory.create(learning_resource__runs=[], platform=platform)
         if course_exists
-        else CourseFactory.build(runs=[], platform=platform)
+        else CourseFactory.build(learning_resource__runs=[], platform=platform)
     )
 
     learning_resource = course.learning_resource
@@ -372,13 +372,13 @@ def test_load_duplicate_course(
     platform = LearningResourcePlatformFactory.create()
 
     course = (
-        CourseFactory.create(runs=[], platform=platform)
+        CourseFactory.create(learning_resource__runs=[], platform=platform)
         if course_exists
         else CourseFactory.build()
     )
 
     duplicate_course = (
-        CourseFactory.create(runs=[], platform=platform)
+        CourseFactory.create(learning_resource__runs=[], platform=platform)
         if duplicate_course_exists
         else CourseFactory.build()
     )
@@ -446,7 +446,7 @@ def test_load_duplicate_course(
 @pytest.mark.parametrize("run_exists", [True, False])
 def test_load_run(run_exists):
     """Test that load_run loads the course run"""
-    course = CourseFactory.create(runs=[])
+    course = CourseFactory.create(learning_resource__runs=[])
     learning_resource_run = (
         LearningResourceRunFactory.create(learning_resource=course.learning_resource)
         if run_exists
