@@ -3318,8 +3318,10 @@ components:
           type: string
         run_slug:
           type: string
-        department:
-          type: string
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceDepartment'
         semester:
           type: string
         year:
@@ -3392,7 +3394,7 @@ components:
           type: string
           readOnly: true
       required:
-      - department
+      - departments
       - id
       - resource_id
       - resource_readable_id

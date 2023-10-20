@@ -109,10 +109,10 @@ export interface ContentFile {
   run_slug: string
   /**
    *
-   * @type {string}
+   * @type {Array<LearningResourceDepartment>}
    * @memberof ContentFile
    */
-  department: string
+  departments: Array<LearningResourceDepartment>
   /**
    *
    * @type {string}
