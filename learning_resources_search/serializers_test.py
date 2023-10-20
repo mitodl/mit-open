@@ -2,11 +2,18 @@
 
 
 import pytest
+from django.http import QueryDict
+from rest_framework.renderers import JSONRenderer
 
 from learning_resources import factories
 from learning_resources.models import Course, Program
 from learning_resources.serializers import LearningResourceSerializer
 from learning_resources_search import api, serializers
+from learning_resources_search.serializers import (
+    LearningResourcesSearchRequestSerializer,
+    LearningResourcesSearchResponseSerializer,
+    extract_values,
+)
 
 
 @pytest.mark.django_db()
@@ -98,3 +105,293 @@ def test_serialize_bulk_programs_for_deletion():
     assert list(
         serializers.serialize_bulk_programs_for_deletion([program.learning_resource_id])
     ) == [{"_id": api.gen_program_id(program), "_op_type": "delete"}]
+
+
+def test_extract_values():
+    """
+    extract_values should return the correct match from a dict
+    """
+    test_json = {
+        "a": {"b": {"c": [{"d": [1, 2, 3]}, {"d": [4, 5], "e": "f", "b": "g"}]}}
+    }
+    assert extract_values(test_json, "b") == [test_json["a"]["b"], "g"]
+    assert extract_values(test_json, "d") == [[1, 2, 3], [4, 5]]
+    assert extract_values(test_json, "e") == ["f"]
+
+
+def test_learning_resources_search_request_serializer():
+    data = {
+        "q": "text",
+        "offset": 1,
+        "limit": 1,
+        "sortby": "-runs.start_date",
+        "resource_type": "course,program",
+        "professional": "true",
+        "certification": "Certificates",
+        "offered_by": "xpro,ocw",
+        "platform": "xpro,edx,ocw",
+        "topic": "Math",
+        "department": "mathematics,chemistry",
+        "level": "Undergraduate",
+        "resource_content_tags": "Lecture Videos",
+        "aggregations": "resource_type,platform,level",
+        "extra_field": "ignored",
+    }
+
+    cleaned = {
+        "q": "text",
+        "offset": 1,
+        "limit": 1,
+        "sortby": "-runs.start_date",
+        "resource_type": ["course", "program"],
+        "professional": ["true"],
+        "certification": ["Certificates"],
+        "offered_by": ["xpro", "ocw"],
+        "platform": ["xpro", "edx", "ocw"],
+        "topic": ["Math"],
+        "department": ["mathematics", "chemistry"],
+        "level": ["Undergraduate"],
+        "resource_content_tags": ["Lecture Videos"],
+        "aggregations": ["resource_type", "platform", "level"],
+    }
+
+    request_data = QueryDict("", mutable=True)
+    request_data.update(data)
+
+    serialized = LearningResourcesSearchRequestSerializer(data=request_data)
+    assert serialized.is_valid() is True
+    assert serialized.data == cleaned
+
+
+@pytest.mark.parametrize(
+    ("parameter", "value"),
+    [
+        ("resource_type", "course,program,spaceship"),
+        ("platform", "xpro,spaceship"),
+        ("offered_by", "spaceship"),
+        ("aggregations", "spaceship"),
+    ],
+)
+def test_learning_resources_search_request_serializer_invalid(parameter, value):
+    data = {
+        parameter: value,
+    }
+
+    request_data = QueryDict("", mutable=True)
+    request_data.update(data)
+
+    serialized = LearningResourcesSearchRequestSerializer(data=request_data)
+    assert serialized.is_valid() is False
+    assert JSONRenderer().render(serialized.errors) == JSONRenderer().render(
+        {parameter: ["spaceship is not a valid option"]}
+    )
+
+
+def test_learning_resources_search_response_serializer(settings):
+    settings.OPENSEARCH_MAX_SUGGEST_HITS = 10
+
+    raw_data = {
+        "took": 8,
+        "timed_out": False,
+        "_shards": {"total": 2, "successful": 2, "skipped": 0, "failed": 0},
+        "hits": {
+            "total": {"value": 9, "relation": "eq"},
+            "max_score": 6.654978,
+            "hits": [
+                {
+                    "_index": "discussions_local_course_6561cf5547d74a3aad746efb5f40a26d",
+                    "_type": "_doc",
+                    "_id": "co_globalalumni_Y291cnNlLXYxOnhQUk8rTUNQTytSMQ",
+                    "_score": 6.654978,
+                    "_source": {
+                        "id": 5147,
+                        "topics": [
+                            {"id": 5, "name": "Management"},
+                            {"id": 6, "name": "Innovation"},
+                        ],
+                        "offered_by": "xPRO",
+                        "resource_content_tags": [],
+                        "department": None,
+                        "professional": True,
+                        "certification": "Certificates",
+                        "prices": [2250.0],
+                        "course": {"extra_course_numbers": None},
+                        "learning_path": None,
+                        "podcast": None,
+                        "podcast_episode": None,
+                        "runs": [
+                            {
+                                "id": 633,
+                                "instructors": [],
+                                "image": None,
+                                "run_id": "course-v1:xPRO+MCPO+R1",
+                                "title": "Project Management: Leading Organizations to Success",
+                                "description": None,
+                                "full_description": None,
+                                "last_modified": None,
+                                "published": True,
+                                "languages": None,
+                                "url": None,
+                                "level": None,
+                                "slug": None,
+                                "availability": None,
+                                "semester": None,
+                                "year": None,
+                                "start_date": "2023-09-26T06:00:00Z",
+                                "end_date": None,
+                                "enrollment_start": None,
+                                "enrollment_end": None,
+                                "prices": ["2250.00"],
+                                "checksum": None,
+                            }
+                        ],
+                        "image": {
+                            "id": 16,
+                            "url": "https://xpro-app-production.s3.amazonaws.com/original_images/MCPO-800x500.jpg",
+                            "description": None,
+                            "alt": None,
+                        },
+                        "learning_path_parents": [],
+                        "user_list_parents": [],
+                        "program": None,
+                        "readable_id": "course-v1:xPRO+MCPO+R1",
+                        "title": "Managing Complex Projects and Organizations for Success",
+                        "description": "",
+                        "full_description": None,
+                        "last_modified": None,
+                        "published": True,
+                        "languages": None,
+                        "url": "http://xpro.mit.edu/courses/course-v1:xPRO+MCPO+R1/",
+                        "resource_type": "course",
+                        "platform": "globalalumni",
+                    },
+                }
+            ],
+        },
+        "aggregations": {
+            "level": {
+                "doc_count": 9,
+                "level": {
+                    "doc_count": 20,
+                    "level": {
+                        "doc_count_error_upper_bound": 0,
+                        "sum_other_doc_count": 0,
+                        "buckets": [],
+                    },
+                },
+            },
+            "offered_by": {
+                "doc_count": 9,
+                "offered_by": {
+                    "doc_count_error_upper_bound": 0,
+                    "sum_other_doc_count": 0,
+                    "buckets": [{"key": "xPRO", "doc_count": 9}],
+                },
+            },
+        },
+        "suggest": {
+            "description.trigram": [
+                {
+                    "text": "manage",
+                    "offset": 0,
+                    "length": 6,
+                    "options": [
+                        {"text": "manage", "score": 0.05196008, "collate_match": True},
+                        {
+                            "text": "managers",
+                            "score": 0.02764452,
+                            "collate_match": True,
+                        },
+                    ],
+                }
+            ],
+            "title.trigram": [
+                {
+                    "text": "manage",
+                    "offset": 0,
+                    "length": 6,
+                    "options": [
+                        {"text": "manage", "score": 0.073289275, "collate_match": False}
+                    ],
+                }
+            ],
+        },
+    }
+    response = {
+        "count": 9,
+        "results": [
+            {
+                "id": 5147,
+                "topics": [
+                    {"id": 5, "name": "Management"},
+                    {"id": 6, "name": "Innovation"},
+                ],
+                "offered_by": "xPRO",
+                "resource_content_tags": [],
+                "department": None,
+                "professional": True,
+                "certification": "Certificates",
+                "prices": [2250.0],
+                "course": {"extra_course_numbers": None},
+                "learning_path": None,
+                "podcast": None,
+                "podcast_episode": None,
+                "runs": [
+                    {
+                        "id": 633,
+                        "instructors": [],
+                        "image": None,
+                        "run_id": "course-v1:xPRO+MCPO+R1",
+                        "title": "Project Management: Leading Organizations to Success",
+                        "description": None,
+                        "full_description": None,
+                        "last_modified": None,
+                        "published": True,
+                        "languages": None,
+                        "url": None,
+                        "level": None,
+                        "slug": None,
+                        "availability": None,
+                        "semester": None,
+                        "year": None,
+                        "start_date": "2023-09-26T06:00:00Z",
+                        "end_date": None,
+                        "enrollment_start": None,
+                        "enrollment_end": None,
+                        "prices": ["2250.00"],
+                        "checksum": None,
+                    }
+                ],
+                "image": {
+                    "id": 16,
+                    "url": "https://xpro-app-production.s3.amazonaws.com/original_images/MCPO-800x500.jpg",
+                    "description": None,
+                    "alt": None,
+                },
+                "learning_path_parents": [],
+                "user_list_parents": [],
+                "program": None,
+                "readable_id": "course-v1:xPRO+MCPO+R1",
+                "title": "Managing Complex Projects and Organizations for Success",
+                "description": "",
+                "full_description": None,
+                "last_modified": None,
+                "published": True,
+                "languages": None,
+                "url": "http://xpro.mit.edu/courses/course-v1:xPRO+MCPO+R1/",
+                "resource_type": "course",
+                "platform": "globalalumni",
+            }
+        ],
+        "metadata": {
+            "aggregations": {
+                "level": [],
+                "offered_by": [{"key": "xPRO", "doc_count": 9}],
+            },
+            "suggest": ["manage"],
+        },
+    }
+
+    assert JSONRenderer().render(
+        LearningResourcesSearchResponseSerializer(raw_data).data
+    ) == JSONRenderer().render(response)

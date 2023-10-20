@@ -1489,6 +1489,31 @@ export interface LearningResourceTopic {
   name: string
 }
 /**
+ *
+ * @export
+ * @interface LearningResourcesSearchResponse
+ */
+export interface LearningResourcesSearchResponse {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesSearchResponse
+   */
+  count: number
+  /**
+   *
+   * @type {Array<LearningResource>}
+   * @memberof LearningResourcesSearchResponse
+   */
+  results: Array<LearningResource>
+  /**
+   *
+   * @type {any}
+   * @memberof LearningResourcesSearchResponse
+   */
+  metadata: any
+}
+/**
  * Serializer containing only parent and child ids for a learning path relationship
  * @export
  * @interface MicroLearningPathRelationship
@@ -7606,6 +7631,553 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * LearningResourcesSearchApi - axios parameter creator
+ * @export
+ */
+export const LearningResourcesSearchApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * View for executing searches of learning resources
+     * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>} [aggregations]
+     * @param {Array<string>} [certification]
+     * @param {Array<string>} [department]
+     * @param {Array<string>} [level]
+     * @param {number} [limit]
+     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics'>} [offered_by]
+     * @param {number} [offset]
+     * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform]
+     * @param {Array<'true' | 'false'>} [professional]
+     * @param {string} [q] The search text
+     * @param {Array<string>} [resource_content_tags]
+     * @param {Array<'course' | 'program' | 'learning_path' | 'podcast' | 'podcast_episode'>} [resource_type]
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date
+     * @param {Array<string>} [topic]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesSearchRetrieve: async (
+      aggregations?: Array<
+        | "resource_type"
+        | "certification"
+        | "offered_by"
+        | "platform"
+        | "topic"
+        | "department"
+        | "level"
+        | "resource_content_tags"
+        | "professional"
+      >,
+      certification?: Array<string>,
+      department?: Array<string>,
+      level?: Array<string>,
+      limit?: number,
+      offered_by?: Array<
+        | "mitx"
+        | "ocw"
+        | "bootcamps"
+        | "xpro"
+        | "csail"
+        | "professional education"
+        | "sloan executive education"
+        | "schwarzman college of computing"
+        | "center for transportation & logistics"
+      >,
+      offset?: number,
+      platform?: Array<
+        | "edx"
+        | "ocw"
+        | "oll"
+        | "mitxonline"
+        | "bootcamps"
+        | "xpro"
+        | "csail"
+        | "mitpe"
+        | "see"
+        | "scc"
+        | "ctl"
+        | "whu"
+        | "susskind"
+        | "globalalumni"
+        | "simplilearn"
+        | "emeritus"
+        | "podcast"
+      >,
+      professional?: Array<"true" | "false">,
+      q?: string,
+      resource_content_tags?: Array<string>,
+      resource_type?: Array<
+        "course" | "program" | "learning_path" | "podcast" | "podcast_episode"
+      >,
+      sortby?:
+        | "id"
+        | "-id"
+        | "readable_id"
+        | "-readable_id"
+        | "last_modified"
+        | "-last_modified"
+        | "runs.start_date"
+        | "-runs.start_date",
+      topic?: Array<string>,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/learning_resources_search/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (aggregations) {
+        localVarQueryParameter["aggregations"] = aggregations
+      }
+
+      if (certification) {
+        localVarQueryParameter["certification"] = certification
+      }
+
+      if (department) {
+        localVarQueryParameter["department"] = department
+      }
+
+      if (level) {
+        localVarQueryParameter["level"] = level
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by) {
+        localVarQueryParameter["offered_by"] = offered_by
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (professional) {
+        localVarQueryParameter["professional"] = professional
+      }
+
+      if (q !== undefined) {
+        localVarQueryParameter["q"] = q
+      }
+
+      if (resource_content_tags) {
+        localVarQueryParameter["resource_content_tags"] = resource_content_tags
+      }
+
+      if (resource_type) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
+      }
+
+      if (topic) {
+        localVarQueryParameter["topic"] = topic
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * LearningResourcesSearchApi - functional programming interface
+ * @export
+ */
+export const LearningResourcesSearchApiFp = function (
+  configuration?: Configuration,
+) {
+  const localVarAxiosParamCreator =
+    LearningResourcesSearchApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * View for executing searches of learning resources
+     * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>} [aggregations]
+     * @param {Array<string>} [certification]
+     * @param {Array<string>} [department]
+     * @param {Array<string>} [level]
+     * @param {number} [limit]
+     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics'>} [offered_by]
+     * @param {number} [offset]
+     * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform]
+     * @param {Array<'true' | 'false'>} [professional]
+     * @param {string} [q] The search text
+     * @param {Array<string>} [resource_content_tags]
+     * @param {Array<'course' | 'program' | 'learning_path' | 'podcast' | 'podcast_episode'>} [resource_type]
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date
+     * @param {Array<string>} [topic]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesSearchRetrieve(
+      aggregations?: Array<
+        | "resource_type"
+        | "certification"
+        | "offered_by"
+        | "platform"
+        | "topic"
+        | "department"
+        | "level"
+        | "resource_content_tags"
+        | "professional"
+      >,
+      certification?: Array<string>,
+      department?: Array<string>,
+      level?: Array<string>,
+      limit?: number,
+      offered_by?: Array<
+        | "mitx"
+        | "ocw"
+        | "bootcamps"
+        | "xpro"
+        | "csail"
+        | "professional education"
+        | "sloan executive education"
+        | "schwarzman college of computing"
+        | "center for transportation & logistics"
+      >,
+      offset?: number,
+      platform?: Array<
+        | "edx"
+        | "ocw"
+        | "oll"
+        | "mitxonline"
+        | "bootcamps"
+        | "xpro"
+        | "csail"
+        | "mitpe"
+        | "see"
+        | "scc"
+        | "ctl"
+        | "whu"
+        | "susskind"
+        | "globalalumni"
+        | "simplilearn"
+        | "emeritus"
+        | "podcast"
+      >,
+      professional?: Array<"true" | "false">,
+      q?: string,
+      resource_content_tags?: Array<string>,
+      resource_type?: Array<
+        "course" | "program" | "learning_path" | "podcast" | "podcast_episode"
+      >,
+      sortby?:
+        | "id"
+        | "-id"
+        | "readable_id"
+        | "-readable_id"
+        | "last_modified"
+        | "-last_modified"
+        | "runs.start_date"
+        | "-runs.start_date",
+      topic?: Array<string>,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResourcesSearchResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesSearchRetrieve(
+          aggregations,
+          certification,
+          department,
+          level,
+          limit,
+          offered_by,
+          offset,
+          platform,
+          professional,
+          q,
+          resource_content_tags,
+          resource_type,
+          sortby,
+          topic,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * LearningResourcesSearchApi - factory interface
+ * @export
+ */
+export const LearningResourcesSearchApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = LearningResourcesSearchApiFp(configuration)
+  return {
+    /**
+     * View for executing searches of learning resources
+     * @param {LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesSearchRetrieve(
+      requestParameters: LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<LearningResourcesSearchResponse> {
+      return localVarFp
+        .learningResourcesSearchRetrieve(
+          requestParameters.aggregations,
+          requestParameters.certification,
+          requestParameters.department,
+          requestParameters.level,
+          requestParameters.limit,
+          requestParameters.offered_by,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.professional,
+          requestParameters.q,
+          requestParameters.resource_content_tags,
+          requestParameters.resource_type,
+          requestParameters.sortby,
+          requestParameters.topic,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for learningResourcesSearchRetrieve operation in LearningResourcesSearchApi.
+ * @export
+ * @interface LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest
+ */
+export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest {
+  /**
+   *
+   * @type {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly aggregations?: Array<
+    | "resource_type"
+    | "certification"
+    | "offered_by"
+    | "platform"
+    | "topic"
+    | "department"
+    | "level"
+    | "resource_content_tags"
+    | "professional"
+  >
+
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly certification?: Array<string>
+
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly department?: Array<string>
+
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly level?: Array<string>
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics'>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly offered_by?: Array<
+    | "mitx"
+    | "ocw"
+    | "bootcamps"
+    | "xpro"
+    | "csail"
+    | "professional education"
+    | "sloan executive education"
+    | "schwarzman college of computing"
+    | "center for transportation & logistics"
+  >
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly offset?: number
+
+  /**
+   *
+   * @type {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly platform?: Array<
+    | "edx"
+    | "ocw"
+    | "oll"
+    | "mitxonline"
+    | "bootcamps"
+    | "xpro"
+    | "csail"
+    | "mitpe"
+    | "see"
+    | "scc"
+    | "ctl"
+    | "whu"
+    | "susskind"
+    | "globalalumni"
+    | "simplilearn"
+    | "emeritus"
+    | "podcast"
+  >
+
+  /**
+   *
+   * @type {Array<'true' | 'false'>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly professional?: Array<"true" | "false">
+
+  /**
+   * The search text
+   * @type {string}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly q?: string
+
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly resource_content_tags?: Array<string>
+
+  /**
+   *
+   * @type {Array<'course' | 'program' | 'learning_path' | 'podcast' | 'podcast_episode'>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly resource_type?: Array<
+    "course" | "program" | "learning_path" | "podcast" | "podcast_episode"
+  >
+
+  /**
+   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date
+   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date'}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly sortby?:
+    | "id"
+    | "-id"
+    | "readable_id"
+    | "-readable_id"
+    | "last_modified"
+    | "-last_modified"
+    | "runs.start_date"
+    | "-runs.start_date"
+
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly topic?: Array<string>
+}
+
+/**
+ * LearningResourcesSearchApi - object-oriented interface
+ * @export
+ * @class LearningResourcesSearchApi
+ * @extends {BaseAPI}
+ */
+export class LearningResourcesSearchApi extends BaseAPI {
+  /**
+   * View for executing searches of learning resources
+   * @param {LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesSearchApi
+   */
+  public learningResourcesSearchRetrieve(
+    requestParameters: LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return LearningResourcesSearchApiFp(this.configuration)
+      .learningResourcesSearchRetrieve(
+        requestParameters.aggregations,
+        requestParameters.certification,
+        requestParameters.department,
+        requestParameters.level,
+        requestParameters.limit,
+        requestParameters.offered_by,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.professional,
+        requestParameters.q,
+        requestParameters.resource_content_tags,
+        requestParameters.resource_type,
+        requestParameters.sortby,
+        requestParameters.topic,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

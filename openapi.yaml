@@ -1726,6 +1726,220 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
+  /api/v1/learning_resources_search/:
+    get:
+      operationId: learning_resources_search_retrieve
+      description: View for executing searches of learning resources
+      parameters:
+      - in: query
+        name: aggregations
+        schema:
+          type: array
+          items:
+            enum:
+            - resource_type
+            - certification
+            - offered_by
+            - platform
+            - topic
+            - department
+            - level
+            - resource_content_tags
+            - professional
+            type: string
+            description: |-
+              * `resource_type` - resource_type
+              * `certification` - certification
+              * `offered_by` - offered_by
+              * `platform` - platform
+              * `topic` - topic
+              * `department` - department
+              * `level` - level
+              * `resource_content_tags` - resource_content_tags
+              * `professional` - professional
+      - in: query
+        name: certification
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+      - in: query
+        name: department
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+      - in: query
+        name: level
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: array
+          items:
+            enum:
+            - mitx
+            - ocw
+            - bootcamps
+            - xpro
+            - csail
+            - professional education
+            - sloan executive education
+            - schwarzman college of computing
+            - center for transportation & logistics
+            type: string
+            description: |-
+              * `mitx` - mitx
+              * `ocw` - ocw
+              * `bootcamps` - bootcamps
+              * `xpro` - xpro
+              * `csail` - csail
+              * `professional education` - professional education
+              * `sloan executive education` - sloan executive education
+              * `schwarzman college of computing` - schwarzman college of computing
+              * `center for transportation & logistics` - center for transportation & logistics
+      - in: query
+        name: offset
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: array
+          items:
+            enum:
+            - edx
+            - ocw
+            - oll
+            - mitxonline
+            - bootcamps
+            - xpro
+            - csail
+            - mitpe
+            - see
+            - scc
+            - ctl
+            - whu
+            - susskind
+            - globalalumni
+            - simplilearn
+            - emeritus
+            - podcast
+            type: string
+            description: |-
+              * `edx` - edx
+              * `ocw` - ocw
+              * `oll` - oll
+              * `mitxonline` - mitxonline
+              * `bootcamps` - bootcamps
+              * `xpro` - xpro
+              * `csail` - csail
+              * `mitpe` - mitpe
+              * `see` - see
+              * `scc` - scc
+              * `ctl` - ctl
+              * `whu` - whu
+              * `susskind` - susskind
+              * `globalalumni` - globalalumni
+              * `simplilearn` - simplilearn
+              * `emeritus` - emeritus
+              * `podcast` - podcast
+      - in: query
+        name: professional
+        schema:
+          type: array
+          items:
+            enum:
+            - 'true'
+            - 'false'
+            type: string
+            description: |-
+              * `true` - true
+              * `false` - false
+      - in: query
+        name: q
+        schema:
+          type: string
+          minLength: 1
+        description: The search text
+      - in: query
+        name: resource_content_tags
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+      - in: query
+        name: resource_type
+        schema:
+          type: array
+          items:
+            enum:
+            - course
+            - program
+            - learning_path
+            - podcast
+            - podcast_episode
+            type: string
+            description: |-
+              * `course` - course
+              * `program` - program
+              * `learning_path` - learning_path
+              * `podcast` - podcast
+              * `podcast_episode` - podcast_episode
+      - in: query
+        name: sortby
+        schema:
+          enum:
+          - id
+          - -id
+          - readable_id
+          - -readable_id
+          - last_modified
+          - -last_modified
+          - runs.start_date
+          - -runs.start_date
+          type: string
+          minLength: 1
+        description: |-
+          if the parameter starts with '-' the sort is in descending order
+
+          * `id` - id
+          * `-id` - -id
+          * `readable_id` - readable_id
+          * `-readable_id` - -readable_id
+          * `last_modified` - last_modified
+          * `-last_modified` - -last_modified
+          * `runs.start_date` - runs.start_date
+          * `-runs.start_date` - -runs.start_date
+      - in: query
+        name: topic
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+      tags:
+      - learning_resources_search
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourcesSearchResponse'
+          description: ''
   /api/v1/learningpaths/:
     get:
       operationId: learningpaths_list
@@ -6148,6 +6362,28 @@ components:
       required:
       - id
       - name
+    LearningResourcesSearchResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          readOnly: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResource'
+          readOnly: true
+        metadata:
+          example:
+            aggregations:
+            - {}
+            suggest:
+            - string
+          readOnly: true
+      required:
+      - count
+      - metadata
+      - results
     MicroLearningPathRelationship:
       type: object
       description: Serializer containing only parent and child ids for a learning

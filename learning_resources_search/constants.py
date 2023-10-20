@@ -50,6 +50,23 @@ GLOBAL_DOC_TYPE = "_doc"
 
 SCRIPTING_LANG = "painless"
 UPDATE_CONFLICT_SETTING = "proceed"
+LEARNING_RESOURCE_SEARCH_FILTERS = [
+    "resource_type",
+    "certification",
+    "offered_by",
+    "topic",
+    "department",
+    "level",
+    "resource_content_tags",
+    "platform",
+    "professional",
+]
+
+SEARCH_NESTED_FILTERS = {
+    "topic": "topics.name",
+    "level": "runs.level",
+    "department": "departments.name",
+}
 
 ENGLISH_TEXT_FIELD = {
     "type": "text",
@@ -67,6 +84,7 @@ ENGLISH_TEXT_FIELD_WITH_SUGGEST = {
 
 LEARNING_RESOURCE_TYPE = {
     "id": {"type": "long"},
+    "certification": {"type": "keyword"},
     "readable_id": {"type": "keyword"},
     "title": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
     "description": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
@@ -78,7 +96,7 @@ LEARNING_RESOURCE_TYPE = {
         "properties": {
             "url": {"type": "keyword"},
             "description": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
-            "alt": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
+            "alt": ENGLISH_TEXT_FIELD,
         },
     },
     "platform": {"type": "keyword"},
@@ -118,13 +136,14 @@ LEARNING_RESOURCE_TYPE = {
             "end_date": {"type": "date"},
             "enrollment_start": {"type": "date"},
             "enrollment_end": {"type": "date"},
+            "level": {"type": "keyword"},
             "instructors": {
                 "type": "nested",
                 "properties": {
                     "id": {"type": "long"},
                     "first_name": {"type": "keyword"},
                     "last_name": {"type": "keyword"},
-                    "full_name": {"type": "keyword"},
+                    "full_name": ENGLISH_TEXT_FIELD,
                 },
             },
             "prices": {"type": "scaled_float", "scaling_factor": 100},
@@ -132,26 +151,47 @@ LEARNING_RESOURCE_TYPE = {
     },
 }
 
-COURSE_OBJECT_TYPE = {
-    **LEARNING_RESOURCE_TYPE,
-    "department_course_numbers": {
-        "type": "nested",
-        "properties": {
-            "coursenum": {"type": "keyword"},
-            "sort_coursenum": {"type": "keyword"},
-            "department": {"type": "keyword"},
-            "primary": {"type": "boolean"},
-        },
-    },
-}
+LEARNING_RESOURCE_QUERY_FIELDS = [
+    "title.english^3",
+    "description.english^2",
+    "full_description.english",
+    "topics",
+    "platform",
+    "readable_id",
+    "offered_by",
+    "department",
+    "resource_content_tags",
+]
 
+AGGREGATIONS = [
+    "resource_type",
+    "certification",
+    "offered_by",
+    "platform",
+    "topic",
+    "department",
+    "level",
+    "resource_content_tags",
+    "professional",
+]
 
-PROGRAM_OBJECT_TYPE = {**LEARNING_RESOURCE_TYPE, "id": {"type": "long"}}
+TOPICS_QUERY_FIELDS = ["topics.name"]
 
+RUNS_QUERY_FIELDS = [
+    "runs.year",
+    "runs.semester",
+    "runs.level",
+]
+
+RUN_INSTRUCTORS_QUERY_FIELDS = [
+    "runs.instructors.first_name",
+    "runs.instructors.last_name",
+    "runs.instructors.full_name",
+]
 
 MAPPING = {
-    COURSE_TYPE: COURSE_OBJECT_TYPE,
-    PROGRAM_TYPE: PROGRAM_OBJECT_TYPE,
+    COURSE_TYPE: LEARNING_RESOURCE_TYPE,
+    PROGRAM_TYPE: LEARNING_RESOURCE_TYPE,
 }
 
 SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)
