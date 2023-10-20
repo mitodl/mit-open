@@ -14,6 +14,7 @@ from learning_resources.etl import (
     ocw,
     oll,
     podcast,
+    prolearn,
     xpro,
 )
 from learning_resources.etl.constants import (
@@ -64,6 +65,21 @@ oll_etl = compose(
     oll.transform,
     oll.extract,
 )
+
+
+prolearn_programs_etl = compose(
+    load_programs(ETLSource.prolearn.value),
+    prolearn.transform_programs,
+    prolearn.extract_programs,
+)
+
+
+prolearn_courses_etl = compose(
+    load_courses(ETLSource.prolearn.value),
+    prolearn.transform_courses,
+    prolearn.extract_courses,
+)
+
 
 xpro_programs_etl = compose(
     load_programs(ETLSource.xpro.value),

@@ -124,6 +124,8 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
     """Factory for LearningResourceOfferor"""
 
     name = FuzzyChoice([offeror.value for offeror in constants.OfferedBy])
+    code = FuzzyChoice([offeror.name for offeror in constants.OfferedBy])
+    professional = Faker("boolean")
 
     class Meta:
         model = models.LearningResourceOfferor

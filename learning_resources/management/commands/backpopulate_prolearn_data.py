@@ -1,11 +1,11 @@
 """Management command for populating prolearn course/program data"""
 from django.core.management import BaseCommand
 
-from course_catalog.etl.prolearn import PROLEARN_DEPARTMENT_MAPPING
-from course_catalog.models import Course
-from course_catalog.tasks import get_prolearn_data
+from learning_resources.etl.constants import ETLSource
+from learning_resources.models import LearningResource
+from learning_resources.tasks import get_prolearn_data
+from learning_resources_search.search_index_helpers import deindex_course
 from open_discussions.utils import now_in_utc
-from search.search_index_helpers import deindex_course
 
 
 class Command(BaseCommand):
@@ -28,11 +28,11 @@ class Command(BaseCommand):
             self.stdout.write(
                 "Deleting all existing prolearn courses from database and opensearch"
             )
-            for course in Course.objects.filter(
-                platform__in=PROLEARN_DEPARTMENT_MAPPING.keys()
+            for resource in LearningResource.objects.filter(
+                etl_source=ETLSource.prolearn.value
             ):
-                course.delete()
-                deindex_course(course)
+                deindex_course(resource)
+                resource.delete()
         else:
             task = get_prolearn_data.delay()
             self.stdout.write(

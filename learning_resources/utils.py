@@ -1,7 +1,9 @@
 """Utils for learning resources"""
+import json
 import logging
 import re
 from datetime import datetime
+from pathlib import Path
 
 import pytz
 import rapidjson
@@ -10,12 +12,14 @@ import yaml
 from botocore.exceptions import ClientError
 from django.conf import settings
 from django.contrib.auth.models import Group, User
+from django.db import transaction
 from retry import retry
 
 from learning_resources.constants import (
     GROUP_STAFF_LISTS_EDITORS,
     semester_mapping,
 )
+from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
 from open_discussions.utils import generate_filepath
 
 log = logging.getLogger()
@@ -266,3 +270,39 @@ def get_ocw_topics(topics_collection):
             topics.append(topic_object["ocw_speciality"])
 
     return list(set(topics))
+
+
+def upsert_offered_by_data():
+    """
+    Upsert LearningResourceOfferor data
+    """
+    with Path.open(Path(__file__).parent / "fixtures" / "offered_by.json") as inf:
+        offered_by_json = json.load(inf)
+        offerors = []
+        with transaction.atomic():
+            for offeror in offered_by_json:
+                offeror_fields = offeror["fields"]
+                LearningResourceOfferor.objects.update_or_create(
+                    name=offeror_fields["name"],
+                    defaults=offeror_fields,
+                )
+                offerors.append(offeror_fields["name"])
+            LearningResourceOfferor.objects.exclude(name__in=offerors).delete()
+
+
+def upsert_platform_data():
+    """
+    Upsert LearningResourcePlatform data
+    """
+    with Path.open(Path(__file__).parent / "fixtures" / "platforms.json") as inf:
+        platform_json = json.load(inf)
+        platforms = []
+        with transaction.atomic():
+            for platform in platform_json:
+                platform_fields = platform["fields"]
+                LearningResourcePlatform.objects.update_or_create(
+                    platform=platform_fields["platform"],
+                    defaults=platform_fields,
+                )
+                platforms.append(platform_fields["platform"])
+            LearningResourcePlatform.objects.exclude(platform__in=platforms).delete()

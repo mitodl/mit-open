@@ -4,11 +4,9 @@ from toolz import compose, curry
 
 from course_catalog.etl import (
     loaders,
-    prolearn,
     video,
     youtube,
 )
-from course_catalog.models import Course, Program
 
 # A few notes on how this module works:
 #
@@ -26,29 +24,3 @@ youtube_etl = compose(loaders.load_video_channels, youtube.transform, youtube.ex
 
 # pipeline for generating topic data for videos based on course topics
 video_topics_etl = compose(loaders.load_videos, video.extract_videos_topics)
-
-
-def prolearn_programs_etl() -> list[Program]:
-    """Iterate through all supported prolearn platforms to import programs"""
-    results = []
-    for platform in prolearn.PROLEARN_DEPARTMENT_MAPPING:
-        platform_func = compose(
-            load_programs(platform),
-            prolearn.transform_programs,
-            prolearn.extract_programs,
-        )
-        results.extend(platform_func(platform))
-    return results
-
-
-def prolearn_courses_etl() -> list[Course]:
-    """Iterate through all supported prolearn platforms to import courses"""
-    results = []
-    for platform in prolearn.PROLEARN_DEPARTMENT_MAPPING:
-        platform_func = compose(
-            load_courses(platform),
-            prolearn.transform_courses,
-            prolearn.extract_courses,
-        )
-        results.extend(platform_func(platform))
-    return results

@@ -10,14 +10,6 @@ log = logging.getLogger(__name__)
 
 
 @app.task
-def get_prolearn_data():
-    """Execute the ProLearn ETL pipelines"""
-    courses = pipelines.prolearn_courses_etl()
-    programs = pipelines.prolearn_programs_etl()
-    return len(programs + courses)
-
-
-@app.task
 def get_youtube_data(*, channel_ids=None):
     """
     Execute the YouTube ETL pipeline
