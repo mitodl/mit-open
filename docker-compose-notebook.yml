@@ -4,7 +4,7 @@ x-environment: &py-environment
   DEBUG: "False"
   DEV_ENV: "True" # necessary to have nginx connect to web container
   NODE_ENV: "production"
-  DATABASE_URL: postgres://postgres@db:5432/postgres
+  DATABASE_URL: postgres://postgres:postgres@db:5432/postgres # pragma: allowlist secret
   MITOPEN_SECURE_SSL_REDIRECT: "False"
   MITOPEN_DB_DISABLE_SSL: "True"
   MITOPEN_FEATURES_DEFAULT: "True"
@@ -27,6 +27,9 @@ services:
     environment:
       <<: *py-environment
       BASE_DJANGO_APP_NAME: open_discussions
+      # See https://docs.djangoproject.com/en/4.1/topics/async/#async-safety
+      # Do no use this outside the notebook
+      DJANGO_ALLOW_ASYNC_UNSAFE: true
     env_file: .env
     command: >
       /bin/bash -c '

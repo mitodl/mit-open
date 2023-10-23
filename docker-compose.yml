@@ -1,9 +1,9 @@
 version: "3.7"
 
 x-environment: &py-environment
-  DEBUG: "False"
+  DEBUG: ${DEBUG:-True}
   DEV_ENV: "True" # necessary to have nginx connect to web container
-  NODE_ENV: "production"
+  NODE_ENV: ${NODE_ENV:-development}
   DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
   MITOPEN_SECURE_SSL_REDIRECT: "False"
   MITOPEN_DB_DISABLE_SSL: "True"
@@ -59,6 +59,9 @@ services:
       - "8063:8063"
     links:
       - web
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
+      - ./:/src
 
   web:
     build:
@@ -78,9 +81,12 @@ services:
       - opensearch-node-mitopen
       - redis
       - watch
+    volumes:
+      - .:/src
+      - django_media:/var/media
 
   watch:
-    image: node:16.20.1
+    image: node:18.18.2
     working_dir: /src
     command: ./scripts/run-watch-dev.sh
     ports:
@@ -93,6 +99,7 @@ services:
     env_file: .env
     volumes:
       - .:/src
+      - yarn-cache:/home/mitodl/.cache/yarn
 
   celery:
     build:
@@ -109,6 +116,9 @@ services:
       - db
       - opensearch-node-mitopen
       - redis
+    volumes:
+      - .:/src
+      - django_media:/var/media
   tika:
     image: apache/tika:1.28
     ports:
@@ -116,3 +126,5 @@ services:
 
 volumes:
   opensearch-data1:
+  django_media:
+  yarn-cache:
