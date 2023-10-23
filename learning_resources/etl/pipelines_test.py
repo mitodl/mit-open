@@ -14,8 +14,6 @@ from learning_resources.etl import pipelines
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
     ETLSource,
-    LearningResourceRunLoaderConfig,
-    OfferedByLoaderConfig,
     ProgramLoaderConfig,
 )
 from learning_resources.models import LearningResource
@@ -279,14 +277,7 @@ def test_micromasters_etl():
     mock_load_programs.assert_called_once_with(
         ETLSource.micromasters.value,
         mock_transform.return_value,
-        config=ProgramLoaderConfig(
-            courses=CourseLoaderConfig(
-                offered_by=OfferedByLoaderConfig(additive=True),
-                runs=LearningResourceRunLoaderConfig(
-                    offered_by=OfferedByLoaderConfig(additive=True)
-                ),
-            )
-        ),
+        config=ProgramLoaderConfig(prune=True, courses=CourseLoaderConfig()),
     )
 
     assert result == mock_load_programs.return_value

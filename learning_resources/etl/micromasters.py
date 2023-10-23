@@ -13,10 +13,12 @@ DEDP = "/dedp/"
 
 
 def extract():
-    """Loads the MicroMasters catalog data"""  # noqa: D401
+    """Load the MicroMasters catalog data"""
     if settings.MICROMASTERS_CATALOG_API_URL:
-        return requests.get(  # noqa: S113
-            settings.MICROMASTERS_CATALOG_API_URL, headers={**COMMON_HEADERS}
+        return requests.get(
+            settings.MICROMASTERS_CATALOG_API_URL,
+            headers={**COMMON_HEADERS},
+            timeout=settings.REQUESTS_TIMEOUT,
         ).json()
     return []
 
