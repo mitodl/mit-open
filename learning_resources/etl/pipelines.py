@@ -6,7 +6,16 @@ import boto3
 from django.conf import settings
 from toolz import compose, curry
 
-from learning_resources.etl import loaders, mit_edx, mitxonline, ocw, oll, podcast, xpro
+from learning_resources.etl import (
+    loaders,
+    micromasters,
+    mit_edx,
+    mitxonline,
+    ocw,
+    oll,
+    podcast,
+    xpro,
+)
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
     ETLSource,
@@ -17,6 +26,15 @@ log = logging.getLogger(__name__)
 
 load_programs = curry(loaders.load_programs)
 load_courses = curry(loaders.load_courses)
+
+micromasters_etl = compose(
+    load_programs(
+        ETLSource.micromasters.value,
+        config=ProgramLoaderConfig(prune=True, courses=CourseLoaderConfig()),
+    ),
+    micromasters.transform,
+    micromasters.extract,
+)
 
 mit_edx_etl = compose(
     load_courses(

@@ -65,6 +65,16 @@ def test_serialize_program_model():
     Verify that a serialized program contains attributes for related objects
     """
     program = factories.ProgramFactory.create()
+
+    # Add an unpublished course to the program
+    course = factories.CourseFactory.create(is_unpublished=True)
+    program.learning_resource.resources.add(
+        course.learning_resource,
+        through_defaults={
+            "relation_type": LearningResourceRelationTypes.PROGRAM_COURSES
+        },
+    )
+
     serializer = serializers.LearningResourceSerializer(
         instance=program.learning_resource
     )
@@ -82,6 +92,7 @@ def test_serialize_program_model():
         serializer.data["program"]
         == serializers.ProgramSerializer(instance=program).data
     )
+    assert len(serializer.data["program"]["courses"]) == program.courses.count() - 1
     program_course_serializer = serializers.LearningResourceSerializer(
         instance=LearningResource.objects.get(
             id=serializer.data["program"]["courses"][0]["id"]

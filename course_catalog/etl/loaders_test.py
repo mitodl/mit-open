@@ -23,7 +23,6 @@ from course_catalog.etl.loaders import (
     load_podcast_episode,
     load_podcasts,
     load_prices,
-    load_program,
     load_programs,
     load_run,
     load_topics,
@@ -31,7 +30,6 @@ from course_catalog.etl.loaders import (
     load_video_channels,
     load_videos,
 )
-from course_catalog.etl.xpro import _parse_datetime
 from course_catalog.factories import (
     ContentFileFactory,
     CourseFactory,
@@ -56,8 +54,6 @@ from course_catalog.models import (
     PlaylistVideo,
     Podcast,
     PodcastEpisode,
-    Program,
-    ProgramItem,
     UserList,
     UserListItem,
     Video,
@@ -115,125 +111,6 @@ def mock_upsert_tasks(mocker):
             "search.search_index_helpers.index_run_content_files"
         ),
     )
-
-
-@pytest.mark.parametrize("program_exists", [True, False])
-@pytest.mark.parametrize("is_published", [True, False])
-@pytest.mark.parametrize("courses_exist", [True, False])
-@pytest.mark.parametrize("has_prices", [True, False])
-@pytest.mark.parametrize("has_retired_course", [True, False])
-def test_load_program(  # noqa: PLR0913
-    mock_upsert_tasks,
-    program_exists,
-    is_published,
-    courses_exist,
-    has_prices,
-    has_retired_course,
-):  # pylint: disable=too-many-arguments
-    """Test that load_program loads the program"""
-    program = (
-        ProgramFactory.create(published=is_published, runs=[])
-        if program_exists
-        else ProgramFactory.build(published=is_published, runs=[], id=1)
-    )
-    courses = (
-        CourseFactory.create_batch(2, platform="fake-platform")
-        if courses_exist
-        else CourseFactory.build_batch(2, platform="fake-platform")
-    )
-    prices = CoursePriceFactory.build_batch(2) if has_prices else []
-
-    before_course_count = len(courses) if courses_exist else 0
-    after_course_count = len(courses)
-
-    if program_exists and has_retired_course:
-        course = CourseFactory.create(platform="fake-platform")
-        before_course_count += 1
-        after_course_count += 1
-        ProgramItem.objects.create(
-            program=program,
-            content_type=ContentType.objects.get(
-                model="course", app_label="course_catalog"
-            ),
-            object_id=course.id,
-            position=1,
-        )
-        assert program.items.count() == 1
-    else:
-        assert program.items.count() == 0
-
-    assert Program.objects.count() == (1 if program_exists else 0)
-    assert Course.objects.count() == before_course_count
-
-    run_data = {
-        "prices": [
-            {
-                "price": price.price,
-                "mode": price.mode,
-                "upgrade_deadline": price.upgrade_deadline,
-            }
-            for price in prices
-        ],
-        "platform": PlatformType.mitx.value,
-        "run_id": program.program_id,
-        "enrollment_start": "2017-01-01T00:00:00Z",
-        "start_date": "2017-01-20T00:00:00Z",
-        "end_date": "2017-06-20T00:00:00Z",
-        "best_start_date": "2017-06-20T00:00:00Z",
-        "best_end_date": "2017-06-20T00:00:00Z",
-    }
-
-    result = load_program(
-        {
-            "program_id": program.program_id,
-            "title": program.title,
-            "url": program.url,
-            "image_src": program.image_src,
-            "published": is_published,
-            "runs": [run_data],
-            "courses": [
-                {"course_id": course.course_id, "platform": course.platform}
-                for course in courses
-            ],
-        },
-        [],
-        [],
-    )
-
-    if program_exists and not is_published:
-        mock_upsert_tasks.delete_program.assert_called_with(result)
-    elif is_published:
-        mock_upsert_tasks.upsert_program.assert_called_with(result.id)
-    else:
-        mock_upsert_tasks.delete_program.assert_not_called()
-        mock_upsert_tasks.upsert_program.assert_not_called()
-
-    assert Program.objects.count() == 1
-    assert Course.objects.count() == after_course_count
-
-    # assert we got a program back and that each course is in a program
-    assert isinstance(result, Program)
-    assert result.items.count() == len(courses)
-    assert result.runs.count() == 1
-    assert result.runs.first().prices.count() == len(prices)
-    assert sorted(
-        [
-            (price.price, price.mode, price.upgrade_deadline)
-            for price in result.runs.first().prices.all()
-        ]
-    ) == sorted([(price.price, price.mode, price.upgrade_deadline) for price in prices])
-
-    assert result.runs.first().best_start_date == _parse_datetime(
-        run_data["best_start_date"]
-    )
-
-    for item, data in zip(
-        sorted(result.items.all(), key=lambda item: item.item.course_id),
-        sorted(courses, key=lambda course: course.course_id),
-    ):
-        course = item.item
-        assert isinstance(course, Course)
-        assert course.course_id == data.course_id
 
 
 @pytest.mark.parametrize("course_exists", [True, False])

@@ -10,12 +10,6 @@ log = logging.getLogger(__name__)
 
 
 @app.task
-def get_micromasters_data():
-    """Execute the MicroMasters ETL pipeline"""
-    pipelines.micromasters_etl()
-
-
-@app.task
 def get_prolearn_data():
     """Execute the ProLearn ETL pipelines"""
     courses = pipelines.prolearn_courses_etl()
