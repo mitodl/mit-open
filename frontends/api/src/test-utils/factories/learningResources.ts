@@ -19,6 +19,7 @@ import type {
   PodcastEpisodeResource,
 } from "api"
 import { ResourceTypeEnum } from "api"
+
 import { PartialDeep } from "type-fest"
 
 const maybe = faker.helpers.maybe
@@ -121,9 +122,9 @@ const learningResourceTopics = makePaginatedFactory(learningResourceTopic)
 const learningResourceType = () =>
   faker.helpers.arrayElement(Object.values(ResourceTypeEnum))
 
-const _learningResourceShared = (
-  resourceType: ResourceTypeEnum,
-): Partial<LearningResource> => {
+const _learnerResourceShared = (): Partial<
+  Omit<LearningResource, "resource_type">
+> => {
   return {
     id: faker.unique(faker.datatype.number),
     professional: faker.datatype.boolean(),
@@ -136,7 +137,6 @@ const _learningResourceShared = (
     prices: null,
     readable_id: faker.lorem.slug(),
     resource_content_tags: repeat(faker.lorem.word),
-    resource_type: resourceType,
     runs: [],
     published: faker.datatype.boolean(),
     title: faker.lorem.words(),
@@ -146,33 +146,35 @@ const _learningResourceShared = (
   }
 }
 
-const learningResource: PartialFactory<LearningResource> = (overrides = {}) => {
-  const _overrides = mergeOverrides(
+const learningResource: PartialFactory<LearningResource> = (
+  overrides = {},
+): LearningResource => {
+  overrides = mergeOverrides<LearningResource>(
     {
       resource_type: learningResourceType(),
     },
     overrides,
   )
-  switch (_overrides.resource_type) {
+  switch (overrides.resource_type) {
     case ResourceTypeEnum.Program:
-      return program(_overrides)
+      return program(overrides)
     case ResourceTypeEnum.Course:
-      return course(_overrides)
+      return course(overrides)
     case ResourceTypeEnum.LearningPath:
-      return learningPath(_overrides)
+      return learningPath(overrides)
     case ResourceTypeEnum.Podcast:
-      return podcast(_overrides)
+      return podcast(overrides)
     case ResourceTypeEnum.PodcastEpisode:
-      const e = podcastEpisode(_overrides)
-      return e
+      return podcastEpisode(overrides)
     default:
-      throw Error(`Invalid resource type: ${_overrides.resource_type}`)
+      throw Error(`Invalid resource type: ${overrides.resource_type}`)
   }
 }
 
 const program: PartialFactory<ProgramResource> = (overrides = {}) => {
   return mergeOverrides<ProgramResource>(
-    _learningResourceShared(ResourceTypeEnum.Program),
+    _learnerResourceShared(),
+    { resource_type: ResourceTypeEnum.Program },
     {
       platform: faker.lorem.word(),
       certification: faker.lorem.word(),
@@ -186,9 +188,12 @@ const program: PartialFactory<ProgramResource> = (overrides = {}) => {
 }
 const programs = makePaginatedFactory(program)
 
-const course: LearningResourceFactory<CourseResource> = (overrides = {}) => {
+const course: LearningResourceFactory<CourseResource> = (
+  overrides = {},
+): CourseResource => {
   return mergeOverrides<CourseResource>(
-    _learningResourceShared(ResourceTypeEnum.Program),
+    _learnerResourceShared(),
+    { resource_type: ResourceTypeEnum.Course },
     {
       platform: faker.lorem.word(),
       runs: repeat(learningResourceRun, { min: 1, max: 5 }),
@@ -209,7 +214,8 @@ const learningPath: LearningResourceFactory<LearningPathResource> = (
   overrides = {},
 ) => {
   return mergeOverrides<LearningPathResource>(
-    _learningResourceShared(ResourceTypeEnum.LearningPath),
+    _learnerResourceShared(),
+    { resource_type: ResourceTypeEnum.LearningPath },
     {
       learning_path: {
         id: faker.unique(faker.datatype.number),
@@ -280,7 +286,8 @@ const learningPathRelationships = ({
 
 const podcast: LearningResourceFactory<PodcastResource> = (overrides = {}) => {
   return mergeOverrides<PodcastResource>(
-    _learningResourceShared(ResourceTypeEnum.Podcast),
+    _learnerResourceShared(),
+    { resource_type: ResourceTypeEnum.Podcast },
     {
       podcast: {
         id: faker.unique(faker.datatype.number),
@@ -294,9 +301,10 @@ const podcasts = makePaginatedFactory(podcast)
 
 const podcastEpisode: LearningResourceFactory<PodcastEpisodeResource> = (
   overrides = {},
-): PodcastEpisodeResource => {
+) => {
   return mergeOverrides<PodcastEpisodeResource>(
-    _learningResourceShared(ResourceTypeEnum.PodcastEpisode),
+    _learnerResourceShared(),
+    { resource_type: ResourceTypeEnum.PodcastEpisode },
     {
       podcast_episode: {
         id: faker.unique(faker.datatype.number),

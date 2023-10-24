@@ -2,7 +2,7 @@ import React, { useCallback } from "react"
 import Dotdotdot from "react-dotdotdot"
 import invariant from "tiny-invariant"
 import classNames from "classnames"
-import type { LearningPathResource, LearningResource } from "api"
+import { ResourceTypeEnum, type LearningResource } from "api"
 
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
@@ -20,34 +20,29 @@ import {
 import type { EmbedlyConfig } from "../utils"
 import { pluralize } from "ol-util"
 
-type CardResource = Partial<LearningResource> &
-  Partial<LearningPathResource> &
-  Pick<LearningResource, "id" | "resource_type" | "title">
-
 type CardVariant = "column" | "row" | "row-reverse"
-type OnActivateCard<R extends CardResource = CardResource> = (
-  resource: R,
-) => void
-type LearningResourceCardTemplateProps<R extends CardResource = CardResource> =
-  {
-    /**
-     * Whether the course picture and info display as a column or row.
-     */
-    variant: CardVariant
-    resource: R
-    sortable?: boolean
-    className?: string
-    /**
-     * Config used to generate embedly urls.
-     */
-    imgConfig: EmbedlyConfig
-    onActivate?: OnActivateCard<R>
-    /**
-     * Suppress the image.
-     */
-    suppressImage?: boolean
-    footerActionSlot?: React.ReactNode
-  }
+type OnActivateCard<R extends LearningResource> = (resource: R) => void
+type LearningResourceCardTemplateProps<
+  R extends LearningResource = LearningResource,
+> = {
+  /**
+   * Whether the course picture and info display as a column or row.
+   */
+  variant: CardVariant
+  resource: R
+  sortable?: boolean
+  className?: string
+  /**
+   * Config used to generate embedly urls.
+   */
+  imgConfig: EmbedlyConfig
+  onActivate?: OnActivateCard<R>
+  /**
+   * Suppress the image.
+   */
+  suppressImage?: boolean
+  footerActionSlot?: React.ReactNode
+}
 
 const CertificateIcon = () => (
   <img
@@ -78,8 +73,8 @@ const ResourceFooterDetails: React.FC<
     ? moment(startDate).format("MMMM DD, YYYY")
     : null
 
-  if (resource?.learning_path) {
-    const count = resource.learning_path.item_count
+  if (resource.resource_type === ResourceTypeEnum.LearningPath) {
+    const count = resource.learning_path?.item_count ?? 0
     return (
       <span>
         {count} {pluralize("item", count)}
@@ -138,7 +133,7 @@ const variantClasses: Record<CardVariant, string> = {
  * does accept props to build user interaction (e.g., `onActivate` and
  * `footerActionSlot`).
  */
-const LearningResourceCardTemplate = <R extends CardResource>({
+const LearningResourceCardTemplate = <R extends LearningResource>({
   variant,
   resource,
   imgConfig,
