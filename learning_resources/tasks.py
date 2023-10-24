@@ -53,6 +53,14 @@ def get_oll_data():
 
 
 @app.task
+def get_prolearn_data():
+    """Execute the ProLearn ETL pipelines"""
+    courses = pipelines.prolearn_courses_etl()
+    programs = pipelines.prolearn_programs_etl()
+    return len(programs + courses)
+
+
+@app.task
 def get_xpro_data():
     """Execute the xPro ETL pipeline"""
     pipelines.xpro_courses_etl()

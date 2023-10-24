@@ -46,4 +46,5 @@ class ETLSource(Enum):
     oll = "oll"
     xpro = "xpro"
     ocw = "ocw"
+    prolearn = "prolearn"
     podcast = "podcast"

@@ -16,12 +16,16 @@ app.conf.task_default_queue = "default"
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)  # pragma: no cover
 
 app.conf.task_routes = {
-    "course_catalog.tasks.get_content_tasks": {"queue": "edx_content"},
-    "course_catalog.tasks.get_content_files": {"queue": "edx_content"},
-    "course_catalog.tasks.import_all_xpro_files": {"queue": "edx_content"},
-    "course_catalog.tasks.import_all_mit_edx_files": {"queue": "edx_content"},
-    "course_catalog.tasks.import_all_mitxonline_files": {"queue": "edx_content"},
-    "search.tasks.index_course_content_files": {"queue": "edx_content"},
-    "search.tasks.index_run_content_files": {"queue": "edx_content"},
-    "search.tasks.deindex_run_content_files": {"queue": "edx_content"},
+    "learning_resources.tasks.get_content_tasks": {"queue": "edx_content"},
+    "learning_resources.tasks.get_content_files": {"queue": "edx_content"},
+    "learning_resources.tasks.import_all_xpro_files": {"queue": "edx_content"},
+    "learning_resources.tasks.import_all_mit_edx_files": {"queue": "edx_content"},
+    "learning_resources.tasks.import_all_mitxonline_files": {"queue": "edx_content"},
+    "learning_resources_search.tasks.index_course_content_files": {
+        "queue": "edx_content"
+    },
+    "learning_resources_search.tasks.index_run_content_files": {"queue": "edx_content"},
+    "learning_resources_search.tasks.deindex_run_content_files": {
+        "queue": "edx_content"
+    },
 }

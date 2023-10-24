@@ -9,7 +9,6 @@ from django.http import (
 )
 from django.shortcuts import render
 
-from course_catalog.permissions import is_staff_list_editor
 from learning_resources.permissions import is_learning_path_editor
 from open_discussions.permissions import is_admin_user
 
@@ -26,8 +25,6 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
         "user": {
             "id": user.id,
             "is_authenticated": bool(user.is_authenticated),
-            "is_staff_list_editor": user.is_authenticated
-            and (is_admin_user(request) or is_staff_list_editor(request)),
             "is_learning_path_editor": user.is_authenticated
             and (is_admin_user(request) or is_learning_path_editor(request)),
             "is_article_editor": is_admin_user(request),

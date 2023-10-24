@@ -18,7 +18,7 @@ from channels_fields.serializers import (
     FieldChannelWriteSerializer,
     FieldModeratorSerializer,
 )
-from course_catalog.views import LargePagination
+from learning_resources.views import LargePagination
 
 log = logging.getLogger(__name__)
 

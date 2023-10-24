@@ -49,6 +49,10 @@ CELERY_BEAT_SCHEDULE = {
             "PODCAST_FETCH_SCHEDULE_SECONDS", 60 * 60 * 2
         ),  # default is every 2 hours
     },
+    "update-prolearn-courses-every-1-days": {
+        "task": "learning_resources.tasks.get_prolearn_data",
+        "schedule": crontab(minute=30, hour=21),  # 5:30pm EST
+    },
     "update-xpro-courses-every-1-days": {
         "task": "learning_resources.tasks.get_xpro_data",
         "schedule": crontab(minute=30, hour=17),  # 1:30pm EST

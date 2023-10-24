@@ -44,7 +44,6 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("widgets.urls")),
     re_path(r"", include("learning_resources.urls")),
     re_path(r"", include("articles.urls")),
-    re_path(r"", include("course_catalog.urls")),
     re_path(r"", include("livestream.urls")),
     re_path(r"", include("interactions.urls")),
     re_path(r"^api/token/refresh/", refresh_jwt_token),

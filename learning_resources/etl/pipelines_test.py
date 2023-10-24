@@ -143,7 +143,7 @@ def test_xpro_programs_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_programs.assert_called_once_with(
-        PlatformType.xpro.value, mock_transform.return_value
+        ETLSource.xpro.value, mock_transform.return_value
     )
 
     assert result == mock_load_programs.return_value
@@ -162,7 +162,7 @@ def test_xpro_courses_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_courses.assert_called_once_with(
-        PlatformType.xpro.value,
+        ETLSource.xpro.value,
         mock_transform.return_value,
     )
 
@@ -281,3 +281,42 @@ def test_micromasters_etl():
     )
 
     assert result == mock_load_programs.return_value
+
+
+def test_prolearn_programs_etl():
+    """Verify that prolearn programs etl pipeline executes correctly"""
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.prolearn.extract_programs", autospec=True),
+        patch("learning_resources.etl.prolearn.transform_programs", autospec=True),
+        patch("learning_resources.etl.loaders.load_programs", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_programs = patches
+        result = pipelines.prolearn_programs_etl()
+
+    mock_extract.assert_called_once_with()
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+    mock_load_programs.assert_called_once_with(
+        ETLSource.prolearn.value, mock_transform.return_value
+    )
+
+    assert result == mock_load_programs.return_value
+
+
+def test_prolearn_courses_etl():
+    """Verify that prolearn courses etl pipeline executes correctly"""
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.prolearn.extract_courses", autospec=True),
+        patch("learning_resources.etl.prolearn.transform_courses", autospec=True),
+        patch("learning_resources.etl.loaders.load_courses", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_courses = patches
+        result = pipelines.prolearn_courses_etl()
+
+    mock_extract.assert_called_once_with()
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+    mock_load_courses.assert_called_once_with(
+        ETLSource.prolearn.value,
+        mock_transform.return_value,
+    )
+
+    assert result == mock_load_courses.return_value

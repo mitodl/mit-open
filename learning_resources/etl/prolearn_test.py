@@ -6,15 +6,36 @@ from decimal import Decimal
 import pytest
 import pytz
 
-from course_catalog.constants import OfferedBy, PlatformType
-from course_catalog.etl import prolearn
-from course_catalog.etl.prolearn import (
+from learning_resources.etl import prolearn
+from learning_resources.etl.constants import ETLSource
+from learning_resources.etl.prolearn import (
+    get_offered_by,
     parse_date,
     parse_image,
-    parse_offered_by,
     parse_price,
     parse_topic,
 )
+from learning_resources.factories import (
+    LearningResourceOfferorFactory,
+    LearningResourcePlatformFactory,
+)
+from learning_resources.models import LearningResourceOfferor
+
+pytestmark = pytest.mark.django_db
+
+
+@pytest.fixture(autouse=True)
+def _mock_offerors_platforms():
+    """Make sure necessary platforms and offerors exist"""
+    LearningResourceOfferorFactory.create(name="CSAIL", code="csail", professional=True)
+    LearningResourcePlatformFactory.create(platform="csail")
+    LearningResourceOfferorFactory.create(
+        name="Professional Education", code="mitpe", professional=True
+    )
+    LearningResourcePlatformFactory.create(platform="mitpe")
+    LearningResourceOfferorFactory.create(
+        name="Center for Transportation & Logistics", code="ctl", professional=True
+    )
 
 
 @pytest.fixture(autouse=True)
@@ -69,7 +90,7 @@ def mocked_prolearn_courses_responses(
 def test_prolearn_extract_programs(mock_csail_programs_data):
     """Verify that the extraction function calls the prolearn programs API and returns the responses"""
     assert (
-        prolearn.extract_programs(PlatformType.csail.value)
+        prolearn.extract_programs()
         == mock_csail_programs_data["data"]["searchAPISearch"]["documents"]
     )
 
@@ -77,14 +98,14 @@ def test_prolearn_extract_programs(mock_csail_programs_data):
 def test_prolearn_extract_programs_disabled(settings):
     """Verify an empty list is returned if the API URL isn't set"""
     settings.PROLEARN_CATALOG_API_URL = None
-    assert prolearn.extract_programs(PlatformType.csail.value) == []
+    assert prolearn.extract_programs() == []
 
 
 @pytest.mark.usefixtures("mocked_prolearn_courses_responses")
 def test_prolearn_extract_courses(mock_mitpe_courses_data):
     """Verify that the extraction function calls the prolearn courses API and returns the responses"""
     assert (
-        prolearn.extract_courses(PlatformType.mitpe.value)
+        prolearn.extract_courses()
         == mock_mitpe_courses_data["data"]["searchAPISearch"]["documents"]
     )
 
@@ -92,7 +113,7 @@ def test_prolearn_extract_courses(mock_mitpe_courses_data):
 def test_prolearn_extract_courses_disabled(settings):
     """Verify an empty list is returned if the API URL isn't set"""
     settings.PROLEARN_CATALOG_API_URL = None
-    assert prolearn.extract_courses(PlatformType.mitpe.value) == []
+    assert prolearn.extract_courses() == []
 
 
 def test_prolearn_transform_programs(mock_csail_programs_data):
@@ -101,24 +122,23 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
     result = prolearn.transform_programs(extracted_data)
     expected = [
         {
-            "program_id": program["nid"],
+            "readable_id": program["nid"],
             "title": program["title"],
             "url": program["course_link"]
             or program["course_application_url"]
             or program["url"],
-            "image_src": parse_image(program),
-            "offered_by": [{"name": OfferedBy.csail.value}],
+            "image": parse_image(program),
+            "platform": "csail",
+            "offered_by": {"name": "CSAIL"},
+            "etl_source": ETLSource.prolearn.value,
+            "professional": True,
             "runs": [
                 {
                     "run_id": f"{program['nid']}_{start_val}",
-                    "platform": PlatformType.csail.value,
                     "title": program["title"],
-                    "offered_by": [{"name": OfferedBy.csail.value}],
                     "prices": parse_price(program),
                     "start_date": parse_date(start_val),
                     "end_date": parse_date(end_val),
-                    "best_start_date": parse_date(start_val),
-                    "best_end_date": parse_date(end_val),
                 }
                 for (start_val, end_val) in zip(
                     program["start_value"], program["end_value"]
@@ -128,14 +148,14 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             # all we need for course data is the relative positioning of courses by course_id
             "courses": [
                 {
-                    "course_id": course_id,
-                    "platform": PlatformType.csail.value,
-                    "offered_by": [{"name": OfferedBy.csail.value}],
+                    "readable_id": course_id,
+                    "platform": "csail",
+                    "offered_by": {"name": "CSAIL"},
+                    "professional": True,
+                    "etl_source": ETLSource.prolearn.value,
                     "runs": [
                         {
                             "run_id": course_id,
-                            "platform": PlatformType.csail.value,
-                            "offered_by": [{"name": OfferedBy.csail.value}],
                         }
                     ],
                 }
@@ -144,41 +164,41 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
         }
         for program in extracted_data
     ]
-    assert expected == result
+    assert result == expected
 
 
 def test_prolearn_transform_courses(mock_mitpe_courses_data):
     """Test that prolearn courses data is correctly transformed into our normalized structure"""
     extracted_data = mock_mitpe_courses_data["data"]["searchAPISearch"]["documents"]
-    result = prolearn.transform_courses(extracted_data)
+    result = list(prolearn.transform_courses(extracted_data))
     expected = [
         {
-            "course_id": course["nid"],
-            "platform": PlatformType.mitpe.value,
+            "readable_id": course["nid"],
+            "platform": "mitpe",
+            "offered_by": {"name": "Professional Education"},
+            "etl_source": ETLSource.prolearn.value,
             "title": course["title"],
-            "image_src": parse_image(course),
-            "offered_by": [{"name": OfferedBy.mitpe.value}],
-            "short_description": course["body"],
+            "image": parse_image(course),
+            "description": course["body"],
             "published": True,
+            "professional": True,
             "topics": parse_topic(course),
+            "url": course["course_link"]
+            or course["course_application_url"]
+            or course["url"],
             "runs": [
                 {
                     "run_id": f"{course['nid']}_{start_val}",
                     "title": course["title"],
-                    "image_src": parse_image(course),
-                    "offered_by": [{"name": OfferedBy.mitpe.value}],
-                    "short_description": course["body"],
-                    "platform": PlatformType.mitpe.value,
+                    "image": parse_image(course),
+                    "description": course["body"],
                     "start_date": parse_date(start_val),
                     "end_date": parse_date(end_val),
-                    "best_start_date": parse_date(start_val),
-                    "best_end_date": parse_date(end_val),
                     "published": True,
                     "prices": parse_price(course),
                     "url": course["course_link"]
                     or course["course_application_url"]
                     or course["url"],
-                    "raw_json": course,
                 }
                 for (start_val, end_val) in zip(
                     course["start_value"], course["end_value"]
@@ -205,8 +225,8 @@ def test_parse_date(date_int, expected_dt):
 @pytest.mark.parametrize(
     ("price_str", "price_list"),
     [
-        ["$5,342", [{"price": round(Decimal(5342), 2)}]],  # noqa: PT007
-        ["5.34", [{"price": round(Decimal(5.34), 2)}]],  # noqa: PT007
+        ["$5,342", [round(Decimal(5342), 2)]],  # noqa: PT007
+        ["5.34", [round(Decimal(5.34), 2)]],  # noqa: PT007
         [None, []],  # noqa: PT007
         ["", []],  # noqa: PT007
     ],
@@ -238,17 +258,24 @@ def test_parse_topic(topic, expected):
 @pytest.mark.parametrize(
     ("department", "offered_by"),
     [
-        ["MIT CSAIL", OfferedBy.csail.value],  # noqa: PT007
-        [  # noqa: PT007
+        ("MIT CSAIL", "CSAIL"),
+        (
             "MIT Center for Transportation & Logistics",
-            OfferedBy.ctl.value,
-        ],
-        ["MIT Other", None],  # noqa: PT007
+            "Center for Transportation & Logistics",
+        ),
+        ("MIT Other", None),
     ],
 )
 def test_offered_by(department, offered_by):
+    """get_offered_by should return expected LearningResourceOfferor or None"""
     document = {"department": department}
-    assert parse_offered_by(document) == offered_by
+    if offered_by:
+        assert (
+            get_offered_by(document).name
+            == LearningResourceOfferor.objects.get(name=offered_by).name
+        )
+    else:
+        assert get_offered_by(document) is None
 
 
 @pytest.mark.parametrize(
@@ -262,4 +289,4 @@ def test_offered_by(department, offered_by):
 def test_parse_image(featured_image_url, expected_url):
     """parse_image should return the expected url"""
     document = {"featured_image_url": featured_image_url}
-    assert parse_image(document) == expected_url
+    assert parse_image(document) == ({"url": expected_url} if expected_url else None)

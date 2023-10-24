@@ -72,6 +72,14 @@ def test_get_oll_data(mocker):
     mock_pipelines.oll_etl.assert_called_once_with()
 
 
+def test_get_prolearn_data(mocker):
+    """Verify that the get_prolearn_data invokes the Prolearn ETL pipeline"""
+    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
+    tasks.get_prolearn_data.delay()
+    mock_pipelines.prolearn_programs_etl.assert_called_once_with()
+    mock_pipelines.prolearn_courses_etl.assert_called_once_with()
+
+
 def test_get_xpro_data(mocker):
     """Verify that the get_xpro_data invokes the xPro ETL pipeline"""
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
