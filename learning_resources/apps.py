@@ -6,3 +6,6 @@ class LearningResourcesConfig(AppConfig):
     """LearningResources Appconfig"""
 
     name = "learning_resources"
+
+    def ready(self):
+        from learning_resources.serializers import schema

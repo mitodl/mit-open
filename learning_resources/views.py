@@ -327,6 +327,7 @@ class LearningPathViewSet(BaseLearningResourceViewSet, viewsets.ModelViewSet):
         )
         if not (is_learning_path_editor(self.request) or is_admin_user(self.request)):
             queryset = queryset.filter(published=True)
+
         return queryset
 
     def perform_destroy(self, instance):

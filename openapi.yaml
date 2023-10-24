@@ -3438,11 +3438,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          readOnly: true
         resource_type:
           allOf:
-          - $ref: '#/components/schemas/ResourceTypeEnum'
-          readOnly: true
+          - $ref: '#/components/schemas/CourseResourceResourceTypeEnum'
           default: course
+          readOnly: true
         offered_by:
           type: string
           readOnly: true
@@ -3501,9 +3504,6 @@ components:
           - $ref: '#/components/schemas/Course'
           readOnly: true
           nullable: true
-        readable_id:
-          type: string
-          maxLength: 128
         title:
           type: string
           maxLength: 256
@@ -3555,6 +3555,10 @@ components:
       - runs
       - title
       - user_list_parents
+    CourseResourceResourceTypeEnum:
+      type: string
+      enum:
+      - course
     LearningPath:
       type: object
       description: Serializer for the LearningPath model
@@ -3630,11 +3634,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          readOnly: true
         resource_type:
           allOf:
-          - $ref: '#/components/schemas/ResourceTypeEnum'
-          readOnly: true
+          - $ref: '#/components/schemas/LearningPathResourceResourceTypeEnum'
           default: learning_path
+          readOnly: true
         offered_by:
           type: string
           readOnly: true
@@ -3693,9 +3700,6 @@ components:
           - $ref: '#/components/schemas/LearningPath'
           readOnly: true
           nullable: true
-        readable_id:
-          type: string
-          readOnly: true
         title:
           type: string
           maxLength: 256
@@ -3793,6 +3797,10 @@ components:
           type: boolean
       required:
       - title
+    LearningPathResourceResourceTypeEnum:
+      type: string
+      enum:
+      - learning_path
     LearningResource:
       oneOf:
       - $ref: '#/components/schemas/ProgramResource'
@@ -4574,11 +4582,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          readOnly: true
         resource_type:
           allOf:
-          - $ref: '#/components/schemas/ResourceTypeEnum'
-          readOnly: true
+          - $ref: '#/components/schemas/PodcastEpisodeResourceResourceTypeEnum'
           default: podcast_episode
+          readOnly: true
         offered_by:
           type: string
           readOnly: true
@@ -4637,9 +4648,6 @@ components:
           - $ref: '#/components/schemas/PodcastEpisode'
           readOnly: true
           nullable: true
-        readable_id:
-          type: string
-          maxLength: 128
         title:
           type: string
           maxLength: 256
@@ -4691,6 +4699,10 @@ components:
       - runs
       - title
       - user_list_parents
+    PodcastEpisodeResourceResourceTypeEnum:
+      type: string
+      enum:
+      - podcast_episode
     PodcastResource:
       type: object
       description: Serializer for podcast resources
@@ -4702,11 +4714,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          readOnly: true
         resource_type:
           allOf:
-          - $ref: '#/components/schemas/ResourceTypeEnum'
-          readOnly: true
+          - $ref: '#/components/schemas/PodcastResourceResourceTypeEnum'
           default: podcast
+          readOnly: true
         offered_by:
           type: string
           readOnly: true
@@ -4765,9 +4780,6 @@ components:
           - $ref: '#/components/schemas/Podcast'
           readOnly: true
           nullable: true
-        readable_id:
-          type: string
-          maxLength: 128
         title:
           type: string
           maxLength: 256
@@ -4819,6 +4831,10 @@ components:
       - runs
       - title
       - user_list_parents
+    PodcastResourceResourceTypeEnum:
+      type: string
+      enum:
+      - podcast
     PrivacyLevelEnum:
       enum:
       - private
@@ -4850,11 +4866,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          readOnly: true
         resource_type:
           allOf:
-          - $ref: '#/components/schemas/ResourceTypeEnum'
-          readOnly: true
+          - $ref: '#/components/schemas/ProgramResourceResourceTypeEnum'
           default: program
+          readOnly: true
         offered_by:
           type: string
           readOnly: true
@@ -4913,9 +4932,6 @@ components:
           - $ref: '#/components/schemas/Program'
           readOnly: true
           nullable: true
-        readable_id:
-          type: string
-          maxLength: 128
         title:
           type: string
           maxLength: 256
@@ -4967,20 +4983,10 @@ components:
       - runs
       - title
       - user_list_parents
-    ResourceTypeEnum:
-      enum:
-      - course
-      - program
-      - learning_path
-      - podcast
-      - podcast_episode
+    ProgramResourceResourceTypeEnum:
       type: string
-      description: |-
-        * `course` - course
-        * `program` - program
-        * `learning_path` - learning_path
-        * `podcast` - podcast
-        * `podcast_episode` - podcast_episode
+      enum:
+      - program
     UserList:
       type: object
       description: Simplified serializer for UserList model.

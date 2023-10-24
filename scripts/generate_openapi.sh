@@ -21,13 +21,8 @@ docker compose run --no-deps --rm web \
 
 GENERATOR_VERSION=v6.6.0
 
-docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli:${GENERATOR_VERSION} \
-	generate \
-	-i /local/openapi.yaml \
-	-g typescript-axios \
-	-o /local/frontends/api/src/generated \
-	--ignore-file-override /local/frontends/api/.openapi-generator-ignore \
-	--additional-properties=useSingleRequestParameter=true,paramNaming=original
+docker run --rm -v "${PWD}:/local" -w /local openapitools/openapi-generator-cli:${GENERATOR_VERSION} \
+	generate -c scripts/openapi-configs/typescript-axios.yaml
 
 # We expect pre-commit to exit with a non-zero status since it is reformatting
 # the generated code.

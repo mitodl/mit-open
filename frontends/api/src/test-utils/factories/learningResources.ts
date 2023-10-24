@@ -121,7 +121,7 @@ const learningResourceTopics = makePaginatedFactory(learningResourceTopic)
 const learningResourceType = () =>
   faker.helpers.arrayElement(Object.values(ResourceTypeEnum))
 
-const _learnerResourceShared = (
+const _learningResourceShared = (
   resourceType: ResourceTypeEnum,
 ): Partial<LearningResource> => {
   return {
@@ -146,39 +146,33 @@ const _learnerResourceShared = (
   }
 }
 
-const learningResource: PartialFactory<LearningResource> = (
-  overrides = {},
-): LearningResource => {
-  overrides = mergeOverrides(
+const learningResource: PartialFactory<LearningResource> = (overrides = {}) => {
+  const _overrides = mergeOverrides(
     {
       resource_type: learningResourceType(),
     },
     overrides,
   )
-  switch (overrides.resource_type) {
+  switch (_overrides.resource_type) {
     case ResourceTypeEnum.Program:
-      // @ts-expect-error TODO
-      return program(overrides)
+      return program(_overrides)
     case ResourceTypeEnum.Course:
-      // @ts-expect-error TODO
-      return course(overrides)
+      return course(_overrides)
     case ResourceTypeEnum.LearningPath:
-      // @ts-expect-error TODO
-      return learningPath(overrides)
+      return learningPath(_overrides)
     case ResourceTypeEnum.Podcast:
-      // @ts-expect-error TODO
-      return podcast(overrides)
+      return podcast(_overrides)
     case ResourceTypeEnum.PodcastEpisode:
-      // @ts-expect-error TODO
-      return podcastEpisode(overrides)
+      const e = podcastEpisode(_overrides)
+      return e
     default:
-      throw Error(`Invalid resource type: ${overrides.resource_type}`)
+      throw Error(`Invalid resource type: ${_overrides.resource_type}`)
   }
 }
 
 const program: PartialFactory<ProgramResource> = (overrides = {}) => {
   return mergeOverrides<ProgramResource>(
-    _learnerResourceShared(ResourceTypeEnum.Program),
+    _learningResourceShared(ResourceTypeEnum.Program),
     {
       platform: faker.lorem.word(),
       certification: faker.lorem.word(),
@@ -192,11 +186,9 @@ const program: PartialFactory<ProgramResource> = (overrides = {}) => {
 }
 const programs = makePaginatedFactory(program)
 
-const course: LearningResourceFactory<CourseResource> = (
-  overrides = {},
-): CourseResource => {
+const course: LearningResourceFactory<CourseResource> = (overrides = {}) => {
   return mergeOverrides<CourseResource>(
-    _learnerResourceShared(ResourceTypeEnum.Program),
+    _learningResourceShared(ResourceTypeEnum.Program),
     {
       platform: faker.lorem.word(),
       runs: repeat(learningResourceRun, { min: 1, max: 5 }),
@@ -217,7 +209,7 @@ const learningPath: LearningResourceFactory<LearningPathResource> = (
   overrides = {},
 ) => {
   return mergeOverrides<LearningPathResource>(
-    _learnerResourceShared(ResourceTypeEnum.LearningPath),
+    _learningResourceShared(ResourceTypeEnum.LearningPath),
     {
       learning_path: {
         id: faker.unique(faker.datatype.number),
@@ -288,7 +280,7 @@ const learningPathRelationships = ({
 
 const podcast: LearningResourceFactory<PodcastResource> = (overrides = {}) => {
   return mergeOverrides<PodcastResource>(
-    _learnerResourceShared(ResourceTypeEnum.Podcast),
+    _learningResourceShared(ResourceTypeEnum.Podcast),
     {
       podcast: {
         id: faker.unique(faker.datatype.number),
@@ -302,9 +294,9 @@ const podcasts = makePaginatedFactory(podcast)
 
 const podcastEpisode: LearningResourceFactory<PodcastEpisodeResource> = (
   overrides = {},
-) => {
+): PodcastEpisodeResource => {
   return mergeOverrides<PodcastEpisodeResource>(
-    _learnerResourceShared(ResourceTypeEnum.PodcastEpisode),
+    _learningResourceShared(ResourceTypeEnum.PodcastEpisode),
     {
       podcast_episode: {
         id: faker.unique(faker.datatype.number),

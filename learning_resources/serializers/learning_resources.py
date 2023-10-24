@@ -9,6 +9,7 @@ from rest_framework import serializers
 from learning_resources import constants, models
 from learning_resources.serializers.base import BaseSerializer
 from learning_resources.serializers.fields import (
+    LearningResourceTypeField,
     LearningResourceContentTagField,
     LearningResourceDepartmentSerializer,
     LearningResourceImageSerializer,
@@ -58,6 +59,7 @@ class MicroUserListRelationshipSerializer(serializers.ModelSerializer):
 class BaseLearningResourceSerializer(BaseSerializer, WriteableTopicsMixin):
     """Serializer for LearningResource"""
 
+    readable_id = serializers.ReadOnlyField()
     resource_type = serializers.ReadOnlyField()
     offered_by = LearningResourceOfferorField(read_only=True, allow_null=True)
     resource_content_tags = LearningResourceContentTagField(
@@ -145,7 +147,7 @@ class BaseLearningResourceSerializer(BaseSerializer, WriteableTopicsMixin):
 class ProgramResourceSerializer(BaseLearningResourceSerializer):
     """Serializer for program resources"""
 
-    resource_type = serializers.ReadOnlyField(
+    resource_type = LearningResourceTypeField(
         default=constants.LearningResourceType.program.value
     )
 
@@ -155,7 +157,7 @@ class ProgramResourceSerializer(BaseLearningResourceSerializer):
 class CourseResourceSerializer(BaseLearningResourceSerializer):
     """Serializer for course resources"""
 
-    resource_type = serializers.ReadOnlyField(
+    resource_type = LearningResourceTypeField(
         default=constants.LearningResourceType.course.value
     )
 
@@ -165,7 +167,7 @@ class CourseResourceSerializer(BaseLearningResourceSerializer):
 class LearningPathResourceSerializer(BaseLearningResourceSerializer):
     """CRUD serializer for LearningPath resources"""
 
-    resource_type = serializers.ReadOnlyField(
+    resource_type = LearningResourceTypeField(
         default=constants.LearningResourceType.learning_path.value
     )
 
@@ -173,8 +175,9 @@ class LearningPathResourceSerializer(BaseLearningResourceSerializer):
 
     def create(self, validated_data):
         """Ensure that the LearningPath is created by the requesting user; set topics"""
-        # generate a readable_id ONLY on create
+        # defined here because we disallow them as input
         validated_data["readable_id"] = uuid4().hex
+        validated_data["resource_type"] = self.fields["resource_type"].default
 
         request = self.context.get("request")
         topics_data = validated_data.pop("topics", [])
@@ -204,19 +207,11 @@ class LearningPathResourceSerializer(BaseLearningResourceSerializer):
         model = models.LearningResource
         read_only_fields = ["platform", "offered_by"]
 
-        extra_kwargs = {
-            **BaseLearningResourceSerializer.Meta.extra_kwargs,
-            "readable_id": {
-                "required": False,
-                "read_only": True,
-            },
-        }
-
 
 class PodcastResourceSerializer(BaseLearningResourceSerializer):
     """Serializer for podcast resources"""
 
-    resource_type = serializers.ReadOnlyField(
+    resource_type = LearningResourceTypeField(
         default=constants.LearningResourceType.podcast.value
     )
 
@@ -226,7 +221,7 @@ class PodcastResourceSerializer(BaseLearningResourceSerializer):
 class PodcastEpisodeResourceSerializer(BaseLearningResourceSerializer):
     """Serializer for podcast episode resources"""
 
-    resource_type = serializers.ReadOnlyField(
+    resource_type = LearningResourceTypeField(
         default=constants.LearningResourceType.podcast_episode.value
     )
 

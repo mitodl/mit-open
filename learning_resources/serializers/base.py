@@ -9,7 +9,6 @@ class BaseSerializer(ModelSerializer):
 
     class Meta:
         exclude = (*COMMON_IGNORED_FIELDS,)
-        expandable_fields = {}  # nothing expandable by default
 
 
 class BaseLearningResourceDetailSerializer(BaseSerializer):

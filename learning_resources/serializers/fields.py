@@ -6,6 +6,10 @@ from learning_resources import models
 from learning_resources.serializers.constants import COMMON_IGNORED_FIELDS
 
 
+class LearningResourceTypeField(serializers.ReadOnlyField):
+    """Field for LearningResource.resource_type"""
+
+
 @extend_schema_field({"type": "string"})
 class LearningResourceOfferorField(serializers.Field):
     """Serializer for LearningResourceOfferor"""

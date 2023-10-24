@@ -295,10 +295,16 @@ export interface CourseResource {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {ResourceTypeEnum}
+   * @type {string}
    * @memberof CourseResource
    */
-  resource_type: ResourceTypeEnum
+  readable_id: string
+  /**
+   *
+   * @type {CourseResourceResourceTypeEnum}
+   * @memberof CourseResource
+   */
+  resource_type: CourseResourceResourceTypeEnum
   /**
    *
    * @type {string}
@@ -370,12 +376,6 @@ export interface CourseResource {
    * @type {string}
    * @memberof CourseResource
    */
-  readable_id: string
-  /**
-   *
-   * @type {string}
-   * @memberof CourseResource
-   */
   title: string
   /**
    *
@@ -432,6 +432,19 @@ export interface CourseResource {
    */
   platform: string | null
 }
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const CourseResourceResourceTypeEnum = {
+  Course: "course",
+} as const
+
+export type CourseResourceResourceTypeEnum =
+  (typeof CourseResourceResourceTypeEnum)[keyof typeof CourseResourceResourceTypeEnum]
 
 /**
  * Serializer for the LearningPath model
@@ -553,10 +566,16 @@ export interface LearningPathResource {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {ResourceTypeEnum}
+   * @type {string}
    * @memberof LearningPathResource
    */
-  resource_type: ResourceTypeEnum
+  readable_id: string
+  /**
+   *
+   * @type {LearningPathResourceResourceTypeEnum}
+   * @memberof LearningPathResource
+   */
+  resource_type: LearningPathResourceResourceTypeEnum
   /**
    *
    * @type {string}
@@ -623,12 +642,6 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   learning_path: LearningPath | null
-  /**
-   *
-   * @type {string}
-   * @memberof LearningPathResource
-   */
-  readable_id: string
   /**
    *
    * @type {string}
@@ -758,6 +771,19 @@ export interface LearningPathResourceRequest {
    */
   professional?: boolean
 }
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const LearningPathResourceResourceTypeEnum = {
+  LearningPath: "learning_path",
+} as const
+
+export type LearningPathResourceResourceTypeEnum =
+  (typeof LearningPathResourceResourceTypeEnum)[keyof typeof LearningPathResourceResourceTypeEnum]
+
 /**
  * @type LearningResource
  * @export
@@ -1926,10 +1952,16 @@ export interface PodcastEpisodeResource {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {ResourceTypeEnum}
+   * @type {string}
    * @memberof PodcastEpisodeResource
    */
-  resource_type: ResourceTypeEnum
+  readable_id: string
+  /**
+   *
+   * @type {PodcastEpisodeResourceResourceTypeEnum}
+   * @memberof PodcastEpisodeResource
+   */
+  resource_type: PodcastEpisodeResourceResourceTypeEnum
   /**
    *
    * @type {string}
@@ -2001,12 +2033,6 @@ export interface PodcastEpisodeResource {
    * @type {string}
    * @memberof PodcastEpisodeResource
    */
-  readable_id: string
-  /**
-   *
-   * @type {string}
-   * @memberof PodcastEpisodeResource
-   */
   title: string
   /**
    *
@@ -2065,6 +2091,19 @@ export interface PodcastEpisodeResource {
 }
 
 /**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const PodcastEpisodeResourceResourceTypeEnum = {
+  PodcastEpisode: "podcast_episode",
+} as const
+
+export type PodcastEpisodeResourceResourceTypeEnum =
+  (typeof PodcastEpisodeResourceResourceTypeEnum)[keyof typeof PodcastEpisodeResourceResourceTypeEnum]
+
+/**
  * Serializer for podcast resources
  * @export
  * @interface PodcastResource
@@ -2084,10 +2123,16 @@ export interface PodcastResource {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {ResourceTypeEnum}
+   * @type {string}
    * @memberof PodcastResource
    */
-  resource_type: ResourceTypeEnum
+  readable_id: string
+  /**
+   *
+   * @type {PodcastResourceResourceTypeEnum}
+   * @memberof PodcastResource
+   */
+  resource_type: PodcastResourceResourceTypeEnum
   /**
    *
    * @type {string}
@@ -2159,12 +2204,6 @@ export interface PodcastResource {
    * @type {string}
    * @memberof PodcastResource
    */
-  readable_id: string
-  /**
-   *
-   * @type {string}
-   * @memberof PodcastResource
-   */
   title: string
   /**
    *
@@ -2223,6 +2262,19 @@ export interface PodcastResource {
 }
 
 /**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const PodcastResourceResourceTypeEnum = {
+  Podcast: "podcast",
+} as const
+
+export type PodcastResourceResourceTypeEnum =
+  (typeof PodcastResourceResourceTypeEnum)[keyof typeof PodcastResourceResourceTypeEnum]
+
+/**
  * * `private` - private * `unlisted` - unlisted
  * @export
  * @enum {string}
@@ -2269,10 +2321,16 @@ export interface ProgramResource {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {ResourceTypeEnum}
+   * @type {string}
    * @memberof ProgramResource
    */
-  resource_type: ResourceTypeEnum
+  readable_id: string
+  /**
+   *
+   * @type {ProgramResourceResourceTypeEnum}
+   * @memberof ProgramResource
+   */
+  resource_type: ProgramResourceResourceTypeEnum
   /**
    *
    * @type {string}
@@ -2344,12 +2402,6 @@ export interface ProgramResource {
    * @type {string}
    * @memberof ProgramResource
    */
-  readable_id: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramResource
-   */
   title: string
   /**
    *
@@ -2408,21 +2460,17 @@ export interface ProgramResource {
 }
 
 /**
- * * `course` - course * `program` - program * `learning_path` - learning_path * `podcast` - podcast * `podcast_episode` - podcast_episode
+ *
  * @export
  * @enum {string}
  */
 
-export const ResourceTypeEnum = {
-  Course: "course",
+export const ProgramResourceResourceTypeEnum = {
   Program: "program",
-  LearningPath: "learning_path",
-  Podcast: "podcast",
-  PodcastEpisode: "podcast_episode",
 } as const
 
-export type ResourceTypeEnum =
-  (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
+export type ProgramResourceResourceTypeEnum =
+  (typeof ProgramResourceResourceTypeEnum)[keyof typeof ProgramResourceResourceTypeEnum]
 
 /**
  * Simplified serializer for UserList model.
