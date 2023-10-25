@@ -37,7 +37,8 @@ query {
                 {
                     conjunction: AND,
                     conditions: [
-                        {operator: \"=\", name: \"field_course_or_program\", value: \"%s\"}
+                        {operator: \"=\", name: \"field_course_or_program\", value: \"%s\"},
+                        {operator: \"<>\", name: \"department\", value: \"MIT xPRO\"}
                     ]
                 }
             ]

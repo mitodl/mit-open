@@ -58,7 +58,7 @@ def transform(programs):
             "title": program["title"],
             "platform": PlatformType.edx.value,
             "offered_by": OFFERED_BY,
-            "url": program["programpage_url"],
+            "url": program.get("programpage_url"),
             "image": _transform_image(program),
             "runs": [
                 {
@@ -96,5 +96,5 @@ def transform(programs):
             ],
         }
         for program in programs
-        if DEDP not in program["programpage_url"]
+        if program and DEDP not in (program.get("programpage_url", "") or "")
     ]
