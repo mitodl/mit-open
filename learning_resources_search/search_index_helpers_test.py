@@ -6,9 +6,6 @@ from learning_resources.factories import (
     CourseFactory,
     ProgramFactory,
 )
-from learning_resources_search.api import (
-    gen_course_id,
-)
 from learning_resources_search.constants import (
     COURSE_TYPE,
 )
@@ -40,12 +37,9 @@ def test_delete_course(mocker):
     )
 
     course = CourseFactory.create()
-    course_es_id = gen_course_id(
-        course.learning_resource.platform, course.learning_resource.readable_id
-    )
 
     deindex_course(course.learning_resource)
-    mock_del_document.assert_called_once_with(course_es_id, COURSE_TYPE)
+    mock_del_document.assert_called_once_with(course.learning_resource.id, COURSE_TYPE)
 
 
 @pytest.mark.django_db()

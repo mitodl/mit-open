@@ -60,6 +60,7 @@ LEARNING_RESOURCE_SEARCH_FILTERS = [
     "resource_content_tags",
     "platform",
     "professional",
+    "id",
 ]
 
 SEARCH_NESTED_FILTERS = {
@@ -83,7 +84,7 @@ ENGLISH_TEXT_FIELD_WITH_SUGGEST = {
 
 
 LEARNING_RESOURCE_TYPE = {
-    "id": {"type": "long"},
+    "id": {"type": "keyword"},
     "certification": {"type": "keyword"},
     "readable_id": {"type": "keyword"},
     "title": ENGLISH_TEXT_FIELD_WITH_SUGGEST,

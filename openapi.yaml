@@ -1772,6 +1772,13 @@ paths:
             type: string
             minLength: 1
       - in: query
+        name: id
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+      - in: query
         name: level
         schema:
           type: array

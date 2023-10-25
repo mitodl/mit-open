@@ -4,10 +4,6 @@ Functions that execute search-related asynchronous tasks
 import logging
 
 from learning_resources_search import tasks
-from learning_resources_search.api import (
-    gen_course_id,
-    gen_program_id,
-)
 from learning_resources_search.constants import (
     COURSE_TYPE,
     PROGRAM_TYPE,
@@ -47,9 +43,7 @@ def deindex_course(learning_resource_obj):
     """
     try_with_retry_as_task(
         deindex_document,
-        gen_course_id(
-            learning_resource_obj.platform, learning_resource_obj.readable_id
-        ),
+        learning_resource_obj.id,
         COURSE_TYPE,
     )
 
@@ -73,6 +67,4 @@ def deindex_program(learning_resource_obj):
         learning_resource_obj (learning_resource.models.LearningResource): A
             LearningResource object with resource_type Program
     """
-    try_with_retry_as_task(
-        deindex_document, gen_program_id(learning_resource_obj.program), PROGRAM_TYPE
-    )
+    try_with_retry_as_task(deindex_document, learning_resource_obj.id, PROGRAM_TYPE)

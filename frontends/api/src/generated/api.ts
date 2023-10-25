@@ -7650,6 +7650,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>} [aggregations]
      * @param {Array<string>} [certification]
      * @param {Array<string>} [department]
+     * @param {Array<string>} [id]
      * @param {Array<string>} [level]
      * @param {number} [limit]
      * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics'>} [offered_by]
@@ -7678,6 +7679,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       >,
       certification?: Array<string>,
       department?: Array<string>,
+      id?: Array<string>,
       level?: Array<string>,
       limit?: number,
       offered_by?: Array<
@@ -7759,6 +7761,10 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         localVarQueryParameter["department"] = department
       }
 
+      if (id) {
+        localVarQueryParameter["id"] = id
+      }
+
       if (level) {
         localVarQueryParameter["level"] = level
       }
@@ -7835,6 +7841,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>} [aggregations]
      * @param {Array<string>} [certification]
      * @param {Array<string>} [department]
+     * @param {Array<string>} [id]
      * @param {Array<string>} [level]
      * @param {number} [limit]
      * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics'>} [offered_by]
@@ -7863,6 +7870,7 @@ export const LearningResourcesSearchApiFp = function (
       >,
       certification?: Array<string>,
       department?: Array<string>,
+      id?: Array<string>,
       level?: Array<string>,
       limit?: number,
       offered_by?: Array<
@@ -7924,6 +7932,7 @@ export const LearningResourcesSearchApiFp = function (
           aggregations,
           certification,
           department,
+          id,
           level,
           limit,
           offered_by,
@@ -7973,6 +7982,7 @@ export const LearningResourcesSearchApiFactory = function (
           requestParameters.aggregations,
           requestParameters.certification,
           requestParameters.department,
+          requestParameters.id,
           requestParameters.level,
           requestParameters.limit,
           requestParameters.offered_by,
@@ -8027,6 +8037,13 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly department?: Array<string>
+
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly id?: Array<string>
 
   /**
    *
@@ -8167,6 +8184,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
         requestParameters.aggregations,
         requestParameters.certification,
         requestParameters.department,
+        requestParameters.id,
         requestParameters.level,
         requestParameters.limit,
         requestParameters.offered_by,
