@@ -4,7 +4,7 @@ import { GridColumn, GridContainer } from "../../components/layout"
 import Container from "@mui/material/Container"
 import { useArticleDetail } from "api/hooks/articles"
 import { useParams } from "react-router"
-import Button from "@mui/material/Button"
+import { ButtonLink } from "ol-design"
 import Grid from "@mui/material/Grid"
 import { articlesEditView } from "../urls"
 import { CkeditorDisplay } from "ol-ckeditor"
@@ -36,13 +36,9 @@ const ArticlesDetailPage: React.FC = () => {
                   <h3 className="post-title">{article.data?.title}</h3>
                 </Grid>
                 <Grid item xs={3} className="ic-centered-right">
-                  <Button
-                    variant="outlined"
-                    disableElevation
-                    href={articlesEditView(id)}
-                  >
+                  <ButtonLink variant="outlined" to={articlesEditView(id)}>
                     Edit
-                  </Button>
+                  </ButtonLink>
                 </Grid>
               </>
             ) : (

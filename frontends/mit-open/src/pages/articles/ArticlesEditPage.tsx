@@ -9,7 +9,7 @@ import {
   useArticleDestroy,
 } from "api/hooks/articles"
 import { useHistory, useParams } from "react-router"
-import Button from "@mui/material/Button"
+import { Button } from "ol-design"
 import TextField from "@mui/material/TextField"
 import * as Yup from "yup"
 import { useFormik } from "formik"

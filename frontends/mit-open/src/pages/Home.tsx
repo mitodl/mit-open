@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react"
 import { SearchInput, SearchInputProps } from "ol-search-ui"
 import Container from "@mui/material/Container"
-import Button from "@mui/material/Button"
+import { Button } from "ol-design"
 import { ChipLink } from "ol-design"
 import Grid from "@mui/material/Grid"
 import { GridContainer } from "../components/layout"

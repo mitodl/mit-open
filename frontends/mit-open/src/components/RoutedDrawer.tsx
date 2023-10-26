@@ -2,11 +2,10 @@ import React, { useCallback, useEffect, useMemo, useState } from "react"
 import Drawer from "@mui/material/Drawer"
 import type { DrawerProps } from "@mui/material/Drawer"
 import { useSearchParams } from "ol-util"
-import IconButton from "@mui/material/IconButton"
-import type { SxProps } from "@mui/material"
+import { IconButton } from "ol-design"
 import CloseIcon from "@mui/icons-material/Close"
 
-const closeSx: SxProps = {
+const closeSx: React.CSSProperties = {
   position: "absolute",
   top: "8px",
   right: "8px",
@@ -70,7 +69,11 @@ const RoutedDrawer = <K extends string, R extends K>(
       {childParams && (
         <>
           {children?.({ params: childParams, closeDrawer: removeUrlParams })}
-          <IconButton sx={closeSx} onClick={removeUrlParams} aria-label="Close">
+          <IconButton
+            style={closeSx}
+            onClick={removeUrlParams}
+            aria-label="Close"
+          >
             <CloseIcon fontSize="large" />
           </IconButton>
         </>

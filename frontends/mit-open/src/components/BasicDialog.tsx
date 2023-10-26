@@ -4,9 +4,9 @@ import DialogActions from "@mui/material/DialogActions"
 import DialogContent from "@mui/material/DialogContent"
 import DialogTitle from "@mui/material/DialogTitle"
 import Box from "@mui/material/Box"
-import IconButton from "@mui/material/IconButton"
+import { IconButton } from "ol-design"
 import Close from "@mui/icons-material/Close"
-import Button from "@mui/material/Button"
+import { Button } from "ol-design"
 
 type BasicDialog = {
   open: boolean

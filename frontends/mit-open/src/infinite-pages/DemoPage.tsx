@@ -13,7 +13,7 @@ import { LoadingSpinner } from "ol-util"
 import axios from "../libs/axios"
 import { useHistory } from "react-router"
 import ReactAppzi from "react-appzi"
-import Button from "@mui/material/Button"
+import { Button } from "ol-design"
 
 const pageSize = 12
 const categoryLimit = 6

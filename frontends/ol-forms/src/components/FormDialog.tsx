@@ -4,7 +4,7 @@ import DialogActions from "@mui/material/DialogActions"
 import DialogContent from "@mui/material/DialogContent"
 import DialogTitle from "@mui/material/DialogTitle"
 import Button, { ButtonProps } from "@mui/material/Button"
-import IconButton from "@mui/material/IconButton"
+import { IconButton } from "ol-design"
 import Close from "@mui/icons-material/Close"
 import Box from "@mui/material/Box"
 

@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import Container from "@mui/material/Container"
 import EditIcon from "@mui/icons-material/Edit"
 import Grid from "@mui/material/Grid"
-import Button from "@mui/material/Button"
+import { Button } from "ol-design"
 import SwapVertIcon from "@mui/icons-material/SwapVert"
 
 import { useParams } from "react-router"
