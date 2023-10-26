@@ -16,10 +16,6 @@ from learning_resources.factories import (
 from learning_resources.models import LearningResourcePlatform
 from learning_resources.serializers import LearningResourceSerializer
 from learning_resources_search import tasks
-from learning_resources_search.api import (
-    gen_course_id,
-    gen_program_id,
-)
 from learning_resources_search.constants import (
     COURSE_TYPE,
     PROGRAM_TYPE,
@@ -65,9 +61,7 @@ def test_upsert_course_task(mocked_api):
     upsert_course(course.learning_resource_id)
     data = LearningResourceSerializer(course.learning_resource).data
     mocked_api.upsert_document.assert_called_once_with(
-        gen_course_id(
-            course.learning_resource.platform, course.learning_resource.readable_id
-        ),
+        course.learning_resource.id,
         data,
         COURSE_TYPE,
         retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
@@ -80,7 +74,7 @@ def test_upsert_program_task(mocked_api):
     upsert_program(program)
     data = LearningResourceSerializer(program.learning_resource).data
     mocked_api.upsert_document.assert_called_once_with(
-        gen_program_id(program),
+        program.learning_resource.id,
         data,
         PROGRAM_TYPE,
         retry_on_conflict=settings.INDEXING_ERROR_RETRIES,

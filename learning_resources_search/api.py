@@ -1,6 +1,5 @@
 """API for general search-related functionality"""
 import re
-from base64 import urlsafe_b64encode
 
 from opensearch_dsl import Search
 
@@ -17,34 +16,6 @@ from learning_resources_search.constants import (
 
 SIMILAR_RESOURCE_RELEVANT_FIELDS = ["title", "short_description"]
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
-
-
-def gen_course_id(platform, readable_id):
-    """
-    Generate the OpenSearch document id for a course
-
-    Args:
-        platform (str): The platform of a LearningResource object
-        readable_id (str): The readable_id of a LearningResource object
-
-    Returns:
-        str: The OpenSearch document id for this object
-    """
-    safe_id = urlsafe_b64encode(readable_id.encode("utf-8")).decode("utf-8").rstrip("=")
-    return f"co_{platform}_{safe_id}"
-
-
-def gen_program_id(program_obj):
-    """
-    Generate the OpenSearch document id for a Program
-
-    Args:
-        program_obj (Program): The Program object
-
-    Returns:
-        str: The OpenSearch document id for this object
-    """
-    return f"program_{program_obj.learning_resource_id}"
 
 
 def relevant_indexes(resource_types, aggregations):

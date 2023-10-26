@@ -15,7 +15,6 @@ from learning_resources.models import Course, LearningResource, Program
 from learning_resources.serializers import LearningResourceSerializer
 from learning_resources.utils import load_course_blocklist
 from learning_resources_search import indexing_api as api
-from learning_resources_search.api import gen_course_id, gen_program_id
 from learning_resources_search.constants import (
     COURSE_TYPE,
     PROGRAM_TYPE,
@@ -53,7 +52,7 @@ def upsert_course(course_id):
     course_obj = LearningResource.objects.get(id=course_id)
     course_data = LearningResourceSerializer(course_obj).data
     api.upsert_document(
-        gen_course_id(course_obj.platform, course_obj.readable_id),
+        course_id,
         course_data,
         COURSE_TYPE,
         retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
@@ -67,7 +66,7 @@ def upsert_program(program_id):
     program_obj = Program.objects.get(learning_resource_id=program_id)
     program_data = LearningResourceSerializer(program_obj.learning_resource).data
     api.upsert_document(
-        gen_program_id(program_obj),
+        program_obj.learning_resource.id,
         program_data,
         PROGRAM_TYPE,
         retry_on_conflict=settings.INDEXING_ERROR_RETRIES,

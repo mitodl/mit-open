@@ -8,13 +8,9 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
-from learning_resources.models import Course, Program
+from learning_resources.models import LearningResource
 from learning_resources.serializers import (
     LearningResourceSerializer,
-)
-from learning_resources_search.api import (
-    gen_course_id,
-    gen_program_id,
 )
 from learning_resources_search.constants import AGGREGATIONS
 
@@ -116,6 +112,7 @@ class LearningResourcesSearchRequestSerializer(serializers.Serializer):
         required=False,
         child=serializers.ChoiceField(choices=AGGREGATIONS),
     )
+    id = StringArrayField(required=False, child=serializers.CharField())  # noqa: A003
 
     def validate_resource_type(self, data):
         if data:
@@ -240,8 +237,8 @@ def serialize_bulk_courses(ids):
     Args:
         ids(list of int): List of course id's
     """
-    for course in Course.objects.filter(learning_resource_id__in=ids):
-        yield serialize_course_for_bulk(course)
+    for learning_resource in LearningResource.objects.filter(id__in=ids):
+        yield serialize_course_for_bulk(learning_resource)
 
 
 def serialize_bulk_courses_for_deletion(ids):
@@ -251,28 +248,20 @@ def serialize_bulk_courses_for_deletion(ids):
     Args:
         ids(list of int): List of course id's
     """
-    for course_obj in Course.objects.filter(learning_resource_id__in=ids):
-        yield serialize_for_deletion(
-            gen_course_id(
-                course_obj.learning_resource.platform,
-                course_obj.learning_resource.readable_id,
-            )
-        )
+    for learning_resource_id in ids:
+        yield serialize_for_deletion(learning_resource_id)
 
 
-def serialize_course_for_bulk(course_obj):
+def serialize_course_for_bulk(learning_resource_obj):
     """
     Serialize a course for bulk API request
 
     Args:
-        course_obj (Course): A course
+        learning_resource_obj (LearningResource): A course learning resource
     """
     return {
-        "_id": gen_course_id(
-            course_obj.learning_resource.platform,
-            course_obj.learning_resource.readable_id,
-        ),
-        **LearningResourceSerializer(course_obj.learning_resource).data,
+        "_id": learning_resource_obj.id,
+        **LearningResourceSerializer(learning_resource_obj).data,
     }
 
 
@@ -283,8 +272,8 @@ def serialize_bulk_programs(ids):
     Args:
         ids(list of int): List of program id's
     """
-    for program in Program.objects.filter(learning_resource_id__in=ids):
-        yield serialize_program_for_bulk(program)
+    for learning_resource in LearningResource.objects.filter(id__in=ids):
+        yield serialize_program_for_bulk(learning_resource)
 
 
 def serialize_bulk_programs_for_deletion(ids):
@@ -294,20 +283,20 @@ def serialize_bulk_programs_for_deletion(ids):
     Args:
         ids(list of int): List of program id's
     """
-    for program in Program.objects.filter(learning_resource_id__in=ids):
-        yield serialize_for_deletion(gen_program_id(program))
+    for learning_resource_id in ids:
+        yield serialize_for_deletion(learning_resource_id)
 
 
-def serialize_program_for_bulk(program_obj):
+def serialize_program_for_bulk(learning_resource_obj):
     """
     Serialize a program for bulk API request
 
     Args:
-        program_obj (Program): A program
+        learning_resource_obj (LearningResource): A program learning_resource object
     """
     return {
-        "_id": gen_program_id(program_obj),
-        **LearningResourceSerializer(program_obj.learning_resource).data,
+        "_id": learning_resource_obj.id,
+        **LearningResourceSerializer(learning_resource_obj).data,
     }
 
 

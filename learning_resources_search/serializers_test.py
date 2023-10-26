@@ -8,7 +8,7 @@ from rest_framework.renderers import JSONRenderer
 from learning_resources import factories
 from learning_resources.models import Course, Program
 from learning_resources.serializers import LearningResourceSerializer
-from learning_resources_search import api, serializers
+from learning_resources_search import serializers
 from learning_resources_search.serializers import (
     LearningResourcesSearchRequestSerializer,
     LearningResourcesSearchResponseSerializer,
@@ -31,7 +31,7 @@ def test_serialize_bulk_courses(mocker):
         )
     )
     for course in courses:
-        mock_serialize_course.assert_any_call(course)
+        mock_serialize_course.assert_any_call(course.learning_resource)
 
 
 @pytest.mark.django_db()
@@ -40,10 +40,8 @@ def test_serialize_course_for_bulk():
     Test that serialize_course_for_bulk yields a valid LearningResourceSerializer
     """
     course = factories.CourseFactory.create()
-    assert serializers.serialize_course_for_bulk(course) == {
-        "_id": api.gen_course_id(
-            course.learning_resource.platform, course.learning_resource.readable_id
-        ),
+    assert serializers.serialize_course_for_bulk(course.learning_resource) == {
+        "_id": course.learning_resource.id,
         **LearningResourceSerializer(course.learning_resource).data,
     }
 
@@ -63,7 +61,7 @@ def test_serialize_bulk_programs(mocker):
         )
     )
     for program in programs:
-        mock_serialize_program.assert_any_call(program)
+        mock_serialize_program.assert_any_call(program.learning_resource)
 
 
 @pytest.mark.django_db()
@@ -72,8 +70,8 @@ def test_serialize_program_for_bulk():
     Test that serialize_program_for_bulk yields a valid LearningResourceSerializer
     """
     program = factories.ProgramFactory.create()
-    assert serializers.serialize_program_for_bulk(program) == {
-        "_id": api.gen_program_id(program),
+    assert serializers.serialize_program_for_bulk(program.learning_resource) == {
+        "_id": program.learning_resource.id,
         **LearningResourceSerializer(program.learning_resource).data,
     }
 
@@ -88,9 +86,7 @@ def test_serialize_bulk_courses_for_deletion():
         serializers.serialize_bulk_courses_for_deletion([course.learning_resource_id])
     ) == [
         {
-            "_id": api.gen_course_id(
-                course.learning_resource.platform, course.learning_resource.readable_id
-            ),
+            "_id": course.learning_resource.id,
             "_op_type": "delete",
         }
     ]
@@ -104,7 +100,7 @@ def test_serialize_bulk_programs_for_deletion():
     program = factories.ProgramFactory.create()
     assert list(
         serializers.serialize_bulk_programs_for_deletion([program.learning_resource_id])
-    ) == [{"_id": api.gen_program_id(program), "_op_type": "delete"}]
+    ) == [{"_id": program.learning_resource.id, "_op_type": "delete"}]
 
 
 def test_extract_values():
