@@ -49,52 +49,56 @@ def _transform_image(micromasters_data: dict) -> dict:
     return {"url": image_url} if image_url else None
 
 
-def transform(programs):
+def transform(programs_data):
     """Transform the micromasters catalog data"""
-    return [
-        {
-            "readable_id": f"{READABLE_ID_PREFIX}{program['id']}",
-            "etl_source": ETLSource.micromasters.value,
-            "title": program["title"],
-            "platform": PlatformType.edx.value,
-            "offered_by": OFFERED_BY,
-            "url": program["programpage_url"],
-            "image": _transform_image(program),
-            "runs": [
+    programs = []
+    for program in programs_data:
+        url = program.get("programpage_url")
+        if url and DEDP not in url:
+            programs.append(
                 {
-                    "run_id": f"{READABLE_ID_PREFIX}{program['id']}",
+                    "readable_id": f"{READABLE_ID_PREFIX}{program['id']}",
+                    "etl_source": ETLSource.micromasters.value,
                     "title": program["title"],
-                    "instructors": [
-                        {"full_name": instructor["name"]}
-                        for instructor in program["instructors"]
-                    ],
-                    "prices": [program["total_price"]],
-                    "start_date": program["start_date"],
-                    "end_date": program["end_date"],
-                    "enrollment_start": program["enrollment_start"],
-                }
-            ],
-            "topics": program["topics"],
-            # only need positioning of courses by course_id for course data
-            "courses": [
-                {
-                    "readable_id": course["edx_key"],
                     "platform": PlatformType.edx.value,
                     "offered_by": OFFERED_BY,
-                    "published": _is_published(course["edx_key"]),
+                    "url": program.get("programpage_url"),
+                    "image": _transform_image(program),
                     "runs": [
                         {
-                            "run_id": run["edx_course_key"],
+                            "run_id": f"{READABLE_ID_PREFIX}{program['id']}",
+                            "title": program["title"],
+                            "instructors": [
+                                {"full_name": instructor["name"]}
+                                for instructor in program["instructors"]
+                            ],
+                            "prices": [program["total_price"]],
+                            "start_date": program["start_date"],
+                            "end_date": program["end_date"],
+                            "enrollment_start": program["enrollment_start"],
                         }
-                        for run in course["course_runs"]
-                        if run.get("edx_course_key", None)
+                    ],
+                    "topics": program["topics"],
+                    # only need positioning of courses by course_id for course data
+                    "courses": [
+                        {
+                            "readable_id": course["edx_key"],
+                            "platform": PlatformType.edx.value,
+                            "offered_by": OFFERED_BY,
+                            "published": _is_published(course["edx_key"]),
+                            "runs": [
+                                {
+                                    "run_id": run["edx_course_key"],
+                                }
+                                for run in course["course_runs"]
+                                if run.get("edx_course_key", None)
+                            ],
+                        }
+                        for course in sorted(
+                            program["courses"],
+                            key=lambda course: course["position_in_program"],
+                        )
                     ],
                 }
-                for course in sorted(
-                    program["courses"], key=lambda course: course["position_in_program"]
-                )
-            ],
-        }
-        for program in programs
-        if DEDP not in program["programpage_url"]
-    ]
+            )
+    return programs

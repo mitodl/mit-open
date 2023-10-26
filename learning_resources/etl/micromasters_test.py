@@ -98,56 +98,63 @@ def test_micromasters_extract_disabled(settings):
 
 
 @pytest.mark.django_db()
-def test_micromasters_transform(mock_micromasters_data):
+@pytest.mark.parametrize("missing_url", [True, False])
+def test_micromasters_transform(mock_micromasters_data, missing_url):
     """Test that micromasters data is correctly transformed into our normalized structure"""
     LearningResourceFactory.create(
         readable_id="1",
         resource_type=LearningResourceType.course.value,
         etl_source=ETLSource.mit_edx.value,
     )
-    assert micromasters.transform(mock_micromasters_data) == [
-        {
-            "readable_id": f"{READABLE_ID_PREFIX}1",
-            "title": "program title 1",
-            "url": "http://example.com/program/1/url",
-            "image": {"url": "http://example.com/program/1/image/url"},
-            "offered_by": micromasters.OFFERED_BY,
-            "platform": PlatformType.edx.value,
-            "etl_source": ETLSource.micromasters.value,
-            "courses": [
-                {
-                    "readable_id": "1",
-                    "platform": PlatformType.edx.value,
-                    "offered_by": micromasters.OFFERED_BY,
-                    "published": True,
-                    "runs": [
-                        {
-                            "run_id": "course_key_1",
-                        }
-                    ],
-                },
-                {
-                    "readable_id": "2",
-                    "platform": PlatformType.edx.value,
-                    "offered_by": micromasters.OFFERED_BY,
-                    "published": False,
-                    "runs": [],
-                },
-            ],
-            "runs": [
-                {
-                    "run_id": f"{READABLE_ID_PREFIX}1",
-                    "title": "program title 1",
-                    "instructors": [
-                        {"full_name": "Dr. Doofenshmirtz"},
-                        {"full_name": "Joey Jo Jo Shabadoo"},
-                    ],
-                    "prices": ["123.45"],
-                    "start_date": "2019-10-04T20:13:26.367297Z",
-                    "end_date": None,
-                    "enrollment_start": "2019-09-29T20:13:26.367297Z",
-                }
-            ],
-            "topics": [{"name": "program"}, {"name": "first"}],
-        }
-    ]
+    if missing_url:
+        mock_micromasters_data[0]["programpage_url"] = None
+    assert micromasters.transform(mock_micromasters_data) == (
+        []
+        if missing_url
+        else [
+            {
+                "readable_id": f"{READABLE_ID_PREFIX}1",
+                "title": "program title 1",
+                "url": None if missing_url else "http://example.com/program/1/url",
+                "image": {"url": "http://example.com/program/1/image/url"},
+                "offered_by": micromasters.OFFERED_BY,
+                "platform": PlatformType.edx.value,
+                "etl_source": ETLSource.micromasters.value,
+                "courses": [
+                    {
+                        "readable_id": "1",
+                        "platform": PlatformType.edx.value,
+                        "offered_by": micromasters.OFFERED_BY,
+                        "published": True,
+                        "runs": [
+                            {
+                                "run_id": "course_key_1",
+                            }
+                        ],
+                    },
+                    {
+                        "readable_id": "2",
+                        "platform": PlatformType.edx.value,
+                        "offered_by": micromasters.OFFERED_BY,
+                        "published": False,
+                        "runs": [],
+                    },
+                ],
+                "runs": [
+                    {
+                        "run_id": f"{READABLE_ID_PREFIX}1",
+                        "title": "program title 1",
+                        "instructors": [
+                            {"full_name": "Dr. Doofenshmirtz"},
+                            {"full_name": "Joey Jo Jo Shabadoo"},
+                        ],
+                        "prices": ["123.45"],
+                        "start_date": "2019-10-04T20:13:26.367297Z",
+                        "end_date": None,
+                        "enrollment_start": "2019-09-29T20:13:26.367297Z",
+                    }
+                ],
+                "topics": [{"name": "program"}, {"name": "first"}],
+            }
+        ]
+    )
