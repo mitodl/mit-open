@@ -121,7 +121,6 @@ const FormDialog: React.FC<FormDialogProps> = ({
     const props: DialogProps["PaperProps"] = {
       component: "form",
       ...className,
-      // @ts-expect-error There seems to be an error with MUI's type defs:
       // when component is "form", as above, PaperProps should include
       // `onSubmit` and other form properties but does not.
       // This is the recommended approach for ensuring modal form content is
