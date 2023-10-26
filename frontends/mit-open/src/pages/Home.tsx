@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from "react"
 import { SearchInput, SearchInputProps } from "ol-search-ui"
-import { Link } from "react-router-dom"
 import Container from "@mui/material/Container"
 import Button from "@mui/material/Button"
+import { ChipLink } from "ol-design"
 import Grid from "@mui/material/Grid"
 import { GridContainer } from "../components/layout"
 import { TitledCarousel, useMuiBreakpoint } from "ol-util"
@@ -139,15 +139,13 @@ const HomePage: React.FC = () => {
             <h3 className="search-buttons-container-label">Explore</h3>
             <div className="search-buttons-container">
               {EXPLORE_BUTTONS.map(({ label }) => (
-                <Button
-                  component={Link}
+                <ChipLink
+                  className="homepage-explore-chip"
+                  color="secondary"
                   to=""
-                  variant="outlined"
-                  className="homepage-button-chip"
                   key={label}
-                >
-                  {label}
-                </Button>
+                  label={label}
+                />
               ))}
             </div>
           </div>

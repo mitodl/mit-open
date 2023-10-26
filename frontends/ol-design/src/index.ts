@@ -1,1 +1,1 @@
-export const example = "ol-design"
+export * from "./components/ChipLink"

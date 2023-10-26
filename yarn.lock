@@ -10335,6 +10335,7 @@ __metadata:
     lodash: ^4.17.21
     mini-css-extract-plugin: ^2.6.1
     ol-ckeditor: "workspace:^"
+    ol-design: "workspace:^"
     ol-forms: "workspace:*"
     ol-learning-resources: "workspace:^"
     ol-search-ui: "workspace:*"
@@ -10795,9 +10796,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"ol-design@workspace:frontends/ol-design":
+"ol-design@workspace:^, ol-design@workspace:frontends/ol-design":
   version: 0.0.0-use.local
   resolution: "ol-design@workspace:frontends/ol-design"
+  dependencies:
+    "@emotion/react": ^11.11.1
+    "@emotion/styled": ^11.11.0
+    "@mui/icons-material": ^5.14.15
+    "@mui/material": ^5.14.15
+    react-router: ^5.3.3
+    react-router-dom: ^5.1.2
   languageName: unknown
   linkType: soft
 

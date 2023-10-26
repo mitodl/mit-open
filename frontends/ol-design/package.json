@@ -1,2 +1,15 @@
-{ "name": "ol-design", "packageManager": "yarn@3.2.0", "exports": { ".":
-"./src/index.ts" } }
+{
+  "name": "ol-design",
+  "packageManager": "yarn@3.2.0",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.15",
+    "@mui/material": "^5.14.15",
+    "react-router": "^5.3.3",
+    "react-router-dom": "^5.1.2"
+  }
+}
