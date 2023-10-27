@@ -99,7 +99,7 @@ class LearningResourceImageFactory(DjangoModelFactory):
 class LearningResourcePlatformFactory(DjangoModelFactory):
     """Factory for LearningResourcePlatform"""
 
-    platform = FuzzyChoice([platform.value for platform in constants.PlatformType])
+    platform = FuzzyChoice([platform.name for platform in constants.PlatformType])
     name = FuzzyChoice([platform.value for platform in constants.PlatformType])
     is_edx = Faker("boolean")
     has_content_files = Faker("boolean")
@@ -132,10 +132,19 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
         django_get_or_create = ("name",)
 
     class Params:
-        is_xpro = factory.Trait(name=constants.OfferedBy.xpro.value)
-        is_bootcamps = factory.Trait(name=constants.OfferedBy.bootcamps.value)
-        is_mitx = factory.Trait(name=constants.OfferedBy.mitx.value)
-        is_ocw = factory.Trait(name=constants.OfferedBy.ocw.value)
+        is_xpro = factory.Trait(
+            code=constants.OfferedBy.xpro.name, name=constants.OfferedBy.xpro.value
+        )
+        is_bootcamps = factory.Trait(
+            code=constants.OfferedBy.bootcamps.name,
+            name=constants.OfferedBy.bootcamps.value,
+        )
+        is_mitx = factory.Trait(
+            code=constants.OfferedBy.mitx.name, name=constants.OfferedBy.mitx.value
+        )
+        is_ocw = factory.Trait(
+            code=constants.OfferedBy.ocw.name, name=constants.OfferedBy.ocw.value
+        )
 
 
 class LearningResourceFactory(DjangoModelFactory):
@@ -165,10 +174,10 @@ class LearningResourceFactory(DjangoModelFactory):
     class Params:
         no_topics = factory.Trait(topics=[])
         is_course = factory.Trait(
-            resource_type=constants.LearningResourceType.course.value
+            resource_type=constants.LearningResourceType.course.name
         )
         is_program = factory.Trait(
-            resource_type=constants.LearningResourceType.program.value
+            resource_type=constants.LearningResourceType.program.name
         )
 
 
@@ -177,7 +186,7 @@ class CourseFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.course.value,
+        resource_type=constants.LearningResourceType.course.name,
     )
     extra_course_numbers = factory.List([])
 
@@ -221,7 +230,7 @@ class CourseFactory(DjangoModelFactory):
             return
 
         self.learning_resource.offered_by = LearningResourceOfferorFactory.create(
-            name=extracted
+            code=extracted
         )
         self.learning_resource.save()
 
@@ -326,7 +335,7 @@ class LearningPathFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.learning_path.value,
+        resource_type=constants.LearningResourceType.learning_path.name,
     )
     author = factory.SubFactory(UserFactory)
 
@@ -366,7 +375,7 @@ class ProgramFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.program.value,
+        resource_type=constants.LearningResourceType.program.name,
     )
 
     @factory.post_generation
@@ -426,12 +435,12 @@ class LearningPathRelationshipFactory(DjangoModelFactory):
 
     parent = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.learning_path.value,
+        resource_type=constants.LearningResourceType.learning_path.name,
     )
 
     child = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.course.value,
+        resource_type=constants.LearningResourceType.course.name,
         course=factory.SubFactory(CourseFactory),
     )
 
@@ -508,9 +517,9 @@ class PodcastEpisodeFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.podcast_episode.value,
+        resource_type=constants.LearningResourceType.podcast_episode.name,
         platform=factory.SubFactory(
-            LearningResourcePlatformFactory, platform=PlatformType.podcast.value
+            LearningResourcePlatformFactory, platform=PlatformType.podcast.name
         ),
     )
 
@@ -530,9 +539,9 @@ class PodcastFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.podcast.value,
+        resource_type=constants.LearningResourceType.podcast.name,
         platform=factory.SubFactory(
-            LearningResourcePlatformFactory, platform=PlatformType.podcast.value
+            LearningResourcePlatformFactory, platform=PlatformType.podcast.name
         ),
     )
     apple_podcasts_url = factory.Faker("uri")

@@ -227,7 +227,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                     "title": program["title"],
                     "offered_by": {"name": offered_by.name},
                     "platform": platform,
-                    "etl_source": ETLSource.prolearn.value,
+                    "etl_source": ETLSource.prolearn.name,
                     "url": parse_url(program),
                     "image": parse_image(program),
                     "professional": offered_by.professional,
@@ -249,7 +249,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                             "readable_id": course_id,
                             "offered_by": {"name": offered_by.name},
                             "platform": platform,
-                            "etl_source": ETLSource.prolearn.value,
+                            "etl_source": ETLSource.prolearn.name,
                             "professional": offered_by.professional,
                             "runs": [
                                 {
@@ -310,7 +310,7 @@ def _transform_course(
         "readable_id": course["nid"],
         "offered_by": {"name": offered_by.name},
         "platform": platform,
-        "etl_source": ETLSource.prolearn.value,
+        "etl_source": ETLSource.prolearn.name,
         "professional": offered_by.professional,
         "title": course["title"],
         "url": parse_url(course),

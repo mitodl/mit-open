@@ -84,7 +84,7 @@ def sync_edx_course_files(
             learning_resource_id__in=ids,
             published=True,
         )
-        if etl_source == ETLSource.mit_edx.value:
+        if etl_source == ETLSource.mit_edx.name:
             # Additional processing of run ids and tarfile names,
             # because edx data is a mess of id/file formats
             run_id = run_id.strip(  # noqa: B005

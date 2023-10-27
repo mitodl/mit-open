@@ -27,7 +27,7 @@ class LearningResourceFilter(FilterSet):
         field_name="resource_type",
         choices=(
             [
-                (resource_type.value, resource_type.value)
+                (resource_type.name, resource_type.value)
                 for resource_type in LearningResourceType
             ]
         ),
@@ -43,7 +43,7 @@ class LearningResourceFilter(FilterSet):
         label="Platform",
         method="filter_platform",
         field_name="platform__name",
-        choices=([(platform.value, platform.value) for platform in PlatformType]),
+        choices=([(platform.name, platform.value) for platform in PlatformType]),
     )
 
     def filter_resource_type(self, queryset, _, value):
@@ -52,7 +52,7 @@ class LearningResourceFilter(FilterSet):
 
     def filter_offered_by(self, queryset, _, value):
         """OfferedBy Filter for learning resources"""
-        return queryset.filter(offered_by__name__contains=OfferedBy[value].value)
+        return queryset.filter(offered_by__code=value)
 
     def filter_platform(self, queryset, _, value):
         """Platform Filter for learning resources"""

@@ -340,7 +340,7 @@ def test_load_course_bad_platform(mocker):
     props = {
         "readable_id": "abc123",
         "platform": bad_platform,
-        "etl_source": ETLSource.ocw.value,
+        "etl_source": ETLSource.ocw.name,
         "title": "course title",
         "image": {"url": "https://www.test.edu/image.jpg"},
         "description": "description",
@@ -555,8 +555,8 @@ def test_load_offered_bys(
 def test_load_courses(mocker, mock_blocklist, mock_duplicates, prune):
     """Test that load_courses calls the expected functions"""
 
-    course_to_unpublish = CourseFactory.create(etl_source=ETLSource.xpro.value)
-    courses = CourseFactory.create_batch(3, etl_source=ETLSource.xpro.value)
+    course_to_unpublish = CourseFactory.create(etl_source=ETLSource.xpro.name)
+    courses = CourseFactory.create_batch(3, etl_source=ETLSource.xpro.name)
 
     courses_data = [
         {"readable_id": course.learning_resource.readable_id} for course in courses
@@ -568,7 +568,7 @@ def test_load_courses(mocker, mock_blocklist, mock_duplicates, prune):
         side_effect=[course.learning_resource for course in courses],
     )
     config = CourseLoaderConfig(prune=prune)
-    load_courses(ETLSource.xpro.value, courses_data, config=config)
+    load_courses(ETLSource.xpro.name, courses_data, config=config)
     assert mock_load_course.call_count == len(courses)
     for course_data in courses_data:
         mock_load_course.assert_any_call(
@@ -578,7 +578,7 @@ def test_load_courses(mocker, mock_blocklist, mock_duplicates, prune):
             config=config,
         )
     mock_blocklist.assert_called_once_with()
-    mock_duplicates.assert_called_once_with(ETLSource.xpro.value)
+    mock_duplicates.assert_called_once_with(ETLSource.xpro.name)
     course_to_unpublish.refresh_from_db()
     assert course_to_unpublish.learning_resource.published is not prune
 
@@ -675,13 +675,13 @@ def test_load_podcasts(learning_resource_offeror, podcast_platform):
 
     for result in results:
         assert isinstance(result, LearningResource)
-        assert result.resource_type == LearningResourceType.podcast.value
-        assert result.platform.platform == PlatformType.podcast.value
+        assert result.resource_type == LearningResourceType.podcast.name
+        assert result.platform.platform == PlatformType.podcast.name
         assert result.children.count() > 0
         for relation in result.children.all():
             assert (
                 relation.child.resource_type
-                == LearningResourceType.podcast_episode.value
+                == LearningResourceType.podcast_episode.name
             )
             assert (
                 relation.relation_type
@@ -735,7 +735,7 @@ def test_load_podcast_episode(
 
     # assert we got a podcast episode back
     assert isinstance(result, LearningResource)
-    assert result.resource_type == LearningResourceType.podcast_episode.value
+    assert result.resource_type == LearningResourceType.podcast_episode.name
     assert result.podcast_episode is not None
 
     for key, value in props.items():

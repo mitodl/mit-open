@@ -30,7 +30,7 @@ load_courses = curry(loaders.load_courses)
 
 micromasters_etl = compose(
     load_programs(
-        ETLSource.micromasters.value,
+        ETLSource.micromasters.name,
         config=ProgramLoaderConfig(prune=True, courses=CourseLoaderConfig()),
     ),
     micromasters.transform,
@@ -39,7 +39,7 @@ micromasters_etl = compose(
 
 mit_edx_etl = compose(
     load_courses(
-        ETLSource.mit_edx.value,
+        ETLSource.mit_edx.name,
         config=CourseLoaderConfig(prune=True),
     ),
     mit_edx.transform,
@@ -48,46 +48,46 @@ mit_edx_etl = compose(
 
 mitxonline_programs_etl = compose(
     load_programs(
-        ETLSource.mitxonline.value,
+        ETLSource.mitxonline.name,
         config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
     ),
     mitxonline.transform_programs,
     mitxonline.extract_programs,
 )
 mitxonline_courses_etl = compose(
-    load_courses(ETLSource.mitxonline.value, config=CourseLoaderConfig(prune=True)),
+    load_courses(ETLSource.mitxonline.name, config=CourseLoaderConfig(prune=True)),
     mitxonline.transform_courses,
     mitxonline.extract_courses,
 )
 
 oll_etl = compose(
-    load_courses(ETLSource.oll.value, config=CourseLoaderConfig(prune=True)),
+    load_courses(ETLSource.oll.name, config=CourseLoaderConfig(prune=True)),
     oll.transform,
     oll.extract,
 )
 
 
 prolearn_programs_etl = compose(
-    load_programs(ETLSource.prolearn.value),
+    load_programs(ETLSource.prolearn.name),
     prolearn.transform_programs,
     prolearn.extract_programs,
 )
 
 
 prolearn_courses_etl = compose(
-    load_courses(ETLSource.prolearn.value),
+    load_courses(ETLSource.prolearn.name),
     prolearn.transform_courses,
     prolearn.extract_courses,
 )
 
 
 xpro_programs_etl = compose(
-    load_programs(ETLSource.xpro.value),
+    load_programs(ETLSource.xpro.name),
     xpro.transform_programs,
     xpro.extract_programs,
 )
 xpro_courses_etl = compose(
-    load_courses(ETLSource.xpro.value),
+    load_courses(ETLSource.xpro.name),
     xpro.transform_courses,
     xpro.extract_courses,
 )

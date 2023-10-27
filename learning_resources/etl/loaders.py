@@ -120,9 +120,7 @@ def load_offered_by(
     if offered_by_data is None:
         resource.offered_by = None
     else:
-        offered_by = LearningResourceOfferor.objects.filter(
-            name=offered_by_data["name"]
-        ).first()
+        offered_by = LearningResourceOfferor.objects.filter(**offered_by_data).first()
         resource.offered_by = offered_by
     resource.save()
     return resource.offered_by
@@ -240,7 +238,7 @@ def load_course(  # noqa: C901
             ) = LearningResource.objects.select_for_update().get_or_create(
                 platform=platform,
                 readable_id=deduplicated_course_id,
-                resource_type=LearningResourceType.course.value,
+                resource_type=LearningResourceType.course.name,
                 defaults=resource_data,
             )
 
@@ -260,7 +258,7 @@ def load_course(  # noqa: C901
             ) = LearningResource.objects.select_for_update().update_or_create(
                 platform=platform,
                 readable_id=readable_id,
-                resource_type=LearningResourceType.course.value,
+                resource_type=LearningResourceType.course.name,
                 defaults=resource_data,
             )
 
@@ -336,7 +334,7 @@ def load_courses(
 
     if courses and config.prune:
         for learning_resource in LearningResource.objects.filter(
-            etl_source=etl_source, resource_type=LearningResourceType.course.value
+            etl_source=etl_source, resource_type=LearningResourceType.course.name
         ).exclude(id__in=[learning_resource.id for learning_resource in courses]):
             learning_resource.published = False
             learning_resource.save()
@@ -399,7 +397,7 @@ def load_program(
         ) = LearningResource.objects.select_for_update().update_or_create(
             readable_id=readable_id,
             platform=platform,
-            resource_type=LearningResourceType.program.value,
+            resource_type=LearningResourceType.program.name,
             defaults=program_data,
         )
 
@@ -507,7 +505,7 @@ def load_content_files(
         list of int: Ids of the ContentFile objects that were created/updated
 
     """
-    if course_run.learning_resource.resource_type == LearningResourceType.course.value:
+    if course_run.learning_resource.resource_type == LearningResourceType.course.name:
         content_files_ids = [
             load_content_file(course_run, content_file)
             for content_file in content_files_data
@@ -547,7 +545,7 @@ def load_podcast_episode(episode_data: dict) -> LearningResource:
         learning_resource, created = LearningResource.objects.update_or_create(
             readable_id=readable_id,
             platform=LearningResourcePlatform.objects.get(
-                platform=PlatformType.podcast.value
+                platform=PlatformType.podcast.name
             ),
             defaults=episode_data,
         )
@@ -588,7 +586,7 @@ def load_podcast(podcast_data: dict) -> LearningResource:
         learning_resource, created = LearningResource.objects.update_or_create(
             readable_id=readable_id,
             platform=LearningResourcePlatform.objects.get(
-                platform=PlatformType.podcast.value
+                platform=PlatformType.podcast.name
             ),
             defaults=podcast_data,
         )
@@ -653,10 +651,10 @@ def load_podcasts(podcasts_data: list[dict]) -> list[LearningResource]:
     # unpublish the podcasts and episodes we're no longer tracking
     ids = [podcast.id for podcast in podcast_resources]
     LearningResource.objects.filter(
-        resource_type=LearningResourceType.podcast.value
+        resource_type=LearningResourceType.podcast.name
     ).exclude(id__in=ids).update(published=False)
     LearningResource.objects.filter(
-        resource_type=LearningResourceType.podcast_episode.value
+        resource_type=LearningResourceType.podcast_episode.name
     ).exclude(parents__parent__in=ids).update(published=False)
 
     return podcast_resources

@@ -37,7 +37,7 @@ from learning_resources.utils import (
 
 log = logging.getLogger(__name__)
 
-OFFERED_BY = {"name": OfferedBy.ocw.value}
+OFFERED_BY = {"code": OfferedBy.ocw.name}
 PRIMARY_COURSE_ID = "primary_course_number"
 
 
@@ -302,8 +302,8 @@ def transform_course(course_data: dict) -> dict:
     return {
         "readable_id": readable_id,
         "offered_by": copy.deepcopy(OFFERED_BY),
-        "platform": PlatformType.ocw.value,
-        "etl_source": ETLSource.ocw.value,
+        "platform": PlatformType.ocw.name,
+        "etl_source": ETLSource.ocw.name,
         "title": course_data["course_title"],
         "departments": course_data.get("department_numbers", []),
         "resource_content_tags": course_data.get("learning_resource_types", []),
@@ -325,7 +325,7 @@ def transform_course(course_data: dict) -> dict:
         },
         "topics": topics,
         "runs": [transform_run(course_data)],
-        "resource_type": LearningResourceType.course.value,
+        "resource_type": LearningResourceType.course.name,
     }
 
 
@@ -366,7 +366,7 @@ def extract_course(
 
     # if course synced before, check if modified since then
     course_instance = LearningResource.objects.filter(
-        platform=PlatformType.ocw.value, readable_id=course_json.get(PRIMARY_COURSE_ID)
+        platform=PlatformType.ocw.name, readable_id=course_json.get(PRIMARY_COURSE_ID)
     ).first()
 
     # Make sure that the data we are syncing is newer than what we already have

@@ -349,7 +349,7 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
 
     def validate_resource_type(self, value):
         """Only allow LearningPath resources to be CRUDed"""
-        if value != constants.LearningResourceType.learning_path.value:
+        if value != constants.LearningResourceType.learning_path.name:
             msg = "Only LearningPath resources are editable"
             raise serializers.ValidationError(msg)
         return value

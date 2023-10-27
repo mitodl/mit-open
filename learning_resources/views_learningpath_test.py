@@ -66,7 +66,10 @@ def test_learning_path_endpoint_get(client, user, is_public, is_editor, has_imag
             resp.data["learning_path"]["item_count"]
             == learning_path.learning_resource.children.count()
         )
-        assert resp.data["image"]["url"] == image_url
+        if has_image:
+            assert resp.data["image"]["url"] == image_url
+        else:
+            assert resp.data["image"] is None
 
     # Logged in user should see other person's public list
     resp = client.get(
@@ -128,7 +131,7 @@ def test_learning_path_endpoint_patch(client, update_topics, is_public, is_edito
         learning_resource=factories.LearningResourceFactory.create(
             title="Title 1",
             topics=[original_topic],
-            resource_type=LearningResourceType.learning_path.value,
+            resource_type=LearningResourceType.learning_path.name,
         ),
     )
     factories.LearningPathRelationshipFactory.create(

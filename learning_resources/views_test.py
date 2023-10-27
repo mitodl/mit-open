@@ -176,7 +176,7 @@ def test_program_detail_endpoint(client, url):
     program = ProgramFactory.create()
     resp = client.get(reverse(url, args=[program.learning_resource.id]))
     assert resp.data.get("title") == program.learning_resource.title
-    assert resp.data.get("resource_type") == LearningResourceType.program.value
+    assert resp.data.get("resource_type") == LearningResourceType.program.name
     response_courses = sorted(resp.data["program"]["courses"], key=lambda i: i["id"])
 
     courses = sorted(
@@ -189,7 +189,7 @@ def test_program_detail_endpoint(client, url):
     for idx, course in enumerate(courses):
         assert course.id == response_courses[idx]["id"]
         assert (
-            response_courses[idx]["resource_type"] == LearningResourceType.course.value
+            response_courses[idx]["resource_type"] == LearningResourceType.course.name
         )
 
 
@@ -461,7 +461,7 @@ def test_ocw_next_webhook_endpoint_unpublished(client, mocker, settings, data):
         course_run = LearningResourceRunFactory.create(
             run_id=run_id,
             learning_resource=CourseFactory.create(
-                platform=PlatformType.ocw.value
+                platform=PlatformType.ocw.name
             ).learning_resource,
         )
     client.post(

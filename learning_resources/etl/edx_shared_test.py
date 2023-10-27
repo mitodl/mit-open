@@ -19,9 +19,9 @@ pytestmark = pytest.mark.django_db
 @pytest.mark.parametrize(
     ("platform", "s3_prefix"),
     [
-        (PlatformType.mitxonline.value, "courses"),
-        (PlatformType.xpro.value, "courses"),
-        (PlatformType.edx.value, "simeon-mitx-course-tarballs"),
+        (PlatformType.mitxonline.name, "courses"),
+        (PlatformType.xpro.name, "courses"),
+        (PlatformType.edx.name, "simeon-mitx-course-tarballs"),
     ],
 )
 @pytest.mark.parametrize("published", [True, False])
@@ -49,7 +49,7 @@ def test_sync_edx_course_files(  # noqa: PLR0913
     course_ids = []
     bucket = (
         mock_mitxonline_learning_bucket
-        if platform == PlatformType.mitxonline.value
+        if platform == PlatformType.mitxonline.name
         else mock_xpro_learning_bucket
     ).bucket
     mocker.patch(
@@ -87,7 +87,7 @@ def test_sync_edx_course_files(  # noqa: PLR0913
 
 
 @pytest.mark.parametrize(
-    "platform", [PlatformType.mitxonline.value, PlatformType.xpro.value]
+    "platform", [PlatformType.mitxonline.name, PlatformType.xpro.name]
 )
 def test_sync_edx_course_files_invalid_tarfile(
     mock_mitxonline_learning_bucket, mock_xpro_learning_bucket, mocker, platform
@@ -101,7 +101,7 @@ def test_sync_edx_course_files_invalid_tarfile(
     key = f"20220101/courses/{run.run_id}.tar.gz"
     bucket = (
         mock_mitxonline_learning_bucket
-        if platform == PlatformType.mitxonline.value
+        if platform == PlatformType.mitxonline.name
         else mock_xpro_learning_bucket
     ).bucket
     bucket.put_object(
@@ -134,7 +134,7 @@ def test_sync_edx_course_files_invalid_tarfile(
 
 
 @pytest.mark.parametrize(
-    "platform", [PlatformType.mitxonline.value, PlatformType.xpro.value]
+    "platform", [PlatformType.mitxonline.name, PlatformType.xpro.name]
 )
 def test_sync_edx_course_files_empty_bucket(
     mock_mitxonline_learning_bucket, mock_xpro_learning_bucket, mocker, platform
@@ -148,7 +148,7 @@ def test_sync_edx_course_files_empty_bucket(
     key = "20220101/courses/some_other_course.tar.gz"
     bucket = (
         mock_mitxonline_learning_bucket
-        if platform == PlatformType.mitxonline.value
+        if platform == PlatformType.mitxonline.name
         else mock_xpro_learning_bucket
     ).bucket
     with Path.open(
@@ -173,7 +173,7 @@ def test_sync_edx_course_files_empty_bucket(
 
 
 @pytest.mark.parametrize(
-    "platform", [PlatformType.mitxonline.value, PlatformType.xpro.value]
+    "platform", [PlatformType.mitxonline.name, PlatformType.xpro.name]
 )
 def test_sync_edx_course_files_error(
     mock_mitxonline_learning_bucket, mock_xpro_learning_bucket, mocker, platform

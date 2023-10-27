@@ -13,16 +13,16 @@ def populate_etl_source(apps, schema_editor):
     LearningResource = apps.get_model("learning_resources", "LearningResource")
     LearningResource.objects.filter(
         resource_type__in=(
-            LearningResourceType.podcast.value,
-            LearningResourceType.podcast_episode.value,
+            LearningResourceType.podcast.name,
+            LearningResourceType.podcast_episode.name,
         )
-    ).update(etl_source=ETLSource.podcast.value)
+    ).update(etl_source=ETLSource.podcast.name)
     LearningResource.objects.filter(
         resource_type__in=(
-            LearningResourceType.course.value,
-            LearningResourceType.program.value,
+            LearningResourceType.course.name,
+            LearningResourceType.program.name,
         )
-    ).update(etl_source=ETLSource.xpro.value)
+    ).update(etl_source=ETLSource.xpro.name)
 
 
 class Migration(migrations.Migration):

@@ -106,7 +106,7 @@ def setup_s3_ocw(settings):
         add_file_to_bucket_recursive(
             ocw_next_bucket, OCW_TEST_JSON_PATH, base_folder, file
         )
-    LearningResourcePlatformFactory.create(platform=PlatformType.ocw.value)
+    LearningResourcePlatformFactory.create(platform=PlatformType.ocw.name)
     LearningResourceOfferorFactory.create(is_ocw=True)
     LearningResourceDepartmentFactory.create(
         department_id="16", name="Aeronautics and Astronautics"

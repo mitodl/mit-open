@@ -131,7 +131,7 @@ def test_learningpath_serializer_validation_bad_topic(data, error):
         "title": "My List",
         "description": "My Description",
         "topics": [data],
-        "resource_type": LearningResourceType.learning_path.value,
+        "resource_type": LearningResourceType.learning_path.name,
     }
     serializer = LearningPathResourceSerializer(data=serializer_data)
     assert serializer.is_valid() is False
@@ -150,7 +150,7 @@ def test_learningpath_serializer_validation():
         "title": "My List",
         "description": "My Description",
         "topics": topic_ids,
-        "resource_type": LearningResourceType.learning_path.value,
+        "resource_type": LearningResourceType.learning_path.name,
     }
     serializer = LearningPathResourceSerializer(data=serializer_data)
     assert serializer.is_valid(raise_exception=True)

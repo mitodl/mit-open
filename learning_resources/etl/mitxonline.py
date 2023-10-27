@@ -20,7 +20,7 @@ log = logging.getLogger(__name__)
 
 EXCLUDE_REGEX = r"PROCTORED EXAM"
 
-OFFERED_BY = {"name": OfferedBy.mitx.value}
+OFFERED_BY = {"code": OfferedBy.mitx.name}
 
 
 def _parse_datetime(value):
@@ -136,9 +136,9 @@ def _transform_course(course):
     """  # noqa: D401
     return {
         "readable_id": course["readable_id"],
-        "platform": PlatformType.mitxonline.value,
-        "etl_source": ETLSource.mitxonline.value,
-        "resource_type": LearningResourceType.course.value,
+        "platform": PlatformType.mitxonline.name,
+        "etl_source": ETLSource.mitxonline.name,
+        "resource_type": LearningResourceType.course.name,
         "title": course["title"],
         "offered_by": copy.deepcopy(OFFERED_BY),
         "topics": transform_topics(course.get("topics", [])),
@@ -181,10 +181,10 @@ def transform_programs(programs):
             "readable_id": program["readable_id"],
             "title": program["title"],
             "offered_by": OFFERED_BY,
-            "etl_source": ETLSource.mitxonline.value,
-            "resource_type": LearningResourceType.program.value,
+            "etl_source": ETLSource.mitxonline.name,
+            "resource_type": LearningResourceType.program.name,
             "departments": extract_valid_department_from_id(program["readable_id"]),
-            "platform": PlatformType.mitxonline.value,
+            "platform": PlatformType.mitxonline.name,
             "professional": False,
             "topics": transform_topics(program.get("topics", [])),
             "description": parse_page_attribute(program, "description"),

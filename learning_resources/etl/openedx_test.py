@@ -124,13 +124,13 @@ def test_transform_course(  # noqa: PLR0913
         assert transformed_courses[0] == {
             "title": "The Analytics Edge",
             "readable_id": "MITx+15.071x",
-            "resource_type": LearningResourceType.course.value,
+            "resource_type": LearningResourceType.course.name,
             "departments": ["15"],
             "description": "short_description",
             "full_description": "full description",
             "platform": openedx_config.platform,
             "etl_source": openedx_config.etl_source,
-            "offered_by": {"name": openedx_config.offered_by},
+            "offered_by": {"code": openedx_config.offered_by},
             "image": {
                 "url": "https://prod-discovery.edx-cdn.org/media/course/image/ff1df27b-3c97-42ee-a9b3-e031ffd41a4f-747c9c2f216e.small.jpg",
                 "description": "Image description",

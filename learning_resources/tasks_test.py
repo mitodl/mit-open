@@ -98,7 +98,7 @@ def test_import_all_mit_edx_files(settings, mocker, mocked_celery, mock_blocklis
     with pytest.raises(mocked_celery.replace_exception_class):
         tasks.import_all_mit_edx_files.delay(4)
     get_content_tasks_mock.assert_called_once_with(
-        ETLSource.mit_edx.value,
+        ETLSource.mit_edx.name,
         4,
         s3_prefix="simeon-mitx-course-tarballs",
     )
@@ -115,7 +115,7 @@ def test_import_all_mitxonline_files(settings, mocker, mocked_celery, mock_block
     with pytest.raises(mocked_celery.replace_exception_class):
         tasks.import_all_mitxonline_files.delay(3)
     get_content_tasks_mock.assert_called_once_with(
-        PlatformType.mitxonline.value,
+        PlatformType.mitxonline.name,
         3,
     )
 
@@ -129,7 +129,7 @@ def test_import_all_xpro_files(settings, mocker, mocked_celery, mock_blocklist):
     )
     with pytest.raises(mocked_celery.replace_exception_class):
         tasks.import_all_xpro_files.delay(3)
-    get_content_tasks_mock.assert_called_once_with(PlatformType.xpro.value, 3)
+    get_content_tasks_mock.assert_called_once_with(PlatformType.xpro.name, 3)
 
 
 @mock_s3
@@ -145,8 +145,8 @@ def test_get_content_tasks(settings, mocker, mocked_celery, mock_xpro_learning_b
     )
     setup_s3(settings)
     settings.LEARNING_COURSE_ITERATOR_CHUNK_SIZE = 2
-    etl_source = ETLSource.xpro.value
-    platform = PlatformType.xpro.value
+    etl_source = ETLSource.xpro.name
+    platform = PlatformType.xpro.name
     factories.CourseFactory.create_batch(3, etl_source=etl_source, platform=platform)
     s3_prefix = "course-prefix"
     tasks.get_content_tasks(etl_source, s3_prefix=s3_prefix)
@@ -154,7 +154,7 @@ def test_get_content_tasks(settings, mocker, mocked_celery, mock_xpro_learning_b
     assert (
         models.LearningResource.objects.filter(
             published=True,
-            resource_type=LearningResourceType.course.value,
+            resource_type=LearningResourceType.course.name,
             etl_source=etl_source,
             platform__platform=platform,
         )

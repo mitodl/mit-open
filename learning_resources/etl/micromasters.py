@@ -7,7 +7,7 @@ from learning_resources.constants import LearningResourceType, OfferedBy, Platfo
 from learning_resources.etl.constants import COMMON_HEADERS, ETLSource
 from learning_resources.models import LearningResource
 
-OFFERED_BY = {"name": OfferedBy.mitx.value}
+OFFERED_BY = {"code": OfferedBy.mitx.name}
 READABLE_ID_PREFIX = "micromasters-program-"
 DEDP = "/dedp/"
 
@@ -27,8 +27,8 @@ def _is_published(course_id: str) -> bool:
     """Determine if the course should be considered published"""
     existing_course = LearningResource.objects.filter(
         readable_id=course_id,
-        resource_type=LearningResourceType.course.value,
-        etl_source=ETLSource.mit_edx.value,
+        resource_type=LearningResourceType.course.name,
+        etl_source=ETLSource.mit_edx.name,
     ).first()
     if existing_course:
         return existing_course.published
@@ -58,9 +58,9 @@ def transform(programs_data):
             programs.append(
                 {
                     "readable_id": f"{READABLE_ID_PREFIX}{program['id']}",
-                    "etl_source": ETLSource.micromasters.value,
+                    "etl_source": ETLSource.micromasters.name,
                     "title": program["title"],
-                    "platform": PlatformType.edx.value,
+                    "platform": PlatformType.edx.name,
                     "offered_by": OFFERED_BY,
                     "url": program.get("programpage_url"),
                     "image": _transform_image(program),
@@ -83,7 +83,7 @@ def transform(programs_data):
                     "courses": [
                         {
                             "readable_id": course["edx_key"],
-                            "platform": PlatformType.edx.value,
+                            "platform": PlatformType.edx.name,
                             "offered_by": OFFERED_BY,
                             "published": _is_published(course["edx_key"]),
                             "runs": [
