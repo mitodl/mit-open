@@ -16,9 +16,11 @@ type ButtonLinkProps = Pick<
   | "variant"
   | "color"
 > & { to: LinkProps["to"] }
-const ButtonLink: React.FC<ButtonLinkProps> = (props) => {
-  return <MuiButton {...props} LinkComponent={Link} />
-}
+const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
+  (props, ref) => {
+    return <MuiButton {...props} disableElevation component={Link} ref={ref} />
+  },
+)
 
 export { ButtonLink }
 export type { ButtonLinkProps }
