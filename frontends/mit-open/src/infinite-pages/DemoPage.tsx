@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import Container from "@mui/material/Container"
+import { Container, LoadingSpinner } from "ol-design"
 
 import {
   useCourseSearch,
@@ -8,7 +8,6 @@ import {
   Aggregation,
 } from "@mitodl/course-search-utils"
 import { LearningResourceSearchResult, SearchInput } from "ol-search-ui"
-import { LoadingSpinner } from "ol-util"
 
 import axios from "../libs/axios"
 import { useHistory } from "react-router"

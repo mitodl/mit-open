@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react"
-import Container from "@mui/material/Container"
+import { Container } from "ol-design"
 import { BannerPage, useMuiBreakpoint } from "ol-util"
 import InfiniteScroll from "react-infinite-scroller"
 import {

@@ -1,9 +1,12 @@
 import React, { useCallback, useState } from "react"
-import Dialog, { DialogProps } from "@mui/material/Dialog"
-import DialogActions from "@mui/material/DialogActions"
-import DialogContent from "@mui/material/DialogContent"
-import DialogTitle from "@mui/material/DialogTitle"
-import { IconButton } from "ol-design"
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "ol-design"
+import type { DialogProps } from "ol-design"
 import Close from "@mui/icons-material/Close"
 import { Button } from "ol-design"
 

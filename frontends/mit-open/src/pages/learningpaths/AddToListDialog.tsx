@@ -1,22 +1,26 @@
 import React, { useState } from "react"
-import Dialog from "@mui/material/Dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  IconButton,
+  Chip,
+  Checkbox,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  LoadingSpinner,
+} from "ol-design"
 import CloseIcon from "@mui/icons-material/Close"
-import { IconButton } from "ol-design"
-import DialogContent from "@mui/material/DialogContent"
-import DialogTitle from "@mui/material/DialogTitle"
-import Divider from "@mui/material/Divider"
-import Checkbox from "@mui/material/Checkbox"
-import List from "@mui/material/List"
-import ListItem from "@mui/material/ListItem"
-import ListItemButton from "@mui/material/ListItemButton"
-import ListItemText from "@mui/material/ListItemText"
+
 import LockOpenIcon from "@mui/icons-material/LockOpen"
 import LockIcon from "@mui/icons-material/Lock"
-import Chip from "@mui/material/Chip"
+
 import AddIcon from "@mui/icons-material/Add"
 import * as NiceModal from "@ebay/nice-modal-react"
 
-import { LoadingSpinner } from "ol-util"
 import type { LearningPathResource, LearningResource } from "api"
 
 import {

@@ -1,12 +1,14 @@
 import * as React from "react"
-import Dialog from "@mui/material/Dialog"
-import DialogActions from "@mui/material/DialogActions"
-import DialogContent from "@mui/material/DialogContent"
-import DialogTitle from "@mui/material/DialogTitle"
-import { Button } from "ol-design"
-import RadioGroup from "@mui/material/RadioGroup"
-import Radio from "@mui/material/Radio"
-import FormControlLabel from "@mui/material/FormControlLabel"
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "ol-design"
 import { useId } from "ol-util"
 import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik"
 import { isNil } from "lodash"

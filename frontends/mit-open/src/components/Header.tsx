@@ -1,7 +1,5 @@
 import React from "react"
-import AppBar from "@mui/material/AppBar"
-import Toolbar from "@mui/material/Toolbar"
-import Divider from "@mui/material/Divider"
+import { AppBar, Divider, Toolbar } from "ol-design"
 import { MITLogoLink } from "ol-util"
 
 const Header: React.FC = () => {
