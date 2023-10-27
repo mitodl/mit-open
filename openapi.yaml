@@ -393,23 +393,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -427,11 +427,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - courses
       security:
@@ -691,23 +691,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -725,11 +725,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - courses
       security:
@@ -898,23 +898,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -932,11 +932,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - courses
       security:
@@ -1105,23 +1105,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -1139,11 +1139,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - learning_resources
       security:
@@ -1469,23 +1469,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -1503,11 +1503,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - learning_resources
       security:
@@ -1676,23 +1676,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -1710,11 +1710,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - learning_resources
       security:
@@ -1827,18 +1827,18 @@ paths:
             enum:
             - edx
             - ocw
-            - oll
-            - mitxonline
+            - open learning library
+            - mitx online
             - bootcamps
             - xpro
             - csail
-            - mitpe
-            - see
-            - scc
-            - ctl
+            - professional education
+            - sloan executive education
+            - schwarzman college of computing
+            - center for transportation & logistics
             - whu
             - susskind
-            - globalalumni
+            - global alumni
             - simplilearn
             - emeritus
             - podcast
@@ -1846,18 +1846,18 @@ paths:
             description: |-
               * `edx` - edx
               * `ocw` - ocw
-              * `oll` - oll
-              * `mitxonline` - mitxonline
+              * `open learning library` - open learning library
+              * `mitx online` - mitx online
               * `bootcamps` - bootcamps
               * `xpro` - xpro
               * `csail` - csail
-              * `mitpe` - mitpe
-              * `see` - see
-              * `scc` - scc
-              * `ctl` - ctl
+              * `professional education` - professional education
+              * `sloan executive education` - sloan executive education
+              * `schwarzman college of computing` - schwarzman college of computing
+              * `center for transportation & logistics` - center for transportation & logistics
               * `whu` - whu
               * `susskind` - susskind
-              * `globalalumni` - globalalumni
+              * `global alumni` - global alumni
               * `simplilearn` - simplilearn
               * `emeritus` - emeritus
               * `podcast` - podcast
@@ -1894,16 +1894,16 @@ paths:
             enum:
             - course
             - program
-            - learning_path
+            - learning path
             - podcast
-            - podcast_episode
+            - podcast episode
             type: string
             description: |-
               * `course` - course
               * `program` - program
-              * `learning_path` - learning_path
+              * `learning path` - learning path
               * `podcast` - podcast
-              * `podcast_episode` - podcast_episode
+              * `podcast episode` - podcast episode
       - in: query
         name: sortby
         schema:
@@ -2104,23 +2104,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -2138,11 +2138,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - learningpaths
       security:
@@ -2637,23 +2637,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -2671,11 +2671,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - learningpaths
       security:
@@ -2844,23 +2844,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -2878,11 +2878,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - learningpaths
       security:
@@ -3060,23 +3060,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -3094,11 +3094,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - podcast_episodes
       security:
@@ -3290,23 +3290,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -3324,11 +3324,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - podcast_episodes
       security:
@@ -3497,23 +3497,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -3531,11 +3531,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - podcast_episodes
       security:
@@ -3704,23 +3704,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -3738,11 +3738,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - podcasts
       security:
@@ -4000,23 +4000,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -4034,11 +4034,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - podcasts
       security:
@@ -4207,23 +4207,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -4241,11 +4241,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - podcasts
       security:
@@ -4414,23 +4414,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -4448,11 +4448,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - programs
       security:
@@ -4644,23 +4644,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -4678,11 +4678,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - programs
       security:
@@ -4851,23 +4851,23 @@ paths:
         description: |-
           Platform
 
-          * `edx` - edx
-          * `ocw` - ocw
-          * `oll` - oll
-          * `mitxonline` - mitxonline
-          * `bootcamps` - bootcamps
-          * `xpro` - xpro
-          * `csail` - csail
-          * `mitpe` - mitpe
-          * `see` - see
-          * `scc` - scc
-          * `ctl` - ctl
-          * `whu` - whu
-          * `susskind` - susskind
-          * `globalalumni` - globalalumni
-          * `simplilearn` - simplilearn
-          * `emeritus` - emeritus
-          * `podcast` - podcast
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
       - in: query
         name: professional
         schema:
@@ -4885,11 +4885,11 @@ paths:
         description: |-
           Resource Type
 
-          * `course` - course
-          * `program` - program
-          * `learning_path` - learning_path
-          * `podcast` - podcast
-          * `podcast_episode` - podcast_episode
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
       tags:
       - programs
       security:
@@ -6824,11 +6824,11 @@ components:
       - podcast_episode
       type: string
       description: |-
-        * `course` - course
-        * `program` - program
-        * `learning_path` - learning_path
-        * `podcast` - podcast
-        * `podcast_episode` - podcast_episode
+        * `course` - Course
+        * `program` - Program
+        * `learning_path` - Learning Path
+        * `podcast` - Podcast
+        * `podcast_episode` - Podcast Episode
     UserList:
       type: object
       description: Simplified serializer for UserList model.
