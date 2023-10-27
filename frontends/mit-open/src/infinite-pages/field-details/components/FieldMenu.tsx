@@ -1,7 +1,7 @@
 import * as React from "react"
-import { Link } from "react-router-dom"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
+import { SimpleMenu, IconButton } from "ol-design"
+import type { SimpleMenuItemConfig } from "ol-design"
+import SettingsIcon from "@mui/icons-material/Settings"
 
 import { FieldChannel } from "../../../api/fields"
 import { makeFieldEditPath, makeFieldManageWidgetsPath } from "../../urls"
@@ -10,33 +10,36 @@ type SettingsMenuProps = {
   field: FieldChannel
 }
 
+const EDIT_FIELD_MENU_ITEMS: SimpleMenuItemConfig<
+  "settings" | "manage_widgets"
+>[] = [
+  {
+    key: "settings",
+    label: "Field Settings",
+  },
+  {
+    key: "manage_widgets",
+    label: "Manage Widgets",
+  },
+]
+
 const FieldMenu: React.FC<SettingsMenuProps> = (props) => {
   const { field } = props
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleClose = () => {
-    setAnchorEl(null)
+  const actionsOrLinks = {
+    settings: makeFieldEditPath(field.name),
+    manage_widgets: makeFieldManageWidgetsPath(field.name),
   }
 
   return field ? (
-    <div>
-      <a onClick={handleClick} className="field-edit-button">
-        <i className="material-icons settings">settings</i>
-      </a>
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem onClick={handleClose} disableRipple>
-          <Link to={makeFieldEditPath(field.name)}>Field Settings</Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple>
-          <Link to={makeFieldManageWidgetsPath(field.name)}>
-            Manage Widgets
-          </Link>
-        </MenuItem>
-      </Menu>
-    </div>
+    <SimpleMenu
+      trigger={
+        <IconButton aria-label="Settings" className="field-edit-button">
+          <SettingsIcon />
+        </IconButton>
+      }
+      items={EDIT_FIELD_MENU_ITEMS}
+      actionsOrLinks={actionsOrLinks}
+    />
   ) : null
 }
 
