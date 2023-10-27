@@ -1,17 +1,14 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useMemo } from "react"
 import { useHistory } from "react-router"
-import { Button } from "ol-design"
+import { Button, SimpleMenu, IconButton } from "ol-design"
+import type { SimpleMenuItemConfig } from "ol-design"
 import Grid from "@mui/material/Grid"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
 import EditIcon from "@mui/icons-material/Edit"
-import DeleteIcon from "@mui/icons-material/Delete"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
-import ListItemIcon from "@mui/material/ListItemIcon"
-import { IconButton } from "ol-design"
+import DeleteIcon from "@mui/icons-material/Delete"
 import Container from "@mui/material/Container"
 
-import { BannerPage, LoadingSpinner, MetaTags, useToggle } from "ol-util"
+import { BannerPage, LoadingSpinner, MetaTags } from "ol-util"
 import type { LearningPathResource } from "api"
 import { useLearningPathsList } from "api/hooks/learningResources"
 
@@ -27,42 +24,38 @@ import * as urls from "../urls"
 type EditListMenuProps = {
   resource: LearningPathResource
 }
+
+const EDIT_MENU_ITEMS: SimpleMenuItemConfig<"edit" | "delete">[] = [
+  {
+    key: "edit",
+    label: "Edit",
+    icon: <EditIcon />,
+  },
+  {
+    key: "delete",
+    label: "Delete",
+    icon: <DeleteIcon />,
+  },
+]
+
 const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
-  const [open, toggleOpen] = useToggle(false)
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const handleEdit = useCallback(() => {
-    manageListDialogs.upsert(resource)
-    toggleOpen.off()
-  }, [resource, toggleOpen])
-  const handleDelete = useCallback(() => {
-    manageListDialogs.destroy(resource)
-    toggleOpen.off()
-  }, [resource, toggleOpen])
+  const actionsOrLinks = useMemo(
+    () => ({
+      delete: () => manageListDialogs.destroy(resource),
+      edit: () => manageListDialogs.upsert(resource),
+    }),
+    [resource],
+  )
   return (
-    <>
-      <IconButton
-        aria-label={`Edit list ${resource.title}`}
-        onClick={toggleOpen.on}
-        ref={setAnchorEl}
-        size="small"
-      >
-        <MoreVertIcon fontSize="inherit" />
-      </IconButton>
-      <Menu open={open} onClose={toggleOpen.off} anchorEl={anchorEl}>
-        <MenuItem onClick={handleEdit}>
-          <ListItemIcon>
-            <EditIcon />
-          </ListItemIcon>
-          Edit
-        </MenuItem>
-        <MenuItem onClick={handleDelete}>
-          <ListItemIcon>
-            <DeleteIcon />
-          </ListItemIcon>
-          Delete
-        </MenuItem>
-      </Menu>
-    </>
+    <SimpleMenu
+      trigger={
+        <IconButton size="small" aria-label={`Edit list ${resource.title}`}>
+          <MoreVertIcon fontSize="inherit" />
+        </IconButton>
+      }
+      items={EDIT_MENU_ITEMS}
+      actionsOrLinks={actionsOrLinks}
+    />
   )
 }
 

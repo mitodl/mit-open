@@ -14,3 +14,4 @@ export type { IconButtonProps } from "@mui/material/IconButton"
 
 export * from "./components/ButtonLink"
 export * from "./components/ChipLink"
+export * from "./components/SimpleMenu"
