@@ -3,10 +3,15 @@ import Dialog, { DialogProps } from "@mui/material/Dialog"
 import DialogActions from "@mui/material/DialogActions"
 import DialogContent from "@mui/material/DialogContent"
 import DialogTitle from "@mui/material/DialogTitle"
-import Box from "@mui/material/Box"
 import { IconButton } from "ol-design"
 import Close from "@mui/icons-material/Close"
 import { Button } from "ol-design"
+
+const topRightStyle: React.CSSProperties = {
+  position: "absolute",
+  top: 0,
+  right: 0,
+}
 
 type BasicDialog = {
   open: boolean
@@ -65,11 +70,11 @@ const BasicDialog: React.FC<BasicDialog> = ({
   return (
     <Dialog fullWidth={fullWidth} open={open} onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>
-      <Box position="absolute" top={0} right={0}>
+      <div style={topRightStyle}>
         <IconButton onClick={onClose}>
           <Close />
         </IconButton>
-      </Box>
+      </div>
       <DialogContent>{children}</DialogContent>
       <DialogActions>
         <Button variant="outlined" color="secondary" onClick={onClose}>

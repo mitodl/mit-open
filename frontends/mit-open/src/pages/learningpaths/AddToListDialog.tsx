@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import Dialog from "@mui/material/Dialog"
-import Box from "@mui/material/Box"
 import CloseIcon from "@mui/icons-material/Close"
 import { IconButton } from "ol-design"
 import DialogContent from "@mui/material/DialogContent"
@@ -27,6 +26,12 @@ import {
   useLearningpathRelationshipDestroy,
 } from "api/hooks/learningResources"
 import { manageListDialogs } from "./ManageListDialogs"
+
+const topRightStyle: React.CSSProperties = {
+  position: "absolute",
+  top: 0,
+  right: 0,
+}
 
 type AddToListDialogProps = {
   resourceId: number
@@ -123,11 +128,11 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
   return (
     <Dialog className="add-to-list-dialog" {...NiceModal.muiDialogV5(modal)}>
       <DialogTitle>Add to Learning List</DialogTitle>
-      <Box position="absolute" top={0} right={0}>
+      <div style={topRightStyle}>
         <IconButton onClick={modal.hide} aria-label="Close">
           <CloseIcon />
         </IconButton>
-      </Box>
+      </div>
       <Divider />
       {isReady && (
         <DialogContent className="add-to-list-description">

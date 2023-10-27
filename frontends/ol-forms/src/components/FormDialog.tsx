@@ -6,8 +6,12 @@ import DialogTitle from "@mui/material/DialogTitle"
 import Button, { ButtonProps } from "@mui/material/Button"
 import { IconButton } from "ol-design"
 import Close from "@mui/icons-material/Close"
-import Box from "@mui/material/Box"
 
+const topRightStyle: React.CSSProperties = {
+  position: "absolute",
+  top: 0,
+  right: 0,
+}
 interface FormDialogProps {
   /**
    * Whether the dialog is currently open.
@@ -145,11 +149,11 @@ const FormDialog: React.FC<FormDialogProps> = ({
       TransitionProps={TransitionProps}
     >
       <DialogTitle>{title}</DialogTitle>
-      <Box position="absolute" top={0} right={0}>
+      <div style={topRightStyle}>
         <IconButton onClick={onClose} aria-label="Close">
           <Close />
         </IconButton>
-      </Box>
+      </div>
       <DialogContent dividers={true}>{children}</DialogContent>
       <DialogActions>
         <Button
