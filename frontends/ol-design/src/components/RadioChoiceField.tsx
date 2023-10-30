@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback, useMemo, useId } from "react"
 import {
   FormControlLabel,
   FormControl,
@@ -7,7 +7,6 @@ import {
   RadioGroup,
   RadioGroupProps,
 } from "ol-design"
-import { useId } from "ol-util"
 
 interface RadioChoiceProps {
   value: string

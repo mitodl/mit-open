@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useId } from "react"
 import {
   Dialog,
   DialogActions,
@@ -7,7 +7,6 @@ import {
   Button,
   RadioChoiceField,
 } from "ol-design"
-import { useId } from "ol-util"
 import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik"
 import { isNil } from "lodash"
 import { AnonymousWidget, WidgetSpec, WidgetTypes } from "../../interfaces"
