@@ -28,7 +28,7 @@ const getClearButton = (): HTMLButtonElement => {
 const searchEvent = (value: string) =>
   expect.objectContaining({ target: { value } })
 
-describe("Searchbox", () => {
+describe("SearchInput", () => {
   const renderSearchInput = (props: Partial<SearchInputProps> = {}) => {
     const { value = "", ...otherProps } = props
     const onSubmit = jest.fn()
