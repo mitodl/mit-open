@@ -1,7 +1,12 @@
 import React, { useCallback } from "react"
 import { useFormik, FormikConfig } from "formik"
 import * as NiceModal from "@ebay/nice-modal-react"
-import { Alert, TextField, Autocomplete } from "ol-design"
+import {
+  Alert,
+  TextField,
+  Autocomplete,
+  BooleanRadioChoiceField,
+} from "ol-design"
 import * as Yup from "yup"
 import type { LearningPathResource } from "api"
 
@@ -14,7 +19,6 @@ import {
 } from "api/hooks/learningResources"
 
 import BasicDialog from "../../components/BasicDialog"
-import { BooleanRadioChoiceField } from "ol-forms/src/components/RadioChoiceField"
 
 const learningPathFormSchema = Yup.object().shape({
   published: Yup.boolean()

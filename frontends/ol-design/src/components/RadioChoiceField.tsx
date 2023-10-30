@@ -16,7 +16,7 @@ interface RadioChoiceProps {
 }
 
 interface RadioChoiceFieldProps {
-  label: string
+  label: string // We could make this optional, but we should demand one of (label, aria-label, aria-labelledby)
   value?: string
   defaultValue?: string
   name: string
@@ -122,8 +122,7 @@ const BooleanRadioChoiceField: React.FC<BooleanRadioChoiceFieldProps> = ({
   )
 }
 
-export default RadioChoiceField
-export { BooleanRadioChoiceField }
+export { RadioChoiceField, BooleanRadioChoiceField }
 export type {
   RadioChoiceFieldProps,
   RadioChoiceProps,

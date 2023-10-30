@@ -5,9 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
+  RadioChoiceField,
 } from "ol-design"
 import { useId } from "ol-util"
 import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik"
@@ -285,16 +283,14 @@ const DialogContentAdding: React.FC<WidgetAddingProps> = ({
                 value={values.widget_type}
               >
                 {({ field }: FieldProps) => (
-                  <RadioGroup {...field}>
-                    {supportedSpecs.map((spec) => (
-                      <FormControlLabel
-                        key={spec.widget_type}
-                        value={spec.widget_type}
-                        control={<Radio />}
-                        label={spec.description}
-                      />
-                    ))}
-                  </RadioGroup>
+                  <RadioChoiceField
+                    {...field}
+                    label="Widget Type"
+                    choices={supportedSpecs.map((spec) => ({
+                      value: spec.widget_type,
+                      label: spec.description,
+                    }))}
+                  />
                 )}
               </Field>
             </DialogContent>
