@@ -1,10 +1,14 @@
 import React, { useCallback, useMemo } from "react"
 import { useParams, useLocation, useHistory } from "react-router"
 
-import TabContext from "@mui/lab/TabContext"
-import TabList from "@mui/lab/TabList"
-import TabPanel from "@mui/lab/TabPanel"
-import { Container, useMuiBreakpointAtLeast, Tab } from "ol-design"
+import {
+  Container,
+  useMuiBreakpointAtLeast,
+  Tab,
+  TabContext,
+  TabList,
+  TabPanel,
+} from "ol-design"
 import type { UserList } from "ol-search-ui"
 import { TitledCarousel } from "ol-util"
 import { Link } from "react-router-dom"

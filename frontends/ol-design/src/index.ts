@@ -65,6 +65,12 @@ export type { SkeletonProps } from "@mui/material/Skeleton"
 
 export { default as Tab } from "@mui/material/Tab"
 export type { TabProps } from "@mui/material/Tab"
+export { default as TabList } from "@mui/lab/TabList"
+export type { TabListProps } from "@mui/lab/TabList"
+export { default as TabContext } from "@mui/lab/TabContext"
+export type { TabContextProps } from "@mui/lab/TabContext"
+export { default as TabPanel } from "@mui/lab/TabPanel"
+export type { TabPanelProps } from "@mui/lab/TabPanel"
 
 export { default as Toolbar } from "@mui/material/Toolbar"
 export type { ToolbarProps } from "@mui/material/Toolbar"
