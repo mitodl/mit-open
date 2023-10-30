@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react"
-import { Container, useMuiBreakpointAtLeast } from "ol-design"
+import { Container, useMuiBreakpointAtLeast, SearchInput } from "ol-design"
 import { BannerPage } from "ol-util"
 import InfiniteScroll from "react-infinite-scroller"
 import {
@@ -8,7 +8,7 @@ import {
   useFacetOptions,
   useSyncUrlAndSearch,
 } from "@mitodl/course-search-utils"
-import { SearchInput, SearchFilterDrawer, FacetManifest } from "ol-search-ui"
+import { SearchFilterDrawer, FacetManifest } from "ol-search-ui"
 import { GridColumn, GridContainer } from "../components/layout"
 import { useInfiniteSearch } from "../api/learning-resources/search"
 

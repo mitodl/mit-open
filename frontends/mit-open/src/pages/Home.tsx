@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from "react"
-import { SearchInput, SearchInputProps } from "ol-search-ui"
 import {
   Button,
   ChipLink,
   Container,
   Grid,
   useMuiBreakpointAtLeast,
+  SearchInput,
 } from "ol-design"
+import type { SearchInputProps } from "ol-design"
 import { GridContainer } from "../components/layout"
 import { TitledCarousel } from "ol-util"
 import ArrowBack from "@mui/icons-material/ArrowBack"

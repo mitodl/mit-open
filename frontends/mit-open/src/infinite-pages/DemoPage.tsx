@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import { Container, LoadingSpinner } from "ol-design"
+import { Container, LoadingSpinner, SearchInput } from "ol-design"
 
 import {
   useCourseSearch,
@@ -7,7 +7,7 @@ import {
   SearchQueryParams,
   Aggregation,
 } from "@mitodl/course-search-utils"
-import { LearningResourceSearchResult, SearchInput } from "ol-search-ui"
+import { LearningResourceSearchResult } from "ol-search-ui"
 
 import axios from "../libs/axios"
 import { useHistory } from "react-router"

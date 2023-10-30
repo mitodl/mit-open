@@ -94,5 +94,5 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
   )
 }
 
-export default SearchInput
+export { SearchInput }
 export type { SearchInputProps }
