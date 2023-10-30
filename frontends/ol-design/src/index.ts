@@ -81,6 +81,7 @@ export type { ToolbarProps } from "@mui/material/Toolbar"
 
 export * from "./components/ButtonLink"
 export * from "./components/ChipLink"
+export * from "./components/RoutedDrawer"
 export * from "./components/SimpleMenu"
 export * from "./components/LoadingSpinner"
 export * from "./hooks/useBreakpoint"

@@ -82,5 +82,5 @@ const RoutedDrawer = <K extends string, R extends K>(
   )
 }
 
-export default RoutedDrawer
+export { RoutedDrawer }
 export type { RoutedDrawerProps }

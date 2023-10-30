@@ -1,6 +1,7 @@
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
-import RoutedDrawer, { RoutedDrawerProps } from "./RoutedDrawer"
+import { RoutedDrawer } from "./RoutedDrawer"
+import type { RoutedDrawerProps } from "./RoutedDrawer"
 import { render, screen } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import React from "react"
