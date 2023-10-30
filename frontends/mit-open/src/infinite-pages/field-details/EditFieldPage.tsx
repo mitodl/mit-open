@@ -1,9 +1,8 @@
 import React, { useCallback } from "react"
 import { useHistory, useLocation, useParams } from "react-router"
 import { Link } from "react-router-dom"
-import { Container } from "ol-design"
+import { Container, Tab } from "ol-design"
 import TabList from "@mui/lab/TabList"
-import Tab from "@mui/material/Tab"
 import { TabContext } from "@mui/lab"
 import TabPanel from "@mui/lab/TabPanel"
 

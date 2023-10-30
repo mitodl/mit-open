@@ -1,9 +1,7 @@
 import React, { useCallback } from "react"
 import { useFormik, FormikConfig } from "formik"
 import * as NiceModal from "@ebay/nice-modal-react"
-import TextField from "@mui/material/TextField"
-import Autocomplete from "@mui/material/Autocomplete"
-import Alert from "@mui/material/Alert"
+import { Alert, TextField, Autocomplete } from "ol-design"
 import * as Yup from "yup"
 import type { LearningPathResource } from "api"
 
