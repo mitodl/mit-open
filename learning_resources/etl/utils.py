@@ -33,9 +33,12 @@ from learning_resources.constants import (
     DEPARTMENTS,
     VALID_TEXT_FILE_TYPES,
 )
+
 from learning_resources.etl.constants import CourseNumberType, ETLSource
+from learning_resources.hooks import get_plugin_manager
 from learning_resources.models import (
     ContentFile,
+    LearningResource,
     LearningResourceRun,
 )
 
@@ -566,3 +569,22 @@ def generate_course_numbers_json(
             }
         )
     return course_number_json
+
+
+def resource_upserted_actions(resource: LearningResource):
+    """
+    Trigger plugins when a LearningResource is created or updated
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.resource_upserted(resource=resource)
+
+
+def resource_removed_actions(resource: LearningResource):
+    """
+    Trigger plugins when a LearningResource is removed/unpublished
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.resource_removed(resource=resource)
+

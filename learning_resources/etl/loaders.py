@@ -17,6 +17,10 @@ from learning_resources.etl.constants import (
 )
 from learning_resources.etl.deduplication import get_most_relevant_run
 from learning_resources.etl.exceptions import ExtractException
+from learning_resources.etl.utils import (
+    resource_removed_actions,
+    resource_upserted_actions,
+)
 from learning_resources.models import (
     ContentFile,
     Course,
@@ -34,7 +38,6 @@ from learning_resources.models import (
     Program,
 )
 from learning_resources.utils import load_course_blocklist, load_course_duplicates
-from learning_resources_search import search_index_helpers
 
 log = logging.getLogger()
 
@@ -250,7 +253,7 @@ def load_course(  # noqa: C901
                 if duplicate_resource:
                     duplicate_resource.published = False
                     duplicate_resource.save()
-                    search_index_helpers.deindex_course(duplicate_resource)
+                    resource_removed_actions(duplicate_resource)
 
         else:
             (
@@ -297,9 +300,9 @@ def load_course(  # noqa: C901
         load_resource_content_tags(learning_resource, content_tags_data)
 
         if not created and not learning_resource.published:
-            search_index_helpers.deindex_course(learning_resource)
+            resource_removed_actions(learning_resource)
         elif learning_resource.published:
-            search_index_helpers.upsert_course(learning_resource.id)
+            resource_upserted_actions(learning_resource)
     return learning_resource
 
 
@@ -339,7 +342,7 @@ def load_courses(
         ).exclude(id__in=[learning_resource.id for learning_resource in courses]):
             learning_resource.published = False
             learning_resource.save()
-            search_index_helpers.deindex_course(learning_resource)
+            resource_removed_actions(learning_resource)
 
     return courses
 
@@ -442,9 +445,9 @@ def load_program(
         )
 
     if not created and not program.learning_resource.published:
-        search_index_helpers.deindex_program(program.learning_resource)
+        resource_removed_actions(program.learning_resource)
     elif program.learning_resource.published:
-        search_index_helpers.upsert_program(program.learning_resource.id)
+        resource_upserted_actions(program.learning_resource)
 
     return learning_resource
 

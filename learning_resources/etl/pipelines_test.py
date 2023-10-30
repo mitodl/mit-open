@@ -199,7 +199,8 @@ def test_ocw_courses_etl(settings, mocker):
         "learning_resources.etl.ocw.extract_text_metadata",
         return_value={"content": "TEXT"},
     )
-    mocker.patch("learning_resources.etl.pipelines.loaders.search_index_helpers")
+    mocker.patch("learning_resources.etl.pipelines.loaders.resource_upserted_actions")
+    mocker.patch("learning_resources.etl.pipelines.loaders.resource_removed_actions")
 
     pipelines.ocw_courses_etl(
         url_paths=[OCW_TEST_PREFIX],
