@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react"
-import { Container } from "ol-design"
-import { BannerPage, useMuiBreakpoint } from "ol-util"
+import { Container, useMuiBreakpointAtLeast } from "ol-design"
+import { BannerPage } from "ol-util"
 import InfiniteScroll from "react-infinite-scroller"
 import {
   Aggregations,
@@ -27,7 +27,7 @@ const facetMap: FacetManifest = [
 const searchAggregationKeys = ["certification", "type", "offered_by"]
 
 const SearchPage: React.FC = () => {
-  const isMd = useMuiBreakpoint("md")
+  const isMd = useMuiBreakpointAtLeast("md")
 
   const history = useHistory()
   const search = useSearchInputs(history)

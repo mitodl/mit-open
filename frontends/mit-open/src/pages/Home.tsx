@@ -1,11 +1,14 @@
 import React, { useCallback, useState } from "react"
 import { SearchInput, SearchInputProps } from "ol-search-ui"
-import { Container } from "ol-design"
-import { Button } from "ol-design"
-import { ChipLink } from "ol-design"
-import { Grid } from "ol-design"
+import {
+  Button,
+  ChipLink,
+  Container,
+  Grid,
+  useMuiBreakpointAtLeast,
+} from "ol-design"
 import { GridContainer } from "../components/layout"
-import { TitledCarousel, useMuiBreakpoint } from "ol-util"
+import { TitledCarousel } from "ol-util"
 import ArrowBack from "@mui/icons-material/ArrowBack"
 import ArrowForward from "@mui/icons-material/ArrowForward"
 import LearningResourceCard from "../components/LearningResourceCard"
@@ -24,8 +27,8 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
   showNavigationButtons = true,
   title,
 }) => {
-  const aboveSm = useMuiBreakpoint("sm")
-  const aboveLg = useMuiBreakpoint("lg")
+  const aboveSm = useMuiBreakpointAtLeast("sm")
+  const aboveLg = useMuiBreakpointAtLeast("lg")
   const pageSize = aboveLg ? 4 : aboveSm ? 2 : 1
 
   return (
