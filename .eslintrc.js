@@ -8,19 +8,22 @@ module.exports = {
   plugins: ["testing-library"],
   ignorePatterns: ["**/build/**"],
   rules: {
-    ...restrictedImports([
-      {
-        patterns: {
+    ...restrictedImports({
+      patterns: [
+        {
           group: ["@mui/material*", "@mui/lab/*"],
           message:
             "Please use 'ol-design' isInterfaceDeclaration; Direct use of @mui/material is limited to ol-design.",
         },
-      },
-    ]),
+      ],
+    }),
   },
   overrides: [
     {
-      files: ["./frontends/ol-design/**/*.tsx"],
+      files: [
+        "./frontends/ol-design/**/*.ts",
+        "./frontends/ol-design/**/*.tsx",
+      ],
       rules: {
         ...restrictedImports(),
       },
