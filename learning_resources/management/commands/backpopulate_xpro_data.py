@@ -31,19 +31,19 @@ class Command(BaseCommand):
             )
 
             for course in LearningResource.objects.filter(
-                etl_source=ETLSource.xpro.value,
-                resource_type=LearningResourceType.course.value,
+                etl_source=ETLSource.xpro.name,
+                resource_type=LearningResourceType.course.name,
             ):
                 search_index_helpers.deindex_course(course)
 
             for program in LearningResource.objects.filter(
-                etl_source=ETLSource.xpro.value,
-                resource_type=LearningResourceType.program.value,
+                etl_source=ETLSource.xpro.name,
+                resource_type=LearningResourceType.program.name,
             ):
                 search_index_helpers.deindex_program(program)
 
             for learning_resources in LearningResource.objects.filter(
-                etl_source=ETLSource.xpro.value
+                etl_source=ETLSource.xpro.name
             ):
                 learning_resources.delete()
         else:

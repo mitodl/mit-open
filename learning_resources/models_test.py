@@ -18,7 +18,7 @@ def test_program_creation():
     resource = program.learning_resource
     assert resource.title is not None
     assert resource.image.url is not None
-    assert resource.resource_type == LearningResourceType.program.value
+    assert resource.resource_type == LearningResourceType.program.name
     assert resource.program == program
     assert program.courses.count() >= 1
     run = program.runs.first()
@@ -35,7 +35,7 @@ def test_course_creation():
     """Test that a course has associated LearningResource, runs, topics, etc"""
     course = CourseFactory.create()
     resource = course.learning_resource
-    assert resource.resource_type == LearningResourceType.course.value
+    assert resource.resource_type == LearningResourceType.course.name
     assert resource.title is not None
     assert resource.image.url is not None
     assert 0 <= len(resource.prices) <= 3
@@ -54,32 +54,32 @@ def test_course_creation():
     ("offered_by", "availability", "has_cert"),
     [
         [  # noqa: PT007
-            constants.OfferedBy.ocw.value,
+            constants.OfferedBy.ocw.name,
             constants.AvailabilityType.archived.value,
             False,
         ],
         [  # noqa: PT007
-            constants.OfferedBy.ocw.value,
+            constants.OfferedBy.ocw.name,
             constants.AvailabilityType.current.value,
             False,
         ],
         [  # noqa: PT007
-            constants.OfferedBy.xpro.value,
+            constants.OfferedBy.xpro.name,
             constants.AvailabilityType.archived.value,
             True,
         ],
         [  # noqa: PT007
-            constants.OfferedBy.xpro.value,
+            constants.OfferedBy.xpro.name,
             constants.AvailabilityType.current.value,
             True,
         ],
         [  # noqa: PT007
-            constants.OfferedBy.mitx.value,
+            constants.OfferedBy.mitx.name,
             constants.AvailabilityType.archived.value,
             False,
         ],
         [  # noqa: PT007
-            constants.OfferedBy.mitx.value,
+            constants.OfferedBy.mitx.name,
             constants.AvailabilityType.current.value,
             True,
         ],

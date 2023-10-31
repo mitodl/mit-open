@@ -98,9 +98,9 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
             "readable_id": program_data["readable_id"],
             "title": program_data["title"],
             "offered_by": mitxonline.OFFERED_BY,
-            "etl_source": ETLSource.mitxonline.value,
-            "platform": PlatformType.mitxonline.value,
-            "resource_type": LearningResourceType.program.value,
+            "etl_source": ETLSource.mitxonline.name,
+            "platform": PlatformType.mitxonline.name,
+            "resource_type": LearningResourceType.program.name,
             "departments": [],
             "professional": False,
             "image": _transform_image(program_data),
@@ -138,8 +138,8 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                 {
                     "readable_id": course_data["readable_id"],
                     "offered_by": mitxonline.OFFERED_BY,
-                    "platform": PlatformType.mitxonline.value,
-                    "resource_type": LearningResourceType.course.value,
+                    "platform": PlatformType.mitxonline.name,
+                    "resource_type": LearningResourceType.course.name,
                     "professional": False,
                     "etl_source": ETLSource.mitxonline.value,
                     "departments": extract_valid_department_from_id(
@@ -210,9 +210,9 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
     expected = [
         {
             "readable_id": course_data["readable_id"],
-            "platform": PlatformType.mitxonline.value,
-            "etl_source": ETLSource.mitxonline.value,
-            "resource_type": LearningResourceType.course.value,
+            "platform": PlatformType.mitxonline.name,
+            "etl_source": ETLSource.mitxonline.name,
+            "resource_type": LearningResourceType.course.name,
             "departments": extract_valid_department_from_id(course_data["readable_id"]),
             "title": course_data["title"],
             "image": _transform_image(course_data),

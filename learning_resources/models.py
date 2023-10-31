@@ -122,7 +122,7 @@ class LearningResource(TimestampedModel):
     resource_type = models.CharField(
         max_length=24,
         db_index=True,
-        choices=((member.value, member.value) for member in LearningResourceType),
+        choices=((member.name, member.value) for member in LearningResourceType),
     )
     topics = models.ManyToManyField(LearningResourceTopic)
     offered_by = models.ForeignKey(
@@ -147,8 +147,8 @@ class LearningResource(TimestampedModel):
     def prices(self) -> str | None:
         """Returns the prices for the learning resource"""
         if self.resource_type in [
-            LearningResourceType.course.value,
-            LearningResourceType.program.value,
+            LearningResourceType.course.name,
+            LearningResourceType.program.name,
         ]:
             return list(
                 set(flatten([run.prices for run in self.runs.all() if run.prices]))
@@ -160,7 +160,7 @@ class LearningResource(TimestampedModel):
     def certification(self) -> str | None:
         """Returns the certification for the learning resource"""
         if self.professional or (
-            self.offered_by.name == constants.OfferedBy.mitx.value
+            self.offered_by.name == constants.OfferedBy.mitx.name
             and any(
                 availability != constants.AvailabilityType.archived.value
                 for availability in self.runs.values_list("availability", flat=True)

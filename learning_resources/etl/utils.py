@@ -432,9 +432,9 @@ def get_learning_course_bucket_name(etl_source: str) -> str:
         str: The name of the edx archive bucket for the platform
     """
     bucket_names = {
-        ETLSource.mit_edx.value: settings.EDX_LEARNING_COURSE_BUCKET_NAME,
-        ETLSource.xpro.value: settings.XPRO_LEARNING_COURSE_BUCKET_NAME,
-        ETLSource.mitxonline.value: settings.MITX_ONLINE_LEARNING_COURSE_BUCKET_NAME,
+        ETLSource.mit_edx.name: settings.EDX_LEARNING_COURSE_BUCKET_NAME,
+        ETLSource.xpro.name: settings.XPRO_LEARNING_COURSE_BUCKET_NAME,
+        ETLSource.mitxonline.name: settings.MITX_ONLINE_LEARNING_COURSE_BUCKET_NAME,
     }
     return bucket_names.get(etl_source)
 

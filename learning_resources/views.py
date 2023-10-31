@@ -155,7 +155,7 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         lr_query = lr_query.select_related(
             "image",
             "platform",
-            *([item.value for item in LearningResourceType]),
+            *([item.name for item in LearningResourceType]),
         )
         return lr_query.prefetch_related(*prefetches).distinct()
 
@@ -222,7 +222,7 @@ class CourseViewSet(LearningResourceViewSet):
             QuerySet of LearningResource objects that are Courses
         """
         return self._get_base_queryset(
-            resource_type=LearningResourceType.course.value
+            resource_type=LearningResourceType.course.name
         ).filter(published=True)
 
 
@@ -239,7 +239,7 @@ class ProgramViewSet(LearningResourceViewSet):
             QuerySet of LearningResource objects that are Programs
         """
         return self._get_base_queryset(
-            resource_type=LearningResourceType.program.value
+            resource_type=LearningResourceType.program.name
         ).filter(published=True)
 
 
@@ -259,7 +259,7 @@ class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
             QuerySet of LearningResource objects that are Programs
         """
         queryset = self._get_base_queryset(
-            resource_type=LearningResourceType.learning_path.value,
+            resource_type=LearningResourceType.learning_path.name,
         )
         if not (is_learning_path_editor(self.request) or is_admin_user(self.request)):
             queryset = queryset.filter(published=True)
@@ -267,7 +267,7 @@ class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         request.data["readable_id"] = uuid4().hex
-        request.data["resource_type"] = LearningResourceType.learning_path.value
+        request.data["resource_type"] = LearningResourceType.learning_path.name
         return super().create(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
@@ -458,7 +458,7 @@ class PodcastViewSet(LearningResourceViewSet):
             QuerySet of LearningResource objects that are Programs
         """
         return self._get_base_queryset(
-            resource_type=LearningResourceType.podcast.value
+            resource_type=LearningResourceType.podcast.name
         ).filter(published=True)
 
 
@@ -475,7 +475,7 @@ class PodcastEpisodeViewSet(LearningResourceViewSet):
             QuerySet of LearningResource objects that are Programs
         """
         return self._get_base_queryset(
-            resource_type=LearningResourceType.podcast_episode.value
+            resource_type=LearningResourceType.podcast_episode.name
         ).filter(published=True)
 
 
@@ -531,7 +531,7 @@ class WebhookOCWNextView(views.APIView):
                 # Remove the course from the search index
                 run = LearningResourceRun.objects.filter(
                     run_id=site_uid,
-                    learning_resource__platform__platform=PlatformType.ocw.value,
+                    learning_resource__platform__platform=PlatformType.ocw.name,
                 ).first()
                 if run:
                     resource = run.learning_resource

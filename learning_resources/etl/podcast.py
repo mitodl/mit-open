@@ -145,8 +145,8 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
 
     return {
         "readable_id": generate_readable_id(rss_data.title.text[:95]),
-        "etl_source": ETLSource.podcast.value,
-        "resource_type": LearningResourceType.podcast_episode.value,
+        "etl_source": ETLSource.podcast.name,
+        "resource_type": LearningResourceType.podcast_episode.name,
         "title": rss_data.title.text,
         "offered_by": offered_by,
         "description": rss_data.description.text,
@@ -213,8 +213,8 @@ def transform(extracted_podcasts):
             yield {
                 "readable_id": podcast_id,
                 "title": title,
-                "etl_source": ETLSource.podcast.value,
-                "resource_type": LearningResourceType.podcast.value,
+                "etl_source": ETLSource.podcast.name,
+                "resource_type": LearningResourceType.podcast.name,
                 "offered_by": offered_by,
                 "description": rss_data.channel.description.text,
                 "full_description": rss_data.channel.description.text,

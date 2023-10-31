@@ -116,7 +116,7 @@ def import_all_mit_edx_files(self, chunk_size=None):
     """Ingest MIT edX files from an S3 bucket"""
     raise self.replace(
         get_content_tasks(
-            ETLSource.mit_edx.value,
+            ETLSource.mit_edx.name,
             chunk_size,
             s3_prefix=settings.EDX_LEARNING_COURSE_BUCKET_PREFIX,
         )
@@ -128,7 +128,7 @@ def import_all_mitxonline_files(self, chunk_size=None):
     """Ingest MITx Online files from an S3 bucket"""
     raise self.replace(
         get_content_tasks(
-            ETLSource.mitxonline.value,
+            ETLSource.mitxonline.name,
             chunk_size,
         )
     )
@@ -140,7 +140,7 @@ def import_all_xpro_files(self, chunk_size=None):
 
     raise self.replace(
         get_content_tasks(
-            ETLSource.xpro.value,
+            ETLSource.xpro.name,
             chunk_size,
         )
     )

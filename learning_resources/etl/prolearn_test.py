@@ -130,7 +130,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             "image": parse_image(program),
             "platform": "csail",
             "offered_by": {"name": "CSAIL"},
-            "etl_source": ETLSource.prolearn.value,
+            "etl_source": ETLSource.prolearn.name,
             "professional": True,
             "runs": [
                 {
@@ -152,7 +152,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                     "platform": "csail",
                     "offered_by": {"name": "CSAIL"},
                     "professional": True,
-                    "etl_source": ETLSource.prolearn.value,
+                    "etl_source": ETLSource.prolearn.name,
                     "runs": [
                         {
                             "run_id": course_id,
@@ -176,7 +176,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "readable_id": course["nid"],
             "platform": "mitpe",
             "offered_by": {"name": "Professional Education"},
-            "etl_source": ETLSource.prolearn.value,
+            "etl_source": ETLSource.prolearn.name,
             "title": course["title"],
             "image": parse_image(course),
             "description": course["body"],

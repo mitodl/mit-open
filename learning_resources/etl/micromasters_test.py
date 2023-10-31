@@ -103,8 +103,8 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
     """Test that micromasters data is correctly transformed into our normalized structure"""
     LearningResourceFactory.create(
         readable_id="1",
-        resource_type=LearningResourceType.course.value,
-        etl_source=ETLSource.mit_edx.value,
+        resource_type=LearningResourceType.course.name,
+        etl_source=ETLSource.mit_edx.name,
     )
     if missing_url:
         mock_micromasters_data[0]["programpage_url"] = None
@@ -118,12 +118,12 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
                 "url": None if missing_url else "http://example.com/program/1/url",
                 "image": {"url": "http://example.com/program/1/image/url"},
                 "offered_by": micromasters.OFFERED_BY,
-                "platform": PlatformType.edx.value,
-                "etl_source": ETLSource.micromasters.value,
+                "platform": PlatformType.edx.name,
+                "etl_source": ETLSource.micromasters.name,
                 "courses": [
                     {
                         "readable_id": "1",
-                        "platform": PlatformType.edx.value,
+                        "platform": PlatformType.edx.name,
                         "offered_by": micromasters.OFFERED_BY,
                         "published": True,
                         "runs": [
@@ -134,7 +134,7 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
                     },
                     {
                         "readable_id": "2",
-                        "platform": PlatformType.edx.value,
+                        "platform": PlatformType.edx.name,
                         "offered_by": micromasters.OFFERED_BY,
                         "published": False,
                         "runs": [],

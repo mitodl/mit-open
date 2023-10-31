@@ -28,11 +28,11 @@ class AvailabilityType(Enum):
 class LearningResourceType(Enum):
     """Enum for LearningResource resource_type values"""
 
-    course = "course"
-    program = "program"
-    learning_path = "learning_path"
-    podcast = "podcast"
-    podcast_episode = "podcast_episode"
+    course = "Course"
+    program = "Program"
+    learning_path = "Learning Path"
+    podcast = "Podcast"
+    podcast_episode = "Podcast Episode"
 
 
 class OfferedBy(Enum):
@@ -61,23 +61,23 @@ class PlatformType(Enum):
     with LearningResourcePlatform model objects
     """
 
-    edx = "edx"
-    ocw = "ocw"
-    oll = "oll"
-    mitxonline = "mitxonline"
-    bootcamps = "bootcamps"
-    xpro = "xpro"
-    csail = "csail"
-    mitpe = "mitpe"
-    see = "see"
-    scc = "scc"
-    ctl = "ctl"
-    whu = "whu"
-    susskind = "susskind"
-    globalalumni = "globalalumni"
-    simplilearn = "simplilearn"
-    emeritus = "emeritus"
-    podcast = "podcast"
+    edx = "edX"
+    ocw = "OCW"
+    oll = "Open Learning Library"
+    mitxonline = "MITx Online"
+    bootcamps = "Bootcamps"
+    xpro = "xPRO"
+    csail = "CSAIL"
+    mitpe = "Professional Education"
+    see = "Sloan Executive Education"
+    scc = "Schwarzman College of Computing"
+    ctl = "Center for Transportation & Logistics"
+    whu = "WHU"
+    susskind = "Susskind"
+    globalalumni = "Global Alumni"
+    simplilearn = "Simplilearn"
+    emeritus = "Emeritus"
+    podcast = "Podcast"
 
 
 class PrivacyLevel(Enum):

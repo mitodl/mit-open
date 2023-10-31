@@ -82,7 +82,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
     expected = [
         {
             "readable_id": program_data["readable_id"],
-            "etl_source": ETLSource.xpro.value,
+            "etl_source": ETLSource.xpro.name,
             "title": program_data["title"],
             "image": {"url": program_data["thumbnail_url"]},
             "description": program_data["description"],
@@ -99,8 +99,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                     ]
                 )
             ],
-            "platform": PlatformType.xpro.value,
-            "resource_type": LearningResourceType.program.value,
+            "platform": PlatformType.xpro.name,
+            "resource_type": LearningResourceType.program.name,
             "runs": [
                 {
                     "run_id": program_data["readable_id"],
@@ -121,8 +121,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
             "courses": [
                 {
                     "readable_id": course_data["readable_id"],
-                    "etl_source": ETLSource.xpro.value,
-                    "platform": PlatformType.xpro.value,
+                    "etl_source": ETLSource.xpro.name,
+                    "platform": PlatformType.xpro.name,
                     "title": course_data["title"],
                     "image": {"url": course_data["thumbnail_url"]},
                     "description": course_data["description"],
@@ -142,7 +142,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                             ]
                         )
                     ],
-                    "resource_type": LearningResourceType.course.value,
+                    "resource_type": LearningResourceType.course.name,
                     "runs": [
                         {
                             "run_id": course_run_data["courseware_id"],
@@ -177,8 +177,8 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
     expected = [
         {
             "readable_id": course_data["readable_id"],
-            "etl_source": ETLSource.xpro.value,
-            "platform": PlatformType.xpro.value,
+            "etl_source": ETLSource.xpro.name,
+            "platform": PlatformType.xpro.name,
             "title": course_data["title"],
             "image": {"url": course_data["thumbnail_url"]},
             "professional": True,
@@ -198,7 +198,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                     ]
                 )
             ],
-            "resource_type": LearningResourceType.course.value,
+            "resource_type": LearningResourceType.course.name,
             "runs": [
                 {
                     "run_id": course_run_data["courseware_id"],

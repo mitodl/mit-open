@@ -87,9 +87,9 @@ extract, _transform = openedx_extract_transform_factory(
         settings.EDX_API_URL,
         settings.EDX_BASE_URL,
         settings.EDX_ALT_URL,
-        PlatformType.edx.value,
-        OfferedBy.mitx.value,
-        ETLSource.mit_edx.value,
+        PlatformType.edx.name,
+        OfferedBy.mitx.name,
+        ETLSource.mit_edx.name,
     )
 )
 

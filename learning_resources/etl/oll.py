@@ -17,8 +17,8 @@ extract, transform = openedx_extract_transform_factory(
         settings.OLL_API_URL,
         settings.OLL_BASE_URL,
         settings.OLL_ALT_URL,
-        PlatformType.oll.value,
-        OfferedBy.mitx.value,
-        ETLSource.oll.value,
+        PlatformType.oll.name,
+        OfferedBy.mitx.name,
+        ETLSource.oll.name,
     )
 )

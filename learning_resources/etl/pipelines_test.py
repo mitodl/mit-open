@@ -51,7 +51,7 @@ def test_mit_edx_etl():
 
     # load_courses should be called *only* with the return value of transform
     mock_load_courses.assert_called_once_with(
-        ETLSource.mit_edx.value,
+        ETLSource.mit_edx.name,
         mock_transform.return_value,
         config=CourseLoaderConfig(prune=True),
     )
@@ -76,7 +76,7 @@ def test_mitxonline_programs_etl():
 
     # load_courses should be called *only* with the return value of transform
     mock_load_programs.assert_called_once_with(
-        ETLSource.mitxonline.value,
+        ETLSource.mitxonline.name,
         mock_transform.return_value,
         config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
     )
@@ -101,7 +101,7 @@ def test_mitxonline_courses_etl():
 
     # load_courses should be called *only* with the return value of transform
     mock_load_courses.assert_called_once_with(
-        ETLSource.mitxonline.value,
+        ETLSource.mitxonline.name,
         mock_transform.return_value,
         config=CourseLoaderConfig(prune=True),
     )
@@ -122,7 +122,7 @@ def test_oll_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_courses.assert_called_once_with(
-        PlatformType.oll.value,
+        PlatformType.oll.name,
         mock_transform.return_value,
         config=CourseLoaderConfig(prune=True),
     )
@@ -143,7 +143,7 @@ def test_xpro_programs_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_programs.assert_called_once_with(
-        ETLSource.xpro.value, mock_transform.return_value
+        ETLSource.xpro.name, mock_transform.return_value
     )
 
     assert result == mock_load_programs.return_value
@@ -162,7 +162,7 @@ def test_xpro_courses_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_courses.assert_called_once_with(
-        ETLSource.xpro.value,
+        ETLSource.xpro.name,
         mock_transform.return_value,
     )
 
@@ -209,8 +209,8 @@ def test_ocw_courses_etl(settings, mocker):
     resource = LearningResource.objects.first()
     assert resource.readable_id == "16.01+fall_2005"
     assert resource.course.extra_course_numbers == ["16.02", "16.03", "16.04"]
-    assert resource.platform.platform == PlatformType.ocw.value
-    assert resource.offered_by.name == OfferedBy.ocw.value
+    assert resource.platform.platform == PlatformType.ocw.name
+    assert resource.offered_by.code == OfferedBy.ocw.name
     assert resource.departments.first().department_id == "16"
     assert resource.resource_content_tags.count() == 5
     run = resource.runs.first()
@@ -275,7 +275,7 @@ def test_micromasters_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_programs.assert_called_once_with(
-        ETLSource.micromasters.value,
+        ETLSource.micromasters.name,
         mock_transform.return_value,
         config=ProgramLoaderConfig(prune=True, courses=CourseLoaderConfig()),
     )
@@ -296,7 +296,7 @@ def test_prolearn_programs_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_programs.assert_called_once_with(
-        ETLSource.prolearn.value, mock_transform.return_value
+        ETLSource.prolearn.name, mock_transform.return_value
     )
 
     assert result == mock_load_programs.return_value
@@ -315,7 +315,7 @@ def test_prolearn_courses_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_courses.assert_called_once_with(
-        ETLSource.prolearn.value,
+        ETLSource.prolearn.name,
         mock_transform.return_value,
     )
 

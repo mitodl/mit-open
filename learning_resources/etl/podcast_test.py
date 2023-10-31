@@ -140,7 +140,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
     expected_results = [
         {
             "readable_id": expected_readable_id,
-            "etl_source": ETLSource.podcast.value,
+            "etl_source": ETLSource.podcast.name,
             "title": expected_title,
             "offered_by": expected_offered_by,
             "full_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -153,12 +153,12 @@ def test_transform(mock_github_client, title, topics, offered_by):
                 "apple_podcasts_url": "apple_podcasts_url",
                 "rss_url": "rss_url",
             },
-            "resource_type": LearningResourceType.podcast.value,
+            "resource_type": LearningResourceType.podcast.name,
             "topics": expected_topics,
             "episodes": [
                 {
                     "readable_id": "episode15ede89915db9342fb76bc91918d22016",
-                    "etl_source": ETLSource.podcast.value,
+                    "etl_source": ETLSource.podcast.name,
                     "title": "Episode1",
                     "offered_by": expected_offered_by,
                     "description": "SMorbi id consequat nisl. Morbi leo elit, vulputate nec aliquam molestie, ullamcorper sit amet tortor",
@@ -174,12 +174,12 @@ def test_transform(mock_github_client, title, topics, offered_by):
                         "duration": "00:17:16",
                         "rss": episodes_rss[0].prettify(),
                     },
-                    "resource_type": LearningResourceType.podcast_episode.value,
+                    "resource_type": LearningResourceType.podcast_episode.name,
                     "topics": expected_topics,
                 },
                 {
                     "readable_id": "episode205c066df9ed531e48c6414f6e72d3b96",
-                    "etl_source": ETLSource.podcast.value,
+                    "etl_source": ETLSource.podcast.name,
                     "title": "Episode2",
                     "offered_by": expected_offered_by,
                     "description": "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit felis ut varius facilisis.",
@@ -195,7 +195,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
                         "duration": "00:17:16",
                         "rss": episodes_rss[1].prettify(),
                     },
-                    "resource_type": LearningResourceType.podcast_episode.value,
+                    "resource_type": LearningResourceType.podcast_episode.name,
                     "topics": expected_topics,
                 },
             ],

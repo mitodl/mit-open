@@ -13,16 +13,16 @@ from learning_resources.etl.utils import transform_topics
 
 log = logging.getLogger(__name__)
 
-OFFERED_BY = {"name": OfferedBy.xpro.value}
+OFFERED_BY = {"code": OfferedBy.xpro.name}
 
 # This needs to be kept up to date with valid xpro platforms
 XPRO_PLATFORM_TRANSFORM = {
-    "Emeritus": PlatformType.emeritus.value,
-    "Global Alumni": PlatformType.globalalumni.value,
-    "Simplilearn": PlatformType.simplilearn.value,
-    "Susskind": PlatformType.susskind.value,
-    "WHU": PlatformType.whu.value,
-    "xPRO": PlatformType.xpro.value,
+    "Emeritus": PlatformType.emeritus.name,
+    "Global Alumni": PlatformType.globalalumni.name,
+    "Simplilearn": PlatformType.simplilearn.name,
+    "Susskind": PlatformType.susskind.name,
+    "WHU": PlatformType.whu.name,
+    "xPRO": PlatformType.xpro.name,
 }
 
 
@@ -95,7 +95,7 @@ def _transform_learning_resource_course(course):
     return {
         "readable_id": course["readable_id"],
         "platform": XPRO_PLATFORM_TRANSFORM.get(course["platform"], None),
-        "etl_source": ETLSource.xpro.value,
+        "etl_source": ETLSource.xpro.name,
         "title": course["title"],
         "image": {"url": course["thumbnail_url"]},
         "offered_by": copy.deepcopy(OFFERED_BY),
@@ -107,7 +107,7 @@ def _transform_learning_resource_course(course):
         ),
         "topics": transform_topics(course.get("topics", [])),
         "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
-        "resource_type": LearningResourceType.course.value,
+        "resource_type": LearningResourceType.course.name,
     }
 
 
@@ -131,7 +131,7 @@ def transform_programs(programs):
     return [
         {
             "readable_id": program["readable_id"],
-            "etl_source": ETLSource.xpro.value,
+            "etl_source": ETLSource.xpro.name,
             "title": program["title"],
             "image": {"url": program["thumbnail_url"]},
             "description": program["description"],
@@ -143,7 +143,7 @@ def transform_programs(programs):
             "url": program["url"],
             "topics": transform_topics(program.get("topics", [])),
             "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
-            "resource_type": LearningResourceType.program.value,
+            "resource_type": LearningResourceType.program.name,
             "runs": [
                 {
                     "prices": [program["current_price"]]

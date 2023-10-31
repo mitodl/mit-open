@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
         if options["delete"]:
             ocw_resources = LearningResource.objects.filter(
-                etl_source=ETLSource.ocw.value
+                etl_source=ETLSource.ocw.name
             )
             if course_name:
                 ocw_resources = ocw_resources.filter(
