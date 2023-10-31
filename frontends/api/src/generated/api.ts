@@ -274,6 +274,12 @@ export interface Course {
    * @memberof Course
    */
   extra_course_numbers?: Array<string> | null
+  /**
+   *
+   * @type {{ [key: string]: any; }}
+   * @memberof Course
+   */
+  course_numbers?: { [key: string]: any } | null
 }
 /**
  * Serializer for the Course model
@@ -287,6 +293,12 @@ export interface CourseRequest {
    * @memberof CourseRequest
    */
   extra_course_numbers?: Array<string> | null
+  /**
+   *
+   * @type {{ [key: string]: any; }}
+   * @memberof CourseRequest
+   */
+  course_numbers?: { [key: string]: any } | null
 }
 /**
  * Serializer for the LearningPath model

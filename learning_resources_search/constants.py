@@ -119,6 +119,15 @@ LEARNING_RESOURCE_TYPE = {
     },
     "offered_by": {"type": "keyword"},
     "resource_content_tags": {"type": "keyword"},
+    "department_course_numbers": {
+        "type": "nested",
+        "properties": {
+            "coursenum": {"type": "keyword"},
+            "sort_coursenum": {"type": "keyword"},
+            "department": {"type": "keyword"},
+            "primary": {"type": "boolean"},
+        },
+    },
     "runs": {
         "type": "nested",
         "properties": {
@@ -196,3 +205,6 @@ MAPPING = {
 }
 
 SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)
+SOURCE_EXCLUSIONS = [
+    "department_course_numbers",
+]

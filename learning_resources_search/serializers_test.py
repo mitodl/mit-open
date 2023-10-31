@@ -211,7 +211,6 @@ def test_learning_resources_search_response_serializer(settings):
                         "professional": True,
                         "certification": "Certificates",
                         "prices": [2250.0],
-                        "course": {"extra_course_numbers": None},
                         "learning_path": None,
                         "podcast": None,
                         "podcast_episode": None,

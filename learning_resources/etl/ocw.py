@@ -26,6 +26,7 @@ from learning_resources.constants import (
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     extract_text_metadata,
+    generate_course_numbers_json,
     get_content_type,
 )
 from learning_resources.models import ContentFile, LearningResource
@@ -286,7 +287,7 @@ def transform_course(course_data: dict) -> dict:
     else:
         extra_course_numbers = []
 
-    readable_id = f"{course_data.get(PRIMARY_COURSE_ID)}+{slugify(course_data.get('term'))}_{course_data.get('year')}"  # noqa: E501
+    readable_id = f"{course_data[PRIMARY_COURSE_ID]}+{slugify(course_data.get('term'))}_{course_data.get('year')}"  # noqa: E501
     topics = [
         {"name": topic_name}
         for topic_name in list(
@@ -321,7 +322,11 @@ def transform_course(course_data: dict) -> dict:
         "last_modified": course_data.get("last_modified"),
         "published": True,
         "course": {
-            "extra_course_numbers": extra_course_numbers,
+            "course_numbers": generate_course_numbers_json(
+                course_data[PRIMARY_COURSE_ID],
+                extra_nums=extra_course_numbers,
+                is_ocw=True,
+            ),
         },
         "topics": topics,
         "runs": [transform_run(course_data)],

@@ -12,7 +12,10 @@ from toolz import compose
 
 from learning_resources.constants import LearningResourceType
 from learning_resources.etl.constants import COMMON_HEADERS
-from learning_resources.etl.utils import extract_valid_department_from_id
+from learning_resources.etl.utils import (
+    extract_valid_department_from_id,
+    generate_course_numbers_json,
+)
 from learning_resources.utils import get_year_and_semester
 
 MIT_OWNER_KEYS = ["MITx", "MITx_PRO"]
@@ -262,6 +265,9 @@ def _transform_course(config, course):
             for course_run in course.get("course_runs", [])
             if _filter_course_run(course_run)
         ],
+        "course": {
+            "course_numbers": generate_course_numbers_json(course.get("key")),
+        },
         "published": any(
             run["status"] == "published" for run in course.get("course_runs", [])
         ),

@@ -5451,6 +5451,10 @@ components:
             type: string
             maxLength: 128
           nullable: true
+        course_numbers:
+          type: object
+          additionalProperties: {}
+          nullable: true
     CourseRequest:
       type: object
       description: Serializer for the Course model
@@ -5461,6 +5465,10 @@ components:
             type: string
             minLength: 1
             maxLength: 128
+          nullable: true
+        course_numbers:
+          type: object
+          additionalProperties: {}
           nullable: true
     LearningPath:
       type: object

@@ -8,6 +8,7 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.etl.constants import CourseNumberType
 from learning_resources.models import LearningResource
 from learning_resources.serializers import (
     LearningResourceSerializer,
@@ -15,6 +16,35 @@ from learning_resources.serializers import (
 from learning_resources_search.constants import AGGREGATIONS
 
 log = logging.getLogger()
+
+
+def get_department_course_number_dict(coursenum_data):
+    """
+    Generate course number dictionary from course number data
+    """
+    department_num = coursenum_data.get("department", {}).get("department_id")
+    course_num = coursenum_data.get("value")
+    if department_num[0].isdigit() and len(department_num) == 1:
+        sort_coursenum = f"0{course_num}"
+    else:
+        sort_coursenum = course_num
+
+    return {
+        "coursenum": course_num,
+        "department": coursenum_data.get("department", {}).get("name"),
+        "primary": coursenum_data.get("listing_type") == CourseNumberType.primary.value,
+        "sort_coursenum": sort_coursenum,
+    }
+
+
+def customize_resource_data_for_search(data: dict) -> dict:
+    """Add any special search-related fields to the serializer data here"""
+    if data.get("resource_type") == LearningResourceType.course.name:
+        data["department_course_numbers"] = [
+            get_department_course_number_dict(coursenum)
+            for coursenum in data["course"]["course_numbers"]
+        ]
+    return data
 
 
 def extract_values(obj, key):
@@ -259,10 +289,12 @@ def serialize_course_for_bulk(learning_resource_obj):
     Args:
         learning_resource_obj (LearningResource): A course learning resource
     """
-    return {
-        "_id": learning_resource_obj.id,
-        **LearningResourceSerializer(learning_resource_obj).data,
-    }
+    return customize_resource_data_for_search(
+        {
+            "_id": learning_resource_obj.id,
+            **LearningResourceSerializer(learning_resource_obj).data,
+        }
+    )
 
 
 def serialize_bulk_programs(ids):
@@ -294,10 +326,12 @@ def serialize_program_for_bulk(learning_resource_obj):
     Args:
         learning_resource_obj (LearningResource): A program learning_resource object
     """
-    return {
-        "_id": learning_resource_obj.id,
-        **LearningResourceSerializer(learning_resource_obj).data,
-    }
+    return customize_resource_data_for_search(
+        {
+            "_id": learning_resource_obj.id,
+            **LearningResourceSerializer(learning_resource_obj).data,
+        }
+    )
 
 
 def serialize_for_deletion(opensearch_object_id):
@@ -311,3 +345,23 @@ def serialize_for_deletion(opensearch_object_id):
         dict: the object deletion data
     """
     return {"_id": opensearch_object_id, "_op_type": "delete"}
+
+
+class OSLearningResourceSerializer(LearningResourceSerializer):
+    """
+    Serializer for indexing learning resources.
+    Adds custom fields needed for search purposes.
+    Any fields added here should also be added to SOURCE_EXCLUDED_FIELDS
+    """
+
+    SOURCE_EXCLUDED_FIELDS = ["department_course_numbers"]
+
+    department_course_numbers = serializers.SerializerMethodField()
+
+    def get_department_course_numbers(self, instance):
+        if instance.resource_type == LearningResourceType.course.name:
+            return [
+                get_department_course_number_dict(coursenum_data)
+                for coursenum_data in instance.course.course_numbers
+            ]
+        return []

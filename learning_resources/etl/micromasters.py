@@ -5,6 +5,7 @@ from django.conf import settings
 
 from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
 from learning_resources.etl.constants import COMMON_HEADERS, ETLSource
+from learning_resources.etl.utils import generate_course_numbers_json
 from learning_resources.models import LearningResource
 
 OFFERED_BY = {"code": OfferedBy.mitx.name}
@@ -93,6 +94,11 @@ def transform(programs_data):
                                 for run in course["course_runs"]
                                 if run.get("edx_course_key", None)
                             ],
+                            "course": {
+                                "course_numbers": generate_course_numbers_json(
+                                    course["edx_key"], is_ocw=False
+                                ),
+                            },
                         }
                         for course in sorted(
                             program["courses"],
