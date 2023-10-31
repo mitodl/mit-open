@@ -17,7 +17,7 @@ export interface SortableItem {
   title: string
 }
 
-interface Props {
+interface SortableSelectProps {
   value: SortableItem[]
   // The onChange function takes an array of item IDs as an argument
   onChange: (update: UniqueIdentifier[]) => void
@@ -32,11 +32,15 @@ interface Props {
 }
 
 /**
+ * This is a dropdown field followed by a sortable list of items. The dropdown
+ * is used to add new items to the sortable list.
+ *
  * @deprecated Avoid using this component. It should be re-built using MUI's
- * Autocomplete component instead of react-select. The rebuilt component might
- * have a different interface.
+ * Autocomplete component instead of react-select. Using Autocomplete would be
+ * more consistent with other components, simpler, and would remove a
+ * dependency.
  */
-export default function SortableSelect(props: Props) {
+const SortableSelect: React.FC<SortableSelectProps> = (props) => {
   const {
     options,
     loadOptions,
@@ -143,3 +147,6 @@ export default function SortableSelect(props: Props) {
     </>
   )
 }
+
+export { SortableSelect }
+export { SortableSelectProps }

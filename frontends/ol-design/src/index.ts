@@ -103,6 +103,5 @@ export * from "./components/SimpleMenu"
 export * from "./components/ThemeProvider"
 export * from "./components/LoadingSpinner"
 export * from "./components/RadioChoiceField"
-export { default as SortableSelect } from "./components/deprecated/SortableSelect/SortableSelect"
 
 export * from "./hooks/useBreakpoint"
