@@ -31,6 +31,11 @@ interface Props {
   isOptionDisabled?: (option: Option) => boolean
 }
 
+/**
+ * @deprecated Avoid using this component. It should be re-built using MUI's
+ * Autocomplete component instead of react-select. The rebuilt component might
+ * have a different interface.
+ */
 export default function SortableSelect(props: Props) {
   const {
     options,
@@ -113,7 +118,7 @@ export default function SortableSelect(props: Props) {
           isOptionDisabled={isOptionDisabled}
         />
         <button
-          className="px-4 ml-3 btn cyan-button"
+          className="px-4 ml-3"
           disabled={focusedContent === undefined}
           onClick={addFocusedItem}
         >

@@ -43,7 +43,7 @@ describe("SortableSelect", () => {
       id: option.value,
       title: option.label,
     }))
-    const drags = await screen.findAllByText("drag_indicator")
+    const drags = await screen.findAllByTestId("DragIndicatorIcon")
     zip(values, drags).forEach(([value, draggable]) => {
       invariant(draggable)
       invariant(value)

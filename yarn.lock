@@ -10846,6 +10846,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ol-design@workspace:frontends/ol-design"
   dependencies:
+    "@dnd-kit/core": ^6.0.8
+    "@dnd-kit/sortable": ^7.0.2
+    "@dnd-kit/utilities": ^3.2.1
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
     "@mui/icons-material": ^5.14.15
@@ -10864,7 +10867,7 @@ __metadata:
   dependencies:
     "@dnd-kit/core": ^6.0.8
     "@dnd-kit/sortable": ^7.0.2
-    "@dnd-kit/utilities": ^3.2.0
+    "@dnd-kit/utilities": ^3.2.1
     formik: ^2.2.9
     lodash: ^4.17.21
     ol-util: "workspace:*"
@@ -10920,7 +10923,7 @@ __metadata:
   dependencies:
     "@dnd-kit/core": ^6.0.8
     "@dnd-kit/sortable": ^7.0.2
-    "@dnd-kit/utilities": ^3.2.0
+    "@dnd-kit/utilities": ^3.2.1
     "@faker-js/faker": ^7.3.0
     classnames: ^2.3.2
     lodash: ^4.17.21
