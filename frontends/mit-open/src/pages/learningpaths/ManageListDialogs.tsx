@@ -6,11 +6,11 @@ import {
   TextField,
   Autocomplete,
   BooleanRadioChoiceField,
+  FormDialog,
 } from "ol-design"
 import * as Yup from "yup"
 import type { LearningPathResource } from "api"
 
-import { FormDialog } from "ol-forms"
 import {
   useLearningpathCreate,
   useLearningpathUpdate,

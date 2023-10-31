@@ -181,5 +181,5 @@ const FormDialog: React.FC<FormDialogProps> = ({
   )
 }
 
-export default FormDialog
+export { FormDialog }
 export type { FormDialogProps }

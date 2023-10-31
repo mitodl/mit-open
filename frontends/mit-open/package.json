@@ -28,7 +28,6 @@
     "mini-css-extract-plugin": "^2.6.1",
     "ol-ckeditor": "workspace:^",
     "ol-design": "workspace:^",
-    "ol-forms": "workspace:*",
     "ol-learning-resources": "workspace:^",
     "ol-search-ui": "workspace:*",
     "ol-util": "workspace:*",

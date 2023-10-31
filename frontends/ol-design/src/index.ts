@@ -96,6 +96,7 @@ export type { FormLabelProps } from "@mui/material/FormLabel"
 
 export * from "./components/ButtonLink"
 export * from "./components/ChipLink"
+export * from "./components/FormDialog"
 export * from "./components/RoutedDrawer"
 export * from "./components/SearchInput"
 export * from "./components/SimpleMenu"
@@ -103,4 +104,5 @@ export * from "./components/ThemeProvider"
 export * from "./components/LoadingSpinner"
 export * from "./components/RadioChoiceField"
 export { default as SortableSelect } from "./components/deprecated/SortableSelect/SortableSelect"
+
 export * from "./hooks/useBreakpoint"
