@@ -7,7 +7,7 @@ import pytest
 import pytz
 
 from learning_resources.etl import prolearn
-from learning_resources.etl.constants import ETLSource
+from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.prolearn import (
     get_offered_by,
     parse_date,
@@ -204,6 +204,15 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                     course["start_value"], course["end_value"]
                 )
             ],
+            "course": {
+                "course_numbers": [
+                    {
+                        "value": str(course["nid"]),
+                        "department": None,
+                        "listing_type": CourseNumberType.primary.value,
+                    }
+                ]
+            },
         }
         for course in extracted_data
     ]

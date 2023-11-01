@@ -22,16 +22,17 @@ def get_department_course_number_dict(coursenum_data):
     """
     Generate course number dictionary from course number data
     """
-    department_num = coursenum_data.get("department", {}).get("department_id")
+    department_data = coursenum_data.get("department", {})
+    department_num = department_data.get("department_id") if department_data else None
     course_num = coursenum_data.get("value")
-    if department_num[0].isdigit() and len(department_num) == 1:
+    if department_num and department_num[0].isdigit() and len(department_num) == 1:
         sort_coursenum = f"0{course_num}"
     else:
         sort_coursenum = course_num
 
     return {
         "coursenum": course_num,
-        "department": coursenum_data.get("department", {}).get("name"),
+        "department": department_data.get("name") if department_data else None,
         "primary": coursenum_data.get("listing_type") == CourseNumberType.primary.value,
         "sort_coursenum": sort_coursenum,
     }

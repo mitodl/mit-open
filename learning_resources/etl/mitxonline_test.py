@@ -4,13 +4,14 @@ import json
 # pylint: disable=redefined-outer-name
 from datetime import datetime
 from itertools import chain
+from unittest.mock import ANY
 from urllib.parse import urljoin
 
 import pytest
 
 from learning_resources.constants import LearningResourceType, PlatformType
 from learning_resources.etl import mitxonline
-from learning_resources.etl.constants import ETLSource
+from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.mitxonline import (
     _transform_image,
     parse_page_attribute,
@@ -194,6 +195,15 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
+                    "course": {
+                        "course_numbers": [
+                            {
+                                "value": course_data["readable_id"],
+                                "department": ANY,
+                                "listing_type": CourseNumberType.primary.value,
+                            }
+                        ]
+                    },
                 }
                 for course_data in program_data["courses"]
                 if "PROCTORED EXAM" not in course_data["title"]
@@ -271,6 +281,15 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                 }
                 for course_run_data in course_data["courseruns"]
             ],
+            "course": {
+                "course_numbers": [
+                    {
+                        "value": course_data["readable_id"],
+                        "department": ANY,
+                        "listing_type": CourseNumberType.primary.value,
+                    }
+                ]
+            },
         }
         for course_data in mock_mitxonline_courses_data
         if "PROCTORED EXAM" not in course_data["title"]

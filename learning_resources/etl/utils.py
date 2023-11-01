@@ -36,10 +36,8 @@ from learning_resources.constants import (
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.models import (
     ContentFile,
-    LearningResourceDepartment,
     LearningResourceRun,
 )
-from learning_resources.serializers import LearningResourceDepartmentSerializer
 
 log = logging.getLogger(__name__)
 
@@ -548,19 +546,17 @@ def generate_course_numbers_json(
     course_numbers.extend(extra_nums)
     for idx, num in enumerate(course_numbers):
         dept_id = extract_valid_department_from_id(num, is_ocw=is_ocw)
-        dept = (
-            LearningResourceDepartment.objects.filter(department_id=dept_id[0]).first()
-            if dept_id
-            else None
-        )
         course_number_json.append(
             {
                 "value": num,
                 "listing_type": CourseNumberType.primary.value
                 if idx == 0
                 else CourseNumberType.cross_listed.value,
-                "department": LearningResourceDepartmentSerializer(instance=dept).data
-                if dept
+                "department": {
+                    "department_id": dept_id[0],
+                    "name": DEPARTMENTS[dept_id[0]],
+                }
+                if dept_id
                 else None,
             }
         )

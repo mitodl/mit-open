@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 import pytest
 
 from learning_resources.constants import LearningResourceType
-from learning_resources.etl.constants import COMMON_HEADERS
+from learning_resources.etl.constants import COMMON_HEADERS, CourseNumberType
 from learning_resources.etl.openedx import (
     OpenEdxConfiguration,
     openedx_extract_transform_factory,
@@ -170,6 +170,18 @@ def test_transform_course(  # noqa: PLR0913
                     "published": True,
                 }
             ],
+            "course": {
+                "course_numbers": [
+                    {
+                        "value": "MITx+15.071x",
+                        "department": {
+                            "department_id": "15",
+                            "name": "Sloan School of Management",
+                        },
+                        "listing_type": CourseNumberType.primary.value,
+                    }
+                ]
+            },
         }
         if not is_course_run_deleted:
             assert transformed_courses[1]["published"] is False

@@ -12,6 +12,7 @@ from learning_resources_search.api import (
     generate_text_clause,
     relevant_indexes,
 )
+from learning_resources_search.serializers import OSLearningResourceSerializer
 
 
 @pytest.mark.parametrize(
@@ -513,6 +514,7 @@ def test_execute_learn_search(opensearch):
     }
 
     query = {
+        "_source": {"excludes": OSLearningResourceSerializer.SOURCE_EXCLUDED_FIELDS},
         "query": {
             "bool": {
                 "should": [

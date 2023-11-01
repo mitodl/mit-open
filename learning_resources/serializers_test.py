@@ -21,10 +21,8 @@ def test_serialize_course_model():
     """
     Verify that a serialized course contains attributes for related objects
     """
-    course = factories.CourseFactory.create()
-    serializer = serializers.LearningResourceSerializer(
-        instance=course.learning_resource
-    )
+    course_resource = factories.CourseFactory.create().learning_resource
+    serializer = serializers.LearningResourceSerializer(instance=course_resource)
     assert len(serializer.data["topics"]) > 0
     assert "name" in serializer.data["topics"][0]
     assert len(serializer.data["runs"]) == 2
@@ -35,9 +33,9 @@ def test_serialize_course_model():
     assert serializer.data["departments"][0] is not None
     assert serializer.data["platform"] is not None
     assert (
-        serializer.data["course"] == serializers.CourseSerializer(instance=course).data
+        serializer.data["course"]
+        == serializers.CourseSerializer(instance=course_resource.course).data
     )
-    assert serializer.data["course"]["extra_course_numbers"] is not None
     assert serializer.data["program"] is None
 
 
@@ -189,7 +187,7 @@ def test_content_file_serializer():
         "content_title": "test title",
         "section": "test section",
     }
-    platform = constants.PlatformType.xpro.value
+    platform = constants.PlatformType.xpro.name
     course = factories.CourseFactory.create(platform=platform)
     content_file = factories.ContentFileFactory.create(
         run=course.learning_resource.runs.first(), **content_kwargs

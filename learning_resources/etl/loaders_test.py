@@ -123,12 +123,12 @@ def test_load_program(
     platform = LearningResourcePlatformFactory.create()
 
     program = (
-        ProgramFactory.create(courses=[], platform=platform)
+        ProgramFactory.create(courses=[], platform=platform.platform)
         if program_exists
-        else ProgramFactory.build(courses=[], platform=platform)
+        else ProgramFactory.build(courses=[], platform=platform.platform)
     )
 
-    LearningResourcePlatformFactory.create(platform=platform)
+    LearningResourcePlatformFactory.create(platform=platform.platform)
 
     if program_exists:
         learning_resource = program.learning_resource
@@ -138,16 +138,16 @@ def test_load_program(
         learning_resource.save()
 
     courses = (
-        CourseFactory.create_batch(2, platform=platform)
+        CourseFactory.create_batch(2, platform=platform.platform)
         if courses_exist
-        else CourseFactory.build_batch(2, platform=platform)
+        else CourseFactory.build_batch(2, platform=platform.platform)
     )
 
     before_course_count = len(courses) if courses_exist else 0
     after_course_count = len(courses)
 
     if program_exists and has_retired_course:
-        course = CourseFactory.create(platform=platform)
+        course = CourseFactory.create(platform=platform.platform)
         before_course_count += 1
         after_course_count += 1
         program.learning_resource.resources.set(
@@ -262,9 +262,9 @@ def test_load_course(  # noqa: PLR0913
     platform = LearningResourcePlatformFactory.create()
 
     course = (
-        CourseFactory.create(runs=[], platform=platform)
+        CourseFactory.create(runs=[], platform=platform.platform)
         if course_exists
-        else CourseFactory.build(runs=[], platform=platform)
+        else CourseFactory.build(runs=[], platform=platform.platform)
     )
 
     learning_resource = course.learning_resource
@@ -283,7 +283,7 @@ def test_load_course(  # noqa: PLR0913
 
     props = {
         "readable_id": learning_resource.readable_id,
-        "platform": platform,
+        "platform": platform.platform,
         "professional": True,
         "title": learning_resource.title,
         "image": {"url": learning_resource.image.url},
@@ -375,13 +375,13 @@ def test_load_duplicate_course(
     platform = LearningResourcePlatformFactory.create()
 
     course = (
-        CourseFactory.create(runs=[], platform=platform)
+        CourseFactory.create(runs=[], platform=platform.platform)
         if course_exists
         else CourseFactory.build()
     )
 
     duplicate_course = (
-        CourseFactory.create(runs=[], platform=platform)
+        CourseFactory.create(runs=[], platform=platform.platform)
         if duplicate_course_exists
         else CourseFactory.build()
     )
