@@ -94,6 +94,7 @@ services:
       - "8062:8062"
     environment:
       DOCKER_HOST: ${DOCKER_HOST:-missing}
+      NODE_ENV: ${NODE_ENV:-development}
       CONTAINER_NAME: "watch"
       WEBPACK_PORT_MITOPEN: 8062
     env_file: .env
