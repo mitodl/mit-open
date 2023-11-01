@@ -94,6 +94,7 @@ export type { FormHelperTextProps } from "@mui/material/FormHelperText"
 export { default as FormLabel } from "@mui/material/FormLabel"
 export type { FormLabelProps } from "@mui/material/FormLabel"
 
+export * from "./components/BasicDialog"
 export * from "./components/ButtonLink"
 export * from "./components/ChipLink"
 export * from "./components/FormDialog"

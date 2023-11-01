@@ -7,6 +7,7 @@ import {
   Autocomplete,
   BooleanRadioChoiceField,
   FormDialog,
+  BasicDialog,
 } from "ol-design"
 import * as Yup from "yup"
 import type { LearningPathResource } from "api"
@@ -17,8 +18,6 @@ import {
   useLearningpathDestroy,
   useLearningResourceTopics,
 } from "api/hooks/learningResources"
-
-import BasicDialog from "../../components/BasicDialog"
 
 const learningPathFormSchema = Yup.object().shape({
   published: Yup.boolean()

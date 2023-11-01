@@ -15,11 +15,11 @@ import {
   Grid,
   TextField,
   Container,
+  BasicDialog,
 } from "ol-design"
 import * as Yup from "yup"
 import { useFormik } from "formik"
 import { articlesView } from "../urls"
-import BasicDialog from "../../components/BasicDialog"
 
 import { Article } from "api"
 

@@ -1,14 +1,12 @@
 import React, { useCallback, useState } from "react"
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-} from "ol-design"
-import type { DialogProps } from "ol-design"
+import Dialog from "@mui/material/Dialog"
+import type { DialogProps } from "@mui/material/Dialog"
+import DialogContent from "@mui/material/DialogContent"
+import DialogTitle from "@mui/material/DialogTitle"
+import Button from "@mui/material/Button"
+import DialogActions from "@mui/material/DialogActions"
+import IconButton from "@mui/material/IconButton"
 import Close from "@mui/icons-material/Close"
-import { Button } from "ol-design"
 
 const topRightStyle: React.CSSProperties = {
   position: "absolute",
@@ -16,7 +14,7 @@ const topRightStyle: React.CSSProperties = {
   right: 0,
 }
 
-type BasicDialog = {
+type BasicDialogProps = {
   open: boolean
   onClose: () => void
   /**
@@ -48,7 +46,7 @@ type BasicDialog = {
  * particularly good for forms, where a <form /> element should wrap the inputs
  * and footer buttons.
  */
-const BasicDialog: React.FC<BasicDialog> = ({
+const BasicDialog: React.FC<BasicDialogProps> = ({
   title,
   children,
   open,
@@ -96,4 +94,5 @@ const BasicDialog: React.FC<BasicDialog> = ({
   )
 }
 
-export default BasicDialog
+export { BasicDialog }
+export type { BasicDialogProps }
