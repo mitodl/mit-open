@@ -15,6 +15,7 @@ const topRightStyle: React.CSSProperties = {
 }
 
 type BasicDialogProps = {
+  className?: string
   open: boolean
   onClose: () => void
   /**
@@ -37,6 +38,10 @@ type BasicDialogProps = {
    * [Dialog Props](https://mui.com/material-ui/api/dialog/#props).
    */
   fullWidth?: boolean
+  /**
+   * Whether to show the footer buttons. Defaults to `true`.
+   */
+  showFooter?: boolean
 }
 
 /**
@@ -55,6 +60,8 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
   cancelText = "Cancel",
   confirmText = "Confirm",
   fullWidth,
+  className,
+  showFooter = true,
 }) => {
   const [confirming, setConfirming] = useState(false)
   const handleConfirm = useCallback(async () => {
@@ -69,7 +76,12 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
     }
   }, [onClose, onConfirm])
   return (
-    <Dialog fullWidth={fullWidth} open={open} onClose={onClose}>
+    <Dialog
+      className={className}
+      fullWidth={fullWidth}
+      open={open}
+      onClose={onClose}
+    >
       <DialogTitle>{title}</DialogTitle>
       <div style={topRightStyle}>
         <IconButton onClick={onClose}>
@@ -77,19 +89,21 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
         </IconButton>
       </div>
       <DialogContent>{children}</DialogContent>
-      <DialogActions>
-        <Button variant="outlined" color="secondary" onClick={onClose}>
-          {cancelText}
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleConfirm}
-          disabled={confirming}
-        >
-          {confirmText}
-        </Button>
-      </DialogActions>
+      {showFooter && (
+        <DialogActions>
+          <Button variant="outlined" color="secondary" onClick={onClose}>
+            {cancelText}
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleConfirm}
+            disabled={confirming}
+          >
+            {confirmText}
+          </Button>
+        </DialogActions>
+      )}
     </Dialog>
   )
 }

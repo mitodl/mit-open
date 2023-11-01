@@ -1,9 +1,6 @@
 import React, { useState } from "react"
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
+  BasicDialog,
   IconButton,
   Chip,
   Checkbox,
@@ -130,22 +127,19 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
   const lists = listsQuery.data?.results ?? []
 
   return (
-    <Dialog className="add-to-list-dialog" {...NiceModal.muiDialogV5(modal)}>
-      <DialogTitle>Add to Learning List</DialogTitle>
-      <div style={topRightStyle}>
-        <IconButton onClick={modal.hide} aria-label="Close">
-          <CloseIcon />
-        </IconButton>
-      </div>
-      <Divider />
-      {isReady && (
-        <DialogContent className="add-to-list-description">
-          Adding <span className="resource-title-inline">{resource.title}</span>
-        </DialogContent>
-      )}
-      {isReady && (
-        <DialogContent className="add-to-list-listing">
-          <List>
+    <BasicDialog
+      className="add-to-list-dialog"
+      title="Add to Learning List"
+      showFooter={false}
+      {...NiceModal.muiDialogV5(modal)}
+    >
+      {isReady ? (
+        <>
+          <div className="add-to-list-description">
+            Adding{" "}
+            <span className="resource-title-inline">{resource.title}</span>
+          </div>
+          <List className="add-to-list-listing">
             {lists.map((list) => {
               const adding = isAdding(list)
               const removing = isRemoving(list)
@@ -179,14 +173,11 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
               </ListItemButton>
             </ListItem>
           </List>
-        </DialogContent>
+        </>
+      ) : (
+        <LoadingSpinner loading={!isReady} />
       )}
-      {!isReady && (
-        <DialogContent>
-          <LoadingSpinner loading={!isReady} />
-        </DialogContent>
-      )}
-    </Dialog>
+    </BasicDialog>
   )
 }
 
