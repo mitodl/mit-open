@@ -5,6 +5,7 @@ from opensearch_dsl import Search
 
 from learning_resources_search.connection import get_default_alias_name
 from learning_resources_search.constants import (
+    COURSE_QUERY_FIELDS,
     LEARNING_RESOURCE_QUERY_FIELDS,
     LEARNING_RESOURCE_SEARCH_FILTERS,
     LEARNING_RESOURCE_TYPES,
@@ -97,6 +98,14 @@ def generate_text_clause(text):
                             "value": f"{text.upper()}*",
                             "rewrite": "constant_score",
                         }
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "department_course_numbers",
+                        "query": {
+                            query_type: {"query": text, "fields": COURSE_QUERY_FIELDS}
+                        },
                     }
                 },
                 {

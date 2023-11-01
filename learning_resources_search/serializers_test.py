@@ -112,6 +112,7 @@ def test_serialize_program_for_bulk():
     program = factories.ProgramFactory.create()
     assert serializers.serialize_program_for_bulk(program.learning_resource) == {
         "_id": program.learning_resource.id,
+        "department_course_numbers": [],
         **LearningResourceSerializer(program.learning_resource).data,
     }
 

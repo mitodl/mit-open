@@ -38,16 +38,6 @@ def get_department_course_number_dict(coursenum_data):
     }
 
 
-def customize_resource_data_for_search(data: dict) -> dict:
-    """Add any special search-related fields to the serializer data here"""
-    if data.get("resource_type") == LearningResourceType.course.name:
-        data["department_course_numbers"] = [
-            get_department_course_number_dict(coursenum)
-            for coursenum in data["course"]["course_numbers"]
-        ]
-    return data
-
-
 def extract_values(obj, key):
     """
     Pull all values of specified key from nested JSON.
@@ -290,12 +280,10 @@ def serialize_course_for_bulk(learning_resource_obj):
     Args:
         learning_resource_obj (LearningResource): A course learning resource
     """
-    return customize_resource_data_for_search(
-        {
-            "_id": learning_resource_obj.id,
-            **LearningResourceSerializer(learning_resource_obj).data,
-        }
-    )
+    return {
+        "_id": learning_resource_obj.id,
+        **OSLearningResourceSerializer(learning_resource_obj).data,
+    }
 
 
 def serialize_bulk_programs(ids):
@@ -327,12 +315,10 @@ def serialize_program_for_bulk(learning_resource_obj):
     Args:
         learning_resource_obj (LearningResource): A program learning_resource object
     """
-    return customize_resource_data_for_search(
-        {
-            "_id": learning_resource_obj.id,
-            **LearningResourceSerializer(learning_resource_obj).data,
-        }
-    )
+    return {
+        "_id": learning_resource_obj.id,
+        **OSLearningResourceSerializer(learning_resource_obj).data,
+    }
 
 
 def serialize_for_deletion(opensearch_object_id):

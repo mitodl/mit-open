@@ -67,6 +67,7 @@ SEARCH_NESTED_FILTERS = {
     "topic": "topics.name",
     "level": "runs.level",
     "department": "departments.name",
+    "department_course_numbers": "department_course_numbers.coursenum",
 }
 
 ENGLISH_TEXT_FIELD = {
@@ -171,6 +172,7 @@ LEARNING_RESOURCE_QUERY_FIELDS = [
     "offered_by",
     "department",
     "resource_content_tags",
+    "department_course_numbers",
 ]
 
 AGGREGATIONS = [
@@ -186,6 +188,11 @@ AGGREGATIONS = [
 ]
 
 TOPICS_QUERY_FIELDS = ["topics.name"]
+
+COURSE_QUERY_FIELDS = [
+    "department_course_numbers.coursenum",
+    "department_course_numbers.department",
+]
 
 RUNS_QUERY_FIELDS = [
     "runs.year",
