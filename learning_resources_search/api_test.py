@@ -1,4 +1,3 @@
-# pylint: disable=redefined-outer-name,too-many-lines
 """Search API function tests"""
 
 import pytest
@@ -6,10 +5,11 @@ import pytest
 from learning_resources_search.api import (
     execute_learn_search,
     generate_aggregation_clauses,
+    generate_content_file_text_clause,
     generate_filter_clauses,
+    generate_learning_resources_text_clause,
     generate_sort_clause,
     generate_suggest_clause,
-    generate_text_clause,
     relevant_indexes,
 )
 from learning_resources_search.constants import SOURCE_EXCLUDED_FIELDS
@@ -24,7 +24,8 @@ from learning_resources_search.constants import SOURCE_EXCLUDED_FIELDS
             ["resource_type"],
             ["testindex_course_default", "testindex_program_default"],
         ),
-        ([], [], ["testindex_course_default", "testindex_program_default"]),
+        (["content_file"], [], ["testindex_course_default"]),
+        (["content_file", "course"], [], ["testindex_course_default"]),
     ],
 )
 def test_relevant_indexes(resourse_types, aggregations, result):
@@ -50,7 +51,7 @@ def test_generate_sort_clause(sort_param, result):
     assert generate_sort_clause(sort_param) == result
 
 
-def test_generate_text_clause():
+def test_generate_learning_resources_text_clause():
     result1 = {
         "bool": {
             "filter": {
@@ -70,7 +71,6 @@ def test_generate_text_clause():
                                                 "platform",
                                                 "readable_id",
                                                 "offered_by",
-                                                "department",
                                                 "resource_content_tags",
                                                 "course",
                                             ],
@@ -83,6 +83,17 @@ def test_generate_text_clause():
                                                 "multi_match": {
                                                     "query": "math",
                                                     "fields": ["topics.name"],
+                                                }
+                                            },
+                                        }
+                                    },
+                                    {
+                                        "nested": {
+                                            "path": "departments",
+                                            "query": {
+                                                "multi_match": {
+                                                    "query": "math",
+                                                    "fields": ["departments.name"],
                                                 }
                                             },
                                         }
@@ -143,6 +154,23 @@ def test_generate_text_clause():
                                             },
                                         }
                                     },
+                                    {
+                                        "has_child": {
+                                            "type": "content_file",
+                                            "query": {
+                                                "multi_match": {
+                                                    "query": "math",
+                                                    "fields": [
+                                                        "content",
+                                                        "title.english^3",
+                                                        "short_description.english^2",
+                                                        "content_category",
+                                                    ],
+                                                }
+                                            },
+                                            "score_mode": "avg",
+                                        }
+                                    },
                                 ]
                             }
                         }
@@ -161,7 +189,6 @@ def test_generate_text_clause():
                             "platform",
                             "readable_id",
                             "offered_by",
-                            "department",
                             "resource_content_tags",
                             "course",
                         ],
@@ -172,6 +199,17 @@ def test_generate_text_clause():
                         "path": "topics",
                         "query": {
                             "multi_match": {"query": "math", "fields": ["topics.name"]}
+                        },
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "departments",
+                        "query": {
+                            "multi_match": {
+                                "query": "math",
+                                "fields": ["departments.name"],
+                            }
                         },
                     }
                 },
@@ -224,6 +262,23 @@ def test_generate_text_clause():
                         },
                     }
                 },
+                {
+                    "has_child": {
+                        "type": "content_file",
+                        "query": {
+                            "multi_match": {
+                                "query": "math",
+                                "fields": [
+                                    "content",
+                                    "title.english^3",
+                                    "short_description.english^2",
+                                    "content_category",
+                                ],
+                            }
+                        },
+                        "score_mode": "avg",
+                    }
+                },
             ],
         }
     }
@@ -246,7 +301,6 @@ def test_generate_text_clause():
                                                 "platform",
                                                 "readable_id",
                                                 "offered_by",
-                                                "department",
                                                 "resource_content_tags",
                                                 "course",
                                             ],
@@ -259,6 +313,17 @@ def test_generate_text_clause():
                                                 "query_string": {
                                                     "query": '"math"',
                                                     "fields": ["topics.name"],
+                                                }
+                                            },
+                                        }
+                                    },
+                                    {
+                                        "nested": {
+                                            "path": "departments",
+                                            "query": {
+                                                "query_string": {
+                                                    "query": '"math"',
+                                                    "fields": ["departments.name"],
                                                 }
                                             },
                                         }
@@ -319,6 +384,23 @@ def test_generate_text_clause():
                                             },
                                         }
                                     },
+                                    {
+                                        "has_child": {
+                                            "type": "content_file",
+                                            "query": {
+                                                "query_string": {
+                                                    "query": '"math"',
+                                                    "fields": [
+                                                        "content",
+                                                        "title.english^3",
+                                                        "short_description.english^2",
+                                                        "content_category",
+                                                    ],
+                                                }
+                                            },
+                                            "score_mode": "avg",
+                                        }
+                                    },
                                 ]
                             }
                         }
@@ -337,7 +419,6 @@ def test_generate_text_clause():
                             "platform",
                             "readable_id",
                             "offered_by",
-                            "department",
                             "resource_content_tags",
                             "course",
                         ],
@@ -350,6 +431,17 @@ def test_generate_text_clause():
                             "query_string": {
                                 "query": '"math"',
                                 "fields": ["topics.name"],
+                            }
+                        },
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "departments",
+                        "query": {
+                            "query_string": {
+                                "query": '"math"',
+                                "fields": ["departments.name"],
                             }
                         },
                     }
@@ -403,11 +495,157 @@ def test_generate_text_clause():
                         },
                     }
                 },
+                {
+                    "has_child": {
+                        "type": "content_file",
+                        "query": {
+                            "query_string": {
+                                "query": '"math"',
+                                "fields": [
+                                    "content",
+                                    "title.english^3",
+                                    "short_description.english^2",
+                                    "content_category",
+                                ],
+                            }
+                        },
+                        "score_mode": "avg",
+                    }
+                },
             ],
         }
     }
-    assert generate_text_clause("math") == result1
-    assert generate_text_clause('"math"') == result2
+    assert generate_learning_resources_text_clause("math") == result1
+    assert generate_learning_resources_text_clause('"math"') == result2
+
+
+def test_generate_content_file_text_clause():
+    result1 = {
+        "bool": {
+            "filter": {
+                "bool": {
+                    "must": [
+                        {
+                            "bool": {
+                                "should": [
+                                    {
+                                        "multi_match": {
+                                            "query": "math",
+                                            "fields": [
+                                                "content",
+                                                "title.english^3",
+                                                "short_description.english^2",
+                                                "content_category",
+                                            ],
+                                        }
+                                    },
+                                    {
+                                        "nested": {
+                                            "path": "departments",
+                                            "query": {
+                                                "multi_match": {
+                                                    "query": "math",
+                                                    "fields": ["departments.name"],
+                                                }
+                                            },
+                                        }
+                                    },
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "should": [
+                {
+                    "multi_match": {
+                        "query": "math",
+                        "fields": [
+                            "content",
+                            "title.english^3",
+                            "short_description.english^2",
+                            "content_category",
+                        ],
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "departments",
+                        "query": {
+                            "multi_match": {
+                                "query": "math",
+                                "fields": ["departments.name"],
+                            }
+                        },
+                    }
+                },
+            ],
+        }
+    }
+    result2 = {
+        "bool": {
+            "filter": {
+                "bool": {
+                    "must": [
+                        {
+                            "bool": {
+                                "should": [
+                                    {
+                                        "query_string": {
+                                            "query": '"math"',
+                                            "fields": [
+                                                "content",
+                                                "title.english^3",
+                                                "short_description.english^2",
+                                                "content_category",
+                                            ],
+                                        }
+                                    },
+                                    {
+                                        "nested": {
+                                            "path": "departments",
+                                            "query": {
+                                                "query_string": {
+                                                    "query": '"math"',
+                                                    "fields": ["departments.name"],
+                                                }
+                                            },
+                                        }
+                                    },
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "should": [
+                {
+                    "query_string": {
+                        "query": '"math"',
+                        "fields": [
+                            "content",
+                            "title.english^3",
+                            "short_description.english^2",
+                            "content_category",
+                        ],
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "departments",
+                        "query": {
+                            "query_string": {
+                                "query": '"math"',
+                                "fields": ["departments.name"],
+                            }
+                        },
+                    }
+                },
+            ],
+        }
+    }
+    assert generate_content_file_text_clause("math") == result1
+    assert generate_content_file_text_clause('"math"') == result2
 
 
 def test_generate_suggest_clause():
@@ -594,7 +832,6 @@ def test_execute_learn_search(opensearch):
                                                                     "platform",
                                                                     "readable_id",
                                                                     "offered_by",
-                                                                    "department",
                                                                     "resource_content_tags",
                                                                     "course",
                                                                 ],
@@ -608,6 +845,19 @@ def test_execute_learn_search(opensearch):
                                                                         "query": "math",
                                                                         "fields": [
                                                                             "topics.name"
+                                                                        ],
+                                                                    }
+                                                                },
+                                                            }
+                                                        },
+                                                        {
+                                                            "nested": {
+                                                                "path": "departments",
+                                                                "query": {
+                                                                    "multi_match": {
+                                                                        "query": "math",
+                                                                        "fields": [
+                                                                            "departments.name"
                                                                         ],
                                                                     }
                                                                 },
@@ -671,6 +921,23 @@ def test_execute_learn_search(opensearch):
                                                                 },
                                                             }
                                                         },
+                                                        {
+                                                            "has_child": {
+                                                                "type": "content_file",
+                                                                "query": {
+                                                                    "multi_match": {
+                                                                        "query": "math",
+                                                                        "fields": [
+                                                                            "content",
+                                                                            "title.english^3",
+                                                                            "short_description.english^2",
+                                                                            "content_category",
+                                                                        ],
+                                                                    }
+                                                                },
+                                                                "score_mode": "avg",
+                                                            }
+                                                        },
                                                     ]
                                                 }
                                             }
@@ -690,7 +957,6 @@ def test_execute_learn_search(opensearch):
                                             "platform",
                                             "readable_id",
                                             "offered_by",
-                                            "department",
                                             "resource_content_tags",
                                             "course",
                                         ],
@@ -703,6 +969,17 @@ def test_execute_learn_search(opensearch):
                                             "multi_match": {
                                                 "query": "math",
                                                 "fields": ["topics.name"],
+                                            }
+                                        },
+                                    }
+                                },
+                                {
+                                    "nested": {
+                                        "path": "departments",
+                                        "query": {
+                                            "multi_match": {
+                                                "query": "math",
+                                                "fields": ["departments.name"],
                                             }
                                         },
                                     }
@@ -761,6 +1038,23 @@ def test_execute_learn_search(opensearch):
                                                 },
                                             }
                                         },
+                                    }
+                                },
+                                {
+                                    "has_child": {
+                                        "type": "content_file",
+                                        "query": {
+                                            "multi_match": {
+                                                "query": "math",
+                                                "fields": [
+                                                    "content",
+                                                    "title.english^3",
+                                                    "short_description.english^2",
+                                                    "content_category",
+                                                ],
+                                            }
+                                        },
+                                        "score_mode": "avg",
                                     }
                                 },
                             ],

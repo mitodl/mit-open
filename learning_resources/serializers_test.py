@@ -211,13 +211,14 @@ def test_content_file_serializer():
             ],
             "semester": content_file.run.semester,
             "year": int(content_file.run.year),
-            "topics": list(
-                content_file.run.learning_resource.topics.values_list("name", flat=True)
-            ),
+            "topics": [
+                {"name": topic.name, "id": topic.id}
+                for topic in content_file.run.learning_resource.topics.all()
+            ],
             "key": content_file.key,
             "uid": content_file.uid,
             "title": content_file.title,
-            "short_description": content_file.description,
+            "description": content_file.description,
             "file_type": content_file.file_type,
             "content_type": content_file.content_type,
             "url": content_file.url,
@@ -234,6 +235,6 @@ def test_content_file_serializer():
             "resource_readable_num": (
                 content_file.run.learning_resource.readable_id.split("+")[-1]
             ),
-            "resource_type": None,
+            "content_category": None,
         },
     )

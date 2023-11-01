@@ -56,3 +56,11 @@ class CourseNumberType(Enum):
 
     primary = "primary"
     cross_listed = "cross-listed"
+
+
+RESOURCE_FILE_ETL_SOURCES = [
+    ETLSource.mit_edx.value,
+    ETLSource.ocw.value,
+    ETLSource.mitxonline.value,
+    ETLSource.xpro.value,
+]
