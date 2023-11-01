@@ -1,6 +1,6 @@
 import * as React from "react"
 import { SimpleMenu, IconButton } from "ol-design"
-import type { SimpleMenuItemConfig } from "ol-design"
+import type { SimpleMenuItem } from "ol-design"
 import SettingsIcon from "@mui/icons-material/Settings"
 
 import { FieldChannel } from "../../../api/fields"
@@ -10,9 +10,7 @@ type SettingsMenuProps = {
   field: FieldChannel
 }
 
-const EDIT_FIELD_MENU_ITEMS: SimpleMenuItemConfig<
-  "settings" | "manage_widgets"
->[] = [
+const EDIT_FIELD_MENU_ITEMS: SimpleMenuItem<"settings" | "manage_widgets">[] = [
   {
     key: "settings",
     label: "Field Settings",

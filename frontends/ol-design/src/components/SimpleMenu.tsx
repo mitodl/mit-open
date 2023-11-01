@@ -28,6 +28,12 @@ const SimpleMenu = <K extends string>({
   const [el, setEl] = useState<HTMLElement | null>(null)
 
   const trigger = useMemo(() => {
+    /**
+     * If _trigger already has a click handler, we'll call it.
+     * If it already has a ref, we could compose the refs.
+     * This seems unlikely to be needed, so for now we'll just throw an error.
+     */
+    invariant(!trigger.props.ref, "SimpleMenu ref composition not implemented.")
     return React.cloneElement(_trigger, {
       onClick: (e: React.MouseEvent) => {
         setOpen((currentlyOpen) => !currentlyOpen)

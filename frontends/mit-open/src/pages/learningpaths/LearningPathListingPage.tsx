@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react"
 import { useHistory } from "react-router"
 import { Button, SimpleMenu, IconButton } from "ol-design"
-import type { SimpleMenuItemConfig } from "ol-design"
+import type { SimpleMenuItem } from "ol-design"
 import { Grid, LoadingSpinner } from "ol-design"
 import EditIcon from "@mui/icons-material/Edit"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
@@ -25,7 +25,7 @@ type EditListMenuProps = {
   resource: LearningPathResource
 }
 
-const EDIT_MENU_ITEMS: SimpleMenuItemConfig<"edit" | "delete">[] = [
+const EDIT_MENU_ITEMS: SimpleMenuItem<"edit" | "delete">[] = [
   {
     key: "edit",
     label: "Edit",
