@@ -3,7 +3,7 @@ import { zip } from "lodash"
 import { faker } from "@faker-js/faker/locale/en"
 import { render, screen } from "@testing-library/react"
 
-import SortableSelect, { SortableItem } from "./SortableSelect"
+import { SortableSelect, SortableItem } from "./SortableSelect"
 import { Option } from "./SelectField"
 import invariant from "tiny-invariant"
 

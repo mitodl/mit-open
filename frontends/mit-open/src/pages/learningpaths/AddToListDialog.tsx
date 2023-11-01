@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import {
   BasicDialog,
-  IconButton,
   Chip,
   Checkbox,
   List,
@@ -10,7 +9,6 @@ import {
   ListItemText,
   LoadingSpinner,
 } from "ol-design"
-import CloseIcon from "@mui/icons-material/Close"
 
 import LockOpenIcon from "@mui/icons-material/LockOpen"
 import LockIcon from "@mui/icons-material/Lock"
@@ -27,12 +25,6 @@ import {
   useLearningpathRelationshipDestroy,
 } from "api/hooks/learningResources"
 import { manageListDialogs } from "./ManageListDialogs"
-
-const topRightStyle: React.CSSProperties = {
-  position: "absolute",
-  top: 0,
-  right: 0,
-}
 
 type AddToListDialogProps = {
   resourceId: number

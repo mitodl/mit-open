@@ -7,14 +7,14 @@ import invariant from "tiny-invariant"
 import { Link } from "react-router-dom"
 import type { LocationDescriptor } from "history"
 
-interface SimpleMenuItemConfig<K extends string = string> {
+interface SimpleMenuItem<K extends string = string> {
   key: K
   label: string
   icon?: React.ReactNode
 }
 
 type SimpleMenuProps<K extends string> = {
-  items: SimpleMenuItemConfig<K>[]
+  items: SimpleMenuItem<K>[]
   actionsOrLinks: Record<K, LocationDescriptor | (() => void)>
   trigger: React.ReactElement
 }
@@ -28,12 +28,6 @@ const SimpleMenu = <K extends string>({
   const [el, setEl] = useState<HTMLElement | null>(null)
 
   const trigger = useMemo(() => {
-    /**
-     * If _trigger already has a click handler, we'll call it.
-     * If it already has a ref, we could compose the refs.
-     * This seems unlikely to be needed, so for now we'll just throw an error.
-     */
-    invariant(!trigger.props.ref, "SimpleMenu ref composition not implemented.")
     return React.cloneElement(_trigger, {
       onClick: (e: React.MouseEvent) => {
         setOpen((currentlyOpen) => !currentlyOpen)
@@ -83,4 +77,4 @@ const SimpleMenu = <K extends string>({
 }
 
 export { SimpleMenu }
-export type { SimpleMenuProps, SimpleMenuItemConfig }
+export type { SimpleMenuProps, SimpleMenuItem }
