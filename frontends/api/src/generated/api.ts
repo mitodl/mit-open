@@ -270,12 +270,6 @@ export type ContentTypeEnum =
 export interface Course {
   /**
    *
-   * @type {Array<string>}
-   * @memberof Course
-   */
-  extra_course_numbers?: Array<string> | null
-  /**
-   *
    * @type {{ [key: string]: any; }}
    * @memberof Course
    */
@@ -287,12 +281,6 @@ export interface Course {
  * @interface CourseRequest
  */
 export interface CourseRequest {
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof CourseRequest
-   */
-  extra_course_numbers?: Array<string> | null
   /**
    *
    * @type {{ [key: string]: any; }}

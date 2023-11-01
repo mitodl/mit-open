@@ -5445,12 +5445,6 @@ components:
       type: object
       description: Serializer for the Course model
       properties:
-        extra_course_numbers:
-          type: array
-          items:
-            type: string
-            maxLength: 128
-          nullable: true
         course_numbers:
           type: object
           additionalProperties: {}
@@ -5459,13 +5453,6 @@ components:
       type: object
       description: Serializer for the Course model
       properties:
-        extra_course_numbers:
-          type: array
-          items:
-            type: string
-            minLength: 1
-            maxLength: 128
-          nullable: true
         course_numbers:
           type: object
           additionalProperties: {}
