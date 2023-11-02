@@ -72,7 +72,7 @@ def test_generate_text_clause():
                                                 "offered_by",
                                                 "department",
                                                 "resource_content_tags",
-                                                "department_course_numbers",
+                                                "course",
                                             ],
                                         }
                                     },
@@ -97,13 +97,12 @@ def test_generate_text_clause():
                                     },
                                     {
                                         "nested": {
-                                            "path": "department_course_numbers",
+                                            "path": "course.course_numbers",
                                             "query": {
                                                 "multi_match": {
                                                     "query": "math",
                                                     "fields": [
-                                                        "department_course_numbers.coursenum",
-                                                        "department_course_numbers.department",
+                                                        "course.course_numbers.value",
                                                     ],
                                                 }
                                             },
@@ -164,7 +163,7 @@ def test_generate_text_clause():
                             "offered_by",
                             "department",
                             "resource_content_tags",
-                            "department_course_numbers",
+                            "course",
                         ],
                     }
                 },
@@ -183,13 +182,12 @@ def test_generate_text_clause():
                 },
                 {
                     "nested": {
-                        "path": "department_course_numbers",
+                        "path": "course.course_numbers",
                         "query": {
                             "multi_match": {
                                 "query": "math",
                                 "fields": [
-                                    "department_course_numbers.coursenum",
-                                    "department_course_numbers.department",
+                                    "course.course_numbers.value",
                                 ],
                             }
                         },
@@ -250,7 +248,7 @@ def test_generate_text_clause():
                                                 "offered_by",
                                                 "department",
                                                 "resource_content_tags",
-                                                "department_course_numbers",
+                                                "course",
                                             ],
                                         }
                                     },
@@ -275,13 +273,12 @@ def test_generate_text_clause():
                                     },
                                     {
                                         "nested": {
-                                            "path": "department_course_numbers",
+                                            "path": "course.course_numbers",
                                             "query": {
                                                 "query_string": {
                                                     "query": '"math"',
                                                     "fields": [
-                                                        "department_course_numbers.coursenum",
-                                                        "department_course_numbers.department",
+                                                        "course.course_numbers.value",
                                                     ],
                                                 }
                                             },
@@ -342,7 +339,7 @@ def test_generate_text_clause():
                             "offered_by",
                             "department",
                             "resource_content_tags",
-                            "department_course_numbers",
+                            "course",
                         ],
                     }
                 },
@@ -364,13 +361,12 @@ def test_generate_text_clause():
                 },
                 {
                     "nested": {
-                        "path": "department_course_numbers",
+                        "path": "course.course_numbers",
                         "query": {
                             "query_string": {
                                 "query": '"math"',
                                 "fields": [
-                                    "department_course_numbers.coursenum",
-                                    "department_course_numbers.department",
+                                    "course.course_numbers.value",
                                 ],
                             }
                         },
@@ -600,7 +596,7 @@ def test_execute_learn_search(opensearch):
                                                                     "offered_by",
                                                                     "department",
                                                                     "resource_content_tags",
-                                                                    "department_course_numbers",
+                                                                    "course",
                                                                 ],
                                                             }
                                                         },
@@ -627,13 +623,12 @@ def test_execute_learn_search(opensearch):
                                                         },
                                                         {
                                                             "nested": {
-                                                                "path": "department_course_numbers",
+                                                                "path": "course.course_numbers",
                                                                 "query": {
                                                                     "multi_match": {
                                                                         "query": "math",
                                                                         "fields": [
-                                                                            "department_course_numbers.coursenum",
-                                                                            "department_course_numbers.department",
+                                                                            "course.course_numbers.value",
                                                                         ],
                                                                     }
                                                                 },
@@ -695,7 +690,7 @@ def test_execute_learn_search(opensearch):
                                             "offered_by",
                                             "department",
                                             "resource_content_tags",
-                                            "department_course_numbers",
+                                            "course",
                                         ],
                                     }
                                 },
@@ -720,13 +715,12 @@ def test_execute_learn_search(opensearch):
                                 },
                                 {
                                     "nested": {
-                                        "path": "department_course_numbers",
+                                        "path": "course.course_numbers",
                                         "query": {
                                             "multi_match": {
                                                 "query": "math",
                                                 "fields": [
-                                                    "department_course_numbers.coursenum",
-                                                    "department_course_numbers.department",
+                                                    "course.course_numbers.value"
                                                 ],
                                             }
                                         },

@@ -16,8 +16,7 @@ class Command(BaseCommand):
         allowed_course_platforms = [
             platform.value
             for platform in PlatformType
-            if platform.value
-            not in [PlatformType.youtube.value, PlatformType.podcast.value]
+            if platform.value not in [PlatformType.podcast.value]
         ]
 
         parser.add_argument(

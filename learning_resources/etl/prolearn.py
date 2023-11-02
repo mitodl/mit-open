@@ -11,7 +11,7 @@ import requests
 from django.conf import settings
 
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import generate_course_numbers_json, transform_topics
+from learning_resources.etl.utils import transform_topics
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
 
 log = logging.getLogger(__name__)
@@ -317,7 +317,7 @@ def _transform_course(
         "image": parse_image(course),
         "description": course["body"],
         "course": {
-            "course_numbers": generate_course_numbers_json(course["nid"]),
+            "course_numbers": [],
         },
         "published": True,
         "topics": parse_topic(course),

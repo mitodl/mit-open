@@ -66,24 +66,19 @@ def test_serialize_course_for_bulk(
         course_numbers=course_numbers
     ).learning_resource
     assert resource.course.course_numbers == course_numbers
-    assert serializers.serialize_course_for_bulk(resource) == {
-        "_id": resource.id,
-        "department_course_numbers": [
-            {
-                "coursenum": readable_id,
-                "department": DEPARTMENTS[readable_id],
-                "primary": True,
-                "sort_coursenum": sort_course_num,
-            },
-            {
-                "coursenum": extra_num,
-                "department": DEPARTMENTS[extra_num],
-                "primary": False,
-                "sort_coursenum": sorted_extra_num,
-            },
-        ],
-        **LearningResourceSerializer(resource).data,
+    expected_data = {"_id": resource.id, **LearningResourceSerializer(resource).data}
+    expected_data["course"]["course_numbers"][0] = {
+        **expected_data["course"]["course_numbers"][0],
+        "primary": True,
+        "sort_coursenum": sort_course_num,
     }
+    expected_data["course"]["course_numbers"][1] = {
+        **expected_data["course"]["course_numbers"][1],
+        "primary": False,
+        "sort_coursenum": sorted_extra_num,
+    }
+
+    assert serializers.serialize_course_for_bulk(resource) == expected_data
 
 
 @pytest.mark.django_db()
@@ -112,7 +107,6 @@ def test_serialize_program_for_bulk():
     program = factories.ProgramFactory.create()
     assert serializers.serialize_program_for_bulk(program.learning_resource) == {
         "_id": program.learning_resource.id,
-        "department_course_numbers": [],
         **LearningResourceSerializer(program.learning_resource).data,
     }
 

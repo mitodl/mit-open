@@ -61,13 +61,13 @@ LEARNING_RESOURCE_SEARCH_FILTERS = [
     "platform",
     "professional",
     "id",
+    "course",
 ]
 
 SEARCH_NESTED_FILTERS = {
     "topic": "topics.name",
     "level": "runs.level",
     "department": "departments.name",
-    "department_course_numbers": "department_course_numbers.coursenum",
 }
 
 ENGLISH_TEXT_FIELD = {
@@ -120,14 +120,23 @@ LEARNING_RESOURCE_TYPE = {
     },
     "offered_by": {"type": "keyword"},
     "resource_content_tags": {"type": "keyword"},
-    "department_course_numbers": {
-        "type": "nested",
+    "course": {
         "properties": {
-            "coursenum": {"type": "keyword"},
-            "sort_coursenum": {"type": "keyword"},
-            "department": {"type": "keyword"},
-            "primary": {"type": "boolean"},
-        },
+            "course_numbers": {
+                "type": "nested",
+                "properties": {
+                    "value": {"type": "keyword"},
+                    "sort_coursenum": {"type": "keyword"},
+                    "department": {
+                        "properties": {
+                            "department_id": {"type": "keyword"},
+                            "name": {"type": "keyword"},
+                        }
+                    },
+                    "primary": {"type": "boolean"},
+                },
+            }
+        }
     },
     "runs": {
         "type": "nested",
@@ -172,7 +181,7 @@ LEARNING_RESOURCE_QUERY_FIELDS = [
     "offered_by",
     "department",
     "resource_content_tags",
-    "department_course_numbers",
+    "course",
 ]
 
 AGGREGATIONS = [
@@ -190,8 +199,7 @@ AGGREGATIONS = [
 TOPICS_QUERY_FIELDS = ["topics.name"]
 
 COURSE_QUERY_FIELDS = [
-    "department_course_numbers.coursenum",
-    "department_course_numbers.department",
+    "course.course_numbers.value",
 ]
 
 RUNS_QUERY_FIELDS = [
@@ -212,6 +220,3 @@ MAPPING = {
 }
 
 SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)
-SOURCE_EXCLUSIONS = [
-    "department_course_numbers",
-]

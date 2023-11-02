@@ -53,5 +53,5 @@ class ETLSource(Enum):
 class CourseNumberType(Enum):
     """Enum of course number types"""
 
-    primary = "Primary"
-    cross_listed = "Cross-listed"
+    primary = "primary"
+    cross_listed = "cross-listed"

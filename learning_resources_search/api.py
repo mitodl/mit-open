@@ -102,7 +102,7 @@ def generate_text_clause(text):
                 },
                 {
                     "nested": {
-                        "path": "department_course_numbers",
+                        "path": "course.course_numbers",
                         "query": {
                             query_type: {"query": text, "fields": COURSE_QUERY_FIELDS}
                         },

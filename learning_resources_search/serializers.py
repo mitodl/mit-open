@@ -18,24 +18,22 @@ from learning_resources_search.constants import AGGREGATIONS
 log = logging.getLogger()
 
 
-def get_department_course_number_dict(coursenum_data):
-    """
-    Generate course number dictionary from course number data
-    """
-    department_data = coursenum_data.get("department", {})
-    department_num = department_data.get("department_id") if department_data else None
-    course_num = coursenum_data.get("value")
-    if department_num and department_num[0].isdigit() and len(department_num) == 1:
-        sort_coursenum = f"0{course_num}"
-    else:
-        sort_coursenum = course_num
-
-    return {
-        "coursenum": course_num,
-        "department": department_data.get("name") if department_data else None,
-        "primary": coursenum_data.get("listing_type") == CourseNumberType.primary.value,
-        "sort_coursenum": sort_coursenum,
-    }
+def add_extra_course_number_fields(course_numbers: list[dict]):
+    """Add sortable coursenums and primary(boolean) fields to course.course_numbers"""
+    for coursenum_data in course_numbers:
+        department_data = coursenum_data.get("department", {})
+        department_num = (
+            department_data.get("department_id") if department_data else None
+        )
+        course_num = coursenum_data.get("value")
+        if department_num and department_num[0].isdigit() and len(department_num) == 1:
+            sort_coursenum = f"0{course_num}"
+        else:
+            sort_coursenum = course_num
+        coursenum_data["primary"] = (
+            coursenum_data.get("listing_type") == CourseNumberType.primary.value
+        )
+        coursenum_data["sort_coursenum"] = sort_coursenum
 
 
 def extract_values(obj, key):
@@ -341,14 +339,16 @@ class OSLearningResourceSerializer(LearningResourceSerializer):
     Any fields added here should also be added to SOURCE_EXCLUDED_FIELDS
     """
 
-    SOURCE_EXCLUDED_FIELDS = ["department_course_numbers"]
+    SOURCE_EXCLUDED_FIELDS = [
+        "course.course_numbers.sort_coursenum",
+        "course.course_numbers.primary",
+    ]
 
-    department_course_numbers = serializers.SerializerMethodField()
-
-    def get_department_course_numbers(self, instance):
+    def to_representation(self, instance):
+        """
+        Override to_representation to modify/add fields needed only for indexing
+        """
+        data = super().to_representation(instance)
         if instance.resource_type == LearningResourceType.course.name:
-            return [
-                get_department_course_number_dict(coursenum_data)
-                for coursenum_data in instance.course.course_numbers
-            ]
-        return []
+            add_extra_course_number_fields(data["course"]["course_numbers"])
+        return data
