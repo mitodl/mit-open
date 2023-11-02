@@ -16,6 +16,11 @@ type ButtonLinkProps = Pick<
   | "variant"
   | "color"
 > & { to: LinkProps["to"] }
+
+/**
+ * A button rendered as a link that uses react-router-dom's Link component
+ * for routing.
+ */
 const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
   (props, ref) => {
     return <MuiButton {...props} disableElevation component={Link} ref={ref} />
