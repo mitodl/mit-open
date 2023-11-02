@@ -42,9 +42,16 @@ def add_extra_course_number_fields(resource_data: dict):
             coursenum_data["sort_coursenum"] = sort_coursenum
 
 
-def transform_resource_data(resource_data: dict):
+def transform_resource_data(resource_data: dict) -> dict:
     """
     Apply transformations on the resource data
+
+    Args:
+        resource_data(dict): The resource data
+
+    Returns:
+        dict: The transformed resource data
+
     """
     add_extra_course_number_fields(resource_data)
     return resource_data
@@ -53,7 +60,16 @@ def transform_resource_data(resource_data: dict):
 def serialize_learning_resource_for_update(
     learning_resource_obj: LearningResource,
 ) -> dict:
-    """Add any special search-related fields to the serializer data here"""
+    """
+    Add any special search-related fields to the serializer data here
+
+    Args:
+        learning_resource_obj(LearningResource): The learning resource object
+
+    Returns:
+        dict: The serialized and transformed resource data
+
+    """
     return {
         **transform_resource_data(
             LearningResourceSerializer(learning_resource_obj).data
