@@ -18,22 +18,47 @@ from learning_resources_search.constants import AGGREGATIONS
 log = logging.getLogger()
 
 
-def add_extra_course_number_fields(course_numbers: list[dict]):
+def add_extra_course_number_fields(resource_data: dict):
     """Add sortable coursenums and primary(boolean) fields to course.course_numbers"""
-    for coursenum_data in course_numbers:
-        department_data = coursenum_data.get("department", {})
-        department_num = (
-            department_data.get("department_id") if department_data else None
-        )
-        course_num = coursenum_data.get("value")
-        if department_num and department_num[0].isdigit() and len(department_num) == 1:
-            sort_coursenum = f"0{course_num}"
-        else:
-            sort_coursenum = course_num
-        coursenum_data["primary"] = (
-            coursenum_data.get("listing_type") == CourseNumberType.primary.value
-        )
-        coursenum_data["sort_coursenum"] = sort_coursenum
+    if resource_data.get("course"):
+        course_numbers = resource_data["course"].get("course_numbers", [])
+        for coursenum_data in course_numbers:
+            department_data = coursenum_data.get("department", {})
+            department_num = (
+                department_data.get("department_id") if department_data else None
+            )
+            course_num = coursenum_data.get("value")
+            if (
+                department_num
+                and department_num[0].isdigit()
+                and len(department_num) == 1
+            ):
+                sort_coursenum = f"0{course_num}"
+            else:
+                sort_coursenum = course_num
+            coursenum_data["primary"] = (
+                coursenum_data.get("listing_type") == CourseNumberType.primary.value
+            )
+            coursenum_data["sort_coursenum"] = sort_coursenum
+
+
+def transform_resource_data(resource_data: dict):
+    """
+    Apply transformations on the resource data
+    """
+    add_extra_course_number_fields(resource_data)
+    return resource_data
+
+
+def serialize_learning_resource_for_update(
+    learning_resource_obj: LearningResource,
+) -> dict:
+    """Add any special search-related fields to the serializer data here"""
+    return {
+        **transform_resource_data(
+            LearningResourceSerializer(learning_resource_obj).data
+        ),
+    }
 
 
 def extract_values(obj, key):
@@ -280,7 +305,7 @@ def serialize_course_for_bulk(learning_resource_obj):
     """
     return {
         "_id": learning_resource_obj.id,
-        **OSLearningResourceSerializer(learning_resource_obj).data,
+        **serialize_learning_resource_for_update(learning_resource_obj),
     }
 
 
@@ -315,7 +340,7 @@ def serialize_program_for_bulk(learning_resource_obj):
     """
     return {
         "_id": learning_resource_obj.id,
-        **OSLearningResourceSerializer(learning_resource_obj).data,
+        **serialize_learning_resource_for_update(learning_resource_obj),
     }
 
 
@@ -330,25 +355,3 @@ def serialize_for_deletion(opensearch_object_id):
         dict: the object deletion data
     """
     return {"_id": opensearch_object_id, "_op_type": "delete"}
-
-
-class OSLearningResourceSerializer(LearningResourceSerializer):
-    """
-    Serializer for indexing learning resources.
-    Adds custom fields needed for search purposes.
-    Any fields added here should also be added to SOURCE_EXCLUDED_FIELDS
-    """
-
-    SOURCE_EXCLUDED_FIELDS = [
-        "course.course_numbers.sort_coursenum",
-        "course.course_numbers.primary",
-    ]
-
-    def to_representation(self, instance):
-        """
-        Override to_representation to modify/add fields needed only for indexing
-        """
-        data = super().to_representation(instance)
-        if instance.resource_type == LearningResourceType.course.name:
-            add_extra_course_number_fields(data["course"]["course_numbers"])
-        return data

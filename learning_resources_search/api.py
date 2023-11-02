@@ -12,9 +12,9 @@ from learning_resources_search.constants import (
     RUN_INSTRUCTORS_QUERY_FIELDS,
     RUNS_QUERY_FIELDS,
     SEARCH_NESTED_FILTERS,
+    SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
-from learning_resources_search.serializers import OSLearningResourceSerializer
 
 SIMILAR_RESOURCE_RELEVANT_FIELDS = ["title", "short_description"]
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
@@ -336,13 +336,7 @@ def execute_learn_search(search_params):
     )
     search = Search(index=",".join(indexes))
 
-    search = search.source(
-        fields={
-            "excludes": [
-                *OSLearningResourceSerializer.SOURCE_EXCLUDED_FIELDS,
-            ]
-        }
-    )
+    search = search.source(fields={"excludes": SOURCE_EXCLUDED_FIELDS})
 
     if search_params.get("offset"):
         search = search.extra(from_=search_params.get("offset"))

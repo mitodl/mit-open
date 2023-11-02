@@ -20,7 +20,7 @@ from learning_resources_search.constants import (
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
-from learning_resources_search.serializers import OSLearningResourceSerializer
+from learning_resources_search.serializers import serialize_learning_resource_for_update
 from learning_resources_search.tasks import (
     deindex_document,
     finish_recreate_index,
@@ -57,7 +57,7 @@ def test_upsert_course_task(mocked_api):
     """Test that upsert_course will serialize the course data and upsert it to the ES index"""
     course = CourseFactory.create()
     upsert_course(course.learning_resource_id)
-    data = OSLearningResourceSerializer(course.learning_resource).data
+    data = serialize_learning_resource_for_update(course.learning_resource)
     mocked_api.upsert_document.assert_called_once_with(
         course.learning_resource.id,
         data,
@@ -70,7 +70,7 @@ def test_upsert_program_task(mocked_api):
     """Test that upsert_program will serialize the video data and upsert it to the ES index"""
     program = ProgramFactory.create()
     upsert_program(program)
-    data = OSLearningResourceSerializer(program.learning_resource).data
+    data = serialize_learning_resource_for_update(program.learning_resource)
     mocked_api.upsert_document.assert_called_once_with(
         program.learning_resource.id,
         data,
