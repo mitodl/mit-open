@@ -5,7 +5,6 @@ from learning_resources import constants
 from learning_resources.constants import LearningResourceType
 from learning_resources.factories import (
     CourseFactory,
-    LearningResourceOfferorFactory,
     ProgramFactory,
 )
 
@@ -87,8 +86,6 @@ def test_course_creation():
 )
 def test_lr_certification(offered_by, availability, has_cert):
     """The certification property should return the expected value"""
-    offered_by = LearningResourceOfferorFactory.create(name=offered_by)
-
     course = CourseFactory.create(
         offered_by=offered_by,
         runs=[],

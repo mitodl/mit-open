@@ -123,7 +123,7 @@ class LearningResourceDepartmentFactory(DjangoModelFactory):
 class LearningResourceOfferorFactory(DjangoModelFactory):
     """Factory for LearningResourceOfferor"""
 
-    name = FuzzyChoice([offeror.value for offeror in constants.OfferedBy])
+    name = factory.LazyAttribute(lambda obj: constants.OfferedBy[obj.code].value)
     code = FuzzyChoice([offeror.name for offeror in constants.OfferedBy])
     professional = Faker("boolean")
 
