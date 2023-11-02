@@ -45,10 +45,31 @@ MIT Open uses [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest
 
 ### Load initial data
 
-Run the following to load platforms, departments, and offerors into the database:
+Run the following to load platforms, departments, and offers. This populates the database with the fixture files contained in [learning_resources/fixtures](learning_resources/fixtures). Note that you will first need to run the Django models to schema migrations detailed in the [Handbook Initial Setup](https://mitodl.github.io/handbook/how-to/common-web-app-guide.html#3-create-database-tables-from-the-django-models) step.
 
 ```bash
 docker compose run --rm web python manage.py loaddata platforms departments offered_by
+```
+
+To populate course catalog data (courses, videos, podcasts, programs), run the custom [django-admin](https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/) command scripts in [learning_resources/management/commands](learning_resources/management/commands), e.g.
+
+```bash
+docker compose run --rm web python manage.py backpopulate_xpro_data
+```
+
+These run the respective [ETL scripts](learning_resources/etl) (see filenames for commands) and will need S3 bucket access credentials and the following `.env` settings, depending on the source catalog:
+
+```env
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_STORAGE_BUCKET_NAME=
+MICROMASTERS_CATALOG_API_URL=
+OCW_BASE_URL=
+OCW_LIVE_BUCKET=
+PROLEARN_CATALOG_API_URL=
+XPRO_CATALOG_API_URL=
+XPRO_COURSES_API_URL=
+XPRO_LEARNING_COURSE_BUCKET_NAME=
 ```
 
 # Committing & Formatting
