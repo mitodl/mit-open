@@ -40,8 +40,11 @@ class Command(BaseCommand):
             )
             self.stdout.write("Waiting on task...")
             start = now_in_utc()
-            task.get()
+            count = task.get()
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
                 f"Population of prolearn data finished, took {total_seconds} seconds"
+            )
+            self.stdout.write(
+                f"Populated {count} resources. See celery logs for details."
             )
