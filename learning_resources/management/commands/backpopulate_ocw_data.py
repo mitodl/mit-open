@@ -73,5 +73,5 @@ class Command(BaseCommand):
             task.get()
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
-                f"Population of ocw data finished, took {total_seconds} seconds"
+                f"Population of ocw data finished, took {total_seconds} seconds. See celery logs for details."
             )

@@ -182,6 +182,7 @@ def extract_data(course_or_program: str) -> list[dict]:
             ),
         ).json()
         return response["data"]["searchAPISearch"]["documents"]
+    log.warning("Missing required setting PROLEARN_CATALOG_API_URL")
     return []
 
 

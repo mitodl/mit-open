@@ -77,10 +77,22 @@ def _remap_mit_edx_topics(course):
 
     return {**course, "topics": topics}
 
-
-# use the OpenEdx factory to create our extract and transform funcs
-extract, _transform = openedx_extract_transform_factory(
-    lambda: OpenEdxConfiguration(
+def get_open_edx_config():
+    """
+    Returns the OpenEdxConfiguration for edX.
+    """
+    required_settings = [
+        "EDX_API_CLIENT_ID",
+        "EDX_API_CLIENT_SECRET",
+        "EDX_API_ACCESS_TOKEN_URL",
+        "EDX_API_URL",
+        "EDX_BASE_URL",
+        "EDX_ALT_URL",
+    ]
+    for setting in required_settings:
+        if not getattr(settings, setting):
+            log.warning("Missing required setting %s", setting)
+    return OpenEdxConfiguration(
         settings.EDX_API_CLIENT_ID,
         settings.EDX_API_CLIENT_SECRET,
         settings.EDX_API_ACCESS_TOKEN_URL,
@@ -91,7 +103,9 @@ extract, _transform = openedx_extract_transform_factory(
         OfferedBy.mitx.name,
         ETLSource.mit_edx.name,
     )
-)
+
+# use the OpenEdx factory to create our extract and transform funcs
+extract, _transform = openedx_extract_transform_factory(get_open_edx_config)
 
 # modified transform function that filters the course list to ones that pass the _is_mit_course() predicate  # noqa: E501
 transform = compose(
