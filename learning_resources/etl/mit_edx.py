@@ -80,7 +80,7 @@ def _remap_mit_edx_topics(course):
 
 def get_open_edx_config():
     """
-    Returns the OpenEdxConfiguration for edX.
+    Return the OpenEdxConfiguration for edX.
     """
     required_settings = [
         "EDX_API_CLIENT_ID",

@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 
 def get_open_edx_config():
     """
-    Returns the OpenEdxConfiguration for edX.
+    Return the OpenEdxConfiguration for edX.
     """
     required_settings = [
         "OLL_API_CLIENT_ID",
