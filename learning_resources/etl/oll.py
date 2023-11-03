@@ -1,5 +1,6 @@
 """MITx learning_resources ETL"""
 import logging
+
 from django.conf import settings
 
 from learning_resources.constants import OfferedBy, PlatformType
@@ -10,6 +11,7 @@ from learning_resources.etl.openedx import (
 )
 
 log = logging.getLogger(__name__)
+
 
 def get_open_edx_config():
     """
@@ -37,6 +39,7 @@ def get_open_edx_config():
         OfferedBy.mitx.name,
         ETLSource.mit_edx.name,
     )
+
 
 # use the OpenEdx factory to create our extract and transform funcs
 extract, transform = openedx_extract_transform_factory(get_open_edx_config)

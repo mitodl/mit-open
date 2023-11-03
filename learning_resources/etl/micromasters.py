@@ -1,7 +1,8 @@
 """MicroMasters ETL"""
 
-import requests
 import logging
+
+import requests
 from django.conf import settings
 
 from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
@@ -13,6 +14,7 @@ READABLE_ID_PREFIX = "micromasters-program-"
 DEDP = "/dedp/"
 
 log = logging.getLogger(__name__)
+
 
 def extract():
     """Load the MicroMasters catalog data"""

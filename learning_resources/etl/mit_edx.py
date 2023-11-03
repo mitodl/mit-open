@@ -77,6 +77,7 @@ def _remap_mit_edx_topics(course):
 
     return {**course, "topics": topics}
 
+
 def get_open_edx_config():
     """
     Returns the OpenEdxConfiguration for edX.
@@ -103,6 +104,7 @@ def get_open_edx_config():
         OfferedBy.mitx.name,
         ETLSource.mit_edx.name,
     )
+
 
 # use the OpenEdx factory to create our extract and transform funcs
 extract, _transform = openedx_extract_transform_factory(get_open_edx_config)
