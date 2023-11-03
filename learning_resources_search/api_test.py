@@ -12,6 +12,7 @@ from learning_resources_search.api import (
     generate_text_clause,
     relevant_indexes,
 )
+from learning_resources_search.constants import SOURCE_EXCLUDED_FIELDS
 
 
 @pytest.mark.parametrize(
@@ -71,6 +72,7 @@ def test_generate_text_clause():
                                                 "offered_by",
                                                 "department",
                                                 "resource_content_tags",
+                                                "course",
                                             ],
                                         }
                                     },
@@ -91,6 +93,19 @@ def test_generate_text_clause():
                                                 "value": "MATH*",
                                                 "rewrite": "constant_score",
                                             }
+                                        }
+                                    },
+                                    {
+                                        "nested": {
+                                            "path": "course.course_numbers",
+                                            "query": {
+                                                "multi_match": {
+                                                    "query": "math",
+                                                    "fields": [
+                                                        "course.course_numbers.value",
+                                                    ],
+                                                }
+                                            },
                                         }
                                     },
                                     {
@@ -148,6 +163,7 @@ def test_generate_text_clause():
                             "offered_by",
                             "department",
                             "resource_content_tags",
+                            "course",
                         ],
                     }
                 },
@@ -162,6 +178,19 @@ def test_generate_text_clause():
                 {
                     "wildcard": {
                         "readable_id": {"value": "MATH*", "rewrite": "constant_score"}
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "course.course_numbers",
+                        "query": {
+                            "multi_match": {
+                                "query": "math",
+                                "fields": [
+                                    "course.course_numbers.value",
+                                ],
+                            }
+                        },
                     }
                 },
                 {
@@ -219,6 +248,7 @@ def test_generate_text_clause():
                                                 "offered_by",
                                                 "department",
                                                 "resource_content_tags",
+                                                "course",
                                             ],
                                         }
                                     },
@@ -239,6 +269,19 @@ def test_generate_text_clause():
                                                 "value": '"MATH"*',
                                                 "rewrite": "constant_score",
                                             }
+                                        }
+                                    },
+                                    {
+                                        "nested": {
+                                            "path": "course.course_numbers",
+                                            "query": {
+                                                "query_string": {
+                                                    "query": '"math"',
+                                                    "fields": [
+                                                        "course.course_numbers.value",
+                                                    ],
+                                                }
+                                            },
                                         }
                                     },
                                     {
@@ -296,6 +339,7 @@ def test_generate_text_clause():
                             "offered_by",
                             "department",
                             "resource_content_tags",
+                            "course",
                         ],
                     }
                 },
@@ -313,6 +357,19 @@ def test_generate_text_clause():
                 {
                     "wildcard": {
                         "readable_id": {"value": '"MATH"*', "rewrite": "constant_score"}
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "course.course_numbers",
+                        "query": {
+                            "query_string": {
+                                "query": '"math"',
+                                "fields": [
+                                    "course.course_numbers.value",
+                                ],
+                            }
+                        },
                     }
                 },
                 {
@@ -513,6 +570,7 @@ def test_execute_learn_search(opensearch):
     }
 
     query = {
+        "_source": {"excludes": SOURCE_EXCLUDED_FIELDS},
         "query": {
             "bool": {
                 "should": [
@@ -538,6 +596,7 @@ def test_execute_learn_search(opensearch):
                                                                     "offered_by",
                                                                     "department",
                                                                     "resource_content_tags",
+                                                                    "course",
                                                                 ],
                                                             }
                                                         },
@@ -560,6 +619,19 @@ def test_execute_learn_search(opensearch):
                                                                     "value": "MATH*",
                                                                     "rewrite": "constant_score",
                                                                 }
+                                                            }
+                                                        },
+                                                        {
+                                                            "nested": {
+                                                                "path": "course.course_numbers",
+                                                                "query": {
+                                                                    "multi_match": {
+                                                                        "query": "math",
+                                                                        "fields": [
+                                                                            "course.course_numbers.value",
+                                                                        ],
+                                                                    }
+                                                                },
                                                             }
                                                         },
                                                         {
@@ -618,6 +690,7 @@ def test_execute_learn_search(opensearch):
                                             "offered_by",
                                             "department",
                                             "resource_content_tags",
+                                            "course",
                                         ],
                                     }
                                 },
@@ -638,6 +711,19 @@ def test_execute_learn_search(opensearch):
                                             "value": "MATH*",
                                             "rewrite": "constant_score",
                                         }
+                                    }
+                                },
+                                {
+                                    "nested": {
+                                        "path": "course.course_numbers",
+                                        "query": {
+                                            "multi_match": {
+                                                "query": "math",
+                                                "fields": [
+                                                    "course.course_numbers.value"
+                                                ],
+                                            }
+                                        },
                                     }
                                 },
                                 {

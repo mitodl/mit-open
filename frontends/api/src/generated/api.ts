@@ -270,10 +270,10 @@ export type ContentTypeEnum =
 export interface Course {
   /**
    *
-   * @type {Array<string>}
+   * @type {{ [key: string]: any; }}
    * @memberof Course
    */
-  extra_course_numbers?: Array<string> | null
+  course_numbers?: { [key: string]: any } | null
 }
 /**
  * Serializer for the Course model
@@ -283,10 +283,10 @@ export interface Course {
 export interface CourseRequest {
   /**
    *
-   * @type {Array<string>}
+   * @type {{ [key: string]: any; }}
    * @memberof CourseRequest
    */
-  extra_course_numbers?: Array<string> | null
+  course_numbers?: { [key: string]: any } | null
 }
 /**
  * Serializer for the LearningPath model

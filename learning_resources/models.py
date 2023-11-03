@@ -3,6 +3,7 @@ from django.contrib.admin.utils import flatten
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.db.models import JSONField
 
 from learning_resources import constants
 from learning_resources.constants import (
@@ -232,9 +233,7 @@ class Course(TimestampedModel):
         on_delete=models.deletion.CASCADE,
         primary_key=True,
     )
-    extra_course_numbers = ArrayField(
-        models.CharField(max_length=128), null=True, blank=True
-    )
+    course_numbers = JSONField(null=True, blank=True)
 
     @property
     def runs(self):

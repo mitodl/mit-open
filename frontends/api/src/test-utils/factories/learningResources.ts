@@ -139,7 +139,7 @@ const learningResource: Factory<LearningResource> = (
         certification: faker.lorem.word(),
         offered_by: faker.lorem.word(),
         course: {
-          extra_course_numbers: maybe(() => repeat(faker.lorem.word)) ?? null,
+          course_numbers: maybe(() => repeat(faker.datatype.json)) ?? [],
         },
       }
     } else if (type === ResourceTypeEnum.Program) {

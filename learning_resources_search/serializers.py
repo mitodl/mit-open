@@ -8,6 +8,7 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.etl.constants import CourseNumberType
 from learning_resources.models import LearningResource
 from learning_resources.serializers import (
     LearningResourceSerializer,
@@ -15,6 +16,65 @@ from learning_resources.serializers import (
 from learning_resources_search.constants import AGGREGATIONS
 
 log = logging.getLogger()
+
+
+def add_extra_course_number_fields(resource_data: dict):
+    """Add sortable coursenums and primary(boolean) fields to course.course_numbers"""
+    if resource_data.get("course"):
+        course_numbers = resource_data["course"].get("course_numbers", [])
+        for coursenum_data in course_numbers:
+            department_data = coursenum_data.get("department", {})
+            department_num = (
+                department_data.get("department_id") if department_data else None
+            )
+            course_num = coursenum_data.get("value")
+            if (
+                department_num
+                and department_num[0].isdigit()
+                and len(department_num) == 1
+            ):
+                sort_coursenum = f"0{course_num}"
+            else:
+                sort_coursenum = course_num
+            coursenum_data["primary"] = (
+                coursenum_data.get("listing_type") == CourseNumberType.primary.value
+            )
+            coursenum_data["sort_coursenum"] = sort_coursenum
+
+
+def transform_resource_data(resource_data: dict) -> dict:
+    """
+    Apply transformations on the resource data
+
+    Args:
+        resource_data(dict): The resource data
+
+    Returns:
+        dict: The transformed resource data
+
+    """
+    add_extra_course_number_fields(resource_data)
+    return resource_data
+
+
+def serialize_learning_resource_for_update(
+    learning_resource_obj: LearningResource,
+) -> dict:
+    """
+    Add any special search-related fields to the serializer data here
+
+    Args:
+        learning_resource_obj(LearningResource): The learning resource object
+
+    Returns:
+        dict: The serialized and transformed resource data
+
+    """
+    return {
+        **transform_resource_data(
+            LearningResourceSerializer(learning_resource_obj).data
+        ),
+    }
 
 
 def extract_values(obj, key):
@@ -261,7 +321,7 @@ def serialize_course_for_bulk(learning_resource_obj):
     """
     return {
         "_id": learning_resource_obj.id,
-        **LearningResourceSerializer(learning_resource_obj).data,
+        **serialize_learning_resource_for_update(learning_resource_obj),
     }
 
 
@@ -296,7 +356,7 @@ def serialize_program_for_bulk(learning_resource_obj):
     """
     return {
         "_id": learning_resource_obj.id,
-        **LearningResourceSerializer(learning_resource_obj).data,
+        **serialize_learning_resource_for_update(learning_resource_obj),
     }
 
 

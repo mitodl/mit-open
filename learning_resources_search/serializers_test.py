@@ -1,11 +1,11 @@
 """Tests for opensearch serializers"""
-
-
 import pytest
 from django.http import QueryDict
 from rest_framework.renderers import JSONRenderer
 
 from learning_resources import factories
+from learning_resources.constants import DEPARTMENTS
+from learning_resources.etl.constants import CourseNumberType
 from learning_resources.models import Course, Program
 from learning_resources.serializers import LearningResourceSerializer
 from learning_resources_search import serializers
@@ -35,15 +35,50 @@ def test_serialize_bulk_courses(mocker):
 
 
 @pytest.mark.django_db()
-def test_serialize_course_for_bulk():
+@pytest.mark.parametrize(
+    ("readable_id", "sort_course_num"), [("1", "01"), ("15", "15"), ("CMS-W", "CMS-W")]
+)
+@pytest.mark.parametrize(
+    ("extra_num", "sorted_extra_num"), [("2", "02"), ("16", "16"), ("CC", "CC")]
+)
+def test_serialize_course_for_bulk(
+    readable_id, sort_course_num, extra_num, sorted_extra_num
+):
     """
     Test that serialize_course_for_bulk yields a valid LearningResourceSerializer
     """
-    course = factories.CourseFactory.create()
-    assert serializers.serialize_course_for_bulk(course.learning_resource) == {
-        "_id": course.learning_resource.id,
-        **LearningResourceSerializer(course.learning_resource).data,
+    course_numbers = [
+        {
+            "value": readable_id,
+            "listing_type": CourseNumberType.primary.value,
+            "department": {
+                "department_id": readable_id,
+                "name": DEPARTMENTS[readable_id],
+            },
+        },
+        {
+            "value": extra_num,
+            "listing_type": CourseNumberType.cross_listed.value,
+            "department": {"department_id": extra_num, "name": DEPARTMENTS[extra_num]},
+        },
+    ]
+    resource = factories.CourseFactory.create(
+        course_numbers=course_numbers
+    ).learning_resource
+    assert resource.course.course_numbers == course_numbers
+    expected_data = {"_id": resource.id, **LearningResourceSerializer(resource).data}
+    expected_data["course"]["course_numbers"][0] = {
+        **expected_data["course"]["course_numbers"][0],
+        "primary": True,
+        "sort_coursenum": sort_course_num,
     }
+    expected_data["course"]["course_numbers"][1] = {
+        **expected_data["course"]["course_numbers"][1],
+        "primary": False,
+        "sort_coursenum": sorted_extra_num,
+    }
+
+    assert serializers.serialize_course_for_bulk(resource) == expected_data
 
 
 @pytest.mark.django_db()
@@ -211,7 +246,6 @@ def test_learning_resources_search_response_serializer(settings):
                         "professional": True,
                         "certification": "Certificates",
                         "prices": [2250.0],
-                        "course": {"extra_course_numbers": None},
                         "learning_path": None,
                         "podcast": None,
                         "podcast_episode": None,
@@ -241,6 +275,18 @@ def test_learning_resources_search_response_serializer(settings):
                                 "checksum": None,
                             }
                         ],
+                        "course": {
+                            "course_numbers": [
+                                {
+                                    "value": "1.001",
+                                    "department": {
+                                        "department_id": "1",
+                                        "name": DEPARTMENTS["1"],
+                                    },
+                                    "listing_type": "Primary",
+                                }
+                            ]
+                        },
                         "image": {
                             "id": 16,
                             "url": "https://xpro-app-production.s3.amazonaws.com/original_images/MCPO-800x500.jpg",
@@ -328,7 +374,6 @@ def test_learning_resources_search_response_serializer(settings):
                 "professional": True,
                 "certification": "Certificates",
                 "prices": [2250.0],
-                "course": {"extra_course_numbers": None},
                 "learning_path": None,
                 "podcast": None,
                 "podcast_episode": None,
@@ -358,6 +403,18 @@ def test_learning_resources_search_response_serializer(settings):
                         "checksum": None,
                     }
                 ],
+                "course": {
+                    "course_numbers": [
+                        {
+                            "value": "1.001",
+                            "department": {
+                                "department_id": "1",
+                                "name": DEPARTMENTS["1"],
+                            },
+                            "listing_type": "Primary",
+                        }
+                    ]
+                },
                 "image": {
                     "id": 16,
                     "url": "https://xpro-app-production.s3.amazonaws.com/original_images/MCPO-800x500.jpg",

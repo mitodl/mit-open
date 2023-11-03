@@ -10,11 +10,8 @@ from opensearchpy.exceptions import ConnectionTimeout, RequestError
 from learning_resources.constants import PlatformType
 from learning_resources.factories import (
     CourseFactory,
-    LearningResourcePlatformFactory,
     ProgramFactory,
 )
-from learning_resources.models import LearningResourcePlatform
-from learning_resources.serializers import LearningResourceSerializer
 from learning_resources_search import tasks
 from learning_resources_search.constants import (
     COURSE_TYPE,
@@ -23,6 +20,7 @@ from learning_resources_search.constants import (
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
+from learning_resources_search.serializers import serialize_learning_resource_for_update
 from learning_resources_search.tasks import (
     deindex_document,
     finish_recreate_index,
@@ -59,7 +57,7 @@ def test_upsert_course_task(mocked_api):
     """Test that upsert_course will serialize the course data and upsert it to the ES index"""
     course = CourseFactory.create()
     upsert_course(course.learning_resource_id)
-    data = LearningResourceSerializer(course.learning_resource).data
+    data = serialize_learning_resource_for_update(course.learning_resource)
     mocked_api.upsert_document.assert_called_once_with(
         course.learning_resource.id,
         data,
@@ -72,7 +70,7 @@ def test_upsert_program_task(mocked_api):
     """Test that upsert_program will serialize the video data and upsert it to the ES index"""
     program = ProgramFactory.create()
     upsert_program(program)
-    data = LearningResourceSerializer(program.learning_resource).data
+    data = serialize_learning_resource_for_update(program.learning_resource)
     mocked_api.upsert_document.assert_called_once_with(
         program.learning_resource.id,
         data,
@@ -318,7 +316,7 @@ def test_bulk_deletion_tasks(mocker, with_error, tasks_func_name, indexing_func_
             None,
         ),
         (["course"], None),
-        (["course"], PlatformType.xpro.value),
+        (["course"], PlatformType.xpro.name),
     ],
 )
 def test_start_update_index(
@@ -342,23 +340,14 @@ def test_start_update_index(
 
     if COURSE_TYPE in indexes:
         courses = sorted(
-            [
-                CourseFactory.create(
-                    platform=LearningResourcePlatformFactory.create(
-                        platform=platform.value
-                    )
-                )
-                for platform in platforms
-            ],
+            [CourseFactory.create(platform=platform.name) for platform in platforms],
             key=lambda course: course.learning_resource_id,
         )
 
         unpublished_courses = sorted(
             [
                 CourseFactory.create(
-                    platform=LearningResourcePlatform.objects.get(
-                        platform=platform.value
-                    ),
+                    platform=platform.name,
                     is_unpublished=True,
                 )
                 for platform in platforms

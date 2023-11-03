@@ -5445,22 +5445,17 @@ components:
       type: object
       description: Serializer for the Course model
       properties:
-        extra_course_numbers:
-          type: array
-          items:
-            type: string
-            maxLength: 128
+        course_numbers:
+          type: object
+          additionalProperties: {}
           nullable: true
     CourseRequest:
       type: object
       description: Serializer for the Course model
       properties:
-        extra_course_numbers:
-          type: array
-          items:
-            type: string
-            minLength: 1
-            maxLength: 128
+        course_numbers:
+          type: object
+          additionalProperties: {}
           nullable: true
     LearningPath:
       type: object

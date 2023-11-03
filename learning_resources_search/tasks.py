@@ -12,7 +12,6 @@ from django.db.models import Q
 from opensearchpy.exceptions import NotFoundError, RequestError
 
 from learning_resources.models import Course, LearningResource, Program
-from learning_resources.serializers import LearningResourceSerializer
 from learning_resources.utils import load_course_blocklist
 from learning_resources_search import indexing_api as api
 from learning_resources_search.constants import (
@@ -22,6 +21,7 @@ from learning_resources_search.constants import (
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
+from learning_resources_search.serializers import serialize_learning_resource_for_update
 from open_discussions.celery import app
 from open_discussions.utils import chunks, merge_strings
 
@@ -50,7 +50,7 @@ def deindex_document(doc_id, object_type, **kwargs):
 def upsert_course(course_id):
     """Upsert course based on stored database information"""
     course_obj = LearningResource.objects.get(id=course_id)
-    course_data = LearningResourceSerializer(course_obj).data
+    course_data = serialize_learning_resource_for_update(course_obj)
     api.upsert_document(
         course_id,
         course_data,
@@ -64,7 +64,7 @@ def upsert_program(program_id):
     """Upsert program based on stored database information"""
 
     program_obj = Program.objects.get(learning_resource_id=program_id)
-    program_data = LearningResourceSerializer(program_obj.learning_resource).data
+    program_data = serialize_learning_resource_for_update(program_obj.learning_resource)
     api.upsert_document(
         program_obj.learning_resource.id,
         program_data,

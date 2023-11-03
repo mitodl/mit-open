@@ -48,3 +48,10 @@ class ETLSource(Enum):
     ocw = "ocw"
     prolearn = "prolearn"
     podcast = "podcast"
+
+
+class CourseNumberType(Enum):
+    """Enum of course number types"""
+
+    primary = "primary"
+    cross_listed = "cross-listed"

@@ -87,12 +87,12 @@ def test_course_creation():
 )
 def test_lr_certification(offered_by, availability, has_cert):
     """The certification property should return the expected value"""
-    offered_by = LearningResourceOfferorFactory.create(name=offered_by)
+    offered_by = LearningResourceOfferorFactory.create(code=offered_by)
 
     course = CourseFactory.create(
-        offered_by=offered_by,
+        offered_by=offered_by.code,
         runs=[],
-        is_professional=(has_cert and offered_by != constants.OfferedBy.mitx.value),
+        is_professional=(has_cert and offered_by != constants.OfferedBy.mitx.name),
     )
 
     assert course.learning_resource.certification == (

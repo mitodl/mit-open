@@ -33,8 +33,11 @@ from learning_resources.constants import (
     DEPARTMENTS,
     VALID_TEXT_FILE_TYPES,
 )
-from learning_resources.etl.constants import ETLSource
-from learning_resources.models import ContentFile, LearningResourceRun
+from learning_resources.etl.constants import CourseNumberType, ETLSource
+from learning_resources.models import (
+    ContentFile,
+    LearningResourceRun,
+)
 
 log = logging.getLogger(__name__)
 
@@ -496,7 +499,9 @@ def get_content_type(file_type: str) -> str:
     return CONTENT_TYPE_FILE
 
 
-def extract_valid_department_from_id(course_string: str) -> list[str]:
+def extract_valid_department_from_id(
+    course_string: str, is_ocw: bool = False  # noqa: FBT001, FBT002
+) -> list[str]:
     """
     Extracts a department from course data and returns
 
@@ -506,8 +511,53 @@ def extract_valid_department_from_id(course_string: str) -> list[str]:
     Returns:
         department (str): parsed department string
     """  # noqa: D401
-    department_string = re.search(r"\+([^\.]*)\.", course_string)
+    num_pattern = r"^(\d+)\.*" if is_ocw else r"\+([^\.]*)\."
+    department_string = re.search(num_pattern, course_string)
     if department_string:
         dept_candidate = department_string.groups()[0]
+        # Some CMS-W department courses start with 21W, but we want to use CMS-W
+        if dept_candidate == "21W":
+            dept_candidate = "CMS-W"
         return [dept_candidate] if dept_candidate in DEPARTMENTS else []
     return []
+
+
+def generate_course_numbers_json(
+    course_num: str,
+    extra_nums: list[str] | None = None,
+    is_ocw: bool = False,  # noqa: FBT001, FBT002
+) -> list[dict]:
+    """
+    Generate a dict containing info on course numbers and departments
+
+    Args:
+        course_num (str): primary course number
+        extra_nums (list[str]): list of cross-listed course numbers
+        is_ocw (bool): whether or not the course is an OCW course
+
+    Returns:
+        course_number_json (list[dict]): list of dicts containing course number info
+
+    """
+    course_number_json = []
+    course_numbers = [course_num]
+    if not extra_nums:
+        extra_nums = []
+    course_numbers.extend(extra_nums)
+    for idx, num in enumerate(course_numbers):
+        dept_id = extract_valid_department_from_id(num, is_ocw=is_ocw)
+        course_number_json.append(
+            {
+                "value": num,
+                "listing_type": CourseNumberType.primary.value
+                if idx == 0
+                else CourseNumberType.cross_listed.value,
+                "department": {
+                    "department_id": dept_id[0],
+                    "name": DEPARTMENTS[dept_id[0]],
+                }
+                if dept_id
+                else None,
+            }
+        )
+    return course_number_json

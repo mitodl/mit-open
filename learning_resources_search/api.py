@@ -5,12 +5,14 @@ from opensearch_dsl import Search
 
 from learning_resources_search.connection import get_default_alias_name
 from learning_resources_search.constants import (
+    COURSE_QUERY_FIELDS,
     LEARNING_RESOURCE_QUERY_FIELDS,
     LEARNING_RESOURCE_SEARCH_FILTERS,
     LEARNING_RESOURCE_TYPES,
     RUN_INSTRUCTORS_QUERY_FIELDS,
     RUNS_QUERY_FIELDS,
     SEARCH_NESTED_FILTERS,
+    SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
 
@@ -96,6 +98,14 @@ def generate_text_clause(text):
                             "value": f"{text.upper()}*",
                             "rewrite": "constant_score",
                         }
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "course.course_numbers",
+                        "query": {
+                            query_type: {"query": text, "fields": COURSE_QUERY_FIELDS}
+                        },
                     }
                 },
                 {
@@ -325,6 +335,8 @@ def execute_learn_search(search_params):
         search_params.get("resource_type"), search_params.get("aggregations")
     )
     search = Search(index=",".join(indexes))
+
+    search = search.source(fields={"excludes": SOURCE_EXCLUDED_FIELDS})
 
     if search_params.get("offset"):
         search = search.extra(from_=search_params.get("offset"))

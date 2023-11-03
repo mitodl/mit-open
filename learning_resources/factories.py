@@ -100,7 +100,7 @@ class LearningResourcePlatformFactory(DjangoModelFactory):
     """Factory for LearningResourcePlatform"""
 
     platform = FuzzyChoice([platform.name for platform in constants.PlatformType])
-    name = FuzzyChoice([platform.value for platform in constants.PlatformType])
+    name = factory.LazyAttribute(lambda o: constants.PlatformType[o.platform].value)
     is_edx = Faker("boolean")
     has_content_files = Faker("boolean")
 
@@ -123,8 +123,8 @@ class LearningResourceDepartmentFactory(DjangoModelFactory):
 class LearningResourceOfferorFactory(DjangoModelFactory):
     """Factory for LearningResourceOfferor"""
 
-    name = FuzzyChoice([offeror.value for offeror in constants.OfferedBy])
     code = FuzzyChoice([offeror.name for offeror in constants.OfferedBy])
+    name = factory.LazyAttribute(lambda o: constants.OfferedBy[o.code].value)
     professional = Faker("boolean")
 
     class Meta:
@@ -188,7 +188,15 @@ class CourseFactory(DjangoModelFactory):
         LearningResourceFactory,
         resource_type=constants.LearningResourceType.course.name,
     )
-    extra_course_numbers = factory.List([])
+    course_numbers = factory.List(
+        [
+            {
+                "value": f"{random.randint(1,20)}.0001",  # noqa: S311
+                "department": None,
+                "listing_type": "Primary",
+            }
+        ]
+    )
 
     @factory.post_generation
     def runs(self, create, extracted, **kwargs):  # noqa: ARG002
@@ -210,7 +218,18 @@ class CourseFactory(DjangoModelFactory):
             return
 
         self.learning_resource.platform = LearningResourcePlatformFactory.create(
-            platform=extracted
+            platform=extracted, name=constants.PlatformType[extracted].value
+        )
+        self.learning_resource.save()
+
+    @factory.post_generation
+    def offered_by(self, create, extracted, **kwargs):  # noqa: ARG002
+        """Create LearningResourceOfferor for course.learning_resource"""
+        if not create or not extracted:
+            return
+
+        self.learning_resource.offered_by = LearningResourceOfferorFactory.create(
+            code=extracted, name=constants.OfferedBy[extracted].value
         )
         self.learning_resource.save()
 
@@ -221,17 +240,6 @@ class CourseFactory(DjangoModelFactory):
             return
 
         self.learning_resource.etl_source = extracted
-        self.learning_resource.save()
-
-    @factory.post_generation
-    def offered_by(self, create, extracted, **kwargs):  # noqa: ARG002
-        """Create LearningResourceOfferor for course.learning_resource"""
-        if not create or not extracted:
-            return
-
-        self.learning_resource.offered_by = LearningResourceOfferorFactory.create(
-            code=extracted
-        )
         self.learning_resource.save()
 
     @factory.post_generation
@@ -394,11 +402,24 @@ class ProgramFactory(DjangoModelFactory):
 
     @factory.post_generation
     def platform(self, create, extracted, **kwargs):  # noqa: ARG002
-        """Create platform for program.learning_resource"""
+        """Create platform for course.learning_resource"""
         if not create or not extracted:
             return
 
-        self.learning_resource.platform = extracted
+        self.learning_resource.platform = LearningResourcePlatformFactory.create(
+            platform=extracted, name=constants.PlatformType[extracted].value
+        )
+        self.learning_resource.save()
+
+    @factory.post_generation
+    def offered_by(self, create, extracted, **kwargs):  # noqa: ARG002
+        """Create LearningResourceOfferor for course.learning_resource"""
+        if not create or not extracted:
+            return
+
+        self.learning_resource.offered_by = LearningResourceOfferorFactory.create(
+            code=extracted, name=constants.OfferedBy[extracted].value
+        )
         self.learning_resource.save()
 
     @factory.post_generation

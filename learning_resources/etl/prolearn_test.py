@@ -204,6 +204,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                     course["start_value"], course["end_value"]
                 )
             ],
+            "course": {"course_numbers": []},
         }
         for course in extracted_data
     ]

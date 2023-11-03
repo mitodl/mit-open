@@ -9,7 +9,7 @@ from django.conf import settings
 
 from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import transform_topics
+from learning_resources.etl.utils import generate_course_numbers_json, transform_topics
 
 log = logging.getLogger(__name__)
 
@@ -87,7 +87,6 @@ def _transform_learning_resource_course(course):
 
     Args:
         course (dict): course data
-        xpro_platform_map (dict): dict of xpro platform names to platform values
 
     Returns:
         dict: normalized learning resource data
@@ -108,6 +107,11 @@ def _transform_learning_resource_course(course):
         "topics": transform_topics(course.get("topics", [])),
         "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
         "resource_type": LearningResourceType.course.name,
+        "course": {
+            "course_numbers": generate_course_numbers_json(
+                course["readable_id"], is_ocw=False
+            ),
+        },
     }
 
 

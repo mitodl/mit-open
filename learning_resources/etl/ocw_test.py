@@ -9,7 +9,8 @@ import pytz
 from moto import mock_s3
 
 from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3_ocw
-from learning_resources.etl.constants import ETLSource
+from learning_resources.constants import DEPARTMENTS
+from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.ocw import (
     transform_content_files,
     transform_contentfile,
@@ -195,8 +196,26 @@ def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extr
         assert transformed_json["image"]["alt"] == (
             "Illustration of an aircraft wing showing connections between the disciplines of the course."
         )
-        assert transformed_json["course"]["extra_course_numbers"] == (
-            ["1", "2"] if has_extra_num else []
+        assert transformed_json["course"]["course_numbers"][0] == {
+            "value": "16.01",
+            "department": {"department_id": "16", "name": DEPARTMENTS["16"]},
+            "listing_type": CourseNumberType.primary.value,
+        }
+        assert transformed_json["course"]["course_numbers"][1:] == (
+            [
+                {
+                    "value": "1",
+                    "department": {"department_id": "1", "name": DEPARTMENTS["1"]},
+                    "listing_type": CourseNumberType.cross_listed.value,
+                },
+                {
+                    "value": "2",
+                    "department": {"department_id": "2", "name": DEPARTMENTS["2"]},
+                    "listing_type": CourseNumberType.cross_listed.value,
+                },
+            ]
+            if has_extra_num
+            else []
         )
     else:
         assert transformed_json is None

@@ -13,6 +13,7 @@ from learning_resources.constants import LearningResourceType, OfferedBy, Platfo
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     extract_valid_department_from_id,
+    generate_course_numbers_json,
     transform_topics,
 )
 
@@ -146,6 +147,11 @@ def _transform_course(course):
         "runs": [
             _transform_run(course_run, course) for course_run in course["courseruns"]
         ],
+        "course": {
+            "course_numbers": generate_course_numbers_json(
+                course["readable_id"], is_ocw=False
+            ),
+        },
         "published": bool(
             parse_page_attribute(course, "page_url")
         ),  # a course is only considered published if it has a page url

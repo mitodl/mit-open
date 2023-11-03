@@ -9,7 +9,7 @@ import pytest
 
 from learning_resources.constants import LearningResourceType, PlatformType
 from learning_resources.etl import xpro
-from learning_resources.etl.constants import ETLSource
+from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.utils import UCC_TOPIC_MAPPINGS
 from open_discussions.test_utils import any_instance_of
 
@@ -162,6 +162,15 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
+                    "course": {
+                        "course_numbers": [
+                            {
+                                "value": course_data["readable_id"],
+                                "department": None,
+                                "listing_type": CourseNumberType.primary.value,
+                            }
+                        ]
+                    },
                 }
                 for course_data in program_data["courses"]
             ],
@@ -218,6 +227,15 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                 }
                 for course_run_data in course_data["courseruns"]
             ],
+            "course": {
+                "course_numbers": [
+                    {
+                        "value": course_data["readable_id"],
+                        "department": None,
+                        "listing_type": CourseNumberType.primary.value,
+                    }
+                ]
+            },
         }
         for course_data in mock_xpro_courses_data
     ]

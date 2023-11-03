@@ -316,6 +316,9 @@ def _transform_course(
         "url": parse_url(course),
         "image": parse_image(course),
         "description": course["body"],
+        "course": {
+            "course_numbers": [],
+        },
         "published": True,
         "topics": parse_topic(course),
         "runs": _transform_runs(course),
