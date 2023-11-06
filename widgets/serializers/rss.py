@@ -55,7 +55,7 @@ class RssFeedWidgetSerializer(WidgetInstanceSerializer):
     description = "RSS Feed"
 
     def get_json(self, instance):
-        """Obtains RSS feed data which will then be provided to the React component"""  # noqa: D401, E501
+        """Obtains RSS feed data which will then be provided to the React component"""  # noqa: D401
         try:
             rss = _fetch_rss(instance.configuration["url"])
             entries = getattr(rss, "entries", [])

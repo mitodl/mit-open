@@ -49,7 +49,7 @@ class WidgetInstanceSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
 
     def validate_configuration(self, value):
-        """Returns configuration as validated by configuration_serializer_class"""  # noqa: D401, E501
+        """Returns configuration as validated by configuration_serializer_class"""  # noqa: D401
 
         if self.configuration_serializer_class is not _raise_not_implemented:
             serializer = self.configuration_serializer_class(data=value)

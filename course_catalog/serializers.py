@@ -74,7 +74,7 @@ class GenericForeignKeyFieldSerializer(serializers.Serializer):
             serializer = PodcastEpisodeSerializer(instance, context=context)
         else:
             msg = "Unexpected type of tagged object"
-            raise Exception(  # pylint:disable=broad-exception-raised  # noqa: E501, TRY002, TRY004
+            raise Exception(  # pylint:disable=broad-exception-raised  # noqa: TRY002, TRY004
                 msg
             )
         return serializer.data
@@ -443,7 +443,7 @@ class ListItemListSerializer(serializers.ListSerializer):
         #   needs to hit a different join table for each type
 
         def _items_for_classes(*classes):
-            """Returns a list of items that matches a list of classes by content_type"""  # noqa: D401, E501
+            """Returns a list of items that matches a list of classes by content_type"""  # noqa: D401
             return [
                 item.item for item in data if item.content_type.model_class() in classes
             ]

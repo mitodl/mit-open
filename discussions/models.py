@@ -23,7 +23,7 @@ class ChannelQuerySet(TimestampedModelQuerySet):
         """Filter the queryset for what a given user is allowed to operate on"""
         from guardian.shortcuts import get_objects_for_user
 
-        permission = f"{self.model._meta.app_label}.view_{self.model._meta.model_name}"  # noqa: E501, SLF001
+        permission = f"{self.model._meta.app_label}.view_{self.model._meta.model_name}"  # noqa: SLF001
 
         if user.is_staff:
             # staff users can see/do anything
