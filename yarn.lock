@@ -3076,11 +3076,11 @@ __metadata:
   linkType: hard
 
 "@types/url-assembler@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@types/url-assembler@npm:2.1.1"
+  version: 2.1.3
+  resolution: "@types/url-assembler@npm:2.1.3"
   dependencies:
     "@types/qs": "*"
-  checksum: c2361a6b5161049a338738e9da81f9a0e325e02548b180bf2230fd5b9e600e6fc6428e97416a7fba588c80f8d2d509a68b70e459bfd27dc9272da86074b99703
+  checksum: e34126a3473712721fce612e5b656f032562936869686a3368a73c81bf04147d42e9254784ad083bea09d34c34809a3278051ca1c081453def02fbfcc9708e6a
   languageName: node
   linkType: hard
 
