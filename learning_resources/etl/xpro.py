@@ -43,6 +43,7 @@ def extract_programs():
     """Loads the xPro catalog data"""  # noqa: D401
     if settings.XPRO_CATALOG_API_URL:
         return requests.get(settings.XPRO_CATALOG_API_URL, timeout=20).json()
+    log.warning("Missing required setting XPRO_CATALOG_API_URL")
     return []
 
 
@@ -50,6 +51,7 @@ def extract_courses():
     """Loads the xPro catalog data"""  # noqa: D401
     if settings.XPRO_COURSES_API_URL:
         return requests.get(settings.XPRO_COURSES_API_URL, timeout=20).json()
+    log.warning("Missing required setting XPRO_COURSES_API_URL")
     return []
 
 

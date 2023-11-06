@@ -30,26 +30,30 @@ log = logging.getLogger(__name__)
 @app.task
 def get_micromasters_data():
     """Execute the MicroMasters ETL pipeline"""
-    pipelines.micromasters_etl()
+    programs = pipelines.micromasters_etl()
+    return len(programs)
 
 
 @app.task
-def get_mit_edx_data():
+def get_mit_edx_data() -> int:
     """Task to sync MIT edX data with the database"""
-    pipelines.mit_edx_etl()
+    courses = pipelines.mit_edx_etl()
+    return len(courses)
 
 
 @app.task
-def get_mitxonline_data():
+def get_mitxonline_data() -> int:
     """Execute the MITX Online ETL pipeline"""
-    pipelines.mitxonline_courses_etl()
-    pipelines.mitxonline_programs_etl()
+    courses = pipelines.mitxonline_courses_etl()
+    programs = pipelines.mitxonline_programs_etl()
+    return len(courses + programs)
 
 
 @app.task
 def get_oll_data():
     """Execute the OLL ETL pipeline"""
-    pipelines.oll_etl()
+    courses = pipelines.oll_etl()
+    return len(courses)
 
 
 @app.task
@@ -63,8 +67,9 @@ def get_prolearn_data():
 @app.task
 def get_xpro_data():
     """Execute the xPro ETL pipeline"""
-    pipelines.xpro_courses_etl()
-    pipelines.xpro_programs_etl()
+    courses = pipelines.xpro_courses_etl()
+    programs = pipelines.xpro_programs_etl()
+    return len(courses + programs)
 
 
 @app.task
