@@ -2925,11 +2925,11 @@ __metadata:
   linkType: hard
 
 "@types/react-infinite-scroller@npm:^1.2.3":
-  version: 1.2.3
-  resolution: "@types/react-infinite-scroller@npm:1.2.3"
+  version: 1.2.4
+  resolution: "@types/react-infinite-scroller@npm:1.2.4"
   dependencies:
     "@types/react": "*"
-  checksum: ae11063b5e114bff1f06e9d3d2ca0948a3a224f13b4a30fbfe56f84e535ee6232de9667456695bbbb409de51887d701f8558fd28c36a2ea172e8593346de85d1
+  checksum: 3fa8c9ea96efd880b98935f7e24a122c59aa46bc1522d38a66c542a6e74c3ed726e2e96613a92a5a541d2c9d438b50fdf4ead31ac0991faed81777bf55b0e766
   languageName: node
   linkType: hard
 
