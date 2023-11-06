@@ -4,8 +4,7 @@ import factory
 
 from channels_fields.api import create_field_groups_and_roles
 from channels_fields.models import FieldChannel, FieldList, Subfield
-from course_catalog.constants import PrivacyLevel
-from course_catalog.factories import UserListFactory
+from learning_resources.factories import LearningPathFactory
 
 
 class FieldChannelFactory(factory.DjangoModelFactory):
@@ -54,11 +53,11 @@ class SubfieldFactory(factory.DjangoModelFactory):
 class FieldListFactory(factory.DjangoModelFactory):
     """Factory for channels_fields.models.FieldList object"""
 
+    learning_path = factory.SubFactory(LearningPathFactory)
     position = factory.Sequence(lambda n: n)
-    field_list = factory.SubFactory(
-        UserListFactory, privacy_level=PrivacyLevel.public.value
-    )
+    field_list = factory.LazyAttribute(lambda o: o.learning_path.learning_resource)
     field_channel = factory.SubFactory(FieldChannelFactory)
 
     class Meta:
         model = FieldList
+        exclude = ["learning_path"]

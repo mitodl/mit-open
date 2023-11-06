@@ -16,9 +16,8 @@ from channels_fields.serializers import (
     FieldChannelWriteSerializer,
     FieldModeratorSerializer,
 )
-from course_catalog.constants import PrivacyLevel
-from course_catalog.factories import UserListFactory
-from course_catalog.serializers import UserListSerializer
+from learning_resources.factories import LearningPathFactory
+from learning_resources.serializers import LearningResourceSerializer
 from open_discussions.factories import UserFactory
 
 # pylint:disable=redefined-outer-name
@@ -83,7 +82,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "created_on": mocker.ANY,
         "id": field_channel.id,
         "lists": [
-            UserListSerializer(field_list.field_list).data
+            LearningResourceSerializer(field_list.field_list).data
             for field_list in sorted(
                 field_lists,
                 key=lambda l: l.position,  # noqa: E741
@@ -101,7 +100,7 @@ def test_create_field_channel(base_field_data):
     Test creating a field channel
     """
     user_lists = sorted(
-        UserListFactory.create_batch(2, privacy_level=PrivacyLevel.public.value),
+        (p.learning_resource for p in LearningPathFactory.create_batch(2)),
         key=lambda list: list.id,  # noqa: A002
         reverse=True,
     )
@@ -130,8 +129,12 @@ def test_create_field_channel(base_field_data):
 
 def test_create_field_channel_private_list(base_field_data):
     """Validation should fail if a list is private"""
-    user_list = UserListFactory.create(privacy_level=PrivacyLevel.private.value)
-    data = {**base_field_data, "featured_list": user_list.id, "lists": [user_list.id]}
+    learning_path = LearningPathFactory.create(is_unpublished=True)
+    data = {
+        **base_field_data,
+        "featured_list": learning_path.id,
+        "lists": [learning_path.id],
+    }
     serializer = FieldChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
     assert "featured_list" in serializer.errors

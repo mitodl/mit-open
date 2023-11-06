@@ -12,9 +12,9 @@ from rest_framework.exceptions import ValidationError
 from channels_fields.api import add_user_role, is_moderator
 from channels_fields.constants import FIELD_ROLE_MODERATORS
 from channels_fields.models import FieldChannel, FieldList, Subfield
-from course_catalog.constants import PrivacyLevel
-from course_catalog.models import UserList
-from course_catalog.serializers import UserListSerializer
+from learning_resources.constants import LearningResourceType
+from learning_resources.models import LearningResource
+from learning_resources.serializers import LearningResourceSerializer
 from profiles.models import Profile
 
 User = get_user_model()
@@ -102,14 +102,14 @@ class FieldChannelSerializer(ChannelAppearanceMixin, serializers.ModelSerializer
     """Serializer for FieldChannel"""
 
     lists = serializers.SerializerMethodField()
-    featured_list = UserListSerializer(many=False, read_only=True)
+    featured_list = LearningResourceSerializer(many=False, read_only=True)
     subfields = SubfieldSerializer(many=True, read_only=True)
 
-    @extend_schema_field(UserListSerializer(many=True))
+    @extend_schema_field(LearningResourceSerializer(many=True))
     def get_lists(self, instance):
-        """Returns the field's list of UserLists"""  # noqa: D401
+        """Return the field's list of LearningPaths"""
         return [
-            UserListSerializer(field_list.field_list).data
+            LearningResourceSerializer(field_list.field_list).data
             for field_list in instance.lists.all().order_by("position")
         ]
 
@@ -146,7 +146,10 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
         allow_null=True,
         allow_empty=True,
         required=False,
-        queryset=UserList.objects.filter(privacy_level=PrivacyLevel.public.value),
+        queryset=LearningResource.objects.filter(
+            published=True,
+            resource_type=LearningResourceType.learning_path.name,
+        ),
     )
     lists = WriteableSerializerMethodField()
     subfields = WriteableSerializerMethodField()
@@ -164,12 +167,14 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
         )
 
     def validate_lists(self, lists: list[int]):
-        """Validator for lists"""  # noqa: D401
+        """Validate lists"""
         if len(lists) > 0:
             try:
                 valid_list_ids = set(
-                    UserList.objects.filter(
-                        id__in=lists, privacy_level=PrivacyLevel.public.value
+                    LearningResource.objects.filter(
+                        id__in=lists,
+                        published=True,
+                        resource_type=LearningResourceType.learning_path.name,
                     ).values_list("id", flat=True)
                 )
             except (ValueError, TypeError):
@@ -181,18 +186,18 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
                 raise ValidationError(msg)
         return {"lists": lists}
 
-    @extend_schema_field(UserListSerializer(many=True))
+    @extend_schema_field(LearningResourceSerializer(many=True))
     def get_lists(self, instance):
-        """Returns the field's list of UserLists"""  # noqa: D401
+        """Return the field's list of LearningPaths"""
         return [
-            UserListSerializer(field_list.field_list).data
+            LearningResourceSerializer(field_list.field_list).data
             for field_list in instance.lists.all()
             .prefetch_related("field_list", "field_channel")
             .order_by("position")
         ]
 
     def validate_subfields(self, subfields: list[str]):
-        """Validator for subfields"""  # noqa: D401
+        """Validate subfields"""
         if len(subfields) > 0:
             try:
                 valid_subfield_names = set(
@@ -227,11 +232,11 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
         new_lists = set()
         former_lists = list(instance.lists.values_list("id", flat=True))
         for idx, list_pk in enumerate(field_lists):
-            userlist = UserList.objects.filter(pk=list_pk).first()
-            if userlist:
+            learning_path = LearningResource.objects.filter(pk=list_pk).first()
+            if learning_path:
                 field_list, _ = FieldList.objects.update_or_create(
                     field_channel=instance,
-                    field_list=userlist,
+                    field_list=learning_path,
                     defaults={"position": idx},
                 )
                 new_lists.add(field_list)
