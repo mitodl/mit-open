@@ -1,5 +1,7 @@
 """MicroMasters ETL"""
 
+import logging
+
 import requests
 from django.conf import settings
 
@@ -11,6 +13,8 @@ OFFERED_BY = {"code": OfferedBy.mitx.name}
 READABLE_ID_PREFIX = "micromasters-program-"
 DEDP = "/dedp/"
 
+log = logging.getLogger(__name__)
+
 
 def extract():
     """Load the MicroMasters catalog data"""
@@ -20,6 +24,7 @@ def extract():
             headers={**COMMON_HEADERS},
             timeout=settings.REQUESTS_TIMEOUT,
         ).json()
+    log.warning("Missing required setting MICROMASTERS_CATALOG_API_URL")
     return []
 
 
