@@ -1,4 +1,5 @@
 """Urls for channels_fields"""
+
 from django.urls import include, re_path
 from rest_framework.routers import DefaultRouter
 

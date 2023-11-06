@@ -1,4 +1,5 @@
 """Tests for the deduplication ETL functions"""
+
 from datetime import datetime
 
 import pytest

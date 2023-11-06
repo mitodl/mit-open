@@ -1,4 +1,5 @@
 """Views for learning_resources"""
+
 import logging
 from hmac import compare_digest
 from uuid import uuid4

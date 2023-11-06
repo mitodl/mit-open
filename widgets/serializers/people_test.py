@@ -1,4 +1,5 @@
 """Tests for people widget serializer"""
+
 import pytest
 
 from profiles.models import Profile

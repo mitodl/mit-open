@@ -1,4 +1,5 @@
 """RSS widget"""
+
 import logging
 import time
 
@@ -85,9 +86,11 @@ class RssFeedWidgetSerializer(WidgetInstanceSerializer):
                     "title": entry.get("title"),
                     "description": entry.get("description"),
                     "link": entry.get("link"),
-                    "timestamp": time.strftime(ISOFORMAT, entry.get(timestamp_key))
-                    if entry.get(timestamp_key)
-                    else None,
+                    "timestamp": (
+                        time.strftime(ISOFORMAT, entry.get(timestamp_key))
+                        if entry.get(timestamp_key)
+                        else None
+                    ),
                 }
                 for entry in sorted_feed[:display_limit]
             ],

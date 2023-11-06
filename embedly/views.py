@@ -1,4 +1,5 @@
 """Embed.ly views"""
+
 from urllib.parse import unquote
 
 from django.conf import settings

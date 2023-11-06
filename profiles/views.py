@@ -1,4 +1,5 @@
 """Views for REST APIs for channels"""
+
 from cairosvg import svg2png  # pylint:disable=no-name-in-module
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User

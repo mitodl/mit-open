@@ -33,7 +33,7 @@ authors  = ["MIT ODL"]
 
 
 [tool.poetry.dependencies]
-python = "3.11.4"
+python = "3.11.5"
 attrs = "^23.1.0"
 base36 = "^0.1.1"
 beautifulsoup4 = "^4.8.2"
@@ -100,7 +100,7 @@ nh3 = "^0.2.14"
 retry2 = "^0.9.5"
 
 [tool.poetry.group.dev.dependencies]
-black = "*"
+black = "^23.10.1"
 bpython = "^0.24"
 ddt = "^1.6.0"
 django-debug-toolbar = "^4.1.0"
@@ -118,7 +118,7 @@ pytest-freezegun = "^0.4.2"
 pytest-lazy-fixture = "^0.6.3"
 pytest-mock = "^3.10.0"
 responses = "^0.14.0"
-ruff = "*"
+ruff = "^0.1.4"
 safety = "^2.3.4"
 semantic-version = "^2.10.0"
 

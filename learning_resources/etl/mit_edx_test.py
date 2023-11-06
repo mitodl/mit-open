@@ -1,4 +1,5 @@
 """Tests for the MIT edX ETL functions"""
+
 import copy
 
 from learning_resources.etl.mit_edx import EDX_TOPIC_MAPPINGS, transform

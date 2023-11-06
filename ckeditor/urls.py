@@ -1,4 +1,5 @@
 """URL configuration for ckeditor"""
+
 from django.urls import re_path
 
 from ckeditor.views import ckeditor_view

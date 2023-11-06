@@ -1,4 +1,5 @@
 """ETL utils test"""
+
 from pathlib import Path
 from subprocess import CalledProcessError
 

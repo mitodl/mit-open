@@ -1,6 +1,7 @@
 """
 Serializers for profile REST APIs
 """
+
 import re
 
 import ulid
@@ -135,9 +136,11 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
         internal_value = super().to_internal_value(
             {
                 **data,
-                "profile": Profile.objects.filter(user__username=data.get("username"))
-                .values_list("id", flat=True)
-                .first(),
+                "profile": (
+                    Profile.objects.filter(user__username=data.get("username"))
+                    .values_list("id", flat=True)
+                    .first()
+                ),
             }
         )
         internal_value["site_type"] = get_site_type_from_url(
@@ -164,9 +167,8 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
                 raise ValidationError(
                     {
                         "url": [
-                            "Please provide a URL for one of these social sites: {}".format(  # noqa: E501
-                                ", ".join(SOCIAL_SITE_NAME_MAP.values())
-                            )
+                            "Please provide a URL for one of these social sites: {}"
+                            .format(", ".join(SOCIAL_SITE_NAME_MAP.values()))
                         ]
                     }
                 )

@@ -1,4 +1,5 @@
 """ckeditor models"""
+
 from django.db import models
 
 from open_discussions.models import TimestampedModel

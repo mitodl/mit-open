@@ -1,4 +1,5 @@
 """Tests for profile model"""
+
 import pytest
 from django.core.files.uploadedfile import UploadedFile
 

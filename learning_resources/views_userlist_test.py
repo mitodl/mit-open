@@ -1,4 +1,5 @@
 """Tests for learning_resources UserList views"""
+
 import pytest
 from django.urls import reverse
 
@@ -20,9 +21,9 @@ def test_user_list_endpoint_get(client, user, is_author, has_image, is_unlisted)
 
     another_user_list = factories.UserListFactory.create(
         author=UserFactory.create(),
-        privacy_level=PrivacyLevel.unlisted.value
-        if is_unlisted
-        else PrivacyLevel.private.value,
+        privacy_level=(
+            PrivacyLevel.unlisted.value if is_unlisted else PrivacyLevel.private.value
+        ),
     )
 
     first_item = factories.UserListRelationshipFactory.create(
@@ -255,9 +256,9 @@ def test_get_resource_user_lists(client, user, is_author, is_unlisted):
     course = factories.CourseFactory.create()
     userlist = factories.UserListFactory.create(
         author=user if is_author else UserFactory.create(),
-        privacy_level=PrivacyLevel.unlisted.value
-        if is_unlisted
-        else PrivacyLevel.private.value,
+        privacy_level=(
+            PrivacyLevel.unlisted.value if is_unlisted else PrivacyLevel.private.value
+        ),
     )
     path_items = sorted(
         factories.UserListRelationshipFactory.create_batch(

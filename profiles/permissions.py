@@ -1,4 +1,5 @@
 """Permissions for profiles"""
+
 from rest_framework import permissions
 
 from open_discussions.permissions import is_admin_user

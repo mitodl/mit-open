@@ -1,4 +1,5 @@
 """Tests for channels_fields.serializers"""
+
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 

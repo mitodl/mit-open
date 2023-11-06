@@ -1,4 +1,5 @@
 """Tests for learning_resources serializers"""
+
 import pytest
 
 from learning_resources import constants, factories, serializers
@@ -162,9 +163,11 @@ def test_learningpathitem_serializer_validation(child_exists):
     learning_path = factories.LearningPathFactory.create()
     data = {
         "parent": learning_path.learning_resource.id,
-        "child": factories.CourseFactory.create().learning_resource.id
-        if child_exists
-        else 9999,
+        "child": (
+            factories.CourseFactory.create().learning_resource.id
+            if child_exists
+            else 9999
+        ),
         "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value,
     }
     serializer = serializers.LearningResourceRelationshipSerializer(data=data)
@@ -228,11 +231,9 @@ def test_content_file_serializer():
             "image_src": content_file.image_src,
             "resource_id": str(content_file.run.learning_resource.id),
             "resource_readable_id": content_file.run.learning_resource.readable_id,
-            "resource_readable_num": content_file.run.learning_resource.readable_id.split(
-                "+"
-            )[
-                -1
-            ],
+            "resource_readable_num": (
+                content_file.run.learning_resource.readable_id.split("+")[-1]
+            ),
             "resource_type": None,
         },
     )

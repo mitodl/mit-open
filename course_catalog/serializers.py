@@ -1,6 +1,7 @@
 """
 course_catalog serializers
 """
+
 from urllib.parse import urljoin
 
 from django.contrib.auth.models import User
@@ -287,20 +288,22 @@ class LearningResourceRunSerializer(BaseCourseSerializer):
             "end_date": data.get("end"),
             "enrollment_start": data.get("enrollment_start"),
             "enrollment_end": data.get("enrollment_end"),
-            "best_start_date": data.get("enrollment_start")
-            or data.get("start")
-            or utils.semester_year_to_date(semester, year),
-            "best_end_date": data.get("enrollment_end")
-            or data.get("end")
-            or utils.semester_year_to_date(semester, year, ending=True),
-            "image_src": (
-                (data.get("image") or {}).get("src")
-                or (data.get("course_image") or {}).get("src")
+            "best_start_date": (
+                data.get("enrollment_start")
+                or data.get("start")
+                or utils.semester_year_to_date(semester, year)
             ),
-            "image_description": (
-                (data.get("image") or {}).get("description")
-                or (data.get("course_image") or {}).get("description")
+            "best_end_date": (
+                data.get("enrollment_end")
+                or data.get("end")
+                or utils.semester_year_to_date(semester, year, ending=True)
             ),
+            "image_src": (data.get("image") or {}).get("src") or (
+                data.get("course_image") or {}
+            ).get("src"),
+            "image_description": (data.get("image") or {}).get("description") or (
+                data.get("course_image") or {}
+            ).get("description"),
             "last_modified": data.get("max_modified"),
             "raw_json": data.get("raw_json"),
             "url": data.get("url"),

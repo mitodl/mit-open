@@ -1,4 +1,5 @@
 """open_discussions constants"""
+
 from rest_framework import status
 
 PERMISSION_DENIED_ERROR_TYPE = "PermissionDenied"

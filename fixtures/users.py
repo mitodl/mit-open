@@ -1,4 +1,5 @@
 """User fixtures"""
+
 # pylint: disable=unused-argument, redefined-outer-name
 from io import BytesIO
 

@@ -1,4 +1,5 @@
 """Constants for search"""
+
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from urllib3.exceptions import TimeoutError as UrlTimeoutError
 

@@ -1,4 +1,5 @@
 """Tests for auth middleware"""
+
 from urllib.parse import quote
 
 import pytest

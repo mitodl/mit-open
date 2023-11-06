@@ -1,4 +1,5 @@
 """WidgetInstnace serializer"""
+
 from rest_framework import serializers
 
 from open_discussions.serializers import WriteableSerializerMethodField

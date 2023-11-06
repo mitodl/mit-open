@@ -1,4 +1,5 @@
 """Tests for discussions models"""
+
 import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.db import IntegrityError

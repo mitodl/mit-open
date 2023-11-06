@@ -1,4 +1,5 @@
 """Tests for the OLL ETL functions"""
+
 # pylint: disable=redefined-outer-name
 import json
 

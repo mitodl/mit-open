@@ -1,4 +1,5 @@
 """People widget serializer"""
+
 from profiles.models import Profile
 from profiles.serializers import ProfileSerializer
 from widgets.serializers.react_fields import ReactCheckboxField, ReactPeopleField

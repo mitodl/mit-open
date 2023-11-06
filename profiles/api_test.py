@@ -1,4 +1,5 @@
 """Profile API tests"""
+
 import pytest
 
 from open_discussions.factories import UserFactory

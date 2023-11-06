@@ -1,4 +1,5 @@
 """Management command for populating mitxonline course data"""
+
 from django.core.management import BaseCommand
 
 from learning_resources.etl.constants import ETLSource

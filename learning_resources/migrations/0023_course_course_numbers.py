@@ -14,9 +14,11 @@ def set_course_numbers(apps, schema_editor):
     for course in Course.objects.select_related("learning_resource").iterator():
         is_ocw = course.learning_resource.etl_source == ETLSource.ocw.name
         course.course_numbers = generate_course_numbers_json(
-            course.learning_resource.readable_id.split("+")[0]
-            if is_ocw
-            else course.learning_resource.readable_id,
+            (
+                course.learning_resource.readable_id.split("+")[0]
+                if is_ocw
+                else course.learning_resource.readable_id
+            ),
             extra_nums=course.extra_course_numbers,
             is_ocw=is_ocw,
         )

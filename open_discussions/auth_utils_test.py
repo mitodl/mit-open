@@ -1,4 +1,5 @@
 """Auth utils tests"""
+
 from open_discussions.auth_utils import (
     get_encoded_and_signed_subscription_token,
     unsign_and_verify_username_from_token,

@@ -14,8 +14,14 @@ from articles.validators import clean_html
             '<a href="a" rel="noopener noreferrer">ammonia</a>',
         ),
         (
-            '<img alt="alt" height="height" src="src" width="width" srcset="srcset" sizes="sizes" bad="bad">',
-            '<img alt="alt" height="height" src="src" width="width" srcset="srcset" sizes="sizes">',
+            (
+                '<img alt="alt" height="height" src="src" width="width" srcset="srcset"'
+                ' sizes="sizes" bad="bad">'
+            ),
+            (
+                '<img alt="alt" height="height" src="src" width="width" srcset="srcset"'
+                ' sizes="sizes">'
+            ),
         ),
         (
             # class alllowed on figures

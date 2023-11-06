@@ -1,6 +1,7 @@
 """
 learning_resources permissions
 """
+
 from django.http import HttpRequest
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import SAFE_METHODS, BasePermission

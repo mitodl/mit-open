@@ -1,4 +1,5 @@
 """Discussions models"""
+
 from bitfield import BitField
 from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
@@ -51,7 +52,9 @@ class BaseChannel(models.Model):
         validators=[
             RegexValidator(
                 regex=r"^[A-Za-z0-9_]+$",
-                message="Channel name can only contain the characters: A-Z, a-z, 0-9, _",  # noqa: E501
+                message=(
+                    "Channel name can only contain the characters: A-Z, a-z, 0-9, _"
+                ),
             )
         ],
     )

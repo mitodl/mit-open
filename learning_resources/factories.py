@@ -1,4 +1,5 @@
 """Factories for making test data"""
+
 import decimal
 import random
 from datetime import timedelta
@@ -289,9 +290,11 @@ class LearningResourceRunFactory(DjangoModelFactory):
     )
     enrollment_start = factory.Faker("date_time", tzinfo=pytz.utc)
     enrollment_end = factory.LazyAttribute(
-        lambda obj: (obj.enrollment_start + timedelta(days=45))
-        if obj.enrollment_start
-        else None
+        lambda obj: (
+            (obj.enrollment_start + timedelta(days=45))
+            if obj.enrollment_start
+            else None
+        )
     )
     start_date = factory.LazyAttribute(
         lambda obj: obj.enrollment_start + timedelta(days=15)
@@ -367,7 +370,9 @@ class LearningPathFactory(DjangoModelFactory):
         self.learning_resource.resources.set(
             extracted,
             through_defaults={
-                "relation_type": constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value  # noqa: E501
+                "relation_type": (
+                    constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+                )
             },
         )
 
@@ -439,7 +444,9 @@ class ProgramFactory(DjangoModelFactory):
         self.learning_resource.resources.set(
             extracted,
             through_defaults={
-                "relation_type": constants.LearningResourceRelationTypes.PROGRAM_COURSES.value  # noqa: E501
+                "relation_type": (
+                    constants.LearningResourceRelationTypes.PROGRAM_COURSES.value
+                )
             },
         )
 
@@ -586,7 +593,9 @@ class PodcastFactory(DjangoModelFactory):
         self.learning_resource.resources.set(
             extracted,
             through_defaults={
-                "relation_type": constants.LearningResourceRelationTypes.PODCAST_EPISODES.value  # noqa: E501
+                "relation_type": (
+                    constants.LearningResourceRelationTypes.PODCAST_EPISODES.value
+                )
             },
         )
 

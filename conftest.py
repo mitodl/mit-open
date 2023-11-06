@@ -1,4 +1,5 @@
 """Project conftest"""
+
 # pylint: disable=wildcard-import, unused-wildcard-import
 import pytest
 

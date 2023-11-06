@@ -1,4 +1,5 @@
 """Profile/user filter tests"""
+
 import pytest
 from django.contrib.auth import get_user_model
 

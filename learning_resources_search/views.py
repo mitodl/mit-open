@@ -1,4 +1,5 @@
 """View for search"""
+
 import logging
 
 from django.utils.decorators import method_decorator

@@ -1,4 +1,5 @@
 """Interactions appconfigs"""
+
 from django.apps import AppConfig
 
 

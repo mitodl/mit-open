@@ -1,4 +1,5 @@
 """Delete es course records that don't have a database object"""
+
 from django.core.management.base import BaseCommand
 
 from course_catalog.models import Course

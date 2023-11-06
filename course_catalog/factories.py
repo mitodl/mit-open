@@ -1,4 +1,5 @@
 """Factories for making test data"""
+
 import random
 from datetime import timedelta
 
@@ -231,9 +232,11 @@ class LearningResourceRunFactory(AbstractCourseFactory):
     )
     enrollment_start = factory.Faker("date_time", tzinfo=pytz.utc)
     enrollment_end = factory.LazyAttribute(
-        lambda obj: (obj.enrollment_start + timedelta(days=45))
-        if obj.enrollment_start
-        else None
+        lambda obj: (
+            (obj.enrollment_start + timedelta(days=45))
+            if obj.enrollment_start
+            else None
+        )
     )
     start_date = factory.LazyAttribute(
         lambda obj: obj.enrollment_start + timedelta(days=15)

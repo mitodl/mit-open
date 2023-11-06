@@ -1,6 +1,7 @@
 """
 open_discussions views
 """
+
 from django.conf import settings
 from django.http import (
     HttpResponseBadRequest,
@@ -25,8 +26,9 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
         "user": {
             "id": user.id,
             "is_authenticated": bool(user.is_authenticated),
-            "is_learning_path_editor": user.is_authenticated
-            and (is_admin_user(request) or is_learning_path_editor(request)),
+            "is_learning_path_editor": user.is_authenticated and (
+                is_admin_user(request) or is_learning_path_editor(request)
+            ),
             "is_article_editor": is_admin_user(request),
         },
         "ckeditor_upload_url": settings.CKEDITOR_UPLOAD_URL,

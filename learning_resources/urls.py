@@ -1,4 +1,5 @@
 """Urls for channels_fields"""
+
 from django.urls import include, re_path
 from drf_spectacular.views import (
     SpectacularAPIView,
