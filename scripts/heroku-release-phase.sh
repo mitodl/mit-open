@@ -10,5 +10,6 @@ MANAGE_FILE=$(find . -maxdepth 3 -type f -name 'manage.py' | head -1)
 # trim "./" from the path
 MANAGE_FILE=${MANAGE_FILE:2}
 
-echo "-----> Generating cache tables"
-python $MANAGE_FILE createcachetable 2>&1 | indent
+# Retaining this script in the should we require future post release actions
+# we will have a recipe set to go.
+echo "----> NOOP"
