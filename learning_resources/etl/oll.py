@@ -1,4 +1,5 @@
 """MITx learning_resources ETL"""
+
 import logging
 
 from django.conf import settings

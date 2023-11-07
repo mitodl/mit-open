@@ -1,4 +1,5 @@
 """Profile API"""
+
 import tldextract
 from django.db import transaction
 

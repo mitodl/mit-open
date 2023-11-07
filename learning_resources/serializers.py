@@ -1,4 +1,5 @@
 """Serializers for learning_resources"""
+
 import logging
 
 from django.contrib.auth.models import User
@@ -84,7 +85,7 @@ class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 
     def to_representation(self, value):
-        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: E501,D401
+        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: D401
         return [tag.name for tag in value.all()]
 
 
@@ -93,7 +94,7 @@ class LearningResourceTopicsField(serializers.Field):
     """Serializer field for LearningResourceTopics"""
 
     def to_representation(self, value):
-        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: D401,E501
+        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: D401
         return [topic.name for topic in value.all()]
 
 

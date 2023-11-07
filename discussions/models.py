@@ -1,4 +1,5 @@
 """Discussions models"""
+
 from bitfield import BitField
 from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
@@ -23,7 +24,7 @@ class ChannelQuerySet(TimestampedModelQuerySet):
         """Filter the queryset for what a given user is allowed to operate on"""
         from guardian.shortcuts import get_objects_for_user
 
-        permission = f"{self.model._meta.app_label}.view_{self.model._meta.model_name}"  # noqa: E501, SLF001
+        permission = f"{self.model._meta.app_label}.view_{self.model._meta.model_name}"  # noqa: SLF001
 
         if user.is_staff:
             # staff users can see/do anything
@@ -51,7 +52,9 @@ class BaseChannel(models.Model):
         validators=[
             RegexValidator(
                 regex=r"^[A-Za-z0-9_]+$",
-                message="Channel name can only contain the characters: A-Z, a-z, 0-9, _",  # noqa: E501
+                message=(
+                    "Channel name can only contain the characters: A-Z, a-z, 0-9, _"
+                ),
             )
         ],
     )

@@ -1,4 +1,5 @@
 """ETL utils test"""
+
 import datetime
 import pathlib
 from subprocess import check_call
@@ -178,8 +179,9 @@ def test_get_text_from_element():
     """
 
     ret = utils.get_text_from_element(etree.fromstring(input_xml))  # noqa: S320
-    assert ret == (
-        "\n    pre-text\n     \n    some\n     \n    important"
+    assert (
+        ret
+        == "\n    pre-text\n     \n    some\n     \n    important"
         "\n     \n    text here\n     \n    post-text\n    "
     )
 
@@ -254,11 +256,11 @@ def test_documents_from_olx():
     assert len(parsed_documents) == 108
 
     expected_parsed_vertical = (
-        "\n    Where all of the tests are defined  Jasmine tests: HTML module edition \n"
-        " Did it break? Dunno; let's find out. \n Some of the libraries tested are only served "
-        "by the LMS for courseware, therefore, some tests can be expected to fail if executed in Studio."
-        " \n\n  Where Jasmine will inject its output (dictated in boot.js)"
-        "  \n Test output will generate here when viewing in LMS."
+        "\n    Where all of the tests are defined  Jasmine tests: HTML module edition"
+        " \n Did it break? Dunno; let's find out. \n Some of the libraries tested are"
+        " only served by the LMS for courseware, therefore, some tests can be expected"
+        " to fail if executed in Studio. \n\n  Where Jasmine will inject its output"
+        " (dictated in boot.js)  \n Test output will generate here when viewing in LMS."
     )
     assert parsed_documents[0] == (
         expected_parsed_vertical,

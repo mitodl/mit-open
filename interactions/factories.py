@@ -1,4 +1,5 @@
 """Interactions factories"""
+
 import factory
 from django.contrib.contenttypes.models import ContentType
 from factory.django import DjangoModelFactory

@@ -1,4 +1,5 @@
 """Management command for populating LearningResourcePlatform data"""
+
 from django.core.management import BaseCommand
 
 from learning_resources.utils import upsert_platform_data

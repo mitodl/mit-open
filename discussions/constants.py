@@ -1,4 +1,5 @@
 """Discussions constants"""
+
 from enum import Enum, auto
 
 

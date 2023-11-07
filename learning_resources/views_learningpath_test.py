@@ -1,4 +1,5 @@
 """Tests for learning_resources LearningPath views"""
+
 import pytest
 from django.urls import reverse
 

@@ -1,4 +1,5 @@
 """RSS widget"""
+
 import logging
 import time
 
@@ -55,7 +56,7 @@ class RssFeedWidgetSerializer(WidgetInstanceSerializer):
     description = "RSS Feed"
 
     def get_json(self, instance):
-        """Obtains RSS feed data which will then be provided to the React component"""  # noqa: D401, E501
+        """Obtains RSS feed data which will then be provided to the React component"""  # noqa: D401
         try:
             rss = _fetch_rss(instance.configuration["url"])
             entries = getattr(rss, "entries", [])
@@ -85,9 +86,11 @@ class RssFeedWidgetSerializer(WidgetInstanceSerializer):
                     "title": entry.get("title"),
                     "description": entry.get("description"),
                     "link": entry.get("link"),
-                    "timestamp": time.strftime(ISOFORMAT, entry.get(timestamp_key))
-                    if entry.get(timestamp_key)
-                    else None,
+                    "timestamp": (
+                        time.strftime(ISOFORMAT, entry.get(timestamp_key))
+                        if entry.get(timestamp_key)
+                        else None
+                    ),
                 }
                 for entry in sorted_feed[:display_limit]
             ],

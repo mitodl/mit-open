@@ -1,4 +1,5 @@
 """Tests for views for REST APIs for users"""
+
 # pylint: disable=redefined-outer-name, unused-argument, too-many-arguments
 import json
 from os.path import basename, splitext
@@ -31,7 +32,9 @@ def test_list_users(staff_client, staff_user):
                 "image_medium": profile.image_medium,
                 "image_file": f"http://testserver{profile.image_file.url}",
                 "image_small_file": f"http://testserver{profile.image_small_file.url}",
-                "image_medium_file": f"http://testserver{profile.image_medium_file.url}",
+                "image_medium_file": (
+                    f"http://testserver{profile.image_medium_file.url}"
+                ),
                 "profile_image_small": profile.image_small_file.url,
                 "profile_image_medium": profile.image_medium_file.url,
                 "bio": profile.bio,

@@ -1,4 +1,5 @@
 """URL configurations for embedly"""
+
 from django.urls import re_path
 
 from embedly.views import embedly_view

@@ -1,4 +1,5 @@
 """Indexing tasks"""
+
 # pylint: disable=too-many-lines
 
 import logging

@@ -1,4 +1,5 @@
 """Custom authentication for DRF"""
+
 import logging
 
 import jwt

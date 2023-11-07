@@ -1,4 +1,5 @@
 """Tests for rss widget serializer"""
+
 import time
 
 import pytest
@@ -51,19 +52,21 @@ def test_url_widget_serialize(
         "configuration": widget_instance.configuration,
         "json": {
             "title": widget_instance.title,
-            "entries": []
-            if raise_exception
-            else [
-                {
-                    "title": entry["title"],
-                    "description": entry["description"],
-                    "link": entry["link"],
-                    "timestamp": time.strftime(
-                        "%Y-%m-%dT%H:%M:%SZ", entry[timestamp_key]
-                    ),
-                }
-                for entry in entries[: min(rss.MAX_FEED_ITEMS, display_limit)]
-            ],
+            "entries": (
+                []
+                if raise_exception
+                else [
+                    {
+                        "title": entry["title"],
+                        "description": entry["description"],
+                        "link": entry["link"],
+                        "timestamp": time.strftime(
+                            "%Y-%m-%dT%H:%M:%SZ", entry[timestamp_key]
+                        ),
+                    }
+                    for entry in entries[: min(rss.MAX_FEED_ITEMS, display_limit)]
+                ]
+            ),
         },
     }
 

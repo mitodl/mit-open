@@ -1,6 +1,7 @@
 """
 Test learning_resources utils
 """
+
 import json
 from datetime import datetime
 

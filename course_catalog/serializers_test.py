@@ -1,6 +1,7 @@
 """
 Test course_catalog serializers
 """
+
 import pytest
 
 from course_catalog import factories

@@ -1,4 +1,5 @@
 """Next OCW ETL tests"""
+
 import json
 from datetime import datetime
 from pathlib import Path
@@ -46,7 +47,9 @@ def test_transform_content_files(settings, mocker):
     assert content_data[0] == {
         "content": "Pages Section",
         "content_type": "page",
-        "key": "courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/pages/",
+        "key": (
+            "courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/pages/"
+        ),
         "published": True,
         "title": "Pages",
         "content_title": "Pages",
@@ -190,11 +193,14 @@ def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extr
         assert transformed_json["readable_id"] == "16.01+fall_2005"
         assert transformed_json["etl_source"] == ETLSource.ocw.name
         assert transformed_json["runs"][0]["run_id"] == expected_uid
-        assert transformed_json["image"]["url"] == (
-            "http://test.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg"
+        assert (
+            transformed_json["image"]["url"]
+            == "http://test.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg"
         )
-        assert transformed_json["image"]["alt"] == (
-            "Illustration of an aircraft wing showing connections between the disciplines of the course."
+        assert (
+            transformed_json["image"]["alt"]
+            == "Illustration of an aircraft wing showing connections between the"
+            " disciplines of the course."
         )
         assert transformed_json["course"]["course_numbers"][0] == {
             "value": "16.01",

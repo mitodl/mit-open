@@ -1,6 +1,7 @@
 """
 course_catalog serializers
 """
+
 from urllib.parse import urljoin
 
 from django.contrib.auth.models import User
@@ -74,7 +75,7 @@ class GenericForeignKeyFieldSerializer(serializers.Serializer):
             serializer = PodcastEpisodeSerializer(instance, context=context)
         else:
             msg = "Unexpected type of tagged object"
-            raise Exception(  # pylint:disable=broad-exception-raised  # noqa: E501, TRY002, TRY004
+            raise Exception(  # pylint:disable=broad-exception-raised  # noqa: TRY002, TRY004
                 msg
             )
         return serializer.data
@@ -287,20 +288,22 @@ class LearningResourceRunSerializer(BaseCourseSerializer):
             "end_date": data.get("end"),
             "enrollment_start": data.get("enrollment_start"),
             "enrollment_end": data.get("enrollment_end"),
-            "best_start_date": data.get("enrollment_start")
-            or data.get("start")
-            or utils.semester_year_to_date(semester, year),
-            "best_end_date": data.get("enrollment_end")
-            or data.get("end")
-            or utils.semester_year_to_date(semester, year, ending=True),
-            "image_src": (
-                (data.get("image") or {}).get("src")
-                or (data.get("course_image") or {}).get("src")
+            "best_start_date": (
+                data.get("enrollment_start")
+                or data.get("start")
+                or utils.semester_year_to_date(semester, year)
             ),
-            "image_description": (
-                (data.get("image") or {}).get("description")
-                or (data.get("course_image") or {}).get("description")
+            "best_end_date": (
+                data.get("enrollment_end")
+                or data.get("end")
+                or utils.semester_year_to_date(semester, year, ending=True)
             ),
+            "image_src": (data.get("image") or {}).get("src") or (
+                data.get("course_image") or {}
+            ).get("src"),
+            "image_description": (data.get("image") or {}).get("description") or (
+                data.get("course_image") or {}
+            ).get("description"),
             "last_modified": data.get("max_modified"),
             "raw_json": data.get("raw_json"),
             "url": data.get("url"),
@@ -443,7 +446,7 @@ class ListItemListSerializer(serializers.ListSerializer):
         #   needs to hit a different join table for each type
 
         def _items_for_classes(*classes):
-            """Returns a list of items that matches a list of classes by content_type"""  # noqa: D401, E501
+            """Returns a list of items that matches a list of classes by content_type"""  # noqa: D401
             return [
                 item.item for item in data if item.content_type.model_class() in classes
             ]

@@ -1,4 +1,5 @@
 """tests for the ckeditor view"""
+
 import math
 from time import time
 

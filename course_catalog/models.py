@@ -1,6 +1,7 @@
 """
 course_catalog models
 """
+
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -90,14 +91,16 @@ class LearningResourceQuerySet(TimestampedModelQuerySet):
         """Annotate the query with a subquery for is_favorite"""
         return self.annotate(
             is_favorite=ExpressionWrapper(
-                Exists(
-                    FavoriteItem.objects.filter(
-                        content_type=ContentType.objects.get_for_model(self.model),
-                        object_id=OuterRef("id"),
+                (
+                    Exists(
+                        FavoriteItem.objects.filter(
+                            content_type=ContentType.objects.get_for_model(self.model),
+                            object_id=OuterRef("id"),
+                        )
                     )
-                )
-                if user and user.is_authenticated
-                else Value(False),  # noqa: FBT003
+                    if user and user.is_authenticated
+                    else Value(False)  # noqa: FBT003
+                ),
                 output_field=models.BooleanField(),
             )
         )

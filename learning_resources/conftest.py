@@ -1,4 +1,5 @@
 """Common test fixtures for learning_resources"""
+
 from os import listdir
 from pathlib import Path
 

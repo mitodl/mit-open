@@ -1,4 +1,5 @@
 """open_discussions utilities"""
+
 import datetime
 import logging
 import os

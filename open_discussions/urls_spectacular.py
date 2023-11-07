@@ -1,5 +1,6 @@
 """project URL Configuration
 """
+
 from django.urls import include, re_path
 
 urlpatterns = [

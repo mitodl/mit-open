@@ -1,4 +1,5 @@
 """Tests for opensearch serializers"""
+
 import pytest
 from django.http import QueryDict
 from rest_framework.renderers import JSONRenderer
@@ -230,7 +231,9 @@ def test_learning_resources_search_response_serializer(settings):
             "max_score": 6.654978,
             "hits": [
                 {
-                    "_index": "discussions_local_course_6561cf5547d74a3aad746efb5f40a26d",
+                    "_index": (
+                        "discussions_local_course_6561cf5547d74a3aad746efb5f40a26d"
+                    ),
                     "_type": "_doc",
                     "_id": "co_globalalumni_Y291cnNlLXYxOnhQUk8rTUNQTytSMQ",
                     "_score": 6.654978,
@@ -255,7 +258,10 @@ def test_learning_resources_search_response_serializer(settings):
                                 "instructors": [],
                                 "image": None,
                                 "run_id": "course-v1:xPRO+MCPO+R1",
-                                "title": "Project Management: Leading Organizations to Success",
+                                "title": (
+                                    "Project Management: Leading Organizations to"
+                                    " Success"
+                                ),
                                 "description": None,
                                 "full_description": None,
                                 "last_modified": None,
@@ -297,7 +303,9 @@ def test_learning_resources_search_response_serializer(settings):
                         "user_list_parents": [],
                         "program": None,
                         "readable_id": "course-v1:xPRO+MCPO+R1",
-                        "title": "Managing Complex Projects and Organizations for Success",
+                        "title": (
+                            "Managing Complex Projects and Organizations for Success"
+                        ),
                         "description": "",
                         "full_description": None,
                         "last_modified": None,

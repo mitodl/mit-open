@@ -1,4 +1,5 @@
 """Auth pipline functions for email authentication"""
+
 from social_core.exceptions import AuthException
 
 

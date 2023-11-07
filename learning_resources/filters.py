@@ -18,7 +18,7 @@ class LearningResourceFilter(FilterSet):
         label="Department ID",
         method="filter_department",
         field_name="departments__department_id",
-        choices=([(key, value) for (key, value) in DEPARTMENTS.items()]),
+        choices=(list(DEPARTMENTS.items())),
     )
 
     resource_type = ChoiceFilter(

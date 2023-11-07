@@ -1,4 +1,5 @@
 """Utils for course catalog"""
+
 import logging
 import re
 from datetime import datetime

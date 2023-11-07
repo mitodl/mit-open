@@ -1,4 +1,5 @@
 """Tests for channels APIs"""
+
 import pytest
 from guardian.shortcuts import assign_perm, get_perms
 

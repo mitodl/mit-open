@@ -617,7 +617,9 @@ def test_execute_learn_search(opensearch):
                                                             "wildcard": {
                                                                 "readable_id": {
                                                                     "value": "MATH*",
-                                                                    "rewrite": "constant_score",
+                                                                    "rewrite": (
+                                                                        "constant_score"
+                                                                    ),
                                                                 }
                                                             }
                                                         },

@@ -1,4 +1,5 @@
 """Test for learning_resources views"""
+
 import pytest
 from rest_framework.reverse import reverse
 

@@ -1,4 +1,5 @@
 """livestream API tests"""
+
 from livestream.api import get_upcoming_events
 
 

@@ -1,4 +1,5 @@
 """Admin for channels_fields"""
+
 from django.contrib import admin
 from django.utils.html import format_html
 
@@ -12,7 +13,8 @@ class FieldChannelAdmin(admin.ModelAdmin):
         """Render a link to the WidgetList admin URL"""
         return (
             format_html(
-                '<a href="/admin/widgets/widgetlist/{0}/change/" target="_blank">WidgetList {0}</a>',  # noqa: E501
+                '<a href="/admin/widgets/widgetlist/{0}/change/"'
+                ' target="_blank">WidgetList {0}</a>',
                 instance.widget_list.pk,
             )
             if instance.widget_list

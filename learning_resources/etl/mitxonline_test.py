@@ -1,4 +1,5 @@
 """Tests for MITx Online ETL functions"""
+
 import json
 
 # pylint: disable=redefined-outer-name
@@ -239,23 +240,27 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                     ]
                 )
             ],
-            "url": urljoin(
-                settings.MITX_ONLINE_BASE_URL,
-                course_data["page"]["page_url"],
-            )
-            if course_data.get("page", {}).get("page_url")
-            else None,
+            "url": (
+                urljoin(
+                    settings.MITX_ONLINE_BASE_URL,
+                    course_data["page"]["page_url"],
+                )
+                if course_data.get("page", {}).get("page_url")
+                else None
+            ),
             "runs": [
                 {
                     "run_id": course_run_data["courseware_id"],
                     "title": course_run_data["title"],
                     "image": _transform_image(course_run_data),
-                    "url": urljoin(
-                        settings.MITX_ONLINE_BASE_URL,
-                        course_data["page"]["page_url"],
-                    )
-                    if course_data.get("page", {}).get("page_url")
-                    else None,
+                    "url": (
+                        urljoin(
+                            settings.MITX_ONLINE_BASE_URL,
+                            course_data["page"]["page_url"],
+                        )
+                        if course_data.get("page", {}).get("page_url")
+                        else None
+                    ),
                     "description": course_run_data.get("page", {}).get(
                         "description", None
                     ),

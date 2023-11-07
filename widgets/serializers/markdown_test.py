@@ -1,4 +1,5 @@
 """Tests for markdown widget serializer"""
+
 import pytest
 
 from widgets.factories import WidgetInstanceFactory

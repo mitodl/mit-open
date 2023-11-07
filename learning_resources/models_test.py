@@ -1,4 +1,5 @@
 """Tests for learning_resources.models"""
+
 import pytest
 
 from learning_resources import constants

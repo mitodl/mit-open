@@ -1,6 +1,7 @@
 """
 course_catalog constants
 """
+
 from enum import Enum
 
 

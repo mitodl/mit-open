@@ -1,4 +1,5 @@
 """Serializers for channels_fields"""
+
 import copy
 import logging
 
