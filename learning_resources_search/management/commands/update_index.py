@@ -1,4 +1,5 @@
 """Management command to index reddit content"""
+
 from django.core.management.base import BaseCommand, CommandError
 
 from learning_resources.constants import PlatformType
@@ -52,9 +53,8 @@ class Command(BaseCommand):
             )
             if options["platform"]:
                 self.stdout.write(
-                    "Only updating course and course document indexes for {platform}".format(  # noqa: E501
-                        platform=options["platform"]
-                    )
+                    "Only updating course and course document indexes for {platform}"
+                    .format(platform=options["platform"])
                 )
         else:
             indexes_to_update = list(
@@ -74,16 +74,14 @@ class Command(BaseCommand):
             #    self.stderr.write(
             task = start_update_index.delay(indexes_to_update, options["platform"])
             self.stdout.write(
-                "Started celery task {task} to update index content for the following indexes: {indexes}".format(  # noqa: E501
-                    task=task, indexes=indexes_to_update
-                )
+                f"Started celery task {task} to update index content for the following"
+                f" indexes: {indexes_to_update}"
             )
 
             if options["platform"]:
                 self.stdout.write(
-                    "Only updating course and course document indexes for {platform}".format(  # noqa: E501
-                        platform=options["platform"]
-                    )
+                    "Only updating course and course document indexes for {platform}"
+                    .format(platform=options["platform"])
                 )
 
         self.stdout.write("Waiting on task...")

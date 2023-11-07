@@ -1,6 +1,7 @@
 """
 Tests for the indexing API
 """
+
 import pytest
 
 from search.connection import get_active_aliases

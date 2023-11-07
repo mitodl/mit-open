@@ -1,4 +1,5 @@
 """Common ETL test fixtures"""
+
 import json
 
 import pytest
@@ -8,8 +9,8 @@ import pytest
 def mitx_settings(settings):
     """Test settings for MITx import"""
     settings.EDX_API_CLIENT_ID = "fake-client-id"
-    settings.EDX_API_CLIENT_SECRET = (
-        "fake-client-secret"  # pragma: allowlist secret # noqa: S105
+    settings.EDX_API_CLIENT_SECRET = (  # pragma: allowlist secret
+        "fake-client-secret"  # noqa: S105
     )
     settings.EDX_API_ACCESS_TOKEN_URL = (
         "http://localhost/fake/access/token/url"  # noqa: S105
@@ -24,8 +25,8 @@ def mitx_settings(settings):
 def oll_settings(settings):
     """Test settings for MITx import"""
     settings.OLL_API_CLIENT_ID = "fake-client-id"
-    settings.OLL_API_CLIENT_SECRET = (
-        "fake-client-secret"  # pragma: allowlist secret # noqa: S105
+    settings.OLL_API_CLIENT_SECRET = (  # pragma: allowlist secret
+        "fake-client-secret"  # noqa: S105
     )
     settings.OLL_API_ACCESS_TOKEN_URL = (
         "http://localhost/fake/access/token/url"  # noqa: S105

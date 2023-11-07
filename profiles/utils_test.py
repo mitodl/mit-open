@@ -1,4 +1,5 @@
 """Tests for profiles.utils"""
+
 import xml.etree.ElementTree as etree  # noqa: N813
 from io import BytesIO
 from urllib.parse import parse_qs, urlparse

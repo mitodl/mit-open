@@ -1,4 +1,5 @@
 """Tests for MicroMasters ETL functions"""
+
 import json
 
 # pylint: disable=redefined-outer-name
@@ -108,9 +109,11 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                     "start_date": any_instance_of(datetime, type(None)),
                     "end_date": any_instance_of(datetime, type(None)),
                     "enrollment_start": any_instance_of(datetime, type(None)),
-                    "prices": [program_data["current_price"]]
-                    if program_data["current_price"]
-                    else [],
+                    "prices": (
+                        [program_data["current_price"]]
+                        if program_data["current_price"]
+                        else []
+                    ),
                     "instructors": [
                         {"full_name": instructor["name"]}
                         for instructor in program_data.get("instructors", [])
@@ -152,9 +155,11 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                             "enrollment_start": any_instance_of(datetime, type(None)),
                             "enrollment_end": any_instance_of(datetime, type(None)),
                             "published": bool(course_run_data["current_price"]),
-                            "prices": [course_run_data["current_price"]]
-                            if course_run_data["current_price"]
-                            else [],
+                            "prices": (
+                                [course_run_data["current_price"]]
+                                if course_run_data["current_price"]
+                                else []
+                            ),
                             "instructors": [
                                 {"full_name": instructor["name"]}
                                 for instructor in course_run_data["instructors"]
@@ -217,9 +222,11 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                     "enrollment_start": any_instance_of(datetime, type(None)),
                     "enrollment_end": any_instance_of(datetime, type(None)),
                     "published": bool(course_run_data["current_price"]),
-                    "prices": [course_run_data["current_price"]]
-                    if course_run_data["current_price"]
-                    else [],
+                    "prices": (
+                        [course_run_data["current_price"]]
+                        if course_run_data["current_price"]
+                        else []
+                    ),
                     "instructors": [
                         {"full_name": instructor["name"]}
                         for instructor in course_run_data["instructors"]

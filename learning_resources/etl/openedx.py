@@ -1,6 +1,7 @@
 """
 ETL extract and transformations for openedx
 """
+
 import logging
 import re
 from collections import namedtuple
@@ -217,8 +218,9 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "enrollment_end": course_run.get("enrollment_end"),
         "image": _transform_image(course_run.get("image")),
         "availability": course_run.get("availability"),
-        "url": marketing_url
-        or "{}{}/course/".format(config.alt_url, course_run.get("key")),
+        "url": marketing_url or "{}{}/course/".format(
+            config.alt_url, course_run.get("key")
+        ),
         "prices": [seat.get("price") for seat in course_run.get("seats")],
         "instructors": [
             {
@@ -255,8 +257,9 @@ def _transform_course(config, course):
         "full_description": course.get("full_description"),
         "last_modified": last_modified,
         "image": _transform_image(course.get("image")),
-        "url": marketing_url
-        or "{}{}/course/".format(config.alt_url, course.get("key")),
+        "url": marketing_url or "{}{}/course/".format(
+            config.alt_url, course.get("key")
+        ),
         "topics": [
             {"name": subject.get("name")} for subject in course.get("subjects", [])
         ],

@@ -1,4 +1,5 @@
 """Embedly API tests"""
+
 from embedly.api import get_embedly_content, get_embedly_summary
 
 

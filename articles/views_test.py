@@ -1,4 +1,5 @@
 """Test for articles views"""
+
 import pytest
 from rest_framework.reverse import reverse
 

@@ -1,6 +1,7 @@
 """
 Factory for Users
 """
+
 import ulid
 from django.contrib.auth.models import Group, User
 from factory import LazyFunction, RelatedFactory, SubFactory, Trait

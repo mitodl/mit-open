@@ -1,4 +1,5 @@
 """Custom permissions"""
+
 from rest_framework import permissions
 
 from open_discussions import features
@@ -62,7 +63,7 @@ class IsStaffOrReadonlyPermission(permissions.BasePermission):
     """Checks the user for the staff permission"""
 
     def has_permission(self, request, view):  # noqa: ARG002
-        """Returns True if the user has the staff role or if the request is readonly"""  # noqa: D401, E501
+        """Returns True if the user has the staff role or if the request is readonly"""  # noqa: D401
         return is_readonly(request) or is_admin_user(request)
 
 

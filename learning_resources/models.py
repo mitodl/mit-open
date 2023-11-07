@@ -1,4 +1,5 @@
 """Models for learning resources and related entities"""
+
 from django.contrib.admin.utils import flatten
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField

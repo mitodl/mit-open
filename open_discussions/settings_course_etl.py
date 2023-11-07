@@ -1,6 +1,7 @@
 """
 Django settings specific to learning_resources ingestion
 """
+
 from open_discussions.envs import get_int, get_string
 
 # EDX API Credentials

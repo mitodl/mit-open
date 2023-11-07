@@ -1,4 +1,5 @@
 """Utils for profiles"""
+
 import hashlib
 import re
 from contextlib import contextmanager

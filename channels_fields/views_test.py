@@ -1,4 +1,5 @@
 """Tests for channels_fields.views"""
+
 import os
 
 import pytest

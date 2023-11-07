@@ -1,4 +1,5 @@
 """Tests for serializers"""
+
 import pytest
 from django.contrib.contenttypes.models import ContentType
 

@@ -1,6 +1,7 @@
 """
 Classes related to models for open_discussions
 """
+
 from django.db.models import DateTimeField, Model
 from django.db.models.query import QuerySet
 

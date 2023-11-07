@@ -59,7 +59,8 @@ def populate_offerors(apps, schema_editor):
             run.save()
         else:
             log.error(
-                "Unknown LearningResourceRun._deprecated_offered_by '%s' for course '%s'",  # noqa: E501
+                "Unknown LearningResourceRun._deprecated_offered_by '%s' for course"
+                " '%s'",
                 run._deprecated_offered_by,  # noqa: SLF001
                 run.course_id,
             )

@@ -1,4 +1,5 @@
 """API for general search-related functionality"""
+
 import re
 
 from opensearch_dsl import Search

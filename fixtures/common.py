@@ -1,4 +1,5 @@
 """Common config for pytest and friends"""
+
 # pylint: disable=unused-argument, redefined-outer-name
 import logging
 import warnings

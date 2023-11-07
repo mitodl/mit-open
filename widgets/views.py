@@ -1,4 +1,5 @@
 """Widgets views"""
+
 from rest_framework import mixins, viewsets
 
 from open_discussions.permissions import ObjectOnlyPermissions, ReadOnly

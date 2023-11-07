@@ -1,4 +1,5 @@
 """Models for mail app"""
+
 from ipaddress import ip_address
 
 from django.core.exceptions import ValidationError

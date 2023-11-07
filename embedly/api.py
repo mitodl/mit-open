@@ -1,4 +1,5 @@
 """Embedly proxy API"""
+
 import requests
 from django.conf import settings
 

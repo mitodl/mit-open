@@ -143,7 +143,9 @@ def test_transform(mock_github_client, title, topics, offered_by):
             "etl_source": ETLSource.podcast.name,
             "title": expected_title,
             "offered_by": expected_offered_by,
-            "full_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "full_description": (
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            ),
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             "image": {"url": "apicture.jpg"},
             "published": True,
@@ -161,8 +163,14 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "etl_source": ETLSource.podcast.name,
                     "title": "Episode1",
                     "offered_by": expected_offered_by,
-                    "description": "SMorbi id consequat nisl. Morbi leo elit, vulputate nec aliquam molestie, ullamcorper sit amet tortor",
-                    "full_description": "SMorbi id consequat nisl. Morbi leo elit, vulputate nec aliquam molestie, ullamcorper sit amet tortor",
+                    "description": (
+                        "SMorbi id consequat nisl. Morbi leo elit, vulputate nec"
+                        " aliquam molestie, ullamcorper sit amet tortor"
+                    ),
+                    "full_description": (
+                        "SMorbi id consequat nisl. Morbi leo elit, vulputate nec"
+                        " aliquam molestie, ullamcorper sit amet tortor"
+                    ),
                     "url": "http://feeds.soundcloud.com/stream/episode1.mp3",
                     "image": {"url": "apicture.jpg"},
                     "last_modified": datetime.datetime(
@@ -182,8 +190,14 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "etl_source": ETLSource.podcast.name,
                     "title": "Episode2",
                     "offered_by": expected_offered_by,
-                    "description": "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit felis ut varius facilisis.",
-                    "full_description": "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit felis ut varius facilisis.",
+                    "description": (
+                        "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit"
+                        " felis ut varius facilisis."
+                    ),
+                    "full_description": (
+                        "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit"
+                        " felis ut varius facilisis."
+                    ),
                     "url": "http://feeds.soundcloud.com/stream/episode2.mp3",
                     "image": {"url": "image1.jpg"},
                     "last_modified": datetime.datetime(

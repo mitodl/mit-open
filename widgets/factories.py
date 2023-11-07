@@ -1,4 +1,5 @@
 """Factories for widgets"""
+
 import factory
 from factory.django import DjangoModelFactory
 

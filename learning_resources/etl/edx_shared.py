@@ -1,4 +1,5 @@
 """Shared functions for EdX sites"""
+
 import logging
 import re
 from pathlib import Path

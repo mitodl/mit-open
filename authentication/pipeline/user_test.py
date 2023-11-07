@@ -1,4 +1,5 @@
 """Tests of user pipeline actions"""
+
 import pytest
 
 from authentication.pipeline import user as user_actions

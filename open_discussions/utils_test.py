@@ -1,4 +1,5 @@
 """Utils tests"""
+
 import datetime
 from math import ceil
 from tempfile import NamedTemporaryFile
@@ -190,7 +191,11 @@ def test_extract_values():
 
 def test_write_to_file():
     """Test that write_to_file creates a file with the correct contents"""
-    content = b"-----BEGIN CERTIFICATE-----\nMIID5DCCA02gAwIBAgIRTUTVwsj4Vy+l6+XTYjnIQ==\n-----END CERTIFICATE-----"
+    content = (
+        b"-----BEGIN"
+        b" CERTIFICATE-----\nMIID5DCCA02gAwIBAgIRTUTVwsj4Vy+l6+XTYjnIQ==\n-----END"
+        b" CERTIFICATE-----"
+    )
     with NamedTemporaryFile() as outfile:
         write_to_file(outfile.name, content)
         with open(outfile.name, "rb") as infile:  # noqa: PTH123

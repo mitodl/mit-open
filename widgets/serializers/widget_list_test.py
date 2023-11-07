@@ -1,4 +1,5 @@
 """Tests for widget list serializer"""
+
 import pytest
 
 from widgets.factories import WidgetInstanceFactory, WidgetListFactory

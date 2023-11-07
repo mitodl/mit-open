@@ -1,4 +1,5 @@
 """Management command for populating LearningResourceOfferor data"""
+
 from django.core.management import BaseCommand
 
 from learning_resources.utils import upsert_offered_by_data

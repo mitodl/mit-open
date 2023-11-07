@@ -1,4 +1,5 @@
 """OpenEdx ETL tests"""
+
 # pylint: disable=redefined-outer-name
 from datetime import datetime
 from urllib.parse import urlencode
@@ -139,37 +140,39 @@ def test_transform_course(  # noqa: PLR0913
             "topics": [{"name": "Data Analysis & Statistics"}],
             "url": "http://localhost/fake-alt-url/this_course",
             "published": True,
-            "runs": []
-            if is_course_run_deleted or not has_runs
-            else [
-                {
-                    "availability": "Starting Soon",
-                    "run_id": "course-v1:MITx+15.071x+1T2019",
-                    "end_date": "2019-05-22T23:30:00Z",
-                    "enrollment_end": None,
-                    "enrollment_start": None,
-                    "full_description": "<p>Full Description</p>",
-                    "image": {
-                        "url": "https://prod-discovery.edx-cdn.org/media/course/image/ff1df27b-3c97-42ee-a9b3-e031ffd41a4f-747c9c2f216e.small.jpg",
-                        "description": None,
-                    },
-                    "instructors": [
-                        {"first_name": "Dimitris", "last_name": "Bertsimas"},
-                        {"first_name": "Allison", "last_name": "O'Hair"},
-                    ],
-                    "languages": ["en-us"],
-                    "last_modified": any_instance_of(datetime),
-                    "level": "Intermediate",
-                    "prices": ["150.00", "0.00"],
-                    "semester": "spring",
-                    "description": "short_description",
-                    "start_date": "2019-02-20T15:00:00Z",
-                    "title": "The Analytics Edge",
-                    "url": "http://localhost/fake-alt-url/this_course",
-                    "year": 2019,
-                    "published": True,
-                }
-            ],
+            "runs": (
+                []
+                if is_course_run_deleted or not has_runs
+                else [
+                    {
+                        "availability": "Starting Soon",
+                        "run_id": "course-v1:MITx+15.071x+1T2019",
+                        "end_date": "2019-05-22T23:30:00Z",
+                        "enrollment_end": None,
+                        "enrollment_start": None,
+                        "full_description": "<p>Full Description</p>",
+                        "image": {
+                            "url": "https://prod-discovery.edx-cdn.org/media/course/image/ff1df27b-3c97-42ee-a9b3-e031ffd41a4f-747c9c2f216e.small.jpg",
+                            "description": None,
+                        },
+                        "instructors": [
+                            {"first_name": "Dimitris", "last_name": "Bertsimas"},
+                            {"first_name": "Allison", "last_name": "O'Hair"},
+                        ],
+                        "languages": ["en-us"],
+                        "last_modified": any_instance_of(datetime),
+                        "level": "Intermediate",
+                        "prices": ["150.00", "0.00"],
+                        "semester": "spring",
+                        "description": "short_description",
+                        "start_date": "2019-02-20T15:00:00Z",
+                        "title": "The Analytics Edge",
+                        "url": "http://localhost/fake-alt-url/this_course",
+                        "year": 2019,
+                        "published": True,
+                    }
+                ]
+            ),
             "course": {
                 "course_numbers": [
                     {

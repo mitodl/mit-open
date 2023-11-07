@@ -1,4 +1,5 @@
 """Management command for populating xpro course data"""
+
 from django.core.management import BaseCommand
 
 from learning_resources.constants import LearningResourceType

@@ -58,7 +58,7 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.11.4"
+          python-version: "3.11.5"
           cache: "poetry"
 
       - name: Validate lockfile
@@ -68,7 +68,7 @@ jobs:
         run: poetry install --no-interaction
 
       - name: Code formatting
-        run: poetry run black --check .
+        run: poetry run black --preview --check .
 
       - name: Lint
         run: poetry run ruff --extend-ignore=D1 $(git ls-files '*.py')

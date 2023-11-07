@@ -1,6 +1,5 @@
 """Widget serializer utils"""
 
-
 def get_widget_classes():
     """
     Return the list of available widget classes
