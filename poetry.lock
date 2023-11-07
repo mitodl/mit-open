@@ -1153,6 +1153,20 @@ libcloud = ["apache-libcloud"]
 sftp = ["paramiko (>=1.10.0)"]
 
 [[package]]
+name = "django-user-sessions"
+version = "2.0.0"
+description = "Django sessions with a foreign key to the user"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-user-sessions-2.0.0.tar.gz", hash = "sha256:41b8b1ebeb4736065efbc96437c9cfbf491c39e10fd547a76b98f2312e11fa3e"},
+    {file = "django_user_sessions-2.0.0-py3-none-any.whl", hash = "sha256:0965554279f556b47062965609fa08b3ae45bbc581001dbe84b2ea599cc67748"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
 name = "django-webpack-loader"
 version = "1.8.1"
 description = "Transparently use webpack with django"
@@ -3946,4 +3960,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "106be620bbb4008d2ced1deea020964fb1acbfdf644cca3942d624065cd12b0c"
+content-hash = "d5dc8b9025fcc1c7b0491602a95260aa24a75917455ec6c4eef1e9cf070f13ac"

@@ -89,7 +89,7 @@ INSTALLED_APPS = (
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
-    "django.contrib.sessions",
+    "user_sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
@@ -123,11 +123,15 @@ INSTALLED_APPS = (
     "articles",
 )
 
+# Required to silence the removal of Django's session middleware.
+# https://django-user-sessions.readthedocs.io/en/stable/installation.html#system-check-framework
+SILENCED_SYSTEM_CHECKS = ["admin.E410"]
+
 MIDDLEWARE = (
     "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
+    "user_sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -147,7 +151,7 @@ if DEBUG:
     INSTALLED_APPS += ("nplusone.ext.django",)
     MIDDLEWARE += ("nplusone.ext.django.NPlusOneMiddleware",)
 
-SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_ENGINE = "user_sessions.backends.db"
 
 LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "/login"
