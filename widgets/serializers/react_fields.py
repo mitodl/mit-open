@@ -1,4 +1,5 @@
 """Custom serializer fields for dynamic react fields"""
+
 from rest_framework import serializers
 from rest_framework.fields import empty
 

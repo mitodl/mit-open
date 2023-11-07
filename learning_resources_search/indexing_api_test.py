@@ -1,6 +1,7 @@
 """
 Tests for the indexing API
 """
+
 # pylint: disable=redefined-outer-name
 from types import SimpleNamespace
 
@@ -176,7 +177,7 @@ def test_create_backing_index(mocked_es, mocker, temp_alias_exists):
 
 
 @pytest.mark.usefixtures("indexing_user")
-@pytest.mark.parametrize("errors", [(), ("error")])
+@pytest.mark.parametrize("errors", [(), "error"])
 @pytest.mark.parametrize(
     ("indexing_func_name", "serializing_func_name", "object_type"),
     [
@@ -249,7 +250,7 @@ def test_index_functions(  # noqa: PLR0913
 
 
 @pytest.mark.usefixtures("indexing_user")
-@pytest.mark.parametrize("errors", [(), ("error")])
+@pytest.mark.parametrize("errors", [(), "error"])
 @pytest.mark.parametrize(
     ("indexing_func_name", "serializing_func_name", "object_type"),
     [

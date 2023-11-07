@@ -1,4 +1,5 @@
 """Interactions views"""
+
 from django.db.models import Count
 from rest_framework import mixins, viewsets
 from rest_framework.pagination import LimitOffsetPagination

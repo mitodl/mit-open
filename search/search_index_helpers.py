@@ -1,6 +1,7 @@
 """
 Functions that execute search-related asynchronous tasks
 """
+
 import logging
 
 from django.conf import settings

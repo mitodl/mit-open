@@ -2,6 +2,7 @@
 As described in
 http://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
 """
+
 import os
 
 from celery import Celery

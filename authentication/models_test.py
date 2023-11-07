@@ -1,4 +1,5 @@
 """Tests for authentication.models"""
+
 import pytest
 from django.core.exceptions import ValidationError
 

@@ -1,4 +1,5 @@
 """MITX Online ETL"""
+
 import copy
 import logging
 import re
@@ -66,6 +67,7 @@ def extract_programs():
     """Loads the MITx Online catalog data"""  # noqa: D401
     if settings.MITX_ONLINE_PROGRAMS_API_URL:
         return requests.get(settings.MITX_ONLINE_PROGRAMS_API_URL).json()  # noqa: S113
+    log.warning("Missing required setting MITX_ONLINE_PROGRAMS_API_URL")
     return []
 
 
@@ -73,6 +75,7 @@ def extract_courses():
     """Loads the MITx Online catalog data"""  # noqa: D401
     if settings.MITX_ONLINE_COURSES_API_URL:
         return requests.get(settings.MITX_ONLINE_COURSES_API_URL).json()  # noqa: S113
+    log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
     return []
 
 

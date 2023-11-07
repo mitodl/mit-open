@@ -1,4 +1,5 @@
 """URL configuration for staff_content"""
+
 from django.urls import include, re_path
 from rest_framework_extensions.routers import ExtendedSimpleRouter
 

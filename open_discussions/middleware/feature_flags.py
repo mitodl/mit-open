@@ -1,4 +1,5 @@
 """Common open_discussions middleware"""
+
 from django import shortcuts
 from django.conf import settings
 

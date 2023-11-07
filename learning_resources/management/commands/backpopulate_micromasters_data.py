@@ -1,4 +1,5 @@
 """Management command for populating micromasters course data"""
+
 from django.core.management import BaseCommand
 
 from learning_resources.etl.constants import ETLSource
@@ -39,10 +40,13 @@ class Command(BaseCommand):
             self.stdout.write(f"Started task {task} to get micromasters course data")
             self.stdout.write("Waiting on task...")
             start = now_in_utc()
-            task.get()
+            count = task.get()
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
                 "Population of micromasters data finished, took {} seconds".format(
                     total_seconds
                 )
+            )
+            self.stdout.write(
+                f"Populated {count} resources. See celery logs for details."
             )

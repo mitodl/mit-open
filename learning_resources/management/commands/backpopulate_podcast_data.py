@@ -1,4 +1,5 @@
 """Management command for populating see course data"""
+
 from django.core.management import BaseCommand
 
 from learning_resources.models import Podcast, PodcastEpisode

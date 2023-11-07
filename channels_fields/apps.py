@@ -1,4 +1,5 @@
 """apps for channels_fields"""
+
 from django.apps import AppConfig
 
 

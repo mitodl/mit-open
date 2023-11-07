@@ -1,4 +1,5 @@
 """Constants for learning_resources ETL processes"""
+
 from collections import namedtuple
 from enum import Enum
 

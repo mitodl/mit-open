@@ -1,4 +1,5 @@
 """AppConfig for widgets"""
+
 from django.apps import AppConfig
 
 

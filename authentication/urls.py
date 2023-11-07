@@ -1,4 +1,5 @@
 """URL configurations for authentication"""
+
 from django.urls import re_path
 
 from authentication.views import CustomLogoutView

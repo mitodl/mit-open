@@ -31,7 +31,10 @@ EXPECTED_AVAILABLE_WIDGETS = [
                 "field_name": "url",
                 "input_type": "url",
                 "label": "URL",
-                "under_text": "Paste url from YouTube, New York Times, Instragram and more than 400 content providers. Or any other web url",
+                "under_text": (
+                    "Paste url from YouTube, New York Times, Instragram and more than"
+                    " 400 content providers. Or any other web url"
+                ),
                 "props": {
                     "max_length": "",
                     "min_length": "",
@@ -44,11 +47,16 @@ EXPECTED_AVAILABLE_WIDGETS = [
                 "field_name": "custom_html",
                 "input_type": "textarea",
                 "label": "Custom html",
-                "under_text": "For security reasons, we only allow embed code from Twitter. If you have something else in mind, contact us.",
+                "under_text": (
+                    "For security reasons, we only allow embed code from Twitter. If"
+                    " you have something else in mind, contact us."
+                ),
                 "props": {
                     "max_length": "",
                     "min_length": "",
-                    "placeholder": "For more specific embeds, enter the embed code here",
+                    "placeholder": (
+                        "For more specific embeds, enter the embed code here"
+                    ),
                 },
                 "default": None,
             },

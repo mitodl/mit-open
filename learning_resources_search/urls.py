@@ -1,4 +1,5 @@
 """URLs for search"""
+
 from django.urls import re_path
 
 from learning_resources_search.views import LearningResourcesSearchView

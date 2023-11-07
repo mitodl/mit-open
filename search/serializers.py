@@ -1,4 +1,5 @@
 """Serializers for opensearch data"""
+
 # pylint: disable=unused-argument,too-many-lines
 import json
 import logging

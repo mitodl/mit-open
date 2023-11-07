@@ -1,6 +1,7 @@
 """
 Test tasks
 """
+
 from unittest.mock import ANY
 
 import pytest

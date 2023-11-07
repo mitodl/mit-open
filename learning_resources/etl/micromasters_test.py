@@ -1,4 +1,5 @@
 """Tests for MicroMasters ETL functions"""
+
 # pylint: disable=redefined-outer-name
 import pytest
 

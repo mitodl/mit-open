@@ -46,7 +46,10 @@ class Migration(migrations.Migration):
                         max_length=100,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Channel name can only contain the characters: A-Z, a-z, 0-9, _",  # noqa: E501
+                                message=(
+                                    "Channel name can only contain the characters: A-Z,"
+                                    " a-z, 0-9, _"
+                                ),
                                 regex="^[A-Za-z0-9_]+$",
                             )
                         ],

@@ -1,6 +1,7 @@
 """
 OpenSearch connection functionality
 """
+
 import uuid
 from functools import partial
 

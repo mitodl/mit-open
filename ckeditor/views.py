@@ -1,4 +1,5 @@
 """CKEditor views"""
+
 import math
 from time import time
 

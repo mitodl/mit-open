@@ -1,4 +1,5 @@
 """Tests for channels_fields.api"""
+
 import pytest
 
 from channels_fields.api import add_user_role, remove_user_role

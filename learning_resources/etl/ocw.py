@@ -1,4 +1,5 @@
 """OCW Next Resource ETL"""
+
 import copy
 import logging
 import mimetypes
@@ -242,9 +243,11 @@ def transform_run(course_data: dict) -> dict:
             "description": course_data.get("course_image_metadata", {}).get(
                 "description"
             ),
-            "alt": course_data.get("course_image_metadata", {})
-            .get("image_metadata", {})
-            .get("image-alt"),
+            "alt": (
+                course_data.get("course_image_metadata", {})
+                .get("image_metadata", {})
+                .get("image-alt")
+            ),
         },
         "level": ", ".join(course_data.get("level", [])),
         "last_modified": course_data.get("last_modified"),
@@ -313,9 +316,11 @@ def transform_course(course_data: dict) -> dict:
             "description": course_data.get("course_image_metadata", {}).get(
                 "description"
             ),
-            "alt": course_data.get("course_image_metadata", {})
-            .get("image_metadata", {})
-            .get("image-alt"),
+            "alt": (
+                course_data.get("course_image_metadata", {})
+                .get("image_metadata", {})
+                .get("image-alt")
+            ),
         },
         "description": course_data["course_description"],
         "url": course_data.get("url"),

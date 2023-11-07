@@ -1,4 +1,5 @@
 """opensearch fixtures"""
+
 from types import SimpleNamespace
 
 import pytest

@@ -1,4 +1,5 @@
 """livestream URL"""
+
 from django.urls import re_path
 
 from livestream.views import livestream_view

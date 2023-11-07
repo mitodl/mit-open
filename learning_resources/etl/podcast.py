@@ -153,18 +153,22 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
         "full_description": rss_data.description.text,
         "url": rss_data.enclosure["url"],
         "image": {
-            "url": rss_data.find("image")["href"]
-            if rss_data.find("image")
-            else parent_image,
+            "url": (
+                rss_data.find("image")["href"]
+                if rss_data.find("image")
+                else parent_image
+            ),
         },
         "last_modified": parse(rss_data.pubDate.text),
         "published": True,
         "topics": topics,
         "podcast_episode": {
             "episode_link": rss_data.link.text if rss_data.link else None,
-            "duration": rss_data.find("itunes:duration").text
-            if rss_data.find("itunes:duration")
-            else None,
+            "duration": (
+                rss_data.find("itunes:duration").text
+                if rss_data.find("itunes:duration")
+                else None
+            ),
             "rss": rss_data.prettify(),
         },
     }

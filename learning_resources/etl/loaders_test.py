@@ -1,4 +1,5 @@
 """Tests for ETL loaders"""
+
 import json
 
 # pylint: disable=redefined-outer-name,too-many-locals,too-many-lines

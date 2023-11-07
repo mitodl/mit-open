@@ -1,4 +1,5 @@
 """API for general search-related functionality"""
+
 from base64 import urlsafe_b64encode
 from collections import Counter, defaultdict
 from operator import itemgetter

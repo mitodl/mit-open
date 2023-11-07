@@ -1,4 +1,5 @@
 """Constants for search"""
+
 from enum import Enum
 
 from opensearchpy.exceptions import ConnectionError as ESConnectionError

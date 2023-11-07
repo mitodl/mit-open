@@ -549,15 +549,19 @@ def generate_course_numbers_json(
         course_number_json.append(
             {
                 "value": num,
-                "listing_type": CourseNumberType.primary.value
-                if idx == 0
-                else CourseNumberType.cross_listed.value,
-                "department": {
-                    "department_id": dept_id[0],
-                    "name": DEPARTMENTS[dept_id[0]],
-                }
-                if dept_id
-                else None,
+                "listing_type": (
+                    CourseNumberType.primary.value
+                    if idx == 0
+                    else CourseNumberType.cross_listed.value
+                ),
+                "department": (
+                    {
+                        "department_id": dept_id[0],
+                        "name": DEPARTMENTS[dept_id[0]],
+                    }
+                    if dept_id
+                    else None
+                ),
             }
         )
     return course_number_json

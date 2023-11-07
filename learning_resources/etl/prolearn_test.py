@@ -1,4 +1,5 @@
 """Tests for prolearn etl functions"""
+
 import json
 from datetime import datetime
 from decimal import Decimal
@@ -124,9 +125,11 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
         {
             "readable_id": program["nid"],
             "title": program["title"],
-            "url": program["course_link"]
-            or program["course_application_url"]
-            or program["url"],
+            "url": (
+                program["course_link"]
+                or program["course_application_url"]
+                or program["url"]
+            ),
             "image": parse_image(program),
             "platform": "csail",
             "offered_by": {"name": "CSAIL"},
@@ -183,9 +186,11 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "published": True,
             "professional": True,
             "topics": parse_topic(course),
-            "url": course["course_link"]
-            or course["course_application_url"]
-            or course["url"],
+            "url": (
+                course["course_link"]
+                or course["course_application_url"]
+                or course["url"]
+            ),
             "runs": [
                 {
                     "run_id": f"{course['nid']}_{start_val}",
@@ -196,9 +201,11 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                     "end_date": parse_date(end_val),
                     "published": True,
                     "prices": parse_price(course),
-                    "url": course["course_link"]
-                    or course["course_application_url"]
-                    or course["url"],
+                    "url": (
+                        course["course_link"]
+                        or course["course_application_url"]
+                        or course["url"]
+                    ),
                 }
                 for (start_val, end_val) in zip(
                     course["start_value"], course["end_value"]

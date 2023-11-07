@@ -1,4 +1,5 @@
 """xPro learning_resources ETL"""
+
 import copy
 import logging
 
@@ -43,6 +44,7 @@ def extract_programs():
     """Loads the xPro catalog data"""  # noqa: D401
     if settings.XPRO_CATALOG_API_URL:
         return requests.get(settings.XPRO_CATALOG_API_URL, timeout=20).json()
+    log.warning("Missing required setting XPRO_CATALOG_API_URL")
     return []
 
 
@@ -50,6 +52,7 @@ def extract_courses():
     """Loads the xPro catalog data"""  # noqa: D401
     if settings.XPRO_COURSES_API_URL:
         return requests.get(settings.XPRO_COURSES_API_URL, timeout=20).json()
+    log.warning("Missing required setting XPRO_COURSES_API_URL")
     return []
 
 
@@ -71,9 +74,11 @@ def _transform_run(course_run):
         "enrollment_start": _parse_datetime(course_run["enrollment_start"]),
         "enrollment_end": _parse_datetime(course_run["enrollment_end"]),
         "published": bool(course_run["current_price"]),
-        "prices": [course_run["current_price"]]
-        if course_run.get("current_price", None)
-        else [],
+        "prices": (
+            [course_run["current_price"]]
+            if course_run.get("current_price", None)
+            else []
+        ),
         "instructors": [
             {"full_name": instructor["name"]}
             for instructor in course_run["instructors"]
@@ -150,9 +155,11 @@ def transform_programs(programs):
             "resource_type": LearningResourceType.program.name,
             "runs": [
                 {
-                    "prices": [program["current_price"]]
-                    if program.get("current_price", None)
-                    else [],
+                    "prices": (
+                        [program["current_price"]]
+                        if program.get("current_price", None)
+                        else []
+                    ),
                     "title": program["title"],
                     "run_id": program["readable_id"],
                     "enrollment_start": _parse_datetime(program["enrollment_start"]),

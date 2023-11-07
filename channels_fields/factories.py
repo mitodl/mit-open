@@ -1,4 +1,5 @@
 """Factories for channels_fields"""
+
 import factory
 
 from channels_fields.api import create_field_groups_and_roles

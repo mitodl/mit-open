@@ -1,4 +1,5 @@
 """Tests for url widget serializer"""
+
 import pytest
 
 from widgets.factories import WidgetInstanceFactory

@@ -1,4 +1,5 @@
 """Management command to index content"""
+
 from django.core.management.base import BaseCommand, CommandError
 
 from learning_resources_search.constants import VALID_OBJECT_TYPES
@@ -46,9 +47,8 @@ class Command(BaseCommand):
 
             task = start_recreate_index.delay(indexes_to_update)
             self.stdout.write(
-                "Started celery task {task} to index content for the following indexes: {indexes}".format(  # noqa: E501
-                    task=task, indexes=indexes_to_update
-                )
+                f"Started celery task {task} to index content for the following"
+                f" indexes: {indexes_to_update}"
             )
 
         self.stdout.write("Waiting on task...")

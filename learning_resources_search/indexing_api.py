@@ -1,6 +1,7 @@
 """
 Functions and constants for OpenSearch indexing
 """
+
 import json
 import logging
 from math import ceil
@@ -65,7 +66,8 @@ def _update_document_by_id(doc_id, body, object_type, *, retry_on_conflict=0, **
         # and allow the app to continue as normal.
         except ConflictError:
             log.error(  # noqa: TRY400
-                "Update API request resulted in a version conflict (alias: %s, doc id: %s)",  # noqa: E501
+                "Update API request resulted in a version conflict (alias: %s, doc"
+                " id: %s)",
                 alias,
                 doc_id,
             )
