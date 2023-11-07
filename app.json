@@ -554,6 +554,18 @@
     "AUTHORIZATION_URL": {
       "description": "Provider endpoint where the user is asked to authenticate.",
       "required": false
+    },
+    "FEATURE_KEYCLOAK_ENABLED": {
+      "description": "Authentication functionality is managed by Keycloak.",
+      "required": true
+    },
+    "KEYCLOAK_REALM_NAME": {
+      "description": "The Keycloak realm name in which Open Discussions has a client configuration.",
+      "required": true
+    },
+    "KEYCLOAK_BASE_URL": {
+      "description": "The base URL for a Keycloak configuration.",
+      "required": true
     }
   },
   "keywords": ["Django", "Python", "MIT", "Office of Digital Learning"],
