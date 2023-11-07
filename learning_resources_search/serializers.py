@@ -137,6 +137,8 @@ LEARNING_RESOURCE_SORTBY_OPTIONS = [
     "-last_modified",
     "runs.start_date",
     "-runs.start_date",
+    "course.course_numbers.sort_coursenum",
+    "-course.course_numbers.sort_coursenum",
 ]
 
 CONTENT_FILE_SORTBY_OPTIONS = [

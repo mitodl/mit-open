@@ -33,22 +33,70 @@ def test_relevant_indexes(resourse_types, aggregations, result):
 
 
 @pytest.mark.parametrize(
-    ("sort_param", "result"),
+    ("sort_param", "departments", "result"),
     [
-        ("prices", "prices"),
-        ("-prices", "-prices"),
+        ("prices", None, "prices"),
+        ("-prices", ["Biology"], "-prices"),
         (
             "runs.start_date",
+            ["Chemistry"],
             {"runs.start_date": {"order": "asc", "nested": {"path": "runs"}}},
         ),
         (
             "-runs.start_date",
+            None,
             {"runs.start_date": {"order": "desc", "nested": {"path": "runs"}}},
+        ),
+        (
+            "course.course_numbers.sort_coursenum",
+            None,
+            {
+                "course.course_numbers.sort_coursenum": {
+                    "order": "asc",
+                    "nested": {
+                        "path": "course.course_numbers",
+                        "filter": {"term": {"course.course_numbers.primary": True}},
+                    },
+                }
+            },
+        ),
+        (
+            "course.course_numbers.sort_coursenum",
+            ["Biology", "Chemistry"],
+            {
+                "course.course_numbers.sort_coursenum": {
+                    "order": "asc",
+                    "nested": {
+                        "path": "course.course_numbers",
+                        "filter": {
+                            "bool": {
+                                "should": [
+                                    {
+                                        "term": {
+                                            "course.course_numbers.department.name": (
+                                                "Biology"
+                                            )
+                                        }
+                                    },
+                                    {
+                                        "term": {
+                                            "course.course_numbers.department.name": (
+                                                "Chemistry"
+                                            )
+                                        }
+                                    },
+                                ]
+                            }
+                        },
+                    },
+                }
+            },
         ),
     ],
 )
-def test_generate_sort_clause(sort_param, result):
-    assert generate_sort_clause(sort_param) == result
+def test_generate_sort_clause(sort_param, departments, result):
+    params = {"sortby": sort_param, "department": departments}
+    assert generate_sort_clause(params) == result
 
 
 def test_generate_learning_resources_text_clause():

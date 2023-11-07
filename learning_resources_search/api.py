@@ -22,6 +22,7 @@ from learning_resources_search.constants import (
 )
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
+COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
 
 
 def gen_content_file_id(content_file_id):
@@ -62,16 +63,18 @@ def relevant_indexes(resource_types, aggregations):
     return map(get_default_alias_name, set(resource_types_copy))
 
 
-def generate_sort_clause(sort):
+def generate_sort_clause(search_params):
     """
     Return sort clause for the query
 
     Args:
-        sort (string): the sort parameter
+        sort (dict): the search params
     Returns:
         dict or String: either a dictionary with the sort clause for
             nested sort params or just sort parameter
     """
+    sort = search_params.get("sortby")
+    departments = search_params.get("department")
 
     if "." in sort:
         if sort.startswith("-"):
@@ -83,7 +86,22 @@ def generate_sort_clause(sort):
 
         path = ".".join(field.split(".")[:-1])
 
-        return {field: {"order": direction, "nested": {"path": path}}}
+        sort_filter = {}
+        if field == COURSENUM_SORT_FIELD:
+            if departments:
+                sort_filter = {
+                    "filter": {
+                        "bool": {
+                            "should": [
+                                {"term": {f"{path}.department.name": department}}
+                                for department in departments
+                            ]
+                        }
+                    }
+                }
+            else:
+                sort_filter = {"filter": {"term": {f"{path}.primary": True}}}
+        return {field: {"order": direction, "nested": {"path": path, **sort_filter}}}
 
     else:
         return sort
@@ -439,7 +457,7 @@ def execute_learn_search(search_params):
         search = search.extra(size=search_params.get("limit"))
 
     if search_params.get("sortby"):
-        sort = generate_sort_clause(search_params.get("sortby"))
+        sort = generate_sort_clause(search_params)
 
         search = search.sort(sort)
 
