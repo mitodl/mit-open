@@ -10,8 +10,9 @@ MANAGE_FILE=${MANAGE_FILE:2}
 
 # Run migrations
 
-echo "-----> Running django migrations"
+echo "-----> Running django showmigrations"
 python $MANAGE_FILE showmigrations --list 2>&1 | indent
+echo "-----> Running django migrate"
 python $MANAGE_FILE migrate --noinput 2>&1 | indent
 
 echo
