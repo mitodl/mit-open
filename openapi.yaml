@@ -2242,6 +2242,8 @@ paths:
           - -last_modified
           - runs.start_date
           - -runs.start_date
+          - course.course_numbers.sort_coursenum
+          - -course.course_numbers.sort_coursenum
           type: string
           minLength: 1
         description: |-
@@ -2255,6 +2257,8 @@ paths:
           * `-last_modified` - -last_modified
           * `runs.start_date` - runs.start_date
           * `-runs.start_date` - -runs.start_date
+          * `course.course_numbers.sort_coursenum` - course.course_numbers.sort_coursenum
+          * `-course.course_numbers.sort_coursenum` - -course.course_numbers.sort_coursenum
       - in: query
         name: topic
         schema:

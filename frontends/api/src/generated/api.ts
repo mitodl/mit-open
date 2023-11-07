@@ -9602,7 +9602,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning path' | 'podcast' | 'podcast episode'>} [resource_type]
-     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date' | 'course.course_numbers.sort_coursenum' | '-course.course_numbers.sort_coursenum'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date * &#x60;course.course_numbers.sort_coursenum&#x60; - course.course_numbers.sort_coursenum * &#x60;-course.course_numbers.sort_coursenum&#x60; - -course.course_numbers.sort_coursenum
      * @param {Array<string>} [topic]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9669,7 +9669,9 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         | "last_modified"
         | "-last_modified"
         | "runs.start_date"
-        | "-runs.start_date",
+        | "-runs.start_date"
+        | "course.course_numbers.sort_coursenum"
+        | "-course.course_numbers.sort_coursenum",
       topic?: Array<string>,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -9793,7 +9795,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning path' | 'podcast' | 'podcast episode'>} [resource_type]
-     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date' | 'course.course_numbers.sort_coursenum' | '-course.course_numbers.sort_coursenum'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date * &#x60;course.course_numbers.sort_coursenum&#x60; - course.course_numbers.sort_coursenum * &#x60;-course.course_numbers.sort_coursenum&#x60; - -course.course_numbers.sort_coursenum
      * @param {Array<string>} [topic]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9860,7 +9862,9 @@ export const LearningResourcesSearchApiFp = function (
         | "last_modified"
         | "-last_modified"
         | "runs.start_date"
-        | "-runs.start_date",
+        | "-runs.start_date"
+        | "course.course_numbers.sort_coursenum"
+        | "-course.course_numbers.sort_coursenum",
       topic?: Array<string>,
       options?: AxiosRequestConfig,
     ): Promise<
@@ -10078,8 +10082,8 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   >
 
   /**
-   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date
-   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date'}
+   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date * &#x60;course.course_numbers.sort_coursenum&#x60; - course.course_numbers.sort_coursenum * &#x60;-course.course_numbers.sort_coursenum&#x60; - -course.course_numbers.sort_coursenum
+   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date' | 'course.course_numbers.sort_coursenum' | '-course.course_numbers.sort_coursenum'}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly sortby?:
@@ -10091,6 +10095,8 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
     | "-last_modified"
     | "runs.start_date"
     | "-runs.start_date"
+    | "course.course_numbers.sort_coursenum"
+    | "-course.course_numbers.sort_coursenum"
 
   /**
    *
