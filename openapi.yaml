@@ -2249,16 +2249,16 @@ paths:
         description: |-
           if the parameter starts with '-' the sort is in descending order
 
-          * `id` - id
-          * `-id` - -id
-          * `readable_id` - readable_id
-          * `-readable_id` - -readable_id
-          * `last_modified` - last_modified
-          * `-last_modified` - -last_modified
-          * `start_date` - start_date
-          * `-start_date` - -start_date
-          * `mitcoursenumber` - mitcoursenumber
-          * `-mitcoursenumber` - -mitcoursenumber
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       - in: query
         name: topic
         schema:

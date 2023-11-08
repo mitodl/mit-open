@@ -193,12 +193,7 @@ def test_learning_resources_search_request_serializer():
         "q": "text",
         "offset": 1,
         "limit": 1,
-<<<<<<< HEAD
-        "sortby": "-runs.start_date",
-=======
         "sortby": "-start_date",
-        "resource_type": "course,program",
->>>>>>> 72def40c (More user-friendly sorting options)
         "professional": "true",
         "certification": "Certificates",
         "offered_by": "xpro,ocw",

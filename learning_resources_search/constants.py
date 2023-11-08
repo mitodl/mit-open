@@ -252,19 +252,45 @@ SOURCE_EXCLUDED_FIELDS = [
     "resource_relations",
 ]
 
-
-class SortFields(Enum):
-    id = "id"  # noqa: A003
-    readable_id = "readable_id"
-    last_modified = "last_modified"
-    start_date = "runs.start_date"
-    mitcoursenumber = "course.course_numbers.sort_coursenum"
-
-
-LEARNING_RESOURCE_SORTBY_OPTIONS = [
-    item
-    for sublist in [
-        [sort_field.name, f"-{sort_field.name}"] for sort_field in SortFields
-    ]
-    for item in sublist
-]
+LEARNING_RESOURCE_SORTBY_OPTIONS = {
+    "id": {
+        "title": "Object ID ascending",
+        "sort": "id",
+    },
+    "-id": {
+        "title": "Object ID descending",
+        "sort": "-id",
+    },
+    "readable_id": {
+        "title": "Readable ID ascending",
+        "sort": "readable_id",
+    },
+    "-readable_id": {
+        "title": "Readable ID descending",
+        "sort": "-readable_id",
+    },
+    "last_modified": {
+        "title": "Last Modified Date ascending",
+        "sort": "last_modified",
+    },
+    "-last_modified": {
+        "title": "Last Modified Date descending",
+        "sort": "-last_modified",
+    },
+    "start_date": {
+        "title": "Start Date ascending",
+        "sort": "runs.start_date",
+    },
+    "-start_date": {
+        "title": "Start Date descending",
+        "sort": "-runs.start_date",
+    },
+    "mitcoursenumber": {
+        "title": "MIT course number ascending",
+        "sort": "course.course_numbers.sort_coursenum",
+    },
+    "-mitcoursenumber": {
+        "title": "MIT course number descending",
+        "sort": "-course.course_numbers.sort_coursenum",
+    },
+}

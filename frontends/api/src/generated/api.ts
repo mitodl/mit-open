@@ -9602,7 +9602,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning path' | 'podcast' | 'podcast episode'>} [resource_type]
-     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;start_date&#x60; - start_date * &#x60;-start_date&#x60; - -start_date * &#x60;mitcoursenumber&#x60; - mitcoursenumber * &#x60;-mitcoursenumber&#x60; - -mitcoursenumber
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9795,7 +9795,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning path' | 'podcast' | 'podcast episode'>} [resource_type]
-     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;start_date&#x60; - start_date * &#x60;-start_date&#x60; - -start_date * &#x60;mitcoursenumber&#x60; - mitcoursenumber * &#x60;-mitcoursenumber&#x60; - -mitcoursenumber
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -10082,7 +10082,7 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   >
 
   /**
-   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;start_date&#x60; - start_date * &#x60;-start_date&#x60; - -start_date * &#x60;mitcoursenumber&#x60; - mitcoursenumber * &#x60;-mitcoursenumber&#x60; - -mitcoursenumber
+   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
    * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
