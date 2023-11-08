@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: MIT Open Discussions Course Catalog API
+  title: MIT Open API
   version: 0.0.1
-  description: Open Discussions public API
+  description: MIT public API
 paths:
   /api/v1/articles/:
     get:

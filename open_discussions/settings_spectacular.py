@@ -4,8 +4,8 @@ to offload from the main settings.py
 """
 
 open_spectacular_settings = {
-    "TITLE": "MIT Open Discussions Course Catalog API",
-    "DESCRIPTION": "Open Discussions public API",
+    "TITLE": "MIT Open API",
+    "DESCRIPTION": "MIT public API",
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
     "SERVE_URLCONF": "open_discussions.urls_spectacular",
