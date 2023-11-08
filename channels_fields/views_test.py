@@ -11,6 +11,8 @@ from channels_fields.constants import FIELD_ROLE_MODERATORS
 from channels_fields.factories import FieldChannelFactory
 from channels_fields.models import FieldChannel
 from channels_fields.serializers import FieldChannelSerializer
+from learning_resources.constants import LearningResourceType
+from learning_resources.factories import LearningResourceFactory
 from open_discussions.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
@@ -57,6 +59,63 @@ def test_create_field_channel_missing_name(admin_client):
         "error_type": "ValidationError",
         "name": ["This field is required."],
     }
+
+
+@pytest.mark.parametrize("resource_type", LearningResourceType)
+def test_create_field_channel_featured_list_only_learning_path(
+    admin_client, resource_type
+):
+    """Only learning_paths may be used as featured_list"""
+    url = reverse("field_channels_api-list")
+    resoure = LearningResourceFactory.create(resource_type=resource_type.name)
+    status = 201 if resource_type == LearningResourceType.learning_path else 400
+    data = {"title": "Biology", "name": "biology", "featured_list": resoure.id}
+    response = admin_client.post(url, data=data, format="appliation/json")
+    assert response.status_code == status
+
+
+@pytest.mark.parametrize("resource_type", LearningResourceType)
+def test_partial_update_field_channel_featured_list_only_learning_path(
+    admin_client, resource_type
+):
+    """Only learning_paths may be used as featured_list"""
+    field_channel = FieldChannelFactory.create()
+    url = reverse(
+        "field_channels_api-detail", kwargs={"field_name": field_channel.name}
+    )
+    resoure = LearningResourceFactory.create(resource_type=resource_type.name)
+    status = 200 if resource_type == LearningResourceType.learning_path else 400
+    data = {"featured_list": resoure.id}
+    response = admin_client.patch(url, data=data, content_type="application/json")
+    assert response.status_code == status
+
+
+@pytest.mark.parametrize("resource_type", LearningResourceType)
+def test_create_field_channel_lists_only_learning_path(admin_client, resource_type):
+    """Only learning_paths may be used as one of lists"""
+    url = reverse("field_channels_api-list")
+    resoure = LearningResourceFactory.create(resource_type=resource_type.name)
+    resource2 = LearningResourceFactory.create(resource_type=resource_type.name)
+    status = 201 if resource_type == LearningResourceType.learning_path else 400
+    data = {"title": "Biology", "name": "biology", "lists": [resoure.id, resource2.id]}
+    response = admin_client.post(url, data=data, content_type="application/json")
+    assert response.status_code == status
+
+
+@pytest.mark.parametrize("resource_type", LearningResourceType)
+def test_partial_update_field_channel_lists_only_learning_path(
+    admin_client, resource_type
+):
+    """Only learning_paths may be used as one of lists"""
+    field_channel = FieldChannelFactory.create()
+    url = reverse(
+        "field_channels_api-detail", kwargs={"field_name": field_channel.name}
+    )
+    resoure = LearningResourceFactory.create(resource_type=resource_type.name)
+    status = 200 if resource_type == LearningResourceType.learning_path else 400
+    data = {"lists": [resoure.id]}
+    response = admin_client.patch(url, data=data, content_type="application/json")
+    assert response.status_code == status
 
 
 def test_create_field_channel_forbidden(user_client):
