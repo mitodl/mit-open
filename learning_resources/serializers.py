@@ -64,7 +64,7 @@ class WriteableTopicsMixin(serializers.Serializer):
 
     @extend_schema_field(LearningResourceTopicSerializer(many=True))
     def get_topics(self, instance):
-        """Returns the list of topics"""  # noqa: D401
+        """Return the list of topics"""
         return [
             LearningResourceTopicSerializer(topic).data
             for topic in instance.topics.all()
@@ -85,7 +85,7 @@ class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 
     def to_representation(self, value):
-        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: D401
+        """Serialize resource_content_tags as a list of names"""
         return [tag.name for tag in value.all()]
 
 
@@ -94,8 +94,8 @@ class LearningResourceTopicsField(serializers.Field):
     """Serializer field for LearningResourceTopics"""
 
     def to_representation(self, value):
-        """Serializes resource_content_tags as a list of OfferedBy names"""  # noqa: D401
-        return [topic.name for topic in value.all()]
+        """Serialize list of topics"""
+        return [LearningResourceTopicSerializer(topic).data for topic in value.all()]
 
 
 class LearningResourcePlatformSerializer(serializers.ModelSerializer):
@@ -469,7 +469,6 @@ class ContentFileSerializer(serializers.ModelSerializer):
     semester = serializers.CharField(source="run.semester")
     year = serializers.IntegerField(source="run.year")
     topics = LearningResourceTopicsField(source="run.learning_resource.topics")
-    short_description = serializers.CharField(source="description")
     resource_id = serializers.CharField(source="run.learning_resource.id")
     departments = LearningResourceDepartmentSerializer(
         source="run.learning_resource.departments", many=True
@@ -480,11 +479,11 @@ class ContentFileSerializer(serializers.ModelSerializer):
     resource_readable_num = serializers.CharField(
         source="run.learning_resource.resource_num"
     )
-    resource_type = serializers.SerializerMethodField()
+    content_category = serializers.SerializerMethodField()
 
-    def get_resource_type(self, instance):  # noqa: ARG002
+    def get_content_category(self, instance):  # noqa: ARG002
         """
-        Get the resource type of the ContentFile. For now, just return None.
+        Get the file type of the ContentFile. For now, just return None.
         NOTE: This function needs to be updated once OCW courses are added.
         """
         return
@@ -503,12 +502,12 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "key",
             "uid",
             "title",
-            "short_description",
+            "description",
             "url",
             "short_url",
             "section",
             "section_slug",
-            "file_type",
+            "content_category",
             "content_type",
             "content",
             "content_title",
@@ -518,7 +517,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "resource_id",
             "resource_readable_id",
             "resource_readable_num",
-            "resource_type",
+            "file_type",
         ]
 
 

@@ -154,7 +154,7 @@ export interface ContentFile {
    * @type {string}
    * @memberof ContentFile
    */
-  short_description: string
+  description?: string | null
   /**
    *
    * @type {string}
@@ -184,7 +184,7 @@ export interface ContentFile {
    * @type {string}
    * @memberof ContentFile
    */
-  file_type?: string | null
+  content_category: string
   /**
    *
    * @type {ContentTypeEnum}
@@ -244,7 +244,7 @@ export interface ContentFile {
    * @type {string}
    * @memberof ContentFile
    */
-  resource_type: string
+  file_type?: string | null
 }
 
 /**
@@ -1489,31 +1489,6 @@ export interface LearningResourceTopic {
   name: string
 }
 /**
- *
- * @export
- * @interface LearningResourcesSearchResponse
- */
-export interface LearningResourcesSearchResponse {
-  /**
-   *
-   * @type {number}
-   * @memberof LearningResourcesSearchResponse
-   */
-  count: number
-  /**
-   *
-   * @type {Array<LearningResource>}
-   * @memberof LearningResourcesSearchResponse
-   */
-  results: Array<LearningResource>
-  /**
-   *
-   * @type {any}
-   * @memberof LearningResourcesSearchResponse
-   */
-  metadata: any
-}
-/**
  * Serializer containing only parent and child ids for a learning path relationship
  * @export
  * @interface MicroLearningPathRelationship
@@ -2191,6 +2166,31 @@ export const ResourceTypeEnum = {
 export type ResourceTypeEnum =
   (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
 
+/**
+ *
+ * @export
+ * @interface SearchResponse
+ */
+export interface SearchResponse {
+  /**
+   *
+   * @type {number}
+   * @memberof SearchResponse
+   */
+  count: number
+  /**
+   *
+   * @type {Array<LearningResource>}
+   * @memberof SearchResponse
+   */
+  results: Array<LearningResource>
+  /**
+   *
+   * @type {any}
+   * @memberof SearchResponse
+   */
+  metadata: any
+}
 /**
  * Simplified serializer for UserList model.
  * @export
@@ -3143,6 +3143,300 @@ export class ArticlesApi extends BaseAPI {
       .articlesUpdate(
         requestParameters.id,
         requestParameters.ArticleRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * ContentFileSearchApi - axios parameter creator
+ * @export
+ */
+export const ContentFileSearchApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * View for executing searches of learning resources
+     * @param {Array<'topic' | 'content_category'>} [aggregations]
+     * @param {Array<string>} [content_category]
+     * @param {Array<string>} [id]
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {string} [q] The search text
+     * @param {'id' | '-id' | 'resource_readable_id' | '-resource_readable_id'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;resource_readable_id&#x60; - resource_readable_id * &#x60;-resource_readable_id&#x60; - -resource_readable_id
+     * @param {Array<string>} [topic]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    contentFileSearchRetrieve: async (
+      aggregations?: Array<"topic" | "content_category">,
+      content_category?: Array<string>,
+      id?: Array<string>,
+      limit?: number,
+      offset?: number,
+      q?: string,
+      sortby?: "id" | "-id" | "resource_readable_id" | "-resource_readable_id",
+      topic?: Array<string>,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/content_file_search/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (aggregations) {
+        localVarQueryParameter["aggregations"] = aggregations
+      }
+
+      if (content_category) {
+        localVarQueryParameter["content_category"] = content_category
+      }
+
+      if (id) {
+        localVarQueryParameter["id"] = id
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (q !== undefined) {
+        localVarQueryParameter["q"] = q
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
+      }
+
+      if (topic) {
+        localVarQueryParameter["topic"] = topic
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * ContentFileSearchApi - functional programming interface
+ * @export
+ */
+export const ContentFileSearchApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    ContentFileSearchApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * View for executing searches of learning resources
+     * @param {Array<'topic' | 'content_category'>} [aggregations]
+     * @param {Array<string>} [content_category]
+     * @param {Array<string>} [id]
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {string} [q] The search text
+     * @param {'id' | '-id' | 'resource_readable_id' | '-resource_readable_id'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;resource_readable_id&#x60; - resource_readable_id * &#x60;-resource_readable_id&#x60; - -resource_readable_id
+     * @param {Array<string>} [topic]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async contentFileSearchRetrieve(
+      aggregations?: Array<"topic" | "content_category">,
+      content_category?: Array<string>,
+      id?: Array<string>,
+      limit?: number,
+      offset?: number,
+      q?: string,
+      sortby?: "id" | "-id" | "resource_readable_id" | "-resource_readable_id",
+      topic?: Array<string>,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SearchResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.contentFileSearchRetrieve(
+          aggregations,
+          content_category,
+          id,
+          limit,
+          offset,
+          q,
+          sortby,
+          topic,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * ContentFileSearchApi - factory interface
+ * @export
+ */
+export const ContentFileSearchApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = ContentFileSearchApiFp(configuration)
+  return {
+    /**
+     * View for executing searches of learning resources
+     * @param {ContentFileSearchApiContentFileSearchRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    contentFileSearchRetrieve(
+      requestParameters: ContentFileSearchApiContentFileSearchRetrieveRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<SearchResponse> {
+      return localVarFp
+        .contentFileSearchRetrieve(
+          requestParameters.aggregations,
+          requestParameters.content_category,
+          requestParameters.id,
+          requestParameters.limit,
+          requestParameters.offset,
+          requestParameters.q,
+          requestParameters.sortby,
+          requestParameters.topic,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for contentFileSearchRetrieve operation in ContentFileSearchApi.
+ * @export
+ * @interface ContentFileSearchApiContentFileSearchRetrieveRequest
+ */
+export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
+  /**
+   *
+   * @type {Array<'topic' | 'content_category'>}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly aggregations?: Array<"topic" | "content_category">
+
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly content_category?: Array<string>
+
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly id?: Array<string>
+
+  /**
+   *
+   * @type {number}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly limit?: number
+
+  /**
+   *
+   * @type {number}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly offset?: number
+
+  /**
+   * The search text
+   * @type {string}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly q?: string
+
+  /**
+   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;resource_readable_id&#x60; - resource_readable_id * &#x60;-resource_readable_id&#x60; - -resource_readable_id
+   * @type {'id' | '-id' | 'resource_readable_id' | '-resource_readable_id'}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly sortby?:
+    | "id"
+    | "-id"
+    | "resource_readable_id"
+    | "-resource_readable_id"
+
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly topic?: Array<string>
+}
+
+/**
+ * ContentFileSearchApi - object-oriented interface
+ * @export
+ * @class ContentFileSearchApi
+ * @extends {BaseAPI}
+ */
+export class ContentFileSearchApi extends BaseAPI {
+  /**
+   * View for executing searches of learning resources
+   * @param {ContentFileSearchApiContentFileSearchRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ContentFileSearchApi
+   */
+  public contentFileSearchRetrieve(
+    requestParameters: ContentFileSearchApiContentFileSearchRetrieveRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return ContentFileSearchApiFp(this.configuration)
+      .contentFileSearchRetrieve(
+        requestParameters.aggregations,
+        requestParameters.content_category,
+        requestParameters.id,
+        requestParameters.limit,
+        requestParameters.offset,
+        requestParameters.q,
+        requestParameters.sortby,
+        requestParameters.topic,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -7922,10 +8216,7 @@ export const LearningResourcesSearchApiFp = function (
       topic?: Array<string>,
       options?: AxiosRequestConfig,
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<LearningResourcesSearchResponse>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SearchResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesSearchRetrieve(
@@ -7976,7 +8267,7 @@ export const LearningResourcesSearchApiFactory = function (
     learningResourcesSearchRetrieve(
       requestParameters: LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest = {},
       options?: AxiosRequestConfig,
-    ): AxiosPromise<LearningResourcesSearchResponse> {
+    ): AxiosPromise<SearchResponse> {
       return localVarFp
         .learningResourcesSearchRetrieve(
           requestParameters.aggregations,

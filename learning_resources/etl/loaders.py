@@ -517,8 +517,12 @@ def load_content_files(
         )
         deleted_files.update(published=False)
 
-        # Uncomment when contentfile search is enabled
-        # if course_run.published:
+        if course_run.published:
+            search_index_helpers.index_run_content_files(course_run.id)
+        else:
+            search_index_helpers.deindex_run_content_files(
+                course_run.id, unpublished_only=False
+            )
 
         return content_files_ids
     return None

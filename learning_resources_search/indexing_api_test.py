@@ -2,12 +2,17 @@
 Tests for the indexing API
 """
 
-# pylint: disable=redefined-outer-name
 from types import SimpleNamespace
 
 import pytest
 from opensearchpy.exceptions import NotFoundError
 
+from learning_resources.factories import (
+    ContentFileFactory,
+    CourseFactory,
+    LearningResourceRunFactory,
+)
+from learning_resources.models import ContentFile
 from learning_resources_search import indexing_api
 from learning_resources_search.connection import get_default_alias_name
 from learning_resources_search.constants import (
@@ -21,10 +26,14 @@ from learning_resources_search.exceptions import ReindexError
 from learning_resources_search.indexing_api import (
     clear_and_create_index,
     create_backing_index,
+    deindex_courses,
     deindex_document,
+    deindex_run_content_files,
     delete_orphaned_indices,
     get_reindexing_alias_name,
+    index_course_content_files,
     index_items,
+    index_run_content_files,
     switch_indices,
 )
 from open_discussions.utils import chunks
@@ -297,7 +306,7 @@ def test_bulk_deindex_functions(  # noqa: PLR0913
         mock_get_aliases.assert_called_with(
             mocked_es.conn,
             object_types=[object_type],
-            index_types=IndexestoUpdate.current_index.value,
+            index_types=IndexestoUpdate.all_indexes.value,
         )
 
         for alias in mock_get_aliases.return_value:
@@ -414,3 +423,161 @@ def test_delete_orphaned_indices(mocker, mocked_es):
         "discussions_local_program_b8c9b1e61d15ff354f6884bba05484cb"
     )
     assert mocked_es.conn.indices.delete.call_count == 2
+
+
+def test_bulk_content_file_deindex_on_course_deletion(mocker):
+    """
+    OpenSearch should deindex content files on bulk  course deletion
+    """
+    mock_deindex_run_content_files = mocker.patch(
+        "learning_resources_search.indexing_api.deindex_run_content_files",
+        autospec=True,
+    )
+    mocker.patch("learning_resources_search.indexing_api.deindex_items", autospec=True)
+
+    courses = CourseFactory.create_batch(2)
+    deindex_courses([course.learning_resource_id for course in courses])
+    for course in courses:
+        for run in course.learning_resource.runs.all():
+            mock_deindex_run_content_files.assert_any_call(
+                run.id, unpublished_only=False
+            )
+
+
+def test_deindex_run_content_files(mocker):
+    """deindex_run_content_files should remove them from index and db"""
+    mock_deindex = mocker.patch("learning_resources_search.indexing_api.deindex_items")
+    run = LearningResourceRunFactory.create(published=True)
+    ContentFileFactory.create_batch(3, run=run, published=True)
+    assert ContentFile.objects.count() == 3
+    deindex_run_content_files(run.id, unpublished_only=False)
+    mock_deindex.assert_called_once()
+
+
+def test_index_content_files(mocker):
+    """
+    OpenSearch should try indexing content files for all runs in a course
+    """
+    mock_index_run_content_files = mocker.patch(
+        "learning_resources_search.indexing_api.index_run_content_files", autospec=True
+    )
+    courses = CourseFactory.create_batch(2)
+    index_course_content_files(
+        [course.learning_resource_id for course in courses],
+        IndexestoUpdate.current_index.value,
+    )
+    for course in courses:
+        for run in course.runs.all():
+            mock_index_run_content_files.assert_any_call(
+                run.id, IndexestoUpdate.current_index.value
+            )
+
+
+@pytest.mark.parametrize(
+    ("indexing_func_name", "doc", "unpublished_only"),
+    [
+        ["index_run_content_files", {"_id": "doc"}, None],  # noqa: PT007
+        [  # noqa: PT007
+            "deindex_run_content_files",
+            {"_id": "doc", "_op_type": "deindex"},
+            True,
+        ],
+        [  # noqa: PT007
+            "deindex_run_content_files",
+            {"_id": "doc", "_op_type": "deindex"},
+            False,
+        ],
+    ],
+)
+@pytest.mark.parametrize(
+    ("indexing_chunk_size", "document_indexing_chunk_size"),
+    [[2, 3], [3, 2]],  # noqa: PT007
+)
+@pytest.mark.parametrize("errors", [[], ["error"]])
+def test_bulk_index_content_files(  # noqa: PLR0913
+    mocked_es,
+    mocker,
+    settings,
+    errors,
+    indexing_func_name,
+    doc,
+    unpublished_only,
+    indexing_chunk_size,
+    document_indexing_chunk_size,
+):
+    """
+    index functions for content files should call bulk with correct arguments
+    """
+    settings.OPENSEARCH_INDEXING_CHUNK_SIZE = indexing_chunk_size
+    settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE = document_indexing_chunk_size
+    course = CourseFactory.create()
+    run = LearningResourceRunFactory.create(learning_resource=course.learning_resource)
+    content_files = ContentFileFactory.create_batch(5, run=run, published=True)
+    deindexed_content_file = ContentFileFactory.create_batch(
+        5, run=run, published=False
+    )
+    mock_get_aliases = mocker.patch(
+        "learning_resources_search.indexing_api.get_active_aliases",
+        autospec=True,
+        return_value=["a", "b"],
+    )
+    bulk_mock = mocker.patch(
+        "learning_resources_search.indexing_api.bulk",
+        autospec=True,
+        return_value=(0, errors),
+    )
+    mocker.patch(
+        "learning_resources_search.indexing_api.serialize_content_file_for_bulk",
+        autospec=True,
+        return_value=doc,
+    )
+    mocker.patch(
+        "learning_resources_search.indexing_api.serialize_content_file_for_bulk_deletion",
+        autospec=True,
+        return_value=doc,
+    )
+
+    if indexing_func_name == "index_run_content_files":
+        chunk_size = min(indexing_chunk_size, document_indexing_chunk_size)
+    else:
+        chunk_size = indexing_chunk_size
+
+    if errors:
+        index_func = getattr(indexing_api, indexing_func_name)
+
+        with pytest.raises(ReindexError):
+            index_func(run.id, IndexestoUpdate.all_indexes.value)
+    else:
+        if indexing_func_name == "index_run_content_files":
+            index_run_content_files(run.id, IndexestoUpdate.all_indexes.value)
+        else:
+            deindex_run_content_files(run.id, unpublished_only=unpublished_only)
+
+        if unpublished_only:
+            content_files = deindexed_content_file
+        else:
+            content_files = [*content_files, deindexed_content_file]
+
+        for alias in mock_get_aliases.return_value:
+            for chunk in chunks([doc for _ in content_files], chunk_size=chunk_size):
+                bulk_mock.assert_any_call(
+                    mocked_es.conn,
+                    chunk,
+                    index=alias,
+                    doc_type=GLOBAL_DOC_TYPE,
+                    chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                    routing=course.learning_resource_id,
+                )
+
+
+@pytest.mark.parametrize("has_files", [True, False])
+def test_deindex_run_content_files_no_files(mocker, has_files):
+    """deindex_run_content_files shouldn't do anything if there are no content files"""
+    mock_deindex_items = mocker.patch(
+        "learning_resources_search.indexing_api.deindex_items"
+    )
+    run = LearningResourceRunFactory.create(published=True)
+    if has_files:
+        ContentFileFactory.create(run=run, published=False)
+    deindex_run_content_files(run.id, unpublished_only=True)
+    assert mock_deindex_items.call_count == (1 if has_files else 0)

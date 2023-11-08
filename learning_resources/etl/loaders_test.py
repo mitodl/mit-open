@@ -100,6 +100,9 @@ def mock_upsert_tasks(mocker):
         delete_program=mocker.patch(
             "learning_resources_search.search_index_helpers.deindex_program"
         ),
+        upsert_content_file=mocker.patch(
+            "learning_resources_search.search_index_helpers.upsert_content_file"
+        ),
     )
 
 
@@ -612,8 +615,17 @@ def test_load_content_files(mocker, is_published):
         return_value=returned_content_file_id,
         autospec=True,
     )
+    mock_bulk_index = mocker.patch(
+        "learning_resources.etl.loaders.search_index_helpers.index_run_content_files",
+    )
+    mock_bulk_delete = mocker.patch(
+        "learning_resources.etl.loaders.search_index_helpers.deindex_run_content_files",
+        autospec=True,
+    )
     load_content_files(course_run, content_data)
     assert mock_load_content_file.call_count == len(content_data)
+    assert mock_bulk_index.call_count == (1 if is_published else 0)
+    assert mock_bulk_delete.call_count == (0 if is_published else 1)
 
 
 def test_load_content_file():

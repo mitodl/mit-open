@@ -6,10 +6,14 @@ from opensearch_dsl import Search
 
 from learning_resources_search.connection import get_default_alias_name
 from learning_resources_search.constants import (
+    CONTENT_FILE_TYPE,
     COURSE_QUERY_FIELDS,
+    COURSE_TYPE,
+    DEPARTMENT_QUERY_FIELDS,
     LEARNING_RESOURCE_QUERY_FIELDS,
     LEARNING_RESOURCE_SEARCH_FILTERS,
     LEARNING_RESOURCE_TYPES,
+    RESOURCEFILE_QUERY_FIELDS,
     RUN_INSTRUCTORS_QUERY_FIELDS,
     RUNS_QUERY_FIELDS,
     SEARCH_NESTED_FILTERS,
@@ -17,8 +21,20 @@ from learning_resources_search.constants import (
     TOPICS_QUERY_FIELDS,
 )
 
-SIMILAR_RESOURCE_RELEVANT_FIELDS = ["title", "short_description"]
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
+
+
+def gen_content_file_id(content_file_id):
+    """
+    Generate the OpenSearch document id for a ContentFile
+
+    Args:
+        id (int): The id of a ContentFile object
+
+    Returns:
+        str: The OpenSearch document id for this object
+    """
+    return f"cf_{content_file_id}"
 
 
 def relevant_indexes(resource_types, aggregations):
@@ -34,10 +50,16 @@ def relevant_indexes(resource_types, aggregations):
 
     """
 
-    if not resource_types or (aggregations and "resource_type" in aggregations):
+    if aggregations and "resource_type" in aggregations:
         return map(get_default_alias_name, LEARNING_RESOURCE_TYPES)
 
-    return map(get_default_alias_name, resource_types)
+    resource_types_copy = resource_types.copy()
+
+    if CONTENT_FILE_TYPE in resource_types_copy:
+        resource_types_copy.remove(CONTENT_FILE_TYPE)
+        resource_types_copy.append(COURSE_TYPE)
+
+    return map(get_default_alias_name, set(resource_types_copy))
 
 
 def generate_sort_clause(sort):
@@ -67,7 +89,68 @@ def generate_sort_clause(sort):
         return sort
 
 
-def generate_text_clause(text):
+def wrap_text_clause(text_query):
+    """
+    Wrap the text subqueries in a bool query
+    Shared by generate_content_file_text_clause and
+    generate_learning_resources_text_clause
+
+    Args:
+        text_query (dict): dictionary with the opensearch text clauses
+    Returns:
+        dict: dictionary with the opensearch text clause
+    """
+    text_bool_clause = [{"bool": text_query}] if text_query else []
+
+    return {
+        "bool": {
+            "filter": {
+                "bool": {"must": text_bool_clause},
+            },
+            # Add multimatch text query here again to score results based on match
+            **text_query,
+        }
+    }
+
+
+def generate_content_file_text_clause(text):
+    """
+    Return text clause for the query
+
+    Args:
+        text (string): the text string
+    Returns:
+        dict: dictionary with the opensearch text clause
+    """
+
+    query_type = (
+        "query_string" if text.startswith('"') and text.endswith('"') else "multi_match"
+    )
+
+    if text:
+        text_query = {
+            "should": [
+                {query_type: {"query": text, "fields": RESOURCEFILE_QUERY_FIELDS}},
+                {
+                    "nested": {
+                        "path": "departments",
+                        "query": {
+                            query_type: {
+                                "query": text,
+                                "fields": DEPARTMENT_QUERY_FIELDS,
+                            }
+                        },
+                    }
+                },
+            ]
+        }
+    else:
+        text_query = {}
+
+    return wrap_text_clause(text_query)
+
+
+def generate_learning_resources_text_clause(text):
     """
     Return text clause for the query
 
@@ -90,6 +173,17 @@ def generate_text_clause(text):
                         "path": "topics",
                         "query": {
                             query_type: {"query": text, "fields": TOPICS_QUERY_FIELDS}
+                        },
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "departments",
+                        "query": {
+                            query_type: {
+                                "query": text,
+                                "fields": DEPARTMENT_QUERY_FIELDS,
+                            }
                         },
                     }
                 },
@@ -133,22 +227,24 @@ def generate_text_clause(text):
                         },
                     }
                 },
+                {
+                    "has_child": {
+                        "type": "content_file",
+                        "query": {
+                            query_type: {
+                                "query": text,
+                                "fields": RESOURCEFILE_QUERY_FIELDS,
+                            }
+                        },
+                        "score_mode": "avg",
+                    }
+                },
             ]
         }
     else:
         text_query = {}
 
-    text_bool_clause = [{"bool": text_query}] if text_query else []
-
-    return {
-        "bool": {
-            "filter": {
-                "bool": {"must": text_bool_clause},
-            },
-            # Add multimatch text query here again to score results based on match
-            **text_query,
-        }
-    }
+    return wrap_text_clause(text_query)
 
 
 def generate_filter_clauses(search_params):
@@ -190,16 +286,12 @@ def generate_filter_clauses(search_params):
                     )
 
                 else:
-                    filter_clauses_for_filter.append(
-                        {
-                            "term": {
-                                search_filter: {
-                                    "value": option,
-                                    "case_insensitive": True,
-                                }
-                            }
-                        }
-                    )
+                    filter_term = {"term": {search_filter: {"value": option}}}
+
+                    if search_filter != "id":
+                        filter_term["term"][search_filter]["case_insensitive"] = True
+
+                    filter_clauses_for_filter.append(filter_term)
 
             filter_clauses[search_filter] = {
                 "bool": {"should": filter_clauses_for_filter}
@@ -335,6 +427,7 @@ def execute_learn_search(search_params):
     indexes = relevant_indexes(
         search_params.get("resource_type"), search_params.get("aggregations")
     )
+
     search = Search(index=",".join(indexes))
 
     search = search.source(fields={"excludes": SOURCE_EXCLUDED_FIELDS})
@@ -352,14 +445,18 @@ def execute_learn_search(search_params):
 
     if search_params.get("q"):
         text = re.sub("[\u201c\u201d]", '"', search_params.get("q"))
-        text_query = generate_text_clause(text)
+        if CONTENT_FILE_TYPE in search_params.get("resource_type"):
+            text_query = generate_content_file_text_clause(text)
+        else:
+            text_query = generate_learning_resources_text_clause(text)
+
         suggest = generate_suggest_clause(text)
         search = search.query("bool", should=[text_query])
         search = search.extra(suggest=suggest)
 
     filter_clauses = generate_filter_clauses(search_params)
-    if filter_clauses:
-        search = search.post_filter("bool", must=list(filter_clauses.values()))
+
+    search = search.post_filter("bool", must=list(filter_clauses.values()))
 
     if search_params.get("aggregations"):
         aggregation_clauses = generate_aggregation_clauses(

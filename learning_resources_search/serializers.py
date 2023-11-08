@@ -1,6 +1,5 @@
 """Serializers for opensearch data"""
 
-# pylint: disable=unused-argument,too-many-lines
 import logging
 from collections import defaultdict
 
@@ -12,9 +11,14 @@ from learning_resources.constants import LearningResourceType, OfferedBy, Platfo
 from learning_resources.etl.constants import CourseNumberType
 from learning_resources.models import LearningResource
 from learning_resources.serializers import (
+    ContentFileSerializer,
     LearningResourceSerializer,
 )
-from learning_resources_search.constants import AGGREGATIONS
+from learning_resources_search.api import gen_content_file_id
+from learning_resources_search.constants import (
+    CONTENT_FILE_TYPE,
+    LEARNING_RESOURCE_TYPES,
+)
 
 log = logging.getLogger()
 
@@ -72,6 +76,7 @@ def serialize_learning_resource_for_update(
 
     """
     return {
+        "resource_relations": {"name": "resource"},
         **transform_resource_data(
             LearningResourceSerializer(learning_resource_obj).data
         ),
@@ -123,7 +128,7 @@ class StringArrayField(serializers.ListField):
         return data.split(",")
 
 
-SORTBY_OPTIONS = [
+LEARNING_RESOURCE_SORTBY_OPTIONS = [
     "id",
     "-id",
     "readable_id",
@@ -134,14 +139,39 @@ SORTBY_OPTIONS = [
     "-runs.start_date",
 ]
 
+CONTENT_FILE_SORTBY_OPTIONS = [
+    "id",
+    "-id",
+    "resource_readable_id",
+    "-resource_readable_id",
+]
 
-class LearningResourcesSearchRequestSerializer(serializers.Serializer):
+LEARNING_RESOURCE_AGGREGATIONS = [
+    "resource_type",
+    "certification",
+    "offered_by",
+    "platform",
+    "topic",
+    "department",
+    "level",
+    "resource_content_tags",
+    "professional",
+]
+
+CONTENT_FILE_AGGREGATIONS = ["topic", "content_category"]
+
+
+class SearchRequestSerializer(serializers.Serializer):
     q = serializers.CharField(required=False, help_text="The search text")
     offset = serializers.IntegerField(required=False)
     limit = serializers.IntegerField(required=False)
+    id = StringArrayField(required=False, child=serializers.CharField())  # noqa: A003
+
+
+class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
     sortby = serializers.ChoiceField(
         required=False,
-        choices=SORTBY_OPTIONS,
+        choices=LEARNING_RESOURCE_SORTBY_OPTIONS,
         help_text="if the parameter starts with '-' the sort is in descending order",
     )
     resource_type = StringArrayField(
@@ -149,6 +179,7 @@ class LearningResourcesSearchRequestSerializer(serializers.Serializer):
         child=serializers.ChoiceField(
             choices=[e.value.lower() for e in LearningResourceType]
         ),
+        default=lambda: ",".join(LEARNING_RESOURCE_TYPES),
     )
     professional = StringArrayField(
         required=False,
@@ -171,9 +202,8 @@ class LearningResourcesSearchRequestSerializer(serializers.Serializer):
     )
     aggregations = StringArrayField(
         required=False,
-        child=serializers.ChoiceField(choices=AGGREGATIONS),
+        child=serializers.ChoiceField(choices=LEARNING_RESOURCE_AGGREGATIONS),
     )
-    id = StringArrayField(required=False, child=serializers.CharField())  # noqa: A003
 
     def validate_resource_type(self, data):
         if data:
@@ -215,7 +245,30 @@ class LearningResourcesSearchRequestSerializer(serializers.Serializer):
     def validate_aggregations(self, data):
         if data:
             for agg_value in data.split(","):
-                if agg_value.lower() not in AGGREGATIONS:
+                if agg_value.lower() not in LEARNING_RESOURCE_AGGREGATIONS:
+                    msg = f"{agg_value} is not a valid option"
+                    raise serializers.ValidationError(msg)
+        return data
+
+
+class ContentFileSearchRequestSerializer(SearchRequestSerializer):
+    sortby = serializers.ChoiceField(
+        required=False,
+        choices=CONTENT_FILE_SORTBY_OPTIONS,
+        help_text="if the parameter starts with '-' the sort is in descending order",
+    )
+    content_category = StringArrayField(required=False, child=serializers.CharField())
+    topic = StringArrayField(required=False, child=serializers.CharField())
+    aggregations = StringArrayField(
+        required=False,
+        child=serializers.ChoiceField(choices=CONTENT_FILE_AGGREGATIONS),
+    )
+    resource_type = serializers.ReadOnlyField(default=[CONTENT_FILE_TYPE])
+
+    def validate_aggregations(self, data):
+        if data:
+            for agg_value in data.split(","):
+                if agg_value.lower() not in CONTENT_FILE_AGGREGATIONS:
                     msg = f"{agg_value} is not a valid option"
                     raise serializers.ValidationError(msg)
         return data
@@ -270,7 +323,7 @@ def _transform_search_results_suggest(search_result):
         return []
 
 
-class LearningResourcesSearchResponseSerializer(serializers.Serializer):
+class SearchResponseSerializer(serializers.Serializer):
     count = serializers.SerializerMethodField()
     results = serializers.SerializerMethodField()
     metadata = serializers.SerializerMethodField()
@@ -311,6 +364,19 @@ def serialize_bulk_courses_for_deletion(ids):
     """
     for learning_resource_id in ids:
         yield serialize_for_deletion(learning_resource_id)
+
+
+def serialize_content_file_for_update(content_file_obj):
+    """Serialize a content file for API request"""
+
+    return {
+        "resource_relations": {
+            "name": CONTENT_FILE_TYPE,
+            "parent": content_file_obj.run.learning_resource_id,
+        },
+        "resource_type": CONTENT_FILE_TYPE,
+        **ContentFileSerializer(content_file_obj).data,
+    }
 
 
 def serialize_course_for_bulk(learning_resource_obj):
@@ -372,3 +438,26 @@ def serialize_for_deletion(opensearch_object_id):
         dict: the object deletion data
     """
     return {"_id": opensearch_object_id, "_op_type": "delete"}
+
+
+def serialize_content_file_for_bulk(content_file_obj):
+    """
+    Serialize a content file for bulk API request
+
+    Args:
+        content_file_obj (ContentFile): A content file for a course
+    """
+    return {
+        "_id": gen_content_file_id(content_file_obj.id),
+        **serialize_content_file_for_update(content_file_obj),
+    }
+
+
+def serialize_content_file_for_bulk_deletion(content_file_obj):
+    """
+    Serialize a content file for bulk API request
+
+    Args:
+        content_file_obj (ContentFile): A content file for a course
+    """
+    return serialize_for_deletion(gen_content_file_id(content_file_obj.id))
