@@ -18,6 +18,17 @@ from authentication.backends.ol_open_id_connect import OlOpenIdConnectAuth
 @api_view(["POST"])
 @permission_classes([])
 def backend_logout(request):
+    """
+    OpenID connect back-channel logout endpoint.
+
+    Args:
+        request (request): Django request.
+
+    Returns:
+        rest_framework.response.Response: HTTP response.
+            200 for properly formatted and validated requests.
+            400 otherwise.
+    """
     strategy = load_strategy()
     # Get logout token from request.
     json_body = json.loads(request.body.decode())

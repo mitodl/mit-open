@@ -20,6 +20,22 @@ class OlOpenIdConnectAuth(OpenIdConnectAuth):
     name = "ol-oidc"
 
     def validate_logout_token_and_return_claims(self, logout_token):
+        """
+        Validate the token using jwt library.
+
+        Args:
+            logout_token (string): jwt logout token.
+
+        Raises:
+            AuthTokenError: Signature has expired.
+            AuthTokenError: Invalid audience.
+            AuthTokenError: Invalid signature
+            AuthTokenError: Invalid token.
+            AuthTokenError: Signature verification failed.
+
+        Returns:
+            Dict: dictionary of claims from the logout token jwt.
+        """
         client_id, _ = self.get_key_and_secret()
 
         key = self.find_valid_key(logout_token)
