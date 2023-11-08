@@ -3,7 +3,7 @@ import { zip } from "lodash"
 import { faker } from "@faker-js/faker/locale/en"
 import { render, screen } from "@testing-library/react"
 
-import SortableSelect, { SortableItem } from "./SortableSelect"
+import { SortableSelect, SortableItem } from "./SortableSelect"
 import { Option } from "./SelectField"
 import invariant from "tiny-invariant"
 
@@ -43,7 +43,7 @@ describe("SortableSelect", () => {
       id: option.value,
       title: option.label,
     }))
-    const drags = await screen.findAllByText("drag_indicator")
+    const drags = await screen.findAllByTestId("DragIndicatorIcon")
     zip(values, drags).forEach(([value, draggable]) => {
       invariant(draggable)
       invariant(value)

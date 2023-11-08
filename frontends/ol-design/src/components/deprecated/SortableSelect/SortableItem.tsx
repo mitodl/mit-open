@@ -2,6 +2,10 @@ import React, { useCallback } from "react"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { UniqueIdentifier } from "@dnd-kit/core"
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline"
+import IconButton from "@mui/material/IconButton"
+import "./SortableItem.scss"
 
 interface Props<T> {
   item: T
@@ -28,17 +32,17 @@ export default function SortableItem<T>(props: Props<T>): JSX.Element {
   }, [deleteItem, item])
 
   return (
-    <div className="d-flex my-3" ref={setNodeRef} style={style} {...attributes}>
-      <span {...listeners} className="material-icons drag-handle">
-        drag_indicator
-      </span>
-      <div className="title">{title}</div>
-      <span
-        className="material-icons ml-auto drag-delete-btn"
+    <div className="sortable-item my-1" ref={setNodeRef} style={style}>
+      <DragIndicatorIcon {...listeners} {...attributes} />
+      <div className="sortable-item-title">{title}</div>
+      <IconButton
+        aria-label="Remove item"
+        color="inherit"
+        size="small"
         onClick={deleteItemCB}
       >
-        remove_circle_outline
-      </span>
+        <RemoveCircleOutlineIcon />
+      </IconButton>
     </div>
   )
 }

@@ -1,18 +1,19 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import SearchInput, { SearchInputProps } from "./SearchInput"
-import { assertInstanceOf } from "ol-util"
+import { SearchInput } from "./SearchInput"
+import type { SearchInputProps } from "./SearchInput"
+import invariant from "tiny-invariant"
 
 const getSearchInput = () => {
   const element = screen.getByLabelText("Search for")
-  assertInstanceOf(element, HTMLInputElement)
+  invariant(element instanceof HTMLInputElement)
   return element
 }
 
 const getSearchButton = (): HTMLButtonElement => {
   const button = screen.getByLabelText("Search")
-  assertInstanceOf(button, HTMLButtonElement)
+  invariant(button instanceof HTMLButtonElement)
   return button
 }
 
@@ -21,14 +22,14 @@ const getSearchButton = (): HTMLButtonElement => {
  */
 const getClearButton = (): HTMLButtonElement => {
   const button = screen.getByLabelText("Clear")
-  assertInstanceOf(button, HTMLButtonElement)
+  invariant(button instanceof HTMLButtonElement)
   return button
 }
 
 const searchEvent = (value: string) =>
   expect.objectContaining({ target: { value } })
 
-describe("Searchbox", () => {
+describe("SearchInput", () => {
   const renderSearchInput = (props: Partial<SearchInputProps> = {}) => {
     const { value = "", ...otherProps } = props
     const onSubmit = jest.fn()

@@ -1,7 +1,6 @@
 import React, { useCallback } from "react"
 import { BannerPage, MetaTags, useToggle } from "ol-util"
 import { GridColumn, GridContainer } from "../../components/layout"
-import Container from "@mui/material/Container"
 import { CkeditorArticleLazy } from "ol-ckeditor"
 import {
   useArticleDetail,
@@ -9,15 +8,19 @@ import {
   useArticleDestroy,
 } from "api/hooks/articles"
 import { useHistory, useParams } from "react-router"
-import Button from "@mui/material/Button"
-import TextField from "@mui/material/TextField"
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  Grid,
+  TextField,
+  Container,
+  BasicDialog,
+} from "ol-design"
 import * as Yup from "yup"
 import { useFormik } from "formik"
-import Grid from "@mui/material/Grid"
 import { articlesView } from "../urls"
-import BasicDialog from "../../components/BasicDialog"
-import FormHelperText from "@mui/material/FormHelperText"
-import FormControl from "@mui/material/FormControl"
+
 import { Article } from "api"
 
 const configOverrides = { placeholder: "Write your article here..." }

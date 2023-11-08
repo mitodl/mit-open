@@ -5,10 +5,9 @@ import { Route, Router, Switch } from "react-router"
 import { History } from "history"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles"
+import { ThemeProvider } from "ol-design"
 import { Provider as NiceModalProvider } from "@ebay/nice-modal-react"
 
-import { muiTheme } from "./libs/mui"
 import Header from "./components/Header"
 import LearningResourceDrawer from "./components/LearningResourceDrawer"
 import infiniteRoutes from "./infinite-pages/routes"
@@ -36,7 +35,7 @@ const AppProviders: React.FC<AppProps & { children: React.ReactNode }> = ({
 }) => {
   return (
     <StrictMode>
-      <MuiThemeProvider theme={muiTheme}>
+      <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <HelmetProvider>
             <Router history={history}>
@@ -48,7 +47,7 @@ const AppProviders: React.FC<AppProps & { children: React.ReactNode }> = ({
             toggleButtonProps={{ style: { opacity: 0.5 } }}
           />
         </QueryClientProvider>
-      </MuiThemeProvider>
+      </ThemeProvider>
     </StrictMode>
   )
 }

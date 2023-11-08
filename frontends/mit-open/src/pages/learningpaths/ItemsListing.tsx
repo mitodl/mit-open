@@ -6,10 +6,10 @@ import {
   SortableItem,
   SortableList,
   RenderActive,
-  LoadingSpinner,
   arrayMove,
   OnSortEnd,
 } from "ol-util"
+import { LoadingSpinner } from "ol-design"
 import { useLearningpathRelationshipMove } from "api/hooks/learningResources"
 
 type ItemsListingProps = {

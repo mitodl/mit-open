@@ -1,7 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router"
 import { Formik, Form, Field } from "formik"
-import Button from "@mui/material/Button"
+import { Button } from "ol-design"
 import * as Yup from "yup"
 
 import { FieldChannelAppearanceForm, useMutateField } from "../../api/fields"

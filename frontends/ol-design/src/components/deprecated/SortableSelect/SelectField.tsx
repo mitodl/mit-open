@@ -5,7 +5,6 @@ import Select, {
   SingleValue,
 } from "react-select"
 import AsyncSelect from "react-select/async"
-import { isNil } from "lodash"
 
 export interface Option {
   label: string
@@ -65,7 +64,7 @@ export default function SelectField(props: Props): JSX.Element {
     return selectOption || { label: value, value: value }
   }
 
-  let selected
+  let selected: Option[] | Option | null
   if (multiple) {
     if (!Array.isArray(value)) {
       selected = []
@@ -76,11 +75,12 @@ export default function SelectField(props: Props): JSX.Element {
     if (Array.isArray(value)) {
       throw new Error("Array values should specify multiple=true")
     }
-    selected = isNil(value) ? null : getSelectOption(value)
+    selected =
+      value === null || value === undefined ? null : getSelectOption(value)
   }
 
   const commonSelectOptions = {
-    className: "w-100 form-input",
+    className: "w-100",
     value: selected,
     isMulti: multiple,
     onChange: changeHandler,

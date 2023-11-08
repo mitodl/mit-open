@@ -1,23 +1,21 @@
 import React, { useState } from "react"
-import Dialog from "@mui/material/Dialog"
-import Box from "@mui/material/Box"
-import CloseIcon from "@mui/icons-material/Close"
-import IconButton from "@mui/material/IconButton"
-import DialogContent from "@mui/material/DialogContent"
-import DialogTitle from "@mui/material/DialogTitle"
-import Divider from "@mui/material/Divider"
-import Checkbox from "@mui/material/Checkbox"
-import List from "@mui/material/List"
-import ListItem from "@mui/material/ListItem"
-import ListItemButton from "@mui/material/ListItemButton"
-import ListItemText from "@mui/material/ListItemText"
+import {
+  BasicDialog,
+  Chip,
+  Checkbox,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  LoadingSpinner,
+} from "ol-design"
+
 import LockOpenIcon from "@mui/icons-material/LockOpen"
 import LockIcon from "@mui/icons-material/Lock"
-import Chip from "@mui/material/Chip"
+
 import AddIcon from "@mui/icons-material/Add"
 import * as NiceModal from "@ebay/nice-modal-react"
 
-import { LoadingSpinner } from "ol-util"
 import type { LearningPathResource, LearningResource } from "api"
 
 import {
@@ -121,22 +119,19 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
   const lists = listsQuery.data?.results ?? []
 
   return (
-    <Dialog className="add-to-list-dialog" {...NiceModal.muiDialogV5(modal)}>
-      <DialogTitle>Add to Learning List</DialogTitle>
-      <Box position="absolute" top={0} right={0}>
-        <IconButton onClick={modal.hide} aria-label="Close">
-          <CloseIcon />
-        </IconButton>
-      </Box>
-      <Divider />
-      {isReady && (
-        <DialogContent className="add-to-list-description">
-          Adding <span className="resource-title-inline">{resource.title}</span>
-        </DialogContent>
-      )}
-      {isReady && (
-        <DialogContent className="add-to-list-listing">
-          <List>
+    <BasicDialog
+      className="add-to-list-dialog"
+      title="Add to Learning List"
+      showFooter={false}
+      {...NiceModal.muiDialogV5(modal)}
+    >
+      {isReady ? (
+        <>
+          <div className="add-to-list-description">
+            Adding{" "}
+            <span className="resource-title-inline">{resource.title}</span>
+          </div>
+          <List className="add-to-list-listing">
             {lists.map((list) => {
               const adding = isAdding(list)
               const removing = isRemoving(list)
@@ -170,14 +165,11 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
               </ListItemButton>
             </ListItem>
           </List>
-        </DialogContent>
+        </>
+      ) : (
+        <LoadingSpinner loading={!isReady} />
       )}
-      {!isReady && (
-        <DialogContent>
-          <LoadingSpinner loading={!isReady} />
-        </DialogContent>
-      )}
-    </Dialog>
+    </BasicDialog>
   )
 }
 

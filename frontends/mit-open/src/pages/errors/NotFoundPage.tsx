@@ -1,9 +1,6 @@
 import React from "react"
-import Container from "@mui/material/Container"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import CardActions from "@mui/material/CardActions"
-import Button from "@mui/material/Button"
+import { Container, Card, CardContent, CardActions } from "ol-design"
+import { ButtonLink } from "ol-design"
 
 import { HOME } from "../urls"
 import { MetaTags } from "ol-util"
@@ -20,9 +17,9 @@ const NotFoundPage: React.FC = () => {
           Resource Not Found
         </CardContent>
         <CardActions>
-          <Button variant="outlined" href={HOME}>
+          <ButtonLink variant="outlined" to={HOME}>
             Home
-          </Button>
+          </ButtonLink>
         </CardActions>
       </Card>
     </Container>

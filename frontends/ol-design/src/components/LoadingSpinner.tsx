@@ -1,6 +1,7 @@
 import React from "react"
 import CircularProgress from "@mui/material/CircularProgress"
 import Fade from "@mui/material/Fade"
+import "./LoadingSpinner.scss"
 
 type LoadingSpinnerProps = {
   loading: boolean
@@ -21,4 +22,5 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   )
 }
 
-export default LoadingSpinner
+export { LoadingSpinner }
+export type { LoadingSpinnerProps }

@@ -1,10 +1,8 @@
 import React, { useCallback, useMemo } from "react"
 import { useHistory } from "react-router"
 import { Formik, Form } from "formik"
-import Autocomplete from "@mui/material/Autocomplete"
-import Button from "@mui/material/Button"
-import TextField from "@mui/material/TextField"
-import { SortableSelect } from "ol-forms"
+import { Autocomplete, TextField, Button } from "ol-design"
+import { SortableSelect } from "ol-design/deprecated"
 import { UniqueIdentifier } from "@dnd-kit/core"
 
 import { FieldChannelBasicForm, useMutateField } from "../../api/fields"

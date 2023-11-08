@@ -23,14 +23,16 @@ describe("SortableItem", () => {
 
   it("should display the title and a drag handle", async () => {
     renderItem()
-    const sortableItem = await screen.findByText("drag_indicator")
+    const sortableItem = await screen.findByTestId("DragIndicatorIcon")
     // eslint-disable-next-line testing-library/no-node-access
     expect(sortableItem.closest("div")?.innerHTML).toContain("A TITLE")
   })
 
   it("should include a delete button", async () => {
     renderItem()
-    const deleteButton = await screen.findByText("remove_circle_outline")
+    const deleteButton = await screen.findByRole("button", {
+      name: "Remove item",
+    })
     await user.click(deleteButton)
     expect(deleteStub).toHaveBeenCalledWith("item-id")
   })

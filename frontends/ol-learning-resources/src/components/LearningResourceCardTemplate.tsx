@@ -4,12 +4,10 @@ import invariant from "tiny-invariant"
 import classNames from "classnames"
 import type { LearningPathResource, LearningResource } from "api"
 
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import Chip from "@mui/material/Chip"
+import { Card, CardContent, Chip, CardMedia } from "ol-design"
+
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
-import CardMedia from "@mui/material/CardMedia"
 import moment from "moment"
 
 import {

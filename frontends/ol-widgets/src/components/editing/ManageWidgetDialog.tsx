@@ -1,13 +1,12 @@
-import * as React from "react"
-import Dialog from "@mui/material/Dialog"
-import DialogActions from "@mui/material/DialogActions"
-import DialogContent from "@mui/material/DialogContent"
-import DialogTitle from "@mui/material/DialogTitle"
-import Button from "@mui/material/Button"
-import RadioGroup from "@mui/material/RadioGroup"
-import Radio from "@mui/material/Radio"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import { useId } from "ol-util"
+import React, { useId } from "react"
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+  RadioChoiceField,
+} from "ol-design"
 import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik"
 import { isNil } from "lodash"
 import { AnonymousWidget, WidgetSpec, WidgetTypes } from "../../interfaces"
@@ -283,16 +282,14 @@ const DialogContentAdding: React.FC<WidgetAddingProps> = ({
                 value={values.widget_type}
               >
                 {({ field }: FieldProps) => (
-                  <RadioGroup {...field}>
-                    {supportedSpecs.map((spec) => (
-                      <FormControlLabel
-                        key={spec.widget_type}
-                        value={spec.widget_type}
-                        control={<Radio />}
-                        label={spec.description}
-                      />
-                    ))}
-                  </RadioGroup>
+                  <RadioChoiceField
+                    {...field}
+                    label="Widget Type"
+                    choices={supportedSpecs.map((spec) => ({
+                      value: spec.widget_type,
+                      label: spec.description,
+                    }))}
+                  />
                 )}
               </Field>
             </DialogContent>

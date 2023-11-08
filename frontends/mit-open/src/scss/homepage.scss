@@ -37,19 +37,8 @@ $link-max-size: 120px;
   .search-buttons-container {
     max-width: $max-width;
 
-    a.homepage-button-chip {
-      color: black;
-      font-size: 13px;
-      border-color: theme.$color-blue-5;
-      border-radius: 15px;
-      margin: 8px;
-      margin-left: 0;
-      margin-right: 16px;
-    }
-
-    a.homepage-button-chip:hover {
-      background-color: theme.$color-blue-5;
-      color: white;
+    .homepage-explore-chip {
+      margin: 8px 16px 8px 0;
     }
   }
 

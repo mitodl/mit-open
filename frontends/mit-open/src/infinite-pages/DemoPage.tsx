@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import Container from "@mui/material/Container"
+import { Container, LoadingSpinner, SearchInput } from "ol-design"
 
 import {
   useCourseSearch,
@@ -7,13 +7,12 @@ import {
   SearchQueryParams,
   Aggregation,
 } from "@mitodl/course-search-utils"
-import { LearningResourceSearchResult, SearchInput } from "ol-search-ui"
-import { LoadingSpinner } from "ol-util"
+import { LearningResourceSearchResult } from "ol-search-ui"
 
 import axios from "../libs/axios"
 import { useHistory } from "react-router"
 import ReactAppzi from "react-appzi"
-import Button from "@mui/material/Button"
+import { Button } from "ol-design"
 
 const pageSize = 12
 const categoryLimit = 6

@@ -2,7 +2,8 @@ import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { render, screen, act, waitFor } from "@testing-library/react"
 import user from "@testing-library/user-event"
-import FormDialog, { FormDialogProps } from "./FormDialog"
+import { FormDialog } from "./FormDialog"
+import type { FormDialogProps } from "./FormDialog"
 import { ControlledPromise } from "ol-util/test-utils"
 
 const setup = (props?: Partial<FormDialogProps>) => {
