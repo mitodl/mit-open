@@ -3208,15 +3208,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
-  /api/v1/ocw_next_webhook/:
-    post:
-      operationId: ocw_next_webhook_create
-      description: Process webhook request
-      tags:
-      - ocw_next_webhook
-      responses:
-        '200':
-          description: No response body
   /api/v1/podcast_episodes/:
     get:
       operationId: podcast_episodes_list
