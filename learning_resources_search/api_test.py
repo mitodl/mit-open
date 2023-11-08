@@ -35,20 +35,20 @@ def test_relevant_indexes(resourse_types, aggregations, result):
 @pytest.mark.parametrize(
     ("sort_param", "departments", "result"),
     [
-        ("prices", None, "prices"),
-        ("-prices", ["Biology"], "-prices"),
+        ("id", None, "id"),
+        ("-id", ["Biology"], "-id"),
         (
-            "runs.start_date",
+            "start_date",
             ["Chemistry"],
             {"runs.start_date": {"order": "asc", "nested": {"path": "runs"}}},
         ),
         (
-            "-runs.start_date",
+            "-start_date",
             None,
             {"runs.start_date": {"order": "desc", "nested": {"path": "runs"}}},
         ),
         (
-            "course.course_numbers.sort_coursenum",
+            "mitcoursenumber",
             None,
             {
                 "course.course_numbers.sort_coursenum": {
@@ -61,7 +61,7 @@ def test_relevant_indexes(resourse_types, aggregations, result):
             },
         ),
         (
-            "course.course_numbers.sort_coursenum",
+            "mitcoursenumber",
             ["Biology", "Chemistry"],
             {
                 "course.course_numbers.sort_coursenum": {
@@ -852,7 +852,7 @@ def test_execute_learn_search(opensearch):
         "resource_type": ["course"],
         "limit": 1,
         "offset": 1,
-        "sortby": "prices",
+        "sortby": "-readable_id",
     }
 
     query = {
@@ -1131,7 +1131,7 @@ def test_execute_learn_search(opensearch):
                 ]
             }
         },
-        "sort": ["prices"],
+        "sort": [{"readable_id": {"order": "desc"}}],
         "from": 1,
         "size": 1,
         "suggest": {

@@ -251,3 +251,20 @@ SOURCE_EXCLUDED_FIELDS = [
     "course.course_numbers.primary",
     "resource_relations",
 ]
+
+
+class SortFields(Enum):
+    id = "id"  # noqa: A003
+    readable_id = "readable_id"
+    last_modified = "last_modified"
+    start_date = "runs.start_date"
+    mitcoursenumber = "course.course_numbers.sort_coursenum"
+
+
+LEARNING_RESOURCE_SORTBY_OPTIONS = [
+    item
+    for sublist in [
+        [sort_field.name, f"-{sort_field.name}"] for sort_field in SortFields
+    ]
+    for item in sublist
+]

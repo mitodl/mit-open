@@ -9602,7 +9602,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning path' | 'podcast' | 'podcast episode'>} [resource_type]
-     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date' | 'course.course_numbers.sort_coursenum' | '-course.course_numbers.sort_coursenum'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date * &#x60;course.course_numbers.sort_coursenum&#x60; - course.course_numbers.sort_coursenum * &#x60;-course.course_numbers.sort_coursenum&#x60; - -course.course_numbers.sort_coursenum
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;start_date&#x60; - start_date * &#x60;-start_date&#x60; - -start_date * &#x60;mitcoursenumber&#x60; - mitcoursenumber * &#x60;-mitcoursenumber&#x60; - -mitcoursenumber
      * @param {Array<string>} [topic]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9668,10 +9668,10 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         | "-readable_id"
         | "last_modified"
         | "-last_modified"
-        | "runs.start_date"
-        | "-runs.start_date"
-        | "course.course_numbers.sort_coursenum"
-        | "-course.course_numbers.sort_coursenum",
+        | "start_date"
+        | "-start_date"
+        | "mitcoursenumber"
+        | "-mitcoursenumber",
       topic?: Array<string>,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -9795,7 +9795,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning path' | 'podcast' | 'podcast episode'>} [resource_type]
-     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date' | 'course.course_numbers.sort_coursenum' | '-course.course_numbers.sort_coursenum'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date * &#x60;course.course_numbers.sort_coursenum&#x60; - course.course_numbers.sort_coursenum * &#x60;-course.course_numbers.sort_coursenum&#x60; - -course.course_numbers.sort_coursenum
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;start_date&#x60; - start_date * &#x60;-start_date&#x60; - -start_date * &#x60;mitcoursenumber&#x60; - mitcoursenumber * &#x60;-mitcoursenumber&#x60; - -mitcoursenumber
      * @param {Array<string>} [topic]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9861,10 +9861,10 @@ export const LearningResourcesSearchApiFp = function (
         | "-readable_id"
         | "last_modified"
         | "-last_modified"
-        | "runs.start_date"
-        | "-runs.start_date"
-        | "course.course_numbers.sort_coursenum"
-        | "-course.course_numbers.sort_coursenum",
+        | "start_date"
+        | "-start_date"
+        | "mitcoursenumber"
+        | "-mitcoursenumber",
       topic?: Array<string>,
       options?: AxiosRequestConfig,
     ): Promise<
@@ -10082,8 +10082,8 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   >
 
   /**
-   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;runs.start_date&#x60; - runs.start_date * &#x60;-runs.start_date&#x60; - -runs.start_date * &#x60;course.course_numbers.sort_coursenum&#x60; - course.course_numbers.sort_coursenum * &#x60;-course.course_numbers.sort_coursenum&#x60; - -course.course_numbers.sort_coursenum
-   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'runs.start_date' | '-runs.start_date' | 'course.course_numbers.sort_coursenum' | '-course.course_numbers.sort_coursenum'}
+   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;readable_id&#x60; - readable_id * &#x60;-readable_id&#x60; - -readable_id * &#x60;last_modified&#x60; - last_modified * &#x60;-last_modified&#x60; - -last_modified * &#x60;start_date&#x60; - start_date * &#x60;-start_date&#x60; - -start_date * &#x60;mitcoursenumber&#x60; - mitcoursenumber * &#x60;-mitcoursenumber&#x60; - -mitcoursenumber
+   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly sortby?:
@@ -10093,10 +10093,10 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
     | "-readable_id"
     | "last_modified"
     | "-last_modified"
-    | "runs.start_date"
-    | "-runs.start_date"
-    | "course.course_numbers.sort_coursenum"
-    | "-course.course_numbers.sort_coursenum"
+    | "start_date"
+    | "-start_date"
+    | "mitcoursenumber"
+    | "-mitcoursenumber"
 
   /**
    *

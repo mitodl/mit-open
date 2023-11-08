@@ -18,7 +18,9 @@ from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
     LEARNING_RESOURCE_TYPES,
+    LEARNING_RESOURCE_SORTBY_OPTIONS
 )
+
 
 log = logging.getLogger()
 
@@ -127,19 +129,6 @@ class StringArrayField(serializers.ListField):
     def to_representation(self, data):
         return data.split(",")
 
-
-LEARNING_RESOURCE_SORTBY_OPTIONS = [
-    "id",
-    "-id",
-    "readable_id",
-    "-readable_id",
-    "last_modified",
-    "-last_modified",
-    "runs.start_date",
-    "-runs.start_date",
-    "course.course_numbers.sort_coursenum",
-    "-course.course_numbers.sort_coursenum",
-]
 
 CONTENT_FILE_SORTBY_OPTIONS = [
     "id",

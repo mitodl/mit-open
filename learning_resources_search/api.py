@@ -19,6 +19,7 @@ from learning_resources_search.constants import (
     SEARCH_NESTED_FILTERS,
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
+    SortFields,
 )
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
@@ -73,7 +74,11 @@ def generate_sort_clause(search_params):
         dict or String: either a dictionary with the sort clause for
             nested sort params or just sort parameter
     """
-    sort = search_params.get("sortby")
+    base_sortby = search_params.get("sortby")
+    is_descending = base_sortby.startswith("-")
+    sortby_value = SortFields[base_sortby.lstrip("-")].value
+    sort = f"-{sortby_value}" if is_descending else sortby_value
+
     departments = search_params.get("department")
 
     if "." in sort:

@@ -2240,10 +2240,10 @@ paths:
           - -readable_id
           - last_modified
           - -last_modified
-          - runs.start_date
-          - -runs.start_date
-          - course.course_numbers.sort_coursenum
-          - -course.course_numbers.sort_coursenum
+          - start_date
+          - -start_date
+          - mitcoursenumber
+          - -mitcoursenumber
           type: string
           minLength: 1
         description: |-
@@ -2255,10 +2255,10 @@ paths:
           * `-readable_id` - -readable_id
           * `last_modified` - last_modified
           * `-last_modified` - -last_modified
-          * `runs.start_date` - runs.start_date
-          * `-runs.start_date` - -runs.start_date
-          * `course.course_numbers.sort_coursenum` - course.course_numbers.sort_coursenum
-          * `-course.course_numbers.sort_coursenum` - -course.course_numbers.sort_coursenum
+          * `start_date` - start_date
+          * `-start_date` - -start_date
+          * `mitcoursenumber` - mitcoursenumber
+          * `-mitcoursenumber` - -mitcoursenumber
       - in: query
         name: topic
         schema:

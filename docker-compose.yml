@@ -34,6 +34,7 @@ services:
     image: opensearchproject/opensearch:1.3.11
     container_name: opensearch-node-mitopen
     environment:
+      - http.max_content_length=10mb
       - cluster.name=opensearch-cluster
       - node.name=opensearch-node-mitopen
       - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
