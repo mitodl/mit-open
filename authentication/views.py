@@ -21,20 +21,32 @@ def backend_logout(request):
     strategy = load_strategy()
     # Get logout token from request.
     json_body = json.loads(request.body.decode())
-    logout_token = json_body[0].get("logout_token", None)
+    try:
+        logout_token = json_body[0].get("logout_token", None)
+    except KeyError:
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
     if logout_token:
         backend = strategy.get_backend(OlOpenIdConnectAuth.name)
         # Validate logout token.
         logout_token_claims = backend.validate_logout_token_and_return_claims(
             logout_token
         )
+
         # Get sub from logout token.
-        user_uid = logout_token_claims["sub"]
-        # Get user record
-        user_social_auth_record = UserSocialAuth.objects.get(
-            uid=user_uid, provider=OlOpenIdConnectAuth.name
-        )
-        user_social_auth_record.user.session_set.all().delete()
+        user_uid = logout_token_claims.get("sub")
+        if user_uid:
+            # Get user record
+            try:
+                user_social_auth_record = UserSocialAuth.objects.get(
+                    uid=user_uid, provider=OlOpenIdConnectAuth.name
+                )
+                user_social_auth_record.user.session_set.all().delete()
+            except UserSocialAuth.DoesNotExist:
+                return Response({}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
     return Response({}, status=status.HTTP_200_OK)
 
 
