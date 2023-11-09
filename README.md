@@ -35,48 +35,6 @@ The following settings must be configured before running the app:
   Sets the hostname required by webpack for building the frontend. Should likely be whatever you set
   the host to in your /etc/hosts or the hostname that you're accessing it from. Likely `od.odl.local`.
 
-#### Keycloak configuration
-
-- `SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT`
-
-  The base URI for OpenID Connect discovery, https://<OIDC_ENDPOINT>/ without .well-known/openid-configuration.
-
-- `OIDC_ENDPOINT`
-
-  The base URI for OpenID Connect discovery, https://<OIDC_ENDPOINT>/ without .well-known/openid-configuration.
-
-- `SOCIAL_AUTH_OL_OIDC_KEY`
-
-  The client ID provided by the OpenID Connect provider.
-
-- `SOCIAL_AUTH_OL_OIDC_SECRET`
-
-  The client secret provided by the OpenID Connect provider.
-
-- `AUTHORIZATION_URL`
-
-  Provider endpoint where the user is asked to authenticate.
-
-- `ACCESS_TOKEN_URL`
-
-  Provider endpoint where client exchanges the authorization code for tokens.
-
-- `USERINFO_URL`
-
-  Provder endpoint where client sends requests for identity claims.
-
-- `FEATURE_KEYCLOAK_ENABLED`
-
-  Authentication functionality is managed by Keycloak.
-
-- `KEYCLOAK_BASE_URL`
-
-  The base URL for a Keycloak configuration.
-
-- `KEYCLOAK_REALM_NAME`
-
-  The Keycloak realm name in which Open Discussions has a client configuration.
-
 ### Loading Data
 
 Run the following to load platforms, departments, and offers. This populates the database with the fixture files contained in [learning_resources/fixtures](learning_resources/fixtures). Note that you will first need to run the Django models to schema migrations detailed in the [Handbook Initial Setup](https://mitodl.github.io/handbook/how-to/common-web-app-guide.html#3-create-database-tables-from-the-django-models) step.
