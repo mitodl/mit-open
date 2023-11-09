@@ -326,16 +326,16 @@ export interface FieldChannel {
   subfields: Array<Subfield>
   /**
    *
-   * @type {LearningResource}
+   * @type {FieldChannelFeaturedList}
    * @memberof FieldChannel
    */
-  featured_list: LearningResource
+  featured_list: FieldChannelFeaturedList
   /**
    *
-   * @type {Array<LearningResource>}
+   * @type {Array<LearningPathPreview>}
    * @memberof FieldChannel
    */
-  lists: Array<LearningResource>
+  lists: Array<LearningPathPreview>
   /**
    * Get the avatar image URL
    * @type {string}
@@ -398,56 +398,7 @@ export interface FieldChannel {
   is_moderator: boolean
 }
 /**
- * Write serializer for FieldChannel
- * @export
- * @interface FieldChannelCreate
- */
-export interface FieldChannelCreate {
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<Subfield>}
-   * @memberof FieldChannelCreate
-   */
-  subfields?: Array<Subfield>
-  /**
-   *
-   * @type {number}
-   * @memberof FieldChannelCreate
-   */
-  featured_list?: number | null
-  /**
-   *
-   * @type {Array<LearningResource>}
-   * @memberof FieldChannelCreate
-   */
-  lists?: Array<LearningResource>
-  /**
-   *
-   * @type {{ [key: string]: any; }}
-   * @memberof FieldChannelCreate
-   */
-  about?: { [key: string]: any } | null
-}
-/**
- * Write serializer for FieldChannel
+ * Write serializer for FieldChannel. Uses primary keys for referenced objects during requests, and delegates to FieldChannelSerializer for responses.
  * @export
  * @interface FieldChannelCreateRequest
  */
@@ -472,22 +423,34 @@ export interface FieldChannelCreateRequest {
   public_description?: string
   /**
    *
-   * @type {Array<Subfield>}
+   * @type {Array<string>}
    * @memberof FieldChannelCreateRequest
    */
-  subfields?: Array<Subfield>
+  subfields?: Array<string>
   /**
-   *
+   * Learng path featured in this field.
    * @type {number}
    * @memberof FieldChannelCreateRequest
    */
   featured_list?: number | null
   /**
-   *
-   * @type {Array<LearningResource>}
+   * Learng paths in this field.
+   * @type {Array<number>}
    * @memberof FieldChannelCreateRequest
    */
-  lists?: Array<LearningResource>
+  lists?: Array<number>
+  /**
+   *
+   * @type {File}
+   * @memberof FieldChannelCreateRequest
+   */
+  avatar?: File | null
+  /**
+   *
+   * @type {File}
+   * @memberof FieldChannelCreateRequest
+   */
+  banner?: File | null
   /**
    *
    * @type {{ [key: string]: any; }}
@@ -496,65 +459,29 @@ export interface FieldChannelCreateRequest {
   about?: { [key: string]: any } | null
 }
 /**
- * Similar to FieldChannelCreateSerializer, with read-only name
+ * Learning path featured in this field.
  * @export
- * @interface FieldChannelWrite
+ * @interface FieldChannelFeaturedList
  */
-export interface FieldChannelWrite {
+export interface FieldChannelFeaturedList {
   /**
    *
    * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelWrite
+   * @memberof FieldChannelFeaturedList
    */
   title: string
   /**
    *
    * @type {string}
-   * @memberof FieldChannelWrite
+   * @memberof FieldChannelFeaturedList
    */
-  public_description?: string
-  /**
-   *
-   * @type {Array<Subfield>}
-   * @memberof FieldChannelWrite
-   */
-  subfields?: Array<Subfield>
+  url?: string | null
   /**
    *
    * @type {number}
-   * @memberof FieldChannelWrite
+   * @memberof FieldChannelFeaturedList
    */
-  featured_list?: number | null
-  /**
-   *
-   * @type {Array<LearningResource>}
-   * @memberof FieldChannelWrite
-   */
-  lists?: Array<LearningResource>
-  /**
-   *
-   * @type {{ [key: string]: any; }}
-   * @memberof FieldChannelWrite
-   */
-  about?: { [key: string]: any } | null
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  avatar?: string
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  banner?: string
+  id: number
 }
 /**
  * Similar to FieldChannelCreateSerializer, with read-only name
@@ -576,28 +503,22 @@ export interface FieldChannelWriteRequest {
   public_description?: string
   /**
    *
-   * @type {Array<Subfield>}
+   * @type {Array<string>}
    * @memberof FieldChannelWriteRequest
    */
-  subfields?: Array<Subfield>
+  subfields?: Array<string>
   /**
-   *
+   * Learng path featured in this field.
    * @type {number}
    * @memberof FieldChannelWriteRequest
    */
   featured_list?: number | null
   /**
-   *
-   * @type {Array<LearningResource>}
+   * Learng paths in this field.
+   * @type {Array<number>}
    * @memberof FieldChannelWriteRequest
    */
-  lists?: Array<LearningResource>
-  /**
-   *
-   * @type {{ [key: string]: any; }}
-   * @memberof FieldChannelWriteRequest
-   */
-  about?: { [key: string]: any } | null
+  lists?: Array<number>
   /**
    * Get the avatar image URL
    * @type {string}
@@ -610,6 +531,12 @@ export interface FieldChannelWriteRequest {
    * @memberof FieldChannelWriteRequest
    */
   banner?: string
+  /**
+   *
+   * @type {{ [key: string]: any; }}
+   * @memberof FieldChannelWriteRequest
+   */
+  about?: { [key: string]: any } | null
 }
 /**
  * Serializer for moderators
@@ -679,6 +606,31 @@ export interface LearningPath {
    * @memberof LearningPath
    */
   author: number
+}
+/**
+ * Serializer for a minimal preview of Learning Paths
+ * @export
+ * @interface LearningPathPreview
+ */
+export interface LearningPathPreview {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathPreview
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathPreview
+   */
+  url?: string | null
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPathPreview
+   */
+  id: number
 }
 /**
  * Specialized serializer for a LearningPath relationship
@@ -2254,28 +2206,22 @@ export interface PatchedFieldChannelWriteRequest {
   public_description?: string
   /**
    *
-   * @type {Array<Subfield>}
+   * @type {Array<string>}
    * @memberof PatchedFieldChannelWriteRequest
    */
-  subfields?: Array<Subfield>
+  subfields?: Array<string>
   /**
-   *
+   * Learng path featured in this field.
    * @type {number}
    * @memberof PatchedFieldChannelWriteRequest
    */
   featured_list?: number | null
   /**
-   *
-   * @type {Array<LearningResource>}
+   * Learng paths in this field.
+   * @type {Array<number>}
    * @memberof PatchedFieldChannelWriteRequest
    */
-  lists?: Array<LearningResource>
-  /**
-   *
-   * @type {{ [key: string]: any; }}
-   * @memberof PatchedFieldChannelWriteRequest
-   */
-  about?: { [key: string]: any } | null
+  lists?: Array<number>
   /**
    * Get the avatar image URL
    * @type {string}
@@ -2288,6 +2234,12 @@ export interface PatchedFieldChannelWriteRequest {
    * @memberof PatchedFieldChannelWriteRequest
    */
   banner?: string
+  /**
+   *
+   * @type {{ [key: string]: any; }}
+   * @memberof PatchedFieldChannelWriteRequest
+   */
+  about?: { [key: string]: any } | null
 }
 /**
  * Specialized serializer for a LearningPath relationship
@@ -6716,10 +6668,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
       FieldChannelCreateRequest: FieldChannelCreateRequest,
       options?: AxiosRequestConfig,
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<FieldChannelCreate>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.fieldsCreate(
         FieldChannelCreateRequest,
@@ -6877,10 +6826,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
       PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest,
       options?: AxiosRequestConfig,
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<FieldChannelWrite>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.fieldsPartialUpdate(
@@ -6930,10 +6876,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
       FieldChannelWriteRequest: FieldChannelWriteRequest,
       options?: AxiosRequestConfig,
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<FieldChannelWrite>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.fieldsUpdate(
         field_name,
@@ -6970,7 +6913,7 @@ export const FieldsApiFactory = function (
     fieldsCreate(
       requestParameters: FieldsApiFieldsCreateRequest,
       options?: AxiosRequestConfig,
-    ): AxiosPromise<FieldChannelCreate> {
+    ): AxiosPromise<FieldChannel> {
       return localVarFp
         .fieldsCreate(requestParameters.FieldChannelCreateRequest, options)
         .then((request) => request(axios, basePath))
@@ -7062,7 +7005,7 @@ export const FieldsApiFactory = function (
     fieldsPartialUpdate(
       requestParameters: FieldsApiFieldsPartialUpdateRequest,
       options?: AxiosRequestConfig,
-    ): AxiosPromise<FieldChannelWrite> {
+    ): AxiosPromise<FieldChannel> {
       return localVarFp
         .fieldsPartialUpdate(
           requestParameters.field_name,
@@ -7094,7 +7037,7 @@ export const FieldsApiFactory = function (
     fieldsUpdate(
       requestParameters: FieldsApiFieldsUpdateRequest,
       options?: AxiosRequestConfig,
-    ): AxiosPromise<FieldChannelWrite> {
+    ): AxiosPromise<FieldChannel> {
       return localVarFp
         .fieldsUpdate(
           requestParameters.field_name,

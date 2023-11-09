@@ -3,6 +3,7 @@
 import logging
 
 from django.contrib.auth.models import User
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import mixins, viewsets
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
@@ -24,6 +25,26 @@ from learning_resources.views import LargePagination
 log = logging.getLogger(__name__)
 
 
+def extend_schema_responses(serializer):
+    """
+    Specify a serializer for all view **responses** when generating OpenAPI schema
+    via drf-spectacular. The request schema will be inferred as usual.
+    """
+
+    def decorate(view):
+        extend_schema_view(
+            list=extend_schema(responses={200: serializer}),
+            retrieve=extend_schema(responses={200: serializer}),
+            create=extend_schema(responses={201: serializer}),
+            update=extend_schema(responses={200: serializer}),
+            partial_update=extend_schema(responses={200: serializer}),
+        )(view)
+        return view
+
+    return decorate
+
+
+@extend_schema_responses(FieldChannelSerializer)
 class FieldChannelViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,

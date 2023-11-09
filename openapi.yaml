@@ -1080,7 +1080,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannelCreate'
+                $ref: '#/components/schemas/FieldChannel'
           description: ''
   /api/v1/fields/{field_name}/:
     get:
@@ -1133,7 +1133,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannelWrite'
+                $ref: '#/components/schemas/FieldChannel'
           description: ''
     patch:
       operationId: fields_partial_update
@@ -1164,7 +1164,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannelWrite'
+                $ref: '#/components/schemas/FieldChannel'
           description: ''
     delete:
       operationId: fields_destroy
@@ -5787,12 +5787,13 @@ components:
           readOnly: true
         featured_list:
           allOf:
-          - $ref: '#/components/schemas/LearningResource'
+          - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
+          description: Learning path featured in this field.
         lists:
           type: array
           items:
-            $ref: '#/components/schemas/LearningResource'
+            $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
         avatar:
           type: string
@@ -5847,40 +5848,11 @@ components:
       - title
       - updated_on
       - widget_list
-    FieldChannelCreate:
-      type: object
-      description: Write serializer for FieldChannel
-      properties:
-        name:
-          type: string
-          pattern: ^[A-Za-z0-9_]+$
-          maxLength: 100
-        title:
-          type: string
-          maxLength: 100
-        public_description:
-          type: string
-        subfields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subfield'
-        featured_list:
-          type: integer
-          nullable: true
-        lists:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResource'
-        about:
-          type: object
-          additionalProperties: {}
-          nullable: true
-      required:
-      - name
-      - title
     FieldChannelCreateRequest:
       type: object
-      description: Write serializer for FieldChannel
+      description: |-
+        Write serializer for FieldChannel. Uses primary keys for referenced objects
+        during requests, and delegates to FieldChannelSerializer for responses.
       properties:
         name:
           type: string
@@ -5896,54 +5868,30 @@ components:
         subfields:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            type: string
+            minLength: 1
         featured_list:
           type: integer
           nullable: true
+          description: Learng path featured in this field.
         lists:
           type: array
           items:
-            $ref: '#/components/schemas/LearningResource'
-        about:
-          type: object
-          additionalProperties: {}
-          nullable: true
-      required:
-      - name
-      - title
-    FieldChannelWrite:
-      type: object
-      description: Similar to FieldChannelCreateSerializer, with read-only name
-      properties:
-        name:
-          type: string
-          readOnly: true
-        title:
-          type: string
-          maxLength: 100
-        public_description:
-          type: string
-        subfields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subfield'
-        featured_list:
-          type: integer
-          nullable: true
-        lists:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResource'
-        about:
-          type: object
-          additionalProperties: {}
-          nullable: true
+            type: integer
+            nullable: true
+          description: Learng paths in this field.
         avatar:
           type: string
-          description: Get the avatar image URL
+          format: binary
+          nullable: true
         banner:
           type: string
-          description: Get the banner image URL
+          format: binary
+          nullable: true
+        about:
+          type: object
+          additionalProperties: {}
+          nullable: true
       required:
       - name
       - title
@@ -5960,24 +5908,28 @@ components:
         subfields:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            type: string
+            minLength: 1
         featured_list:
           type: integer
           nullable: true
+          description: Learng path featured in this field.
         lists:
           type: array
           items:
-            $ref: '#/components/schemas/LearningResource'
-        about:
-          type: object
-          additionalProperties: {}
-          nullable: true
+            type: integer
+            nullable: true
+          description: Learng paths in this field.
         avatar:
           type: string
           description: Get the avatar image URL
         banner:
           type: string
           description: Get the banner image URL
+        about:
+          type: object
+          additionalProperties: {}
+          nullable: true
       required:
       - title
     FieldModerator:
@@ -6023,6 +5975,24 @@ components:
       - author
       - id
       - item_count
+    LearningPathPreview:
+      type: object
+      description: Serializer for a minimal preview of Learning Paths
+      properties:
+        title:
+          type: string
+          maxLength: 256
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 2048
+        id:
+          type: integer
+          readOnly: true
+      required:
+      - id
+      - title
     LearningPathRelationship:
       type: object
       description: Specialized serializer for a LearningPath relationship
@@ -7172,24 +7142,28 @@ components:
         subfields:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            type: string
+            minLength: 1
         featured_list:
           type: integer
           nullable: true
+          description: Learng path featured in this field.
         lists:
           type: array
           items:
-            $ref: '#/components/schemas/LearningResource'
-        about:
-          type: object
-          additionalProperties: {}
-          nullable: true
+            type: integer
+            nullable: true
+          description: Learng paths in this field.
         avatar:
           type: string
           description: Get the avatar image URL
         banner:
           type: string
           description: Get the banner image URL
+        about:
+          type: object
+          additionalProperties: {}
+          nullable: true
     PatchedLearningPathRelationshipRequest:
       type: object
       description: Specialized serializer for a LearningPath relationship
