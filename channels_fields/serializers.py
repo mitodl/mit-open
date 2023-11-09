@@ -119,7 +119,9 @@ class FieldChannelSerializer(ChannelAppearanceMixin, serializers.ModelSerializer
         """Return the field's list of LearningPaths"""
         return [
             LearningPathPreviewSerializer(field_list.field_list).data
-            for field_list in instance.lists.all().order_by("position")
+            for field_list in instance.lists.all()
+            .prefetch_related("field_list")
+            .order_by("position")
         ]
 
     class Meta:

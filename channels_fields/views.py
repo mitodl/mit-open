@@ -65,7 +65,7 @@ class FieldChannelViewSet(
     def get_queryset(self):
         """Return a queryset"""
         return FieldChannel.objects.all().prefetch_related(
-            "subfields", "subfields__field_channel", "lists", "featured_list"
+            "subfields", "subfields__field_channel"
         )
 
     def get_serializer_class(self):

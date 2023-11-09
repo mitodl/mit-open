@@ -8,7 +8,11 @@ from django.urls import reverse
 
 from channels_fields.api import add_user_role
 from channels_fields.constants import FIELD_ROLE_MODERATORS
-from channels_fields.factories import FieldChannelFactory
+from channels_fields.factories import (
+    FieldChannelFactory,
+    FieldListFactory,
+    SubfieldFactory,
+)
 from channels_fields.models import FieldChannel
 from channels_fields.serializers import FieldChannelSerializer
 from learning_resources.constants import LearningResourceType
@@ -292,3 +296,23 @@ def test_delete_moderator_forbidden(field_channel, user_client):
         },
     )
     assert user_client.delete(url).status_code == 403
+
+
+@pytest.mark.parametrize("related_count", [1, 5, 10])
+def test_no_excess_queries(user_client, django_assert_num_queries, related_count):
+    """
+    There should be a constant number of queries made, independent of number of
+    subfields / lists.
+    """
+    # This isn't too important; we care it does not scale with number of related items
+    expected_query_count = 7
+
+    field_channel = FieldChannelFactory.create()
+    FieldListFactory.create_batch(related_count, field_channel=field_channel)
+    SubfieldFactory.create_batch(related_count, parent_channel=field_channel)
+
+    url = reverse(
+        "field_channels_api-detail", kwargs={"field_name": field_channel.name}
+    )
+    with django_assert_num_queries(expected_query_count):
+        user_client.get(url)
