@@ -175,10 +175,14 @@ paths:
             enum:
             - topic
             - content_category
+            - platform
+            - offered_by
             type: string
             description: |-
               * `topic` - topic
               * `content_category` - content_category
+              * `platform` - platform
+              * `offered_by` - offered_by
       - in: query
         name: content_category
         schema:
@@ -191,22 +195,101 @@ paths:
         schema:
           type: array
           items:
-            type: string
-            minLength: 1
+            type: integer
       - in: query
         name: limit
         schema:
           type: integer
       - in: query
+        name: offered_by
+        schema:
+          type: array
+          items:
+            enum:
+            - mitx
+            - ocw
+            - bootcamps
+            - xpro
+            - csail
+            - professional education
+            - sloan executive education
+            - schwarzman college of computing
+            - center for transportation & logistics
+            type: string
+            description: |-
+              * `mitx` - mitx
+              * `ocw` - ocw
+              * `bootcamps` - bootcamps
+              * `xpro` - xpro
+              * `csail` - csail
+              * `professional education` - professional education
+              * `sloan executive education` - sloan executive education
+              * `schwarzman college of computing` - schwarzman college of computing
+              * `center for transportation & logistics` - center for transportation & logistics
+      - in: query
         name: offset
         schema:
           type: integer
+      - in: query
+        name: platform
+        schema:
+          type: array
+          items:
+            enum:
+            - edx
+            - ocw
+            - open learning library
+            - mitx online
+            - bootcamps
+            - xpro
+            - csail
+            - professional education
+            - sloan executive education
+            - schwarzman college of computing
+            - center for transportation & logistics
+            - whu
+            - susskind
+            - global alumni
+            - simplilearn
+            - emeritus
+            - podcast
+            type: string
+            description: |-
+              * `edx` - edx
+              * `ocw` - ocw
+              * `open learning library` - open learning library
+              * `mitx online` - mitx online
+              * `bootcamps` - bootcamps
+              * `xpro` - xpro
+              * `csail` - csail
+              * `professional education` - professional education
+              * `sloan executive education` - sloan executive education
+              * `schwarzman college of computing` - schwarzman college of computing
+              * `center for transportation & logistics` - center for transportation & logistics
+              * `whu` - whu
+              * `susskind` - susskind
+              * `global alumni` - global alumni
+              * `simplilearn` - simplilearn
+              * `emeritus` - emeritus
+              * `podcast` - podcast
       - in: query
         name: q
         schema:
           type: string
           minLength: 1
         description: The search text
+      - in: query
+        name: resource_id
+        schema:
+          type: array
+          items:
+            type: integer
+      - in: query
+        name: run_id
+        schema:
+          type: array
+          items:
+            type: integer
       - in: query
         name: sortby
         schema:
@@ -2102,8 +2185,7 @@ paths:
         schema:
           type: array
           items:
-            type: string
-            minLength: 1
+            type: integer
       - in: query
         name: level
         schema:
@@ -2230,6 +2312,9 @@ paths:
               * `learning path` - learning path
               * `podcast` - podcast
               * `podcast episode` - podcast episode
+          default:
+          - course
+          - program
       - in: query
         name: sortby
         schema:
@@ -5658,7 +5743,7 @@ components:
           type: integer
           readOnly: true
         run_id:
-          type: string
+          type: integer
         run_title:
           type: string
         run_slug:
@@ -5739,14 +5824,23 @@ components:
           type: string
           nullable: true
           maxLength: 128
+        offered_by:
+          type: string
+        platform:
+          type: string
+        run_readable_id:
+          type: string
       required:
       - content_category
       - departments
       - id
+      - offered_by
+      - platform
       - resource_id
       - resource_readable_id
       - resource_readable_num
       - run_id
+      - run_readable_id
       - run_slug
       - run_title
       - semester

@@ -66,7 +66,7 @@ def test_learn_resources_search(mocker, client, learning_resources_search_view):
         autospec=True,
         return_value=FAKE_SEARCH_RESPONSE,
     )
-    params = {"resource_type": "course"}
+    params = {"resource_type": ["course"]}
     resp = client.get(learning_resources_search_view.url, params)
     search_mock.assert_called_once_with(
         LearningResourcesSearchRequestSerializer(params).data
@@ -89,7 +89,7 @@ def test_learn_search_with_invalid_params(
     resp = client.get(learning_resources_search_view.url, params)
     search_mock.assert_not_called()
     assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
-        {"resource_type": ["book is not a valid option"]}
+        {"resource_type": ['"book" is not a valid choice.']}
     )
 
 
@@ -121,5 +121,5 @@ def test_content_file_search_with_invalid_params(
     resp = client.get(content_file_search_view.url, params)
     search_mock.assert_not_called()
     assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
-        {"aggregations": ["invalid is not a valid option"]}
+        {"aggregations": ['"invalid" is not a valid choice.']}
     )

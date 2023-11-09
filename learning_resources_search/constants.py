@@ -52,7 +52,9 @@ LEARNING_RESOURCE_SEARCH_FILTERS = [
     "platform",
     "professional",
     "id",
-    "course",
+    "content_category",
+    "run_id",
+    "resource_id",
 ]
 
 SEARCH_NESTED_FILTERS = {
@@ -166,7 +168,8 @@ LEARNING_RESOURCE_MAP = {
 
 CONTENT_FILE_MAP = {
     "id": {"type": "long"},
-    "run_id": {"type": "keyword"},
+    "run_id": {"type": "long"},
+    "run_readble_id": {"type": "keyword"},
     "run_title": ENGLISH_TEXT_FIELD,
     "run_slug": {"type": "keyword"},
     "departments": {
@@ -198,6 +201,8 @@ CONTENT_FILE_MAP = {
     "resource_readable_id": {"type": "keyword"},
     "resource_readable_num": {"type": "keyword"},
     "resource_type": {"type": "keyword"},
+    "offered_by": {"type": "keyword"},
+    "platform": {"type": "keyword"},
 }
 
 

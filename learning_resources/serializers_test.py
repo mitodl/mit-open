@@ -202,7 +202,10 @@ def test_content_file_serializer():
         serialized,
         {
             "id": content_file.id,
-            "run_id": content_file.run.run_id,
+            "run_id": content_file.run.id,
+            "run_readable_id": content_file.run.run_id,
+            "platform": content_file.run.learning_resource.platform.platform,
+            "offered_by": content_file.run.learning_resource.offered_by.name,
             "run_title": content_file.run.title,
             "run_slug": content_file.run.slug,
             "departments": [

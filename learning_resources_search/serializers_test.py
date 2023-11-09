@@ -193,6 +193,7 @@ def test_learning_resources_search_request_serializer():
         "q": "text",
         "offset": 1,
         "limit": 1,
+        "id": "1",
         "sortby": "-start_date",
         "professional": "true",
         "certification": "Certificates",
@@ -210,6 +211,7 @@ def test_learning_resources_search_request_serializer():
         "q": "text",
         "offset": 1,
         "limit": 1,
+        "id": [1],
         "sortby": "-start_date",
         "resource_type": ["course", "program"],
         "professional": ["true"],
@@ -236,10 +238,15 @@ def test_content_file_search_request_serializer():
         "q": "text",
         "offset": 1,
         "limit": 1,
+        "id": "1",
         "sortby": "-id",
         "topic": "Math",
         "aggregations": "topic",
         "content_category": "Assignment",
+        "run_id": "1,2",
+        "resource_id": "1,2,3",
+        "offered_by": "xpro,ocw",
+        "platform": "xpro,edx,ocw",
         "extra_field": "ignored",
     }
 
@@ -247,11 +254,16 @@ def test_content_file_search_request_serializer():
         "q": "text",
         "offset": 1,
         "limit": 1,
+        "id": [1],
         "sortby": "-id",
         "resource_type": ["content_file"],
         "topic": ["Math"],
         "aggregations": ["topic"],
         "content_category": ["Assignment"],
+        "run_id": [1, 2],
+        "resource_id": [1, 2, 3],
+        "offered_by": ["xpro", "ocw"],
+        "platform": ["xpro", "edx", "ocw"],
     }
 
     request_data = QueryDict("", mutable=True)
@@ -281,9 +293,9 @@ def test_learning_resources_search_request_serializer_invalid(parameter, value):
 
     serialized = LearningResourcesSearchRequestSerializer(data=request_data)
     assert serialized.is_valid() is False
-    assert JSONRenderer().render(serialized.errors) == JSONRenderer().render(
-        {parameter: ["spaceship is not a valid option"]}
-    )
+    assert list(serialized.errors[parameter].values()) == [
+        ['"spaceship" is not a valid choice.']
+    ]
 
 
 def test_learning_resources_search_response_serializer(settings):
