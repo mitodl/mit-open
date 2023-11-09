@@ -99,6 +99,7 @@ def test_create_field_channel_lists_only_learning_path(admin_client, resource_ty
     status = 201 if resource_type == LearningResourceType.learning_path else 400
     data = {"title": "Biology", "name": "biology", "lists": [resoure.id, resource2.id]}
     response = admin_client.post(url, data=data, content_type="application/json")
+    print(response.data)
     assert response.status_code == status
 
 
