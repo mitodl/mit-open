@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 from opensearchpy.exceptions import ConflictError, NotFoundError
 from opensearchpy.helpers import BulkIndexError, bulk
 
+from learning_resources.models import ContentFile, LearningResourceRun
 from learning_resources_search.connection import (
     get_active_aliases,
     get_conn,
@@ -23,9 +24,9 @@ from learning_resources_search.constants import (
     ALIAS_ALL_INDICES,
     COURSE_TYPE,
     GLOBAL_DOC_TYPE,
+    LEARNING_RESOURCE_TYPES,
     MAPPING,
     PROGRAM_TYPE,
-    VALID_OBJECT_TYPES,
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError
@@ -34,6 +35,8 @@ from learning_resources_search.serializers import (
     serialize_bulk_courses_for_deletion,
     serialize_bulk_programs,
     serialize_bulk_programs_for_deletion,
+    serialize_content_file_for_bulk,
+    serialize_content_file_for_bulk_deletion,
 )
 from open_discussions.utils import chunks
 
@@ -82,7 +85,7 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
         skip_mapping (bool): If true, don't set any mapping
         object_type(str): The type of document (post, comment)
     """
-    if object_type not in VALID_OBJECT_TYPES:
+    if object_type not in LEARNING_RESOURCE_TYPES:
         msg = (
             "A valid object type must be specified when clearing and creating an index"
         )
@@ -255,8 +258,13 @@ def deindex_courses(ids):
     deindex_items(
         serialize_bulk_courses_for_deletion(ids),
         COURSE_TYPE,
-        index_types=IndexestoUpdate.current_index.value,
+        index_types=IndexestoUpdate.all_indexes.value,
     )
+
+    for run_id in LearningResourceRun.objects.filter(
+        learning_resource_id__in=ids
+    ).values_list("id", flat=True):
+        deindex_run_content_files(run_id, unpublished_only=False)
 
 
 def index_programs(ids, index_types):
@@ -281,7 +289,84 @@ def deindex_programs(ids):
     deindex_items(
         serialize_bulk_programs_for_deletion(ids),
         PROGRAM_TYPE,
-        index_types=IndexestoUpdate.current_index.value,
+        index_types=IndexestoUpdate.all_indexes.value,
+    )
+
+
+def index_course_content_files(learning_resource_ids, index_types):
+    """
+    Index a list of content files by course ids
+
+    Args:
+        learning_resource_ids(list of int): List of Learning Resource id's
+        index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
+
+    """
+    for run_id in LearningResourceRun.objects.filter(
+        learning_resource_id__in=learning_resource_ids, published=True
+    ).values_list("id", flat=True):
+        index_run_content_files(run_id, index_types)
+
+
+def index_run_content_files(run_id, index_types):
+    """
+    Index a list of content files by run id
+
+    Args:
+        run_id(int): Course run id
+        index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
+    """
+    run = LearningResourceRun.objects.get(pk=run_id)
+    content_file_ids = run.content_files.filter(published=True).values_list(
+        "id", flat=True
+    )
+
+    for ids_chunk in chunks(
+        content_file_ids, chunk_size=settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE
+    ):
+        documents = (
+            serialize_content_file_for_bulk(content_file)
+            for content_file in ContentFile.objects.filter(pk__in=ids_chunk)
+        )
+
+        index_items(
+            documents,
+            COURSE_TYPE,
+            index_types=index_types,
+            routing=run.learning_resource.id,
+        )
+
+
+def deindex_run_content_files(run_id, unpublished_only):
+    """
+    Deindex and delete a list of content files by run from the index
+
+    Args:
+        run_id(int): Course run id
+        unpublished_only(bool): if true only delete  files with published=False
+
+    """
+    run = LearningResourceRun.objects.get(id=run_id)
+    if unpublished_only:
+        content_files = run.content_files.filter(published=False).all()
+    else:
+        content_files = run.content_files.all()
+
+    if not content_files.exists():
+        return
+
+    documents = (
+        serialize_content_file_for_bulk_deletion(content_file)
+        for content_file in content_files
+    )
+
+    deindex_items(
+        documents,
+        COURSE_TYPE,
+        index_types=IndexestoUpdate.all_indexes.value,
+        routing=run.learning_resource_id,
     )
 
 

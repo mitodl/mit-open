@@ -1,23 +1,26 @@
-"""Management command to index reddit content"""
+"""Management command to update learning resource content"""
 
 from django.core.management.base import BaseCommand, CommandError
 
-from learning_resources.constants import PlatformType
-from learning_resources_search.constants import VALID_OBJECT_TYPES
+from learning_resources.etl.constants import ETLSource
+from learning_resources_search.constants import (
+    CONTENT_FILE_TYPE,
+    LEARNING_RESOURCE_TYPES,
+)
 from learning_resources_search.tasks import start_update_index
 from open_discussions.utils import now_in_utc
 
-valid_object_types = list(VALID_OBJECT_TYPES)
+valid_object_types = [*list(LEARNING_RESOURCE_TYPES), CONTENT_FILE_TYPE]
 
 
 class Command(BaseCommand):
     """Indexes opensearch content"""
 
     def add_arguments(self, parser):
-        allowed_course_platforms = [
-            platform.value
-            for platform in PlatformType
-            if platform.value not in [PlatformType.podcast.value]
+        allowed_etl_sources = [
+            etl_source.value
+            for etl_source in ETLSource
+            if etl_source.value not in [ETLSource.podcast.value]
         ]
 
         parser.add_argument(
@@ -33,12 +36,12 @@ class Command(BaseCommand):
             )
 
         parser.add_argument(
-            "--course_platform",
+            "--course_etl_source",
             action="store",
-            dest="platform",
+            dest="etl_source",
             default=None,
-            choices=allowed_course_platforms,
-            help="Filter courses and course files update by platform.",
+            choices=allowed_etl_sources,
+            help="Filter courses and course files update by etl_source.",
         )
 
         super().add_arguments(parser)
@@ -47,14 +50,18 @@ class Command(BaseCommand):
         """Index the comments and posts for the channels the user is subscribed to"""
 
         if options["all"]:
-            task = start_update_index.delay(valid_object_types, options["platform"])
+            task = start_update_index.delay(valid_object_types, options["etl_source"])
             self.stdout.write(
                 f"Started celery task {task} to update index content for all indexes"
             )
-            if options["platform"]:
+            if options["etl_source"]:
                 self.stdout.write(
-                    "Only updating course and course document indexes for {platform}"
-                    .format(platform=options["platform"])
+                    "".join(
+                        [
+                            "Only updating course and course document indexes for",
+                            f" {options['etl_source']}",
+                        ]
+                    )
                 )
         else:
             indexes_to_update = list(
@@ -67,21 +74,25 @@ class Command(BaseCommand):
                 for object_type in sorted(valid_object_types):
                     self.stdout.write(f"  --{object_type}s")
                 return
-            # if (
-            #     COURSE_TYPE in indexes_to_update
-            #    and RESOURCE_FILE_TYPE not in indexes_to_update
-            # ):
-            #    self.stderr.write(
-            task = start_update_index.delay(indexes_to_update, options["platform"])
+
+            task = start_update_index.delay(indexes_to_update, options["etl_source"])
             self.stdout.write(
-                f"Started celery task {task} to update index content for the following"
-                f" indexes: {indexes_to_update}"
+                "".join(
+                    [
+                        f"Started celery task {task} to update index content for the ",
+                        f"following indexes: {indexes_to_update}",
+                    ]
+                )
             )
 
-            if options["platform"]:
+            if options["etl_source"]:
                 self.stdout.write(
-                    "Only updating course and course document indexes for {platform}"
-                    .format(platform=options["platform"])
+                    "".join(
+                        [
+                            "Only updating course and course document indexes for ",
+                            f" {options['etl_source']}",
+                        ]
+                    )
                 )
 
         self.stdout.write("Waiting on task...")

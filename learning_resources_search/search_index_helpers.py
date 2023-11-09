@@ -48,6 +48,9 @@ def deindex_course(learning_resource_obj):
         COURSE_TYPE,
     )
 
+    for run_id in learning_resource_obj.runs.values_list("id", flat=True):
+        deindex_run_content_files(run_id, unpublished_only=False)
+
 
 def upsert_program(learning_resource_id):
     """
@@ -69,3 +72,35 @@ def deindex_program(learning_resource_obj):
             LearningResource object with resource_type Program
     """
     try_with_retry_as_task(deindex_document, learning_resource_obj.id, PROGRAM_TYPE)
+
+
+def upsert_content_file(content_file_id):
+    """
+    Run a task to create or update a content file's OpenSearch document
+
+    Args:
+        content_file_id (int): the primary key for the ContentFile to update
+    """
+    try_with_retry_as_task(tasks.upsert_content_file, content_file_id)
+
+
+def index_run_content_files(run_id):
+    """
+    Run a task to index content files for a LearningResourceRun
+
+    Args:
+        run_id(int): LearningResourceRun id
+
+    """
+    try_with_retry_as_task(tasks.index_run_content_files, run_id)
+
+
+def deindex_run_content_files(run_id, unpublished_only):
+    """
+    Run a task to delete content files for a LearningResourceRun from the index
+
+    Args:
+        run_id(int): LearningResourceRun id
+
+    """
+    try_with_retry_as_task(tasks.deindex_run_content_files, run_id, unpublished_only)

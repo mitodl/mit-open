@@ -29,5 +29,3 @@ export type {
 export { EmbedlyCard, ensureEmbedlyPlatform, embedlyCardHtml } from "./embedly"
 
 export { default as MetaTags } from "./MetaTags"
-
-export { default as LoadingSpinner } from "./LoadingSpinner"

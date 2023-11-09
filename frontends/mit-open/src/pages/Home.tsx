@@ -1,11 +1,15 @@
 import React, { useCallback, useState } from "react"
-import { SearchInput, SearchInputProps } from "ol-search-ui"
-import { Link } from "react-router-dom"
-import Container from "@mui/material/Container"
-import Button from "@mui/material/Button"
-import Grid from "@mui/material/Grid"
+import {
+  Button,
+  ChipLink,
+  Container,
+  Grid,
+  useMuiBreakpointAtLeast,
+  SearchInput,
+} from "ol-design"
+import type { SearchInputProps } from "ol-design"
 import { GridContainer } from "../components/layout"
-import { TitledCarousel, useMuiBreakpoint } from "ol-util"
+import { TitledCarousel } from "ol-util"
 import ArrowBack from "@mui/icons-material/ArrowBack"
 import ArrowForward from "@mui/icons-material/ArrowForward"
 import LearningResourceCard from "../components/LearningResourceCard"
@@ -24,8 +28,8 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
   showNavigationButtons = true,
   title,
 }) => {
-  const aboveSm = useMuiBreakpoint("sm")
-  const aboveLg = useMuiBreakpoint("lg")
+  const aboveSm = useMuiBreakpointAtLeast("sm")
+  const aboveLg = useMuiBreakpointAtLeast("lg")
   const pageSize = aboveLg ? 4 : aboveSm ? 2 : 1
 
   return (
@@ -139,15 +143,13 @@ const HomePage: React.FC = () => {
             <h3 className="search-buttons-container-label">Explore</h3>
             <div className="search-buttons-container">
               {EXPLORE_BUTTONS.map(({ label }) => (
-                <Button
-                  component={Link}
+                <ChipLink
+                  className="homepage-explore-chip"
+                  color="secondary"
                   to=""
-                  variant="outlined"
-                  className="homepage-button-chip"
                   key={label}
-                >
-                  {label}
-                </Button>
+                  label={label}
+                />
               ))}
             </div>
           </div>

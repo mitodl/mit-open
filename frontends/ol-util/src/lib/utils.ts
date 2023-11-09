@@ -1,6 +1,3 @@
-import useMediaQuery from "@mui/material/useMediaQuery"
-import type { Theme, Breakpoint } from "@mui/material/styles"
-
 import isEmpty from "lodash/isEmpty"
 import isNil from "lodash/isNil"
 import padStart from "lodash/padStart"
@@ -17,14 +14,6 @@ export const initials = (title: string): string => {
 
 export const capitalize = (txt: string) =>
   (txt[0] ?? "").toUpperCase() + txt.slice(1).toLowerCase()
-
-/**
- * Returns true if the screen width is at least as wide as the given MUI
- * breakpoint width.
- */
-export const useMuiBreakpoint = (breakpoint: Breakpoint): boolean => {
-  return useMediaQuery<Theme>((theme) => theme.breakpoints.up(breakpoint))
-}
 
 export const emptyOrNil = (x: unknown): boolean => isNil(x) || isEmpty(x)
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react"
-import Button from "@mui/material/Button"
-import IconButton from "@mui/material/IconButton"
+import { Button } from "ol-design"
+import { IconButton } from "ol-design"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 
 import FacetDisplay from "./FacetDisplay"

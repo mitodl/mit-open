@@ -2,7 +2,7 @@
 
 from django.core.management.base import BaseCommand, CommandError
 
-from learning_resources_search.constants import VALID_OBJECT_TYPES
+from learning_resources_search.constants import LEARNING_RESOURCE_TYPES
 from learning_resources_search.tasks import start_recreate_index
 from open_discussions.utils import now_in_utc
 
@@ -17,7 +17,7 @@ class Command(BaseCommand):
             "--all", dest="all", action="store_true", help="Recreate all indexes"
         )
 
-        for object_type in sorted(VALID_OBJECT_TYPES):
+        for object_type in sorted(LEARNING_RESOURCE_TYPES):
             parser.add_argument(
                 f"--{object_type}s",
                 dest=object_type,
@@ -27,21 +27,23 @@ class Command(BaseCommand):
         super().add_arguments(parser)
 
     def handle(self, *args, **options):  # noqa: ARG002
-        """Index all VALID_OBJECT_TYPES"""
+        """Index all LEARNING_RESOURCE_TYPES"""
         if options["all"]:
-            task = start_recreate_index.delay(list(VALID_OBJECT_TYPES))
+            task = start_recreate_index.delay(list(LEARNING_RESOURCE_TYPES))
             self.stdout.write(
                 f"Started celery task {task} to index content for all indexes"
             )
         else:
             indexes_to_update = list(
-                filter(lambda object_type: options[object_type], VALID_OBJECT_TYPES)
+                filter(
+                    lambda object_type: options[object_type], LEARNING_RESOURCE_TYPES
+                )
             )
             if not indexes_to_update:
                 self.stdout.write("Must select at least one index to update")
                 self.stdout.write("The following are valid index options:")
                 self.stdout.write("  --all")
-                for object_type in sorted(VALID_OBJECT_TYPES):
+                for object_type in sorted(LEARNING_RESOURCE_TYPES):
                     self.stdout.write(f"  --{object_type}s")
                 return
 

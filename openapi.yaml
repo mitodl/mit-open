@@ -162,6 +162,86 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/content_file_search/:
+    get:
+      operationId: content_file_search_retrieve
+      description: View for executing searches of learning resources
+      parameters:
+      - in: query
+        name: aggregations
+        schema:
+          type: array
+          items:
+            enum:
+            - topic
+            - content_category
+            type: string
+            description: |-
+              * `topic` - topic
+              * `content_category` - content_category
+      - in: query
+        name: content_category
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+      - in: query
+        name: id
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+      - in: query
+        name: offset
+        schema:
+          type: integer
+      - in: query
+        name: q
+        schema:
+          type: string
+          minLength: 1
+        description: The search text
+      - in: query
+        name: sortby
+        schema:
+          enum:
+          - id
+          - -id
+          - resource_readable_id
+          - -resource_readable_id
+          type: string
+          minLength: 1
+        description: |-
+          if the parameter starts with '-' the sort is in descending order
+
+          * `id` - id
+          * `-id` - -id
+          * `resource_readable_id` - resource_readable_id
+          * `-resource_readable_id` - -resource_readable_id
+      - in: query
+        name: topic
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+      tags:
+      - content_file_search
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+          description: ''
   /api/v1/contentfiles/:
     get:
       operationId: contentfiles_list
@@ -1945,7 +2025,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResourcesSearchResponse'
+                $ref: '#/components/schemas/SearchResponse'
           description: ''
   /api/v1/learningpaths/:
     get:
@@ -5366,8 +5446,9 @@ components:
           type: string
           nullable: true
           maxLength: 1024
-        short_description:
+        description:
           type: string
+          nullable: true
         url:
           type: string
           nullable: true
@@ -5382,10 +5463,9 @@ components:
           type: string
           nullable: true
           maxLength: 512
-        file_type:
+        content_category:
           type: string
-          nullable: true
-          maxLength: 128
+          readOnly: true
         content_type:
           $ref: '#/components/schemas/ContentTypeEnum'
         content:
@@ -5414,21 +5494,21 @@ components:
           type: string
         resource_readable_num:
           type: string
-        resource_type:
+        file_type:
           type: string
-          readOnly: true
+          nullable: true
+          maxLength: 128
       required:
+      - content_category
       - departments
       - id
       - resource_id
       - resource_readable_id
       - resource_readable_num
-      - resource_type
       - run_id
       - run_slug
       - run_title
       - semester
-      - short_description
       - topics
       - year
     ContentTypeEnum:
@@ -6364,28 +6444,6 @@ components:
       required:
       - id
       - name
-    LearningResourcesSearchResponse:
-      type: object
-      properties:
-        count:
-          type: integer
-          readOnly: true
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResource'
-          readOnly: true
-        metadata:
-          example:
-            aggregations:
-            - {}
-            suggest:
-            - string
-          readOnly: true
-      required:
-      - count
-      - metadata
-      - results
     MicroLearningPathRelationship:
       type: object
       description: Serializer containing only parent and child ids for a learning
@@ -6824,6 +6882,28 @@ components:
         * `learning_path` - Learning Path
         * `podcast` - Podcast
         * `podcast_episode` - Podcast Episode
+    SearchResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          readOnly: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResource'
+          readOnly: true
+        metadata:
+          example:
+            aggregations:
+            - {}
+            suggest:
+            - string
+          readOnly: true
+      required:
+      - count
+      - metadata
+      - results
     UserList:
       type: object
       description: Simplified serializer for UserList model.

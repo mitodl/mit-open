@@ -1,7 +1,5 @@
 """Indexing tasks"""
 
-# pylint: disable=too-many-lines
-
 import logging
 from contextlib import contextmanager
 
@@ -12,17 +10,23 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from opensearchpy.exceptions import NotFoundError, RequestError
 
-from learning_resources.models import Course, LearningResource, Program
+from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
+from learning_resources.models import ContentFile, Course, LearningResource, Program
 from learning_resources.utils import load_course_blocklist
 from learning_resources_search import indexing_api as api
+from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
+    CONTENT_FILE_TYPE,
     COURSE_TYPE,
     PROGRAM_TYPE,
     SEARCH_CONN_EXCEPTIONS,
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
-from learning_resources_search.serializers import serialize_learning_resource_for_update
+from learning_resources_search.serializers import (
+    serialize_content_file_for_update,
+    serialize_learning_resource_for_update,
+)
 from open_discussions.celery import app
 from open_discussions.utils import chunks, merge_strings
 
@@ -39,6 +43,21 @@ PARTIAL_UPDATE_TASK_SETTINGS = {
     "retry_kwargs": {"max_retries": 5},
     "default_retry_delay": 2,
 }
+
+
+@app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
+def upsert_content_file(file_id):
+    """Upsert content file based on stored database information"""
+
+    content_file_obj = ContentFile.objects.get(id=file_id)
+    content_file_data = serialize_content_file_for_update(content_file_obj)
+    api.upsert_document(
+        gen_content_file_id(content_file_obj.id),
+        content_file_data,
+        COURSE_TYPE,
+        retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
+        routing=content_file_obj.run.learning_resource_id,
+    )
 
 
 @app.task
@@ -141,6 +160,72 @@ def index_programs(ids, index_types):
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+def index_course_content_files(course_ids, index_types):
+    """
+    Index content files for a list of course ids
+
+    Args:
+        course_ids(list of int): List of course id's
+        index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
+
+
+    """
+    try:
+        with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
+            api.index_course_content_files(course_ids, index_types=index_types)
+    except (RetryError, Ignore):
+        raise
+    except:  # noqa: E722
+        error = "index_course_content_files threw an error"
+        log.exception(error)
+        return error
+
+
+@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+def index_run_content_files(run_id, index_types=IndexestoUpdate.all_indexes.value):
+    """
+    Index content files for a LearningResourceRun
+
+    Args:
+        run_id(int): LearningResourceRun id
+        index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
+
+    """
+    try:
+        with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
+            api.index_run_content_files(run_id, index_types=index_types)
+            api.deindex_run_content_files(run_id, unpublished_only=True)
+    except (RetryError, Ignore):
+        raise
+    except:  # noqa: E722
+        error = "index_run_content_files threw an error"
+        log.exception(error)
+        return error
+
+
+@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+def deindex_run_content_files(run_id, unpublished_only):
+    """
+    Deindex content files for a LearningResourceRun
+
+    Args:
+        run_id(int): LearningResourceRun id
+
+    """
+    try:
+        with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
+            api.deindex_run_content_files(run_id, unpublished_only=unpublished_only)
+    except (RetryError, Ignore):
+        raise
+    except:  # noqa: E722
+        error = "deindex_run_content_files threw an error"
+        log.exception(error)
+        return error
+
+
+@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
 def bulk_deindex_programs(ids):
     """
     Deindex programs
@@ -171,7 +256,7 @@ def wrap_retry_exception(*exception_classes):
     """
     try:
         yield
-    except Exception as ex:  # pylint:disable=bare-except
+    except Exception as ex:
         # Celery is confused by exceptions which don't take a string as an argument,
         # so we need to wrap before raising
         if isinstance(ex, exception_classes):
@@ -196,18 +281,36 @@ def start_recreate_index(self, indexes):
 
         if COURSE_TYPE in indexes:
             blocklisted_ids = load_course_blocklist()
-            index_tasks = index_tasks + [
-                index_courses.si(
-                    ids, index_types=IndexestoUpdate.reindexing_index.value
-                )
-                for ids in chunks(
-                    Course.objects.filter(learning_resource__published=True)
-                    .exclude(learning_resource__readable_id=blocklisted_ids)
-                    .order_by("learning_resource_id")
-                    .values_list("learning_resource_id", flat=True),
-                    chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
-                )
-            ]
+            index_tasks = (
+                index_tasks
+                + [
+                    index_courses.si(
+                        ids, index_types=IndexestoUpdate.reindexing_index.value
+                    )
+                    for ids in chunks(
+                        Course.objects.filter(learning_resource__published=True)
+                        .exclude(learning_resource__readable_id=blocklisted_ids)
+                        .order_by("learning_resource_id")
+                        .values_list("learning_resource_id", flat=True),
+                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                    )
+                ]
+                + [
+                    index_course_content_files.si(
+                        ids, index_types=IndexestoUpdate.reindexing_index.value
+                    )
+                    for ids in chunks(
+                        Course.objects.filter(learning_resource__published=True)
+                        .filter(
+                            learning_resource__etl_source__in=RESOURCE_FILE_ETL_SOURCES
+                        )
+                        .exclude(learning_resource__readable_id=blocklisted_ids)
+                        .order_by("learning_resource_id")
+                        .values_list("learning_resource_id", flat=True),
+                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                    )
+                ]
+            )
 
         if PROGRAM_TYPE in indexes:
             index_tasks = index_tasks + [
@@ -223,7 +326,6 @@ def start_recreate_index(self, indexes):
             ]
 
         index_tasks = celery.group(index_tasks)
-
     except:  # noqa: E722
         error = "start_recreate_index threw an error"
         log.exception(error)
@@ -237,8 +339,7 @@ def start_recreate_index(self, indexes):
 
 
 @app.task(bind=True)
-def start_update_index(self, indexes, platform):
-    # pylint: disable=too-many-branches
+def start_update_index(self, indexes, etl_source):
     """
     Wipe and recreate index and mapping, and index all items.
     """
@@ -247,17 +348,21 @@ def start_update_index(self, indexes, platform):
 
         index_tasks = []
 
-        if COURSE_TYPE in indexes:
+        if COURSE_TYPE in indexes or CONTENT_FILE_TYPE in indexes:
             blocklisted_ids = load_course_blocklist()
 
         if COURSE_TYPE in indexes:
             index_tasks = index_tasks + get_update_courses_tasks(
-                blocklisted_ids, platform
+                blocklisted_ids, etl_source
             )
 
         if PROGRAM_TYPE in indexes:
             index_tasks = index_tasks + get_update_programs_tasks()
 
+        if CONTENT_FILE_TYPE in indexes:
+            index_tasks = index_tasks + get_update_resource_files_tasks(
+                blocklisted_ids, etl_source
+            )
         index_tasks = celery.group(index_tasks)
     except:  # noqa: E722
         error = "start_update_index threw an error"
@@ -267,12 +372,47 @@ def start_update_index(self, indexes, platform):
     raise self.replace(index_tasks)
 
 
-def get_update_courses_tasks(blocklisted_ids, platform):
+def get_update_resource_files_tasks(blocklisted_ids, etl_source):
+    """
+    Get list of tasks to update course files
+    Args:
+        blocklisted_ids(list of int): List of course id's to exclude
+        etl_source(str): ETL source filter for the task
+    """
+
+    if etl_source is None or etl_source in RESOURCE_FILE_ETL_SOURCES:
+        course_update_query = (
+            LearningResource.objects.filter(published=True, resource_type=COURSE_TYPE)
+            .exclude(readable_id__in=blocklisted_ids)
+            .order_by("id")
+        )
+
+        if etl_source:
+            course_update_query = course_update_query.filter(etl_source=etl_source)
+        else:
+            course_update_query = course_update_query.filter(
+                etl_source__in=RESOURCE_FILE_ETL_SOURCES
+            )
+
+        return [
+            index_course_content_files.si(
+                ids, index_types=IndexestoUpdate.current_index.value
+            )
+            for ids in chunks(
+                course_update_query.values_list("id", flat=True),
+                chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+            )
+        ]
+    else:
+        return []
+
+
+def get_update_courses_tasks(blocklisted_ids, etl_source):
     """
     Get list of tasks to update courses
     Args:
         blocklisted_ids(list of int): List of course id's to exclude
-        platform(str): Platform filter for the task
+        etl_source(str): Etl source filter for the task
     """
 
     course_update_query = (
@@ -287,9 +427,9 @@ def get_update_courses_tasks(blocklisted_ids, platform):
         .order_by("id")
     )
 
-    if platform:
-        course_update_query = course_update_query.filter(platform=platform)
-        course_deletion_query = course_deletion_query.filter(platform=platform)
+    if etl_source:
+        course_update_query = course_update_query.filter(etl_source=etl_source)
+        course_deletion_query = course_deletion_query.filter(etl_source=etl_source)
 
     index_tasks = [
         index_courses.si(ids, index_types=IndexestoUpdate.current_index.value)

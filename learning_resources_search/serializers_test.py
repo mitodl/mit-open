@@ -10,9 +10,12 @@ from learning_resources.etl.constants import CourseNumberType
 from learning_resources.models import Course, Program
 from learning_resources.serializers import LearningResourceSerializer
 from learning_resources_search import serializers
+from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.serializers import (
+    ContentFileSearchRequestSerializer,
+    ContentFileSerializer,
     LearningResourcesSearchRequestSerializer,
-    LearningResourcesSearchResponseSerializer,
+    SearchResponseSerializer,
     extract_values,
 )
 
@@ -67,7 +70,11 @@ def test_serialize_course_for_bulk(
         course_numbers=course_numbers
     ).learning_resource
     assert resource.course.course_numbers == course_numbers
-    expected_data = {"_id": resource.id, **LearningResourceSerializer(resource).data}
+    expected_data = {
+        "_id": resource.id,
+        "resource_relations": {"name": "resource"},
+        **LearningResourceSerializer(resource).data,
+    }
     expected_data["course"]["course_numbers"][0] = {
         **expected_data["course"]["course_numbers"][0],
         "primary": True,
@@ -108,6 +115,7 @@ def test_serialize_program_for_bulk():
     program = factories.ProgramFactory.create()
     assert serializers.serialize_program_for_bulk(program.learning_resource) == {
         "_id": program.learning_resource.id,
+        "resource_relations": {"name": "resource"},
         **LearningResourceSerializer(program.learning_resource).data,
     }
 
@@ -139,6 +147,35 @@ def test_serialize_bulk_programs_for_deletion():
     ) == [{"_id": program.learning_resource.id, "_op_type": "delete"}]
 
 
+@pytest.mark.django_db()
+def test_serialize_content_file_for_bulk():
+    """
+    Test that serialize_content_file_for_bulk yields correct data
+    """
+    content_file = factories.ContentFileFactory.create()
+    assert serializers.serialize_content_file_for_bulk(content_file) == {
+        "_id": gen_content_file_id(content_file.id),
+        "resource_relations": {
+            "name": "content_file",
+            "parent": content_file.run.learning_resource_id,
+        },
+        "resource_type": "content_file",
+        **ContentFileSerializer(content_file).data,
+    }
+
+
+@pytest.mark.django_db()
+def test_serialize_content_file_for_bulk_deletion():
+    """
+    Test that serialize_content_file_for_bulk_deletio yields correct data
+    """
+    content_file = factories.ContentFileFactory.create()
+    assert serializers.serialize_content_file_for_bulk_deletion(content_file) == {
+        "_id": gen_content_file_id(content_file.id),
+        "_op_type": "delete",
+    }
+
+
 def test_extract_values():
     """
     extract_values should return the correct match from a dict
@@ -157,7 +194,6 @@ def test_learning_resources_search_request_serializer():
         "offset": 1,
         "limit": 1,
         "sortby": "-runs.start_date",
-        "resource_type": "course,program",
         "professional": "true",
         "certification": "Certificates",
         "offered_by": "xpro,ocw",
@@ -191,6 +227,37 @@ def test_learning_resources_search_request_serializer():
     request_data.update(data)
 
     serialized = LearningResourcesSearchRequestSerializer(data=request_data)
+    assert serialized.is_valid() is True
+    assert serialized.data == cleaned
+
+
+def test_content_file_search_request_serializer():
+    data = {
+        "q": "text",
+        "offset": 1,
+        "limit": 1,
+        "sortby": "-id",
+        "topic": "Math",
+        "aggregations": "topic",
+        "content_category": "Assignment",
+        "extra_field": "ignored",
+    }
+
+    cleaned = {
+        "q": "text",
+        "offset": 1,
+        "limit": 1,
+        "sortby": "-id",
+        "resource_type": ["content_file"],
+        "topic": ["Math"],
+        "aggregations": ["topic"],
+        "content_category": ["Assignment"],
+    }
+
+    request_data = QueryDict("", mutable=True)
+    request_data.update(data)
+
+    serialized = ContentFileSearchRequestSerializer(data=request_data)
     assert serialized.is_valid() is True
     assert serialized.data == cleaned
 
@@ -454,5 +521,5 @@ def test_learning_resources_search_response_serializer(settings):
     }
 
     assert JSONRenderer().render(
-        LearningResourcesSearchResponseSerializer(raw_data).data
+        SearchResponseSerializer(raw_data).data
     ) == JSONRenderer().render(response)

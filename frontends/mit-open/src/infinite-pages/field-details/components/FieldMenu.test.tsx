@@ -19,7 +19,7 @@ describe("FieldMenu", () => {
         <FieldMenu field={field} />
       </Router>,
     )
-    const dropdown = await screen.findByText("settings")
+    const dropdown = await screen.findByRole("button", { name: "Settings" })
     await user.click(dropdown)
     const links = await waitFor(async () => {
       const found = await screen.findAllByRole("link")

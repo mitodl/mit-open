@@ -1,12 +1,16 @@
 import React, { useCallback, useMemo } from "react"
 import { useParams, useLocation, useHistory } from "react-router"
-import Tab from "@mui/material/Tab"
-import TabContext from "@mui/lab/TabContext"
-import TabList from "@mui/lab/TabList"
-import TabPanel from "@mui/lab/TabPanel"
-import Container from "@mui/material/Container"
+
+import {
+  Container,
+  useMuiBreakpointAtLeast,
+  Tab,
+  TabContext,
+  TabList,
+  TabPanel,
+} from "ol-design"
 import type { UserList } from "ol-search-ui"
-import { TitledCarousel, useMuiBreakpoint } from "ol-util"
+import { TitledCarousel } from "ol-util"
 import { Link } from "react-router-dom"
 import FieldPageSkeleton from "./FieldPageSkeleton"
 import ArrowForward from "@mui/icons-material/ArrowForward"
@@ -56,8 +60,8 @@ const FieldCarousel: React.FC<FieldListProps> = ({ list }) => {
     const pages = itemsQuery.data?.pages ?? []
     return pages.flatMap((p) => p.results.map((r) => r.content_data)) ?? []
   }, [itemsQuery.data?.pages])
-  const isSm = useMuiBreakpoint("sm")
-  const isLg = useMuiBreakpoint("lg")
+  const isSm = useMuiBreakpointAtLeast("sm")
+  const isLg = useMuiBreakpointAtLeast("lg")
   const pageSize = isLg ? 3 : isSm ? 2 : 1
   return (
     <TitledCarousel

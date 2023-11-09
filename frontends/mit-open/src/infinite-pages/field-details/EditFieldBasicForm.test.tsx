@@ -66,7 +66,7 @@ describe("EditFieldBasicForm", () => {
     const listSelector = (await screen
       .queryAllByRole("combobox")
       .at(1)) as HTMLInputElement
-    let drags = await screen.findAllByText("drag_indicator")
+    let drags = await screen.findAllByTestId("DragIndicatorIcon")
     expect(drags.length).toEqual(3)
     for (let x = 0; x < drags.length; x++) {
       // eslint-disable-next-line testing-library/no-node-access
@@ -79,12 +79,12 @@ describe("EditFieldBasicForm", () => {
     //await user.type(listSelector, publicLists.results[3].title)
     await user.click(screen.getByText(publicLists.results[3].title))
     await user.click(screen.getByText("Add"))
-    drags = await screen.findAllByText("drag_indicator")
+    drags = await screen.findAllByTestId("DragIndicatorIcon")
     expect(drags.length).toEqual(4)
 
     // Remove a list
-    await user.click(screen.getAllByText("remove_circle_outline")[0])
-    drags = await screen.findAllByText("drag_indicator")
+    await user.click(screen.getAllByRole("button", { name: "Remove item" })[0])
+    drags = await screen.findAllByTestId("DragIndicatorIcon")
     expect(drags.length).toEqual(3)
   })
 

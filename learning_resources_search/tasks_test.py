@@ -1,33 +1,41 @@
 """Search task tests"""
 
-# pylint: disable=redefined-outer-name,unused-argument
-
 import pytest
 from celery.exceptions import Retry
 from django.conf import settings
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from opensearchpy.exceptions import ConnectionTimeout, RequestError
 
-from learning_resources.constants import PlatformType
+from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES, ETLSource
 from learning_resources.factories import (
+    ContentFileFactory,
     CourseFactory,
     ProgramFactory,
 )
 from learning_resources_search import tasks
+from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
+    CONTENT_FILE_TYPE,
     COURSE_TYPE,
+    LEARNING_RESOURCE_TYPES,
     PROGRAM_TYPE,
-    VALID_OBJECT_TYPES,
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
-from learning_resources_search.serializers import serialize_learning_resource_for_update
+from learning_resources_search.serializers import (
+    serialize_content_file_for_update,
+    serialize_learning_resource_for_update,
+)
 from learning_resources_search.tasks import (
     deindex_document,
+    deindex_run_content_files,
     finish_recreate_index,
+    index_course_content_files,
     index_courses,
+    index_run_content_files,
     start_recreate_index,
     start_update_index,
+    upsert_content_file,
     upsert_course,
     upsert_program,
     wrap_retry_exception,
@@ -109,9 +117,7 @@ def test_wrap_retry_exception_matching(matching):
     "indexes",
     [["course"], ["program"]],
 )
-def test_start_recreate_index(
-    mocker, mocked_celery, user, indexes
-):  # pylint:disable=too-many-locals,too-many-statements,too-many-branches
+def test_start_recreate_index(mocker, mocked_celery, user, indexes):
     """
     recreate_index should recreate the OpenSearch index and reindex all data with it
     """
@@ -121,8 +127,15 @@ def test_start_recreate_index(
     )
 
     if COURSE_TYPE in indexes:
+        ocw_courses = sorted(
+            CourseFactory.create_batch(4, etl_source=ETLSource.ocw.value),
+            key=lambda course: course.learning_resource_id,
+        )
+
+        oll_courses = CourseFactory.create_batch(2, etl_source=ETLSource.ocw.value)
+
         courses = sorted(
-            CourseFactory.create_batch(6),
+            list(oll_courses) + list(ocw_courses),
             key=lambda course: course.learning_resource_id,
         )
     else:
@@ -133,6 +146,9 @@ def test_start_recreate_index(
 
     index_courses_mock = mocker.patch(
         "learning_resources_search.tasks.index_courses", autospec=True
+    )
+    index_course_files_mock = mocker.patch(
+        "learning_resources_search.tasks.index_course_content_files", autospec=True
     )
     index_programs_mock = mocker.patch(
         "learning_resources_search.tasks.index_programs", autospec=True
@@ -153,7 +169,7 @@ def test_start_recreate_index(
 
     finish_recreate_index_dict = {}
 
-    for doctype in VALID_OBJECT_TYPES:
+    for doctype in LEARNING_RESOURCE_TYPES:
         if doctype in indexes:
             finish_recreate_index_dict[doctype] = backing_index
             create_backing_index_mock.assert_any_call(doctype)
@@ -178,6 +194,15 @@ def test_start_recreate_index(
         )
         index_courses_mock.si.assert_any_call(
             [courses[4].learning_resource_id, courses[5].learning_resource_id],
+            index_types=IndexestoUpdate.reindexing_index.value,
+        )
+
+        index_course_files_mock.si.assert_any_call(
+            [ocw_courses[0].learning_resource_id, ocw_courses[1].learning_resource_id],
+            index_types=IndexestoUpdate.reindexing_index.value,
+        )
+        index_course_files_mock.si.assert_any_call(
+            [ocw_courses[2].learning_resource_id, ocw_courses[3].learning_resource_id],
             index_types=IndexestoUpdate.reindexing_index.value,
         )
 
@@ -308,21 +333,18 @@ def test_bulk_deletion_tasks(mocker, with_error, tasks_func_name, indexing_func_
 
 
 @pytest.mark.parametrize(
-    ("indexes", "platform"),
+    ("indexes", "etl_source"),
     [
-        (
-            [
-                "program",
-            ],
-            None,
-        ),
-        (["course"], None),
-        (["course"], PlatformType.xpro.name),
+        (["program"], None),
+        (["course, content_file"], None),
+        (["course"], ETLSource.xpro.value),
+        (["content_file"], ETLSource.xpro.value),
+        (["content_file"], ETLSource.oll.value),
     ],
 )
-def test_start_update_index(
-    mocker, mocked_celery, indexes, platform, settings
-):  # pylint:disable=too-many-locals,too-many-statements,too-many-branches
+def test_start_update_index(  # noqa: PLR0915
+    mocker, mocked_celery, indexes, etl_source, settings
+):
     """
     recreate_index should recreate the OpenSearch index and reindex all data with it
     """
@@ -332,26 +354,26 @@ def test_start_update_index(
         "learning_resources_search.tasks.load_course_blocklist", return_value=[]
     )
 
-    platforms = [
-        PlatformType.ocw,
-        PlatformType.edx,
-        PlatformType.xpro,
-        PlatformType.mitxonline,
+    etl_sources = [
+        ETLSource.ocw,
+        ETLSource.mit_edx,
+        ETLSource.xpro,
+        ETLSource.mitxonline,
     ]
 
-    if COURSE_TYPE in indexes:
+    if COURSE_TYPE in indexes or CONTENT_FILE_TYPE in indexes:
         courses = sorted(
-            [CourseFactory.create(platform=platform.name) for platform in platforms],
+            [CourseFactory.create(etl_source=etl.value) for etl in etl_sources],
             key=lambda course: course.learning_resource_id,
         )
 
         unpublished_courses = sorted(
             [
                 CourseFactory.create(
-                    platform=platform.name,
+                    etl_source=etl.value,
                     is_unpublished=True,
                 )
-                for platform in platforms
+                for etl in etl_sources
             ],
             key=lambda course: course.learning_resource_id,
         )
@@ -376,8 +398,12 @@ def test_start_update_index(
         "learning_resources_search.tasks.bulk_deindex_programs", autospec=True
     )
 
+    index_course_content_mock = mocker.patch(
+        "learning_resources_search.tasks.index_course_content_files", autospec=True
+    )
+
     with pytest.raises(mocked_celery.replace_exception_class):
-        start_update_index.delay(indexes, platform)
+        start_update_index.delay(indexes, etl_source)
 
     assert mocked_celery.group.call_count == 1
 
@@ -388,12 +414,12 @@ def test_start_update_index(
     if COURSE_TYPE in indexes:
         mock_blocklist.assert_called_once()
 
-        if platform:
+        if etl_source:
             assert index_courses_mock.si.call_count == 1
             course = next(
                 course
                 for course in courses
-                if course.learning_resource.platform.platform == platform
+                if course.learning_resource.etl_source == etl_source
             )
             index_courses_mock.si.assert_any_call(
                 [course.learning_resource_id],
@@ -404,7 +430,7 @@ def test_start_update_index(
             unpublished_course = next(
                 course
                 for course in unpublished_courses
-                if course.learning_resource.platform.platform == platform
+                if course.learning_resource.etl_source == etl_source
             )
             deindex_courses_mock.si.assert_any_call(
                 [unpublished_course.learning_resource_id]
@@ -450,5 +476,106 @@ def test_start_update_index(
             [unpublished_program.learning_resource_id]
         )
 
+    if CONTENT_FILE_TYPE in indexes:
+        if etl_source in RESOURCE_FILE_ETL_SOURCES:
+            assert index_course_content_mock.si.call_count == 1
+            course = next(
+                course
+                for course in courses
+                if course.learning_resource.etl_source == etl_source
+            )
+
+            index_course_content_mock.si.assert_any_call(
+                [course.learning_resource_id],
+                index_types=IndexestoUpdate.current_index.value,
+            )
+
+        elif etl_source:
+            assert index_course_content_mock.si.call_count == 0
+        else:
+            assert index_course_content_mock.si.call_count == 2
+
     assert mocked_celery.replace.call_count == 1
     assert mocked_celery.replace.call_args[0][1] == mocked_celery.group.return_value
+
+
+def test_upsert_content_file_task(mocked_api):
+    """Test that upsert_content_file will serialize the content file data and upsert it to the OS index"""
+    course = CourseFactory.create(etl_source=ETLSource.ocw.value)
+
+    content_file = ContentFileFactory.create(run=course.learning_resource.runs.first())
+    upsert_content_file(content_file.id)
+    data = serialize_content_file_for_update(content_file)
+    mocked_api.upsert_document.assert_called_once_with(
+        gen_content_file_id(content_file.id),
+        data,
+        COURSE_TYPE,
+        retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
+        routing=course.learning_resource_id,
+    )
+
+
+@pytest.mark.usefixtures("_wrap_retry_mock")
+@pytest.mark.parametrize("with_error", [True, False])
+@pytest.mark.parametrize(
+    "index_types",
+    [IndexestoUpdate.all_indexes.value, IndexestoUpdate.current_index.value],
+)
+def test_index_course_content_files(mocker, with_error, index_types):
+    """index_course_content_files should call the api function of the same name"""
+    index_content_files_mock = mocker.patch(
+        "learning_resources_search.indexing_api.index_course_content_files"
+    )
+    if with_error:
+        index_content_files_mock.side_effect = TabError
+    result = index_course_content_files.delay([1, 2, 3], index_types=index_types).get()
+    assert result == (
+        "index_course_content_files threw an error" if with_error else None
+    )
+
+    index_content_files_mock.assert_called_once_with([1, 2, 3], index_types=index_types)
+
+
+@pytest.mark.usefixtures("_wrap_retry_mock")
+@pytest.mark.parametrize("with_error", [True, False])
+@pytest.mark.parametrize(
+    "index_types",
+    [IndexestoUpdate.all_indexes.value, IndexestoUpdate.current_index.value],
+)
+def test_index_run_content_files(mocker, with_error, index_types):
+    """index_run_content_files should call the api function of the same name"""
+    index_run_content_files_mock = mocker.patch(
+        "learning_resources_search.indexing_api.index_run_content_files"
+    )
+    deindex_run_content_files_mock = mocker.patch(
+        "learning_resources_search.indexing_api.deindex_run_content_files"
+    )
+    if with_error:
+        index_run_content_files_mock.side_effect = TabError
+    result = index_run_content_files.delay(1, index_types=index_types).get()
+    assert result == ("index_run_content_files threw an error" if with_error else None)
+
+    index_run_content_files_mock.assert_called_once_with(1, index_types=index_types)
+
+    if not with_error:
+        deindex_run_content_files_mock.assert_called_once_with(1, unpublished_only=True)
+
+
+@pytest.mark.usefixtures("_wrap_retry_mock")
+@pytest.mark.parametrize("with_error", [True, False])
+@pytest.mark.parametrize("unpublished_only", [True, False])
+def test_delete_run_content_files(mocker, with_error, unpublished_only):
+    """deindex_run_content_files should call the api function of the same name"""
+    deindex_run_content_files_mock = mocker.patch(
+        "learning_resources_search.indexing_api.deindex_run_content_files"
+    )
+    if with_error:
+        deindex_run_content_files_mock.side_effect = TabError
+    result = deindex_run_content_files.delay(1, unpublished_only=unpublished_only).get()
+    deindex_run_content_files_mock.assert_called_once_with(
+        1, unpublished_only=unpublished_only
+    )
+
+    assert result == (
+        "deindex_run_content_files threw an error" if with_error else None
+    )
