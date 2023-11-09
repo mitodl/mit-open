@@ -164,15 +164,21 @@ From there, you should be able to run code snippets with a live Django app just 
 
 ### Connecting with an OpenID Connect provider for authentication
 
-The MIT Open application can be configured to utilize an OpenID Connect provider for authentication.
+The MIT Open application relies on an OpenID Connect client provided by Keycloak for authentication.
 
-The following environment variables must be defined:
-_ SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT - The base URI for OpenID Connect discovery, https://<OIDC_ENDPOINT>/ without .well-known/openid-configuration.
-_ OIDC\*ENDPOINT
+The following environment variables must be defined using values from a Keycloak instance:
 
-- SOCIAL\*AUTH_OL_OIDC_KEY - The client ID provided by the OpenID Connect provider.
-- SOCIAL\*AUTH_OL_OIDC_SECRET - The client secret provided by the OpenID Connect provider.
-- AUTHORIZATION\*URL - Provider endpoint where the user is asked to authenticate.
-- ACCESS_TOKEN_URL - Provider endpoint where client exchanges the authorization code for tokens. \* USERINFO_URL - Provder endpoint where client sends requests for identity claims.
+- SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT - The base URI for OpenID Connect discovery, https://<OIDC_ENDPOINT>/ without .well-known/openid-configuration.
+- OIDC_ENDPOINT - The base URI for OpenID Connect discovery, https://<OIDC_ENDPOINT>/ without .well-known/openid-configuration.
 
-To authenticate with an existing MIT Open user via an OpenID Connect provider, open http://od.odl.local:8063/login/ol-oidc in your browser.
+- SOCIAL_AUTH_OL_OIDC_KEY - The client ID provided by the OpenID Connect provider.
+- SOCIAL_AUTH_OL_OIDC_SECRET - The client secret provided by the OpenID Connect provider.
+- AUTHORIZATION_URL - Provider endpoint where the user is asked to authenticate.
+- ACCESS_TOKEN_URL - Provider endpoint where client exchanges the authorization code for tokens.
+- USERINFO_URL - Provder endpoint where client sends requests for identity claims.
+- KEYCLOAK_BASE_URL - The base URL of the Keycloak instance. Used for generating the
+- KEYCLOAK_REALM_NAME - The Keycloak realm that the OpenID Connect client exists in.
+
+To login via the Keycloak client, open http://od.odl.local:8063/login/ol-oidc in your browser.
+
+Additional details can be found at https://docs.google.com/document/d/17tJ-C2EwWoSpJWZKjuhMVgsqGtyPH0IN9KakXvSKU0M/edit

@@ -639,3 +639,12 @@ DRF_NESTED_PARENT_LOOKUP_PREFIX = get_string("DRF_NESTED_PARENT_LOOKUP_PREFIX", 
 REST_FRAMEWORK_EXTENSIONS = {
     "DEFAULT_PARENT_LOOKUP_KWARG_NAME_PREFIX": DRF_NESTED_PARENT_LOOKUP_PREFIX
 }
+
+KEYCLOAK_BASE_URL = get_string(
+    name="KEYCLOAK_BASE_URL",
+    default="http://mit-keycloak-base-url.edu",
+)
+KEYCLOAK_REALM_NAME = get_string(
+    name="KEYCLOAK_REALM_NAME",
+    default="olapps",
+)
