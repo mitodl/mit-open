@@ -101,8 +101,10 @@ class SubfieldSerializer(serializers.ModelSerializer):
 class FieldChannelSerializer(ChannelAppearanceMixin, serializers.ModelSerializer):
     """Serializer for FieldChannel"""
 
-    lists = serializers.SerializerMethodField()
-    featured_list = LearningResourceSerializer(many=False, read_only=True)
+    lists = serializers.SerializerMethodField(help_text="Learning paths in this field.")
+    featured_list = LearningResourceSerializer(
+        many=False, read_only=True, help_text="Learning path featured in this field."
+    )
     subfields = SubfieldSerializer(many=True, read_only=True)
 
     @extend_schema_field(LearningResourceSerializer(many=True))
@@ -150,8 +152,9 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             published=True,
             resource_type=LearningResourceType.learning_path.name,
         ),
+        help_text="Learng path featured in this field.",
     )
-    lists = WriteableSerializerMethodField()
+    lists = WriteableSerializerMethodField(help_text="Learning paths in this field.")
     subfields = WriteableSerializerMethodField()
 
     class Meta:
