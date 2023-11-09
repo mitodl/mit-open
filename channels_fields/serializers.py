@@ -14,7 +14,6 @@ from channels_fields.constants import FIELD_ROLE_MODERATORS
 from channels_fields.models import FieldChannel, FieldList, Subfield
 from learning_resources.constants import LearningResourceType
 from learning_resources.models import LearningResource
-from learning_resources.serializers import LearningResourceSerializer
 from profiles.models import Profile
 
 User = get_user_model()
@@ -33,6 +32,7 @@ class WriteableSerializerMethodField(serializers.SerializerMethodField):
 
     def to_internal_value(self, data):
         return data
+
 
 class LearningPathPreviewSerializer(serializers.ModelSerializer):
     """Serializer for a minimal preview of Learning Paths"""
@@ -112,7 +112,7 @@ class FieldChannelSerializer(ChannelAppearanceMixin, serializers.ModelSerializer
     featured_list = LearningPathPreviewSerializer(
         many=False, read_only=True, help_text="Learning path featured in this field."
     )
-    subfields = SubfieldSerializer(many=True, read_only=True, required=False)
+    subfields = SubfieldSerializer(many=True, read_only=True)
 
     @extend_schema_field(LearningPathPreviewSerializer(many=True))
     def get_lists(self, instance):
@@ -132,7 +132,6 @@ class FieldChannelSerializer(ChannelAppearanceMixin, serializers.ModelSerializer
             "subfields",
             "featured_list",
             "lists",
-            "about",
             "avatar",
             "avatar_medium",
             "avatar_small",
@@ -148,7 +147,10 @@ class FieldChannelSerializer(ChannelAppearanceMixin, serializers.ModelSerializer
 
 
 class FieldChannelCreateSerializer(serializers.ModelSerializer):
-    """Write serializer for FieldChannel"""
+    """
+    Write serializer for FieldChannel. Uses primary keys for referenced objects
+    during requests, and delegates to FieldChannelSerializer for responses.
+    """
 
     featured_list = serializers.PrimaryKeyRelatedField(
         many=False,
@@ -172,7 +174,12 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
         ),
         help_text="Learng paths in this field.",
     )
-    subfields = serializers.SlugRelatedField(slug_field="name", queryset=FieldChannel.objects.all())
+    subfields = serializers.SlugRelatedField(
+        slug_field="name",
+        many=True,
+        queryset=FieldChannel.objects.all(),
+        required=False,
+    )
 
     class Meta:
         model = FieldChannel
@@ -183,6 +190,8 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             "subfields",
             "featured_list",
             "lists",
+            "avatar",
+            "banner",
             "about",
         )
 
@@ -193,15 +202,13 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
         field_lists = validated_data.pop("lists")
         new_lists = set()
         former_lists = list(instance.lists.values_list("id", flat=True))
-        for idx, list_pk in enumerate(field_lists):
-            learning_path = LearningResource.objects.filter(pk=list_pk).first()
-            if learning_path:
-                field_list, _ = FieldList.objects.update_or_create(
-                    field_channel=instance,
-                    field_list=learning_path,
-                    defaults={"position": idx},
-                )
-                new_lists.add(field_list)
+        for idx, learning_path in enumerate(field_lists):
+            field_list, _ = FieldList.objects.update_or_create(
+                field_channel=instance,
+                field_list=learning_path,
+                defaults={"position": idx},
+            )
+            new_lists.add(field_list)
         removed_lists = list(
             set(former_lists) - {list.id for list in new_lists}  # noqa: A001
         )
@@ -218,15 +225,16 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
         former_subfields = list(
             instance.subfields.values_list("field_channel__name", flat=True)
         )
-        for idx, field_name in enumerate(subfields):
-            field_channel = FieldChannel.objects.filter(name=field_name).first()
-            if field_channel and field_channel.pk != instance.pk:
-                subfield, _ = Subfield.objects.update_or_create(
-                    parent_channel=instance,
-                    field_channel=field_channel,
-                    defaults={"position": idx},
-                )
-                new_subfields.add(subfield)
+        for idx, field_channel in enumerate(subfields):
+            if field_channel.pk == instance.pk:
+                msg = "A field channel cannot be a subfield of itself"
+                raise ValidationError(msg)
+            subfield, _ = Subfield.objects.update_or_create(
+                parent_channel=instance,
+                field_channel=field_channel,
+                defaults={"position": idx},
+            )
+            new_subfields.add(subfield)
         removed_subfields = list(
             set(former_subfields)
             - {subfield.field_channel.name for subfield in new_subfields}
@@ -247,23 +255,16 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             self.upsert_subfields(field_channel, validated_data)
             return field_channel
 
+    def to_representation(self, data):
+        return FieldChannelSerializer(context=self.context).to_representation(data)
+
 
 class FieldChannelWriteSerializer(FieldChannelCreateSerializer, ChannelAppearanceMixin):
     """Similar to FieldChannelCreateSerializer, with read-only name"""
 
     class Meta:
         model = FieldChannel
-        fields = (
-            "name",
-            "title",
-            "public_description",
-            "subfields",
-            "featured_list",
-            "lists",
-            "about",
-            "avatar",
-            "banner",
-        )
+        fields = FieldChannelCreateSerializer.Meta.fields
         read_only_fields = ("name",)
 
     def update(self, instance, validated_data):

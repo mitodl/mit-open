@@ -15,9 +15,9 @@ from channels_fields.serializers import (
     FieldChannelSerializer,
     FieldChannelWriteSerializer,
     FieldModeratorSerializer,
+    LearningPathPreviewSerializer,
 )
 from learning_resources.factories import LearningPathFactory
-from learning_resources.serializers import LearningResourceSerializer
 from open_discussions.factories import UserFactory
 
 # pylint:disable=redefined-outer-name
@@ -82,7 +82,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "created_on": mocker.ANY,
         "id": field_channel.id,
         "lists": [
-            LearningResourceSerializer(field_list.field_list).data
+            LearningPathPreviewSerializer(field_list.field_list).data
             for field_list in sorted(
                 field_lists,
                 key=lambda l: l.position,  # noqa: E741
@@ -127,6 +127,19 @@ def test_create_field_channel(base_field_data):
     ]
 
 
+def test_create_and_write_response_serialization():
+    """
+    Test that the create and write serializers return the same data as the read serializer
+    """
+    field_channel = FieldChannelFactory.create()
+    assert FieldChannelCreateSerializer().to_representation(
+        field_channel
+    ) == FieldChannelSerializer().to_representation(field_channel)
+    assert FieldChannelWriteSerializer().to_representation(
+        field_channel
+    ) == FieldChannelSerializer().to_representation(field_channel)
+
+
 def test_create_field_channel_private_list(base_field_data):
     """Validation should fail if a list is private"""
     learning_path = LearningPathFactory.create(is_unpublished=True)
@@ -166,9 +179,17 @@ def test_create_field_channel_with_subfields(base_field_data):
         ).order_by("position")
 
 
-def test_create_field_channel_bad_subfields(base_field_data):
+def test_create_field_channel_not_existing_subfields(base_field_data):
     """Validation should fail if a subfield does not exist"""
     data = {**base_field_data, "subfields": ["fake"]}
+    serializer = FieldChannelCreateSerializer(data=data)
+    assert serializer.is_valid() is False
+    assert "subfields" in serializer.errors
+
+
+def test_create_field_channel_self_reference_subfields(base_field_data):
+    """Validation should fail if field is subfield of itself"""
+    data = {**base_field_data, "name": "selfie", "subfields": ["selfie"]}
     serializer = FieldChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
     assert "subfields" in serializer.errors
