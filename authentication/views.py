@@ -1,12 +1,64 @@
 """Authentication views"""
 
+import json
+
 from django.conf import settings
 from django.contrib.auth import views
 from django.http import Http404
 from django.shortcuts import redirect
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from social_django.models import UserSocialAuth
 from social_django.utils import load_strategy
 
 from authentication.backends.ol_open_id_connect import OlOpenIdConnectAuth
+
+
+@api_view(["POST"])
+@permission_classes([])
+def backend_logout(request):
+    """
+    OpenID connect back-channel logout endpoint.
+
+    Args:
+        request (request): Django request.
+
+    Returns:
+        rest_framework.response.Response: HTTP response.
+            200 for properly formatted and validated requests.
+            400 otherwise.
+    """
+    strategy = load_strategy()
+    # Get logout token from request.
+    json_body = json.loads(request.body.decode())
+    try:
+        logout_token = json_body[0].get("logout_token", None)
+    except KeyError:
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
+    if logout_token:
+        backend = strategy.get_backend(OlOpenIdConnectAuth.name)
+        # Validate logout token.
+        logout_token_claims = backend.validate_logout_token_and_return_claims(
+            logout_token
+        )
+
+        # Get sub from logout token.
+        user_uid = logout_token_claims.get("sub")
+        if user_uid:
+            # Get user record
+            try:
+                user_social_auth_record = UserSocialAuth.objects.get(
+                    uid=user_uid, provider=OlOpenIdConnectAuth.name
+                )
+                user_social_auth_record.user.session_set.all().delete()
+            except UserSocialAuth.DoesNotExist:
+                return Response({}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({}, status=status.HTTP_200_OK)
 
 
 class CustomLogoutView(views.LogoutView):
