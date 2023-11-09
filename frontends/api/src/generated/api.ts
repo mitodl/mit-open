@@ -6169,7 +6169,7 @@ export const FieldsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6224,7 +6224,7 @@ export const FieldsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {string} field_name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6271,7 +6271,7 @@ export const FieldsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -6484,7 +6484,7 @@ export const FieldsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {string} field_name
      * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
      * @param {*} [options] Override http request option.
@@ -6540,7 +6540,7 @@ export const FieldsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {string} field_name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6587,7 +6587,7 @@ export const FieldsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {string} field_name
      * @param {FieldChannelWriteRequest} FieldChannelWriteRequest
      * @param {*} [options] Override http request option.
@@ -6659,7 +6659,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = FieldsApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6682,7 +6682,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {string} field_name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6705,7 +6705,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -6815,7 +6815,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {string} field_name
      * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
      * @param {*} [options] Override http request option.
@@ -6842,7 +6842,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {string} field_name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6865,7 +6865,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {string} field_name
      * @param {FieldChannelWriteRequest} FieldChannelWriteRequest
      * @param {*} [options] Override http request option.
@@ -6905,7 +6905,7 @@ export const FieldsApiFactory = function (
   const localVarFp = FieldsApiFp(configuration)
   return {
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {FieldsApiFieldsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6919,7 +6919,7 @@ export const FieldsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {FieldsApiFieldsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6933,7 +6933,7 @@ export const FieldsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {FieldsApiFieldsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6997,7 +6997,7 @@ export const FieldsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {FieldsApiFieldsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7015,7 +7015,7 @@ export const FieldsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {FieldsApiFieldsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7029,7 +7029,7 @@ export const FieldsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for Field Channels
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
      * @param {FieldsApiFieldsUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7218,7 +7218,7 @@ export interface FieldsApiFieldsUpdateRequest {
  */
 export class FieldsApi extends BaseAPI {
   /**
-   * Viewset for Field Channels
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
    * @param {FieldsApiFieldsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7234,7 +7234,7 @@ export class FieldsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Field Channels
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
    * @param {FieldsApiFieldsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7250,7 +7250,7 @@ export class FieldsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Field Channels
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
    * @param {FieldsApiFieldsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7322,7 +7322,7 @@ export class FieldsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Field Channels
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
    * @param {FieldsApiFieldsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7342,7 +7342,7 @@ export class FieldsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Field Channels
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
    * @param {FieldsApiFieldsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7358,7 +7358,7 @@ export class FieldsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Field Channels
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
    * @param {FieldsApiFieldsUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

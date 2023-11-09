@@ -1031,7 +1031,9 @@ paths:
   /api/v1/fields/:
     get:
       operationId: fields_list
-      description: Viewset for Field Channels
+      description: |-
+        CRUD Operations related to Fields. Fields may represent groups or organizations
+        at MIT and are a high-level categorization of content.
       parameters:
       - name: limit
         required: false
@@ -1058,7 +1060,9 @@ paths:
           description: ''
     post:
       operationId: fields_create
-      description: Viewset for Field Channels
+      description: |-
+        CRUD Operations related to Fields. Fields may represent groups or organizations
+        at MIT and are a high-level categorization of content.
       tags:
       - fields
       requestBody:
@@ -1085,7 +1089,9 @@ paths:
   /api/v1/fields/{field_name}/:
     get:
       operationId: fields_retrieve
-      description: Viewset for Field Channels
+      description: |-
+        CRUD Operations related to Fields. Fields may represent groups or organizations
+        at MIT and are a high-level categorization of content.
       parameters:
       - in: path
         name: field_name
@@ -1105,7 +1111,9 @@ paths:
           description: ''
     put:
       operationId: fields_update
-      description: Viewset for Field Channels
+      description: |-
+        CRUD Operations related to Fields. Fields may represent groups or organizations
+        at MIT and are a high-level categorization of content.
       parameters:
       - in: path
         name: field_name
@@ -1137,7 +1145,9 @@ paths:
           description: ''
     patch:
       operationId: fields_partial_update
-      description: Viewset for Field Channels
+      description: |-
+        CRUD Operations related to Fields. Fields may represent groups or organizations
+        at MIT and are a high-level categorization of content.
       parameters:
       - in: path
         name: field_name
@@ -1168,7 +1178,9 @@ paths:
           description: ''
     delete:
       operationId: fields_destroy
-      description: Viewset for Field Channels
+      description: |-
+        CRUD Operations related to Fields. Fields may represent groups or organizations
+        at MIT and are a high-level categorization of content.
       parameters:
       - in: path
         name: field_name

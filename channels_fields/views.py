@@ -54,7 +54,8 @@ class FieldChannelViewSet(
     viewsets.GenericViewSet,
 ):
     """
-    Viewset for Field Channels
+    CRUD Operations related to Fields. Fields may represent groups or organizations
+    at MIT and are a high-level categorization of content.
     """
 
     pagination_class = LargePagination
