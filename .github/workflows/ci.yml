@@ -67,9 +67,6 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction
 
-      - name: Code formatting
-        run: poetry run black --preview --check .
-
       - name: Lint
         run: poetry run ruff --extend-ignore=D1 $(git ls-files '*.py')
       - name: Create test local state
@@ -121,9 +118,6 @@ jobs:
 
       - name: Lints
         run: yarn run lint-check
-
-      - name: Code formatting
-        run: yarn run fmt-check
 
       - name: Scss lint
         run: yarn run scss-lint

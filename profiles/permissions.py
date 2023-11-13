@@ -34,7 +34,10 @@ class HasSiteEditPermission(permissions.BasePermission):
     """
 
     def has_object_permission(
-        self, request, view, obj  # noqa: ARG002
+        self,
+        request,
+        view,  # noqa: ARG002
+        obj,
     ):  # pylint: disable=missing-docstring
         if request.method in permissions.SAFE_METHODS:
             return True

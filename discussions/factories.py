@@ -37,8 +37,11 @@ class ChannelFactory(DjangoModelFactory):
 
     @factory.post_generation
     def create_permissions(
-        self, create, extracted, **kwargs  # noqa: ARG002
-    ):  # pylint: disable=unused-argument
+        self,
+        create,
+        extracted,  # noqa: ARG002
+        **kwargs,  # noqa: ARG002
+    ):
         """Create the channel groups and roles after the channel is created"""
         if not create:
             return

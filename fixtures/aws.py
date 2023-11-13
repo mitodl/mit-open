@@ -43,7 +43,8 @@ def ocw_aws_settings(aws_settings):
 
 @pytest.fixture()
 def mock_ocw_learning_bucket(
-    ocw_aws_settings, mock_s3_fixture  # noqa: ARG001
+    ocw_aws_settings,
+    mock_s3_fixture,  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """Mock OCW learning bucket"""
     s3 = boto3.resource(
@@ -84,7 +85,8 @@ def mitxonline_aws_settings(aws_settings):
 
 @pytest.fixture()
 def mock_xpro_learning_bucket(
-    xpro_aws_settings, mock_s3_fixture  # noqa: ARG001
+    xpro_aws_settings,
+    mock_s3_fixture,  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """Mock OCW learning bucket"""
     s3 = boto3.resource(
@@ -98,7 +100,8 @@ def mock_xpro_learning_bucket(
 
 @pytest.fixture()
 def mock_mitxonline_learning_bucket(
-    mitxonline_aws_settings, mock_s3_fixture  # noqa: ARG001
+    mitxonline_aws_settings,
+    mock_s3_fixture,  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """Mock OCW learning bucket"""
     s3 = boto3.resource(
@@ -114,7 +117,8 @@ def mock_mitxonline_learning_bucket(
 
 @pytest.fixture()
 def mock_mitx_learning_bucket(
-    mitx_aws_settings, mock_s3_fixture  # noqa: ARG001
+    mitx_aws_settings,
+    mock_s3_fixture,  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """Mock OCW learning bucket"""
     s3 = boto3.resource(

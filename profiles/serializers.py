@@ -164,14 +164,10 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
                 calculated_site_type == PERSONAL_SITE_TYPE
                 and submitted_site_type != calculated_site_type
             ):
-                raise ValidationError(
-                    {
-                        "url": [
-                            "Please provide a URL for one of these social sites: {}"
-                            .format(", ".join(SOCIAL_SITE_NAME_MAP.values()))
-                        ]
-                    }
+                msg = "Please provide a URL for one of these social sites: {}".format(
+                    ", ".join(SOCIAL_SITE_NAME_MAP.values())
                 )
+                raise ValidationError({"url": [msg]})
             # The URL is for a social site, but was submitted as a personal site
             elif (
                 calculated_site_type in SOCIAL_SITE_NAME_MAP

@@ -86,7 +86,9 @@ def test_profile_img_url_uploaded_image():
     profile = UserFactory.create().profile
     image = Image.new("RGBA", size=(50, 50), color=(155, 0, 0))
     profile.image_small_file.save(
-        "/profiles/realimage.jpg", BytesIO(image.tobytes()), True  # noqa: FBT003
+        "/profiles/realimage.jpg",
+        BytesIO(image.tobytes()),
+        True,  # noqa: FBT003
     )
     profile.save()
     assert image_uri(profile, "image_small") == profile.image_small_file.url

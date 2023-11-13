@@ -500,7 +500,8 @@ def get_content_type(file_type: str) -> str:
 
 
 def extract_valid_department_from_id(
-    course_string: str, is_ocw: bool = False  # noqa: FBT001, FBT002
+    course_string: str,
+    is_ocw: bool = False,  # noqa: FBT001, FBT002
 ) -> list[str]:
     """
     Extracts a department from course data and returns

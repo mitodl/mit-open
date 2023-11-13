@@ -26,9 +26,8 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
         "user": {
             "id": user.id,
             "is_authenticated": bool(user.is_authenticated),
-            "is_learning_path_editor": user.is_authenticated and (
-                is_admin_user(request) or is_learning_path_editor(request)
-            ),
+            "is_learning_path_editor": user.is_authenticated
+            and (is_admin_user(request) or is_learning_path_editor(request)),
             "is_article_editor": is_admin_user(request),
         },
         "ckeditor_upload_url": settings.CKEDITOR_UPLOAD_URL,
@@ -41,21 +40,24 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
 
 
 def handle_400(
-    request, exception=None  # noqa: ARG001
+    request,
+    exception=None,  # noqa: ARG001
 ):  # pylint:disable=unused-argument  # noqa: ARG001, RUF100
     """400 error handler"""
     return HttpResponseBadRequest(index(request))
 
 
 def handle_403(
-    request, exception=None  # noqa: ARG001
+    request,
+    exception=None,  # noqa: ARG001
 ):  # pylint:disable=unused-argument  # noqa: ARG001, RUF100
     """403 error handler"""
     return HttpResponseForbidden(index(request))
 
 
 def handle_404(
-    request, exception=None  # noqa: ARG001
+    request,
+    exception=None,  # noqa: ARG001
 ):  # pylint:disable=unused-argument  # noqa: ARG001, RUF100
     """404 error handler"""
     return HttpResponseNotFound(index(request))

@@ -243,9 +243,8 @@ def test_es_content_file_serializer(  # pylint:disable=too-many-arguments  # noq
     mock_warn = mocker.patch("search.serializers.log.warning")
     settings.OPENSEARCH_MAX_REQUEST_SIZE = 5000
     content_kwargs = {
-        "content": "a" * (
-            settings.OPENSEARCH_MAX_REQUEST_SIZE if exceeds_max_size else 500
-        ),
+        "content": "a"
+        * (settings.OPENSEARCH_MAX_REQUEST_SIZE if exceeds_max_size else 500),
         "content_author": "MIT",
         "content_language": "en",
         "content_title": "test title",
@@ -343,9 +342,7 @@ def test_es_content_file_serializer_truncate(  # pylint:disable=too-many-argumen
     serialized.pop("content")
     len_minus_content = len(json.dumps(serialized))
 
-    content_file.content = (
-        f'{"a" * (settings.OPENSEARCH_MAX_REQUEST_SIZE - len_minus_content - 105)}{content_end} {"z" * 500}'
-    )
+    content_file.content = f'{"a" * (settings.OPENSEARCH_MAX_REQUEST_SIZE - len_minus_content - 105)}{content_end} {"z" * 500}'
     content_file.save()
     serialized = serializers.OSContentFileSerializer(content_file).data
     serialized_content = serialized.pop("content")

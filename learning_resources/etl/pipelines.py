@@ -100,7 +100,7 @@ def ocw_courses_etl(
     *,
     url_paths: list[str],
     force_overwrite: bool,
-    start_timestamp: datetime | None = None
+    start_timestamp: datetime | None = None,
 ):
     """
     Sync OCW courses to the database

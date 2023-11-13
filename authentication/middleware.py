@@ -51,8 +51,12 @@ class BlockedIPMiddleware(MiddlewareMixin):
     """
 
     def process_view(
-        self, request, callback, callback_args, callback_kwargs  # noqa: ARG002
-    ):  # pylint:disable=unused-argument
+        self,
+        request,
+        callback,
+        callback_args,  # noqa: ARG002
+        callback_kwargs,  # noqa: ARG002
+    ):
         """
         Blocks an individual request if: it is from a blocked ip range, routable, not a safe request
         and not from a superuser (don't want admins accidentally locking themselves out).

@@ -65,7 +65,7 @@
     "jest-when": "^3.5.1",
     "locale-code": "^2.0.2",
     "prettier": "^3.0.3",
-    "prettier-plugin-django-alpine": "^1.1.1",
+    "prettier-plugin-django-alpine": "^1.2.6",
     "query-string": "^7.1.1",
     "rc-tooltip": "^5.2.2",
     "react-appzi": "^1.0.4",
