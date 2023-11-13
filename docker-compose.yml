@@ -24,6 +24,8 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   redis:
     image: redis:5.0.14
@@ -131,3 +133,4 @@ volumes:
   opensearch-data1:
   django_media:
   yarn-cache:
+  pgdata:
