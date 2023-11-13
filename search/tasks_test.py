@@ -231,9 +231,7 @@ def test_wrap_retry_exception_matching(matching):
 
 @pytest.mark.parametrize("with_error", [True, False])
 @pytest.mark.parametrize("update_only", [True, False])
-def test_index_videos(
-    mocker, wrap_retry_mock, with_error, update_only
-):  # pylint: disable=unused-argument
+def test_index_videos(mocker, wrap_retry_mock, with_error, update_only):  # pylint: disable=unused-argument
     """index_videos should call the api function of the same name"""
     index_videos_mock = mocker.patch("search.indexing_api.index_videos")
     if with_error:
@@ -258,9 +256,7 @@ def test_index_staff_lists(mocker, wrap_retry_mock, with_error, update_only):
 
 
 @pytest.mark.parametrize("with_error", [True, False])
-def test_bulk_deindex_staff_lists(
-    mocker, with_error
-):  # pylint: disable=unused-argument
+def test_bulk_deindex_staff_lists(mocker, with_error):  # pylint: disable=unused-argument
     """bulk_deindex_staff_lists should call the api function of the same name"""
     bulk_deindex_staff_lists_mock = mocker.patch(
         "search.indexing_api.deindex_staff_lists"
@@ -774,13 +770,16 @@ def test_start_update_index(  # noqa: C901, PLR0912, PLR0915
         else:
             assert index_courses_mock.si.call_count == 3
             index_courses_mock.si.assert_any_call(
-                [courses[0].id, courses[1].id], True  # noqa: FBT003
+                [courses[0].id, courses[1].id],
+                True,  # noqa: FBT003
             )  # noqa: FBT003, RUF100
             index_courses_mock.si.assert_any_call(
-                [courses[2].id, courses[3].id], True  # noqa: FBT003
+                [courses[2].id, courses[3].id],
+                True,  # noqa: FBT003
             )  # noqa: FBT003, RUF100
             index_courses_mock.si.assert_any_call(
-                [courses[4].id, courses[5].id], True  # noqa: FBT003
+                [courses[4].id, courses[5].id],
+                True,  # noqa: FBT003
             )  # noqa: FBT003, RUF100
 
             assert deindex_courses_mock.si.call_count == 3
@@ -800,7 +799,8 @@ def test_start_update_index(  # noqa: C901, PLR0912, PLR0915
             course = next(course for course in courses if course.platform == platform)
 
             index_course_content_mock.si.assert_any_call(
-                [course.id], True  # noqa: FBT003
+                [course.id],
+                True,  # noqa: FBT003
             )  # noqa: FBT003, RUF100
 
         elif platform:
@@ -811,10 +811,12 @@ def test_start_update_index(  # noqa: C901, PLR0912, PLR0915
     if VIDEO_TYPE in indexes:
         assert index_videos_mock.si.call_count == 2
         index_videos_mock.si.assert_any_call(
-            [videos[0].id, videos[1].id], True  # noqa: FBT003
+            [videos[0].id, videos[1].id],
+            True,  # noqa: FBT003
         )  # noqa: FBT003, RUF100
         index_videos_mock.si.assert_any_call(
-            [videos[2].id, videos[3].id], True  # noqa: FBT003
+            [videos[2].id, videos[3].id],
+            True,  # noqa: FBT003
         )  # noqa: FBT003, RUF100
 
         assert deindex_videos_mock.si.call_count == 1
@@ -823,10 +825,12 @@ def test_start_update_index(  # noqa: C901, PLR0912, PLR0915
     if PODCAST_TYPE in indexes:
         assert index_podcasts_mock.si.call_count == 5
         index_podcasts_mock.si.assert_any_call(
-            [podcasts[0].id, podcasts[1].id], True  # noqa: FBT003
+            [podcasts[0].id, podcasts[1].id],
+            True,  # noqa: FBT003
         )  # noqa: FBT003, RUF100
         index_podcasts_mock.si.assert_any_call(
-            [podcasts[2].id, podcasts[3].id], True  # noqa: FBT003
+            [podcasts[2].id, podcasts[3].id],
+            True,  # noqa: FBT003
         )  # noqa: FBT003, RUF100
 
         assert deindex_podcasts_mock.si.call_count == 1
@@ -835,10 +839,12 @@ def test_start_update_index(  # noqa: C901, PLR0912, PLR0915
     if PODCAST_EPISODE_TYPE in indexes:
         assert index_podcast_episodes_mock.si.call_count == 2
         index_podcast_episodes_mock.si.assert_any_call(
-            [podcast_episodes[0].id, podcast_episodes[1].id], True  # noqa: FBT003
+            [podcast_episodes[0].id, podcast_episodes[1].id],
+            True,  # noqa: FBT003
         )
         index_podcast_episodes_mock.si.assert_any_call(
-            [podcast_episodes[2].id, podcast_episodes[3].id], True  # noqa: FBT003
+            [podcast_episodes[2].id, podcast_episodes[3].id],
+            True,  # noqa: FBT003
         )
 
         assert deindex_podcast_episodes_mock.si.call_count == 1

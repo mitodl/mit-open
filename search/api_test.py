@@ -591,11 +591,11 @@ def test_transform_department_name_aggregations():
 
     expected_transformed_results = results.copy()
     expected_transformed_results["suggest"] = []
-    expected_transformed_results["aggregations"]["department_name"] = (
-        expected_transformed_results["aggregations"]["agg_filter_department_name"][
-            "department_name"
-        ]
-    )
+    expected_transformed_results["aggregations"][
+        "department_name"
+    ] = expected_transformed_results["aggregations"]["agg_filter_department_name"][
+        "department_name"
+    ]
 
     assert (
         transform_results(results, AnonymousUser(), []) == expected_transformed_results
@@ -643,11 +643,11 @@ def test_transform_level_aggregation():
 
     expected_transformed_results = results.copy()
     expected_transformed_results["suggest"] = []
-    expected_transformed_results["aggregations"]["level"] = (
-        expected_transformed_results["aggregations"]["agg_filter_level"]["level"][
-            "level"
-        ]
-    )
+    expected_transformed_results["aggregations"][
+        "level"
+    ] = expected_transformed_results["aggregations"]["agg_filter_level"]["level"][
+        "level"
+    ]
 
     assert (
         transform_results(results, AnonymousUser(), []) == expected_transformed_results
@@ -678,9 +678,9 @@ def test_transform_topics_aggregations():
 
     expected_transformed_results = results.copy()
     expected_transformed_results["suggest"] = []
-    expected_transformed_results["aggregations"]["topics"] = (
-        expected_transformed_results["aggregations"]["agg_filter_topics"]["topics"]
-    )
+    expected_transformed_results["aggregations"][
+        "topics"
+    ] = expected_transformed_results["aggregations"]["agg_filter_topics"]["topics"]
 
     assert (
         transform_results(results, AnonymousUser(), []) == expected_transformed_results
@@ -716,11 +716,11 @@ def test_transform_resource_type_aggregations():
 
     expected_transformed_results = results.copy()
     expected_transformed_results["suggest"] = []
-    expected_transformed_results["aggregations"]["resource_type"] = (
-        expected_transformed_results["aggregations"]["agg_filter_resource_type"][
-            "resource_type"
-        ]
-    )
+    expected_transformed_results["aggregations"][
+        "resource_type"
+    ] = expected_transformed_results["aggregations"]["agg_filter_resource_type"][
+        "resource_type"
+    ]
 
 
 @pytest.mark.parametrize("podcast_present_in_aggregate", [True, False])

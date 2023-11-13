@@ -8,8 +8,11 @@ class LowercaseValueEnum(Enum):
 
     @staticmethod
     def _generate_next_value_(
-        name, start, count, last_values  # noqa: ARG004
-    ):  # pylint: disable=unused-argument
+        name,
+        start,  # noqa: ARG004
+        count,  # noqa: ARG004
+        last_values,  # noqa: ARG004
+    ):
         """Generate a next value using the lowercased name"""
         return name.lower()
 

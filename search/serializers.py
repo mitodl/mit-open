@@ -90,7 +90,9 @@ class OSProxySerializer:
         raise NotImplementedError
 
     def postprocess_fields(
-        self, discussions_obj, serialized_data  # noqa: ARG002
+        self,
+        discussions_obj,  # noqa: ARG002
+        serialized_data,  # noqa: ARG002
     ):  # pylint: disable=unused-argument
         """Returns a dict of additional or altered fields for the final serialized object"""  # noqa: E501, D401
         return {}
@@ -401,14 +403,16 @@ class OSCourseSerializer(OSModelSerializer, LearningResourceSerializer):
         if course.platform == PlatformType.ocw.value:
             department_course_numbers = [
                 get_ocw_departmet_course_number_dict(
-                    course.coursenum, True  # noqa: FBT003
+                    course.coursenum,
+                    True,  # noqa: FBT003
                 )  # noqa: FBT003, RUF100
             ]
             if course.extra_course_numbers:
                 for extra_coursenum in course.extra_course_numbers:
                     department_course_numbers.append(  # noqa: PERF401
                         get_ocw_departmet_course_number_dict(
-                            extra_coursenum, False  # noqa: FBT003
+                            extra_coursenum,
+                            False,  # noqa: FBT003
                         )  # noqa: FBT003, RUF100
                     )
             return department_course_numbers

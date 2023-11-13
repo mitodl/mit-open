@@ -18,7 +18,10 @@ WIDGET_LIST_CHANGE_PERM = "widgets.change_widgetlist"
     dispatch_uid="channelmembershipconfig_post_save",
 )
 def handle_create_field_channel(
-    sender, instance, created, **kwargs  # noqa: ARG001
+    sender,  # noqa: ARG001
+    instance,
+    created,
+    **kwargs,  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """
     Create a WidgetList and permissions group for each new FieldChannel.

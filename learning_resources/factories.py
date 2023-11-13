@@ -152,8 +152,7 @@ class LearningResourceFactory(DjangoModelFactory):
     """Factory for LearningResource subclasses"""
 
     readable_id = factory.Sequence(
-        lambda n: "RESOURCEN%03d_%03d.MIT_run"
-        % (n, random.randint(1, 1000))  # noqa: S311
+        lambda n: "RESOURCEN%03d_%03d.MIT_run" % (n, random.randint(1, 1000))  # noqa: S311
     )
     etl_source = "mock"
     title = factory.Faker("word")

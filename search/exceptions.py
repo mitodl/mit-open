@@ -1,5 +1,6 @@
 """Exceptions for search"""
 
+
 class RetryException(Exception):  # noqa: N818
     """A special exception used to signal that celery can retry this task"""
 

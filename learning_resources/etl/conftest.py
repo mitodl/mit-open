@@ -12,9 +12,7 @@ def mitx_settings(settings):
     settings.EDX_API_CLIENT_SECRET = (  # pragma: allowlist secret
         "fake-client-secret"  # noqa: S105
     )
-    settings.EDX_API_ACCESS_TOKEN_URL = (
-        "http://localhost/fake/access/token/url"  # noqa: S105
-    )
+    settings.EDX_API_ACCESS_TOKEN_URL = "http://localhost/fake/access/token/url"  # noqa: S105
     settings.EDX_API_URL = "http://localhost/fake/api/url"
     settings.EDX_BASE_URL = "http://localhost/fake/base/url"
     settings.EDX_ALT_URL = "http://localhost/fake/alt/url"
@@ -28,9 +26,7 @@ def oll_settings(settings):
     settings.OLL_API_CLIENT_SECRET = (  # pragma: allowlist secret
         "fake-client-secret"  # noqa: S105
     )
-    settings.OLL_API_ACCESS_TOKEN_URL = (
-        "http://localhost/fake/access/token/url"  # noqa: S105
-    )
+    settings.OLL_API_ACCESS_TOKEN_URL = "http://localhost/fake/access/token/url"  # noqa: S105
     settings.OLL_API_URL = "http://localhost/fake/api/url"
     settings.OLL_BASE_URL = "http://localhost/fake/base/url"
     settings.OLL_ALT_URL = "http://localhost/fake/alt/url"

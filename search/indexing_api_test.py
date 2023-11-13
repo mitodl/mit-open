@@ -353,7 +353,9 @@ def test_index_profile_items(mocker):
         "search.indexing_api.bulk", autospec=True, return_value=[None, []]
     )
     index_items(
-        serialize_bulk_profiles(profile_ids), PROFILE_TYPE, False  # noqa: FBT003
+        serialize_bulk_profiles(profile_ids),
+        PROFILE_TYPE,
+        False,  # noqa: FBT003
     )  # noqa: FBT003, RUF100
     assert mock_aliases.call_count == 1
     assert mock_bulk.call_count == 1

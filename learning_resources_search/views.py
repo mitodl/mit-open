@@ -27,8 +27,7 @@ class ESView(APIView):
 
     def handle_exception(self, exc):
         if isinstance(exc, TransportError) and (
-            isinstance(exc.status_code, int)
-            and 400 <= exc.status_code < 500  # noqa: PLR2004
+            isinstance(exc.status_code, int) and 400 <= exc.status_code < 500  # noqa: PLR2004
         ):
             log.exception("Received a 4xx error from OpenSearch")
             return Response(status=exc.status_code)

@@ -298,12 +298,10 @@ class LearningResourceRunSerializer(BaseCourseSerializer):
                 or data.get("end")
                 or utils.semester_year_to_date(semester, year, ending=True)
             ),
-            "image_src": (data.get("image") or {}).get("src") or (
-                data.get("course_image") or {}
-            ).get("src"),
-            "image_description": (data.get("image") or {}).get("description") or (
-                data.get("course_image") or {}
-            ).get("description"),
+            "image_src": (data.get("image") or {}).get("src")
+            or (data.get("course_image") or {}).get("src"),
+            "image_description": (data.get("image") or {}).get("description")
+            or (data.get("course_image") or {}).get("description"),
             "last_modified": data.get("max_modified"),
             "raw_json": data.get("raw_json"),
             "url": data.get("url"),

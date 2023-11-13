@@ -39,7 +39,10 @@ def _parse_datetime(value):
 
 
 def parse_page_attribute(
-    mitx_json, attribute, is_url=False, is_list=False  # noqa: FBT002
+    mitx_json,
+    attribute,
+    is_url=False,  # noqa: FBT002
+    is_list=False,  # noqa: FBT002
 ):  # noqa: FBT002, RUF100
     """
     Extracts an MITX Online page attribute

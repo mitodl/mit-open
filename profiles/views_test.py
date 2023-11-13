@@ -49,9 +49,7 @@ def test_list_users(staff_client, staff_user):
 # These can be removed once all clients have been updated and are sending both these fields
 @pytest.mark.parametrize("email_optin", [None, True, False])
 @pytest.mark.parametrize("toc_optin", [None, True, False])
-def test_create_user(
-    staff_client, staff_user, mocker, email_optin, toc_optin
-):  # pylint: disable=too-many-arguments
+def test_create_user(staff_client, staff_user, mocker, email_optin, toc_optin):  # pylint: disable=too-many-arguments
     """
     Create a user and assert the response
     """

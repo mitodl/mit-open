@@ -34,7 +34,8 @@ def get_olx_test_docs():
             cwd=temp,
         )
         check_call(
-            ["tar", "xf", "content-devops-0001.tar.gz"], cwd=temp  # noqa: S603,S607
+            ["tar", "xf", "content-devops-0001.tar.gz"],  # noqa: S603,S607
+            cwd=temp,
         )
 
         olx_path = pathlib.Path(temp, "content-devops-0001")
@@ -180,8 +181,7 @@ def test_get_text_from_element():
 
     ret = utils.get_text_from_element(etree.fromstring(input_xml))  # noqa: S320
     assert (
-        ret
-        == "\n    pre-text\n     \n    some\n     \n    important"
+        ret == "\n    pre-text\n     \n    some\n     \n    important"
         "\n     \n    text here\n     \n    post-text\n    "
     )
 
