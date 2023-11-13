@@ -5,14 +5,14 @@
 {
   "name": "Existing Dockerfile",
   "build": {
-    // Sets the run context to one level up instead of the .devcontainer folder.
     "context": "../..",
-    // Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
     "dockerfile": "../../Dockerfile"
   },
   "customizations": {
     "vscode": {
-      "extensions": ["ms-python.python", "GitHub.copilot"]
+      // Extensions you want in all containers can also be set in the
+      // User Settings `Dev Containers: Default Extensions` field.
+      "extensions": ["ms-python.python"]
     }
   }
 
