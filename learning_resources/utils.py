@@ -20,7 +20,10 @@ from learning_resources.constants import (
     GROUP_STAFF_LISTS_EDITORS,
     semester_mapping,
 )
-from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
+from learning_resources.models import (
+    LearningResourceOfferor,
+    LearningResourcePlatform,
+)
 from open_discussions.utils import generate_filepath
 
 log = logging.getLogger()
