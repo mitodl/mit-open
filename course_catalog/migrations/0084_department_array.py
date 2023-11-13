@@ -9,14 +9,17 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunSQL(
-            sql=["""
+            sql=[
+                """
                 ALTER TABLE "course_catalog_course"
                 ALTER COLUMN "department" TYPE varchar(256)[]
                 USING CASE WHEN "department" IS NULL THEN NULL
                 ELSE array["department"]
                 END;
-            """],
-            reverse_sql=["""
+            """
+            ],
+            reverse_sql=[
+                """
                 ALTER TABLE "course_catalog_course"
                 ALTER COLUMN "department" TYPE varchar(256)
                 USING CASE WHEN "department" IS NULL THEN NULL
@@ -24,7 +27,8 @@ class Migration(migrations.Migration):
                 ELSE "department"[1]
                 END
                 ;
-            """],
+            """
+            ],
             state_operations=[
                 migrations.AlterField(
                     model_name="course",

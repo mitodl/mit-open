@@ -150,7 +150,8 @@ def test_user_list_items_endpoint_create_item_bad_data(client, user):
 
 
 @pytest.mark.parametrize(
-    ("is_author", "position"), [[True, 0], [True, 2], [False, 1]]  # noqa: PT007
+    ("is_author", "position"),
+    [[True, 0], [True, 2], [False, 1]],  # noqa: PT007
 )
 def test_user_list_items_endpoint_update_item(client, user, is_author, position):
     """Test userlistitems endpoint for updating UserListRelationship positions"""

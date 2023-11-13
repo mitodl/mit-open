@@ -85,7 +85,8 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "lists": [
             UserListSerializer(field_list.field_list).data
             for field_list in sorted(
-                field_lists, key=lambda l: l.position  # noqa: E741
+                field_lists,
+                key=lambda l: l.position,  # noqa: E741
             )
         ],
         "subfields": [],
@@ -122,7 +123,8 @@ def test_create_field_channel(base_field_data):
         field_list.field_list.id
         for field_list in field_channel.lists.all().order_by("position")
     ] == [
-        list.id for list in user_lists  # noqa: A001
+        list.id
+        for list in user_lists  # noqa: A001
     ]
 
 

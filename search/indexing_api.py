@@ -75,7 +75,9 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
         object_type(str): The type of document.
     """
     if object_type not in VALID_OBJECT_TYPES:
-        msg = "A valid object type must be specified when clearing and creating an index"  # noqa: E501
+        msg = (
+            "A valid object type must be specified when clearing and creating an index"
+        )
         raise ValueError(msg)
     conn = get_conn()
     if conn.indices.exists(index_name):
@@ -389,7 +391,9 @@ def deindex_profiles(ids):
         ids(list of int): List of Profile ids
     """
     deindex_items(
-        serialize_bulk_profiles_for_deletion(ids), PROFILE_TYPE, True  # noqa: FBT003
+        serialize_bulk_profiles_for_deletion(ids),
+        PROFILE_TYPE,
+        True,  # noqa: FBT003
     )  # noqa: FBT003, RUF100
 
 
@@ -413,7 +417,9 @@ def deindex_courses(ids):
         ids(list of int): List of Course id's
     """
     deindex_items(
-        serialize_bulk_courses_for_deletion(ids), COURSE_TYPE, True  # noqa: FBT003
+        serialize_bulk_courses_for_deletion(ids),
+        COURSE_TYPE,
+        True,  # noqa: FBT003
     )  # noqa: FBT003, RUF100
 
     course_content_type = ContentType.objects.get_for_model(Course)
@@ -528,7 +534,9 @@ def deindex_programs(ids):
         ids(list of int): List of Program id's
     """
     deindex_items(
-        serialize_bulk_programs_for_deletion(ids), PROGRAM_TYPE, True  # noqa: FBT003
+        serialize_bulk_programs_for_deletion(ids),
+        PROGRAM_TYPE,
+        True,  # noqa: FBT003
     )  # noqa: FBT003, RUF100
 
 
@@ -607,7 +615,9 @@ def deindex_videos(ids):
 
     """
     deindex_items(
-        serialize_bulk_videos_for_deletion(ids), VIDEO_TYPE, True  # noqa: FBT003
+        serialize_bulk_videos_for_deletion(ids),
+        VIDEO_TYPE,
+        True,  # noqa: FBT003
     )  # noqa: FBT003, RUF100
 
 
@@ -631,7 +641,9 @@ def deindex_podcasts(ids):
 
     """
     deindex_items(
-        serialize_bulk_podcasts_for_deletion(ids), PODCAST_TYPE, True  # noqa: FBT003
+        serialize_bulk_podcasts_for_deletion(ids),
+        PODCAST_TYPE,
+        True,  # noqa: FBT003
     )  # noqa: FBT003, RUF100
 
 

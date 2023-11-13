@@ -220,7 +220,8 @@ def test_learning_path_items_endpoint_create_item_bad_data(client, user):
 
 
 @pytest.mark.parametrize(
-    ("is_editor", "position"), [[True, 0], [True, 2], [False, 1]]  # noqa: PT007
+    ("is_editor", "position"),
+    [[True, 0], [True, 2], [False, 1]],  # noqa: PT007
 )
 def test_learning_path_items_endpoint_update_item_position(
     client, user, is_editor, position

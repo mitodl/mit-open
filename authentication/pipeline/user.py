@@ -4,7 +4,8 @@ from social_core.exceptions import AuthException
 
 
 def forbid_hijack(
-    strategy, **kwargs  # noqa: ARG001
+    strategy,
+    **kwargs,  # noqa: ARG001
 ):  # pylint: disable=unused-argument  # noqa: ARG001, RUF100
     """
     Forbid an admin user from trying to login/register while hijacking another user

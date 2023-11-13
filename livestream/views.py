@@ -11,8 +11,9 @@ from livestream.api import get_upcoming_events
 @api_view(["GET"])
 @permission_classes([])
 def livestream_view(
-    request, **kwargs  # noqa: ARG001
-):  # pylint: disable=unused-argument  # noqa: ARG001, RUF100
+    request,  # noqa: ARG001
+    **kwargs,  # noqa: ARG001
+):
     """Get the upcoming events, return the JSON"""
     if settings.LIVESTREAM_ACCOUNT_ID and settings.LIVESTREAM_SECRET_KEY:
         response = get_upcoming_events().json()

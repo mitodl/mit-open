@@ -61,7 +61,11 @@ class UserWebsiteViewSet(
 
 @cache_page(60 * 60 * 24)
 def name_initials_avatar_view(
-    request, username, size, color, bgcolor  # noqa: ARG001
+    request,  # noqa: ARG001
+    username,
+    size,
+    color,
+    bgcolor,
 ):  # pylint:disable=unused-argument
     """View for initial avatar"""
     user = User.objects.filter(username=username).first()

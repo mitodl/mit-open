@@ -91,9 +91,7 @@ class Profile(models.Model):
     location = JSONField(null=True, blank=True)
 
     @transaction.atomic
-    def save(
-        self, *args, update_image=False, **kwargs
-    ):  # pylint: disable=arguments-differ
+    def save(self, *args, update_image=False, **kwargs):  # pylint: disable=arguments-differ
         """Update thumbnails if necessary"""
         if update_image:
             if self.image_file:

@@ -93,7 +93,11 @@ def test_patch_field_channel_image(client, field_channel, attribute):
         "field_channels_api-detail", kwargs={"field_name": field_channel.name}
     )
     png_file = os.path.join(  # noqa: PTH118
-        os.path.dirname(__file__), "..", "static", "images", "blank.png"  # noqa: PTH120
+        os.path.dirname(__file__),  # noqa: PTH120
+        "..",
+        "static",
+        "images",
+        "blank.png",
     )
     field_user = UserFactory.create()
     add_user_role(field_channel, FIELD_ROLE_MODERATORS, field_user)

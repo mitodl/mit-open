@@ -35,7 +35,10 @@ class CustomLogoutView(views.LogoutView):
         return f"{settings.KEYCLOAK_BASE_URL}/realms/{settings.KEYCLOAK_REALM_NAME}/protocol/openid-connect/logout?id_token_hint={id_token}"  # noqa: E501
 
     def get(
-        self, request, *args, **kwargs  # noqa: ARG002
+        self,
+        request,
+        *args,  # noqa: ARG002
+        **kwargs,  # noqa: ARG002
     ):  # pylint:disable=unused-argument
         """
         GET endpoint for loggin a user out.
