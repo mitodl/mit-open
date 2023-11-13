@@ -305,14 +305,21 @@ def test_get_learning_course_bucket(
     )
 
 
-def test_extract_valid_department_from_id():
+@pytest.mark.parametrize(
+    ("readable_id", "is_ocw", "dept_ids"),
+    [
+        ("MITx+7.03.2x", False, ["7"]),
+        ("course-v1:MITxT+21A.819.2x", False, ["21A"]),
+        ("11.343", True, ["11"]),
+        ("21W.202", True, ["CMS-W"]),
+        ("21H.331", True, ["21H"]),
+        ("course-v1:MITxT+123.658.2x", False, []),
+        ("MITx+CITE101x", False, []),
+        ("RanD0mStr1ng", False, []),
+    ],
+)
+def test_extract_valid_department_from_id(readable_id, is_ocw, dept_ids):
     """Test that correct department is extracted from ID"""
-    assert utils.extract_valid_department_from_id("MITx+7.03.2x") == ["7"]
-    assert utils.extract_valid_department_from_id("course-v1:MITxT+21A.819.2x") == [
-        "21A"
-    ]
-    # Has a department not in the list and thus should not be entered
-    assert utils.extract_valid_department_from_id("course-v1:MITxT+123.658.2x") == []
-    # Has no discernible department
-    assert utils.extract_valid_department_from_id("MITx+CITE101x") == []
-    assert utils.extract_valid_department_from_id("RanD0mStr1ng") == []
+    assert (
+        utils.extract_valid_department_from_id(readable_id, is_ocw=is_ocw) == dept_ids
+    )

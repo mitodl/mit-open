@@ -512,7 +512,7 @@ def extract_valid_department_from_id(
     Returns:
         department (str): parsed department string
     """  # noqa: D401
-    num_pattern = r"^(\d+)\.*" if is_ocw else r"\+([^\.]*)\."
+    num_pattern = r"^([0-9A-Za-z\-]+)\.*" if is_ocw else r"\+([^\.]*)\."
     department_string = re.search(num_pattern, course_string)
     if department_string:
         dept_candidate = department_string.groups()[0]
