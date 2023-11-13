@@ -25,7 +25,7 @@ const CERTIFICATE = "Certificates"
 
 export const makeTopic: Factory<CourseTopic> = (overrides) => {
   const topic: CourseTopic = {
-    id: faker.unique(faker.datatype.number),
+    id: faker.helpers.unique(faker.datatype.number),
     name: faker.lorem.words(),
     ...overrides,
   }
@@ -34,7 +34,7 @@ export const makeTopic: Factory<CourseTopic> = (overrides) => {
 
 export const makeRun: Factory<LearningResourceRun> = (overrides) => {
   return {
-    id: faker.unique(faker.datatype.number),
+    id: faker.helpers.unique(faker.datatype.number),
     url: casual.url,
     language: casual.random_element(["en-US", "fr", null]),
     semester: casual.random_element(["Fall", "Spring", null]),
@@ -65,7 +65,7 @@ export const makeRun: Factory<LearningResourceRun> = (overrides) => {
 }
 
 export const makeCourse: Factory<Course> = (overrides) => ({
-  id: faker.unique(faker.datatype.number),
+  id: faker.helpers.unique(faker.datatype.number),
   title: faker.lorem.words(),
   url: casual.url,
   image_src: "http://image.medium.url",
@@ -84,7 +84,7 @@ export const makeCourse: Factory<Course> = (overrides) => ({
 })
 
 export const makeProgram: Factory<LearningResource> = (overrides) => ({
-  id: faker.unique(faker.datatype.number),
+  id: faker.helpers.unique(faker.datatype.number),
   title: faker.lorem.words(),
   url: casual.url,
   image_src: "http://image.medium.url",
@@ -103,7 +103,7 @@ export const makeProgram: Factory<LearningResource> = (overrides) => ({
 })
 
 export const makeVideo: Factory<LearningResource> = (overrides) => ({
-  id: faker.unique(faker.datatype.number),
+  id: faker.helpers.unique(faker.datatype.number),
   video_id: `video_${String(casual.random)}`,
   title: faker.lorem.words(),
   url: casual.url,
@@ -130,7 +130,7 @@ export const makeUserList: Factory<UserList> = (overrides) => {
     LearningResourceType.LearningPath,
   ] as const)
   const userList: UserList = {
-    id: faker.unique(faker.datatype.number),
+    id: faker.helpers.unique(faker.datatype.number),
     short_description: faker.lorem.paragraph(),
     offered_by: null,
     title: faker.lorem.words(),
@@ -152,7 +152,7 @@ export const makeUserList: Factory<UserList> = (overrides) => {
     lists: [],
     stafflists: [],
     certification: [],
-    author_name: faker.name.findName(),
+    author_name: faker.name.fullName(),
     ...overrides,
   }
   return userList
@@ -164,7 +164,7 @@ export const makeStaffList: Factory<StaffList> = (overrides) => {
     LearningResourceType.StaffPath,
   ] as const)
   const staffList: StaffList = {
-    id: faker.unique(faker.datatype.number),
+    id: faker.helpers.unique(faker.datatype.number),
     short_description: faker.lorem.paragraph(),
     offered_by: null,
     is_professional: false,
@@ -187,7 +187,7 @@ export const makeStaffList: Factory<StaffList> = (overrides) => {
     lists: [],
     stafflists: [],
     certification: [],
-    author_name: faker.name.findName(),
+    author_name: faker.name.fullName(),
     ...overrides,
   }
   return staffList
@@ -260,7 +260,7 @@ const makeLearningResourceType = () =>
 
 export const makeLearningResource: Factory<LearningResource> = (overrides) => {
   const resource: LearningResource = {
-    id: faker.unique(faker.datatype.number),
+    id: faker.helpers.unique(faker.datatype.number),
     title: faker.lorem.words(),
     image_src: new URL(faker.internet.url()).toString(),
     topics: times(2, () => makeTopic()),
@@ -279,7 +279,7 @@ export const makeLearningResource: Factory<LearningResource> = (overrides) => {
 export const makeListItem: Factory<ListItem> = (overrides) => {
   const content = makeLearningResource()
   const item: ListItem = {
-    id: faker.unique(faker.datatype.number),
+    id: faker.helpers.unique(faker.datatype.number),
     object_id: content.id,
     position: faker.datatype.number(),
     content_type: content.object_type,
@@ -297,9 +297,9 @@ export const makeListItemMember: Factory<
   }
 > = (overrides, { resource, list } = {}) => {
   return {
-    list_id: list?.id ?? faker.unique(faker.datatype.number),
-    item_id: faker.unique(faker.datatype.number),
-    object_id: resource?.id ?? faker.unique(faker.datatype.number),
+    list_id: list?.id ?? faker.helpers.unique(faker.datatype.number),
+    item_id: faker.helpers.unique(faker.datatype.number),
+    object_id: resource?.id ?? faker.helpers.unique(faker.datatype.number),
     content_type:
       resource?.object_type ??
       faker.helpers.arrayElement(Object.values(LearningResourceType)),

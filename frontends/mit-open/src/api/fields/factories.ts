@@ -13,7 +13,7 @@ const makeFieldUserList: Factory<UserList> = (overrides) =>
   })
 
 const makeField: Factory<FieldChannel> = (overrides) => ({
-  name: faker.unique(faker.lorem.slug),
+  name: faker.helpers.unique(faker.lorem.slug),
   title: faker.lorem.words(faker.datatype.number({ min: 1, max: 4 })),
   public_description: faker.lorem.paragraph(),
   // standardize the url strings to match what browser puts on elements.

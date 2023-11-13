@@ -33,7 +33,7 @@ const language = () =>
 const learningResourceImage: Factory<LearningResourceImage> = (
   overrides = {},
 ) => ({
-  id: faker.unique(faker.datatype.number),
+  id: faker.helpers.unique(faker.datatype.number),
   url: new URL(faker.internet.url()).toString(),
   description: faker.lorem.words(),
   alt: faker.lorem.words(),
@@ -44,10 +44,10 @@ const learningResourceInstructor: Factory<LearningResourceInstructor> = (
   overrides = {},
 ) => {
   const instructor: LearningResourceInstructor = {
-    id: faker.unique(faker.datatype.number),
+    id: faker.helpers.unique(faker.datatype.number),
     first_name: maybe(faker.name.firstName),
     last_name: maybe(faker.name.lastName),
-    full_name: maybe(faker.name.findName),
+    full_name: maybe(faker.name.fullName),
     ...overrides,
   }
   return instructor
@@ -57,7 +57,7 @@ const learningResourceDepartment: Factory<LearningResourceDepartment> = (
   overrides = {},
 ) => {
   return {
-    department_id: faker.unique(faker.lorem.words),
+    department_id: faker.helpers.unique(faker.lorem.words),
     name: faker.lorem.word(),
     ...overrides,
   }
@@ -70,10 +70,10 @@ const learningResourceRun: Factory<LearningResourceRun> = (overrides = {}) => {
   const end = faker.date.future(1, start)
 
   const run: LearningResourceRun = {
-    id: faker.unique(faker.datatype.number),
+    id: faker.helpers.unique(faker.datatype.number),
     instructors: maybe(() => repeat(learningResourceInstructor)) ?? null,
     image: maybe(learningResourceImage) ?? null,
-    run_id: faker.unique(faker.lorem.words),
+    run_id: faker.helpers.unique(faker.lorem.words),
     title: faker.lorem.words(),
     languages: maybe(() => repeat(language, { min: 0, max: 3 })),
     start_date: start.toISOString(),
@@ -87,8 +87,8 @@ const learningResourceTopic: Factory<LearningResourceTopic> = (
   overrides = {},
 ) => {
   const topic: LearningResourceTopic = {
-    id: faker.unique(faker.datatype.number),
-    name: faker.unique(faker.lorem.words),
+    id: faker.helpers.unique(faker.datatype.number),
+    name: faker.helpers.unique(faker.lorem.words),
     ...overrides,
   }
   return topic
@@ -104,7 +104,7 @@ const learningResource: Factory<LearningResource> = (
 ): LearningResource => {
   const resourceType = overrides.resource_type ?? learningResourceType()
   const resource: LearningResource = {
-    id: faker.unique(faker.datatype.number),
+    id: faker.helpers.unique(faker.datatype.number),
     professional: faker.datatype.boolean(),
     certification: null,
     course: null,
@@ -151,7 +151,7 @@ const learningResource: Factory<LearningResource> = (
     } else if (type === ResourceTypeEnum.LearningPath) {
       return {
         learning_path: {
-          id: faker.unique(faker.datatype.number),
+          id: faker.helpers.unique(faker.datatype.number),
           item_count: faker.datatype.number({ min: 1, max: 30 }),
           author: faker.datatype.number(),
         },
@@ -184,9 +184,9 @@ const microRelationship: Factory<MicroLearningPathRelationship> = (
   overrides = {},
 ) => {
   return {
-    id: faker.unique(faker.datatype.number),
-    child: faker.unique(faker.datatype.number),
-    parent: faker.unique(faker.datatype.number),
+    id: faker.helpers.unique(faker.datatype.number),
+    child: faker.helpers.unique(faker.datatype.number),
+    parent: faker.helpers.unique(faker.datatype.number),
     ...overrides,
   }
 }
