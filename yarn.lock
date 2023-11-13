@@ -3163,11 +3163,11 @@ __metadata:
   linkType: hard
 
 "@types/url-assembler@npm:^2.1.1":
-  version: 2.1.3
-  resolution: "@types/url-assembler@npm:2.1.3"
+  version: 2.1.4
+  resolution: "@types/url-assembler@npm:2.1.4"
   dependencies:
     "@types/qs": "*"
-  checksum: e34126a3473712721fce612e5b656f032562936869686a3368a73c81bf04147d42e9254784ad083bea09d34c34809a3278051ca1c081453def02fbfcc9708e6a
+  checksum: cd8f5fdeecc3073c9fd848d018a27b923e13c0b2fb84fdbb2b5768176940e80180fbb3ceb0e1fd17211001ebcd70fc87eacf7c090656715db04668918b1a5d55
   languageName: node
   linkType: hard
 
