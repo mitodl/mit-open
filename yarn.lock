@@ -11815,10 +11815,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-django-alpine@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "prettier-plugin-django-alpine@npm:1.1.1"
-  checksum: 18c02a6db0f47cf075d0d2d10049344ddb03e288d52d5cc490073164d0bd1696a962f3068012985b0314100d5d1e27ff66bd68be4178bef916f7e560899535d7
+"prettier-plugin-django-alpine@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "prettier-plugin-django-alpine@npm:1.2.6"
+  checksum: b933e613a45360942b51524fb29f1f2cb78204147a6c73832147e15b021f638b0db2135c09c2c11f05db6efdfd67411ff1911b2a2d12a741ca229e8312209990
   languageName: node
   linkType: hard
 
@@ -12834,7 +12834,7 @@ __metadata:
     jest-when: ^3.5.1
     locale-code: ^2.0.2
     prettier: ^3.0.3
-    prettier-plugin-django-alpine: ^1.1.1
+    prettier-plugin-django-alpine: ^1.2.6
     query-string: ^7.1.1
     rc-tooltip: ^5.2.2
     react-appzi: ^1.0.4
