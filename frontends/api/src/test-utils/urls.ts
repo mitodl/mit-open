@@ -22,7 +22,11 @@ const query = (params: any) => {
   return `?${new URLSearchParams(params).toString()}`
 }
 
-type Params<API extends BaseAPI, K extends keyof API> = Parameters<API[K]>[0]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Callable = (...args: any[]) => void
+type Params<API extends BaseAPI, K extends keyof API> = API[K] extends Callable
+  ? Parameters<API[K]>[0]
+  : never
 
 const learningResources = {
   list: (params?: Params<LRApi, "learningResourcesList">) =>
