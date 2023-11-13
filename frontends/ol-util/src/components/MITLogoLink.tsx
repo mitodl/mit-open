@@ -11,6 +11,7 @@ const MITLogoLink: React.FC<Props> = ({ className }) => (
     href="https://www.mit.edu/"
     title="Link to MIT Homepage"
     className={className}
+    // eslint-disable-next-line react/no-unknown-property
     appzi-screenshot-exclude="true"
   >
     <img src={MIT_LOGO_URL} alt="MIT Logo" />
