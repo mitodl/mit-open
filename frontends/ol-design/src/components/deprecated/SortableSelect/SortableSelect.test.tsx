@@ -11,7 +11,7 @@ const createFakeOptions = (times: number): Option[] =>
   Array(times)
     .fill(0)
     .map(() => ({
-      value: faker.unique(faker.datatype.number).toString(),
+      value: faker.helpers.unique(faker.datatype.number).toString(),
       label: faker.lorem.words(),
     }))
 
