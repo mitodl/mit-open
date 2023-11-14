@@ -92,8 +92,8 @@ def test_lr_certification(offered_by, availability, has_cert):
 
     course = CourseFactory.create(
         offered_by=offered_by.code,
-        runs=[],
-        is_professional=(has_cert and offered_by != constants.OfferedBy.mitx.name),
+        learning_resource__runs=[],
+        is_professional=(has_cert and offered_by != constants.OfferedBy.mitx.value),
     )
 
     assert course.learning_resource.certification == (

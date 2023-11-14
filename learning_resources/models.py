@@ -237,7 +237,7 @@ class Course(TimestampedModel):
     course_numbers = JSONField(null=True, blank=True)
 
     @property
-    def runs(self):
+    def runs(self) -> models.QuerySet:
         """Get the parent LearningResource runs"""
         return self.learning_resource.runs
 
@@ -257,14 +257,14 @@ class Program(TimestampedModel):
     )
 
     @property
-    def runs(self):
+    def runs(self) -> models.QuerySet:
         """Get the parent LearningResource runs"""
-        return self.learning_resource.runs
+        return self.learning_resource.runs.all()
 
     @property
-    def courses(self):
+    def courses(self) -> models.QuerySet:
         """Get the associated resources (should all be courses)"""
-        return self.learning_resource.children
+        return self.learning_resource.children.all()
 
 
 class LearningPath(TimestampedModel):

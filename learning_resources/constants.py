@@ -36,6 +36,14 @@ class LearningResourceType(Enum):
     podcast = "Podcast"
     podcast_episode = "Podcast Episode"
 
+    @staticmethod
+    def values() -> list[str]:
+        return [c.value for c in LearningResourceType]
+
+    @staticmethod
+    def names() -> list[str]:
+        return [c.name for c in LearningResourceType]
+
 
 class OfferedBy(Enum):
     """
@@ -55,6 +63,14 @@ class OfferedBy(Enum):
     see = "Sloan Executive Education"
     scc = "Schwarzman College of Computing"
     ctl = "Center for Transportation & Logistics"
+
+    @staticmethod
+    def values() -> list[str]:
+        return [c.value for c in OfferedBy]
+
+    @staticmethod
+    def names() -> list[str]:
+        return [c.name for c in OfferedBy]
 
 
 class PlatformType(Enum):

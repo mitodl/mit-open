@@ -123,12 +123,11 @@ describe("LearningPathDetailsPage", () => {
   ])(
     "Shows 'Reorder' button if and only not empty",
     async ({ itemCount, canReorder }) => {
-      const path = factories.learningResources.learningPath(
-        {},
-        {
+      const path = factories.learningResources.learningPath({
+        learning_path: {
           item_count: itemCount,
         },
-      )
+      })
       setup({ path, userSettings: { is_learning_path_editor: true } })
       await screen.findByRole("heading", { name: path.title })
       const reorderButton = screen.queryByRole("button", { name: "Reorder" })

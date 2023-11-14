@@ -2,7 +2,6 @@
 
 import logging
 from hmac import compare_digest
-from uuid import uuid4
 
 import rapidjson
 from django.conf import settings
@@ -13,11 +12,14 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.utils import (
+    extend_schema,
+    extend_schema_view,
+)
 from rest_framework import views, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import get_object_or_404
+from rest_framework.generics import GenericAPIView, get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -49,11 +51,15 @@ from learning_resources.permissions import (
 )
 from learning_resources.serializers import (
     ContentFileSerializer,
+    CourseResourceSerializer,
     LearningPathRelationshipSerializer,
     LearningPathResourceSerializer,
     LearningResourceChildSerializer,
     LearningResourceSerializer,
     LearningResourceTopicSerializer,
+    PodcastEpisodeResourceSerializer,
+    PodcastResourceSerializer,
+    ProgramResourceSerializer,
     UserListRelationshipSerializer,
     UserListSerializer,
 )
@@ -92,21 +98,12 @@ class LargePagination(DefaultPagination):
         summary="Retrieve",
         description="Retrieve a single learning resource.",
     ),
-    new=extend_schema(
-        summary="List New",
-        description="Get a paginated list of newly released resources.",
-    ),
-    upcoming=extend_schema(
-        summary="List Upcoming",
-        description="Get a paginated list of upcoming resources.",
-    ),
 )
-class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
+class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Viewset for LearningResources
     """
 
-    serializer_class = LearningResourceSerializer
     permission_classes = (AnonymousAccessReadonlyPermission,)
     pagination_class = DefaultPagination
     filter_backends = [DjangoFilterBackend, OrderingFilter]
@@ -169,7 +166,24 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         """
         return self._get_base_queryset().filter(published=True)
 
-    @extend_schema(responses=LearningResourceSerializer(many=True))
+
+class NewResourcesViewSetMixin(GenericAPIView):
+    """ViewSet mixin for adding upcoming resource functionality."""
+
+    resource_type_name_plural: str
+
+    def __init_subclass__(cls) -> None:
+        """Initialize subclasses by updating the view with the correct serializer."""
+        name = cls.resource_type_name_plural
+        # this decorator mutates the view in place so the return value is safely ignored
+        extend_schema_view(
+            upcoming=extend_schema(
+                description=f"Get a paginated list of newly released ${name}.",
+                responses=cls.serializer_class(many=True),
+            ),
+        )(cls)
+
+    @extend_schema(summary="List New")
     @action(methods=["GET"], detail=False, name="New Resources")
     def new(self, request: Request) -> QuerySet:  # noqa: ARG002
         """
@@ -182,7 +196,24 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(responses=LearningResourceSerializer(many=True))
+
+class UpcomingResourcesViewSetMixin(GenericAPIView):
+    """ViewSet mixin for adding upcoming resource functionality."""
+
+    resource_type_name_plural: str
+
+    def __init_subclass__(cls) -> None:
+        """Initialize subclasses by updating the view with the correct serializer."""
+        name = cls.resource_type_name_plural
+        # this decorator mutates the view in place so the return value is safely ignored
+        extend_schema_view(
+            upcoming=extend_schema(
+                description=f"Get a paginated list of upcoming ${name}.",
+                responses=cls.serializer_class(many=True),
+            ),
+        )(cls)
+
+    @extend_schema(summary="List Upcoming")
     @action(methods=["GET"], detail=False, name="Upcoming Resources")
     def upcoming(self, request: Request) -> QuerySet:  # noqa: ARG002
         """
@@ -210,10 +241,27 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         return self.get_paginated_response(serializer.data)
 
 
-class CourseViewSet(LearningResourceViewSet):
+class LearningResourceViewSet(
+    BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
+):
+    """
+    Viewset for LearningResources
+    """
+
+    resource_type_name_plural = "Learning Resources"
+    serializer_class = LearningResourceSerializer
+
+
+class CourseViewSet(
+    BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
+):
     """
     Viewset for Courses
     """
+
+    resource_type_name_plural = "Courses"
+
+    serializer_class = CourseResourceSerializer
 
     def get_queryset(self) -> QuerySet:
         """
@@ -227,10 +275,16 @@ class CourseViewSet(LearningResourceViewSet):
         ).filter(published=True)
 
 
-class ProgramViewSet(LearningResourceViewSet):
+class ProgramViewSet(
+    BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
+):
     """
     Viewset for Programs
     """
+
+    resource_type_name_plural = "Programs"
+
+    serializer_class = ProgramResourceSerializer
 
     def get_queryset(self):
         """
@@ -244,7 +298,7 @@ class ProgramViewSet(LearningResourceViewSet):
         ).filter(published=True)
 
 
-class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
+class LearningPathViewSet(BaseLearningResourceViewSet, viewsets.ModelViewSet):
     """
     Viewset for LearningPaths
     """
@@ -264,12 +318,8 @@ class LearningPathViewSet(LearningResourceViewSet, viewsets.ModelViewSet):
         )
         if not (is_learning_path_editor(self.request) or is_admin_user(self.request)):
             queryset = queryset.filter(published=True)
-        return queryset
 
-    def create(self, request, *args, **kwargs):
-        request.data["readable_id"] = uuid4().hex
-        request.data["resource_type"] = LearningResourceType.learning_path.name
-        return super().create(request, *args, **kwargs)
+        return queryset
 
     def perform_destroy(self, instance):
         instance.delete()
@@ -446,10 +496,12 @@ class UserListItemViewSet(NestedParentMixin, viewsets.ModelViewSet):
         ).update(position=F("position") - 1)
 
 
-class PodcastViewSet(LearningResourceViewSet):
+class PodcastViewSet(BaseLearningResourceViewSet):
     """
     Viewset for Podcasts
     """
+
+    serializer_class = PodcastResourceSerializer
 
     def get_queryset(self):
         """
@@ -463,10 +515,12 @@ class PodcastViewSet(LearningResourceViewSet):
         ).filter(published=True)
 
 
-class PodcastEpisodeViewSet(LearningResourceViewSet):
+class PodcastEpisodeViewSet(BaseLearningResourceViewSet):
     """
     Viewset for Podcast Episodes
     """
+
+    serializer_class = PodcastEpisodeResourceSerializer
 
     def get_queryset(self):
         """

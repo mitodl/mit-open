@@ -134,23 +134,15 @@ def test_new_courses_endpoint(client, url, params):
 )
 def test_upcoming_courses_endpoint(client, url, params):
     """Test new courses endpoint"""
-    upcoming_course = CourseFactory.create(
-        learning_resource=LearningResourceFactory.create(is_course=True), runs=[]
-    )
-    LearningResourceRunFactory.create(
-        learning_resource=upcoming_course.learning_resource, in_future=True
+    upcoming_course = LearningResourceFactory.create(
+        is_course=True, runs__in_future=True
     )
 
-    past_course = CourseFactory.create(
-        learning_resource=LearningResourceFactory.create(is_course=True), runs=[]
-    )
-    LearningResourceRunFactory.create(
-        learning_resource=past_course.learning_resource, in_past=True
-    )
+    LearningResourceFactory.create(is_course=True, runs__in_past=True)
 
     resp = client.get(f"{reverse(url)}upcoming/?{params}")
     assert resp.data.get("count") == 1
-    assert resp.data.get("results")[0]["id"] == upcoming_course.learning_resource.id
+    assert resp.data.get("results")[0]["id"] == upcoming_course.id
 
 
 @pytest.mark.parametrize(

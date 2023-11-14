@@ -51,6 +51,7 @@ class ChannelFactory(DjangoModelFactory):
 
     class Meta:
         model = Channel
+        skip_postgeneration_save = True
 
     class Params:
         is_public = factory.Trait(channel_type=ChannelTypes.PUBLIC.value)

@@ -126,6 +126,7 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
 
     code = FuzzyChoice([offeror.name for offeror in constants.OfferedBy])
     name = factory.LazyAttribute(lambda o: constants.OfferedBy[o.code].value)
+
     professional = Faker("boolean")
 
     class Meta:
@@ -134,25 +135,27 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
 
     class Params:
         is_xpro = factory.Trait(
-            code=constants.OfferedBy.xpro.name, name=constants.OfferedBy.xpro.value
+            code=constants.OfferedBy.xpro.name
         )
         is_bootcamps = factory.Trait(
-            code=constants.OfferedBy.bootcamps.name,
-            name=constants.OfferedBy.bootcamps.value,
+            code=constants.OfferedBy.bootcamps.name
         )
         is_mitx = factory.Trait(
-            code=constants.OfferedBy.mitx.name, name=constants.OfferedBy.mitx.value
+            code=constants.OfferedBy.mitx.name
         )
         is_ocw = factory.Trait(
-            code=constants.OfferedBy.ocw.name, name=constants.OfferedBy.ocw.value
+            code=constants.OfferedBy.ocw.name
         )
 
 
 class LearningResourceFactory(DjangoModelFactory):
     """Factory for LearningResource subclasses"""
 
+    resource_type = factory.fuzzy.FuzzyChoice(
+        choices=constants.LearningResourceType.names()
+    )
     readable_id = factory.Sequence(
-        lambda n: "RESOURCEN%03d_%03d.MIT_run" % (n, random.randint(1, 1000))  # noqa: S311
+        lambda n: "RESOURCEN%03d_%03d.MIT" % (n, random.randint(1, 1000))  # noqa: S311
     )
     etl_source = "mock"
     title = factory.Faker("word")
@@ -167,17 +170,107 @@ class LearningResourceFactory(DjangoModelFactory):
     departments = factory.PostGeneration(_post_gen_departments)
     topics = factory.PostGeneration(_post_gen_topics)
     resource_content_tags = factory.PostGeneration(_post_gen_tags)
+    published = True
+
+    course = factory.Maybe(
+        "create_course",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.CourseFactory",
+            factory_related_name="learning_resource",
+        ),
+    )
+    program = factory.Maybe(
+        "create_program",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.ProgramFactory",
+            factory_related_name="learning_resource",
+        ),
+    )
+    learning_path = factory.Maybe(
+        "create_learning_path",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.LearningPathFactory",
+            factory_related_name="learning_resource",
+        ),
+    )
+    podcast = factory.Maybe(
+        "create_podcast",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.PodcastFactory",
+            factory_related_name="learning_resource",
+        ),
+    )
+    podcast_episode = factory.Maybe(
+        "create_podcast_episode",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.PodcastEpisodeFactory",
+            factory_related_name="learning_resource",
+        ),
+    )
+
+    runs = factory.Maybe(
+        "create_runs",
+        yes_declaration=factory.RelatedFactoryList(
+            "learning_resources.factories.LearningResourceRunFactory",
+            factory_related_name="learning_resource",
+            size=2,
+        ),
+    )
 
     class Meta:
         model = models.LearningResource
+        skip_postgeneration_save = True
 
     class Params:
         no_topics = factory.Trait(topics=[])
+
         is_course = factory.Trait(
             resource_type=constants.LearningResourceType.course.name
         )
         is_program = factory.Trait(
             resource_type=constants.LearningResourceType.program.name
+        )
+        is_learning_path = factory.Trait(
+            resource_type=constants.LearningResourceType.learning_path.name
+        )
+        is_podcast = factory.Trait(
+            resource_type=constants.LearningResourceType.podcast.name,
+            platform=factory.SubFactory(
+                LearningResourcePlatformFactory, platform=PlatformType.podcast.name
+            ),
+        )
+        is_podcast_episode = factory.Trait(
+            resource_type=constants.LearningResourceType.podcast_episode.name,
+            platform=factory.SubFactory(
+                LearningResourcePlatformFactory, platform=PlatformType.podcast.name
+            ),
+        )
+
+        # these drive the RelatedFactory definitions, it's necessary to do it
+        # this way because resource_type can be set by either a Trait or directly
+        create_course = factory.LazyAttribute(
+            lambda lr: lr.resource_type == constants.LearningResourceType.course.name
+        )
+        create_program = factory.LazyAttribute(
+            lambda lr: lr.resource_type == constants.LearningResourceType.program.name
+        )
+        create_learning_path = factory.LazyAttribute(
+            lambda lr: lr.resource_type
+            == constants.LearningResourceType.learning_path.name
+        )
+        create_podcast = factory.LazyAttribute(
+            lambda lr: lr.resource_type == constants.LearningResourceType.podcast.name
+        )
+        create_podcast_episode = factory.LazyAttribute(
+            lambda lr: lr.resource_type
+            == constants.LearningResourceType.podcast_episode.name
+        )
+        create_runs = factory.LazyAttribute(
+            lambda lr: lr.resource_type
+            in (
+                constants.LearningResourceType.program.name,
+                constants.LearningResourceType.course.name,
+            )
         )
 
 
@@ -186,7 +279,8 @@ class CourseFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.course.name,
+        is_course=True,
+        create_course=False,
     )
     course_numbers = factory.List(
         [
@@ -197,19 +291,6 @@ class CourseFactory(DjangoModelFactory):
             }
         ]
     )
-
-    @factory.post_generation
-    def runs(self, create, extracted, **kwargs):  # noqa: ARG002
-        """Create run for program.learning_resource"""
-        if not create:
-            return
-
-        if extracted is None:
-            extracted = LearningResourceRunFactory.create_batch(
-                2, learning_resource=self.learning_resource
-            )
-
-        self.runs.set(extracted)
 
     @factory.post_generation
     def platform(self, create, extracted, **kwargs):  # noqa: ARG002
@@ -260,6 +341,7 @@ class CourseFactory(DjangoModelFactory):
 
     class Meta:
         model = models.Course
+        skip_postgeneration_save = True
 
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
@@ -321,6 +403,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
 
     class Meta:
         model = models.LearningResourceRun
+        skip_postgeneration_save = True
 
     class Params:
         no_prices = factory.Trait(prices=[])
@@ -345,7 +428,8 @@ class LearningPathFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.learning_path.name,
+        is_learning_path=True,
+        create_learning_path=False,
     )
     author = factory.SubFactory(UserFactory)
 
@@ -377,6 +461,7 @@ class LearningPathFactory(DjangoModelFactory):
 
     class Meta:
         model = models.LearningPath
+        skip_postgeneration_save = True
 
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
@@ -387,22 +472,9 @@ class ProgramFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.program.name,
+        is_program=True,
+        create_program=False,
     )
-
-    @factory.post_generation
-    def runs(self, create, extracted, **kwargs):  # noqa: ARG002
-        """Create run for program.learning_resource"""
-        if not create:
-            return
-
-        if extracted is None:
-            extracted = LearningResourceRunFactory.create(
-                learning_resource=self.learning_resource,
-                run_id=f"{self.learning_resource.resource_type}_{self.learning_resource.readable_id}.MIT_run",
-            )
-
-        self.runs.set([extracted])
 
     @factory.post_generation
     def platform(self, create, extracted, **kwargs):  # noqa: ARG002
@@ -451,6 +523,7 @@ class ProgramFactory(DjangoModelFactory):
 
     class Meta:
         model = models.Program
+        skip_postgeneration_save = True
 
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
@@ -462,14 +535,10 @@ class LearningPathRelationshipFactory(DjangoModelFactory):
 
     parent = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.learning_path.name,
+        is_learning_path=True,
     )
 
-    child = factory.SubFactory(
-        LearningResourceFactory,
-        resource_type=constants.LearningResourceType.course.name,
-        course=factory.SubFactory(CourseFactory),
-    )
+    child = factory.SubFactory(LearningResourceFactory)
 
     position = factory.Sequence(lambda n: n)
     relation_type = constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
@@ -521,6 +590,7 @@ class UserListFactory(DjangoModelFactory):
 
     class Meta:
         model = models.UserList
+        skip_postgeneration_save = True
 
 
 class UserListRelationshipFactory(DjangoModelFactory):
@@ -530,7 +600,7 @@ class UserListRelationshipFactory(DjangoModelFactory):
 
     child = factory.SubFactory(
         LearningResourceFactory,
-        course=factory.SubFactory(CourseFactory),
+        is_course=True,
     )
 
     position = factory.Sequence(lambda n: n)
@@ -544,10 +614,8 @@ class PodcastEpisodeFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.podcast_episode.name,
-        platform=factory.SubFactory(
-            LearningResourcePlatformFactory, platform=PlatformType.podcast.name
-        ),
+        is_podcast_episode=True,
+        create_podcast_episode=False,
     )
 
     transcript = factory.Faker("text")
@@ -566,10 +634,8 @@ class PodcastFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.podcast.name,
-        platform=factory.SubFactory(
-            LearningResourcePlatformFactory, platform=PlatformType.podcast.name
-        ),
+        is_podcast=True,
+        create_podcast=False,
     )
     apple_podcasts_url = factory.Faker("uri")
     google_podcasts_url = factory.Faker("uri")
@@ -603,3 +669,4 @@ class PodcastFactory(DjangoModelFactory):
 
     class Meta:
         model = models.Podcast
+        skip_postgeneration_save = True

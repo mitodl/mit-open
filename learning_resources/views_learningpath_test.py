@@ -6,7 +6,6 @@ from django.urls import reverse
 from learning_resources import factories, models
 from learning_resources.constants import (
     LearningResourceRelationTypes,
-    LearningResourceType,
 )
 from learning_resources.utils import update_editor_group
 from open_discussions.factories import UserFactory
@@ -28,7 +27,6 @@ def test_learning_path_endpoint_get(client, user, is_public, is_editor, has_imag
     assert learning_path.learning_resource.published == is_public
 
     another_learning_path = factories.LearningPathFactory.create(
-        author=UserFactory.create(),
         is_unpublished=not is_public,
     )
     assert another_learning_path.learning_resource.published == is_public
@@ -67,10 +65,7 @@ def test_learning_path_endpoint_get(client, user, is_public, is_editor, has_imag
             resp.data["learning_path"]["item_count"]
             == learning_path.learning_resource.children.count()
         )
-        if has_image:
-            assert resp.data["image"]["url"] == image_url
-        else:
-            assert resp.data["image"] is None
+        assert resp.data["image"]["url"] == image_url
 
     # Logged in user should see other person's public list
     resp = client.get(
@@ -127,17 +122,13 @@ def test_learning_path_endpoint_patch(client, update_topics, is_public, is_edito
     [original_topic, new_topic] = factories.LearningResourceTopicFactory.create_batch(2)
     user = UserFactory.create()
     update_editor_group(user, is_editor)
-    learningpath = factories.LearningPathFactory.create(
-        author=user,
-        learning_resource=factories.LearningResourceFactory.create(
-            title="Title 1",
-            topics=[original_topic],
-            resource_type=LearningResourceType.learning_path.name,
-        ),
+    learning_resource = factories.LearningResourceFactory.create(
+        title="Title 1",
+        topics=[original_topic],
+        is_learning_path=True,
+        learning_path__author=user,
     )
-    factories.LearningPathRelationshipFactory.create(
-        parent=learningpath.learning_resource
-    )
+    factories.LearningPathRelationshipFactory.create(parent=learning_resource)
 
     client.force_login(user)
 
@@ -150,9 +141,7 @@ def test_learning_path_endpoint_patch(client, update_topics, is_public, is_edito
         data["topics"] = [new_topic.id]
 
     resp = client.patch(
-        reverse(
-            "lr_learningpaths_api-detail", args=[learningpath.learning_resource.id]
-        ),
+        reverse("lr_learningpaths_api-detail", args=[learning_resource.id]),
         data=data,
         format="json",
     )
