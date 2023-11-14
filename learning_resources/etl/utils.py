@@ -36,6 +36,7 @@ from learning_resources.constants import (
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.models import (
     ContentFile,
+    Course,
     LearningResourceRun,
 )
 
@@ -512,7 +513,7 @@ def extract_valid_department_from_id(
     Returns:
         department (str): parsed department string
     """  # noqa: D401
-    num_pattern = r"^(\d+)\.*" if is_ocw else r"\+([^\.]*)\."
+    num_pattern = r"^([0-9A-Za-z\-]+)\.*" if is_ocw else r"\+([^\.]*)\."
     department_string = re.search(num_pattern, course_string)
     if department_string:
         dept_candidate = department_string.groups()[0]
@@ -566,3 +567,28 @@ def generate_course_numbers_json(
             }
         )
     return course_number_json
+
+
+def update_course_numbers_json(course: Course):
+    """
+    Update the course_numbers JSON for a Course
+
+    Args:
+        course (Course): The Course to update
+    """
+    is_ocw = course.learning_resource.etl_source == ETLSource.ocw.name
+    extra_nums = [
+        num["value"]
+        for num in course.course_numbers
+        if num["listing_type"] == CourseNumberType.cross_listed.value
+    ]
+    course.course_numbers = generate_course_numbers_json(
+        (
+            course.learning_resource.readable_id.split("+")[0]
+            if is_ocw
+            else course.learning_resource.readable_id
+        ),
+        extra_nums=extra_nums,
+        is_ocw=is_ocw,
+    )
+    course.save()
