@@ -17,6 +17,7 @@ from learning_resources.serializers import (
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
+    LEARNING_RESOURCE_SORTBY_OPTIONS,
     LEARNING_RESOURCE_TYPES,
 )
 
@@ -128,17 +129,6 @@ class StringArrayField(serializers.ListField):
         return data.split(",")
 
 
-LEARNING_RESOURCE_SORTBY_OPTIONS = [
-    "id",
-    "-id",
-    "readable_id",
-    "-readable_id",
-    "last_modified",
-    "-last_modified",
-    "runs.start_date",
-    "-runs.start_date",
-]
-
 CONTENT_FILE_SORTBY_OPTIONS = [
     "id",
     "-id",
@@ -171,7 +161,10 @@ class SearchRequestSerializer(serializers.Serializer):
 class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
     sortby = serializers.ChoiceField(
         required=False,
-        choices=LEARNING_RESOURCE_SORTBY_OPTIONS,
+        choices=[
+            (key, LEARNING_RESOURCE_SORTBY_OPTIONS[key]["title"])
+            for key in LEARNING_RESOURCE_SORTBY_OPTIONS
+        ],
         help_text="if the parameter starts with '-' the sort is in descending order",
     )
     resource_type = StringArrayField(

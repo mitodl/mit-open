@@ -33,22 +33,70 @@ def test_relevant_indexes(resourse_types, aggregations, result):
 
 
 @pytest.mark.parametrize(
-    ("sort_param", "result"),
+    ("sort_param", "departments", "result"),
     [
-        ("prices", "prices"),
-        ("-prices", "-prices"),
+        ("id", None, "id"),
+        ("-id", ["7"], "-id"),
         (
-            "runs.start_date",
+            "start_date",
+            ["5"],
             {"runs.start_date": {"order": "asc", "nested": {"path": "runs"}}},
         ),
         (
-            "-runs.start_date",
+            "-start_date",
+            None,
             {"runs.start_date": {"order": "desc", "nested": {"path": "runs"}}},
+        ),
+        (
+            "mitcoursenumber",
+            None,
+            {
+                "course.course_numbers.sort_coursenum": {
+                    "order": "asc",
+                    "nested": {
+                        "path": "course.course_numbers",
+                        "filter": {"term": {"course.course_numbers.primary": True}},
+                    },
+                }
+            },
+        ),
+        (
+            "mitcoursenumber",
+            ["7", "5"],
+            {
+                "course.course_numbers.sort_coursenum": {
+                    "order": "asc",
+                    "nested": {
+                        "path": "course.course_numbers",
+                        "filter": {
+                            "bool": {
+                                "should": [
+                                    {
+                                        "term": {
+                                            "course.course_numbers.department.department_id": (
+                                                "7"
+                                            )
+                                        }
+                                    },
+                                    {
+                                        "term": {
+                                            "course.course_numbers.department.department_id": (
+                                                "5"
+                                            )
+                                        }
+                                    },
+                                ]
+                            }
+                        },
+                    },
+                }
+            },
         ),
     ],
 )
-def test_generate_sort_clause(sort_param, result):
-    assert generate_sort_clause(sort_param) == result
+def test_generate_sort_clause(sort_param, departments, result):
+    params = {"sortby": sort_param, "department": departments}
+    assert generate_sort_clause(params) == result
 
 
 def test_generate_learning_resources_text_clause():
@@ -93,7 +141,9 @@ def test_generate_learning_resources_text_clause():
                                             "query": {
                                                 "multi_match": {
                                                     "query": "math",
-                                                    "fields": ["departments.name"],
+                                                    "fields": [
+                                                        "departments.department_id"
+                                                    ],
                                                 }
                                             },
                                         }
@@ -208,7 +258,7 @@ def test_generate_learning_resources_text_clause():
                         "query": {
                             "multi_match": {
                                 "query": "math",
-                                "fields": ["departments.name"],
+                                "fields": ["departments.department_id"],
                             }
                         },
                     }
@@ -323,7 +373,9 @@ def test_generate_learning_resources_text_clause():
                                             "query": {
                                                 "query_string": {
                                                     "query": '"math"',
-                                                    "fields": ["departments.name"],
+                                                    "fields": [
+                                                        "departments.department_id"
+                                                    ],
                                                 }
                                             },
                                         }
@@ -441,7 +493,7 @@ def test_generate_learning_resources_text_clause():
                         "query": {
                             "query_string": {
                                 "query": '"math"',
-                                "fields": ["departments.name"],
+                                "fields": ["departments.department_id"],
                             }
                         },
                     }
@@ -545,7 +597,9 @@ def test_generate_content_file_text_clause():
                                             "query": {
                                                 "multi_match": {
                                                     "query": "math",
-                                                    "fields": ["departments.name"],
+                                                    "fields": [
+                                                        "departments.department_id"
+                                                    ],
                                                 }
                                             },
                                         }
@@ -574,7 +628,7 @@ def test_generate_content_file_text_clause():
                         "query": {
                             "multi_match": {
                                 "query": "math",
-                                "fields": ["departments.name"],
+                                "fields": ["departments.department_id"],
                             }
                         },
                     }
@@ -607,7 +661,9 @@ def test_generate_content_file_text_clause():
                                             "query": {
                                                 "query_string": {
                                                     "query": '"math"',
-                                                    "fields": ["departments.name"],
+                                                    "fields": [
+                                                        "departments.department_id"
+                                                    ],
                                                 }
                                             },
                                         }
@@ -636,7 +692,7 @@ def test_generate_content_file_text_clause():
                         "query": {
                             "query_string": {
                                 "query": '"math"',
-                                "fields": ["departments.name"],
+                                "fields": ["departments.department_id"],
                             }
                         },
                     }
@@ -804,7 +860,7 @@ def test_execute_learn_search(opensearch):
         "resource_type": ["course"],
         "limit": 1,
         "offset": 1,
-        "sortby": "prices",
+        "sortby": "-readable_id",
     }
 
     query = {
@@ -857,7 +913,7 @@ def test_execute_learn_search(opensearch):
                                                                     "multi_match": {
                                                                         "query": "math",
                                                                         "fields": [
-                                                                            "departments.name"
+                                                                            "departments.department_id"
                                                                         ],
                                                                     }
                                                                 },
@@ -979,7 +1035,7 @@ def test_execute_learn_search(opensearch):
                                         "query": {
                                             "multi_match": {
                                                 "query": "math",
-                                                "fields": ["departments.name"],
+                                                "fields": ["departments.department_id"],
                                             }
                                         },
                                     }
@@ -1083,7 +1139,7 @@ def test_execute_learn_search(opensearch):
                 ]
             }
         },
-        "sort": ["prices"],
+        "sort": [{"readable_id": {"order": "desc"}}],
         "from": 1,
         "size": 1,
         "suggest": {
