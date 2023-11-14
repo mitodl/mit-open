@@ -20,6 +20,8 @@ from learning_resources.etl.exceptions import ExtractException
 from learning_resources.etl.utils import (
     resource_removed_actions,
     resource_upserted_actions,
+    run_removed_actions,
+    run_upserted_actions,
 )
 from learning_resources.models import (
     ContentFile,
@@ -521,11 +523,9 @@ def load_content_files(
         deleted_files.update(published=False)
 
         if course_run.published:
-            search_index_helpers.index_run_content_files(course_run.id)
+            run_upserted_actions(course_run)
         else:
-            search_index_helpers.deindex_run_content_files(
-                course_run.id, unpublished_only=False
-            )
+            run_removed_actions(course_run)
 
         return content_files_ids
     return None

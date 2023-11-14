@@ -33,7 +33,6 @@ from learning_resources.constants import (
     DEPARTMENTS,
     VALID_TEXT_FILE_TYPES,
 )
-
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.hooks import get_plugin_manager
 from learning_resources.models import (
@@ -588,3 +587,20 @@ def resource_removed_actions(resource: LearningResource):
     hook = pm.hook
     hook.resource_removed(resource=resource)
 
+
+def run_upserted_actions(run: LearningResourceRun):
+    """
+    Trigger plugins when a LearningResource is created or updated
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.run_upserted(run=run)
+
+
+def run_removed_actions(run: LearningResourceRun):
+    """
+    Trigger plugins when a LearningResource is removed/unpublished
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.resource_removed(run=run)
