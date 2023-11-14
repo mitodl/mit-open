@@ -97,7 +97,11 @@ def generate_sort_clause(search_params):
                     "filter": {
                         "bool": {
                             "should": [
-                                {"term": {f"{path}.department.name": department}}
+                                {
+                                    "term": {
+                                        f"{path}.department.department_id": department
+                                    }
+                                }
                                 for department in departments
                             ]
                         }

@@ -36,10 +36,10 @@ def test_relevant_indexes(resourse_types, aggregations, result):
     ("sort_param", "departments", "result"),
     [
         ("id", None, "id"),
-        ("-id", ["Biology"], "-id"),
+        ("-id", ["7"], "-id"),
         (
             "start_date",
-            ["Chemistry"],
+            ["5"],
             {"runs.start_date": {"order": "asc", "nested": {"path": "runs"}}},
         ),
         (
@@ -62,7 +62,7 @@ def test_relevant_indexes(resourse_types, aggregations, result):
         ),
         (
             "mitcoursenumber",
-            ["Biology", "Chemistry"],
+            ["7", "5"],
             {
                 "course.course_numbers.sort_coursenum": {
                     "order": "asc",
@@ -73,15 +73,15 @@ def test_relevant_indexes(resourse_types, aggregations, result):
                                 "should": [
                                     {
                                         "term": {
-                                            "course.course_numbers.department.name": (
-                                                "Biology"
+                                            "course.course_numbers.department.department_id": (
+                                                "7"
                                             )
                                         }
                                     },
                                     {
                                         "term": {
-                                            "course.course_numbers.department.name": (
-                                                "Chemistry"
+                                            "course.course_numbers.department.department_id": (
+                                                "5"
                                             )
                                         }
                                     },
@@ -141,7 +141,9 @@ def test_generate_learning_resources_text_clause():
                                             "query": {
                                                 "multi_match": {
                                                     "query": "math",
-                                                    "fields": ["departments.name"],
+                                                    "fields": [
+                                                        "departments.department_id"
+                                                    ],
                                                 }
                                             },
                                         }
@@ -256,7 +258,7 @@ def test_generate_learning_resources_text_clause():
                         "query": {
                             "multi_match": {
                                 "query": "math",
-                                "fields": ["departments.name"],
+                                "fields": ["departments.department_id"],
                             }
                         },
                     }
@@ -371,7 +373,9 @@ def test_generate_learning_resources_text_clause():
                                             "query": {
                                                 "query_string": {
                                                     "query": '"math"',
-                                                    "fields": ["departments.name"],
+                                                    "fields": [
+                                                        "departments.department_id"
+                                                    ],
                                                 }
                                             },
                                         }
@@ -489,7 +493,7 @@ def test_generate_learning_resources_text_clause():
                         "query": {
                             "query_string": {
                                 "query": '"math"',
-                                "fields": ["departments.name"],
+                                "fields": ["departments.department_id"],
                             }
                         },
                     }
@@ -593,7 +597,9 @@ def test_generate_content_file_text_clause():
                                             "query": {
                                                 "multi_match": {
                                                     "query": "math",
-                                                    "fields": ["departments.name"],
+                                                    "fields": [
+                                                        "departments.department_id"
+                                                    ],
                                                 }
                                             },
                                         }
@@ -622,7 +628,7 @@ def test_generate_content_file_text_clause():
                         "query": {
                             "multi_match": {
                                 "query": "math",
-                                "fields": ["departments.name"],
+                                "fields": ["departments.department_id"],
                             }
                         },
                     }
@@ -655,7 +661,9 @@ def test_generate_content_file_text_clause():
                                             "query": {
                                                 "query_string": {
                                                     "query": '"math"',
-                                                    "fields": ["departments.name"],
+                                                    "fields": [
+                                                        "departments.department_id"
+                                                    ],
                                                 }
                                             },
                                         }
@@ -684,7 +692,7 @@ def test_generate_content_file_text_clause():
                         "query": {
                             "query_string": {
                                 "query": '"math"',
-                                "fields": ["departments.name"],
+                                "fields": ["departments.department_id"],
                             }
                         },
                     }
@@ -905,7 +913,7 @@ def test_execute_learn_search(opensearch):
                                                                     "multi_match": {
                                                                         "query": "math",
                                                                         "fields": [
-                                                                            "departments.name"
+                                                                            "departments.department_id"
                                                                         ],
                                                                     }
                                                                 },
@@ -1027,7 +1035,7 @@ def test_execute_learn_search(opensearch):
                                         "query": {
                                             "multi_match": {
                                                 "query": "math",
-                                                "fields": ["departments.name"],
+                                                "fields": ["departments.department_id"],
                                             }
                                         },
                                     }

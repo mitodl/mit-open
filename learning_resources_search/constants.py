@@ -58,7 +58,7 @@ LEARNING_RESOURCE_SEARCH_FILTERS = [
 SEARCH_NESTED_FILTERS = {
     "topic": "topics.name",
     "level": "runs.level",
-    "department": "departments.name",
+    "department": "departments.department_id",
 }
 
 ENGLISH_TEXT_FIELD = {
@@ -214,7 +214,7 @@ LEARNING_RESOURCE_QUERY_FIELDS = [
 ]
 
 TOPICS_QUERY_FIELDS = ["topics.name"]
-DEPARTMENT_QUERY_FIELDS = ["departments.name"]
+DEPARTMENT_QUERY_FIELDS = ["departments.department_id"]
 
 COURSE_QUERY_FIELDS = [
     "course.course_numbers.value",
