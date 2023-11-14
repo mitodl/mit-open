@@ -56,4 +56,4 @@ class SearchIndexPlugin:
         Args:
             run(LearningResourceRun): The Learning Resource run that was removed
         """
-        search_index_helpers.deindex_run_content_files(run.id, False)  # noqa: FBT003
+        search_index_helpers.deindex_run_content_files(run.id, unpublished_only=False)

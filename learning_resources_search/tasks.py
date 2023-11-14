@@ -212,6 +212,7 @@ def deindex_run_content_files(run_id, unpublished_only):
 
     Args:
         run_id(int): LearningResourceRun id
+        unpublished_only(bool): Whether to only deindex unpublished content files
 
     """
     try:
