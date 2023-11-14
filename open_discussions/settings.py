@@ -413,11 +413,6 @@ LOGGING = {
             "filters": ["require_debug_false"],
             "class": "django.utils.log.AdminEmailHandler",
         },
-        "file": {
-            "level": "DEBUG",
-            "class": "logging.FileHandler",
-            "filename": "sql.log",
-        },
     },
     "loggers": {
         "django": {
@@ -433,11 +428,6 @@ LOGGING = {
         "opensearch": {"level": OS_LOG_LEVEL},
         "nplusone": {"handlers": ["console"], "level": "ERROR"},
         "boto3": {"handlers": ["console"], "level": "ERROR"},
-        "django.db.backends": {
-            "handlers": ["file"],
-            "level": "DEBUG",
-            "propagate": True,
-        },
     },
     "root": {"handlers": ["console", "syslog"], "level": LOG_LEVEL},
 }
