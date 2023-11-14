@@ -1,14 +1,80 @@
 """Models for channels_fields"""
 
 from django.contrib.auth.models import Group
+from django.core.validators import RegexValidator
 from django.db import models
-from django.db.models import deletion
+from django.db.models import JSONField, deletion
+from imagekit.models import ImageSpecField, ProcessedImageField
+from imagekit.processors import ResizeToFit
 
 from channels_fields.constants import FIELD_ROLE_CHOICES
-from discussions.models import BaseChannel
 from learning_resources.models import LearningResource
 from open_discussions.models import TimestampedModel
+from profiles.utils import avatar_uri, banner_uri
 from widgets.models import WidgetList
+
+AVATAR_SMALL_MAX_DIMENSION = 22
+AVATAR_MEDIUM_MAX_DIMENSION = 90
+
+
+class BaseChannel(models.Model):
+    """Base abstract model for channels"""
+
+    # Channel configuration
+    name = models.CharField(
+        max_length=100,
+        unique=True,
+        validators=[
+            RegexValidator(
+                regex=r"^[A-Za-z0-9_]+$",
+                message=(
+                    "Channel name can only contain the characters: A-Z, a-z, 0-9, _"
+                ),
+            )
+        ],
+    )
+    title = models.CharField(max_length=100)
+
+    # Branding fields
+    avatar = ProcessedImageField(
+        null=True, blank=True, max_length=2083, upload_to=avatar_uri
+    )
+    avatar_small = ImageSpecField(
+        source="avatar",
+        processors=[
+            ResizeToFit(
+                height=AVATAR_SMALL_MAX_DIMENSION,
+                width=AVATAR_SMALL_MAX_DIMENSION,
+                upscale=False,
+            )
+        ],
+    )
+    avatar_medium = ImageSpecField(
+        source="avatar",
+        processors=[
+            ResizeToFit(
+                height=AVATAR_MEDIUM_MAX_DIMENSION,
+                width=AVATAR_MEDIUM_MAX_DIMENSION,
+                upscale=False,
+            )
+        ],
+    )
+    banner = ProcessedImageField(
+        null=True, blank=True, max_length=2083, upload_to=banner_uri
+    )
+    about = JSONField(blank=True, null=True)
+
+    # Miscellaneous fields
+    ga_tracking_id = models.CharField(  # noqa: DJ001
+        max_length=24, blank=True, null=True
+    )  # noqa: DJ001, RUF100
+
+    def __str__(self):
+        """Str representation of channel"""
+        return self.title
+
+    class Meta:  # noqa: DJ012
+        abstract = True
 
 
 class FieldChannel(BaseChannel, TimestampedModel):
