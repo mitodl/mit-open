@@ -30,6 +30,7 @@ from open_discussions.envs import (
 from open_discussions.sentry import init_sentry
 from open_discussions.settings_celery import *  # noqa: F403
 from open_discussions.settings_course_etl import *  # noqa: F403
+from open_discussions.settings_pluggy import *  # noqa: F403
 from open_discussions.settings_spectacular import open_spectacular_settings
 
 VERSION = "0.223.0"
@@ -264,6 +265,8 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.load_extra_data",
     # Update the user record with any changed info from the auth service.
     "social_core.pipeline.user.user_details",
+    # Create a favorites list for new users
+    "authentication.pipeline.user.user_created_actions",
 )
 
 SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT = get_string(

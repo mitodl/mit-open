@@ -8,6 +8,8 @@ OPEN = "Open Content"
 PROFESSIONAL = "Professional Offerings"
 CERTIFICATE = "Certificates"
 
+FAVORITES_TITLE = "Favorites"
+
 
 class AvailabilityType(Enum):
     """

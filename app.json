@@ -298,6 +298,10 @@
     "MITOPEN_ADMIN_EMAIL": {
       "description": "E-mail to send 500 reports to."
     },
+    "MITOPEN_AUTHENTICATION_PLUGINS": {
+      "description": "List of pluggy plugins to use for authentication",
+      "required": false
+    },
     "MITOPEN_BASE_URL": {
       "description": "Base url to link users to in emails"
     },

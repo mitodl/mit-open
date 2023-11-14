@@ -111,6 +111,14 @@ class LearningResourceAdmin(admin.ModelAdmin):
     autocomplete_fields = ("topics",)
 
 
+class UserListAdmin(admin.ModelAdmin):
+    """UserList Admin"""
+
+    model = models.UserList
+    search_fields = ("title", "author__username", "author__email")
+    list_display = ("title", "author", "created_on", "updated_on")
+
+
 admin.site.register(models.LearningResourceTopic, LearningResourceTopicAdmin)
 admin.site.register(models.LearningResourceInstructor, LearningResourceInstructorAdmin)
 admin.site.register(models.LearningResource, LearningResourceAdmin)
@@ -118,3 +126,4 @@ admin.site.register(models.LearningResourceRun, LearningResourceRunAdmin)
 admin.site.register(models.LearningResourceDepartment, LearningResourceDepartmentAdmin)
 admin.site.register(models.LearningResourcePlatform, LearningResourcePlatformAdmin)
 admin.site.register(models.LearningResourceOfferor, LearningResourceOfferorAdmin)
+admin.site.register(models.UserList, UserListAdmin)
