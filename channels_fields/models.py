@@ -5,8 +5,8 @@ from django.db import models
 from django.db.models import deletion
 
 from channels_fields.constants import FIELD_ROLE_CHOICES
-from course_catalog.models import UserList
 from discussions.models import BaseChannel
+from learning_resources.models import LearningResource
 from open_discussions.models import TimestampedModel
 from widgets.models import WidgetList
 
@@ -17,7 +17,7 @@ class FieldChannel(BaseChannel, TimestampedModel):
     public_description = models.TextField(blank=True, default="")
 
     featured_list = models.ForeignKey(
-        UserList, null=True, blank=True, on_delete=deletion.SET_NULL
+        LearningResource, null=True, blank=True, on_delete=deletion.SET_NULL
     )
 
     widget_list = models.ForeignKey(
@@ -29,9 +29,9 @@ class FieldChannel(BaseChannel, TimestampedModel):
 
 
 class FieldList(TimestampedModel):
-    """UserList and position (list order) for a field channel"""
+    """LearningPath and position (list order) for a field channel"""
 
-    field_list = models.ForeignKey(UserList, on_delete=models.CASCADE)
+    field_list = models.ForeignKey(LearningResource, on_delete=models.CASCADE)
     field_channel = models.ForeignKey(
         FieldChannel, related_name="lists", on_delete=models.CASCADE
     )

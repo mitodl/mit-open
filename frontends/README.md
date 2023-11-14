@@ -1,4 +1,4 @@
-# Yarn Workspaces in Open Discussions
+# Yarn Workspaces in MIT Open
 
 This project uses [yarn workspaces](https://yarnpkg.com/features/workspaces) to help organize frontend code. Yarn workspaces are a tool for managing node packages, in this case _local_ node packages.
 

@@ -219,8 +219,8 @@ def test_list_resources_endpoint(client):
 @pytest.mark.parametrize("course_count", [1, 5, 10])
 def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
     """
-    There should only be 8 queries made (based on number of related models),
-    regardless of number of results returned.
+    There should be a constant number of queries made (based on number of
+    related models), regardless of number of results returned.
     """
     from learning_resources.views import CourseViewSet
 

@@ -1,4 +1,4 @@
-"""Discussions feature flags"""
+"""MIT Open feature flags"""
 
 from functools import wraps
 

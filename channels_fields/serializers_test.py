@@ -15,10 +15,9 @@ from channels_fields.serializers import (
     FieldChannelSerializer,
     FieldChannelWriteSerializer,
     FieldModeratorSerializer,
+    LearningPathPreviewSerializer,
 )
-from course_catalog.constants import PrivacyLevel
-from course_catalog.factories import UserListFactory
-from course_catalog.serializers import UserListSerializer
+from learning_resources.factories import LearningPathFactory
 from open_discussions.factories import UserFactory
 
 # pylint:disable=redefined-outer-name
@@ -83,7 +82,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "created_on": mocker.ANY,
         "id": field_channel.id,
         "lists": [
-            UserListSerializer(field_list.field_list).data
+            LearningPathPreviewSerializer(field_list.field_list).data
             for field_list in sorted(
                 field_lists,
                 key=lambda l: l.position,  # noqa: E741
@@ -101,7 +100,7 @@ def test_create_field_channel(base_field_data):
     Test creating a field channel
     """
     user_lists = sorted(
-        UserListFactory.create_batch(2, privacy_level=PrivacyLevel.public.value),
+        (p.learning_resource for p in LearningPathFactory.create_batch(2)),
         key=lambda list: list.id,  # noqa: A002
         reverse=True,
     )
@@ -128,10 +127,27 @@ def test_create_field_channel(base_field_data):
     ]
 
 
+def test_create_and_write_response_serialization():
+    """
+    Test that the create and write serializers return the same data as the read serializer
+    """
+    field_channel = FieldChannelFactory.create()
+    assert FieldChannelCreateSerializer().to_representation(
+        field_channel
+    ) == FieldChannelSerializer().to_representation(field_channel)
+    assert FieldChannelWriteSerializer().to_representation(
+        field_channel
+    ) == FieldChannelSerializer().to_representation(field_channel)
+
+
 def test_create_field_channel_private_list(base_field_data):
     """Validation should fail if a list is private"""
-    user_list = UserListFactory.create(privacy_level=PrivacyLevel.private.value)
-    data = {**base_field_data, "featured_list": user_list.id, "lists": [user_list.id]}
+    learning_path = LearningPathFactory.create(is_unpublished=True)
+    data = {
+        **base_field_data,
+        "featured_list": learning_path.id,
+        "lists": [learning_path.id],
+    }
     serializer = FieldChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
     assert "featured_list" in serializer.errors
@@ -163,9 +179,17 @@ def test_create_field_channel_with_subfields(base_field_data):
         ).order_by("position")
 
 
-def test_create_field_channel_bad_subfields(base_field_data):
+def test_create_field_channel_not_existing_subfields(base_field_data):
     """Validation should fail if a subfield does not exist"""
     data = {**base_field_data, "subfields": ["fake"]}
+    serializer = FieldChannelCreateSerializer(data=data)
+    assert serializer.is_valid() is False
+    assert "subfields" in serializer.errors
+
+
+def test_create_field_channel_self_reference_subfields(base_field_data):
+    """Validation should fail if field is subfield of itself"""
+    data = {**base_field_data, "name": "selfie", "subfields": ["selfie"]}
     serializer = FieldChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
     assert "subfields" in serializer.errors

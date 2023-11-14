@@ -511,6 +511,7 @@ class WebhookOCWNextView(views.APIView):
         )
         raise WebhookException(msg) from exc
 
+    @extend_schema(exclude=True)
     def post(self, request):
         """Process webhook request"""
         content = rapidjson.loads(request.body.decode())

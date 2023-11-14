@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * MIT Open Discussions Course Catalog API
- * Open Discussions public API
+ * MIT Open API
+ * MIT public API
  *
  * The version of the OpenAPI document: 0.0.1
  *

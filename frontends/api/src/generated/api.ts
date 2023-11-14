@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * MIT Open Discussions Course Catalog API
- * Open Discussions public API
+ * MIT Open API
+ * MIT public API
  *
  * The version of the OpenAPI document: 0.0.1
  *
@@ -289,6 +289,300 @@ export interface CourseRequest {
   course_numbers?: { [key: string]: any } | null
 }
 /**
+ * Serializer for FieldChannel
+ * @export
+ * @interface FieldChannel
+ */
+export interface FieldChannel {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannel
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannel
+   */
+  title: string
+  /**
+   *
+   * @type {{ [key: string]: any; }}
+   * @memberof FieldChannel
+   */
+  about: { [key: string]: any } | null
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannel
+   */
+  public_description: string
+  /**
+   *
+   * @type {Array<Subfield>}
+   * @memberof FieldChannel
+   */
+  subfields: Array<Subfield>
+  /**
+   *
+   * @type {FieldChannelFeaturedList}
+   * @memberof FieldChannel
+   */
+  featured_list: FieldChannelFeaturedList
+  /**
+   *
+   * @type {Array<LearningPathPreview>}
+   * @memberof FieldChannel
+   */
+  lists: Array<LearningPathPreview>
+  /**
+   * Get the avatar image URL
+   * @type {string}
+   * @memberof FieldChannel
+   */
+  avatar?: string
+  /**
+   * Get the avatar image medium URL
+   * @type {string}
+   * @memberof FieldChannel
+   */
+  avatar_medium: string
+  /**
+   * Get the avatar image small URL
+   * @type {string}
+   * @memberof FieldChannel
+   */
+  avatar_small: string
+  /**
+   * Get the banner image URL
+   * @type {string}
+   * @memberof FieldChannel
+   */
+  banner?: string
+  /**
+   *
+   * @type {number}
+   * @memberof FieldChannel
+   */
+  widget_list: number | null
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannel
+   */
+  updated_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannel
+   */
+  created_on: string
+  /**
+   *
+   * @type {number}
+   * @memberof FieldChannel
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannel
+   */
+  ga_tracking_id: string | null
+  /**
+   * Return true if user is a moderator for the channel
+   * @type {boolean}
+   * @memberof FieldChannel
+   */
+  is_moderator: boolean
+}
+/**
+ * Write serializer for FieldChannel. Uses primary keys for referenced objects during requests, and delegates to FieldChannelSerializer for responses.
+ * @export
+ * @interface FieldChannelCreateRequest
+ */
+export interface FieldChannelCreateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannelCreateRequest
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannelCreateRequest
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannelCreateRequest
+   */
+  public_description?: string
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FieldChannelCreateRequest
+   */
+  subfields?: Array<string>
+  /**
+   * Learng path featured in this field.
+   * @type {number}
+   * @memberof FieldChannelCreateRequest
+   */
+  featured_list?: number | null
+  /**
+   * Learng paths in this field.
+   * @type {Array<number>}
+   * @memberof FieldChannelCreateRequest
+   */
+  lists?: Array<number>
+  /**
+   *
+   * @type {File}
+   * @memberof FieldChannelCreateRequest
+   */
+  avatar?: File | null
+  /**
+   *
+   * @type {File}
+   * @memberof FieldChannelCreateRequest
+   */
+  banner?: File | null
+  /**
+   *
+   * @type {{ [key: string]: any; }}
+   * @memberof FieldChannelCreateRequest
+   */
+  about?: { [key: string]: any } | null
+}
+/**
+ * Learning path featured in this field.
+ * @export
+ * @interface FieldChannelFeaturedList
+ */
+export interface FieldChannelFeaturedList {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannelFeaturedList
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannelFeaturedList
+   */
+  url?: string | null
+  /**
+   *
+   * @type {number}
+   * @memberof FieldChannelFeaturedList
+   */
+  id: number
+}
+/**
+ * Similar to FieldChannelCreateSerializer, with read-only name
+ * @export
+ * @interface FieldChannelWriteRequest
+ */
+export interface FieldChannelWriteRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannelWriteRequest
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof FieldChannelWriteRequest
+   */
+  public_description?: string
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FieldChannelWriteRequest
+   */
+  subfields?: Array<string>
+  /**
+   * Learng path featured in this field.
+   * @type {number}
+   * @memberof FieldChannelWriteRequest
+   */
+  featured_list?: number | null
+  /**
+   * Learng paths in this field.
+   * @type {Array<number>}
+   * @memberof FieldChannelWriteRequest
+   */
+  lists?: Array<number>
+  /**
+   * Get the avatar image URL
+   * @type {string}
+   * @memberof FieldChannelWriteRequest
+   */
+  avatar?: string
+  /**
+   * Get the banner image URL
+   * @type {string}
+   * @memberof FieldChannelWriteRequest
+   */
+  banner?: string
+  /**
+   *
+   * @type {{ [key: string]: any; }}
+   * @memberof FieldChannelWriteRequest
+   */
+  about?: { [key: string]: any } | null
+}
+/**
+ * Serializer for moderators
+ * @export
+ * @interface FieldModerator
+ */
+export interface FieldModerator {
+  /**
+   * Returns the name for the moderator
+   * @type {string}
+   * @memberof FieldModerator
+   */
+  moderator_name?: string
+  /**
+   * Get the email from the associated user
+   * @type {string}
+   * @memberof FieldModerator
+   */
+  email?: string
+  /**
+   * Get the full name of the associated user
+   * @type {string}
+   * @memberof FieldModerator
+   */
+  full_name: string
+}
+/**
+ * Serializer for moderators
+ * @export
+ * @interface FieldModeratorRequest
+ */
+export interface FieldModeratorRequest {
+  /**
+   * Returns the name for the moderator
+   * @type {string}
+   * @memberof FieldModeratorRequest
+   */
+  moderator_name?: string
+  /**
+   * Get the email from the associated user
+   * @type {string}
+   * @memberof FieldModeratorRequest
+   */
+  email?: string
+}
+/**
  * Serializer for the LearningPath model
  * @export
  * @interface LearningPath
@@ -312,6 +606,31 @@ export interface LearningPath {
    * @memberof LearningPath
    */
   author: number
+}
+/**
+ * Serializer for a minimal preview of Learning Paths
+ * @export
+ * @interface LearningPathPreview
+ */
+export interface LearningPathPreview {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathPreview
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathPreview
+   */
+  url?: string | null
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPathPreview
+   */
+  id: number
 }
 /**
  * Specialized serializer for a LearningPath relationship
@@ -1603,6 +1922,37 @@ export interface PaginatedContentFileList {
 /**
  *
  * @export
+ * @interface PaginatedFieldChannelList
+ */
+export interface PaginatedFieldChannelList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedFieldChannelList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedFieldChannelList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedFieldChannelList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<FieldChannel>}
+   * @memberof PaginatedFieldChannelList
+   */
+  results?: Array<FieldChannel>
+}
+/**
+ *
+ * @export
  * @interface PaginatedLearningPathRelationshipList
  */
 export interface PaginatedLearningPathRelationshipList {
@@ -1835,6 +2185,61 @@ export interface PatchedArticleRequest {
    * @memberof PatchedArticleRequest
    */
   title?: string
+}
+/**
+ * Similar to FieldChannelCreateSerializer, with read-only name
+ * @export
+ * @interface PatchedFieldChannelWriteRequest
+ */
+export interface PatchedFieldChannelWriteRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedFieldChannelWriteRequest
+   */
+  title?: string
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedFieldChannelWriteRequest
+   */
+  public_description?: string
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PatchedFieldChannelWriteRequest
+   */
+  subfields?: Array<string>
+  /**
+   * Learng path featured in this field.
+   * @type {number}
+   * @memberof PatchedFieldChannelWriteRequest
+   */
+  featured_list?: number | null
+  /**
+   * Learng paths in this field.
+   * @type {Array<number>}
+   * @memberof PatchedFieldChannelWriteRequest
+   */
+  lists?: Array<number>
+  /**
+   * Get the avatar image URL
+   * @type {string}
+   * @memberof PatchedFieldChannelWriteRequest
+   */
+  avatar?: string
+  /**
+   * Get the banner image URL
+   * @type {string}
+   * @memberof PatchedFieldChannelWriteRequest
+   */
+  banner?: string
+  /**
+   *
+   * @type {{ [key: string]: any; }}
+   * @memberof PatchedFieldChannelWriteRequest
+   */
+  about?: { [key: string]: any } | null
 }
 /**
  * Specialized serializer for a LearningPath relationship
@@ -2190,6 +2595,31 @@ export interface SearchResponse {
    * @memberof SearchResponse
    */
   metadata: any
+}
+/**
+ * Serializer for Subfields
+ * @export
+ * @interface Subfield
+ */
+export interface Subfield {
+  /**
+   *
+   * @type {string}
+   * @memberof Subfield
+   */
+  parent_field: string
+  /**
+   *
+   * @type {string}
+   * @memberof Subfield
+   */
+  field_channel: string
+  /**
+   *
+   * @type {number}
+   * @memberof Subfield
+   */
+  position?: number
 }
 /**
  * Simplified serializer for UserList model.
@@ -5724,6 +6154,1224 @@ export class CoursesApi extends BaseAPI {
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * FieldsApi - axios parameter creator
+ * @export
+ */
+export const FieldsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsCreate: async (
+      FieldChannelCreateRequest: FieldChannelCreateRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'FieldChannelCreateRequest' is not null or undefined
+      assertParamExists(
+        "fieldsCreate",
+        "FieldChannelCreateRequest",
+        FieldChannelCreateRequest,
+      )
+      const localVarPath = `/api/v1/fields/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        FieldChannelCreateRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {string} field_name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsDestroy: async (
+      field_name: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'field_name' is not null or undefined
+      assertParamExists("fieldsDestroy", "field_name", field_name)
+      const localVarPath = `/api/v1/fields/{field_name}/`.replace(
+        `{${"field_name"}}`,
+        encodeURIComponent(String(field_name)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsList: async (
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/fields/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for listing and adding moderators
+     * @param {string} field_name
+     * @param {FieldModeratorRequest} [FieldModeratorRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsModeratorsCreate: async (
+      field_name: string,
+      FieldModeratorRequest?: FieldModeratorRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'field_name' is not null or undefined
+      assertParamExists("fieldsModeratorsCreate", "field_name", field_name)
+      const localVarPath = `/api/v1/fields/{field_name}/moderators/`.replace(
+        `{${"field_name"}}`,
+        encodeURIComponent(String(field_name)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        FieldModeratorRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Remove the user from the moderator groups for this website
+     * @param {string} field_name
+     * @param {string} moderator_name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsModeratorsDestroy: async (
+      field_name: string,
+      moderator_name: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'field_name' is not null or undefined
+      assertParamExists("fieldsModeratorsDestroy", "field_name", field_name)
+      // verify required parameter 'moderator_name' is not null or undefined
+      assertParamExists(
+        "fieldsModeratorsDestroy",
+        "moderator_name",
+        moderator_name,
+      )
+      const localVarPath =
+        `/api/v1/fields/{field_name}/moderators/{moderator_name}/`
+          .replace(`{${"field_name"}}`, encodeURIComponent(String(field_name)))
+          .replace(
+            `{${"moderator_name"}}`,
+            encodeURIComponent(String(moderator_name)),
+          )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for listing and adding moderators
+     * @param {string} field_name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsModeratorsList: async (
+      field_name: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'field_name' is not null or undefined
+      assertParamExists("fieldsModeratorsList", "field_name", field_name)
+      const localVarPath = `/api/v1/fields/{field_name}/moderators/`.replace(
+        `{${"field_name"}}`,
+        encodeURIComponent(String(field_name)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {string} field_name
+     * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsPartialUpdate: async (
+      field_name: string,
+      PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'field_name' is not null or undefined
+      assertParamExists("fieldsPartialUpdate", "field_name", field_name)
+      const localVarPath = `/api/v1/fields/{field_name}/`.replace(
+        `{${"field_name"}}`,
+        encodeURIComponent(String(field_name)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedFieldChannelWriteRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {string} field_name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsRetrieve: async (
+      field_name: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'field_name' is not null or undefined
+      assertParamExists("fieldsRetrieve", "field_name", field_name)
+      const localVarPath = `/api/v1/fields/{field_name}/`.replace(
+        `{${"field_name"}}`,
+        encodeURIComponent(String(field_name)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {string} field_name
+     * @param {FieldChannelWriteRequest} FieldChannelWriteRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsUpdate: async (
+      field_name: string,
+      FieldChannelWriteRequest: FieldChannelWriteRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'field_name' is not null or undefined
+      assertParamExists("fieldsUpdate", "field_name", field_name)
+      // verify required parameter 'FieldChannelWriteRequest' is not null or undefined
+      assertParamExists(
+        "fieldsUpdate",
+        "FieldChannelWriteRequest",
+        FieldChannelWriteRequest,
+      )
+      const localVarPath = `/api/v1/fields/{field_name}/`.replace(
+        `{${"field_name"}}`,
+        encodeURIComponent(String(field_name)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        FieldChannelWriteRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * FieldsApi - functional programming interface
+ * @export
+ */
+export const FieldsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = FieldsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fieldsCreate(
+      FieldChannelCreateRequest: FieldChannelCreateRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fieldsCreate(
+        FieldChannelCreateRequest,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {string} field_name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fieldsDestroy(
+      field_name: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fieldsDestroy(
+        field_name,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fieldsList(
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedFieldChannelList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fieldsList(
+        limit,
+        offset,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * View for listing and adding moderators
+     * @param {string} field_name
+     * @param {FieldModeratorRequest} [FieldModeratorRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fieldsModeratorsCreate(
+      field_name: string,
+      FieldModeratorRequest?: FieldModeratorRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldModerator>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fieldsModeratorsCreate(
+          field_name,
+          FieldModeratorRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Remove the user from the moderator groups for this website
+     * @param {string} field_name
+     * @param {string} moderator_name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fieldsModeratorsDestroy(
+      field_name: string,
+      moderator_name: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fieldsModeratorsDestroy(
+          field_name,
+          moderator_name,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * View for listing and adding moderators
+     * @param {string} field_name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fieldsModeratorsList(
+      field_name: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<FieldModerator>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fieldsModeratorsList(
+          field_name,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {string} field_name
+     * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fieldsPartialUpdate(
+      field_name: string,
+      PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fieldsPartialUpdate(
+          field_name,
+          PatchedFieldChannelWriteRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {string} field_name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fieldsRetrieve(
+      field_name: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fieldsRetrieve(
+        field_name,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {string} field_name
+     * @param {FieldChannelWriteRequest} FieldChannelWriteRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fieldsUpdate(
+      field_name: string,
+      FieldChannelWriteRequest: FieldChannelWriteRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fieldsUpdate(
+        field_name,
+        FieldChannelWriteRequest,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * FieldsApi - factory interface
+ * @export
+ */
+export const FieldsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = FieldsApiFp(configuration)
+  return {
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {FieldsApiFieldsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsCreate(
+      requestParameters: FieldsApiFieldsCreateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<FieldChannel> {
+      return localVarFp
+        .fieldsCreate(requestParameters.FieldChannelCreateRequest, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {FieldsApiFieldsDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsDestroy(
+      requestParameters: FieldsApiFieldsDestroyRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fieldsDestroy(requestParameters.field_name, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {FieldsApiFieldsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsList(
+      requestParameters: FieldsApiFieldsListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedFieldChannelList> {
+      return localVarFp
+        .fieldsList(requestParameters.limit, requestParameters.offset, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for listing and adding moderators
+     * @param {FieldsApiFieldsModeratorsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsModeratorsCreate(
+      requestParameters: FieldsApiFieldsModeratorsCreateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<FieldModerator> {
+      return localVarFp
+        .fieldsModeratorsCreate(
+          requestParameters.field_name,
+          requestParameters.FieldModeratorRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Remove the user from the moderator groups for this website
+     * @param {FieldsApiFieldsModeratorsDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsModeratorsDestroy(
+      requestParameters: FieldsApiFieldsModeratorsDestroyRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fieldsModeratorsDestroy(
+          requestParameters.field_name,
+          requestParameters.moderator_name,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for listing and adding moderators
+     * @param {FieldsApiFieldsModeratorsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsModeratorsList(
+      requestParameters: FieldsApiFieldsModeratorsListRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<Array<FieldModerator>> {
+      return localVarFp
+        .fieldsModeratorsList(requestParameters.field_name, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {FieldsApiFieldsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsPartialUpdate(
+      requestParameters: FieldsApiFieldsPartialUpdateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<FieldChannel> {
+      return localVarFp
+        .fieldsPartialUpdate(
+          requestParameters.field_name,
+          requestParameters.PatchedFieldChannelWriteRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {FieldsApiFieldsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsRetrieve(
+      requestParameters: FieldsApiFieldsRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<FieldChannel> {
+      return localVarFp
+        .fieldsRetrieve(requestParameters.field_name, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @param {FieldsApiFieldsUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fieldsUpdate(
+      requestParameters: FieldsApiFieldsUpdateRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<FieldChannel> {
+      return localVarFp
+        .fieldsUpdate(
+          requestParameters.field_name,
+          requestParameters.FieldChannelWriteRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for fieldsCreate operation in FieldsApi.
+ * @export
+ * @interface FieldsApiFieldsCreateRequest
+ */
+export interface FieldsApiFieldsCreateRequest {
+  /**
+   *
+   * @type {FieldChannelCreateRequest}
+   * @memberof FieldsApiFieldsCreate
+   */
+  readonly FieldChannelCreateRequest: FieldChannelCreateRequest
+}
+
+/**
+ * Request parameters for fieldsDestroy operation in FieldsApi.
+ * @export
+ * @interface FieldsApiFieldsDestroyRequest
+ */
+export interface FieldsApiFieldsDestroyRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldsApiFieldsDestroy
+   */
+  readonly field_name: string
+}
+
+/**
+ * Request parameters for fieldsList operation in FieldsApi.
+ * @export
+ * @interface FieldsApiFieldsListRequest
+ */
+export interface FieldsApiFieldsListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof FieldsApiFieldsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof FieldsApiFieldsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for fieldsModeratorsCreate operation in FieldsApi.
+ * @export
+ * @interface FieldsApiFieldsModeratorsCreateRequest
+ */
+export interface FieldsApiFieldsModeratorsCreateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldsApiFieldsModeratorsCreate
+   */
+  readonly field_name: string
+
+  /**
+   *
+   * @type {FieldModeratorRequest}
+   * @memberof FieldsApiFieldsModeratorsCreate
+   */
+  readonly FieldModeratorRequest?: FieldModeratorRequest
+}
+
+/**
+ * Request parameters for fieldsModeratorsDestroy operation in FieldsApi.
+ * @export
+ * @interface FieldsApiFieldsModeratorsDestroyRequest
+ */
+export interface FieldsApiFieldsModeratorsDestroyRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldsApiFieldsModeratorsDestroy
+   */
+  readonly field_name: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof FieldsApiFieldsModeratorsDestroy
+   */
+  readonly moderator_name: string
+}
+
+/**
+ * Request parameters for fieldsModeratorsList operation in FieldsApi.
+ * @export
+ * @interface FieldsApiFieldsModeratorsListRequest
+ */
+export interface FieldsApiFieldsModeratorsListRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldsApiFieldsModeratorsList
+   */
+  readonly field_name: string
+}
+
+/**
+ * Request parameters for fieldsPartialUpdate operation in FieldsApi.
+ * @export
+ * @interface FieldsApiFieldsPartialUpdateRequest
+ */
+export interface FieldsApiFieldsPartialUpdateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldsApiFieldsPartialUpdate
+   */
+  readonly field_name: string
+
+  /**
+   *
+   * @type {PatchedFieldChannelWriteRequest}
+   * @memberof FieldsApiFieldsPartialUpdate
+   */
+  readonly PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest
+}
+
+/**
+ * Request parameters for fieldsRetrieve operation in FieldsApi.
+ * @export
+ * @interface FieldsApiFieldsRetrieveRequest
+ */
+export interface FieldsApiFieldsRetrieveRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldsApiFieldsRetrieve
+   */
+  readonly field_name: string
+}
+
+/**
+ * Request parameters for fieldsUpdate operation in FieldsApi.
+ * @export
+ * @interface FieldsApiFieldsUpdateRequest
+ */
+export interface FieldsApiFieldsUpdateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof FieldsApiFieldsUpdate
+   */
+  readonly field_name: string
+
+  /**
+   *
+   * @type {FieldChannelWriteRequest}
+   * @memberof FieldsApiFieldsUpdate
+   */
+  readonly FieldChannelWriteRequest: FieldChannelWriteRequest
+}
+
+/**
+ * FieldsApi - object-oriented interface
+ * @export
+ * @class FieldsApi
+ * @extends {BaseAPI}
+ */
+export class FieldsApi extends BaseAPI {
+  /**
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @param {FieldsApiFieldsCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FieldsApi
+   */
+  public fieldsCreate(
+    requestParameters: FieldsApiFieldsCreateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return FieldsApiFp(this.configuration)
+      .fieldsCreate(requestParameters.FieldChannelCreateRequest, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @param {FieldsApiFieldsDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FieldsApi
+   */
+  public fieldsDestroy(
+    requestParameters: FieldsApiFieldsDestroyRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return FieldsApiFp(this.configuration)
+      .fieldsDestroy(requestParameters.field_name, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @param {FieldsApiFieldsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FieldsApi
+   */
+  public fieldsList(
+    requestParameters: FieldsApiFieldsListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return FieldsApiFp(this.configuration)
+      .fieldsList(requestParameters.limit, requestParameters.offset, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for listing and adding moderators
+   * @param {FieldsApiFieldsModeratorsCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FieldsApi
+   */
+  public fieldsModeratorsCreate(
+    requestParameters: FieldsApiFieldsModeratorsCreateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return FieldsApiFp(this.configuration)
+      .fieldsModeratorsCreate(
+        requestParameters.field_name,
+        requestParameters.FieldModeratorRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Remove the user from the moderator groups for this website
+   * @param {FieldsApiFieldsModeratorsDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FieldsApi
+   */
+  public fieldsModeratorsDestroy(
+    requestParameters: FieldsApiFieldsModeratorsDestroyRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return FieldsApiFp(this.configuration)
+      .fieldsModeratorsDestroy(
+        requestParameters.field_name,
+        requestParameters.moderator_name,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for listing and adding moderators
+   * @param {FieldsApiFieldsModeratorsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FieldsApi
+   */
+  public fieldsModeratorsList(
+    requestParameters: FieldsApiFieldsModeratorsListRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return FieldsApiFp(this.configuration)
+      .fieldsModeratorsList(requestParameters.field_name, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @param {FieldsApiFieldsPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FieldsApi
+   */
+  public fieldsPartialUpdate(
+    requestParameters: FieldsApiFieldsPartialUpdateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return FieldsApiFp(this.configuration)
+      .fieldsPartialUpdate(
+        requestParameters.field_name,
+        requestParameters.PatchedFieldChannelWriteRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @param {FieldsApiFieldsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FieldsApi
+   */
+  public fieldsRetrieve(
+    requestParameters: FieldsApiFieldsRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return FieldsApiFp(this.configuration)
+      .fieldsRetrieve(requestParameters.field_name, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @param {FieldsApiFieldsUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FieldsApi
+   */
+  public fieldsUpdate(
+    requestParameters: FieldsApiFieldsUpdateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return FieldsApiFp(this.configuration)
+      .fieldsUpdate(
+        requestParameters.field_name,
+        requestParameters.FieldChannelWriteRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -11503,129 +13151,6 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.LearningPathResourceRequest,
         options,
       )
-      .then((request) => request(this.axios, this.basePath))
-  }
-}
-
-/**
- * OcwNextWebhookApi - axios parameter creator
- * @export
- */
-export const OcwNextWebhookApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * Process webhook request
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    ocwNextWebhookCreate: async (
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v1/ocw_next_webhook/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "POST",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
-
-/**
- * OcwNextWebhookApi - functional programming interface
- * @export
- */
-export const OcwNextWebhookApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator =
-    OcwNextWebhookApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * Process webhook request
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async ocwNextWebhookCreate(
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.ocwNextWebhookCreate(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-  }
-}
-
-/**
- * OcwNextWebhookApi - factory interface
- * @export
- */
-export const OcwNextWebhookApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = OcwNextWebhookApiFp(configuration)
-  return {
-    /**
-     * Process webhook request
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    ocwNextWebhookCreate(options?: AxiosRequestConfig): AxiosPromise<void> {
-      return localVarFp
-        .ocwNextWebhookCreate(options)
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
-
-/**
- * OcwNextWebhookApi - object-oriented interface
- * @export
- * @class OcwNextWebhookApi
- * @extends {BaseAPI}
- */
-export class OcwNextWebhookApi extends BaseAPI {
-  /**
-   * Process webhook request
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof OcwNextWebhookApi
-   */
-  public ocwNextWebhookCreate(options?: AxiosRequestConfig) {
-    return OcwNextWebhookApiFp(this.configuration)
-      .ocwNextWebhookCreate(options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
