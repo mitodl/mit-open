@@ -2,8 +2,7 @@
 
 from django.db import migrations
 
-from learning_resources.etl.constants import CourseNumberType, ETLSource
-from learning_resources.etl.utils import generate_course_numbers_json
+from learning_resources.etl.utils import update_course_numbers_json
 
 
 def set_course_number_departments(apps, schema_editor):
@@ -12,22 +11,7 @@ def set_course_number_departments(apps, schema_editor):
     """
     Course = apps.get_model("learning_resources", "Course")
     for course in Course.objects.select_related("learning_resource").iterator():
-        is_ocw = course.learning_resource.etl_source == ETLSource.ocw.name
-        extra_nums = [
-            num["value"]
-            for num in course.course_numbers
-            if num["listing_type"] == CourseNumberType.cross_listed.value
-        ]
-        course.course_numbers = generate_course_numbers_json(
-            (
-                course.learning_resource.readable_id.split("+")[0]
-                if is_ocw
-                else course.learning_resource.readable_id
-            ),
-            extra_nums=extra_nums,
-            is_ocw=is_ocw,
-        )
-        course.save()
+        update_course_numbers_json(course)
 
 
 class Migration(migrations.Migration):
