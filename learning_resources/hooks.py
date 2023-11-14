@@ -33,7 +33,7 @@ class LearningResourceHooks:
 
 
 def get_plugin_manager():
-    """Return the plugin manager for authentication hooks"""
+    """Return the plugin manager for learning_resources hooks"""
     pm = pluggy.PluginManager(app_config.name)
     pm.add_hookspecs(LearningResourceHooks)
     for module in settings.MITOPEN_LEARNING_RESOURCES_PLUGINS.split(","):

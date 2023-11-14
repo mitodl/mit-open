@@ -590,7 +590,7 @@ def resource_removed_actions(resource: LearningResource):
 
 def run_upserted_actions(run: LearningResourceRun):
     """
-    Trigger plugins when a LearningResource is created or updated
+    Trigger plugins when a LearningResourceRun is created or updated
     """
     pm = get_plugin_manager()
     hook = pm.hook
@@ -599,7 +599,7 @@ def run_upserted_actions(run: LearningResourceRun):
 
 def run_removed_actions(run: LearningResourceRun):
     """
-    Trigger plugins when a LearningResource is removed/unpublished
+    Trigger plugins when a LearningResourceRun is removed/unpublished
     """
     pm = get_plugin_manager()
     hook = pm.hook

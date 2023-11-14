@@ -62,7 +62,7 @@ def test_search_index_plugin_upsert_run(mocker):
 
 @pytest.mark.django_db()
 def test_search_index_plugin_remove_run(mocker):
-    """The plugin function to remove a run's contenfile to the search index should be triggered"""
+    """The plugin function to remove a run's contenfiles to the search index should be triggered"""
     mock_upsert_contentfile = mocker.patch(
         "learning_resources_search.plugins.search_index_helpers.deindex_run_content_files"
     )
