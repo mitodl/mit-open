@@ -117,7 +117,6 @@ INSTALLED_APPS = (
     "search",
     "widgets",
     "interactions",
-    "discussions",
     "learning_resources",  # to replace below when ready
     "course_catalog",
     "learning_resources_search",
