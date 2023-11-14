@@ -1,4 +1,4 @@
-"""Permissions for channels_fields"""
+"""Permissions for channels"""
 
 import logging
 
@@ -7,8 +7,8 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 from rest_framework.request import Request
 from rest_framework.views import APIView
 
-from channels_fields.api import is_moderator
-from channels_fields.models import FieldChannel
+from channels.api import is_moderator
+from channels.models import FieldChannel
 from open_discussions.permissions import is_admin_user
 
 log = logging.getLogger()

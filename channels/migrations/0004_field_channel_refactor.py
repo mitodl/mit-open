@@ -10,7 +10,7 @@ import profiles.utils
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("channels_fields", "0003_subfield"),
+        ("channels", "0003_subfield"),
     ]
 
     operations = [

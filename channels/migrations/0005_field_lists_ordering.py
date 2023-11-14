@@ -5,7 +5,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("channels_fields", "0004_field_channel_refactor"),
+        ("channels", "0004_field_channel_refactor"),
     ]
 
     operations = [

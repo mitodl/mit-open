@@ -1,4 +1,4 @@
-"""Urls for channels_fields"""
+"""Urls for channels"""
 
 from django.urls import include, re_path
 from drf_spectacular.views import (

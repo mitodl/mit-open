@@ -111,7 +111,7 @@ INSTALLED_APPS = (
     # Put our apps after this point
     "open_discussions",
     "authentication",
-    "channels_fields",
+    "channels",
     "profiles",
     "mail",
     "search",

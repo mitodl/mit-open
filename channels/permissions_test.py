@@ -1,11 +1,11 @@
-"""Tests for channels_fields.permissions"""
+"""Tests for channels.permissions"""
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
 
-from channels_fields import permissions
-from channels_fields.api import add_user_role
-from channels_fields.constants import FIELD_ROLE_MODERATORS
+from channels import permissions
+from channels.api import add_user_role
+from channels.constants import FIELD_ROLE_MODERATORS
 from open_discussions.factories import UserFactory
 
 pytestmark = pytest.mark.django_db

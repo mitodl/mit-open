@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     dependencies = [
         ("learning_resources", "0024_remove_course_extra_course_numbers"),
-        ("channels_fields", "0008_alter_fieldchannel_about"),
+        ("channels", "0008_alter_fieldchannel_about"),
     ]
 
     operations = [

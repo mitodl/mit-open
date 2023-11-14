@@ -1,4 +1,4 @@
-"""Constants for channels_fields"""
+"""Constants for channels"""
 
 FIELD_ROLE_MODERATORS = "moderators"
 FIELD_ROLE_CHOICES = (FIELD_ROLE_MODERATORS,)  # Just moderators for now

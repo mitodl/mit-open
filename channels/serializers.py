@@ -1,4 +1,4 @@
-"""Serializers for channels_fields"""
+"""Serializers for channels"""
 
 import copy
 import logging
@@ -9,9 +9,9 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from channels_fields.api import add_user_role, is_moderator
-from channels_fields.constants import FIELD_ROLE_MODERATORS
-from channels_fields.models import FieldChannel, FieldList, Subfield
+from channels.api import add_user_role, is_moderator
+from channels.constants import FIELD_ROLE_MODERATORS
+from channels.models import FieldChannel, FieldList, Subfield
 from learning_resources.constants import LearningResourceType
 from learning_resources.models import LearningResource
 from profiles.models import Profile

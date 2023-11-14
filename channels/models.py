@@ -1,4 +1,4 @@
-"""Models for channels_fields"""
+"""Models for channels"""
 
 from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
@@ -7,7 +7,7 @@ from django.db.models import JSONField, deletion
 from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFit
 
-from channels_fields.constants import FIELD_ROLE_CHOICES
+from channels.constants import FIELD_ROLE_CHOICES
 from learning_resources.models import LearningResource
 from open_discussions.models import TimestampedModel
 from profiles.utils import avatar_uri, banner_uri

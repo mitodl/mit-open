@@ -1,14 +1,14 @@
-"""Factories for channels_fields"""
+"""Factories for channels"""
 
 import factory
 
-from channels_fields.api import create_field_groups_and_roles
-from channels_fields.models import FieldChannel, FieldList, Subfield
+from channels.api import create_field_groups_and_roles
+from channels.models import FieldChannel, FieldList, Subfield
 from learning_resources.factories import LearningPathFactory
 
 
 class FieldChannelFactory(factory.DjangoModelFactory):
-    """Factory for a channels_fields.models.FieldChannel object"""
+    """Factory for a channels.models.FieldChannel object"""
 
     name = factory.fuzzy.FuzzyText(length=21)
     title = factory.Faker("text", max_nb_chars=50)
@@ -40,7 +40,7 @@ class FieldChannelFactory(factory.DjangoModelFactory):
 
 
 class SubfieldFactory(factory.DjangoModelFactory):
-    """Factory for channels_fields.models.Subfield object"""
+    """Factory for channels.models.Subfield object"""
 
     position = factory.Sequence(lambda n: n)
     parent_channel = factory.SubFactory(FieldChannelFactory)
@@ -51,7 +51,7 @@ class SubfieldFactory(factory.DjangoModelFactory):
 
 
 class FieldListFactory(factory.DjangoModelFactory):
-    """Factory for channels_fields.models.FieldList object"""
+    """Factory for channels.models.FieldList object"""
 
     learning_path = factory.SubFactory(LearningPathFactory)
     position = factory.Sequence(lambda n: n)

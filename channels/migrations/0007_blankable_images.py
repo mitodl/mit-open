@@ -8,7 +8,7 @@ import profiles.utils
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("channels_fields", "0006_description_textfield"),
+        ("channels", "0006_description_textfield"),
     ]
 
     operations = [
