@@ -26,13 +26,14 @@ from learning_resources_search.exceptions import ReindexError
 from learning_resources_search.indexing_api import (
     clear_and_create_index,
     create_backing_index,
-    deindex_courses,
     deindex_document,
+    deindex_learning_resources,
     deindex_run_content_files,
     delete_orphaned_indices,
     get_reindexing_alias_name,
     index_course_content_files,
     index_items,
+    index_learning_resources,
     index_run_content_files,
     switch_indices,
 )
@@ -188,13 +189,6 @@ def test_create_backing_index(mocked_es, mocker, temp_alias_exists):
 @pytest.mark.usefixtures("indexing_user")
 @pytest.mark.parametrize("errors", [(), "error"])
 @pytest.mark.parametrize(
-    ("indexing_func_name", "serializing_func_name", "object_type"),
-    [
-        ("index_courses", "serialize_bulk_courses", "course"),
-        ("index_programs", "serialize_bulk_programs", "program"),
-    ],
-)
-@pytest.mark.parametrize(
     "index_types",
     [
         IndexestoUpdate.current_index.value,
@@ -202,14 +196,11 @@ def test_create_backing_index(mocked_es, mocker, temp_alias_exists):
         IndexestoUpdate.all_indexes.value,
     ],
 )
-def test_index_functions(  # noqa: PLR0913
+def test_index_learning_resources(
     mocked_es,
     mocker,
     settings,
     errors,
-    indexing_func_name,
-    serializing_func_name,
-    object_type,
     index_types,
 ):
     """
@@ -223,7 +214,7 @@ def test_index_functions(  # noqa: PLR0913
         return_value=["a", "b"],
     )
     mocker.patch(
-        f"learning_resources_search.indexing_api.{serializing_func_name}",
+        "learning_resources_search.indexing_api.serialize_bulk_learning_resources",
         autospec=True,
         return_value=(doc for doc in documents),
     )
@@ -232,16 +223,15 @@ def test_index_functions(  # noqa: PLR0913
         autospec=True,
         return_value=(0, errors),
     )
-    index_func = getattr(indexing_api, indexing_func_name)
 
     if errors:
         with pytest.raises(ReindexError):
-            index_func([1, 2, 3], index_types)
+            index_learning_resources([1, 2, 3], COURSE_TYPE, index_types)
     else:
-        index_func([1, 2, 3], index_types)
+        index_learning_resources([1, 2, 3], COURSE_TYPE, index_types)
         mock_get_aliases.assert_called_with(
             mocked_es.conn,
-            object_types=[object_type],
+            object_types=[COURSE_TYPE],
             index_types=index_types,
         )
 
@@ -260,22 +250,7 @@ def test_index_functions(  # noqa: PLR0913
 
 @pytest.mark.usefixtures("indexing_user")
 @pytest.mark.parametrize("errors", [(), "error"])
-@pytest.mark.parametrize(
-    ("indexing_func_name", "serializing_func_name", "object_type"),
-    [
-        ("deindex_programs", "serialize_bulk_programs_for_deletion", "program"),
-        ("deindex_courses", "serialize_bulk_courses_for_deletion", "course"),
-    ],
-)
-def test_bulk_deindex_functions(  # noqa: PLR0913
-    mocked_es,
-    mocker,
-    settings,
-    errors,
-    indexing_func_name,
-    serializing_func_name,
-    object_type,
-):
+def test_deindex_learning_resources(mocked_es, mocker, settings, errors):
     """
     Deindex functions should call bulk with correct arguments
     """
@@ -287,7 +262,7 @@ def test_bulk_deindex_functions(  # noqa: PLR0913
         return_value=["a", "b"],
     )
     mocker.patch(
-        f"learning_resources_search.indexing_api.{serializing_func_name}",
+        "learning_resources_search.indexing_api.serialize_bulk_learning_resources_for_deletion",
         autospec=True,
         return_value=(doc for doc in documents),
     )
@@ -296,16 +271,15 @@ def test_bulk_deindex_functions(  # noqa: PLR0913
         autospec=True,
         return_value=(0, errors),
     )
-    index_func = getattr(indexing_api, indexing_func_name)
 
     if errors:
         with pytest.raises(ReindexError):
-            index_func([1, 2, 3])
+            deindex_learning_resources([1, 2, 3], COURSE_TYPE)
     else:
-        index_func([1, 2, 3])
+        deindex_learning_resources([1, 2, 3], COURSE_TYPE)
         mock_get_aliases.assert_called_with(
             mocked_es.conn,
-            object_types=[object_type],
+            object_types=[COURSE_TYPE],
             index_types=IndexestoUpdate.all_indexes.value,
         )
 
@@ -436,7 +410,9 @@ def test_bulk_content_file_deindex_on_course_deletion(mocker):
     mocker.patch("learning_resources_search.indexing_api.deindex_items", autospec=True)
 
     courses = CourseFactory.create_batch(2)
-    deindex_courses([course.learning_resource_id for course in courses])
+    deindex_learning_resources(
+        [course.learning_resource_id for course in courses], COURSE_TYPE
+    )
     for course in courses:
         for run in course.learning_resource.runs.all():
             mock_deindex_run_content_files.assert_any_call(

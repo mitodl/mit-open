@@ -11,13 +11,19 @@ from django.db.models import Q
 from opensearchpy.exceptions import NotFoundError, RequestError
 
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
-from learning_resources.models import ContentFile, Course, LearningResource, Program
+from learning_resources.models import (
+    ContentFile,
+    Course,
+    LearningResource,
+)
 from learning_resources.utils import load_course_blocklist
 from learning_resources_search import indexing_api as api
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
     COURSE_TYPE,
+    PODCAST_EPISODE_TYPE,
+    PODCAST_TYPE,
     PROGRAM_TYPE,
     SEARCH_CONN_EXCEPTIONS,
     IndexestoUpdate,
@@ -67,34 +73,20 @@ def deindex_document(doc_id, object_type, **kwargs):
 
 
 @app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
-def upsert_course(course_id):
-    """Upsert course based on stored database information"""
-    course_obj = LearningResource.objects.get(id=course_id)
-    course_data = serialize_learning_resource_for_update(course_obj)
+def upsert_learning_resource(learning_resource_id):
+    """Upsert learning resource based on stored database information"""
+    resource_obj = LearningResource.objects.get(id=learning_resource_id)
+    resource_data = serialize_learning_resource_for_update(resource_obj)
     api.upsert_document(
-        course_id,
-        course_data,
-        COURSE_TYPE,
-        retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
-    )
-
-
-@app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
-def upsert_program(program_id):
-    """Upsert program based on stored database information"""
-
-    program_obj = Program.objects.get(learning_resource_id=program_id)
-    program_data = serialize_learning_resource_for_update(program_obj.learning_resource)
-    api.upsert_document(
-        program_obj.learning_resource.id,
-        program_data,
-        PROGRAM_TYPE,
+        learning_resource_id,
+        resource_data,
+        resource_obj.resource_type,
         retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
     )
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
-def index_courses(ids, index_types):
+def index_learning_resources(ids, resource_type, index_types):
     """
     Index courses
 
@@ -102,12 +94,12 @@ def index_courses(ids, index_types):
         ids(list of int): List of course id's
         index_types (string): one of the values IndexestoUpdate. Whether the default
             index, the reindexing index or both need to be updated
-
+        resource_type (string): resource_type value for the learning resource objects
 
     """
     try:
         with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
-            api.index_courses(ids, index_types)
+            api.index_learning_resources(ids, resource_type, index_types)
     except (RetryError, Ignore):
         raise
     except:  # noqa: E722
@@ -117,44 +109,22 @@ def index_courses(ids, index_types):
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
-def bulk_deindex_courses(ids):
+def bulk_deindex_learning_resources(ids, resource_type):
     """
-    Deindex courses by a list of course.id
+    Deindex learning resourse by a list of ids
 
     Args:
-        ids(list of int): List of course id's
+        ids(list of int): List of learning resource ids
+        resource_type: the resource type
 
     """
     try:
         with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
-            api.deindex_courses(ids)
+            api.deindex_learning_resources(ids, resource_type)
     except (RetryError, Ignore):
         raise
     except:  # noqa: E722
-        error = "bulk_deindex_courses threw an error"
-        log.exception(error)
-        return error
-
-
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
-def index_programs(ids, index_types):
-    """
-    Index programs
-
-    Args:
-        ids(list of int): List of program id's
-        index_types (string): one of the values IndexestoUpdate. Whether the default
-            index, the reindexing index or both need to be updated
-
-
-    """
-    try:
-        with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
-            api.index_programs(ids, index_types)
-    except (RetryError, Ignore):
-        raise
-    except:  # noqa: E722
-        error = "index_programs threw an error"
+        error = "bulk_deindex_learning_resources threw an error"
         log.exception(error)
         return error
 
@@ -226,26 +196,6 @@ def deindex_run_content_files(run_id, unpublished_only):
         return error
 
 
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
-def bulk_deindex_programs(ids):
-    """
-    Deindex programs
-
-    Args:
-        ids(list of int): List of program id's
-
-    """
-    try:
-        with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
-            api.deindex_programs(ids)
-    except (RetryError, Ignore):
-        raise
-    except:  # noqa: E722
-        error = "bulk_deindex_programs threw an error"
-        log.exception(error)
-        return error
-
-
 @contextmanager
 def wrap_retry_exception(*exception_classes):
     """
@@ -285,8 +235,10 @@ def start_recreate_index(self, indexes):
             index_tasks = (
                 index_tasks
                 + [
-                    index_courses.si(
-                        ids, index_types=IndexestoUpdate.reindexing_index.value
+                    index_learning_resources.si(
+                        ids,
+                        COURSE_TYPE,
+                        index_types=IndexestoUpdate.reindexing_index.value,
                     )
                     for ids in chunks(
                         Course.objects.filter(learning_resource__published=True)
@@ -313,18 +265,23 @@ def start_recreate_index(self, indexes):
                 ]
             )
 
-        if PROGRAM_TYPE in indexes:
-            index_tasks = index_tasks + [
-                index_programs.si(
-                    ids, index_types=IndexestoUpdate.reindexing_index.value
-                )
-                for ids in chunks(
-                    Program.objects.filter(learning_resource__published=True)
-                    .order_by("learning_resource_id")
-                    .values_list("learning_resource_id", flat=True),
-                    chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
-                )
-            ]
+        for resource_type in [PROGRAM_TYPE, PODCAST_TYPE, PODCAST_EPISODE_TYPE]:
+            if resource_type in indexes:
+                index_tasks = index_tasks + [
+                    index_learning_resources.si(
+                        ids,
+                        resource_type,
+                        index_types=IndexestoUpdate.reindexing_index.value,
+                    )
+                    for ids in chunks(
+                        LearningResource.objects.filter(
+                            published=True, resource_type=resource_type
+                        )
+                        .order_by("id")
+                        .values_list("id", flat=True),
+                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                    )
+                ]
 
         index_tasks = celery.group(index_tasks)
     except:  # noqa: E722
@@ -357,13 +314,17 @@ def start_update_index(self, indexes, etl_source):
                 blocklisted_ids, etl_source
             )
 
-        if PROGRAM_TYPE in indexes:
-            index_tasks = index_tasks + get_update_programs_tasks()
-
         if CONTENT_FILE_TYPE in indexes:
             index_tasks = index_tasks + get_update_resource_files_tasks(
                 blocklisted_ids, etl_source
             )
+
+        for resource_type in [PROGRAM_TYPE, PODCAST_TYPE, PODCAST_EPISODE_TYPE]:
+            if resource_type in indexes:
+                index_tasks = index_tasks + get_update_learning_resource_tasks(
+                    resource_type
+                )
+
         index_tasks = celery.group(index_tasks)
     except:  # noqa: E722
         error = "start_update_index threw an error"
@@ -433,7 +394,9 @@ def get_update_courses_tasks(blocklisted_ids, etl_source):
         course_deletion_query = course_deletion_query.filter(etl_source=etl_source)
 
     index_tasks = [
-        index_courses.si(ids, index_types=IndexestoUpdate.current_index.value)
+        index_learning_resources.si(
+            ids, COURSE_TYPE, index_types=IndexestoUpdate.current_index.value
+        )
         for ids in chunks(
             course_update_query.values_list("id", flat=True),
             chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
@@ -441,7 +404,7 @@ def get_update_courses_tasks(blocklisted_ids, etl_source):
     ]
 
     return index_tasks + [
-        bulk_deindex_courses.si(ids)
+        bulk_deindex_learning_resources.si(ids, COURSE_TYPE)
         for ids in chunks(
             course_deletion_query.values_list("id", flat=True),
             chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
@@ -449,14 +412,16 @@ def get_update_courses_tasks(blocklisted_ids, etl_source):
     ]
 
 
-def get_update_programs_tasks():
+def get_update_learning_resource_tasks(resource_type):
     """
-    Get list of tasks to update programs
+    Get list of tasks to update non-course learning resources
     """
     index_tasks = [
-        index_programs.si(ids, index_types=IndexestoUpdate.current_index.value)
+        index_learning_resources.si(
+            ids, resource_type, index_types=IndexestoUpdate.current_index.value
+        )
         for ids in chunks(
-            LearningResource.objects.filter(published=True, resource_type=PROGRAM_TYPE)
+            LearningResource.objects.filter(published=True, resource_type=resource_type)
             .order_by("id")
             .values_list("id", flat=True),
             chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
@@ -464,9 +429,11 @@ def get_update_programs_tasks():
     ]
 
     return index_tasks + [
-        bulk_deindex_programs.si(ids)
+        bulk_deindex_learning_resources.si(ids, resource_type)
         for ids in chunks(
-            LearningResource.objects.filter(published=False, resource_type=PROGRAM_TYPE)
+            LearningResource.objects.filter(
+                published=False, resource_type=resource_type
+            )
             .order_by("id")
             .values_list("id", flat=True),
             chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,

@@ -45,16 +45,24 @@ def test_get_active_aliases(mocker, index_types, indexes_exist, object_types):
                 "testindex_course_reindexing",
                 "testindex_program_default",
                 "testindex_program_reindexing",
+                "testindex_podcast_default",
+                "testindex_podcast_reindexing",
+                "testindex_podcast_episode_default",
+                "testindex_podcast_episode_reindexing",
             ]
         elif index_types == IndexestoUpdate.current_index.value:
             assert active_aliases == [
                 "testindex_course_default",
                 "testindex_program_default",
+                "testindex_podcast_default",
+                "testindex_podcast_episode_default",
             ]
         elif index_types == IndexestoUpdate.reindexing_index.value:
             assert active_aliases == [
                 "testindex_course_reindexing",
                 "testindex_program_reindexing",
+                "testindex_podcast_reindexing",
+                "testindex_podcast_episode_reindexing",
             ]
     else:
         assert active_aliases == []

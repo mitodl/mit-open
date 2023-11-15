@@ -1,8 +1,24 @@
 """Pluggy plugins for learning_resources_search"""
+import logging
+
 from django.apps import apps
 
-from learning_resources_search import search_index_helpers
-from learning_resources_search.constants import COURSE_TYPE, PROGRAM_TYPE
+from learning_resources_search import tasks
+from learning_resources_search.constants import (
+    COURSE_TYPE,
+)
+
+log = logging.getLogger()
+
+
+def try_with_retry_as_task(function, *args):
+    """
+    Try running the task, if it errors, run it as a celery task.
+    """
+    try:
+        function(*args)
+    except Exception:  # noqa: BLE001
+        function.delay(*args)
 
 
 class SearchIndexPlugin:
@@ -18,11 +34,7 @@ class SearchIndexPlugin:
         Args:
             resource(LearningResource): The Learning Resource that was upserted
         """
-        if resource.resource_type == COURSE_TYPE:
-            search_index_helpers.upsert_course(resource.id)
-        elif resource.resource_type == PROGRAM_TYPE:
-            search_index_helpers.upsert_program(resource.id)
-        # Add more resource types here when supported by the search index
+        try_with_retry_as_task(tasks.upsert_learning_resource, resource.id)
 
     @hookimpl
     def resource_unpublished(self, resource):
@@ -32,11 +44,15 @@ class SearchIndexPlugin:
         Args:
             resource(LearningResource): The Learning Resource that was removed
         """
+        try_with_retry_as_task(
+            tasks.deindex_document,
+            resource.id,
+            resource.resource_type,
+        )
+
         if resource.resource_type == COURSE_TYPE:
-            search_index_helpers.deindex_course(resource)
-        elif resource.resource_type == PROGRAM_TYPE:
-            search_index_helpers.deindex_program(resource)
-        # Add other resource types here when supported by the search index
+            for run in resource.runs.all():
+                self.resource_run_unpublished(run)
 
     @hookimpl
     def resource_delete(self, resource):
@@ -54,7 +70,7 @@ class SearchIndexPlugin:
          Args:
              run(LearningResourceRun): The LearningResourceRun that was upserted
         """
-        search_index_helpers.index_run_content_files(run.id)
+        try_with_retry_as_task(tasks.index_run_content_files, run.id)
 
     @hookimpl
     def resource_run_unpublished(self, run):
@@ -64,7 +80,7 @@ class SearchIndexPlugin:
         Args:
             run(LearningResourceRun): The Learning Resource run that was removed
         """
-        search_index_helpers.deindex_run_content_files(run.id, unpublished_only=False)
+        try_with_retry_as_task(tasks.deindex_run_content_files, run.id, False)  # noqa: FBT003
 
     @hookimpl
     def resource_run_delete(self, run):

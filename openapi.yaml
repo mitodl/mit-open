@@ -2458,19 +2458,19 @@ paths:
             enum:
             - course
             - program
-            - learning path
             - podcast
-            - podcast episode
+            - podcast_episode
             type: string
             description: |-
               * `course` - course
               * `program` - program
-              * `learning path` - learning path
               * `podcast` - podcast
-              * `podcast episode` - podcast episode
+              * `podcast_episode` - podcast_episode
           default:
           - course
           - program
+          - podcast
+          - podcast_episode
       - in: query
         name: sortby
         schema:

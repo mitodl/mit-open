@@ -26,15 +26,12 @@ from learning_resources_search.constants import (
     GLOBAL_DOC_TYPE,
     LEARNING_RESOURCE_TYPES,
     MAPPING,
-    PROGRAM_TYPE,
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError
 from learning_resources_search.serializers import (
-    serialize_bulk_courses,
-    serialize_bulk_courses_for_deletion,
-    serialize_bulk_programs,
-    serialize_bulk_programs_for_deletion,
+    serialize_bulk_learning_resources,
+    serialize_bulk_learning_resources_for_deletion,
     serialize_content_file_for_bulk,
     serialize_content_file_for_bulk_deletion,
 )
@@ -235,62 +232,39 @@ def index_items(documents, object_type, index_types, **kwargs):
                     raise ReindexError(msg)
 
 
-def index_courses(ids, index_types):
+def index_learning_resources(ids, resource_type, index_types):
     """
-    Index a list of courses by id
+    Index a list of learning resources by id
 
     Args:
-        ids(list of int): List of Course id's
+        ids(list of int): List of learning resource id's
+        resource_type: The resource type of the resources
         index_types (string): one of the values IndexestoUpdate. Whether the default
             index, the reindexing index or both need to be updated
 
     """
-    index_items(serialize_bulk_courses(ids), COURSE_TYPE, index_types)
+    index_items(serialize_bulk_learning_resources(ids), resource_type, index_types)
 
 
-def deindex_courses(ids):
+def deindex_learning_resources(ids, resource_type):
     """
-    Deindex a list of courses by id
+    Deindex a list of learning resources by id
 
     Args:
-        ids(list of int): List of Course id's
+        ids(list of int): List of learning resource ids
+        resource_type: resource type
     """
     deindex_items(
-        serialize_bulk_courses_for_deletion(ids),
-        COURSE_TYPE,
+        serialize_bulk_learning_resources_for_deletion(ids),
+        resource_type,
         index_types=IndexestoUpdate.all_indexes.value,
     )
 
-    for run_id in LearningResourceRun.objects.filter(
-        learning_resource_id__in=ids
-    ).values_list("id", flat=True):
-        deindex_run_content_files(run_id, unpublished_only=False)
-
-
-def index_programs(ids, index_types):
-    """
-    Index a list of programs by id
-
-    Args:
-        ids(list of int): List of Program id's
-        index_types (string): one of the values IndexestoUpdate. Whether the default
-            index, the reindexing index or both need to be updated
-    """
-    index_items(serialize_bulk_programs(ids), PROGRAM_TYPE, index_types)
-
-
-def deindex_programs(ids):
-    """
-    Delete a list of programs by id
-
-    Args:
-        ids(list of int): List of Program id's
-    """
-    deindex_items(
-        serialize_bulk_programs_for_deletion(ids),
-        PROGRAM_TYPE,
-        index_types=IndexestoUpdate.all_indexes.value,
-    )
+    if resource_type == COURSE_TYPE:
+        for run_id in LearningResourceRun.objects.filter(
+            learning_resource_id__in=ids
+        ).values_list("id", flat=True):
+            deindex_run_content_files(run_id, unpublished_only=False)
 
 
 def index_course_content_files(learning_resource_ids, index_types):

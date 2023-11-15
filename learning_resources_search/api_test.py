@@ -22,7 +22,12 @@ from learning_resources_search.constants import SOURCE_EXCLUDED_FIELDS
         (
             ["course"],
             ["resource_type"],
-            ["testindex_course_default", "testindex_program_default"],
+            [
+                "testindex_course_default",
+                "testindex_program_default",
+                "testindex_podcast_default",
+                "testindex_podcast_episode_default",
+            ],
         ),
         (["content_file"], [], ["testindex_course_default"]),
         (["content_file", "course"], [], ["testindex_course_default"]),

@@ -47,6 +47,20 @@ log = logging.getLogger()
 User = get_user_model()
 
 
+def update_index(learning_resource, newly_created):
+    """
+    Upsert or remove the learning resource from the search index
+
+    Args:
+        learning resource (LearningResource): a learning resource
+        newly_created (bool): whether the learning resource has just been created
+    """
+    if not newly_created and not learning_resource.published:
+        resource_unpublished_actions(learning_resource)
+    elif learning_resource.published:
+        resource_upserted_actions(learning_resource)
+
+
 def load_topics(resource, topics_data):
     """Load the topics for a resource into the database"""
     if topics_data is not None:
@@ -302,10 +316,7 @@ def load_course(  # noqa: C901
         load_departments(learning_resource, department_data)
         load_resource_content_tags(learning_resource, content_tags_data)
 
-        if not created and not learning_resource.published:
-            resource_unpublished_actions(learning_resource)
-        elif learning_resource.published:
-            resource_upserted_actions(learning_resource)
+        update_index(learning_resource, created)
     return learning_resource
 
 
@@ -447,10 +458,7 @@ def load_program(
             },
         )
 
-    if not created and not program.learning_resource.published:
-        resource_unpublished_actions(program.learning_resource)
-    elif program.learning_resource.published:
-        resource_upserted_actions(program.learning_resource)
+    update_index(learning_resource, created)
 
     return learning_resource
 
@@ -567,6 +575,8 @@ def load_podcast_episode(episode_data: dict) -> LearningResource:
     load_offered_by(learning_resource, offered_bys_data)
     load_departments(learning_resource, departments_data)
 
+    update_index(learning_resource, created)
+
     return learning_resource
 
 
@@ -609,30 +619,32 @@ def load_podcast(podcast_data: dict) -> LearningResource:
         )
 
         episode_ids = []
+        if learning_resource.published:
+            for episode_data in episodes_data:
+                episode = load_podcast_episode(episode_data)
+                episode_ids.append(episode.id)
 
-        for episode_data in episodes_data:
-            episode = load_podcast_episode(episode_data)
-            episode_ids.append(episode.id)
-
-        unpublished_episode_ids = (
-            learning_resource.children.filter(
-                relation_type=LearningResourceRelationTypes.PODCAST_EPISODES.value,
+            unpublished_episode_ids = (
+                learning_resource.children.filter(
+                    relation_type=LearningResourceRelationTypes.PODCAST_EPISODES.value,
+                )
+                .exclude(child__id__in=episode_ids)
+                .values_list("child__id", flat=True)
             )
-            .exclude(child__id__in=episode_ids)
-            .values_list("child__id", flat=True)
-        )
-        LearningResource.objects.filter(id__in=unpublished_episode_ids).update(
-            published=False
-        )
-        episode_ids.extend(unpublished_episode_ids)
-        learning_resource.resources.set(
-            episode_ids,
-            through_defaults={
-                "relation_type": LearningResourceRelationTypes.PODCAST_EPISODES,
-            },
-        )
+            LearningResource.objects.filter(id__in=unpublished_episode_ids).update(
+                published=False
+            )
+            episode_ids.extend(unpublished_episode_ids)
+            learning_resource.resources.set(
+                episode_ids,
+                through_defaults={
+                    "relation_type": LearningResourceRelationTypes.PODCAST_EPISODES,
+                },
+            )
 
-        return learning_resource
+    update_index(learning_resource, created)
+
+    return learning_resource
 
 
 def load_podcasts(podcasts_data: list[dict]) -> list[LearningResource]:

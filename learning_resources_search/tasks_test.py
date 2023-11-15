@@ -10,9 +10,9 @@ from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES, ETLSourc
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
+    LearningResourceFactory,
     ProgramFactory,
 )
-from learning_resources_search import tasks
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
@@ -27,17 +27,17 @@ from learning_resources_search.serializers import (
     serialize_learning_resource_for_update,
 )
 from learning_resources_search.tasks import (
+    bulk_deindex_learning_resources,
     deindex_document,
     deindex_run_content_files,
     finish_recreate_index,
     index_course_content_files,
-    index_courses,
+    index_learning_resources,
     index_run_content_files,
     start_recreate_index,
     start_update_index,
     upsert_content_file,
-    upsert_course,
-    upsert_program,
+    upsert_learning_resource,
     wrap_retry_exception,
 )
 from open_discussions.test_utils import assert_not_raises
@@ -62,28 +62,15 @@ def mocked_api(mocker):
     return mocker.patch("learning_resources_search.tasks.api")
 
 
-def test_upsert_course_task(mocked_api):
-    """Test that upsert_course will serialize the course data and upsert it to the ES index"""
-    course = CourseFactory.create()
-    upsert_course(course.learning_resource_id)
-    data = serialize_learning_resource_for_update(course.learning_resource)
+def test_upsert_learning_resource(mocked_api):
+    """Test that upsert_learning_resourc will serialize the learning resource data and upsert it to the OS index"""
+    resource = LearningResourceFactory.create()
+    upsert_learning_resource(resource.id)
+    data = serialize_learning_resource_for_update(resource)
     mocked_api.upsert_document.assert_called_once_with(
-        course.learning_resource.id,
+        resource.id,
         data,
-        COURSE_TYPE,
-        retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
-    )
-
-
-def test_upsert_program_task(mocked_api):
-    """Test that upsert_program will serialize the video data and upsert it to the ES index"""
-    program = ProgramFactory.create()
-    upsert_program(program)
-    data = serialize_learning_resource_for_update(program.learning_resource)
-    mocked_api.upsert_document.assert_called_once_with(
-        program.learning_resource.id,
-        data,
-        PROGRAM_TYPE,
+        resource.resource_type,
         retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
     )
 
@@ -144,14 +131,11 @@ def test_start_recreate_index(mocker, mocked_celery, user, indexes):
             key=lambda program: program.learning_resource_id,
         )
 
-    index_courses_mock = mocker.patch(
-        "learning_resources_search.tasks.index_courses", autospec=True
+    index_learning_resources_mock = mocker.patch(
+        "learning_resources_search.tasks.index_learning_resources", autospec=True
     )
     index_course_files_mock = mocker.patch(
         "learning_resources_search.tasks.index_course_content_files", autospec=True
-    )
-    index_programs_mock = mocker.patch(
-        "learning_resources_search.tasks.index_programs", autospec=True
     )
 
     backing_index = "backing"
@@ -183,17 +167,20 @@ def test_start_recreate_index(mocker, mocked_celery, user, indexes):
 
     if COURSE_TYPE in indexes:
         mock_blocklist.assert_called_once()
-        assert index_courses_mock.si.call_count == 3
-        index_courses_mock.si.assert_any_call(
+        assert index_learning_resources_mock.si.call_count == 3
+        index_learning_resources_mock.si.assert_any_call(
             [courses[0].learning_resource_id, courses[1].learning_resource_id],
+            COURSE_TYPE,
             index_types=IndexestoUpdate.reindexing_index.value,
         )
-        index_courses_mock.si.assert_any_call(
+        index_learning_resources_mock.si.assert_any_call(
             [courses[2].learning_resource_id, courses[3].learning_resource_id],
+            COURSE_TYPE,
             index_types=IndexestoUpdate.reindexing_index.value,
         )
-        index_courses_mock.si.assert_any_call(
+        index_learning_resources_mock.si.assert_any_call(
             [courses[4].learning_resource_id, courses[5].learning_resource_id],
+            COURSE_TYPE,
             index_types=IndexestoUpdate.reindexing_index.value,
         )
 
@@ -207,13 +194,15 @@ def test_start_recreate_index(mocker, mocked_celery, user, indexes):
         )
 
     if PROGRAM_TYPE in indexes:
-        assert index_programs_mock.si.call_count == 2
-        index_programs_mock.si.assert_any_call(
+        assert index_learning_resources_mock.si.call_count == 2
+        index_learning_resources_mock.si.assert_any_call(
             [programs[0].learning_resource_id, programs[1].learning_resource_id],
+            PROGRAM_TYPE,
             index_types=IndexestoUpdate.reindexing_index.value,
         )
-        index_programs_mock.si.assert_any_call(
+        index_learning_resources_mock.si.assert_any_call(
             [programs[2].learning_resource_id, programs[3].learning_resource_id],
+            PROGRAM_TYPE,
             index_types=IndexestoUpdate.reindexing_index.value,
         )
 
@@ -285,17 +274,19 @@ def test_finish_recreate_index_retry_exceptions(mocker, with_error):
         IndexestoUpdate.all_indexes.value,
     ],
 )
-def test_index_courses(mocker, with_error, index_types):
-    """index_courses should call the api function of the same name"""
-    index_courses_mock = mocker.patch(
-        "learning_resources_search.indexing_api.index_courses"
+def test_index_learning_resources_mock(mocker, with_error, index_types):
+    """index_learning_resources should call the api function of the same name"""
+    index_learning_resources_mock = mocker.patch(
+        "learning_resources_search.indexing_api.index_learning_resources"
     )
     if with_error:
-        index_courses_mock.side_effect = TabError
-    result = index_courses.delay([1, 2, 3], index_types).get()
+        index_learning_resources_mock.side_effect = TabError
+    result = index_learning_resources.delay([1, 2, 3], COURSE_TYPE, index_types).get()
     assert result == ("index_courses threw an error" if with_error else None)
 
-    index_courses_mock.assert_called_once_with([1, 2, 3], index_types)
+    index_learning_resources_mock.assert_called_once_with(
+        [1, 2, 3], COURSE_TYPE, index_types
+    )
 
 
 def test_deindex_document(mocker):
@@ -309,27 +300,20 @@ def test_deindex_document(mocker):
 
 @pytest.mark.usefixtures("_wrap_retry_mock")
 @pytest.mark.parametrize("with_error", [True, False])
-@pytest.mark.parametrize(
-    ("tasks_func_name", "indexing_func_name"),
-    [
-        ("bulk_deindex_courses", "deindex_courses"),
-        ("bulk_deindex_programs", "deindex_programs"),
-    ],
-)
-def test_bulk_deletion_tasks(mocker, with_error, tasks_func_name, indexing_func_name):
-    """Bulk deletion tasks should call corresponding indexing api function"""
-    indexing_api_task_mock = mocker.patch(
-        f"learning_resources_search.indexing_api.{indexing_func_name}"
+def test_bulk_deindex_learning_resources(mocker, with_error):
+    """deindex_learning_resources task should call corresponding indexing api function"""
+    indexing_api_deindex_mock = mocker.patch(
+        "learning_resources_search.indexing_api.deindex_learning_resources"
     )
 
-    task = getattr(tasks, tasks_func_name)
-
     if with_error:
-        indexing_api_task_mock.side_effect = TabError
-    result = task.delay([1]).get()
-    assert result == (f"{tasks_func_name} threw an error" if with_error else None)
+        indexing_api_deindex_mock.side_effect = TabError
+    result = bulk_deindex_learning_resources.delay([1], COURSE_TYPE).get()
+    assert result == (
+        "bulk_deindex_learning_resources threw an error" if with_error else None
+    )
 
-    indexing_api_task_mock.assert_called_once_with([1])
+    indexing_api_deindex_mock.assert_called_once_with([1], COURSE_TYPE)
 
 
 @pytest.mark.parametrize(
@@ -342,9 +326,7 @@ def test_bulk_deletion_tasks(mocker, with_error, tasks_func_name, indexing_func_
         (["content_file"], ETLSource.oll.value),
     ],
 )
-def test_start_update_index(  # noqa: PLR0915
-    mocker, mocked_celery, indexes, etl_source, settings
-):
+def test_start_update_index(mocker, mocked_celery, indexes, etl_source, settings):
     """
     recreate_index should recreate the OpenSearch index and reindex all data with it
     """
@@ -384,18 +366,11 @@ def test_start_update_index(  # noqa: PLR0915
         )
         unpublished_program = ProgramFactory.create(is_unpublished=True)
 
-    index_courses_mock = mocker.patch(
-        "learning_resources_search.tasks.index_courses", autospec=True
+    index_learning_resources_mock = mocker.patch(
+        "learning_resources_search.tasks.index_learning_resources", autospec=True
     )
-    deindex_courses_mock = mocker.patch(
-        "learning_resources_search.tasks.bulk_deindex_courses", autospec=True
-    )
-
-    index_programs_mock = mocker.patch(
-        "learning_resources_search.tasks.index_programs", autospec=True
-    )
-    deindex_programs_mock = mocker.patch(
-        "learning_resources_search.tasks.bulk_deindex_programs", autospec=True
+    deindex_learning_resources_mock = mocker.patch(
+        "learning_resources_search.tasks.bulk_deindex_learning_resources", autospec=True
     )
 
     index_course_content_mock = mocker.patch(
@@ -415,65 +390,72 @@ def test_start_update_index(  # noqa: PLR0915
         mock_blocklist.assert_called_once()
 
         if etl_source:
-            assert index_courses_mock.si.call_count == 1
+            assert index_learning_resources_mock.si.call_count == 1
             course = next(
                 course
                 for course in courses
                 if course.learning_resource.etl_source == etl_source
             )
-            index_courses_mock.si.assert_any_call(
+            index_learning_resources_mock.si.assert_any_call(
                 [course.learning_resource_id],
+                COURSE_TYPE,
                 index_types=IndexestoUpdate.current_index.value,
             )
 
-            assert deindex_courses_mock.si.call_count == 1
+            assert deindex_learning_resources_mock.si.call_count == 1
             unpublished_course = next(
                 course
                 for course in unpublished_courses
                 if course.learning_resource.etl_source == etl_source
             )
-            deindex_courses_mock.si.assert_any_call(
-                [unpublished_course.learning_resource_id]
+            deindex_learning_resources_mock.si.assert_any_call(
+                [unpublished_course.learning_resource_id], COURSE_TYPE
             )
         else:
-            assert index_courses_mock.si.call_count == 2
-            index_courses_mock.si.assert_any_call(
+            assert index_learning_resources_mock.si.call_count == 2
+            index_learning_resources_mock.si.assert_any_call(
                 [courses[0].learning_resource_id, courses[1].learning_resource_id],
+                COURSE_TYPE,
                 index_types=IndexestoUpdate.current_index.value,
             )
-            index_courses_mock.si.assert_any_call(
+            index_learning_resources_mock.si.assert_any_call(
                 [courses[2].learning_resource_id, courses[3].learning_resource_id],
+                COURSE_TYPE,
                 index_types=IndexestoUpdate.current_index.value,
             )
 
-            assert deindex_courses_mock.si.call_count == 2
-            deindex_courses_mock.si.assert_any_call(
+            assert deindex_learning_resources_mock.si.call_count == 2
+            deindex_learning_resources_mock.si.assert_any_call(
                 [
                     unpublished_courses[0].learning_resource_id,
                     unpublished_courses[1].learning_resource_id,
-                ]
+                ],
+                COURSE_TYPE,
             )
-            deindex_courses_mock.si.assert_any_call(
+            deindex_learning_resources_mock.si.assert_any_call(
                 [
                     unpublished_courses[2].learning_resource_id,
                     unpublished_courses[3].learning_resource_id,
-                ]
+                ],
+                COURSE_TYPE,
             )
 
     if PROGRAM_TYPE in indexes:
-        assert index_programs_mock.si.call_count == 2
-        index_programs_mock.si.assert_any_call(
+        assert index_learning_resources_mock.si.call_count == 2
+        index_learning_resources_mock.si.assert_any_call(
             [programs[0].learning_resource_id, programs[1].learning_resource_id],
+            PROGRAM_TYPE,
             index_types=IndexestoUpdate.current_index.value,
         )
-        index_programs_mock.si.assert_any_call(
+        index_learning_resources_mock.si.assert_any_call(
             [programs[2].learning_resource_id, programs[3].learning_resource_id],
+            PROGRAM_TYPE,
             index_types=IndexestoUpdate.current_index.value,
         )
 
-        assert deindex_programs_mock.si.call_count == 1
-        deindex_programs_mock.si.assert_any_call(
-            [unpublished_program.learning_resource_id]
+        assert deindex_learning_resources_mock.si.call_count == 1
+        deindex_learning_resources_mock.si.assert_any_call(
+            [unpublished_program.learning_resource_id], PROGRAM_TYPE
         )
 
     if CONTENT_FILE_TYPE in indexes:
