@@ -29,7 +29,7 @@ def populate_offerors(apps, schema_editor):
         if program._deprecated_offered_by in offered_by_mapping:  # noqa: SLF001
             program.offered_by.set(
                 [offered_by_mapping[program._deprecated_offered_by]]  # noqa: SLF001
-            )  # noqa: RUF100, SLF001
+            )
             program.save()
         else:
             log.error(
@@ -42,7 +42,7 @@ def populate_offerors(apps, schema_editor):
         if course._deprecated_offered_by in offered_by_mapping:  # noqa: SLF001
             course.offered_by.set(
                 [offered_by_mapping[course._deprecated_offered_by]]  # noqa: SLF001
-            )  # noqa: RUF100, SLF001
+            )
             course.save()
         else:
             log.error(
@@ -55,7 +55,7 @@ def populate_offerors(apps, schema_editor):
         if run._deprecated_offered_by in offered_by_mapping:  # noqa: SLF001
             run.offered_by.set(
                 [offered_by_mapping[run._deprecated_offered_by]]  # noqa: SLF001
-            )  # noqa: RUF100, SLF001
+            )
             run.save()
         else:
             log.error(

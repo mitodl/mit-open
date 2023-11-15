@@ -10,7 +10,7 @@ from widgets.serializers.utils import get_widget_type_names
 def _raise_not_implemented(
     *args,  # noqa: ARG001
     **kwargs,  # noqa: ARG001
-):  # pylint: disable=unused-argument  # noqa: ARG001, RUF100
+):
     """Raises an error indicating this is not implemented"""  # noqa: D401
     raise NotImplementedError
 

@@ -67,7 +67,7 @@ def validate_podcast_config(podcast_config):
         if required_key not in podcast_config:
             errors.append(  # noqa: PERF401
                 f"Required key '{required_key}' is not present"
-            )  # noqa: PERF401, RUF100
+            )
 
     return errors
 

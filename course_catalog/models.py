@@ -195,7 +195,7 @@ class AbstractCourse(LearningResource):
     image_src = models.TextField(max_length=2048, null=True, blank=True)  # noqa: DJ001
     image_description = models.CharField(  # noqa: DJ001
         max_length=1024, null=True, blank=True
-    )  # noqa: DJ001, RUF100
+    )
     last_modified = models.DateTimeField(null=True, blank=True)
 
     featured = models.BooleanField(default=False)
@@ -233,7 +233,7 @@ class LearningResourceRun(AbstractCourse):
     semester = models.CharField(max_length=20, null=True, blank=True)  # noqa: DJ001
     availability = models.CharField(  # noqa: DJ001
         max_length=128, null=True, blank=True
-    )  # noqa: DJ001, RUF100
+    )
     language = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
     slug = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
 
@@ -293,18 +293,18 @@ class ContentFile(TimestampedModel):
     section = models.CharField(max_length=512, null=True, blank=True)  # noqa: DJ001
     section_slug = models.CharField(  # noqa: DJ001
         max_length=512, null=True, blank=True
-    )  # noqa: DJ001, RUF100
+    )
 
     content = models.TextField(null=True, blank=True)  # noqa: DJ001
     content_title = models.CharField(  # noqa: DJ001
         max_length=1024, null=True, blank=True
-    )  # noqa: DJ001, RUF100
+    )
     content_author = models.CharField(  # noqa: DJ001
         max_length=1024, null=True, blank=True
-    )  # noqa: DJ001, RUF100
+    )
     content_language = models.CharField(  # noqa: DJ001
         max_length=24, null=True, blank=True
-    )  # noqa: DJ001, RUF100
+    )
     content_type = models.CharField(
         choices=VALID_COURSE_CONTENT_CHOICES, default=CONTENT_TYPE_FILE, max_length=10
     )
@@ -346,7 +346,7 @@ class Course(AbstractCourse, LearningResourceGenericRelationsMixin):
     program_type = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
     program_name = models.CharField(  # noqa: DJ001
         max_length=256, null=True, blank=True
-    )  # noqa: DJ001, RUF100
+    )
     department = ArrayField(
         models.CharField(max_length=256, null=False, blank=False), null=True, blank=True
     )
@@ -416,7 +416,7 @@ class List(LearningResource):
 
     image_description = models.CharField(  # noqa: DJ001
         max_length=1024, null=True, blank=True
-    )  # noqa: DJ001, RUF100
+    )
 
     class Meta:
         abstract = True

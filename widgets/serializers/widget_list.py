@@ -39,7 +39,7 @@ class WidgetListSerializer(serializers.ModelSerializer):
     def get_available_widgets(
         self,
         instance,  # noqa: ARG002
-    ):  # pylint: disable=unused-argument  # noqa: ARG002, RUF100
+    ):
         """Returns a list of available widgets"""  # noqa: D401
         return [
             serializer_cls.get_widget_spec() for serializer_cls in get_widget_classes()

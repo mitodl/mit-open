@@ -43,7 +43,7 @@ def parse_page_attribute(
     attribute,
     is_url=False,  # noqa: FBT002
     is_list=False,  # noqa: FBT002
-):  # noqa: FBT002, RUF100
+):
     """
     Extracts an MITX Online page attribute
 

@@ -405,7 +405,7 @@ class OSCourseSerializer(OSModelSerializer, LearningResourceSerializer):
                 get_ocw_departmet_course_number_dict(
                     course.coursenum,
                     True,  # noqa: FBT003
-                )  # noqa: FBT003, RUF100
+                )
             ]
             if course.extra_course_numbers:
                 for extra_coursenum in course.extra_course_numbers:
@@ -413,7 +413,7 @@ class OSCourseSerializer(OSModelSerializer, LearningResourceSerializer):
                         get_ocw_departmet_course_number_dict(
                             extra_coursenum,
                             False,  # noqa: FBT003
-                        )  # noqa: FBT003, RUF100
+                        )
                     )
             return department_course_numbers
         else:
