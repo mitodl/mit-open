@@ -91,10 +91,10 @@ export interface ContentFile {
   id: number
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof ContentFile
    */
-  run_id: string
+  run_id: number
   /**
    *
    * @type {string}
@@ -245,6 +245,24 @@ export interface ContentFile {
    * @memberof ContentFile
    */
   file_type?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  offered_by: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  platform: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFile
+   */
+  run_readable_id: string
 }
 
 /**
@@ -3589,24 +3607,62 @@ export const ContentFileSearchApiAxiosParamCreator = function (
   return {
     /**
      * View for executing searches of learning resources
-     * @param {Array<'topic' | 'content_category'>} [aggregations]
+     * @param {Array<'topic' | 'content_category' | 'platform' | 'offered_by'>} [aggregations]
      * @param {Array<string>} [content_category]
-     * @param {Array<string>} [id]
+     * @param {Array<number>} [id]
      * @param {number} [limit]
+     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics'>} [offered_by]
      * @param {number} [offset]
+     * @param {Array<'edx' | 'ocw' | 'open learning library' | 'mitx online' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics' | 'whu' | 'susskind' | 'global alumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform]
      * @param {string} [q] The search text
+     * @param {Array<number>} [resource_id]
+     * @param {Array<number>} [run_id]
      * @param {'id' | '-id' | 'resource_readable_id' | '-resource_readable_id'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;resource_readable_id&#x60; - resource_readable_id * &#x60;-resource_readable_id&#x60; - -resource_readable_id
      * @param {Array<string>} [topic]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     contentFileSearchRetrieve: async (
-      aggregations?: Array<"topic" | "content_category">,
+      aggregations?: Array<
+        "topic" | "content_category" | "platform" | "offered_by"
+      >,
       content_category?: Array<string>,
-      id?: Array<string>,
+      id?: Array<number>,
       limit?: number,
+      offered_by?: Array<
+        | "mitx"
+        | "ocw"
+        | "bootcamps"
+        | "xpro"
+        | "csail"
+        | "professional education"
+        | "sloan executive education"
+        | "schwarzman college of computing"
+        | "center for transportation & logistics"
+      >,
       offset?: number,
+      platform?: Array<
+        | "edx"
+        | "ocw"
+        | "open learning library"
+        | "mitx online"
+        | "bootcamps"
+        | "xpro"
+        | "csail"
+        | "professional education"
+        | "sloan executive education"
+        | "schwarzman college of computing"
+        | "center for transportation & logistics"
+        | "whu"
+        | "susskind"
+        | "global alumni"
+        | "simplilearn"
+        | "emeritus"
+        | "podcast"
+      >,
       q?: string,
+      resource_id?: Array<number>,
+      run_id?: Array<number>,
       sortby?: "id" | "-id" | "resource_readable_id" | "-resource_readable_id",
       topic?: Array<string>,
       options: AxiosRequestConfig = {},
@@ -3645,12 +3701,28 @@ export const ContentFileSearchApiAxiosParamCreator = function (
         localVarQueryParameter["limit"] = limit
       }
 
+      if (offered_by) {
+        localVarQueryParameter["offered_by"] = offered_by
+      }
+
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
       }
 
+      if (platform) {
+        localVarQueryParameter["platform"] = platform
+      }
+
       if (q !== undefined) {
         localVarQueryParameter["q"] = q
+      }
+
+      if (resource_id) {
+        localVarQueryParameter["resource_id"] = resource_id
+      }
+
+      if (run_id) {
+        localVarQueryParameter["run_id"] = run_id
       }
 
       if (sortby !== undefined) {
@@ -3688,24 +3760,62 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
   return {
     /**
      * View for executing searches of learning resources
-     * @param {Array<'topic' | 'content_category'>} [aggregations]
+     * @param {Array<'topic' | 'content_category' | 'platform' | 'offered_by'>} [aggregations]
      * @param {Array<string>} [content_category]
-     * @param {Array<string>} [id]
+     * @param {Array<number>} [id]
      * @param {number} [limit]
+     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics'>} [offered_by]
      * @param {number} [offset]
+     * @param {Array<'edx' | 'ocw' | 'open learning library' | 'mitx online' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics' | 'whu' | 'susskind' | 'global alumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform]
      * @param {string} [q] The search text
+     * @param {Array<number>} [resource_id]
+     * @param {Array<number>} [run_id]
      * @param {'id' | '-id' | 'resource_readable_id' | '-resource_readable_id'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;resource_readable_id&#x60; - resource_readable_id * &#x60;-resource_readable_id&#x60; - -resource_readable_id
      * @param {Array<string>} [topic]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async contentFileSearchRetrieve(
-      aggregations?: Array<"topic" | "content_category">,
+      aggregations?: Array<
+        "topic" | "content_category" | "platform" | "offered_by"
+      >,
       content_category?: Array<string>,
-      id?: Array<string>,
+      id?: Array<number>,
       limit?: number,
+      offered_by?: Array<
+        | "mitx"
+        | "ocw"
+        | "bootcamps"
+        | "xpro"
+        | "csail"
+        | "professional education"
+        | "sloan executive education"
+        | "schwarzman college of computing"
+        | "center for transportation & logistics"
+      >,
       offset?: number,
+      platform?: Array<
+        | "edx"
+        | "ocw"
+        | "open learning library"
+        | "mitx online"
+        | "bootcamps"
+        | "xpro"
+        | "csail"
+        | "professional education"
+        | "sloan executive education"
+        | "schwarzman college of computing"
+        | "center for transportation & logistics"
+        | "whu"
+        | "susskind"
+        | "global alumni"
+        | "simplilearn"
+        | "emeritus"
+        | "podcast"
+      >,
       q?: string,
+      resource_id?: Array<number>,
+      run_id?: Array<number>,
       sortby?: "id" | "-id" | "resource_readable_id" | "-resource_readable_id",
       topic?: Array<string>,
       options?: AxiosRequestConfig,
@@ -3718,8 +3828,12 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
           content_category,
           id,
           limit,
+          offered_by,
           offset,
+          platform,
           q,
+          resource_id,
+          run_id,
           sortby,
           topic,
           options,
@@ -3761,8 +3875,12 @@ export const ContentFileSearchApiFactory = function (
           requestParameters.content_category,
           requestParameters.id,
           requestParameters.limit,
+          requestParameters.offered_by,
           requestParameters.offset,
+          requestParameters.platform,
           requestParameters.q,
+          requestParameters.resource_id,
+          requestParameters.run_id,
           requestParameters.sortby,
           requestParameters.topic,
           options,
@@ -3780,10 +3898,12 @@ export const ContentFileSearchApiFactory = function (
 export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
   /**
    *
-   * @type {Array<'topic' | 'content_category'>}
+   * @type {Array<'topic' | 'content_category' | 'platform' | 'offered_by'>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
-  readonly aggregations?: Array<"topic" | "content_category">
+  readonly aggregations?: Array<
+    "topic" | "content_category" | "platform" | "offered_by"
+  >
 
   /**
    *
@@ -3794,10 +3914,10 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
 
   /**
    *
-   * @type {Array<string>}
+   * @type {Array<number>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
-  readonly id?: Array<string>
+  readonly id?: Array<number>
 
   /**
    *
@@ -3808,10 +3928,52 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
 
   /**
    *
+   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics'>}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly offered_by?: Array<
+    | "mitx"
+    | "ocw"
+    | "bootcamps"
+    | "xpro"
+    | "csail"
+    | "professional education"
+    | "sloan executive education"
+    | "schwarzman college of computing"
+    | "center for transportation & logistics"
+  >
+
+  /**
+   *
    * @type {number}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly offset?: number
+
+  /**
+   *
+   * @type {Array<'edx' | 'ocw' | 'open learning library' | 'mitx online' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics' | 'whu' | 'susskind' | 'global alumni' | 'simplilearn' | 'emeritus' | 'podcast'>}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly platform?: Array<
+    | "edx"
+    | "ocw"
+    | "open learning library"
+    | "mitx online"
+    | "bootcamps"
+    | "xpro"
+    | "csail"
+    | "professional education"
+    | "sloan executive education"
+    | "schwarzman college of computing"
+    | "center for transportation & logistics"
+    | "whu"
+    | "susskind"
+    | "global alumni"
+    | "simplilearn"
+    | "emeritus"
+    | "podcast"
+  >
 
   /**
    * The search text
@@ -3819,6 +3981,20 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly q?: string
+
+  /**
+   *
+   * @type {Array<number>}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly resource_id?: Array<number>
+
+  /**
+   *
+   * @type {Array<number>}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly run_id?: Array<number>
 
   /**
    * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;resource_readable_id&#x60; - resource_readable_id * &#x60;-resource_readable_id&#x60; - -resource_readable_id
@@ -3863,8 +4039,12 @@ export class ContentFileSearchApi extends BaseAPI {
         requestParameters.content_category,
         requestParameters.id,
         requestParameters.limit,
+        requestParameters.offered_by,
         requestParameters.offset,
+        requestParameters.platform,
         requestParameters.q,
+        requestParameters.resource_id,
+        requestParameters.run_id,
         requestParameters.sortby,
         requestParameters.topic,
         options,
@@ -9592,7 +9772,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>} [aggregations]
      * @param {Array<string>} [certification]
      * @param {Array<string>} [department]
-     * @param {Array<string>} [id]
+     * @param {Array<number>} [id]
      * @param {Array<string>} [level]
      * @param {number} [limit]
      * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics'>} [offered_by]
@@ -9621,7 +9801,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       >,
       certification?: Array<string>,
       department?: Array<string>,
-      id?: Array<string>,
+      id?: Array<number>,
       level?: Array<string>,
       limit?: number,
       offered_by?: Array<
@@ -9785,7 +9965,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>} [aggregations]
      * @param {Array<string>} [certification]
      * @param {Array<string>} [department]
-     * @param {Array<string>} [id]
+     * @param {Array<number>} [id]
      * @param {Array<string>} [level]
      * @param {number} [limit]
      * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'professional education' | 'sloan executive education' | 'schwarzman college of computing' | 'center for transportation & logistics'>} [offered_by]
@@ -9814,7 +9994,7 @@ export const LearningResourcesSearchApiFp = function (
       >,
       certification?: Array<string>,
       department?: Array<string>,
-      id?: Array<string>,
+      id?: Array<number>,
       level?: Array<string>,
       limit?: number,
       offered_by?: Array<
@@ -9983,10 +10163,10 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
 
   /**
    *
-   * @type {Array<string>}
+   * @type {Array<number>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
-  readonly id?: Array<string>
+  readonly id?: Array<number>
 
   /**
    *

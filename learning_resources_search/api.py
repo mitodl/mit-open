@@ -314,7 +314,7 @@ def generate_filter_clauses(search_params):
                 else:
                     filter_term = {"term": {search_filter: {"value": option}}}
 
-                    if search_filter != "id":
+                    if not search_filter.endswith("id"):
                         filter_term["term"][search_filter]["case_insensitive"] = True
 
                     filter_clauses_for_filter.append(filter_term)

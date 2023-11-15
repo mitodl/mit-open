@@ -1,6 +1,7 @@
 """View for search"""
 
 import logging
+from itertools import chain
 
 from django.utils.decorators import method_decorator
 from drf_spectacular.utils import extend_schema, extend_schema_view
@@ -55,7 +56,12 @@ class LearningResourcesSearchView(ESView):
             response = execute_learn_search(request_data.data)
             return Response(SearchResponseSerializer(response).data)
         else:
-            return Response(request_data.errors, status=400)
+            errors = {}
+
+            for key, errors_dict in request_data.errors.items():
+                errors[key] = list(set(chain(*errors_dict.values())))
+
+            return Response(errors, status=400)
 
 
 @method_decorator(blocked_ip_exempt, name="dispatch")
@@ -80,4 +86,9 @@ class ContentFileSearchView(ESView):
             response = execute_learn_search(request_data.data)
             return Response(SearchResponseSerializer(response).data)
         else:
-            return Response(request_data.errors, status=400)
+            errors = {}
+
+            for key, errors_dict in request_data.errors.items():
+                errors[key] = list(set(chain(*errors_dict.values())))
+
+            return Response(errors, status=400)

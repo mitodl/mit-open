@@ -123,10 +123,9 @@ class StringArrayField(serializers.ListField):
         super().__init__(*args, **kwargs)
 
     def to_internal_value(self, data):
-        return ",".join(data)
+        normalized = ",".join(data).split(",")
 
-    def to_representation(self, data):
-        return data.split(",")
+        return super().to_internal_value(normalized)
 
 
 CONTENT_FILE_SORTBY_OPTIONS = [
@@ -148,14 +147,25 @@ LEARNING_RESOURCE_AGGREGATIONS = [
     "professional",
 ]
 
-CONTENT_FILE_AGGREGATIONS = ["topic", "content_category"]
+CONTENT_FILE_AGGREGATIONS = ["topic", "content_category", "platform", "offered_by"]
 
 
 class SearchRequestSerializer(serializers.Serializer):
     q = serializers.CharField(required=False, help_text="The search text")
     offset = serializers.IntegerField(required=False)
     limit = serializers.IntegerField(required=False)
-    id = StringArrayField(required=False, child=serializers.CharField())  # noqa: A003
+    id = StringArrayField(  # noqa: A003
+        required=False, child=serializers.IntegerField()
+    )
+    offered_by = StringArrayField(
+        required=False,
+        child=serializers.ChoiceField(choices=[e.value.lower() for e in OfferedBy]),
+    )
+    platform = StringArrayField(
+        required=False,
+        child=serializers.ChoiceField(choices=[e.value.lower() for e in PlatformType]),
+    )
+    topic = StringArrayField(required=False, child=serializers.CharField())
 
 
 class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
@@ -172,22 +182,13 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         child=serializers.ChoiceField(
             choices=[e.value.lower() for e in LearningResourceType]
         ),
-        default=lambda: ",".join(LEARNING_RESOURCE_TYPES),
+        default=LEARNING_RESOURCE_TYPES,
     )
     professional = StringArrayField(
         required=False,
         child=serializers.ChoiceField(choices=["true", "false"]),
     )
     certification = StringArrayField(required=False, child=serializers.CharField())
-    offered_by = StringArrayField(
-        required=False,
-        child=serializers.ChoiceField(choices=[e.value.lower() for e in OfferedBy]),
-    )
-    platform = StringArrayField(
-        required=False,
-        child=serializers.ChoiceField(choices=[e.value.lower() for e in PlatformType]),
-    )
-    topic = StringArrayField(required=False, child=serializers.CharField())
     department = StringArrayField(required=False, child=serializers.CharField())
     level = StringArrayField(required=False, child=serializers.CharField())
     resource_content_tags = StringArrayField(
@@ -198,51 +199,6 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         child=serializers.ChoiceField(choices=LEARNING_RESOURCE_AGGREGATIONS),
     )
 
-    def validate_resource_type(self, data):
-        if data:
-            for resource_type_value in data.split(","):
-                if resource_type_value.lower() not in [
-                    e.value.lower() for e in LearningResourceType
-                ]:
-                    msg = f"{resource_type_value} is not a valid option"
-                    raise serializers.ValidationError(msg)
-
-        return data
-
-    def validate_offered_by(self, data):
-        if data:
-            for offered_by_value in data.split(","):
-                if offered_by_value.lower() not in [e.value.lower() for e in OfferedBy]:
-                    msg = f"{offered_by_value} is not a valid option"
-                    raise serializers.ValidationError(msg)
-        return data
-
-    def validate_platform(self, data):
-        if data:
-            for platform_value in data.split(","):
-                if platform_value.lower() not in [
-                    e.value.lower() for e in PlatformType
-                ]:
-                    msg = f"{platform_value} is not a valid option"
-                    raise serializers.ValidationError(msg)
-        return data
-
-    def validate_professional(self, data):
-        if data:
-            for professional_value in data.split(","):
-                if professional_value.lower() not in ["true", "false"]:
-                    msg = f"{professional_value} is not a valid option"
-                    raise serializers.ValidationError(msg)
-        return data
-
-    def validate_aggregations(self, data):
-        if data:
-            for agg_value in data.split(","):
-                if agg_value.lower() not in LEARNING_RESOURCE_AGGREGATIONS:
-                    msg = f"{agg_value} is not a valid option"
-                    raise serializers.ValidationError(msg)
-        return data
-
 
 class ContentFileSearchRequestSerializer(SearchRequestSerializer):
     sortby = serializers.ChoiceField(
@@ -251,20 +207,13 @@ class ContentFileSearchRequestSerializer(SearchRequestSerializer):
         help_text="if the parameter starts with '-' the sort is in descending order",
     )
     content_category = StringArrayField(required=False, child=serializers.CharField())
-    topic = StringArrayField(required=False, child=serializers.CharField())
     aggregations = StringArrayField(
         required=False,
         child=serializers.ChoiceField(choices=CONTENT_FILE_AGGREGATIONS),
     )
     resource_type = serializers.ReadOnlyField(default=[CONTENT_FILE_TYPE])
-
-    def validate_aggregations(self, data):
-        if data:
-            for agg_value in data.split(","):
-                if agg_value.lower() not in CONTENT_FILE_AGGREGATIONS:
-                    msg = f"{agg_value} is not a valid option"
-                    raise serializers.ValidationError(msg)
-        return data
+    run_id = StringArrayField(required=False, child=serializers.IntegerField())
+    resource_id = StringArrayField(required=False, child=serializers.IntegerField())
 
 
 def _transform_aggregations(aggregations):

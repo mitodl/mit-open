@@ -463,7 +463,8 @@ class ContentFileSerializer(serializers.ModelSerializer):
     Serializer class for course run ContentFiles
     """
 
-    run_id = serializers.CharField(source="run.run_id")
+    run_id = serializers.IntegerField(source="run.id")
+    run_readable_id = serializers.CharField(source="run.run_id")
     run_title = serializers.CharField(source="run.title")
     run_slug = serializers.CharField(source="run.slug")
     semester = serializers.CharField(source="run.semester")
@@ -480,6 +481,8 @@ class ContentFileSerializer(serializers.ModelSerializer):
         source="run.learning_resource.resource_num"
     )
     content_category = serializers.SerializerMethodField()
+    offered_by = LearningResourceOfferorField(source="run.learning_resource.offered_by")
+    platform = serializers.CharField(source="run.learning_resource.platform.platform")
 
     def get_content_category(self, instance):  # noqa: ARG002
         """
@@ -518,6 +521,9 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "resource_readable_id",
             "resource_readable_num",
             "file_type",
+            "offered_by",
+            "platform",
+            "run_readable_id",
         ]
 
 
