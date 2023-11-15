@@ -23,7 +23,7 @@ def test_serialize_course_to_json():
     course = factories.CourseFactory.create()
     serializer = serializers.CourseSerializer(instance=course)
 
-    assert_json_equal(serializer.data, {"extra_course_numbers": []})
+    assert_json_equal(serializer.data, {"course_numbers": []})
 
 
 def test_serialize_program_to_json():
