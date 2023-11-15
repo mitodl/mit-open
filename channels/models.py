@@ -65,16 +65,14 @@ class BaseChannel(models.Model):
     about = JSONField(blank=True, null=True)
 
     # Miscellaneous fields
-    ga_tracking_id = models.CharField(  # noqa: DJ001
-        max_length=24, blank=True, null=True
-    )  # noqa: DJ001, RUF100
+    ga_tracking_id = models.CharField(max_length=24, blank=True)
+
+    class Meta:
+        abstract = True
 
     def __str__(self):
         """Str representation of channel"""
         return self.title
-
-    class Meta:  # noqa: DJ012
-        abstract = True
 
 
 class FieldChannel(BaseChannel, TimestampedModel):
