@@ -286,7 +286,7 @@ const podcast: LearningResourceFactory<PodcastResource> = (overrides = {}) => {
     { resource_type: ResourceTypeEnum.Podcast },
     {
       podcast: {
-        id: faker.unique(faker.datatype.number),
+        id: faker.helpers.unique(faker.datatype.number),
         episode_count: faker.datatype.number({ min: 1, max: 70 }),
       },
     },
@@ -303,7 +303,7 @@ const podcastEpisode: LearningResourceFactory<PodcastEpisodeResource> = (
     { resource_type: ResourceTypeEnum.PodcastEpisode },
     {
       podcast_episode: {
-        id: faker.unique(faker.datatype.number),
+        id: faker.helpers.unique(faker.datatype.number),
       },
     },
     overrides,
