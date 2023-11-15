@@ -58,7 +58,7 @@ from learning_resources.serializers import (
     UserListSerializer,
 )
 from learning_resources.tasks import get_ocw_courses
-from learning_resources_search.search_index_helpers import deindex_course
+from learning_resources.utils import resource_unpublished_actions
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
@@ -538,6 +538,6 @@ class WebhookOCWNextView(views.APIView):
                     resource = run.learning_resource
                     resource.published = False
                     resource.save()
-                    deindex_course(resource)
+                    resource_unpublished_actions(resource)
 
         return Response({})

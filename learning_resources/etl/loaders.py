@@ -17,12 +17,6 @@ from learning_resources.etl.constants import (
 )
 from learning_resources.etl.deduplication import get_most_relevant_run
 from learning_resources.etl.exceptions import ExtractException
-from learning_resources.etl.utils import (
-    resource_removed_actions,
-    resource_upserted_actions,
-    run_removed_actions,
-    run_upserted_actions,
-)
 from learning_resources.models import (
     ContentFile,
     Course,
@@ -39,7 +33,14 @@ from learning_resources.models import (
     PodcastEpisode,
     Program,
 )
-from learning_resources.utils import load_course_blocklist, load_course_duplicates
+from learning_resources.utils import (
+    load_course_blocklist,
+    load_course_duplicates,
+    resource_run_unpublished_actions,
+    resource_run_upserted_actions,
+    resource_unpublished_actions,
+    resource_upserted_actions,
+)
 
 log = logging.getLogger()
 
@@ -255,7 +256,7 @@ def load_course(  # noqa: C901
                 if duplicate_resource:
                     duplicate_resource.published = False
                     duplicate_resource.save()
-                    resource_removed_actions(duplicate_resource)
+                    resource_unpublished_actions(duplicate_resource)
 
         else:
             (
@@ -302,7 +303,7 @@ def load_course(  # noqa: C901
         load_resource_content_tags(learning_resource, content_tags_data)
 
         if not created and not learning_resource.published:
-            resource_removed_actions(learning_resource)
+            resource_unpublished_actions(learning_resource)
         elif learning_resource.published:
             resource_upserted_actions(learning_resource)
     return learning_resource
@@ -344,7 +345,7 @@ def load_courses(
         ).exclude(id__in=[learning_resource.id for learning_resource in courses]):
             learning_resource.published = False
             learning_resource.save()
-            resource_removed_actions(learning_resource)
+            resource_unpublished_actions(learning_resource)
 
     return courses
 
@@ -447,7 +448,7 @@ def load_program(
         )
 
     if not created and not program.learning_resource.published:
-        resource_removed_actions(program.learning_resource)
+        resource_unpublished_actions(program.learning_resource)
     elif program.learning_resource.published:
         resource_upserted_actions(program.learning_resource)
 
@@ -523,9 +524,9 @@ def load_content_files(
         deleted_files.update(published=False)
 
         if course_run.published:
-            run_upserted_actions(course_run)
+            resource_run_upserted_actions(course_run)
         else:
-            run_removed_actions(course_run)
+            resource_run_unpublished_actions(course_run)
 
         return content_files_ids
     return None

@@ -200,7 +200,9 @@ def test_ocw_courses_etl(settings, mocker):
         return_value={"content": "TEXT"},
     )
     mocker.patch("learning_resources.etl.pipelines.loaders.resource_upserted_actions")
-    mocker.patch("learning_resources.etl.pipelines.loaders.resource_removed_actions")
+    mocker.patch(
+        "learning_resources.etl.pipelines.loaders.resource_unpublished_actions"
+    )
 
     pipelines.ocw_courses_etl(
         url_paths=[OCW_TEST_PREFIX],

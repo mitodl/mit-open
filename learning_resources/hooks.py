@@ -8,7 +8,7 @@ from django.utils.module_loading import import_string
 
 log = logging.getLogger(__name__)
 
-app_config = apps.get_app_config("learning_resources_search")
+app_config = apps.get_app_config("learning_resources")
 hookspec = app_config.hookspec
 
 
@@ -20,16 +20,24 @@ class LearningResourceHooks:
         """Trigger actions after a learning resource is created or updated"""
 
     @hookspec
-    def resource_removed(self, resource):
-        """Trigger actions after a learning resource is unpublished or removed"""
+    def resource_unpublished(self, resource):
+        """Trigger actions after a learning resource is unpublished"""
 
     @hookspec
-    def run_upserted(self, run):
+    def resource_delete(self, resource):
+        """Trigger actions to remove a learning resource"""
+
+    @hookspec
+    def resource_run_upserted(self, run):
         """Trigger actions after a learning resource run is created or updated"""
 
     @hookspec
-    def run_removed(self, run, unpublished_only):
-        """Trigger actions after a learning resource run is unpublished or removed"""
+    def resource_run_unpublished(self, run, unpublished_only):
+        """Trigger actions after a learning resource run is unpublished"""
+
+    @hookspec
+    def resource_run_delete(self, run):
+        """Trigger actions to remove a learning resource run"""
 
 
 def get_plugin_manager():

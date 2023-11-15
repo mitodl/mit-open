@@ -8,7 +8,7 @@ from learning_resources_search.constants import COURSE_TYPE, PROGRAM_TYPE
 class SearchIndexPlugin:
     """Perform search index updates on learning resources"""
 
-    hookimpl = apps.get_app_config("learning_resources_search").hookimpl
+    hookimpl = apps.get_app_config("learning_resources").hookimpl
 
     @hookimpl
     def resource_upserted(self, resource):
@@ -25,9 +25,9 @@ class SearchIndexPlugin:
         # Add more resource types here when supported by the search index
 
     @hookimpl
-    def resource_removed(self, resource):
+    def resource_unpublished(self, resource):
         """
-        Perform functions on a learning resource that has been removed/unpublished
+        Perform functions on a learning resource that has been unpublished
 
         Args:
             resource(LearningResource): The Learning Resource that was removed
@@ -36,10 +36,18 @@ class SearchIndexPlugin:
             search_index_helpers.deindex_course(resource)
         elif resource.resource_type == PROGRAM_TYPE:
             search_index_helpers.deindex_program(resource)
-        # Add more resource types here when supported by the search index
+        # Add other resource types here when supported by the search index
 
     @hookimpl
-    def run_upserted(self, run):
+    def resource_delete(self, resource):
+        """
+        Remove a resource from the search index and then delete the object
+        """
+        self.resource_unpublished(resource)
+        resource.delete()
+
+    @hookimpl
+    def resource_run_upserted(self, run):
         """
         Perform functions on an upserted learning resource run
 
@@ -49,11 +57,20 @@ class SearchIndexPlugin:
         search_index_helpers.index_run_content_files(run.id)
 
     @hookimpl
-    def run_removed(self, run):
+    def resource_run_unpublished(self, run):
         """
-        Perform functions on a learning resource run that has been removed/unpublished
+        Perform functions on a learning resource run that has been unpublished
 
         Args:
             run(LearningResourceRun): The Learning Resource run that was removed
         """
         search_index_helpers.deindex_run_content_files(run.id, unpublished_only=False)
+
+    @hookimpl
+    def resource_run_delete(self, run):
+        """
+        Remove a learning resource run's content files from the search index
+        and then delete the object
+        """
+        self.resource_run_unpublished(run)
+        run.delete()

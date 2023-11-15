@@ -20,9 +20,12 @@ from learning_resources.constants import (
     GROUP_STAFF_LISTS_EDITORS,
     semester_mapping,
 )
+from learning_resources.hooks import get_plugin_manager
 from learning_resources.models import (
+    LearningResource,
     LearningResourceOfferor,
     LearningResourcePlatform,
+    LearningResourceRun,
 )
 from open_discussions.utils import generate_filepath
 
@@ -310,3 +313,57 @@ def upsert_platform_data():
                 )
                 platforms.append(platform_fields["platform"])
             LearningResourcePlatform.objects.exclude(platform__in=platforms).delete()
+
+
+def resource_upserted_actions(resource: LearningResource):
+    """
+    Trigger plugins when a LearningResource is created or updated
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.resource_upserted(resource=resource)
+
+
+def resource_unpublished_actions(resource: LearningResource):
+    """
+    Trigger plugins when a LearningResource is removed/unpublished
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.resource_unpublished(resource=resource)
+
+
+def resource_delete_actions(resource: LearningResource):
+    """
+    Trigger plugin to handle learning resource deletion
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.resource_delete(resource=resource)
+
+
+def resource_run_upserted_actions(run: LearningResourceRun):
+    """
+    Trigger plugins when a LearningResourceRun is created or updated
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.resource_run_upserted(run=run)
+
+
+def resource_run_unpublished_actions(run: LearningResourceRun):
+    """
+    Trigger plugins when a LearningResourceRun is removed/unpublished
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.resource_unpublished(run=run)
+
+
+def resource_run_delete_actions(run: LearningResourceRun):
+    """
+    Trigger plugin to handle learning resource run deletion
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.resource_run_delete(run=run)
