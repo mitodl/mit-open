@@ -122,27 +122,11 @@ const learningResourceTopics = makePaginatedFactory(learningResourceTopic)
 const learningResourceType = () =>
   faker.helpers.arrayElement(Object.values(ResourceTypeEnum))
 
-<<<<<<< HEAD
-const learningResource: Factory<LearningResource> = (
-  overrides = {},
-): LearningResource => {
-  const resourceType = overrides.resource_type ?? learningResourceType()
-  const resource: LearningResource = {
-    id: faker.helpers.unique(faker.datatype.number),
-||||||| parent of a45b09cf (Normalize and modularize the serializers)
-const learningResource: Factory<LearningResource> = (
-  overrides = {},
-): LearningResource => {
-  const resourceType = overrides.resource_type ?? learningResourceType()
-  const resource: LearningResource = {
-    id: faker.unique(faker.datatype.number),
-=======
 const _learningResourceShared = (): Partial<
   Omit<LearningResource, "resource_type">
 > => {
   return {
-    id: faker.unique(faker.datatype.number),
->>>>>>> a45b09cf (Normalize and modularize the serializers)
+    id: faker.helpers.unique(faker.datatype.number),
     professional: faker.datatype.boolean(),
     certification: null,
     departments: [learningResourceDepartment()],
@@ -160,74 +144,6 @@ const _learningResourceShared = (): Partial<
     learning_path_parents: [],
     user_list_parents: [],
   }
-<<<<<<< HEAD
-
-  function typeSpecificOverrides(type: string): Partial<LearningResource> {
-    if (type === ResourceTypeEnum.Course) {
-      return {
-        platform: faker.lorem.word(),
-        runs: repeat(learningResourceRun, { min: 1, max: 5 }),
-        certification: faker.lorem.word(),
-        offered_by: faker.lorem.word(),
-        course: {
-          course_numbers: maybe(() => repeat(faker.datatype.json)) ?? [],
-        },
-      }
-    } else if (type === ResourceTypeEnum.Program) {
-      return {
-        platform: faker.lorem.word(),
-        certification: faker.lorem.word(),
-        offered_by: faker.lorem.word(),
-      }
-    } else if (type === ResourceTypeEnum.LearningPath) {
-      return {
-        learning_path: {
-          id: faker.helpers.unique(faker.datatype.number),
-          item_count: faker.datatype.number({ min: 1, max: 30 }),
-          author: faker.datatype.number(),
-        },
-        learning_path_parents: [],
-      }
-    }
-    return {}
-  }
-
-  return resource
-||||||| parent of a45b09cf (Normalize and modularize the serializers)
-
-  function typeSpecificOverrides(type: string): Partial<LearningResource> {
-    if (type === ResourceTypeEnum.Course) {
-      return {
-        platform: faker.lorem.word(),
-        runs: repeat(learningResourceRun, { min: 1, max: 5 }),
-        certification: faker.lorem.word(),
-        offered_by: faker.lorem.word(),
-        course: {
-          extra_course_numbers: maybe(() => repeat(faker.lorem.word)) ?? null,
-        },
-      }
-    } else if (type === ResourceTypeEnum.Program) {
-      return {
-        platform: faker.lorem.word(),
-        certification: faker.lorem.word(),
-        offered_by: faker.lorem.word(),
-      }
-    } else if (type === ResourceTypeEnum.LearningPath) {
-      return {
-        learning_path: {
-          id: faker.unique(faker.datatype.number),
-          item_count: faker.datatype.number({ min: 1, max: 30 }),
-          author: faker.datatype.number(),
-        },
-        learning_path_parents: [],
-      }
-    }
-    return {}
-  }
-
-  return resource
-=======
->>>>>>> a45b09cf (Normalize and modularize the serializers)
 }
 
 const learningResource: PartialFactory<LearningResource> = (overrides = {}) => {
@@ -280,7 +196,7 @@ const course: LearningResourceFactory<CourseResource> = (overrides = {}) => {
       certification: faker.lorem.word(),
       offered_by: faker.lorem.word(),
       course: {
-        extra_course_numbers: maybe(() => repeat(faker.lorem.word)) ?? null,
+        course_numbers: maybe(() => repeat(faker.lorem.word)) ?? null,
       },
     },
     overrides,
@@ -298,7 +214,7 @@ const learningPath: LearningResourceFactory<LearningPathResource> = (
     { resource_type: ResourceTypeEnum.LearningPath },
     {
       learning_path: {
-        id: faker.unique(faker.datatype.number),
+        id: faker.helpers.unique(faker.datatype.number),
         item_count: faker.datatype.number({ min: 1, max: 30 }),
         author: faker.datatype.number(),
       },
