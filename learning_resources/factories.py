@@ -134,18 +134,10 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
         django_get_or_create = ("name",)
 
     class Params:
-        is_xpro = factory.Trait(
-            code=constants.OfferedBy.xpro.name
-        )
-        is_bootcamps = factory.Trait(
-            code=constants.OfferedBy.bootcamps.name
-        )
-        is_mitx = factory.Trait(
-            code=constants.OfferedBy.mitx.name
-        )
-        is_ocw = factory.Trait(
-            code=constants.OfferedBy.ocw.name
-        )
+        is_xpro = factory.Trait(code=constants.OfferedBy.xpro.name)
+        is_bootcamps = factory.Trait(code=constants.OfferedBy.bootcamps.name)
+        is_mitx = factory.Trait(code=constants.OfferedBy.mitx.name)
+        is_ocw = factory.Trait(code=constants.OfferedBy.ocw.name)
 
 
 class LearningResourceFactory(DjangoModelFactory):
