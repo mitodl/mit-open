@@ -644,7 +644,7 @@ class BaseListSerializer(serializers.Serializer):
 
     @extend_schema_field(CourseTopicSerializer(many=True))
     def get_topics(self, instance):
-        """Returns the list of topics"""  # noqa: D401
+        """Return the list of topics"""
         return [CourseTopicSerializer(topic).data for topic in instance.topics.all()]
 
 

@@ -37,10 +37,10 @@ def test_content_file_serializer():
             ],
             "semester": content_file.run.semester,
             "year": int(content_file.run.year),
-            "topics": list(
+            "topics": [
                 {"name": topic.name, "id": topic.id}
                 for topic in content_file.run.learning_resource.topics.all()
-            ),
+            ],
             "key": content_file.key,
             "uid": content_file.uid,
             "title": content_file.title,
@@ -60,9 +60,7 @@ def test_content_file_serializer():
             "resource_readable_id": content_file.run.learning_resource.readable_id,
             "resource_readable_num": content_file.run.learning_resource.readable_id.split(
                 "+"
-            )[
-                -1
-            ],
+            )[-1],
             "content_category": None,
         },
     )
