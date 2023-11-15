@@ -48,7 +48,7 @@ def mock_search_index_helpers(mocker):
 def test_search_index_plugin_resource_upserted(
     mock_search_index_helpers, resource_type
 ):
-    """The plugin function to upsert a resource to the search index should be triggered"""
+    """The plugin function should upsert a resource to the search index"""
     resource = LearningResourceFactory.create(resource_type=resource_type)
     SearchIndexPlugin().resource_upserted(resource)
     if resource_type == COURSE_TYPE:
@@ -68,7 +68,7 @@ def test_search_index_plugin_resource_upserted(
 def test_search_index_plugin_resource_unpublished(
     mock_search_index_helpers, resource_type
 ):
-    """The plugin function to remove a resource from the search index should be triggered"""
+    """The plugin function should remove a resource from the search index"""
     resource = LearningResourceFactory.create(resource_type=resource_type)
     SearchIndexPlugin().resource_unpublished(resource)
     if resource_type == COURSE_TYPE:
@@ -82,7 +82,7 @@ def test_search_index_plugin_resource_unpublished(
 @pytest.mark.django_db()
 @pytest.mark.parametrize("resource_type", [COURSE_TYPE, PROGRAM_TYPE])
 def test_search_index_plugin_resource_delete(mock_search_index_helpers, resource_type):
-    """The plugin function to remove a resource from the search index should be triggered"""
+    """The plugin function should remove a resource from the search index then delete the resource"""
     resource = LearningResourceFactory.create(resource_type=resource_type)
     SearchIndexPlugin().resource_delete(resource)
     if resource_type == COURSE_TYPE:
@@ -96,7 +96,7 @@ def test_search_index_plugin_resource_delete(mock_search_index_helpers, resource
 
 @pytest.mark.django_db()
 def test_search_index_plugin_resource_run_upserted(mocker):
-    """The plugin function to upsert a run's contenfiles to the search index should be triggered"""
+    """The plugin function should upsert a run's contenfiles to the search index"""
     mock_upsert_contentfile = mocker.patch(
         "learning_resources_search.plugins.search_index_helpers.index_run_content_files"
     )
@@ -107,7 +107,7 @@ def test_search_index_plugin_resource_run_upserted(mocker):
 
 @pytest.mark.django_db()
 def test_search_index_plugin_resource_run_unpublished(mock_search_index_helpers):
-    """The plugin function to remove a run's contenfiles to the search index should be triggered"""
+    """The plugin function should remove a run's contenfiles from the search index"""
     run = LearningResourceRunFactory.create()
     SearchIndexPlugin().resource_run_unpublished(run)
     mock_search_index_helpers.mock_remove_contentfiles.assert_called_once_with(

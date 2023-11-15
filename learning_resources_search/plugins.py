@@ -13,7 +13,7 @@ class SearchIndexPlugin:
     @hookimpl
     def resource_upserted(self, resource):
         """
-        Perform functions on an upserted learning resource
+        Upsert a created/modified resource to the search index
 
         Args:
             resource(LearningResource): The Learning Resource that was upserted
@@ -27,7 +27,7 @@ class SearchIndexPlugin:
     @hookimpl
     def resource_unpublished(self, resource):
         """
-        Perform functions on a learning resource that has been unpublished
+        Remove an unpublished resource from the search index
 
         Args:
             resource(LearningResource): The Learning Resource that was removed
@@ -49,17 +49,17 @@ class SearchIndexPlugin:
     @hookimpl
     def resource_run_upserted(self, run):
         """
-        Perform functions on an upserted learning resource run
+        Upsert an created/modified run's content files
 
-        Args:
-            run(LearningResourceRun): The LearningResourceRun that was upserted
+         Args:
+             run(LearningResourceRun): The LearningResourceRun that was upserted
         """
         search_index_helpers.index_run_content_files(run.id)
 
     @hookimpl
     def resource_run_unpublished(self, run):
         """
-        Perform functions on a learning resource run that has been unpublished
+        Remove a learning resource run's content files from the search index
 
         Args:
             run(LearningResourceRun): The Learning Resource run that was removed
