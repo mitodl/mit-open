@@ -1,4 +1,4 @@
-"""Tests for channels_fields.views"""
+"""Tests for channels.views"""
 
 import os
 
@@ -6,15 +6,15 @@ import pytest
 from django.contrib.auth.models import Group, User
 from django.urls import reverse
 
-from channels_fields.api import add_user_role
-from channels_fields.constants import FIELD_ROLE_MODERATORS
-from channels_fields.factories import (
+from channels.api import add_user_role
+from channels.constants import FIELD_ROLE_MODERATORS
+from channels.factories import (
     FieldChannelFactory,
     FieldListFactory,
     SubfieldFactory,
 )
-from channels_fields.models import FieldChannel
-from channels_fields.serializers import FieldChannelSerializer
+from channels.models import FieldChannel
+from channels.serializers import FieldChannelSerializer
 from learning_resources.constants import LearningResourceType
 from learning_resources.factories import LearningResourceFactory
 from open_discussions.factories import UserFactory

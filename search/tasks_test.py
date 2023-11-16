@@ -772,15 +772,15 @@ def test_start_update_index(  # noqa: C901, PLR0912, PLR0915
             index_courses_mock.si.assert_any_call(
                 [courses[0].id, courses[1].id],
                 True,  # noqa: FBT003
-            )  # noqa: FBT003, RUF100
+            )
             index_courses_mock.si.assert_any_call(
                 [courses[2].id, courses[3].id],
                 True,  # noqa: FBT003
-            )  # noqa: FBT003, RUF100
+            )
             index_courses_mock.si.assert_any_call(
                 [courses[4].id, courses[5].id],
                 True,  # noqa: FBT003
-            )  # noqa: FBT003, RUF100
+            )
 
             assert deindex_courses_mock.si.call_count == 3
             deindex_courses_mock.si.assert_any_call(
@@ -801,7 +801,7 @@ def test_start_update_index(  # noqa: C901, PLR0912, PLR0915
             index_course_content_mock.si.assert_any_call(
                 [course.id],
                 True,  # noqa: FBT003
-            )  # noqa: FBT003, RUF100
+            )
 
         elif platform:
             assert index_course_content_mock.si.call_count == 0
@@ -813,11 +813,11 @@ def test_start_update_index(  # noqa: C901, PLR0912, PLR0915
         index_videos_mock.si.assert_any_call(
             [videos[0].id, videos[1].id],
             True,  # noqa: FBT003
-        )  # noqa: FBT003, RUF100
+        )
         index_videos_mock.si.assert_any_call(
             [videos[2].id, videos[3].id],
             True,  # noqa: FBT003
-        )  # noqa: FBT003, RUF100
+        )
 
         assert deindex_videos_mock.si.call_count == 1
         deindex_videos_mock.si.assert_any_call([unpublished_video.id])
@@ -827,11 +827,11 @@ def test_start_update_index(  # noqa: C901, PLR0912, PLR0915
         index_podcasts_mock.si.assert_any_call(
             [podcasts[0].id, podcasts[1].id],
             True,  # noqa: FBT003
-        )  # noqa: FBT003, RUF100
+        )
         index_podcasts_mock.si.assert_any_call(
             [podcasts[2].id, podcasts[3].id],
             True,  # noqa: FBT003
-        )  # noqa: FBT003, RUF100
+        )
 
         assert deindex_podcasts_mock.si.call_count == 1
         deindex_podcasts_mock.si.assert_any_call([unpublished_podcast.id])

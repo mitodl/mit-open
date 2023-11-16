@@ -111,13 +111,12 @@ INSTALLED_APPS = (
     # Put our apps after this point
     "open_discussions",
     "authentication",
-    "channels_fields",
+    "channels",
     "profiles",
     "mail",
     "search",
     "widgets",
     "interactions",
-    "discussions",
     "learning_resources",  # to replace below when ready
     "course_catalog",
     "learning_resources_search",

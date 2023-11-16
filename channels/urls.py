@@ -1,9 +1,9 @@
-"""Urls for channels_fields"""
+"""Urls for channels"""
 
 from django.urls import include, re_path
 from rest_framework.routers import DefaultRouter
 
-from channels_fields.views import (
+from channels.views import (
     FieldChannelViewSet,
     FieldModeratorDetailView,
     FieldModeratorListView,

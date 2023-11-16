@@ -8,7 +8,7 @@ from authentication.hooks import get_plugin_manager
 def forbid_hijack(
     strategy,
     **kwargs,  # noqa: ARG001
-):  # pylint: disable=unused-argument  # noqa: ARG001, RUF100
+):
     """
     Forbid an admin user from trying to login/register while hijacking another user
 

@@ -1,4 +1,4 @@
-"""Views for channels_fields"""
+"""Views for channels"""
 
 import logging
 
@@ -10,11 +10,11 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
 
-from channels_fields.api import get_group_role_name, remove_user_role
-from channels_fields.constants import FIELD_ROLE_MODERATORS
-from channels_fields.models import FieldChannel
-from channels_fields.permissions import FieldModeratorPermissions, HasFieldPermission
-from channels_fields.serializers import (
+from channels.api import get_group_role_name, remove_user_role
+from channels.constants import FIELD_ROLE_MODERATORS
+from channels.models import FieldChannel
+from channels.permissions import FieldModeratorPermissions, HasFieldPermission
+from channels.serializers import (
     FieldChannelCreateSerializer,
     FieldChannelSerializer,
     FieldChannelWriteSerializer,

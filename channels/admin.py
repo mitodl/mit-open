@@ -1,9 +1,9 @@
-"""Admin for channels_fields"""
+"""Admin for channels"""
 
 from django.contrib import admin
 from django.utils.html import format_html
 
-from channels_fields.models import FieldChannel
+from channels.models import FieldChannel
 
 
 class FieldChannelAdmin(admin.ModelAdmin):

@@ -1,10 +1,10 @@
-"""API for channels_fields"""
+"""API for channels"""
 
 from django.contrib.auth.models import Group, User
 from django.db import transaction
 
-from channels_fields.constants import FIELD_ROLE_CHOICES, FIELD_ROLE_MODERATORS
-from channels_fields.models import FieldChannel, FieldChannelGroupRole
+from channels.constants import FIELD_ROLE_CHOICES, FIELD_ROLE_MODERATORS
+from channels.models import FieldChannel, FieldChannelGroupRole
 
 
 def create_field_groups_and_roles(

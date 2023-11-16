@@ -5937,7 +5937,6 @@ components:
         ga_tracking_id:
           type: string
           readOnly: true
-          nullable: true
         is_moderator:
           type: boolean
           description: Return true if user is a moderator for the channel

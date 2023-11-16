@@ -1,16 +1,16 @@
-"""Tests for channels_fields.serializers"""
+"""Tests for channels.serializers"""
 
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from channels_fields.constants import FIELD_ROLE_MODERATORS
-from channels_fields.factories import (
+from channels.constants import FIELD_ROLE_MODERATORS
+from channels.factories import (
     FieldChannelFactory,
     FieldListFactory,
     SubfieldFactory,
 )
-from channels_fields.models import FieldChannelGroupRole
-from channels_fields.serializers import (
+from channels.models import FieldChannelGroupRole
+from channels.serializers import (
     FieldChannelCreateSerializer,
     FieldChannelSerializer,
     FieldChannelWriteSerializer,
@@ -50,7 +50,7 @@ def base_field_data():
 @pytest.mark.parametrize("has_avatar", [True, False])
 @pytest.mark.parametrize("has_banner", [True, False])
 @pytest.mark.parametrize("has_about", [True, False])
-@pytest.mark.parametrize("ga_tracking_id", [None, "abc123"])
+@pytest.mark.parametrize("ga_tracking_id", ["", "abc123"])
 def test_serialize_field_channel(  # pylint: disable=too-many-arguments
     mocker, has_avatar, has_banner, has_about, ga_tracking_id
 ):
@@ -58,7 +58,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
     Test serializing a field channel
     """
 
-    mocker.patch("discussions.models.ResizeToFit", autospec=True)
+    mocker.patch("channels.models.ResizeToFit", autospec=True)
     field_channel = FieldChannelFactory.create(
         banner=mock_image_file("banner.jpg") if has_banner else None,
         avatar=mock_image_file("avatar.jpg") if has_avatar else None,

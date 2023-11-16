@@ -407,7 +407,7 @@ export interface FieldChannel {
    * @type {string}
    * @memberof FieldChannel
    */
-  ga_tracking_id: string | null
+  ga_tracking_id: string
   /**
    * Return true if user is a moderator for the channel
    * @type {boolean}

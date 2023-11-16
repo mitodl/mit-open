@@ -56,7 +56,7 @@ class LearningResourceImage(TimestampedModel):
     url = models.TextField(max_length=2048)
     description = models.CharField(  # noqa: DJ001
         max_length=1024, null=True, blank=True
-    )  # noqa: DJ001, RUF100
+    )
     alt = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
 
     def __str__(self):
@@ -203,7 +203,7 @@ class LearningResourceRun(TimestampedModel):
     slug = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
     availability = models.CharField(  # noqa: DJ001
         max_length=128, null=True, blank=True
-    )  # noqa: DJ001, RUF100
+    )
     semester = models.CharField(max_length=20, null=True, blank=True)  # noqa: DJ001
     year = models.IntegerField(null=True, blank=True)
     start_date = models.DateTimeField(null=True, blank=True, db_index=True)

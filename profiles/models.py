@@ -65,13 +65,13 @@ class Profile(models.Model):
 
     image = models.CharField(  # noqa: DJ001
         null=True, max_length=MAX_IMAGE_FIELD_LENGTH
-    )  # noqa: DJ001, RUF100
+    )
     image_small = models.CharField(  # noqa: DJ001
         null=True, max_length=MAX_IMAGE_FIELD_LENGTH
-    )  # noqa: DJ001, RUF100
+    )
     image_medium = models.CharField(  # noqa: DJ001
         null=True, max_length=MAX_IMAGE_FIELD_LENGTH
-    )  # noqa: DJ001, RUF100
+    )
 
     image_file = models.ImageField(
         null=True, max_length=2083, upload_to=profile_image_upload_uri

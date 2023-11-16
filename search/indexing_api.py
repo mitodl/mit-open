@@ -313,7 +313,7 @@ def deindex_items(documents, object_type, update_only, **kwargs):
             if message["result"] != "not_found":
                 log.error(  # noqa: TRY400
                     "Bulk deindex failed. Error: %s", str(message)
-                )  # noqa: RUF100, TRY400
+                )
                 msg = f"Bulk deindex failed: {message}"
                 raise ReindexException(msg)  # noqa: B904, TRY200
 
@@ -394,7 +394,7 @@ def deindex_profiles(ids):
         serialize_bulk_profiles_for_deletion(ids),
         PROFILE_TYPE,
         True,  # noqa: FBT003
-    )  # noqa: FBT003, RUF100
+    )
 
 
 def index_courses(ids, update_only=False):  # noqa: FBT002
@@ -420,7 +420,7 @@ def deindex_courses(ids):
         serialize_bulk_courses_for_deletion(ids),
         COURSE_TYPE,
         True,  # noqa: FBT003
-    )  # noqa: FBT003, RUF100
+    )
 
     course_content_type = ContentType.objects.get_for_model(Course)
     for run_id in LearningResourceRun.objects.filter(
@@ -537,7 +537,7 @@ def deindex_programs(ids):
         serialize_bulk_programs_for_deletion(ids),
         PROGRAM_TYPE,
         True,  # noqa: FBT003
-    )  # noqa: FBT003, RUF100
+    )
 
 
 def index_user_lists(ids, update_only=False):  # noqa: FBT002
@@ -563,8 +563,8 @@ def deindex_user_lists(ids):
     deindex_items(
         serialize_bulk_user_lists_for_deletion(ids),
         USER_LIST_TYPE,
-        True,  # noqa: E501, FBT003, RUF100
-    )  # noqa: FBT003, RUF100
+        True,  # noqa: FBT003
+    )
 
 
 def index_staff_lists(ids, update_only=False):  # noqa: FBT002
@@ -590,8 +590,8 @@ def deindex_staff_lists(ids):
     deindex_items(
         serialize_bulk_staff_lists_for_deletion(ids),
         STAFF_LIST_TYPE,
-        True,  # noqa: E501, FBT003, RUF100
-    )  # noqa: FBT003, RUF100
+        True,  # noqa: FBT003
+    )
 
 
 def index_videos(ids, update_only=False):  # noqa: FBT002
@@ -618,7 +618,7 @@ def deindex_videos(ids):
         serialize_bulk_videos_for_deletion(ids),
         VIDEO_TYPE,
         True,  # noqa: FBT003
-    )  # noqa: FBT003, RUF100
+    )
 
 
 def index_podcasts(ids, update_only=False):  # noqa: FBT002
@@ -644,7 +644,7 @@ def deindex_podcasts(ids):
         serialize_bulk_podcasts_for_deletion(ids),
         PODCAST_TYPE,
         True,  # noqa: FBT003
-    )  # noqa: FBT003, RUF100
+    )
 
 
 def index_podcast_episodes(ids, update_only=False):  # noqa: FBT002

@@ -356,7 +356,7 @@ def test_index_profile_items(mocker):
         serialize_bulk_profiles(profile_ids),
         PROFILE_TYPE,
         False,  # noqa: FBT003
-    )  # noqa: FBT003, RUF100
+    )
     assert mock_aliases.call_count == 1
     assert mock_bulk.call_count == 1
 

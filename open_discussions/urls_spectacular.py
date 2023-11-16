@@ -7,5 +7,5 @@ urlpatterns = [
     re_path(r"", include("learning_resources.urls")),
     re_path(r"", include("articles.urls")),
     re_path(r"", include("learning_resources_search.urls")),
-    re_path(r"", include("channels_fields.urls")),
+    re_path(r"", include("channels.urls")),
 ]
