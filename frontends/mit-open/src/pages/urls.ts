@@ -10,6 +10,7 @@ export const learningPathsView = (id: number) =>
 export const ARTICLES_LISTING = "/articles/"
 export const ARTICLES_DETAILS = "/articles/:id"
 export const ARTICLES_EDIT = "/articles/:id/edit"
+export const ARTICLES_CREATE = "/articles/new"
 export const articlesView = (id: number) =>
   generatePath(ARTICLES_DETAILS, { id })
 export const articlesEditView = (id: number) =>

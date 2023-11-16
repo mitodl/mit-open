@@ -5,8 +5,10 @@ import { createQueryKeys } from "@lukemorales/query-key-factory"
 const articles = createQueryKeys("articles", {
   detail: (id: number) => ({
     queryKey: [id],
-    meow: "meow",
-    queryFn: () => articlesApi.articlesRetrieve({ id }).then((res) => res.data),
+    queryFn: () => {
+      if (id < 0) return Promise.reject("Invalid ID")
+      return articlesApi.articlesRetrieve({ id }).then((res) => res.data)
+    },
   }),
   list: (params: ArticleListRequest) => ({
     queryKey: [params],

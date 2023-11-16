@@ -22,13 +22,13 @@ const useArticleList = (
   })
 }
 
-const useArticleDetail = (
-  id: number,
-  opts: Pick<UseQueryOptions, "enabled"> = {},
-) => {
+/**
+ * Query is diabled if id is undefined.
+ */
+const useArticleDetail = (id: number | undefined) => {
   return useQuery({
-    ...articles.detail(id),
-    ...opts,
+    ...articles.detail(id ?? -1),
+    enabled: id !== undefined,
   })
 }
 
@@ -36,7 +36,9 @@ const useArticleCreate = () => {
   const client = useQueryClient()
   return useMutation({
     mutationFn: (data: Omit<Article, "id">) =>
-      articlesApi.articlesCreate({ ArticleRequest: data }),
+      articlesApi
+        .articlesCreate({ ArticleRequest: data })
+        .then((response) => response.data),
     onSuccess: () => {
       client.invalidateQueries(articles.list._def)
     },
@@ -55,7 +57,12 @@ const useArticlePartialUpdate = () => {
   const client = useQueryClient()
   return useMutation({
     mutationFn: ({ id, ...data }: Partial<Article> & Pick<Article, "id">) =>
-      articlesApi.articlesPartialUpdate({ id, PatchedArticleRequest: data }),
+      articlesApi
+        .articlesPartialUpdate({
+          id,
+          PatchedArticleRequest: data,
+        })
+        .then((response) => response.data),
     onSuccess: (_data) => {
       client.invalidateQueries(articles._def)
     },
