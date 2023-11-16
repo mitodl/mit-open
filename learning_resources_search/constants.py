@@ -5,6 +5,8 @@ from enum import Enum
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from urllib3.exceptions import TimeoutError as UrlTimeoutError
 
+from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
+
 ALIAS_ALL_INDICES = "all"
 COURSE_TYPE = "course"
 PROGRAM_TYPE = "program"
@@ -254,48 +256,18 @@ SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)
 SOURCE_EXCLUDED_FIELDS = [
     "course.course_numbers.sort_coursenum",
     "course.course_numbers.primary",
+    "created_on",
     "resource_relations",
 ]
 
-LEARNING_RESOURCE_SORTBY_OPTIONS = {
-    "id": {
-        "title": "Object ID ascending",
-        "sort": "id",
-    },
-    "-id": {
-        "title": "Object ID descending",
-        "sort": "-id",
-    },
-    "readable_id": {
-        "title": "Readable ID ascending",
-        "sort": "readable_id",
-    },
-    "-readable_id": {
-        "title": "Readable ID descending",
-        "sort": "-readable_id",
-    },
-    "last_modified": {
-        "title": "Last Modified Date ascending",
-        "sort": "last_modified",
-    },
-    "-last_modified": {
-        "title": "Last Modified Date descending",
-        "sort": "-last_modified",
-    },
-    "start_date": {
-        "title": "Start Date ascending",
-        "sort": "runs.start_date",
-    },
-    "-start_date": {
-        "title": "Start Date descending",
-        "sort": "-runs.start_date",
-    },
+SEARCH_SORTBY_OPTIONS = {
+    **LEARNING_RESOURCE_SORTBY_OPTIONS,
     "mitcoursenumber": {
         "title": "MIT course number ascending",
-        "sort": "course.course_numbers.sort_coursenum",
+        "sort": "course__course_numbers__sort_coursenum",
     },
     "-mitcoursenumber": {
         "title": "MIT course number descending",
-        "sort": "-course.course_numbers.sort_coursenum",
+        "sort": "-course__course_numbers__sort_coursenum",
     },
 }

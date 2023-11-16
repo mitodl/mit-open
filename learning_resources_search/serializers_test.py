@@ -73,6 +73,7 @@ def test_serialize_course_for_bulk(
     expected_data = {
         "_id": resource.id,
         "resource_relations": {"name": "resource"},
+        "created_on": resource.created_on,
         **LearningResourceSerializer(resource).data,
     }
     expected_data["course"]["course_numbers"][0] = {
@@ -112,11 +113,12 @@ def test_serialize_program_for_bulk():
     """
     Test that serialize_program_for_bulk yields a valid LearningResourceSerializer
     """
-    program = factories.ProgramFactory.create()
-    assert serializers.serialize_program_for_bulk(program.learning_resource) == {
-        "_id": program.learning_resource.id,
+    resource = factories.ProgramFactory.create().learning_resource
+    assert serializers.serialize_program_for_bulk(resource) == {
+        "_id": resource.id,
         "resource_relations": {"name": "resource"},
-        **LearningResourceSerializer(program.learning_resource).data,
+        "created_on": resource.created_on,
+        **LearningResourceSerializer(resource).data,
     }
 
 

@@ -322,10 +322,10 @@ def test_get_podcast_detail_endpoint(client, url):
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ("lr_podcast_episodes_api-list", "ordering=-last_modified"),
+        ("lr_podcast_episodes_api-list", "sortby=-last_modified"),
         (
             "learning_resources_api-list",
-            "resource_type=podcast_episode&ordering=-last_modified",
+            "resource_type=podcast_episode&sortby=-last_modified",
         ),
     ],
 )

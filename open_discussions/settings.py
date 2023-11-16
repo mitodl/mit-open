@@ -602,6 +602,7 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.MultiPartRenderer",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "ORDERING_PARAM": "sortby",
 }
 
 USE_X_FORWARDED_PORT = get_bool("USE_X_FORWARDED_PORT", False)  # noqa: FBT003

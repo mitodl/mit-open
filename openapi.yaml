@@ -525,12 +525,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -595,6 +589,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - courses
       security:
@@ -823,12 +845,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -893,6 +909,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - courses
       security:
@@ -1030,12 +1074,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -1100,6 +1138,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - courses
       security:
@@ -1483,12 +1549,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -1553,6 +1613,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - learning_resources
       security:
@@ -1581,17 +1669,17 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: path
         name: parent_id
         schema:
           type: integer
         required: true
+      - name: sortby
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
       tags:
       - learning_resources
       security:
@@ -1847,12 +1935,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -1917,6 +1999,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - learning_resources
       security:
@@ -2054,12 +2164,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -2124,6 +2228,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - learning_resources
       security:
@@ -2325,6 +2457,8 @@ paths:
           - -readable_id
           - last_modified
           - -last_modified
+          - created_on
+          - -created_on
           - start_date
           - -start_date
           - mitcoursenumber
@@ -2340,6 +2474,8 @@ paths:
           * `-readable_id` - Readable ID descending
           * `last_modified` - Last Modified Date ascending
           * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
@@ -2488,12 +2624,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -2558,6 +2688,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - learningpaths
       security:
@@ -2612,17 +2770,17 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: path
         name: parent_id
         schema:
           type: integer
         required: true
+      - name: sortby
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
       tags:
       - learningpaths
       security:
@@ -3021,12 +3179,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -3091,6 +3243,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - learningpaths
       security:
@@ -3228,12 +3408,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -3298,6 +3472,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - learningpaths
       security:
@@ -3435,12 +3637,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -3505,6 +3701,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - podcast_episodes
       security:
@@ -3665,12 +3889,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -3735,6 +3953,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - podcast_episodes
       security:
@@ -3872,12 +4118,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -3942,6 +4182,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - podcast_episodes
       security:
@@ -4079,12 +4347,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -4149,6 +4411,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - podcasts
       security:
@@ -4177,17 +4467,17 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: path
         name: parent_id
         schema:
           type: integer
         required: true
+      - name: sortby
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
       tags:
       - podcasts
       security:
@@ -4375,12 +4665,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -4445,6 +4729,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - podcasts
       security:
@@ -4582,12 +4894,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -4652,6 +4958,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - podcasts
       security:
@@ -4789,12 +5123,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -4859,6 +5187,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - programs
       security:
@@ -5019,12 +5375,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -5089,6 +5439,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - programs
       security:
@@ -5226,12 +5604,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - in: query
         name: platform
         schema:
@@ -5296,6 +5668,34 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
       tags:
       - programs
       security:

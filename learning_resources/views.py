@@ -13,7 +13,10 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.utils import (
+    extend_schema,
+    extend_schema_view,
+)
 from rest_framework import views, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
@@ -109,10 +112,8 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceSerializer
     permission_classes = (AnonymousAccessReadonlyPermission,)
     pagination_class = DefaultPagination
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_backends = [DjangoFilterBackend]
     filterset_class = LearningResourceFilter
-    ordering_fields = ["id", "readable_id", "last_modified", "title"]
-    ordering = ["id"]
 
     def _get_base_queryset(self, resource_type: str | None = None) -> QuerySet:
         """

@@ -1,14 +1,18 @@
 """Filters for learning_resources API"""
+import logging
 
 from django_filters import ChoiceFilter, FilterSet
 
 from learning_resources.constants import (
     DEPARTMENTS,
+    LEARNING_RESOURCE_SORTBY_OPTIONS,
     LearningResourceType,
     OfferedBy,
     PlatformType,
 )
 from learning_resources.models import LearningResource
+
+log = logging.getLogger(__name__)
 
 
 class LearningResourceFilter(FilterSet):
@@ -46,6 +50,17 @@ class LearningResourceFilter(FilterSet):
         choices=([(platform.name, platform.value) for platform in PlatformType]),
     )
 
+    sortby = ChoiceFilter(
+        label="Sort By",
+        method="filter_sortby",
+        choices=(
+            [
+                (key, value["title"])
+                for key, value in LEARNING_RESOURCE_SORTBY_OPTIONS.items()
+            ]
+        ),
+    )
+
     def filter_resource_type(self, queryset, _, value):
         """resource_type Filter for learning resources"""
         return queryset.filter(resource_type=value)
@@ -61,6 +76,10 @@ class LearningResourceFilter(FilterSet):
     def filter_department(self, queryset, _, value):
         """Department ID Filter for learning resources"""
         return queryset.filter(departments__department_id=value)
+
+    def filter_sortby(self, queryset, _, value):
+        """Sort the queryset in the order specified by the value"""
+        return queryset.order_by(LEARNING_RESOURCE_SORTBY_OPTIONS[value]["sort"])
 
     class Meta:
         model = LearningResource
