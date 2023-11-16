@@ -88,6 +88,7 @@ LEARNING_RESOURCE_MAP = {
     "description": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
     "full_description": ENGLISH_TEXT_FIELD,
     "last_modified": {"type": "date"},
+    "created_on": {"type": "date"},
     "languages": {"type": "keyword"},
     "image": {
         "type": "nested",
