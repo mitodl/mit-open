@@ -50,7 +50,7 @@ def base_field_data():
 @pytest.mark.parametrize("has_avatar", [True, False])
 @pytest.mark.parametrize("has_banner", [True, False])
 @pytest.mark.parametrize("has_about", [True, False])
-@pytest.mark.parametrize("ga_tracking_id", [None, "abc123"])
+@pytest.mark.parametrize("ga_tracking_id", ["", "abc123"])
 def test_serialize_field_channel(  # pylint: disable=too-many-arguments
     mocker, has_avatar, has_banner, has_about, ga_tracking_id
 ):
