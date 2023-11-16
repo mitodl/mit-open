@@ -616,10 +616,10 @@ def test_load_content_files(mocker, is_published):
         autospec=True,
     )
     mock_bulk_index = mocker.patch(
-        "learning_resources.etl.loaders.search_index_helpers.index_run_content_files",
+        "learning_resources.etl.loaders.resource_run_upserted_actions",
     )
     mock_bulk_delete = mocker.patch(
-        "learning_resources.etl.loaders.search_index_helpers.deindex_run_content_files",
+        "learning_resources.etl.loaders.resource_run_unpublished_actions",
         autospec=True,
     )
     load_content_files(course_run, content_data)

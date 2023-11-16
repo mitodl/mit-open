@@ -302,6 +302,10 @@
       "description": "List of pluggy plugins to use for authentication",
       "required": false
     },
+    "MITOPEN_LEARNING_RESOURCES_PLUGINS": {
+      "description": "List of pluggy plugins to use for learning resources",
+      "required": false
+    },
     "MITOPEN_BASE_URL": {
       "description": "Base url to link users to in emails"
     },

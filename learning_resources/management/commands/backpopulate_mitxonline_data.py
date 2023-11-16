@@ -5,7 +5,7 @@ from django.core.management import BaseCommand
 from learning_resources.etl.constants import ETLSource
 from learning_resources.models import LearningResource
 from learning_resources.tasks import get_mitxonline_data
-from learning_resources_search.search_index_helpers import deindex_course
+from learning_resources.utils import resource_delete_actions
 from open_discussions.utils import now_in_utc
 
 
@@ -32,8 +32,7 @@ class Command(BaseCommand):
             for learning_resource in LearningResource.objects.filter(
                 etl_source=ETLSource.mitxonline.value
             ):
-                learning_resource.delete()
-                deindex_course(learning_resource)
+                resource_delete_actions(learning_resource)
         else:
             task = get_mitxonline_data.delay()
             self.stdout.write(f"Started task {task} to get MITx Online course data")

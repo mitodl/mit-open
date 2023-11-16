@@ -454,7 +454,7 @@ def test_ocw_next_webhook_endpoint_unpublished(client, mocker, settings, data):
     """Test that the OCW webhook endpoint removes an unpublished task from the search index"""
     settings.OCW_WEBHOOK_KEY = "fake_key"
     mock_delete_course = mocker.patch(
-        "learning_resources.views.deindex_course", autospec=True
+        "learning_resources.views.resource_unpublished_actions", autospec=True
     )
     run_id = data.get("site_uid")
     course_run = None

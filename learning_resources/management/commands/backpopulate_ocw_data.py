@@ -5,7 +5,7 @@ from django.core.management import BaseCommand
 from learning_resources.etl.constants import ETLSource
 from learning_resources.models import LearningResource
 from learning_resources.tasks import get_ocw_data
-from learning_resources_search.search_index_helpers import deindex_course
+from learning_resources.utils import resource_delete_actions
 from open_discussions.constants import ISOFORMAT
 from open_discussions.utils import now_in_utc
 
@@ -51,8 +51,7 @@ class Command(BaseCommand):
 
             self.stdout.write(f"Deleting OCW course(s) {course_name or ''}")
             for resource in ocw_resources:
-                deindex_course(resource)
-                resource.delete()
+                resource_delete_actions(resource)
 
         else:
             start = now_in_utc()

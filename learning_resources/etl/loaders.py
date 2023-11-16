@@ -33,8 +33,14 @@ from learning_resources.models import (
     PodcastEpisode,
     Program,
 )
-from learning_resources.utils import load_course_blocklist, load_course_duplicates
-from learning_resources_search import search_index_helpers
+from learning_resources.utils import (
+    load_course_blocklist,
+    load_course_duplicates,
+    resource_run_unpublished_actions,
+    resource_run_upserted_actions,
+    resource_unpublished_actions,
+    resource_upserted_actions,
+)
 
 log = logging.getLogger()
 
@@ -250,7 +256,7 @@ def load_course(  # noqa: C901
                 if duplicate_resource:
                     duplicate_resource.published = False
                     duplicate_resource.save()
-                    search_index_helpers.deindex_course(duplicate_resource)
+                    resource_unpublished_actions(duplicate_resource)
 
         else:
             (
@@ -297,9 +303,9 @@ def load_course(  # noqa: C901
         load_resource_content_tags(learning_resource, content_tags_data)
 
         if not created and not learning_resource.published:
-            search_index_helpers.deindex_course(learning_resource)
+            resource_unpublished_actions(learning_resource)
         elif learning_resource.published:
-            search_index_helpers.upsert_course(learning_resource.id)
+            resource_upserted_actions(learning_resource)
     return learning_resource
 
 
@@ -339,7 +345,7 @@ def load_courses(
         ).exclude(id__in=[learning_resource.id for learning_resource in courses]):
             learning_resource.published = False
             learning_resource.save()
-            search_index_helpers.deindex_course(learning_resource)
+            resource_unpublished_actions(learning_resource)
 
     return courses
 
@@ -442,9 +448,9 @@ def load_program(
         )
 
     if not created and not program.learning_resource.published:
-        search_index_helpers.deindex_program(program.learning_resource)
+        resource_unpublished_actions(program.learning_resource)
     elif program.learning_resource.published:
-        search_index_helpers.upsert_program(program.learning_resource.id)
+        resource_upserted_actions(program.learning_resource)
 
     return learning_resource
 
@@ -518,11 +524,9 @@ def load_content_files(
         deleted_files.update(published=False)
 
         if course_run.published:
-            search_index_helpers.index_run_content_files(course_run.id)
+            resource_run_upserted_actions(course_run)
         else:
-            search_index_helpers.deindex_run_content_files(
-                course_run.id, unpublished_only=False
-            )
+            resource_run_unpublished_actions(course_run)
 
         return content_files_ids
     return None

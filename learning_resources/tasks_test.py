@@ -257,7 +257,7 @@ def test_get_ocw_courses(settings, mocker, mocked_celery, timestamp, overwrite):
     Test get_ocw_courses
     """
     setup_s3_ocw(settings)
-    mocker.patch("learning_resources.etl.loaders.search_index_helpers.upsert_course")
+    mocker.patch("learning_resources.etl.loaders.resource_upserted_actions")
     mocker.patch("learning_resources.etl.pipelines.loaders.load_content_files")
     mocker.patch("learning_resources.etl.ocw.transform_content_files")
     tasks.get_ocw_courses.delay(
