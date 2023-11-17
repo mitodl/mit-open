@@ -7,60 +7,52 @@ from django.conf import settings
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
-from learning_resources.etl.constants import CourseNumberType
+from learning_resources.constants import (
+    LEARNING_RESOURCE_SORTBY_OPTIONS,
+    LearningResourceType,
+    OfferedBy,
+    PlatformType,
+)
 from learning_resources.models import LearningResource
 from learning_resources.serializers import (
     ContentFileSerializer,
+    CourseNumberSerializer,
     LearningResourceSerializer,
 )
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
     LEARNING_RESOURCE_TYPES,
-    SEARCH_SORTBY_OPTIONS,
 )
 
 log = logging.getLogger()
 
 
-def add_extra_course_number_fields(resource_data: dict):
-    """Add sortable coursenums and primary(boolean) fields to course.course_numbers"""
-    if resource_data.get("course"):
-        course_numbers = resource_data["course"].get("course_numbers", [])
-        for coursenum_data in course_numbers:
-            department_data = coursenum_data.get("department", {})
-            department_num = (
-                department_data.get("department_id") if department_data else None
-            )
-            course_num = coursenum_data.get("value")
-            if (
-                department_num
-                and department_num[0].isdigit()
-                and len(department_num) == 1
-            ):
-                sort_coursenum = f"0{course_num}"
-            else:
-                sort_coursenum = course_num
-            coursenum_data["primary"] = (
-                coursenum_data.get("listing_type") == CourseNumberType.primary.value
-            )
-            coursenum_data["sort_coursenum"] = sort_coursenum
+class SearchCourseNumberSerializer(CourseNumberSerializer):
+    """Serializer for CourseNumbe, including extra fields for search"""
+
+    primary = serializers.BooleanField()
+    sort_coursenum = serializers.CharField()
 
 
-def transform_resource_data(resource_data: dict) -> dict:
+def transform_resource_data(learning_resource_obj: LearningResource) -> dict:
     """
     Apply transformations on the resource data
 
     Args:
-        resource_data(dict): The resource data
+        learning_resource_obj(dict): The learning resource
 
     Returns:
         dict: The transformed resource data
 
     """
-    add_extra_course_number_fields(resource_data)
-    return resource_data
+    serialized_data = LearningResourceSerializer(instance=learning_resource_obj).data
+    if learning_resource_obj.resource_type == LearningResourceType.course.name:
+        serialized_data["course"]["course_numbers"] = [
+            SearchCourseNumberSerializer(instance=num).data
+            for num in learning_resource_obj.course.course_numbers
+        ]
+    return serialized_data
 
 
 def serialize_learning_resource_for_update(
@@ -79,9 +71,7 @@ def serialize_learning_resource_for_update(
     return {
         "resource_relations": {"name": "resource"},
         "created_on": learning_resource_obj.created_on,
-        **transform_resource_data(
-            LearningResourceSerializer(learning_resource_obj).data
-        ),
+        **transform_resource_data(learning_resource_obj),
     }
 
 
@@ -173,7 +163,8 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
     sortby = serializers.ChoiceField(
         required=False,
         choices=[
-            (key, SEARCH_SORTBY_OPTIONS[key]["title"]) for key in SEARCH_SORTBY_OPTIONS
+            (key, LEARNING_RESOURCE_SORTBY_OPTIONS[key]["title"])
+            for key in LEARNING_RESOURCE_SORTBY_OPTIONS
         ],
         help_text="if the parameter starts with '-' the sort is in descending order",
     )
@@ -293,7 +284,11 @@ def serialize_bulk_courses(ids):
     Args:
         ids(list of int): List of course id's
     """
-    for learning_resource in LearningResource.objects.filter(id__in=ids):
+    for learning_resource in (
+        LearningResource.objects.select_related(*LearningResource.related_selects)
+        .prefetch_related(*LearningResource.prefetches)
+        .filter(id__in=ids)
+    ):
         yield serialize_course_for_bulk(learning_resource)
 
 
@@ -341,7 +336,11 @@ def serialize_bulk_programs(ids):
     Args:
         ids(list of int): List of program id's
     """
-    for learning_resource in LearningResource.objects.filter(id__in=ids):
+    for learning_resource in (
+        LearningResource.objects.select_related(*LearningResource.related_selects)
+        .prefetch_related(*LearningResource.prefetches)
+        .filter(id__in=ids)
+    ):
         yield serialize_program_for_bulk(learning_resource)
 
 

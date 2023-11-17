@@ -548,6 +548,15 @@ def generate_course_numbers_json(
     course_numbers.extend(extra_nums)
     for idx, num in enumerate(course_numbers):
         dept_id = extract_valid_department_from_id(num, is_ocw=is_ocw)
+        if (
+            dept_id
+            and dept_id[0].isdigit()
+            and len(dept_id[0]) == 1
+            and num.startswith(dept_id[0])
+        ):
+            sort_coursenum = f"0{num}"
+        else:
+            sort_coursenum = num
         course_number_json.append(
             {
                 "value": num,
@@ -564,6 +573,8 @@ def generate_course_numbers_json(
                     if dept_id
                     else None
                 ),
+                "sort_coursenum": sort_coursenum,
+                "primary": idx == 0,
             }
         )
     return course_number_json

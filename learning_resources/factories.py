@@ -194,6 +194,8 @@ class CourseFactory(DjangoModelFactory):
                 "value": f"{random.randint(1,20)}.0001",  # noqa: S311
                 "department": None,
                 "listing_type": "Primary",
+                "primary": True,
+                "sort_coursenum": f"{random.randint(1, 20):02d}",  # noqa: S311
             }
         ]
     )

@@ -130,36 +130,8 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         lr_query = LearningResource.objects.all()
         if resource_type:
             lr_query = lr_query.filter(resource_type=resource_type)
-
-        prefetches = [
-            "topics",
-            "offered_by",
-            "departments",
-            "resource_content_tags",
-            "runs",
-            "runs__instructors",
-            "runs__image",
-            "children",
-            "children__child",
-            "children__child__runs",
-            "children__child__runs__instructors",
-            "children__child__course",
-            "children__child__program",
-            "children__child__learning_path",
-            "children__child__departments",
-            "children__child__platform",
-            "children__child__topics",
-            "children__child__image",
-            "children__child__offered_by",
-            "children__child__resource_content_tags",
-        ]
-
-        lr_query = lr_query.select_related(
-            "image",
-            "platform",
-            *([item.name for item in LearningResourceType]),
-        )
-        return lr_query.prefetch_related(*prefetches).distinct()
+        lr_query = lr_query.select_related(*LearningResource.related_selects)
+        return lr_query.prefetch_related(*LearningResource.prefetches).distinct()
 
     def get_queryset(self) -> QuerySet:
         """

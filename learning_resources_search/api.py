@@ -4,6 +4,7 @@ import re
 
 from opensearch_dsl import Search
 
+from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
 from learning_resources_search.connection import get_default_alias_name
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
@@ -17,7 +18,6 @@ from learning_resources_search.constants import (
     RUN_INSTRUCTORS_QUERY_FIELDS,
     RUNS_QUERY_FIELDS,
     SEARCH_NESTED_FILTERS,
-    SEARCH_SORTBY_OPTIONS,
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
@@ -75,8 +75,9 @@ def generate_sort_clause(search_params):
             nested sort params or just sort parameter
     """
     sort = (
-        SEARCH_SORTBY_OPTIONS.get(search_params.get("sortby"), {})
+        LEARNING_RESOURCE_SORTBY_OPTIONS.get(search_params.get("sortby"), {})
         .get("sort")
+        .replace("0__", "")
         .replace("__", ".")
     )
 

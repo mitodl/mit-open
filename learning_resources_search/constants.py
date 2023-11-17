@@ -5,8 +5,6 @@ from enum import Enum
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from urllib3.exceptions import TimeoutError as UrlTimeoutError
 
-from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
-
 ALIAS_ALL_INDICES = "all"
 COURSE_TYPE = "course"
 PROGRAM_TYPE = "program"
@@ -260,15 +258,3 @@ SOURCE_EXCLUDED_FIELDS = [
     "created_on",
     "resource_relations",
 ]
-
-SEARCH_SORTBY_OPTIONS = {
-    **LEARNING_RESOURCE_SORTBY_OPTIONS,
-    "mitcoursenumber": {
-        "title": "MIT course number ascending",
-        "sort": "course__course_numbers__sort_coursenum",
-    },
-    "-mitcoursenumber": {
-        "title": "MIT course number descending",
-        "sort": "-course__course_numbers__sort_coursenum",
-    },
-}

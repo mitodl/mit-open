@@ -228,4 +228,12 @@ LEARNING_RESOURCE_SORTBY_OPTIONS = {
         "title": "Start Date descending",
         "sort": "-runs__start_date",
     },
+    "mitcoursenumber": {
+        "title": "MIT course number ascending",
+        "sort": "course__course_numbers__0__sort_coursenum",
+    },
+    "-mitcoursenumber": {
+        "title": "MIT course number descending",
+        "sort": "-course__course_numbers__0__sort_coursenum",
+    },
 }

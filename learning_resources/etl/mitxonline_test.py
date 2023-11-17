@@ -202,6 +202,8 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                                 "value": course_data["readable_id"],
                                 "department": ANY,
                                 "listing_type": CourseNumberType.primary.value,
+                                "primary": True,
+                                "sort_coursenum": course_data["readable_id"],
                             }
                         ]
                     },
@@ -292,6 +294,8 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                         "value": course_data["readable_id"],
                         "department": ANY,
                         "listing_type": CourseNumberType.primary.value,
+                        "primary": True,
+                        "sort_coursenum": course_data["readable_id"],
                     }
                 ]
             },

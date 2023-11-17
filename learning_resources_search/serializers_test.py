@@ -59,11 +59,15 @@ def test_serialize_course_for_bulk(
                 "department_id": readable_id,
                 "name": DEPARTMENTS[readable_id],
             },
+            "primary": True,
+            "sort_coursenum": sort_course_num,
         },
         {
             "value": extra_num,
             "listing_type": CourseNumberType.cross_listed.value,
             "department": {"department_id": extra_num, "name": DEPARTMENTS[extra_num]},
+            "primary": False,
+            "sort_coursenum": sorted_extra_num,
         },
     ]
     resource = factories.CourseFactory.create(
