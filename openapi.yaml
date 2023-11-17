@@ -597,11 +597,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -617,6 +619,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - courses
       security:
@@ -917,11 +921,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -937,6 +943,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - courses
       security:
@@ -1146,11 +1154,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -1166,6 +1176,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - courses
       security:
@@ -1621,11 +1633,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -1641,6 +1655,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - learning_resources
       security:
@@ -2007,11 +2023,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -2027,6 +2045,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - learning_resources
       security:
@@ -2236,11 +2256,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -2256,6 +2278,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - learning_resources
       security:
@@ -2696,11 +2720,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -2716,6 +2742,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - learningpaths
       security:
@@ -3251,11 +3279,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -3271,6 +3301,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - learningpaths
       security:
@@ -3480,11 +3512,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -3500,6 +3534,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - learningpaths
       security:
@@ -3709,11 +3745,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -3729,6 +3767,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - podcast_episodes
       security:
@@ -3961,11 +4001,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -3981,6 +4023,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - podcast_episodes
       security:
@@ -4190,11 +4234,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -4210,6 +4256,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - podcast_episodes
       security:
@@ -4419,11 +4467,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -4439,6 +4489,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - podcasts
       security:
@@ -4737,11 +4789,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -4757,6 +4811,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - podcasts
       security:
@@ -4966,11 +5022,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -4986,6 +5044,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - podcasts
       security:
@@ -5195,11 +5255,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -5215,6 +5277,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - programs
       security:
@@ -5447,11 +5511,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -5467,6 +5533,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - programs
       security:
@@ -5676,11 +5744,13 @@ paths:
           - -created_on
           - -id
           - -last_modified
+          - -mitcoursenumber
           - -readable_id
           - -start_date
           - created_on
           - id
           - last_modified
+          - mitcoursenumber
           - readable_id
           - start_date
         description: |-
@@ -5696,6 +5766,8 @@ paths:
           * `-created_on` - CreationDate descending
           * `start_date` - Start Date ascending
           * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
       tags:
       - programs
       security:
@@ -6261,17 +6333,53 @@ components:
       description: Serializer for the Course model
       properties:
         course_numbers:
-          type: object
-          additionalProperties: {}
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseNumber'
           nullable: true
+      required:
+      - course_numbers
+    CourseNumber:
+      type: object
+      description: Serializer for CourseNumber
+      properties:
+        value:
+          type: string
+        department:
+          $ref: '#/components/schemas/LearningResourceDepartment'
+        listing_type:
+          type: string
+      required:
+      - department
+      - listing_type
+      - value
+    CourseNumberRequest:
+      type: object
+      description: Serializer for CourseNumber
+      properties:
+        value:
+          type: string
+          minLength: 1
+        department:
+          $ref: '#/components/schemas/LearningResourceDepartmentRequest'
+        listing_type:
+          type: string
+          minLength: 1
+      required:
+      - department
+      - listing_type
+      - value
     CourseRequest:
       type: object
       description: Serializer for the Course model
       properties:
         course_numbers:
-          type: object
-          additionalProperties: {}
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseNumberRequest'
           nullable: true
+      required:
+      - course_numbers
     FieldChannel:
       type: object
       description: Serializer for FieldChannel
