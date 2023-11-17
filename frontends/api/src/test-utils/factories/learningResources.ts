@@ -3,6 +3,7 @@ import type { Factory } from "ol-util/factories"
 import { makePaginatedFactory } from "ol-util/factories"
 import type { PaginatedResult } from "ol-util"
 import type {
+  CourseNumber,
   LearningResource,
   LearningResourceImage,
   LearningResourceDepartment,
@@ -99,6 +100,19 @@ const learningResourceTopics = makePaginatedFactory(learningResourceTopic)
 const learningResourceType = () =>
   faker.helpers.arrayElement(Object.values(ResourceTypeEnum))
 
+const learningResourceCourseNumber: Factory<CourseNumber> = (
+  overrides = {},
+) => {
+  return {
+    department: learningResourceDepartment(),
+    value: faker.lorem.word(),
+    listing_type: "primary",
+    primary: faker.datatype.boolean(),
+    sort_coursenum: faker.lorem.word(),
+    ...overrides,
+  }
+}
+
 const learningResource: Factory<LearningResource> = (
   overrides = {},
 ): LearningResource => {
@@ -139,7 +153,8 @@ const learningResource: Factory<LearningResource> = (
         certification: faker.lorem.word(),
         offered_by: faker.lorem.word(),
         course: {
-          course_numbers: maybe(() => repeat(faker.datatype.json)) ?? [],
+          course_numbers:
+            maybe(() => repeat(learningResourceCourseNumber)) ?? [],
         },
       }
     } else if (type === ResourceTypeEnum.Program) {
