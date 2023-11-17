@@ -8,6 +8,7 @@ from unittest.mock import Mock
 
 import pytest
 from django.http.response import HttpResponse
+from rest_framework.renderers import JSONRenderer
 
 
 def any_instance_of(*classes):
@@ -118,8 +119,9 @@ def assert_json_equal(obj1, obj2, sort=False):  # noqa: FBT002
         obj2 (object): the second object
         sort (bool): If true, sort items which are iterable before comparing
     """  # noqa: D401
-    converted1 = json.loads(json.dumps(obj1))
-    converted2 = json.loads(json.dumps(obj2))
+    renderer = JSONRenderer()
+    converted1 = json.loads(renderer.render(obj1))
+    converted2 = json.loads(renderer.render(obj2))
     if sort:
         converted1 = _sort_values_for_testing(converted1)
         converted2 = _sort_values_for_testing(converted2)

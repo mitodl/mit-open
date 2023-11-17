@@ -2,15 +2,17 @@
 
 import pytest
 
-from learning_resources import constants, factories, serializers
+from learning_resources import constants, factories, serializers, utils
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
     PlatformType,
 )
-from learning_resources.models import LearningResource
-from learning_resources.serializers import LearningPathResourceSerializer
-from open_discussions.test_utils import assert_json_equal
+from learning_resources.serializers import (
+    LearningPathResourceSerializer,
+    LearningResourceImageSerializer,
+)
+from open_discussions.test_utils import assert_json_equal, drf_datetime
 
 pytestmark = pytest.mark.django_db
 
@@ -19,50 +21,26 @@ datetime_format = "%Y-%m-%dT%H:%M:%SZ"
 datetime_millis_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
 
-def test_serialize_course_model():
+def test_serialize_course_to_json():
     """
-    Verify that a serialized course contains attributes for related objects
+    Verify that a serialized course contains the expected attributes
     """
-    course_resource = factories.CourseFactory.create().learning_resource
-    serializer = serializers.LearningResourceSerializer(instance=course_resource)
-    assert len(serializer.data["topics"]) > 0
-    assert "name" in serializer.data["topics"][0]
-    assert len(serializer.data["runs"]) == 2
-    assert "run_id" in serializer.data["runs"][0]
-    assert serializer.data["image"]["url"] is not None
-    assert len(serializer.data["offered_by"]) > 0
-    assert serializer.data["offered_by"]["name"] in [
-        o.value for o in constants.OfferedBy
-    ]
-    assert serializer.data["departments"][0] is not None
-    assert serializer.data["platform"] is not None
-    assert (
-        serializer.data["course"]
-        == serializers.CourseSerializer(instance=course_resource.course).data
+    course = factories.CourseFactory.create()
+    serializer = serializers.CourseSerializer(instance=course)
+
+    assert_json_equal(
+        serializer.data,
+        {
+            "course_numbers": serializers.CourseNumberSerializer(
+                instance=course.course_numbers, many=True
+            ).data
+        },
     )
-    assert serializer.data["program"] is None
 
 
-def test_serialize_dupe_model():
-    """A dupe course should fail validation, a non-dupe course should pass"""
-    path = factories.LearningPathFactory.create()
-    serialized_data = serializers.LearningResourceSerializer(
-        instance=path.learning_resource
-    ).data
-    serialized_data.pop("id")
-    dupe_path_serializer = serializers.LearningResourceSerializer(data={})
-    assert not dupe_path_serializer.is_valid()
-
-    serialized_data["readable_id"] = "new-unique-id"
-    non_dupe_path_serializer = serializers.LearningResourceSerializer(
-        data=serialized_data
-    )
-    assert non_dupe_path_serializer.is_valid(raise_exception=True)
-
-
-def test_serialize_program_model():
+def test_serialize_program_to_json():
     """
-    Verify that a serialized program contains attributes for related objects
+    Verify that a serialized program contains courses as LearningResources
     """
     program = factories.ProgramFactory.create()
 
@@ -75,32 +53,255 @@ def test_serialize_program_model():
         },
     )
 
-    serializer = serializers.LearningResourceSerializer(
-        instance=program.learning_resource
+    serializer = serializers.ProgramSerializer(instance=program)
+
+    assert_json_equal(
+        serializer.data,
+        {
+            "courses": [
+                # this is currently messy because program.courses is a list of LearningResourceRelationships
+                serializers.CourseResourceSerializer(instance=course_rel.child).data
+                for course_rel in program.courses.filter(child__published=True)
+            ]
+        },
     )
-    assert len(serializer.data["topics"]) > 0
-    assert "name" in serializer.data["topics"][0]
-    assert len(serializer.data["runs"]) == 1
-    assert "run_id" in serializer.data["runs"][0]
-    assert serializer.data["image"]["url"] is not None
-    assert serializer.data["offered_by"] is not None
-    assert serializer.data["offered_by"]["name"] in [
-        o.value for o in constants.OfferedBy
-    ]
-    assert serializer.data["departments"][0] is not None
-    assert serializer.data["platform"] is not None
-    assert str(serializer.data["prices"][0]).replace(".", "").isnumeric()
-    assert (
-        serializer.data["program"]
-        == serializers.ProgramSerializer(instance=program).data
+
+
+def test_serialize_learning_path_to_json():
+    """
+    Verify that a serialized learning path has the correct data
+    """
+    learning_path = factories.LearningPathFactory.create()
+    serializer = serializers.LearningPathSerializer(instance=learning_path)
+
+    assert_json_equal(
+        serializer.data,
+        {
+            "author": learning_path.author_id,
+            "id": learning_path.id,
+            "item_count": learning_path.learning_resource.children.count(),
+        },
     )
-    assert len(serializer.data["program"]["courses"]) == program.courses.count() - 1
-    program_course_serializer = serializers.LearningResourceSerializer(
-        instance=LearningResource.objects.get(
-            id=serializer.data["program"]["courses"][0]["id"]
-        )
+
+
+def test_serialize_podcast_to_json():
+    """
+    Verify that a serialized podcast has the correct data
+    """
+    podcast = factories.PodcastFactory.create()
+    serializer = serializers.PodcastSerializer(instance=podcast)
+
+    assert_json_equal(
+        serializer.data,
+        {
+            "apple_podcasts_url": podcast.apple_podcasts_url,
+            "episode_count": podcast.learning_resource.children.count(),
+            "google_podcasts_url": podcast.google_podcasts_url,
+            "id": podcast.id,
+            "rss_url": podcast.rss_url,
+        },
     )
-    assert program_course_serializer.data == serializer.data["program"]["courses"][0]
+
+
+def test_serialize_podcast_episode_to_json():
+    """
+    Verify that a serialized podcast episode has the correct data
+    """
+    podcast_episode = factories.PodcastEpisodeFactory.create()
+    serializer = serializers.PodcastEpisodeSerializer(instance=podcast_episode)
+
+    assert_json_equal(
+        serializer.data,
+        {
+            "duration": podcast_episode.duration,
+            "episode_link": podcast_episode.episode_link,
+            "id": podcast_episode.id,
+            "rss": podcast_episode.rss,
+            "transcript": podcast_episode.transcript,
+        },
+    )
+
+
+@pytest.mark.parametrize("has_context", [True, False])
+@pytest.mark.parametrize(
+    ("params", "detail_key", "specific_serializer_cls", "detail_serializer_cls"),
+    [
+        (
+            {"is_program": True},
+            "program",
+            serializers.ProgramResourceSerializer,
+            serializers.ProgramSerializer,
+        ),
+        (
+            {"is_course": True},
+            "course",
+            serializers.CourseResourceSerializer,
+            serializers.CourseSerializer,
+        ),
+        (
+            {"is_learning_path": True},
+            "learning_path",
+            serializers.LearningPathResourceSerializer,
+            serializers.LearningPathSerializer,
+        ),
+        (
+            {"is_podcast": True},
+            "podcast",
+            serializers.PodcastResourceSerializer,
+            serializers.PodcastSerializer,
+        ),
+        (
+            {"is_podcast_episode": True},
+            "podcast_episode",
+            serializers.PodcastEpisodeResourceSerializer,
+            serializers.PodcastEpisodeSerializer,
+        ),
+    ],
+)
+def test_learning_resource_serializer(  # noqa: PLR0913
+    rf,
+    user,
+    has_context,
+    params,
+    detail_key,
+    specific_serializer_cls,
+    detail_serializer_cls,
+):
+    """Test that LearningResourceSerializer uses the correct serializer"""
+    request = rf.get("/")
+    request.user = user
+    context = {"request": request} if has_context else {}
+
+    resource = factories.LearningResourceFactory.create(**params)
+
+    result = serializers.LearningResourceSerializer(
+        instance=resource, context=context
+    ).data
+    expected = specific_serializer_cls(instance=resource, context=context).data
+
+    assert result == expected
+
+    assert result == {
+        "id": resource.id,
+        "certification": resource.certification,
+        "title": resource.title,
+        "description": resource.description,
+        "full_description": resource.full_description,
+        "languages": resource.languages,
+        "last_modified": drf_datetime(resource.last_modified),
+        "learning_path_parents": [],
+        "offered_by": serializers.LearningResourceOfferorSerializer(
+            instance=resource.offered_by
+        ).data,
+        "platform": serializers.LearningResourcePlatformSerializer(
+            instance=resource.platform
+        ).data,
+        "prices": resource.prices,
+        "professional": resource.professional,
+        "published": resource.published,
+        "readable_id": resource.readable_id,
+        "resource_content_tags": [
+            tag.name for tag in resource.resource_content_tags.all()
+        ],
+        "resource_type": resource.resource_type,
+        "url": resource.url,
+        "user_list_parents": [],
+        "image": LearningResourceImageSerializer(instance=resource.image).data,
+        "departments": list(resource.departments.values("department_id", "name")),
+        "topics": list(resource.topics.values("id", "name")),
+        "runs": [
+            serializers.LearningResourceRunSerializer(instance=run).data
+            for run in resource.runs.all()
+        ],
+        detail_key: detail_serializer_cls(instance=getattr(resource, detail_key)).data,
+    }
+
+
+@pytest.mark.parametrize("has_context", [True, False])
+@pytest.mark.parametrize("is_staff", [True, False])
+@pytest.mark.parametrize("is_superuser", [True, False])
+@pytest.mark.parametrize("is_editor_staff", [True, False])
+@pytest.mark.parametrize(
+    "params",
+    [
+        {"is_program": True},
+        {"is_course": True},
+        {"is_learning_path": True},
+        {"is_podcast": True},
+        {"is_podcast_episode": True},
+    ],
+)
+def test_learning_resource_serializer_learning_path_parents(  # noqa: PLR0913
+    rf, user, has_context, is_staff, is_superuser, is_editor_staff, params
+):
+    """Test that LearningResourceSerializer.learning_path_parents returns the expected values"""
+    request = rf.get("/")
+    request.user = user
+    context = {"request": request} if has_context else {}
+
+    user.is_staff = is_staff
+    user.is_superuser = is_superuser
+    user.save()
+
+    utils.update_editor_group(user, is_editor_staff)
+
+    resource = factories.LearningResourceFactory.create(**params)
+
+    factories.LearningResourceFactory.create_batch(
+        5, is_learning_path=True, learning_path__resources=[resource]
+    )
+
+    result = serializers.LearningResourceSerializer(
+        instance=resource, context=context
+    ).data
+
+    can_see_parents = has_context and (is_staff or is_superuser or is_editor_staff)
+
+    assert result["learning_path_parents"] == (
+        serializers.MicroLearningPathRelationshipSerializer(
+            instance=resource.parents.all(), many=True
+        ).data
+        if can_see_parents
+        else []
+    )
+
+
+@pytest.mark.parametrize("has_context", [True, False])
+@pytest.mark.parametrize(
+    "params",
+    [
+        {"is_program": True},
+        {"is_course": True},
+        {"is_learning_path": True},
+        {"is_podcast": True},
+        {"is_podcast_episode": True},
+    ],
+)
+def test_learning_resource_serializer_user_list_parents(rf, user, has_context, params):
+    """Test that LearningResourceSerializer.user_list_parents returns the expected values"""
+    request = rf.get("/")
+    request.user = user
+    context = {"request": request} if has_context else {}
+
+    resource = factories.LearningResourceFactory.create(**params)
+
+    parent_rels = factories.UserListRelationshipFactory.create_batch(
+        5,
+        child=resource,
+        parent__author=user,
+    )
+
+    result = serializers.LearningResourceSerializer(
+        instance=resource, context=context
+    ).data
+
+    assert result["user_list_parents"] == (
+        serializers.MicroUserListRelationshipSerializer(
+            instance=parent_rels, many=True
+        ).data
+        if has_context
+        else []
+    )
 
 
 def test_serialize_run_related_models():

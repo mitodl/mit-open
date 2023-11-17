@@ -201,6 +201,7 @@ class CourseFactory(AbstractCourseFactory):
 
     class Meta:
         model = Course
+        skip_postgeneration_save = True
 
 
 class LearningResourceRunFactory(AbstractCourseFactory):
@@ -264,6 +265,7 @@ class LearningResourceRunFactory(AbstractCourseFactory):
 
     class Meta:
         model = LearningResourceRun
+        skip_postgeneration_save = True
 
     class Params:
         no_prices = factory.Trait(prices=[])
@@ -380,6 +382,7 @@ class ProgramFactory(LearningResourceFactory):
 
     class Meta:
         model = Program
+        skip_postgeneration_save = True
 
 
 class UserListFactory(DjangoModelFactory):
@@ -404,6 +407,7 @@ class UserListFactory(DjangoModelFactory):
 
     class Meta:
         model = UserList
+        skip_postgeneration_save = True
 
     class Params:
         is_learning_path = factory.Trait(list_type=UserListType.LEARNING_PATH.value)
@@ -420,6 +424,7 @@ class StaffListItemFactory(ListItemFactory):
 
     class Meta:
         model = StaffListItem
+        skip_postgeneration_save = True
 
     class Params:
         is_course = factory.Trait(
@@ -465,6 +470,7 @@ class StaffListFactory(DjangoModelFactory):
 
     class Meta:
         model = StaffList
+        skip_postgeneration_save = True
 
     class Params:
         is_path = factory.Trait(list_type=StaffListType.PATH.value)
@@ -496,6 +502,7 @@ class VideoFactory(LearningResourceFactory):
 
     class Meta:
         model = Video
+        skip_postgeneration_save = True
 
 
 class VideoChannelFactory(LearningResourceFactory):
@@ -519,6 +526,7 @@ class VideoChannelFactory(LearningResourceFactory):
 
     class Meta:
         model = VideoChannel
+        skip_postgeneration_save = True
 
 
 class PlaylistFactory(LearningResourceFactory):
@@ -544,6 +552,7 @@ class PlaylistFactory(LearningResourceFactory):
 
     class Meta:
         model = Playlist
+        skip_postgeneration_save = True
 
 
 class PodcastFactory(LearningResourceFactory):
@@ -561,6 +570,7 @@ class PodcastFactory(LearningResourceFactory):
 
     class Meta:
         model = Podcast
+        skip_postgeneration_save = True
 
 
 class PodcastEpisodeFactory(LearningResourceFactory):
@@ -578,3 +588,4 @@ class PodcastEpisodeFactory(LearningResourceFactory):
 
     class Meta:
         model = PodcastEpisode
+        skip_postgeneration_save = True

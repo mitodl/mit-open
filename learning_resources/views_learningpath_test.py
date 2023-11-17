@@ -6,7 +6,6 @@ from django.urls import reverse
 from learning_resources import factories, models
 from learning_resources.constants import (
     LearningResourceRelationTypes,
-    LearningResourceType,
 )
 from learning_resources.utils import update_editor_group
 from open_discussions.factories import UserFactory
@@ -21,22 +20,29 @@ def test_learning_path_endpoint_get(client, user, is_public, is_editor, has_imag
     """Test learning path endpoint"""
     update_editor_group(user, is_editor)
 
-    learning_path = factories.LearningPathFactory.create(
-        author=UserFactory.create(),
-        is_unpublished=not is_public,
+    learning_path_res = factories.LearningResourceFactory.create(
+        is_learning_path=True, published=is_public, no_image=not has_image
     )
-    assert learning_path.learning_resource.published == is_public
+    assert learning_path_res.published == is_public
 
-    another_learning_path = factories.LearningPathFactory.create(
-        author=UserFactory.create(),
-        is_unpublished=not is_public,
+    another_learning_path_res = factories.LearningResourceFactory.create(
+        is_learning_path=True,
+        published=is_public,
     )
-    assert another_learning_path.learning_resource.published == is_public
 
-    for idx, child in enumerate(learning_path.learning_resource.children.all()):
+    for idx, child in enumerate(learning_path_res.children.all()):
         models.LearningResourceRelationship.objects.filter(id=child.id).update(
             position=idx
         )
+
+    if has_image:
+        image_url = learning_path_res.image.url
+    else:
+        assert learning_path_res.image is None
+        first_resource_child = (
+            learning_path_res.children.order_by("position").first().child
+        )
+        image_url = first_resource_child.image.url
 
     # Anonymous users should get public results
     resp = client.get(reverse("lr_learningpaths_api-list"))
@@ -47,25 +53,15 @@ def test_learning_path_endpoint_get(client, user, is_public, is_editor, has_imag
     resp = client.get(reverse("lr_learningpaths_api-list"))
     assert resp.data["count"] == (2 if is_public or is_editor else 0)
 
-    if has_image:
-        image_url = learning_path.learning_resource.image.url
-    else:
-        learning_path.learning_resource.image.delete()
-        first_resource_child = (
-            learning_path.learning_resource.children.order_by("position").first().child
-        )
-        image_url = first_resource_child.image.url
     resp = client.get(
-        reverse(
-            "lr_learningpaths_api-detail", args=[learning_path.learning_resource.id]
-        )
+        reverse("lr_learningpaths_api-detail", args=[learning_path_res.id])
     )
     assert resp.status_code == (404 if not (is_public or is_editor) else 200)
     if resp.status_code == 200:
-        assert resp.data["title"] == learning_path.learning_resource.title
+        assert resp.data["title"] == learning_path_res.title
         assert (
             resp.data["learning_path"]["item_count"]
-            == learning_path.learning_resource.children.count()
+            == learning_path_res.children.count()
         )
         if has_image:
             assert resp.data["image"]["url"] == image_url
@@ -76,12 +72,12 @@ def test_learning_path_endpoint_get(client, user, is_public, is_editor, has_imag
     resp = client.get(
         reverse(
             "lr_learningpaths_api-detail",
-            args=[another_learning_path.learning_resource.id],
+            args=[another_learning_path_res.id],
         )
     )
     assert resp.status_code == (404 if not is_public and not is_editor else 200)
     if resp.status_code == 200:
-        assert resp.data.get("title") == another_learning_path.learning_resource.title
+        assert resp.data.get("title") == another_learning_path_res.title
 
 
 @pytest.mark.parametrize("is_published", [True, False])
@@ -127,17 +123,13 @@ def test_learning_path_endpoint_patch(client, update_topics, is_public, is_edito
     [original_topic, new_topic] = factories.LearningResourceTopicFactory.create_batch(2)
     user = UserFactory.create()
     update_editor_group(user, is_editor)
-    learningpath = factories.LearningPathFactory.create(
-        author=user,
-        learning_resource=factories.LearningResourceFactory.create(
-            title="Title 1",
-            topics=[original_topic],
-            resource_type=LearningResourceType.learning_path.name,
-        ),
+    learning_resource = factories.LearningResourceFactory.create(
+        title="Title 1",
+        topics=[original_topic],
+        is_learning_path=True,
+        learning_path__author=user,
     )
-    factories.LearningPathRelationshipFactory.create(
-        parent=learningpath.learning_resource
-    )
+    factories.LearningPathRelationshipFactory.create(parent=learning_resource)
 
     client.force_login(user)
 
@@ -150,9 +142,7 @@ def test_learning_path_endpoint_patch(client, update_topics, is_public, is_edito
         data["topics"] = [new_topic.id]
 
     resp = client.patch(
-        reverse(
-            "lr_learningpaths_api-detail", args=[learningpath.learning_resource.id]
-        ),
+        reverse("lr_learningpaths_api-detail", args=[learning_resource.id]),
         data=data,
         format="json",
     )
@@ -348,7 +338,7 @@ def test_learning_path_endpoint_delete(client, user, is_editor):
 
 
 @pytest.mark.parametrize("is_editor", [True, False])
-def test_get_resource_learning_paths(client, user, is_editor):
+def test_get_resource_learning_paths(user_client, user, is_editor):
     """Test that the learning paths are returned for a resource"""
     update_editor_group(user, is_editor)
     course = factories.CourseFactory.create()
@@ -358,15 +348,21 @@ def test_get_resource_learning_paths(client, user, is_editor):
         ),
         key=lambda item: item.position,
     )
-    resp = client.get(
+    resp = user_client.get(
         reverse("lr_courses_api-detail", args=[course.learning_resource.id])
     )
 
-    items_json = resp.data.get("learning_path_parents")
-    if is_editor:
-        for idx, item in items_json:
-            assert item.get("id") == path_items[idx].id
-            assert item.get("position") == path_items[idx].position
-            assert item.get("child") == course.learning_resource.id
-    else:
-        assert items_json == []
+    expected = (
+        [
+            {
+                "id": path_item.id,
+                "parent": path_item.parent_id,
+                "child": course.learning_resource.id,
+            }
+            for path_item in path_items
+        ]
+        if is_editor
+        else []
+    )
+
+    assert resp.data.get("learning_path_parents") == expected

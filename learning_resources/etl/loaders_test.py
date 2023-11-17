@@ -37,6 +37,7 @@ from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
+    LearningResourceFactory,
     LearningResourceInstructorFactory,
     LearningResourceOfferorFactory,
     LearningResourcePlatformFactory,
@@ -257,9 +258,9 @@ def test_load_course(  # noqa: PLR0913
     platform = LearningResourcePlatformFactory.create()
 
     course = (
-        CourseFactory.create(runs=[], platform=platform.code)
+        CourseFactory.create(learning_resource__runs=[], platform=platform.code)
         if course_exists
-        else CourseFactory.build(runs=[], platform=platform.code)
+        else CourseFactory.build(learning_resource__runs=[], platform=platform.code)
     )
 
     learning_resource = course.learning_resource
@@ -372,13 +373,13 @@ def test_load_duplicate_course(
     platform = LearningResourcePlatformFactory.create()
 
     course = (
-        CourseFactory.create(runs=[], platform=platform.code)
+        CourseFactory.create(learning_resource__runs=[], platform=platform.code)
         if course_exists
         else CourseFactory.build()
     )
 
     duplicate_course = (
-        CourseFactory.create(runs=[], platform=platform.code)
+        CourseFactory.create(learning_resource__runs=[], platform=platform.code)
         if duplicate_course_exists
         else CourseFactory.build()
     )
@@ -446,7 +447,7 @@ def test_load_duplicate_course(
 @pytest.mark.parametrize("run_exists", [True, False])
 def test_load_run(run_exists):
     """Test that load_run loads the course run"""
-    course = CourseFactory.create(runs=[])
+    course = CourseFactory.create(learning_resource__runs=[])
     learning_resource_run = (
         LearningResourceRunFactory.create(learning_resource=course.learning_resource)
         if run_exists
@@ -724,10 +725,12 @@ def test_load_podcast_episode(
 ):
     """Test that load_podcast_episode loads the podcast episode"""
     podcast_episode = (
-        PodcastEpisodeFactory.create(is_unpublished=not is_published)
+        LearningResourceFactory.create(published=is_published, is_podcast_episode=True)
         if podcast_episode_exists
-        else PodcastEpisodeFactory.build(is_unpublished=not is_published)
-    ).learning_resource
+        else LearningResourceFactory.build(
+            published=is_published, is_podcast_episode=True
+        )
+    )
 
     props = model_to_dict(podcast_episode, exclude=non_transformable_attributes)
     props["image"] = {"url": podcast_episode.image.url}

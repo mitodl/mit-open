@@ -643,7 +643,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/PaginatedCourseResourceList'
           description: ''
   /api/v1/courses/{id}/:
     get:
@@ -666,7 +666,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResource'
+                $ref: '#/components/schemas/CourseResource'
           description: ''
   /api/v1/courses/{run__learning_resource}/contentfiles/:
     get:
@@ -738,226 +738,13 @@ paths:
           description: ''
   /api/v1/courses/new/:
     get:
-      operationId: courses_new_list
-      description: Get a paginated list of newly released resources.
+      operationId: courses_new_retrieve
+      description: |-
+        Get new LearningResources
+
+        Returns:
+            QuerySet of LearningResource objects ordered by reverse created_on
       summary: List New
-      parameters:
-      - in: query
-        name: department
-        schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
-        description: |-
-          The department that offers learning resources
-
-          * `1` - Civil and Environmental Engineering
-          * `2` - Mechanical Engineering
-          * `3` - Materials Science and Engineering
-          * `4` - Architecture
-          * `5` - Chemistry
-          * `6` - Electrical Engineering and Computer Science
-          * `7` - Biology
-          * `8` - Physics
-          * `9` - Brain and Cognitive Sciences
-          * `10` - Chemical Engineering
-          * `11` - Urban Studies and Planning
-          * `12` - Earth, Atmospheric, and Planetary Sciences
-          * `14` - Economics
-          * `15` - Sloan School of Management
-          * `16` - Aeronautics and Astronautics
-          * `17` - Political Science
-          * `18` - Mathematics
-          * `20` - Biological Engineering
-          * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
-          * `21H` - History
-          * `21L` - Literature
-          * `21M` - Music and Theater Arts
-          * `22` - Nuclear Science and Engineering
-          * `24` - Linguistics and Philosophy
-          * `CC` - Concourse
-          * `CMS-W` - Comparative Media Studies/Writing
-          * `EC` - Edgerton Center
-          * `ES` - Experimental Study Group
-          * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
-          * `MAS` - Media Arts and Sciences
-          * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
-          * `STS` - Science, Technology, and Society
-          * `WGS` - Women's and Gender Studies
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - in: query
-        name: offered_by
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
-        description: |-
-          The organization that offers a learning resource
-
-          * `mitx` - MITx
-          * `ocw` - OCW
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: query
-        name: platform
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
-        description: |-
-          The platform on which learning resources are offered
-
-          * `edx` - edX
-          * `ocw` - OCW
-          * `oll` - Open Learning Library
-          * `mitxonline` - MITx Online
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-          * `whu` - WHU
-          * `susskind` - Susskind
-          * `globalalumni` - Global Alumni
-          * `simplilearn` - Simplilearn
-          * `emeritus` - Emeritus
-          * `podcast` - Podcast
-      - in: query
-        name: professional
-        schema:
-          type: boolean
-      - in: query
-        name: resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          The type of learning resource
-
-          * `course` - Course
-          * `program` - Program
-          * `learning_path` - Learning Path
-          * `podcast` - Podcast
-          * `podcast_episode` - Podcast Episode
-      - in: query
-        name: sortby
-        schema:
-          type: string
-          enum:
-          - -created_on
-          - -id
-          - -last_modified
-          - -mitcoursenumber
-          - -readable_id
-          - -start_date
-          - created_on
-          - id
-          - last_modified
-          - mitcoursenumber
-          - readable_id
-          - start_date
-        description: |-
-          Sort By
-
-          * `id` - Object ID ascending
-          * `-id` - Object ID descending
-          * `readable_id` - Readable ID ascending
-          * `-readable_id` - Readable ID descending
-          * `last_modified` - Last Modified Date ascending
-          * `-last_modified` - Last Modified Date descending
-          * `created_on` - Creation Date ascending
-          * `-created_on` - CreationDate descending
-          * `start_date` - Start Date ascending
-          * `-start_date` - Start Date descending
-          * `mitcoursenumber` - MIT course number ascending
-          * `-mitcoursenumber` - MIT course number descending
       tags:
       - courses
       security:
@@ -967,12 +754,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/CourseResource'
           description: ''
   /api/v1/courses/upcoming/:
     get:
       operationId: courses_upcoming_list
-      description: Get a paginated list of upcoming resources.
+      description: Get a paginated list of upcoming $Courses.
       summary: List Upcoming
       parameters:
       - in: query
@@ -1200,7 +987,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/PaginatedCourseResourceList'
           description: ''
   /api/v1/fields/:
     get:
@@ -1840,226 +1627,13 @@ paths:
           description: ''
   /api/v1/learning_resources/new/:
     get:
-      operationId: learning_resources_new_list
-      description: Get a paginated list of newly released resources.
+      operationId: learning_resources_new_retrieve
+      description: |-
+        Get new LearningResources
+
+        Returns:
+            QuerySet of LearningResource objects ordered by reverse created_on
       summary: List New
-      parameters:
-      - in: query
-        name: department
-        schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
-        description: |-
-          The department that offers learning resources
-
-          * `1` - Civil and Environmental Engineering
-          * `2` - Mechanical Engineering
-          * `3` - Materials Science and Engineering
-          * `4` - Architecture
-          * `5` - Chemistry
-          * `6` - Electrical Engineering and Computer Science
-          * `7` - Biology
-          * `8` - Physics
-          * `9` - Brain and Cognitive Sciences
-          * `10` - Chemical Engineering
-          * `11` - Urban Studies and Planning
-          * `12` - Earth, Atmospheric, and Planetary Sciences
-          * `14` - Economics
-          * `15` - Sloan School of Management
-          * `16` - Aeronautics and Astronautics
-          * `17` - Political Science
-          * `18` - Mathematics
-          * `20` - Biological Engineering
-          * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
-          * `21H` - History
-          * `21L` - Literature
-          * `21M` - Music and Theater Arts
-          * `22` - Nuclear Science and Engineering
-          * `24` - Linguistics and Philosophy
-          * `CC` - Concourse
-          * `CMS-W` - Comparative Media Studies/Writing
-          * `EC` - Edgerton Center
-          * `ES` - Experimental Study Group
-          * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
-          * `MAS` - Media Arts and Sciences
-          * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
-          * `STS` - Science, Technology, and Society
-          * `WGS` - Women's and Gender Studies
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - in: query
-        name: offered_by
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
-        description: |-
-          The organization that offers a learning resource
-
-          * `mitx` - MITx
-          * `ocw` - OCW
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: query
-        name: platform
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
-        description: |-
-          The platform on which learning resources are offered
-
-          * `edx` - edX
-          * `ocw` - OCW
-          * `oll` - Open Learning Library
-          * `mitxonline` - MITx Online
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-          * `whu` - WHU
-          * `susskind` - Susskind
-          * `globalalumni` - Global Alumni
-          * `simplilearn` - Simplilearn
-          * `emeritus` - Emeritus
-          * `podcast` - Podcast
-      - in: query
-        name: professional
-        schema:
-          type: boolean
-      - in: query
-        name: resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          The type of learning resource
-
-          * `course` - Course
-          * `program` - Program
-          * `learning_path` - Learning Path
-          * `podcast` - Podcast
-          * `podcast_episode` - Podcast Episode
-      - in: query
-        name: sortby
-        schema:
-          type: string
-          enum:
-          - -created_on
-          - -id
-          - -last_modified
-          - -mitcoursenumber
-          - -readable_id
-          - -start_date
-          - created_on
-          - id
-          - last_modified
-          - mitcoursenumber
-          - readable_id
-          - start_date
-        description: |-
-          Sort By
-
-          * `id` - Object ID ascending
-          * `-id` - Object ID descending
-          * `readable_id` - Readable ID ascending
-          * `-readable_id` - Readable ID descending
-          * `last_modified` - Last Modified Date ascending
-          * `-last_modified` - Last Modified Date descending
-          * `created_on` - Creation Date ascending
-          * `-created_on` - CreationDate descending
-          * `start_date` - Start Date ascending
-          * `-start_date` - Start Date descending
-          * `mitcoursenumber` - MIT course number ascending
-          * `-mitcoursenumber` - MIT course number descending
       tags:
       - learning_resources
       security:
@@ -2069,12 +1643,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/LearningResource'
           description: ''
   /api/v1/learning_resources/upcoming/:
     get:
       operationId: learning_resources_upcoming_list
-      description: Get a paginated list of upcoming resources.
+      description: Get a paginated list of upcoming $Learning Resources.
       summary: List Upcoming
       parameters:
       - in: query
@@ -3206,472 +2780,6 @@ paths:
       responses:
         '204':
           description: No response body
-  /api/v1/learningpaths/new/:
-    get:
-      operationId: learningpaths_new_list
-      description: Get a paginated list of newly released resources.
-      summary: List New
-      parameters:
-      - in: query
-        name: department
-        schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
-        description: |-
-          The department that offers learning resources
-
-          * `1` - Civil and Environmental Engineering
-          * `2` - Mechanical Engineering
-          * `3` - Materials Science and Engineering
-          * `4` - Architecture
-          * `5` - Chemistry
-          * `6` - Electrical Engineering and Computer Science
-          * `7` - Biology
-          * `8` - Physics
-          * `9` - Brain and Cognitive Sciences
-          * `10` - Chemical Engineering
-          * `11` - Urban Studies and Planning
-          * `12` - Earth, Atmospheric, and Planetary Sciences
-          * `14` - Economics
-          * `15` - Sloan School of Management
-          * `16` - Aeronautics and Astronautics
-          * `17` - Political Science
-          * `18` - Mathematics
-          * `20` - Biological Engineering
-          * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
-          * `21H` - History
-          * `21L` - Literature
-          * `21M` - Music and Theater Arts
-          * `22` - Nuclear Science and Engineering
-          * `24` - Linguistics and Philosophy
-          * `CC` - Concourse
-          * `CMS-W` - Comparative Media Studies/Writing
-          * `EC` - Edgerton Center
-          * `ES` - Experimental Study Group
-          * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
-          * `MAS` - Media Arts and Sciences
-          * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
-          * `STS` - Science, Technology, and Society
-          * `WGS` - Women's and Gender Studies
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - in: query
-        name: offered_by
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
-        description: |-
-          The organization that offers a learning resource
-
-          * `mitx` - MITx
-          * `ocw` - OCW
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: query
-        name: platform
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
-        description: |-
-          The platform on which learning resources are offered
-
-          * `edx` - edX
-          * `ocw` - OCW
-          * `oll` - Open Learning Library
-          * `mitxonline` - MITx Online
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-          * `whu` - WHU
-          * `susskind` - Susskind
-          * `globalalumni` - Global Alumni
-          * `simplilearn` - Simplilearn
-          * `emeritus` - Emeritus
-          * `podcast` - Podcast
-      - in: query
-        name: professional
-        schema:
-          type: boolean
-      - in: query
-        name: resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          The type of learning resource
-
-          * `course` - Course
-          * `program` - Program
-          * `learning_path` - Learning Path
-          * `podcast` - Podcast
-          * `podcast_episode` - Podcast Episode
-      - in: query
-        name: sortby
-        schema:
-          type: string
-          enum:
-          - -created_on
-          - -id
-          - -last_modified
-          - -mitcoursenumber
-          - -readable_id
-          - -start_date
-          - created_on
-          - id
-          - last_modified
-          - mitcoursenumber
-          - readable_id
-          - start_date
-        description: |-
-          Sort By
-
-          * `id` - Object ID ascending
-          * `-id` - Object ID descending
-          * `readable_id` - Readable ID ascending
-          * `-readable_id` - Readable ID descending
-          * `last_modified` - Last Modified Date ascending
-          * `-last_modified` - Last Modified Date descending
-          * `created_on` - Creation Date ascending
-          * `-created_on` - CreationDate descending
-          * `start_date` - Start Date ascending
-          * `-start_date` - Start Date descending
-          * `mitcoursenumber` - MIT course number ascending
-          * `-mitcoursenumber` - MIT course number descending
-      tags:
-      - learningpaths
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
-          description: ''
-  /api/v1/learningpaths/upcoming/:
-    get:
-      operationId: learningpaths_upcoming_list
-      description: Get a paginated list of upcoming resources.
-      summary: List Upcoming
-      parameters:
-      - in: query
-        name: department
-        schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
-        description: |-
-          The department that offers learning resources
-
-          * `1` - Civil and Environmental Engineering
-          * `2` - Mechanical Engineering
-          * `3` - Materials Science and Engineering
-          * `4` - Architecture
-          * `5` - Chemistry
-          * `6` - Electrical Engineering and Computer Science
-          * `7` - Biology
-          * `8` - Physics
-          * `9` - Brain and Cognitive Sciences
-          * `10` - Chemical Engineering
-          * `11` - Urban Studies and Planning
-          * `12` - Earth, Atmospheric, and Planetary Sciences
-          * `14` - Economics
-          * `15` - Sloan School of Management
-          * `16` - Aeronautics and Astronautics
-          * `17` - Political Science
-          * `18` - Mathematics
-          * `20` - Biological Engineering
-          * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
-          * `21H` - History
-          * `21L` - Literature
-          * `21M` - Music and Theater Arts
-          * `22` - Nuclear Science and Engineering
-          * `24` - Linguistics and Philosophy
-          * `CC` - Concourse
-          * `CMS-W` - Comparative Media Studies/Writing
-          * `EC` - Edgerton Center
-          * `ES` - Experimental Study Group
-          * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
-          * `MAS` - Media Arts and Sciences
-          * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
-          * `STS` - Science, Technology, and Society
-          * `WGS` - Women's and Gender Studies
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - in: query
-        name: offered_by
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
-        description: |-
-          The organization that offers a learning resource
-
-          * `mitx` - MITx
-          * `ocw` - OCW
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: query
-        name: platform
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
-        description: |-
-          The platform on which learning resources are offered
-
-          * `edx` - edX
-          * `ocw` - OCW
-          * `oll` - Open Learning Library
-          * `mitxonline` - MITx Online
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-          * `whu` - WHU
-          * `susskind` - Susskind
-          * `globalalumni` - Global Alumni
-          * `simplilearn` - Simplilearn
-          * `emeritus` - Emeritus
-          * `podcast` - Podcast
-      - in: query
-        name: professional
-        schema:
-          type: boolean
-      - in: query
-        name: resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          The type of learning resource
-
-          * `course` - Course
-          * `program` - Program
-          * `learning_path` - Learning Path
-          * `podcast` - Podcast
-          * `podcast_episode` - Podcast Episode
-      - in: query
-        name: sortby
-        schema:
-          type: string
-          enum:
-          - -created_on
-          - -id
-          - -last_modified
-          - -mitcoursenumber
-          - -readable_id
-          - -start_date
-          - created_on
-          - id
-          - last_modified
-          - mitcoursenumber
-          - readable_id
-          - start_date
-        description: |-
-          Sort By
-
-          * `id` - Object ID ascending
-          * `-id` - Object ID descending
-          * `readable_id` - Readable ID ascending
-          * `-readable_id` - Readable ID descending
-          * `last_modified` - Last Modified Date ascending
-          * `-last_modified` - Last Modified Date descending
-          * `created_on` - Creation Date ascending
-          * `-created_on` - CreationDate descending
-          * `start_date` - Start Date ascending
-          * `-start_date` - Start Date descending
-          * `mitcoursenumber` - MIT course number ascending
-          * `-mitcoursenumber` - MIT course number descending
-      tags:
-      - learningpaths
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
-          description: ''
   /api/v1/podcast_episodes/:
     get:
       operationId: podcast_episodes_list
@@ -3903,7 +3011,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/PaginatedPodcastEpisodeResourceList'
           description: ''
   /api/v1/podcast_episodes/{id}/:
     get:
@@ -3926,473 +3034,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResource'
-          description: ''
-  /api/v1/podcast_episodes/new/:
-    get:
-      operationId: podcast_episodes_new_list
-      description: Get a paginated list of newly released resources.
-      summary: List New
-      parameters:
-      - in: query
-        name: department
-        schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
-        description: |-
-          The department that offers learning resources
-
-          * `1` - Civil and Environmental Engineering
-          * `2` - Mechanical Engineering
-          * `3` - Materials Science and Engineering
-          * `4` - Architecture
-          * `5` - Chemistry
-          * `6` - Electrical Engineering and Computer Science
-          * `7` - Biology
-          * `8` - Physics
-          * `9` - Brain and Cognitive Sciences
-          * `10` - Chemical Engineering
-          * `11` - Urban Studies and Planning
-          * `12` - Earth, Atmospheric, and Planetary Sciences
-          * `14` - Economics
-          * `15` - Sloan School of Management
-          * `16` - Aeronautics and Astronautics
-          * `17` - Political Science
-          * `18` - Mathematics
-          * `20` - Biological Engineering
-          * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
-          * `21H` - History
-          * `21L` - Literature
-          * `21M` - Music and Theater Arts
-          * `22` - Nuclear Science and Engineering
-          * `24` - Linguistics and Philosophy
-          * `CC` - Concourse
-          * `CMS-W` - Comparative Media Studies/Writing
-          * `EC` - Edgerton Center
-          * `ES` - Experimental Study Group
-          * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
-          * `MAS` - Media Arts and Sciences
-          * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
-          * `STS` - Science, Technology, and Society
-          * `WGS` - Women's and Gender Studies
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - in: query
-        name: offered_by
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
-        description: |-
-          The organization that offers a learning resource
-
-          * `mitx` - MITx
-          * `ocw` - OCW
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: query
-        name: platform
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
-        description: |-
-          The platform on which learning resources are offered
-
-          * `edx` - edX
-          * `ocw` - OCW
-          * `oll` - Open Learning Library
-          * `mitxonline` - MITx Online
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-          * `whu` - WHU
-          * `susskind` - Susskind
-          * `globalalumni` - Global Alumni
-          * `simplilearn` - Simplilearn
-          * `emeritus` - Emeritus
-          * `podcast` - Podcast
-      - in: query
-        name: professional
-        schema:
-          type: boolean
-      - in: query
-        name: resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          The type of learning resource
-
-          * `course` - Course
-          * `program` - Program
-          * `learning_path` - Learning Path
-          * `podcast` - Podcast
-          * `podcast_episode` - Podcast Episode
-      - in: query
-        name: sortby
-        schema:
-          type: string
-          enum:
-          - -created_on
-          - -id
-          - -last_modified
-          - -mitcoursenumber
-          - -readable_id
-          - -start_date
-          - created_on
-          - id
-          - last_modified
-          - mitcoursenumber
-          - readable_id
-          - start_date
-        description: |-
-          Sort By
-
-          * `id` - Object ID ascending
-          * `-id` - Object ID descending
-          * `readable_id` - Readable ID ascending
-          * `-readable_id` - Readable ID descending
-          * `last_modified` - Last Modified Date ascending
-          * `-last_modified` - Last Modified Date descending
-          * `created_on` - Creation Date ascending
-          * `-created_on` - CreationDate descending
-          * `start_date` - Start Date ascending
-          * `-start_date` - Start Date descending
-          * `mitcoursenumber` - MIT course number ascending
-          * `-mitcoursenumber` - MIT course number descending
-      tags:
-      - podcast_episodes
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
-          description: ''
-  /api/v1/podcast_episodes/upcoming/:
-    get:
-      operationId: podcast_episodes_upcoming_list
-      description: Get a paginated list of upcoming resources.
-      summary: List Upcoming
-      parameters:
-      - in: query
-        name: department
-        schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
-        description: |-
-          The department that offers learning resources
-
-          * `1` - Civil and Environmental Engineering
-          * `2` - Mechanical Engineering
-          * `3` - Materials Science and Engineering
-          * `4` - Architecture
-          * `5` - Chemistry
-          * `6` - Electrical Engineering and Computer Science
-          * `7` - Biology
-          * `8` - Physics
-          * `9` - Brain and Cognitive Sciences
-          * `10` - Chemical Engineering
-          * `11` - Urban Studies and Planning
-          * `12` - Earth, Atmospheric, and Planetary Sciences
-          * `14` - Economics
-          * `15` - Sloan School of Management
-          * `16` - Aeronautics and Astronautics
-          * `17` - Political Science
-          * `18` - Mathematics
-          * `20` - Biological Engineering
-          * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
-          * `21H` - History
-          * `21L` - Literature
-          * `21M` - Music and Theater Arts
-          * `22` - Nuclear Science and Engineering
-          * `24` - Linguistics and Philosophy
-          * `CC` - Concourse
-          * `CMS-W` - Comparative Media Studies/Writing
-          * `EC` - Edgerton Center
-          * `ES` - Experimental Study Group
-          * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
-          * `MAS` - Media Arts and Sciences
-          * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
-          * `STS` - Science, Technology, and Society
-          * `WGS` - Women's and Gender Studies
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - in: query
-        name: offered_by
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
-        description: |-
-          The organization that offers a learning resource
-
-          * `mitx` - MITx
-          * `ocw` - OCW
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: query
-        name: platform
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
-        description: |-
-          The platform on which learning resources are offered
-
-          * `edx` - edX
-          * `ocw` - OCW
-          * `oll` - Open Learning Library
-          * `mitxonline` - MITx Online
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-          * `whu` - WHU
-          * `susskind` - Susskind
-          * `globalalumni` - Global Alumni
-          * `simplilearn` - Simplilearn
-          * `emeritus` - Emeritus
-          * `podcast` - Podcast
-      - in: query
-        name: professional
-        schema:
-          type: boolean
-      - in: query
-        name: resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          The type of learning resource
-
-          * `course` - Course
-          * `program` - Program
-          * `learning_path` - Learning Path
-          * `podcast` - Podcast
-          * `podcast_episode` - Podcast Episode
-      - in: query
-        name: sortby
-        schema:
-          type: string
-          enum:
-          - -created_on
-          - -id
-          - -last_modified
-          - -mitcoursenumber
-          - -readable_id
-          - -start_date
-          - created_on
-          - id
-          - last_modified
-          - mitcoursenumber
-          - readable_id
-          - start_date
-        description: |-
-          Sort By
-
-          * `id` - Object ID ascending
-          * `-id` - Object ID descending
-          * `readable_id` - Readable ID ascending
-          * `-readable_id` - Readable ID descending
-          * `last_modified` - Last Modified Date ascending
-          * `-last_modified` - Last Modified Date descending
-          * `created_on` - Creation Date ascending
-          * `-created_on` - CreationDate descending
-          * `start_date` - Start Date ascending
-          * `-start_date` - Start Date descending
-          * `mitcoursenumber` - MIT course number ascending
-          * `-mitcoursenumber` - MIT course number descending
-      tags:
-      - podcast_episodes
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/PodcastEpisodeResource'
           description: ''
   /api/v1/podcasts/:
     get:
@@ -4625,7 +3267,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/PaginatedPodcastResourceList'
           description: ''
   /api/v1/podcasts/{parent_id}/items/:
     get:
@@ -4714,473 +3356,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResource'
-          description: ''
-  /api/v1/podcasts/new/:
-    get:
-      operationId: podcasts_new_list
-      description: Get a paginated list of newly released resources.
-      summary: List New
-      parameters:
-      - in: query
-        name: department
-        schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
-        description: |-
-          The department that offers learning resources
-
-          * `1` - Civil and Environmental Engineering
-          * `2` - Mechanical Engineering
-          * `3` - Materials Science and Engineering
-          * `4` - Architecture
-          * `5` - Chemistry
-          * `6` - Electrical Engineering and Computer Science
-          * `7` - Biology
-          * `8` - Physics
-          * `9` - Brain and Cognitive Sciences
-          * `10` - Chemical Engineering
-          * `11` - Urban Studies and Planning
-          * `12` - Earth, Atmospheric, and Planetary Sciences
-          * `14` - Economics
-          * `15` - Sloan School of Management
-          * `16` - Aeronautics and Astronautics
-          * `17` - Political Science
-          * `18` - Mathematics
-          * `20` - Biological Engineering
-          * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
-          * `21H` - History
-          * `21L` - Literature
-          * `21M` - Music and Theater Arts
-          * `22` - Nuclear Science and Engineering
-          * `24` - Linguistics and Philosophy
-          * `CC` - Concourse
-          * `CMS-W` - Comparative Media Studies/Writing
-          * `EC` - Edgerton Center
-          * `ES` - Experimental Study Group
-          * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
-          * `MAS` - Media Arts and Sciences
-          * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
-          * `STS` - Science, Technology, and Society
-          * `WGS` - Women's and Gender Studies
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - in: query
-        name: offered_by
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
-        description: |-
-          The organization that offers a learning resource
-
-          * `mitx` - MITx
-          * `ocw` - OCW
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: query
-        name: platform
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
-        description: |-
-          The platform on which learning resources are offered
-
-          * `edx` - edX
-          * `ocw` - OCW
-          * `oll` - Open Learning Library
-          * `mitxonline` - MITx Online
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-          * `whu` - WHU
-          * `susskind` - Susskind
-          * `globalalumni` - Global Alumni
-          * `simplilearn` - Simplilearn
-          * `emeritus` - Emeritus
-          * `podcast` - Podcast
-      - in: query
-        name: professional
-        schema:
-          type: boolean
-      - in: query
-        name: resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          The type of learning resource
-
-          * `course` - Course
-          * `program` - Program
-          * `learning_path` - Learning Path
-          * `podcast` - Podcast
-          * `podcast_episode` - Podcast Episode
-      - in: query
-        name: sortby
-        schema:
-          type: string
-          enum:
-          - -created_on
-          - -id
-          - -last_modified
-          - -mitcoursenumber
-          - -readable_id
-          - -start_date
-          - created_on
-          - id
-          - last_modified
-          - mitcoursenumber
-          - readable_id
-          - start_date
-        description: |-
-          Sort By
-
-          * `id` - Object ID ascending
-          * `-id` - Object ID descending
-          * `readable_id` - Readable ID ascending
-          * `-readable_id` - Readable ID descending
-          * `last_modified` - Last Modified Date ascending
-          * `-last_modified` - Last Modified Date descending
-          * `created_on` - Creation Date ascending
-          * `-created_on` - CreationDate descending
-          * `start_date` - Start Date ascending
-          * `-start_date` - Start Date descending
-          * `mitcoursenumber` - MIT course number ascending
-          * `-mitcoursenumber` - MIT course number descending
-      tags:
-      - podcasts
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
-          description: ''
-  /api/v1/podcasts/upcoming/:
-    get:
-      operationId: podcasts_upcoming_list
-      description: Get a paginated list of upcoming resources.
-      summary: List Upcoming
-      parameters:
-      - in: query
-        name: department
-        schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
-        description: |-
-          The department that offers learning resources
-
-          * `1` - Civil and Environmental Engineering
-          * `2` - Mechanical Engineering
-          * `3` - Materials Science and Engineering
-          * `4` - Architecture
-          * `5` - Chemistry
-          * `6` - Electrical Engineering and Computer Science
-          * `7` - Biology
-          * `8` - Physics
-          * `9` - Brain and Cognitive Sciences
-          * `10` - Chemical Engineering
-          * `11` - Urban Studies and Planning
-          * `12` - Earth, Atmospheric, and Planetary Sciences
-          * `14` - Economics
-          * `15` - Sloan School of Management
-          * `16` - Aeronautics and Astronautics
-          * `17` - Political Science
-          * `18` - Mathematics
-          * `20` - Biological Engineering
-          * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
-          * `21H` - History
-          * `21L` - Literature
-          * `21M` - Music and Theater Arts
-          * `22` - Nuclear Science and Engineering
-          * `24` - Linguistics and Philosophy
-          * `CC` - Concourse
-          * `CMS-W` - Comparative Media Studies/Writing
-          * `EC` - Edgerton Center
-          * `ES` - Experimental Study Group
-          * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
-          * `MAS` - Media Arts and Sciences
-          * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
-          * `STS` - Science, Technology, and Society
-          * `WGS` - Women's and Gender Studies
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - in: query
-        name: offered_by
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
-        description: |-
-          The organization that offers a learning resource
-
-          * `mitx` - MITx
-          * `ocw` - OCW
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: query
-        name: platform
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
-        description: |-
-          The platform on which learning resources are offered
-
-          * `edx` - edX
-          * `ocw` - OCW
-          * `oll` - Open Learning Library
-          * `mitxonline` - MITx Online
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-          * `whu` - WHU
-          * `susskind` - Susskind
-          * `globalalumni` - Global Alumni
-          * `simplilearn` - Simplilearn
-          * `emeritus` - Emeritus
-          * `podcast` - Podcast
-      - in: query
-        name: professional
-        schema:
-          type: boolean
-      - in: query
-        name: resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          The type of learning resource
-
-          * `course` - Course
-          * `program` - Program
-          * `learning_path` - Learning Path
-          * `podcast` - Podcast
-          * `podcast_episode` - Podcast Episode
-      - in: query
-        name: sortby
-        schema:
-          type: string
-          enum:
-          - -created_on
-          - -id
-          - -last_modified
-          - -mitcoursenumber
-          - -readable_id
-          - -start_date
-          - created_on
-          - id
-          - last_modified
-          - mitcoursenumber
-          - readable_id
-          - start_date
-        description: |-
-          Sort By
-
-          * `id` - Object ID ascending
-          * `-id` - Object ID descending
-          * `readable_id` - Readable ID ascending
-          * `-readable_id` - Readable ID descending
-          * `last_modified` - Last Modified Date ascending
-          * `-last_modified` - Last Modified Date descending
-          * `created_on` - Creation Date ascending
-          * `-created_on` - CreationDate descending
-          * `start_date` - Start Date ascending
-          * `-start_date` - Start Date descending
-          * `mitcoursenumber` - MIT course number ascending
-          * `-mitcoursenumber` - MIT course number descending
-      tags:
-      - podcasts
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/PodcastResource'
           description: ''
   /api/v1/programs/:
     get:
@@ -5413,7 +3589,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/PaginatedProgramResourceList'
           description: ''
   /api/v1/programs/{id}/:
     get:
@@ -5436,230 +3612,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResource'
+                $ref: '#/components/schemas/ProgramResource'
           description: ''
   /api/v1/programs/new/:
     get:
-      operationId: programs_new_list
-      description: Get a paginated list of newly released resources.
+      operationId: programs_new_retrieve
+      description: |-
+        Get new LearningResources
+
+        Returns:
+            QuerySet of LearningResource objects ordered by reverse created_on
       summary: List New
-      parameters:
-      - in: query
-        name: department
-        schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
-        description: |-
-          The department that offers learning resources
-
-          * `1` - Civil and Environmental Engineering
-          * `2` - Mechanical Engineering
-          * `3` - Materials Science and Engineering
-          * `4` - Architecture
-          * `5` - Chemistry
-          * `6` - Electrical Engineering and Computer Science
-          * `7` - Biology
-          * `8` - Physics
-          * `9` - Brain and Cognitive Sciences
-          * `10` - Chemical Engineering
-          * `11` - Urban Studies and Planning
-          * `12` - Earth, Atmospheric, and Planetary Sciences
-          * `14` - Economics
-          * `15` - Sloan School of Management
-          * `16` - Aeronautics and Astronautics
-          * `17` - Political Science
-          * `18` - Mathematics
-          * `20` - Biological Engineering
-          * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
-          * `21H` - History
-          * `21L` - Literature
-          * `21M` - Music and Theater Arts
-          * `22` - Nuclear Science and Engineering
-          * `24` - Linguistics and Philosophy
-          * `CC` - Concourse
-          * `CMS-W` - Comparative Media Studies/Writing
-          * `EC` - Edgerton Center
-          * `ES` - Experimental Study Group
-          * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
-          * `MAS` - Media Arts and Sciences
-          * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
-          * `STS` - Science, Technology, and Society
-          * `WGS` - Women's and Gender Studies
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - in: query
-        name: offered_by
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
-        description: |-
-          The organization that offers a learning resource
-
-          * `mitx` - MITx
-          * `ocw` - OCW
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: query
-        name: platform
-        schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
-        description: |-
-          The platform on which learning resources are offered
-
-          * `edx` - edX
-          * `ocw` - OCW
-          * `oll` - Open Learning Library
-          * `mitxonline` - MITx Online
-          * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
-          * `whu` - WHU
-          * `susskind` - Susskind
-          * `globalalumni` - Global Alumni
-          * `simplilearn` - Simplilearn
-          * `emeritus` - Emeritus
-          * `podcast` - Podcast
-      - in: query
-        name: professional
-        schema:
-          type: boolean
-      - in: query
-        name: resource_type
-        schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
-        description: |-
-          The type of learning resource
-
-          * `course` - Course
-          * `program` - Program
-          * `learning_path` - Learning Path
-          * `podcast` - Podcast
-          * `podcast_episode` - Podcast Episode
-      - in: query
-        name: sortby
-        schema:
-          type: string
-          enum:
-          - -created_on
-          - -id
-          - -last_modified
-          - -mitcoursenumber
-          - -readable_id
-          - -start_date
-          - created_on
-          - id
-          - last_modified
-          - mitcoursenumber
-          - readable_id
-          - start_date
-        description: |-
-          Sort By
-
-          * `id` - Object ID ascending
-          * `-id` - Object ID descending
-          * `readable_id` - Readable ID ascending
-          * `-readable_id` - Readable ID descending
-          * `last_modified` - Last Modified Date ascending
-          * `-last_modified` - Last Modified Date descending
-          * `created_on` - Creation Date ascending
-          * `-created_on` - CreationDate descending
-          * `start_date` - Start Date ascending
-          * `-start_date` - Start Date descending
-          * `mitcoursenumber` - MIT course number ascending
-          * `-mitcoursenumber` - MIT course number descending
       tags:
       - programs
       security:
@@ -5669,12 +3632,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/ProgramResource'
           description: ''
   /api/v1/programs/upcoming/:
     get:
       operationId: programs_upcoming_list
-      description: Get a paginated list of upcoming resources.
+      description: Get a paginated list of upcoming $Programs.
       summary: List Upcoming
       parameters:
       - in: query
@@ -5902,7 +3865,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceList'
+                $ref: '#/components/schemas/PaginatedProgramResourceList'
           description: ''
   /api/v1/topics/:
     get:
@@ -6505,6 +4468,178 @@ components:
           nullable: true
       required:
       - course_numbers
+    CourseResource:
+      type: object
+      description: Serializer for course resources
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        offered_by:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferor'
+          readOnly: true
+          nullable: true
+        platform:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourcePlatform'
+          readOnly: true
+          nullable: true
+        resource_content_tags:
+          type: array
+          items:
+            type: string
+          readOnly: true
+          nullable: true
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceDepartment'
+          readOnly: true
+          nullable: true
+        certification:
+          type: string
+          nullable: true
+          description: Returns the certification for the learning resource
+          readOnly: true
+        prices:
+          type: string
+          nullable: true
+          description: Returns the prices for the learning resource
+          readOnly: true
+        runs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceRun'
+          readOnly: true
+          nullable: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          nullable: true
+          readOnly: true
+        learning_path_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroLearningPathRelationship'
+          nullable: true
+          readOnly: true
+        user_list_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroUserListRelationship'
+          nullable: true
+          readOnly: true
+        resource_type:
+          allOf:
+          - $ref: '#/components/schemas/CourseResourceResourceTypeEnum'
+          default: course
+          readOnly: true
+        course:
+          allOf:
+          - $ref: '#/components/schemas/Course'
+          readOnly: true
+        readable_id:
+          type: string
+          maxLength: 128
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 2048
+        professional:
+          type: boolean
+          readOnly: true
+      required:
+      - certification
+      - course
+      - departments
+      - id
+      - image
+      - learning_path_parents
+      - offered_by
+      - platform
+      - prices
+      - professional
+      - readable_id
+      - resource_content_tags
+      - resource_type
+      - runs
+      - title
+      - user_list_parents
+    CourseResourceRequest:
+      type: object
+      description: Serializer for course resources
+      properties:
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        title:
+          type: string
+          minLength: 1
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 2048
+      required:
+      - readable_id
+      - title
+    CourseResourceResourceTypeEnum:
+      type: string
+      enum:
+      - course
     FieldChannel:
       type: object
       description: Serializer for FieldChannel
@@ -6825,26 +4960,6 @@ components:
           nullable: true
           description: Returns the prices for the learning resource
           readOnly: true
-        course:
-          allOf:
-          - $ref: '#/components/schemas/Course'
-          readOnly: true
-          nullable: true
-        learning_path:
-          allOf:
-          - $ref: '#/components/schemas/LearningPath'
-          readOnly: true
-          nullable: true
-        podcast:
-          allOf:
-          - $ref: '#/components/schemas/Podcast'
-          readOnly: true
-          nullable: true
-        podcast_episode:
-          allOf:
-          - $ref: '#/components/schemas/PodcastEpisode'
-          readOnly: true
-          nullable: true
         runs:
           type: array
           items:
@@ -6868,14 +4983,18 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
-        program:
+        resource_type:
           allOf:
-          - $ref: '#/components/schemas/Program'
+          - $ref: '#/components/schemas/LearningPathResourceResourceTypeEnum'
+          default: learning_path
           readOnly: true
-          nullable: true
+        learning_path:
+          allOf:
+          - $ref: '#/components/schemas/LearningPath'
+          readOnly: true
         readable_id:
           type: string
-          maxLength: 128
+          readOnly: true
         title:
           type: string
           maxLength: 256
@@ -6902,18 +5021,10 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
-        resource_type:
-          $ref: '#/components/schemas/ResourceTypeEnum'
         professional:
           type: boolean
-        resources:
-          type: array
-          items:
-            type: integer
-          readOnly: true
       required:
       - certification
-      - course
       - departments
       - id
       - image
@@ -6921,14 +5032,10 @@ components:
       - learning_path_parents
       - offered_by
       - platform
-      - podcast
-      - podcast_episode
       - prices
-      - program
       - readable_id
       - resource_content_tags
       - resource_type
-      - resources
       - runs
       - title
       - user_list_parents
@@ -6940,10 +5047,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-        readable_id:
-          type: string
-          minLength: 1
-          maxLength: 128
         title:
           type: string
           minLength: 1
@@ -6973,300 +5076,29 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        resource_type:
-          $ref: '#/components/schemas/ResourceTypeEnum'
         professional:
           type: boolean
       required:
-      - readable_id
-      - resource_type
       - title
+    LearningPathResourceResourceTypeEnum:
+      type: string
+      enum:
+      - learning_path
     LearningResource:
-      type: object
-      description: Serializer for LearningResource, with program included
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceTopic'
-        offered_by:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceOfferor'
-          readOnly: true
-          nullable: true
-        platform:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourcePlatform'
-          readOnly: true
-          nullable: true
-        resource_content_tags:
-          type: array
-          items:
-            type: string
-          readOnly: true
-          nullable: true
-        departments:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceDepartment'
-          readOnly: true
-          nullable: true
-        certification:
-          type: string
-          nullable: true
-          description: Returns the certification for the learning resource
-          readOnly: true
-        prices:
-          type: string
-          nullable: true
-          description: Returns the prices for the learning resource
-          readOnly: true
-        course:
-          allOf:
-          - $ref: '#/components/schemas/Course'
-          readOnly: true
-          nullable: true
-        learning_path:
-          allOf:
-          - $ref: '#/components/schemas/LearningPath'
-          readOnly: true
-          nullable: true
-        podcast:
-          allOf:
-          - $ref: '#/components/schemas/Podcast'
-          readOnly: true
-          nullable: true
-        podcast_episode:
-          allOf:
-          - $ref: '#/components/schemas/PodcastEpisode'
-          readOnly: true
-          nullable: true
-        runs:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceRun'
-          readOnly: true
-          nullable: true
-        image:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceImage'
-          nullable: true
-          readOnly: true
-        learning_path_parents:
-          type: array
-          items:
-            $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
-          readOnly: true
-        user_list_parents:
-          type: array
-          items:
-            $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
-          readOnly: true
-        program:
-          allOf:
-          - $ref: '#/components/schemas/Program'
-          readOnly: true
-          nullable: true
-        readable_id:
-          type: string
-          maxLength: 128
-        title:
-          type: string
-          maxLength: 256
-        description:
-          type: string
-          nullable: true
-        full_description:
-          type: string
-          nullable: true
-        last_modified:
-          type: string
-          format: date-time
-          nullable: true
-        published:
-          type: boolean
-        languages:
-          type: array
-          items:
-            type: string
-            maxLength: 24
-          nullable: true
-        url:
-          type: string
-          format: uri
-          nullable: true
-          maxLength: 2048
-        resource_type:
-          $ref: '#/components/schemas/ResourceTypeEnum'
-        professional:
-          type: boolean
-          readOnly: true
-      required:
-      - certification
-      - course
-      - departments
-      - id
-      - image
-      - learning_path
-      - learning_path_parents
-      - offered_by
-      - platform
-      - podcast
-      - podcast_episode
-      - prices
-      - professional
-      - program
-      - readable_id
-      - resource_content_tags
-      - resource_type
-      - runs
-      - title
-      - user_list_parents
-    LearningResourceBase:
-      type: object
-      description: Serializer for LearningResource, minus program
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceTopic'
-        offered_by:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceOfferor'
-          readOnly: true
-          nullable: true
-        platform:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourcePlatform'
-          readOnly: true
-          nullable: true
-        resource_content_tags:
-          type: array
-          items:
-            type: string
-          readOnly: true
-          nullable: true
-        departments:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceDepartment'
-          readOnly: true
-          nullable: true
-        certification:
-          type: string
-          nullable: true
-          description: Returns the certification for the learning resource
-          readOnly: true
-        prices:
-          type: string
-          nullable: true
-          description: Returns the prices for the learning resource
-          readOnly: true
-        course:
-          allOf:
-          - $ref: '#/components/schemas/Course'
-          readOnly: true
-          nullable: true
-        learning_path:
-          allOf:
-          - $ref: '#/components/schemas/LearningPath'
-          readOnly: true
-          nullable: true
-        podcast:
-          allOf:
-          - $ref: '#/components/schemas/Podcast'
-          readOnly: true
-          nullable: true
-        podcast_episode:
-          allOf:
-          - $ref: '#/components/schemas/PodcastEpisode'
-          readOnly: true
-          nullable: true
-        runs:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceRun'
-          readOnly: true
-          nullable: true
-        image:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceImage'
-          nullable: true
-          readOnly: true
-        learning_path_parents:
-          type: array
-          items:
-            $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
-          readOnly: true
-        user_list_parents:
-          type: array
-          items:
-            $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
-          readOnly: true
-        readable_id:
-          type: string
-          maxLength: 128
-        title:
-          type: string
-          maxLength: 256
-        description:
-          type: string
-          nullable: true
-        full_description:
-          type: string
-          nullable: true
-        last_modified:
-          type: string
-          format: date-time
-          nullable: true
-        published:
-          type: boolean
-        languages:
-          type: array
-          items:
-            type: string
-            maxLength: 24
-          nullable: true
-        url:
-          type: string
-          format: uri
-          nullable: true
-          maxLength: 2048
-        resource_type:
-          $ref: '#/components/schemas/ResourceTypeEnum'
-        professional:
-          type: boolean
-          readOnly: true
-      required:
-      - certification
-      - course
-      - departments
-      - id
-      - image
-      - learning_path
-      - learning_path_parents
-      - offered_by
-      - platform
-      - podcast
-      - podcast_episode
-      - prices
-      - professional
-      - readable_id
-      - resource_content_tags
-      - resource_type
-      - runs
-      - title
-      - user_list_parents
+      oneOf:
+      - $ref: '#/components/schemas/ProgramResource'
+      - $ref: '#/components/schemas/CourseResource'
+      - $ref: '#/components/schemas/LearningPathResource'
+      - $ref: '#/components/schemas/PodcastResource'
+      - $ref: '#/components/schemas/PodcastEpisodeResource'
+      discriminator:
+        propertyName: resource_type
+        mapping:
+          program: '#/components/schemas/ProgramResource'
+          course: '#/components/schemas/CourseResource'
+          learning_path: '#/components/schemas/LearningPathResource'
+          podcast: '#/components/schemas/PodcastResource'
+          podcast_episode: '#/components/schemas/PodcastEpisodeResource'
     LearningResourceChild:
       type: object
       description: Serializer for LearningResourceRelationship children
@@ -7434,52 +5266,20 @@ components:
       required:
       - code
     LearningResourceRequest:
-      type: object
-      description: Serializer for LearningResource, with program included
-      properties:
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceTopic'
-        readable_id:
-          type: string
-          minLength: 1
-          maxLength: 128
-        title:
-          type: string
-          minLength: 1
-          maxLength: 256
-        description:
-          type: string
-          nullable: true
-        full_description:
-          type: string
-          nullable: true
-        last_modified:
-          type: string
-          format: date-time
-          nullable: true
-        published:
-          type: boolean
-        languages:
-          type: array
-          items:
-            type: string
-            minLength: 1
-            maxLength: 24
-          nullable: true
-        url:
-          type: string
-          format: uri
-          nullable: true
-          minLength: 1
-          maxLength: 2048
-        resource_type:
-          $ref: '#/components/schemas/ResourceTypeEnum'
-      required:
-      - readable_id
-      - resource_type
-      - title
+      oneOf:
+      - $ref: '#/components/schemas/ProgramResourceRequest'
+      - $ref: '#/components/schemas/CourseResourceRequest'
+      - $ref: '#/components/schemas/LearningPathResourceRequest'
+      - $ref: '#/components/schemas/PodcastResourceRequest'
+      - $ref: '#/components/schemas/PodcastEpisodeResourceRequest'
+      discriminator:
+        propertyName: resource_type
+        mapping:
+          program: '#/components/schemas/ProgramResourceRequest'
+          course: '#/components/schemas/CourseResourceRequest'
+          learning_path: '#/components/schemas/LearningPathResourceRequest'
+          podcast: '#/components/schemas/PodcastResourceRequest'
+          podcast_episode: '#/components/schemas/PodcastEpisodeResourceRequest'
     LearningResourceRun:
       type: object
       description: Serializer for the LearningResourceRun model
@@ -7758,6 +5558,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContentFile'
+    PaginatedCourseResourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseResource'
     PaginatedFieldChannelList:
       type: object
       properties:
@@ -7878,6 +5698,66 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
+    PaginatedPodcastEpisodeResourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastEpisodeResource'
+    PaginatedPodcastResourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastResource'
+    PaginatedProgramResourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramResource'
     PaginatedUserListList:
       type: object
       properties:
@@ -7983,10 +5863,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-        readable_id:
-          type: string
-          minLength: 1
-          maxLength: 128
         title:
           type: string
           minLength: 1
@@ -8016,8 +5892,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        resource_type:
-          $ref: '#/components/schemas/ResourceTypeEnum'
         professional:
           type: boolean
     PatchedUserListRelationshipRequest:
@@ -8119,6 +5993,178 @@ components:
         rss:
           type: string
           nullable: true
+    PodcastEpisodeResource:
+      type: object
+      description: Serializer for podcast episode resources
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        offered_by:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferor'
+          readOnly: true
+          nullable: true
+        platform:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourcePlatform'
+          readOnly: true
+          nullable: true
+        resource_content_tags:
+          type: array
+          items:
+            type: string
+          readOnly: true
+          nullable: true
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceDepartment'
+          readOnly: true
+          nullable: true
+        certification:
+          type: string
+          nullable: true
+          description: Returns the certification for the learning resource
+          readOnly: true
+        prices:
+          type: string
+          nullable: true
+          description: Returns the prices for the learning resource
+          readOnly: true
+        runs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceRun'
+          readOnly: true
+          nullable: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          nullable: true
+          readOnly: true
+        learning_path_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroLearningPathRelationship'
+          nullable: true
+          readOnly: true
+        user_list_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroUserListRelationship'
+          nullable: true
+          readOnly: true
+        resource_type:
+          allOf:
+          - $ref: '#/components/schemas/PodcastEpisodeResourceResourceTypeEnum'
+          default: podcast_episode
+          readOnly: true
+        podcast_episode:
+          allOf:
+          - $ref: '#/components/schemas/PodcastEpisode'
+          readOnly: true
+        readable_id:
+          type: string
+          maxLength: 128
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 2048
+        professional:
+          type: boolean
+          readOnly: true
+      required:
+      - certification
+      - departments
+      - id
+      - image
+      - learning_path_parents
+      - offered_by
+      - platform
+      - podcast_episode
+      - prices
+      - professional
+      - readable_id
+      - resource_content_tags
+      - resource_type
+      - runs
+      - title
+      - user_list_parents
+    PodcastEpisodeResourceRequest:
+      type: object
+      description: Serializer for podcast episode resources
+      properties:
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        title:
+          type: string
+          minLength: 1
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 2048
+      required:
+      - readable_id
+      - title
+    PodcastEpisodeResourceResourceTypeEnum:
+      type: string
+      enum:
+      - podcast_episode
     PodcastRequest:
       type: object
       description: Serializer for Podcasts
@@ -8141,6 +6187,178 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+    PodcastResource:
+      type: object
+      description: Serializer for podcast resources
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        offered_by:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferor'
+          readOnly: true
+          nullable: true
+        platform:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourcePlatform'
+          readOnly: true
+          nullable: true
+        resource_content_tags:
+          type: array
+          items:
+            type: string
+          readOnly: true
+          nullable: true
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceDepartment'
+          readOnly: true
+          nullable: true
+        certification:
+          type: string
+          nullable: true
+          description: Returns the certification for the learning resource
+          readOnly: true
+        prices:
+          type: string
+          nullable: true
+          description: Returns the prices for the learning resource
+          readOnly: true
+        runs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceRun'
+          readOnly: true
+          nullable: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          nullable: true
+          readOnly: true
+        learning_path_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroLearningPathRelationship'
+          nullable: true
+          readOnly: true
+        user_list_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroUserListRelationship'
+          nullable: true
+          readOnly: true
+        resource_type:
+          allOf:
+          - $ref: '#/components/schemas/PodcastResourceResourceTypeEnum'
+          default: podcast
+          readOnly: true
+        podcast:
+          allOf:
+          - $ref: '#/components/schemas/Podcast'
+          readOnly: true
+        readable_id:
+          type: string
+          maxLength: 128
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 2048
+        professional:
+          type: boolean
+          readOnly: true
+      required:
+      - certification
+      - departments
+      - id
+      - image
+      - learning_path_parents
+      - offered_by
+      - platform
+      - podcast
+      - prices
+      - professional
+      - readable_id
+      - resource_content_tags
+      - resource_type
+      - runs
+      - title
+      - user_list_parents
+    PodcastResourceRequest:
+      type: object
+      description: Serializer for podcast resources
+      properties:
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        title:
+          type: string
+          minLength: 1
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 2048
+      required:
+      - readable_id
+      - title
+    PodcastResourceResourceTypeEnum:
+      type: string
+      enum:
+      - podcast
     PrivacyLevelEnum:
       enum:
       - private
@@ -8156,11 +6374,183 @@ components:
         courses:
           type: array
           items:
-            $ref: '#/components/schemas/LearningResourceBase'
+            $ref: '#/components/schemas/CourseResource'
           nullable: true
           readOnly: true
       required:
       - courses
+    ProgramResource:
+      type: object
+      description: Serializer for program resources
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        offered_by:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferor'
+          readOnly: true
+          nullable: true
+        platform:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourcePlatform'
+          readOnly: true
+          nullable: true
+        resource_content_tags:
+          type: array
+          items:
+            type: string
+          readOnly: true
+          nullable: true
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceDepartment'
+          readOnly: true
+          nullable: true
+        certification:
+          type: string
+          nullable: true
+          description: Returns the certification for the learning resource
+          readOnly: true
+        prices:
+          type: string
+          nullable: true
+          description: Returns the prices for the learning resource
+          readOnly: true
+        runs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceRun'
+          readOnly: true
+          nullable: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceImage'
+          nullable: true
+          readOnly: true
+        learning_path_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroLearningPathRelationship'
+          nullable: true
+          readOnly: true
+        user_list_parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicroUserListRelationship'
+          nullable: true
+          readOnly: true
+        resource_type:
+          allOf:
+          - $ref: '#/components/schemas/ProgramResourceResourceTypeEnum'
+          default: program
+          readOnly: true
+        program:
+          allOf:
+          - $ref: '#/components/schemas/Program'
+          readOnly: true
+        readable_id:
+          type: string
+          maxLength: 128
+        title:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 2048
+        professional:
+          type: boolean
+          readOnly: true
+      required:
+      - certification
+      - departments
+      - id
+      - image
+      - learning_path_parents
+      - offered_by
+      - platform
+      - prices
+      - professional
+      - program
+      - readable_id
+      - resource_content_tags
+      - resource_type
+      - runs
+      - title
+      - user_list_parents
+    ProgramResourceRequest:
+      type: object
+      description: Serializer for program resources
+      properties:
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceTopic'
+        readable_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        title:
+          type: string
+          minLength: 1
+          maxLength: 256
+        description:
+          type: string
+          nullable: true
+        full_description:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 24
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 2048
+      required:
+      - readable_id
+      - title
+    ProgramResourceResourceTypeEnum:
+      type: string
+      enum:
+      - program
     ResourceTypeEnum:
       enum:
       - course
@@ -8170,11 +6560,11 @@ components:
       - podcast_episode
       type: string
       description: |-
-        * `course` - Course
-        * `program` - Program
-        * `learning_path` - Learning Path
-        * `podcast` - Podcast
-        * `podcast_episode` - Podcast Episode
+        * `course` - course
+        * `program` - program
+        * `learning_path` - learning_path
+        * `podcast` - podcast
+        * `podcast_episode` - podcast_episode
     SearchResponse:
       type: object
       properties:

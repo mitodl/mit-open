@@ -1,8 +1,7 @@
 """Constants for learning_resources"""
 
-from enum import Enum
-
 from django.db.models import TextChoices
+from named_enum import ExtendedEnum
 
 OPEN = "Open Content"
 PROFESSIONAL = "Professional Offerings"
@@ -11,7 +10,7 @@ CERTIFICATE = "Certificates"
 FAVORITES_TITLE = "Favorites"
 
 
-class AvailabilityType(Enum):
+class AvailabilityType(ExtendedEnum):
     """
     Enum for Course availability options dictated by edX API values.
     While these are the options coming in from edX that we store as is, we
@@ -27,7 +26,7 @@ class AvailabilityType(Enum):
     archived = "Archived"  # displayed as "Prior"
 
 
-class LearningResourceType(Enum):
+class LearningResourceType(ExtendedEnum):
     """Enum for LearningResource resource_type values"""
 
     course = "Course"
@@ -37,7 +36,7 @@ class LearningResourceType(Enum):
     podcast_episode = "Podcast Episode"
 
 
-class OfferedBy(Enum):
+class OfferedBy(ExtendedEnum):
     """
     Enum for our Offered By labels. They are our MIT "brands" for LearningResources
     (Courses, Bootcamps, Programs) and are independent of what platform.
@@ -57,7 +56,7 @@ class OfferedBy(Enum):
     ctl = "Center for Transportation & Logistics"
 
 
-class PlatformType(Enum):
+class PlatformType(ExtendedEnum):
     """
     Enum for platforms, this should be kept in sync
     with LearningResourcePlatform model objects
@@ -82,7 +81,7 @@ class PlatformType(Enum):
     podcast = "Podcast"
 
 
-class PrivacyLevel(Enum):
+class PrivacyLevel(ExtendedEnum):
     """
     Enum tracking privacy levels for user-created UserLists
     """

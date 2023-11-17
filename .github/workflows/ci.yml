@@ -94,7 +94,7 @@ jobs:
           MITOPEN_COOKIE_NAME: cookie_monster
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3.1.4
         with:
           file: ./coverage.xml
 
@@ -136,7 +136,7 @@ jobs:
           NODE_ENV: test
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3.1.4
         with:
           file: coverage/lcov.info
 
@@ -153,7 +153,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "16.15.1"
+          node-version: "18.18.2"
           cache: "yarn"
 
       - name: Install dependencies
@@ -168,7 +168,7 @@ jobs:
           command-args: |
             --output $GENERATOR_OUTPUT_DIR_CI \
             --ignore-file-override $GENERATOR_IGNORE_FILE \
-            --additional-properties=useSingleRequestParameter=true,paramNaming=original
+            -c scripts/openapi-configs/typescript-axios.yaml
       - name: Format freshly generated client
         run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
       - name: Check VC client is up-to-date

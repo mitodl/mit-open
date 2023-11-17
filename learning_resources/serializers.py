@@ -1,10 +1,11 @@
 """Serializers for learning_resources"""
-
 import logging
+from uuid import uuid4
 
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import F, Max
+from drf_spectacular.helpers import lazy_serializer
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -69,6 +70,10 @@ class WriteableTopicsMixin(serializers.Serializer):
             LearningResourceTopicSerializer(topic).data
             for topic in instance.topics.all()
         ]
+
+
+class LearningResourceTypeField(serializers.ReadOnlyField):
+    """Field for LearningResource.resource_type"""
 
 
 class LearningResourceOfferorSerializer(serializers.ModelSerializer):
@@ -153,6 +158,28 @@ class CourseNumberSerializer(serializers.Serializer):
     value = serializers.CharField()
     department = LearningResourceDepartmentSerializer()
     listing_type = serializers.CharField()
+
+
+class ProgramSerializer(serializers.ModelSerializer):
+    """Serializer for the Program model"""
+
+    courses = serializers.SerializerMethodField()
+
+    @extend_schema_field(
+        lazy_serializer("learning_resources.serializers.CourseResourceSerializer")(
+            many=True, allow_null=True
+        )
+    )
+    def get_courses(self, obj):
+        """Get the learning resource courses for a program"""
+
+        return CourseResourceSerializer(
+            [rel.child for rel in obj.courses.filter(child__published=True)], many=True
+        ).data
+
+    class Meta:
+        model = models.Program
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -240,10 +267,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     )
     certification = serializers.ReadOnlyField()
     prices = serializers.ReadOnlyField()
-    course = CourseSerializer(read_only=True, allow_null=True)
-    learning_path = LearningPathSerializer(read_only=True, allow_null=True)
-    podcast = PodcastSerializer(read_only=True, allow_null=True)
-    podcast_episode = PodcastEpisodeSerializer(read_only=True, allow_null=True)
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
     image = serializers.SerializerMethodField()
     learning_path_parents = serializers.SerializerMethodField()
@@ -317,27 +340,24 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         exclude = ["resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 
-class ProgramSerializer(serializers.ModelSerializer):
-    """Serializer for the Program model"""
+class ProgramResourceSerializer(LearningResourceBaseSerializer):
+    """Serializer for program resources"""
 
-    courses = serializers.SerializerMethodField()
+    resource_type = LearningResourceTypeField(
+        default=constants.LearningResourceType.program.name
+    )
 
-    @extend_schema_field(LearningResourceBaseSerializer(many=True, allow_null=True))
-    def get_courses(self, obj):
-        """Get the learning resource courses for a program"""
-        return LearningResourceRelationshipChildField(
-            obj.learning_resource.children.filter(child__published=True), many=True
-        ).data
-
-    class Meta:
-        model = models.Program
-        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
+    program = ProgramSerializer(read_only=True)
 
 
-class LearningResourceSerializer(LearningResourceBaseSerializer):
-    """Serializer for LearningResource, with program included"""
+class CourseResourceSerializer(LearningResourceBaseSerializer):
+    """Serializer for course resources"""
 
-    program = ProgramSerializer(read_only=True, allow_null=True)
+    resource_type = LearningResourceTypeField(
+        default=constants.LearningResourceType.course.name
+    )
+
+    course = CourseSerializer(read_only=True)
 
 
 class LearningResourceRelationshipChildField(serializers.ModelSerializer):
@@ -355,8 +375,14 @@ class LearningResourceRelationshipChildField(serializers.ModelSerializer):
         exclude = ("parent", *COMMON_IGNORED_FIELDS)
 
 
-class LearningPathResourceSerializer(LearningResourceSerializer):
+class LearningPathResourceSerializer(LearningResourceBaseSerializer):
     """CRUD serializer for LearningPath resources"""
+
+    resource_type = LearningResourceTypeField(
+        default=constants.LearningResourceType.learning_path.name
+    )
+
+    learning_path = LearningPathSerializer(read_only=True)
 
     def validate_resource_type(self, value):
         """Only allow LearningPath resources to be CRUDed"""
@@ -367,8 +393,13 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
 
     def create(self, validated_data):
         """Ensure that the LearningPath is created by the requesting user; set topics"""
+        # defined here because we disallow them as input
+        validated_data["readable_id"] = uuid4().hex
+        validated_data["resource_type"] = self.fields["resource_type"].default
+
         request = self.context.get("request")
         topics_data = validated_data.pop("topics", [])
+
         with transaction.atomic():
             path_resource = super().create(validated_data)
             path_resource.topics.set(
@@ -392,8 +423,49 @@ class LearningPathResourceSerializer(LearningResourceSerializer):
 
     class Meta:
         model = models.LearningResource
-        exclude = ["etl_source", *COMMON_IGNORED_FIELDS]
-        read_only_fields = ["platform", "offered_by"]
+        exclude = ["resources", "etl_source", *COMMON_IGNORED_FIELDS]
+        read_only_fields = ["platform", "offered_by", "readable_id"]
+
+
+class PodcastResourceSerializer(LearningResourceBaseSerializer):
+    """Serializer for podcast resources"""
+
+    resource_type = LearningResourceTypeField(
+        default=constants.LearningResourceType.podcast.name
+    )
+
+    podcast = PodcastSerializer(read_only=True)
+
+
+class PodcastEpisodeResourceSerializer(LearningResourceBaseSerializer):
+    """Serializer for podcast episode resources"""
+
+    resource_type = LearningResourceTypeField(
+        default=constants.LearningResourceType.podcast_episode.name
+    )
+
+    podcast_episode = PodcastEpisodeSerializer(read_only=True)
+
+
+class LearningResourceSerializer(serializers.Serializer):
+    """Serializer for LearningResource"""
+
+    serializer_cls_mapping = {
+        serializer_cls().fields["resource_type"].default: serializer_cls
+        for serializer_cls in (
+            ProgramResourceSerializer,
+            CourseResourceSerializer,
+            LearningPathResourceSerializer,
+            PodcastResourceSerializer,
+            PodcastEpisodeResourceSerializer,
+        )
+    }
+
+    def to_representation(self, instance):
+        """Serialize a LearningResource based on resource_type"""
+        serializer_cls = self.serializer_cls_mapping[instance.resource_type]
+
+        return serializer_cls(instance=instance, context=self.context).data
 
 
 class LearningResourceChildSerializer(serializers.ModelSerializer):

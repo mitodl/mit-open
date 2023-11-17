@@ -86,7 +86,9 @@ services:
       - django_media:/var/media
 
   watch:
-    image: node:18.18.2
+    build:
+      context: .
+      dockerfile: Dockerfile-node
     working_dir: /src
     command: ./scripts/run-watch-dev.sh
     ports:

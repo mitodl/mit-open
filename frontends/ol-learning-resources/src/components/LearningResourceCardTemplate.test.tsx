@@ -13,9 +13,7 @@ const factory = factories.learningResources
 
 describe("LearningResourceCard", () => {
   it("renders title and cover image", () => {
-    const resource = factory.resource({
-      resource_type: ResourceTypeEnum.Course,
-    })
+    const resource = factory.course()
     const imgConfig = makeImgConfig()
     render(
       <LearningResourceCardTemplate
@@ -34,9 +32,7 @@ describe("LearningResourceCard", () => {
   })
 
   it("does not show an image iff suppressImage is true", () => {
-    const resource = factory.resource({
-      resource_type: ResourceTypeEnum.Course,
-    })
+    const resource = factory.course()
     const imgConfig = makeImgConfig()
     const { rerender } = render(
       <LearningResourceCardTemplate
@@ -58,9 +54,7 @@ describe("LearningResourceCard", () => {
   })
 
   it("Calls onActivate when clicking title", async () => {
-    const resource = factory.resource({
-      resource_type: ResourceTypeEnum.Course,
-    })
+    const resource = factory.course()
     const imgConfig = makeImgConfig()
     const onActivate = jest.fn()
     render(
@@ -79,14 +73,12 @@ describe("LearningResourceCard", () => {
 
   it.each([
     { certification: null, hasCertificate: false },
-    { certification: undefined, hasCertificate: false },
     { certification: "cert", hasCertificate: true },
   ])(
     "should render an icon if the object has a certificate",
     ({ certification, hasCertificate }) => {
-      const resource = factory.resource({
+      const resource = factory.course({
         certification,
-        resource_type: ResourceTypeEnum.Course,
       })
       const imgConfig = makeImgConfig()
 

@@ -64,8 +64,9 @@ def test_search_index_plugin_resource_unpublished(
         resource.id, resource.resource_type
     )
     if resource_type == COURSE_TYPE:
+        assert unpublish_run_mock.call_count == resource.runs.count()
         for run in resource.runs.all():
-            unpublish_run_mock.assert_called_once_with(run.id, False)  # noqa: FBT003
+            unpublish_run_mock.assert_any_call(run.id, False)  # noqa: FBT003
     else:
         unpublish_run_mock.assert_not_called()
 

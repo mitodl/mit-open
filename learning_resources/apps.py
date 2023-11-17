@@ -10,3 +10,6 @@ class LearningResourcesConfig(AppConfig):
     name = "learning_resources"
     hookimpl = HookimplMarker(name)
     hookspec = HookspecMarker(name)
+
+    def ready(self):
+        from learning_resources import schema  # noqa: F401

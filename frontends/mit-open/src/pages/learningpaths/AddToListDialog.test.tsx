@@ -51,7 +51,6 @@ const setup = ({
         child: resource.id,
       }),
     )
-    // @ts-expect-errorhttps://github.com/mitodl/mit-open/pull/73 should fix this.
     list.learning_path.item_count += 1
   })
 
