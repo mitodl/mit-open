@@ -29,30 +29,10 @@ log = logging.getLogger()
 
 
 class SearchCourseNumberSerializer(CourseNumberSerializer):
-    """Serializer for CourseNumbe, including extra fields for search"""
+    """Serializer for CourseNumber, including extra fields for search"""
 
     primary = serializers.BooleanField()
     sort_coursenum = serializers.CharField()
-
-
-def transform_resource_data(learning_resource_obj: LearningResource) -> dict:
-    """
-    Apply transformations on the resource data
-
-    Args:
-        learning_resource_obj(dict): The learning resource
-
-    Returns:
-        dict: The transformed resource data
-
-    """
-    serialized_data = LearningResourceSerializer(instance=learning_resource_obj).data
-    if learning_resource_obj.resource_type == LearningResourceType.course.name:
-        serialized_data["course"]["course_numbers"] = [
-            SearchCourseNumberSerializer(instance=num).data
-            for num in learning_resource_obj.course.course_numbers
-        ]
-    return serialized_data
 
 
 def serialize_learning_resource_for_update(
@@ -68,10 +48,16 @@ def serialize_learning_resource_for_update(
         dict: The serialized and transformed resource data
 
     """
+    serialized_data = LearningResourceSerializer(instance=learning_resource_obj).data
+    if learning_resource_obj.resource_type == LearningResourceType.course.name:
+        serialized_data["course"]["course_numbers"] = [
+            SearchCourseNumberSerializer(instance=num).data
+            for num in learning_resource_obj.course.course_numbers
+        ]
     return {
         "resource_relations": {"name": "resource"},
         "created_on": learning_resource_obj.created_on,
-        **transform_resource_data(learning_resource_obj),
+        **serialized_data,
     }
 
 
