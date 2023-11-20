@@ -148,8 +148,18 @@ class ResourceListMixin(serializers.Serializer):
         )
 
 
+class CourseNumberSerializer(serializers.Serializer):
+    """Serializer for CourseNumber"""
+
+    value = serializers.CharField()
+    department = LearningResourceDepartmentSerializer()
+    listing_type = serializers.CharField()
+
+
 class CourseSerializer(serializers.ModelSerializer):
     """Serializer for the Course model"""
+
+    course_numbers = CourseNumberSerializer(many=True, allow_null=True)
 
     class Meta:
         model = models.Course

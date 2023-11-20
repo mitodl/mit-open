@@ -173,6 +173,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                                 "value": course_data["readable_id"],
                                 "department": None,
                                 "listing_type": CourseNumberType.primary.value,
+                                "primary": True,
+                                "sort_coursenum": course_data["readable_id"],
                             }
                         ]
                     },
@@ -240,6 +242,8 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                         "value": course_data["readable_id"],
                         "department": None,
                         "listing_type": CourseNumberType.primary.value,
+                        "primary": True,
+                        "sort_coursenum": course_data["readable_id"],
                     }
                 ]
             },

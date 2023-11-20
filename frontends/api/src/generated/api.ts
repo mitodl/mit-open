@@ -288,10 +288,60 @@ export type ContentTypeEnum =
 export interface Course {
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {Array<CourseNumber>}
    * @memberof Course
    */
-  course_numbers?: { [key: string]: any } | null
+  course_numbers: Array<CourseNumber> | null
+}
+/**
+ * Serializer for CourseNumber
+ * @export
+ * @interface CourseNumber
+ */
+export interface CourseNumber {
+  /**
+   *
+   * @type {string}
+   * @memberof CourseNumber
+   */
+  value: string
+  /**
+   *
+   * @type {LearningResourceDepartment}
+   * @memberof CourseNumber
+   */
+  department: LearningResourceDepartment
+  /**
+   *
+   * @type {string}
+   * @memberof CourseNumber
+   */
+  listing_type: string
+}
+/**
+ * Serializer for CourseNumber
+ * @export
+ * @interface CourseNumberRequest
+ */
+export interface CourseNumberRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof CourseNumberRequest
+   */
+  value: string
+  /**
+   *
+   * @type {LearningResourceDepartmentRequest}
+   * @memberof CourseNumberRequest
+   */
+  department: LearningResourceDepartmentRequest
+  /**
+   *
+   * @type {string}
+   * @memberof CourseNumberRequest
+   */
+  listing_type: string
 }
 /**
  * Serializer for the Course model
@@ -301,10 +351,10 @@ export interface Course {
 export interface CourseRequest {
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {Array<CourseNumberRequest>}
    * @memberof CourseRequest
    */
-  course_numbers?: { [key: string]: any } | null
+  course_numbers: Array<CourseNumberRequest> | null
 }
 /**
  * Serializer for FieldChannel
@@ -4611,10 +4661,10 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4669,7 +4719,6 @@ export const CoursesApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -4695,6 +4744,19 @@ export const CoursesApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/`
@@ -4731,10 +4793,6 @@ export const CoursesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -4745,6 +4803,10 @@ export const CoursesApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -4768,10 +4830,10 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4826,7 +4888,6 @@ export const CoursesApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -4852,6 +4913,19 @@ export const CoursesApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/new/`
@@ -4888,10 +4962,6 @@ export const CoursesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -4902,6 +4972,10 @@ export const CoursesApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -4973,10 +5047,10 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5031,7 +5105,6 @@ export const CoursesApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -5057,6 +5130,19 @@ export const CoursesApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/upcoming/`
@@ -5093,10 +5179,6 @@ export const CoursesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -5107,6 +5189,10 @@ export const CoursesApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -5206,10 +5292,10 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5264,7 +5350,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -5290,6 +5375,19 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -5302,10 +5400,10 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         limit,
         offered_by,
         offset,
-        ordering,
         platform,
         professional,
         resource_type,
+        sortby,
         options,
       )
       return createRequestFunction(
@@ -5322,10 +5420,10 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5380,7 +5478,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -5406,6 +5503,19 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -5418,10 +5528,10 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         limit,
         offered_by,
         offset,
-        ordering,
         platform,
         professional,
         resource_type,
+        sortby,
         options,
       )
       return createRequestFunction(
@@ -5465,10 +5575,10 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5523,7 +5633,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -5549,6 +5658,19 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -5562,10 +5684,10 @@ export const CoursesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -5645,10 +5767,10 @@ export const CoursesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -5670,10 +5792,10 @@ export const CoursesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -5710,10 +5832,10 @@ export const CoursesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -5865,13 +5987,6 @@ export interface CoursesApiCoursesListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof CoursesApiCoursesList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof CoursesApiCoursesList
@@ -5913,6 +6028,25 @@ export interface CoursesApiCoursesListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -5996,13 +6130,6 @@ export interface CoursesApiCoursesNewListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof CoursesApiCoursesNewList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof CoursesApiCoursesNewList
@@ -6044,6 +6171,25 @@ export interface CoursesApiCoursesNewListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -6141,13 +6287,6 @@ export interface CoursesApiCoursesUpcomingListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof CoursesApiCoursesUpcomingList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof CoursesApiCoursesUpcomingList
@@ -6189,6 +6328,25 @@ export interface CoursesApiCoursesUpcomingListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof CoursesApiCoursesUpcomingList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -6259,10 +6417,10 @@ export class CoursesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -6286,10 +6444,10 @@ export class CoursesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -6330,10 +6488,10 @@ export class CoursesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -7705,7 +7863,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [sortby] Which field to use when ordering the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7713,7 +7871,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       parent_id: number,
       limit?: number,
       offset?: number,
-      ordering?: string,
+      sortby?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'parent_id' is not null or undefined
@@ -7748,8 +7906,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -7827,10 +7985,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7885,7 +8043,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -7911,6 +8068,19 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/`
@@ -7947,10 +8117,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -7961,6 +8127,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -7984,10 +8154,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -8042,7 +8212,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -8068,6 +8237,19 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/new/`
@@ -8104,10 +8286,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -8118,6 +8296,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -8189,10 +8371,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -8247,7 +8429,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -8273,6 +8454,19 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/upcoming/`
@@ -8309,10 +8503,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -8323,6 +8513,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -8421,7 +8615,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [sortby] Which field to use when ordering the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -8429,7 +8623,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       parent_id: number,
       limit?: number,
       offset?: number,
-      ordering?: string,
+      sortby?: string,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -8442,7 +8636,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           parent_id,
           limit,
           offset,
-          ordering,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -8489,10 +8683,10 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -8547,7 +8741,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -8573,6 +8766,19 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -8586,10 +8792,10 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -8606,10 +8812,10 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -8664,7 +8870,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -8690,6 +8895,19 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -8703,10 +8921,10 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -8748,10 +8966,10 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -8806,7 +9024,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -8832,6 +9049,19 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -8845,10 +9075,10 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -8926,7 +9156,7 @@ export const LearningResourcesApiFactory = function (
           requestParameters.parent_id,
           requestParameters.limit,
           requestParameters.offset,
-          requestParameters.ordering,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -8966,10 +9196,10 @@ export const LearningResourcesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -8991,10 +9221,10 @@ export const LearningResourcesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -9031,10 +9261,10 @@ export const LearningResourcesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -9137,7 +9367,7 @@ export interface LearningResourcesApiLearningResourcesItemsListRequest {
    * @type {string}
    * @memberof LearningResourcesApiLearningResourcesItemsList
    */
-  readonly ordering?: string
+  readonly sortby?: string
 }
 
 /**
@@ -9242,13 +9472,6 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof LearningResourcesApiLearningResourcesList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof LearningResourcesApiLearningResourcesList
@@ -9290,6 +9513,25 @@ export interface LearningResourcesApiLearningResourcesListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -9373,13 +9615,6 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof LearningResourcesApiLearningResourcesNewList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof LearningResourcesApiLearningResourcesNewList
@@ -9421,6 +9656,25 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -9518,13 +9772,6 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof LearningResourcesApiLearningResourcesUpcomingList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
@@ -9566,6 +9813,25 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof LearningResourcesApiLearningResourcesUpcomingList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -9634,7 +9900,7 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.parent_id,
         requestParameters.limit,
         requestParameters.offset,
-        requestParameters.ordering,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -9678,10 +9944,10 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -9705,10 +9971,10 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -9749,10 +10015,10 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -9782,7 +10048,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning path' | 'podcast' | 'podcast episode'>} [resource_type]
-     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'created_on' | '-created_on' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9848,6 +10114,8 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         | "-readable_id"
         | "last_modified"
         | "-last_modified"
+        | "created_on"
+        | "-created_on"
         | "start_date"
         | "-start_date"
         | "mitcoursenumber"
@@ -9975,7 +10243,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning path' | 'podcast' | 'podcast episode'>} [resource_type]
-     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'created_on' | '-created_on' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -10041,6 +10309,8 @@ export const LearningResourcesSearchApiFp = function (
         | "-readable_id"
         | "last_modified"
         | "-last_modified"
+        | "created_on"
+        | "-created_on"
         | "start_date"
         | "-start_date"
         | "mitcoursenumber"
@@ -10262,8 +10532,8 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   >
 
   /**
-   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
-   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'}
+   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'created_on' | '-created_on' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly sortby?:
@@ -10273,6 +10543,8 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
     | "-readable_id"
     | "last_modified"
     | "-last_modified"
+    | "created_on"
+    | "-created_on"
     | "start_date"
     | "-start_date"
     | "mitcoursenumber"
@@ -10444,10 +10716,10 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -10502,7 +10774,6 @@ export const LearningpathsApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -10528,6 +10799,19 @@ export const LearningpathsApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/`
@@ -10564,10 +10848,6 @@ export const LearningpathsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -10578,6 +10858,10 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -10601,10 +10885,10 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -10659,7 +10943,6 @@ export const LearningpathsApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -10685,6 +10968,19 @@ export const LearningpathsApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/new/`
@@ -10721,10 +11017,6 @@ export const LearningpathsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -10735,6 +11027,10 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -10925,7 +11221,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [sortby] Which field to use when ordering the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -10933,7 +11229,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       parent_id: number,
       limit?: number,
       offset?: number,
-      ordering?: string,
+      sortby?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'parent_id' is not null or undefined
@@ -10968,8 +11264,8 @@ export const LearningpathsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -11223,10 +11519,10 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11281,7 +11577,6 @@ export const LearningpathsApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -11307,6 +11602,19 @@ export const LearningpathsApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learningpaths/upcoming/`
@@ -11343,10 +11651,6 @@ export const LearningpathsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -11357,6 +11661,10 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -11501,10 +11809,10 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11559,7 +11867,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -11585,6 +11892,19 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -11598,10 +11918,10 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -11618,10 +11938,10 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11676,7 +11996,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -11702,6 +12021,19 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -11715,10 +12047,10 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -11820,7 +12152,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [sortby] Which field to use when ordering the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11828,7 +12160,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       parent_id: number,
       limit?: number,
       offset?: number,
-      ordering?: string,
+      sortby?: string,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -11841,7 +12173,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           parent_id,
           limit,
           offset,
-          ordering,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -11979,10 +12311,10 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12037,7 +12369,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -12063,6 +12394,19 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -12076,10 +12420,10 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -12181,10 +12525,10 @@ export const LearningpathsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -12206,10 +12550,10 @@ export const LearningpathsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -12283,7 +12627,7 @@ export const LearningpathsApiFactory = function (
           requestParameters.parent_id,
           requestParameters.limit,
           requestParameters.offset,
-          requestParameters.ordering,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -12376,10 +12720,10 @@ export const LearningpathsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -12514,13 +12858,6 @@ export interface LearningpathsApiLearningpathsListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof LearningpathsApiLearningpathsList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof LearningpathsApiLearningpathsList
@@ -12562,6 +12899,25 @@ export interface LearningpathsApiLearningpathsListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -12645,13 +13001,6 @@ export interface LearningpathsApiLearningpathsNewListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof LearningpathsApiLearningpathsNewList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof LearningpathsApiLearningpathsNewList
@@ -12693,6 +13042,25 @@ export interface LearningpathsApiLearningpathsNewListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof LearningpathsApiLearningpathsNewList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -12790,7 +13158,7 @@ export interface LearningpathsApiLearningpathsResourcesListRequest {
    * @type {string}
    * @memberof LearningpathsApiLearningpathsResourcesList
    */
-  readonly ordering?: string
+  readonly sortby?: string
 }
 
 /**
@@ -12965,13 +13333,6 @@ export interface LearningpathsApiLearningpathsUpcomingListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof LearningpathsApiLearningpathsUpcomingList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof LearningpathsApiLearningpathsUpcomingList
@@ -13013,6 +13374,25 @@ export interface LearningpathsApiLearningpathsUpcomingListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof LearningpathsApiLearningpathsUpcomingList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -13096,10 +13476,10 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -13123,10 +13503,10 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -13208,7 +13588,7 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.parent_id,
         requestParameters.limit,
         requestParameters.offset,
-        requestParameters.ordering,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -13311,10 +13691,10 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -13356,10 +13736,10 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -13414,7 +13794,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -13440,6 +13819,19 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/podcast_episodes/`
@@ -13476,10 +13868,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -13490,6 +13878,10 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -13513,10 +13905,10 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -13571,7 +13963,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -13597,6 +13988,19 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/podcast_episodes/new/`
@@ -13633,10 +14037,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -13647,6 +14047,10 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -13718,10 +14122,10 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -13776,7 +14180,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -13802,6 +14205,19 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/podcast_episodes/upcoming/`
@@ -13838,10 +14254,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -13852,6 +14264,10 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -13886,10 +14302,10 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -13944,7 +14360,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -13970,6 +14385,19 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -13983,10 +14411,10 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -14003,10 +14431,10 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -14061,7 +14489,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -14087,6 +14514,19 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -14100,10 +14540,10 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -14145,10 +14585,10 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -14203,7 +14643,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -14229,6 +14668,19 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -14242,10 +14694,10 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -14286,10 +14738,10 @@ export const PodcastEpisodesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -14311,10 +14763,10 @@ export const PodcastEpisodesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -14351,10 +14803,10 @@ export const PodcastEpisodesApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -14443,13 +14895,6 @@ export interface PodcastEpisodesApiPodcastEpisodesListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof PodcastEpisodesApiPodcastEpisodesList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof PodcastEpisodesApiPodcastEpisodesList
@@ -14491,6 +14936,25 @@ export interface PodcastEpisodesApiPodcastEpisodesListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -14574,13 +15038,6 @@ export interface PodcastEpisodesApiPodcastEpisodesNewListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof PodcastEpisodesApiPodcastEpisodesNewList
@@ -14622,6 +15079,25 @@ export interface PodcastEpisodesApiPodcastEpisodesNewListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof PodcastEpisodesApiPodcastEpisodesNewList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -14719,13 +15195,6 @@ export interface PodcastEpisodesApiPodcastEpisodesUpcomingListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
@@ -14767,6 +15236,25 @@ export interface PodcastEpisodesApiPodcastEpisodesUpcomingListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof PodcastEpisodesApiPodcastEpisodesUpcomingList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -14794,10 +15282,10 @@ export class PodcastEpisodesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -14821,10 +15309,10 @@ export class PodcastEpisodesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -14865,10 +15353,10 @@ export class PodcastEpisodesApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -14888,7 +15376,7 @@ export const PodcastsApiAxiosParamCreator = function (
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [sortby] Which field to use when ordering the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -14896,7 +15384,7 @@ export const PodcastsApiAxiosParamCreator = function (
       parent_id: number,
       limit?: number,
       offset?: number,
-      ordering?: string,
+      sortby?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'parent_id' is not null or undefined
@@ -14930,8 +15418,8 @@ export const PodcastsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -15005,10 +15493,10 @@ export const PodcastsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -15063,7 +15551,6 @@ export const PodcastsApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -15089,6 +15576,19 @@ export const PodcastsApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/podcasts/`
@@ -15125,10 +15625,6 @@ export const PodcastsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -15139,6 +15635,10 @@ export const PodcastsApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -15162,10 +15662,10 @@ export const PodcastsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -15220,7 +15720,6 @@ export const PodcastsApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -15246,6 +15745,19 @@ export const PodcastsApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/podcasts/new/`
@@ -15282,10 +15794,6 @@ export const PodcastsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -15296,6 +15804,10 @@ export const PodcastsApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -15367,10 +15879,10 @@ export const PodcastsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -15425,7 +15937,6 @@ export const PodcastsApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -15451,6 +15962,19 @@ export const PodcastsApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/podcasts/upcoming/`
@@ -15487,10 +16011,6 @@ export const PodcastsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -15501,6 +16021,10 @@ export const PodcastsApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -15532,7 +16056,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
+     * @param {string} [sortby] Which field to use when ordering the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -15540,7 +16064,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       parent_id: number,
       limit?: number,
       offset?: number,
-      ordering?: string,
+      sortby?: string,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -15553,7 +16077,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
           parent_id,
           limit,
           offset,
-          ordering,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -15600,10 +16124,10 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -15658,7 +16182,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -15684,6 +16207,19 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -15696,10 +16232,10 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         limit,
         offered_by,
         offset,
-        ordering,
         platform,
         professional,
         resource_type,
+        sortby,
         options,
       )
       return createRequestFunction(
@@ -15716,10 +16252,10 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -15774,7 +16310,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -15800,6 +16335,19 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -15812,10 +16360,10 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         limit,
         offered_by,
         offset,
-        ordering,
         platform,
         professional,
         resource_type,
+        sortby,
         options,
       )
       return createRequestFunction(
@@ -15857,10 +16405,10 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -15915,7 +16463,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -15941,6 +16488,19 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -15954,10 +16514,10 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -15996,7 +16556,7 @@ export const PodcastsApiFactory = function (
           requestParameters.parent_id,
           requestParameters.limit,
           requestParameters.offset,
-          requestParameters.ordering,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -16036,10 +16596,10 @@ export const PodcastsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -16061,10 +16621,10 @@ export const PodcastsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -16101,10 +16661,10 @@ export const PodcastsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -16144,7 +16704,7 @@ export interface PodcastsApiPodcastsItemsListRequest {
    * @type {string}
    * @memberof PodcastsApiPodcastsItemsList
    */
-  readonly ordering?: string
+  readonly sortby?: string
 }
 
 /**
@@ -16249,13 +16809,6 @@ export interface PodcastsApiPodcastsListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof PodcastsApiPodcastsList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof PodcastsApiPodcastsList
@@ -16297,6 +16850,25 @@ export interface PodcastsApiPodcastsListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -16380,13 +16952,6 @@ export interface PodcastsApiPodcastsNewListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof PodcastsApiPodcastsNewList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof PodcastsApiPodcastsNewList
@@ -16428,6 +16993,25 @@ export interface PodcastsApiPodcastsNewListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof PodcastsApiPodcastsNewList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -16525,13 +17109,6 @@ export interface PodcastsApiPodcastsUpcomingListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof PodcastsApiPodcastsUpcomingList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof PodcastsApiPodcastsUpcomingList
@@ -16573,6 +17150,25 @@ export interface PodcastsApiPodcastsUpcomingListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof PodcastsApiPodcastsUpcomingList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -16598,7 +17194,7 @@ export class PodcastsApi extends BaseAPI {
         requestParameters.parent_id,
         requestParameters.limit,
         requestParameters.offset,
-        requestParameters.ordering,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -16642,10 +17238,10 @@ export class PodcastsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -16669,10 +17265,10 @@ export class PodcastsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -16713,10 +17309,10 @@ export class PodcastsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -16738,10 +17334,10 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -16796,7 +17392,6 @@ export const ProgramsApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -16822,6 +17417,19 @@ export const ProgramsApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/`
@@ -16858,10 +17466,6 @@ export const ProgramsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -16872,6 +17476,10 @@ export const ProgramsApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -16895,10 +17503,10 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -16953,7 +17561,6 @@ export const ProgramsApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -16979,6 +17586,19 @@ export const ProgramsApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/new/`
@@ -17015,10 +17635,6 @@ export const ProgramsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -17029,6 +17645,10 @@ export const ProgramsApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -17100,10 +17720,10 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -17158,7 +17778,6 @@ export const ProgramsApiAxiosParamCreator = function (
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -17184,6 +17803,19 @@ export const ProgramsApiAxiosParamCreator = function (
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/upcoming/`
@@ -17220,10 +17852,6 @@ export const ProgramsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (ordering !== undefined) {
-        localVarQueryParameter["ordering"] = ordering
-      }
-
       if (platform !== undefined) {
         localVarQueryParameter["platform"] = platform
       }
@@ -17234,6 +17862,10 @@ export const ProgramsApiAxiosParamCreator = function (
 
       if (resource_type !== undefined) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -17267,10 +17899,10 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -17325,7 +17957,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -17351,6 +17982,19 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -17363,10 +18007,10 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         limit,
         offered_by,
         offset,
-        ordering,
         platform,
         professional,
         resource_type,
+        sortby,
         options,
       )
       return createRequestFunction(
@@ -17383,10 +18027,10 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -17441,7 +18085,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -17467,6 +18110,19 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -17479,10 +18135,10 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         limit,
         offered_by,
         offset,
-        ordering,
         platform,
         professional,
         resource_type,
+        sortby,
         options,
       )
       return createRequestFunction(
@@ -17524,10 +18180,10 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] Offered By  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [ordering] Which field to use when ordering the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] Resource Type  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -17582,7 +18238,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "see"
         | "xpro",
       offset?: number,
-      ordering?: string,
       platform?:
         | "bootcamps"
         | "csail"
@@ -17608,6 +18263,19 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "podcast"
         | "podcast_episode"
         | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -17621,10 +18289,10 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
           limit,
           offered_by,
           offset,
-          ordering,
           platform,
           professional,
           resource_type,
+          sortby,
           options,
         )
       return createRequestFunction(
@@ -17665,10 +18333,10 @@ export const ProgramsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -17690,10 +18358,10 @@ export const ProgramsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -17730,10 +18398,10 @@ export const ProgramsApiFactory = function (
           requestParameters.limit,
           requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.ordering,
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.resource_type,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -17822,13 +18490,6 @@ export interface ProgramsApiProgramsListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof ProgramsApiProgramsList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof ProgramsApiProgramsList
@@ -17870,6 +18531,25 @@ export interface ProgramsApiProgramsListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -17953,13 +18633,6 @@ export interface ProgramsApiProgramsNewListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof ProgramsApiProgramsNewList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof ProgramsApiProgramsNewList
@@ -18001,6 +18674,25 @@ export interface ProgramsApiProgramsNewListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -18098,13 +18790,6 @@ export interface ProgramsApiProgramsUpcomingListRequest {
   readonly offset?: number
 
   /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof ProgramsApiProgramsUpcomingList
-   */
-  readonly ordering?: string
-
-  /**
    * Platform  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
    * @memberof ProgramsApiProgramsUpcomingList
@@ -18146,6 +18831,25 @@ export interface ProgramsApiProgramsUpcomingListRequest {
     | "podcast"
     | "podcast_episode"
     | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof ProgramsApiProgramsUpcomingList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
 }
 
 /**
@@ -18173,10 +18877,10 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -18200,10 +18904,10 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -18244,10 +18948,10 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.ordering,
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.resource_type,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

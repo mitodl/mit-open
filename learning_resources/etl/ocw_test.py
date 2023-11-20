@@ -206,6 +206,8 @@ def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extr
             "value": "16.01",
             "department": {"department_id": "16", "name": DEPARTMENTS["16"]},
             "listing_type": CourseNumberType.primary.value,
+            "primary": True,
+            "sort_coursenum": "16.01",
         }
         assert transformed_json["course"]["course_numbers"][1:] == (
             [
@@ -213,11 +215,15 @@ def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extr
                     "value": "1",
                     "department": {"department_id": "1", "name": DEPARTMENTS["1"]},
                     "listing_type": CourseNumberType.cross_listed.value,
+                    "primary": False,
+                    "sort_coursenum": "01",
                 },
                 {
                     "value": "2",
                     "department": {"department_id": "2", "name": DEPARTMENTS["2"]},
                     "listing_type": CourseNumberType.cross_listed.value,
+                    "primary": False,
+                    "sort_coursenum": "02",
                 },
             ]
             if has_extra_num

@@ -101,6 +101,34 @@ class LearningResourceInstructor(TimestampedModel):
 class LearningResource(TimestampedModel):
     """Core model for all learning resources"""
 
+    prefetches = [
+        "topics",
+        "offered_by",
+        "departments",
+        "resource_content_tags",
+        "runs",
+        "runs__instructors",
+        "runs__image",
+        "children__child",
+        "children__child__runs",
+        "children__child__runs__instructors",
+        "children__child__course",
+        "children__child__program",
+        "children__child__learning_path",
+        "children__child__departments",
+        "children__child__platform",
+        "children__child__topics",
+        "children__child__image",
+        "children__child__offered_by",
+        "children__child__resource_content_tags",
+    ]
+
+    related_selects = [
+        "image",
+        "platform",
+        *([item.name for item in LearningResourceType]),
+    ]
+
     readable_id = models.CharField(max_length=128, null=False, blank=False)
     title = models.CharField(max_length=256)
     description = models.TextField(null=True, blank=True)  # noqa: DJ001

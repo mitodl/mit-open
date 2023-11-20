@@ -185,3 +185,55 @@ DEPARTMENTS = {
     "STS": "Science, Technology, and Society",
     "WGS": "Women's and Gender Studies",
 }
+
+
+LEARNING_RESOURCE_SORTBY_OPTIONS = {
+    "id": {
+        "title": "Object ID ascending",
+        "sort": "id",
+    },
+    "-id": {
+        "title": "Object ID descending",
+        "sort": "-id",
+    },
+    "readable_id": {
+        "title": "Readable ID ascending",
+        "sort": "readable_id",
+    },
+    "-readable_id": {
+        "title": "Readable ID descending",
+        "sort": "-readable_id",
+    },
+    "last_modified": {
+        "title": "Last Modified Date ascending",
+        "sort": "last_modified",
+    },
+    "-last_modified": {
+        "title": "Last Modified Date descending",
+        "sort": "-last_modified",
+    },
+    "created_on": {
+        "title": "Creation Date ascending",
+        "sort": "created_on",
+    },
+    "-created_on": {
+        "title": "CreationDate descending",
+        "sort": "-created_on",
+    },
+    "start_date": {
+        "title": "Start Date ascending",
+        "sort": "runs__start_date",
+    },
+    "-start_date": {
+        "title": "Start Date descending",
+        "sort": "-runs__start_date",
+    },
+    "mitcoursenumber": {
+        "title": "MIT course number ascending",
+        "sort": "course__course_numbers__0__sort_coursenum",
+    },
+    "-mitcoursenumber": {
+        "title": "MIT course number descending",
+        "sort": "-course__course_numbers__0__sort_coursenum",
+    },
+}

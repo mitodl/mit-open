@@ -13,7 +13,10 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.utils import (
+    extend_schema,
+    extend_schema_view,
+)
 from rest_framework import views, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
@@ -109,10 +112,8 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceSerializer
     permission_classes = (AnonymousAccessReadonlyPermission,)
     pagination_class = DefaultPagination
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_backends = [DjangoFilterBackend]
     filterset_class = LearningResourceFilter
-    ordering_fields = ["id", "readable_id", "last_modified", "title"]
-    ordering = ["id"]
 
     def _get_base_queryset(self, resource_type: str | None = None) -> QuerySet:
         """
@@ -129,36 +130,8 @@ class LearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         lr_query = LearningResource.objects.all()
         if resource_type:
             lr_query = lr_query.filter(resource_type=resource_type)
-
-        prefetches = [
-            "topics",
-            "offered_by",
-            "departments",
-            "resource_content_tags",
-            "runs",
-            "runs__instructors",
-            "runs__image",
-            "children",
-            "children__child",
-            "children__child__runs",
-            "children__child__runs__instructors",
-            "children__child__course",
-            "children__child__program",
-            "children__child__learning_path",
-            "children__child__departments",
-            "children__child__platform",
-            "children__child__topics",
-            "children__child__image",
-            "children__child__offered_by",
-            "children__child__resource_content_tags",
-        ]
-
-        lr_query = lr_query.select_related(
-            "image",
-            "platform",
-            *([item.name for item in LearningResourceType]),
-        )
-        return lr_query.prefetch_related(*prefetches).distinct()
+        lr_query = lr_query.select_related(*LearningResource.related_selects)
+        return lr_query.prefetch_related(*LearningResource.prefetches).distinct()
 
     def get_queryset(self) -> QuerySet:
         """

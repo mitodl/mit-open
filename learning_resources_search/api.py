@@ -4,6 +4,7 @@ import re
 
 from opensearch_dsl import Search
 
+from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
 from learning_resources_search.connection import get_default_alias_name
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
@@ -12,7 +13,6 @@ from learning_resources_search.constants import (
     DEPARTMENT_QUERY_FIELDS,
     LEARNING_RESOURCE_QUERY_FIELDS,
     LEARNING_RESOURCE_SEARCH_FILTERS,
-    LEARNING_RESOURCE_SORTBY_OPTIONS,
     LEARNING_RESOURCE_TYPES,
     RESOURCEFILE_QUERY_FIELDS,
     RUN_INSTRUCTORS_QUERY_FIELDS,
@@ -74,8 +74,11 @@ def generate_sort_clause(search_params):
         dict or String: either a dictionary with the sort clause for
             nested sort params or just sort parameter
     """
-    sort = LEARNING_RESOURCE_SORTBY_OPTIONS.get(search_params.get("sortby"), {}).get(
-        "sort"
+    sort = (
+        LEARNING_RESOURCE_SORTBY_OPTIONS.get(search_params.get("sortby"), {})
+        .get("sort")
+        .replace("0__", "")
+        .replace("__", ".")
     )
 
     departments = search_params.get("department")

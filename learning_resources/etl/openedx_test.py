@@ -182,6 +182,8 @@ def test_transform_course(  # noqa: PLR0913
                             "name": "Sloan School of Management",
                         },
                         "listing_type": CourseNumberType.primary.value,
+                        "primary": True,
+                        "sort_coursenum": "MITx+15.071x",
                     }
                 ]
             },

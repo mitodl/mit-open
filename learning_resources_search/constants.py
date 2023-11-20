@@ -86,6 +86,7 @@ LEARNING_RESOURCE_MAP = {
     "description": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
     "full_description": ENGLISH_TEXT_FIELD,
     "last_modified": {"type": "date"},
+    "created_on": {"type": "date"},
     "languages": {"type": "keyword"},
     "image": {
         "type": "nested",
@@ -254,48 +255,6 @@ SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)
 SOURCE_EXCLUDED_FIELDS = [
     "course.course_numbers.sort_coursenum",
     "course.course_numbers.primary",
+    "created_on",
     "resource_relations",
 ]
-
-LEARNING_RESOURCE_SORTBY_OPTIONS = {
-    "id": {
-        "title": "Object ID ascending",
-        "sort": "id",
-    },
-    "-id": {
-        "title": "Object ID descending",
-        "sort": "-id",
-    },
-    "readable_id": {
-        "title": "Readable ID ascending",
-        "sort": "readable_id",
-    },
-    "-readable_id": {
-        "title": "Readable ID descending",
-        "sort": "-readable_id",
-    },
-    "last_modified": {
-        "title": "Last Modified Date ascending",
-        "sort": "last_modified",
-    },
-    "-last_modified": {
-        "title": "Last Modified Date descending",
-        "sort": "-last_modified",
-    },
-    "start_date": {
-        "title": "Start Date ascending",
-        "sort": "runs.start_date",
-    },
-    "-start_date": {
-        "title": "Start Date descending",
-        "sort": "-runs.start_date",
-    },
-    "mitcoursenumber": {
-        "title": "MIT course number ascending",
-        "sort": "course.course_numbers.sort_coursenum",
-    },
-    "-mitcoursenumber": {
-        "title": "MIT course number descending",
-        "sort": "-course.course_numbers.sort_coursenum",
-    },
-}

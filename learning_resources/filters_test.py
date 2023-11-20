@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import pytest
 
 from learning_resources.constants import (
+    LEARNING_RESOURCE_SORTBY_OPTIONS,
     LearningResourceType,
     OfferedBy,
     PlatformType,
@@ -100,3 +101,31 @@ def test_learning_resource_filter_resource_type():
 
     assert podcast in query
     assert course not in query
+
+
+@pytest.mark.parametrize("sortby", ["created_on", "readable_id", "id"])
+@pytest.mark.parametrize("descending", [True, False])
+def test_learning_resource_sortby(sortby, descending):
+    """Test that the query is sorted in the correct order"""
+    resources = [course.learning_resource for course in CourseFactory.create_batch(3)]
+    sortby_param = sortby
+    if descending:
+        sortby_param = f"-{sortby}"
+    query = LearningResourceFilter(
+        {
+            "resource_type": LearningResourceType.course.name,
+            "sortby": sortby_param,
+        }
+    ).qs
+    assert list(query.values_list("id", flat=True)) == sorted(
+        [
+            resource.id
+            for resource in sorted(
+                resources,
+                key=lambda x: getattr(
+                    x, LEARNING_RESOURCE_SORTBY_OPTIONS[sortby]["sort"]
+                ),
+            )
+        ],
+        reverse=descending,
+    )
