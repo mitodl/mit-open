@@ -4,10 +4,10 @@ import HomePage from "./Home"
 
 import { urls, setMockResponse } from "api/test-utils"
 import { learningResources as factory } from "api/test-utils/factories"
-import { renderWithProviders, screen, within } from "../test-utils"
+import { renderWithProviders, screen, within } from "../../test-utils"
 import invariant from "tiny-invariant"
 import type { LearningResource } from "api"
-import LearningResourceCard from "../components/LearningResourceCard"
+import LearningResourceCard from "../../components/LearningResourceCard"
 
 const spyLearningResourceCard = jest.mocked(LearningResourceCard)
 
