@@ -16,12 +16,23 @@ import LearningResourceCard from "../components/LearningResourceCard"
 import type { PaginatedLearningResourceList } from "api"
 import { useLearningResourcesList } from "api/hooks/learningResources"
 import { UseQueryResult } from "@tanstack/react-query"
+import styled from "@emotion/styled"
+import { Theme } from "../entry/theme"
+import { mediaQueries } from "ol-util"
 
 interface HomePageCarouselProps {
   query: UseQueryResult<PaginatedLearningResourceList>
   showNavigationButtons?: boolean
   title: React.ReactNode
 }
+
+const CarouselButton = styled(Button)`
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+`
 
 const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
   query,
@@ -40,24 +51,22 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
       carouselClassName="ic-carousel"
       cellSpacing={0} // we'll handle it with css
       previous={
-        <Button
+        <CarouselButton
           variant="outlined"
           color="secondary"
           startIcon={<ArrowBack fontSize="inherit" />}
-          className="ic-carousel-button-prev"
         >
           Previous
-        </Button>
+        </CarouselButton>
       }
       next={
-        <Button
+        <CarouselButton
           variant="outlined"
           color="secondary"
           endIcon={<ArrowForward fontSize="inherit" />}
-          className="ic-carousel-button-next"
         >
           Next
-        </Button>
+        </CarouselButton>
       }
       showNavigationButtons={showNavigationButtons}
     >
@@ -109,6 +118,94 @@ const EXPLORE_BUTTONS = [
   },
 ]
 
+const HomePageContainer = styled(Container)`
+  margin-bottom: 3.5rem;
+
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+`
+
+const TopContainer = styled(GridContainer)`
+  margin-top: 3.5rem;
+  margin-bottom: 3.5rem;
+`
+
+interface ThemeProps {
+  theme?: Theme
+}
+
+const BackgroundGradient = styled.div<ThemeProps>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -100;
+  height: 615px;
+  background-image: ${({ theme }) =>
+    `linear-gradient(${theme.colorBlue1}, ${theme.colorGray1})`};
+  width: 100%;
+`
+
+const PageTitle = styled.h1<ThemeProps>`
+  margin-bottom: 0.5rem;
+  font-size: 50px;
+  color: ${({ theme }) => theme.colorBlue5};
+`
+
+const StyledSearchInput = styled(SearchInput)<ThemeProps>`
+  margin-top: 1.75rem;
+  margin-bottom: 1.75rem;
+
+  background-color: ${({ theme }) => theme.colorBackgroundLight};
+
+  &.MuiInputBase-root {
+    max-width: 520px;
+    width: 100%;
+    border-radius: 3px;
+    font-size: 1.25rem;
+
+    fieldset {
+      border: 2px solid ${({ theme }) => theme.colorGray4};
+    }
+
+    &.Mui-focused fieldset {
+      border-color: ${({ theme }) => theme.colorBlue5};
+    }
+
+    &.Mui-focused .MuiSvgIcon-root {
+      color: ${({ theme }) => theme.colorBlue5};
+    }
+  }
+
+  .MuiInputBase-input {
+    &::placeholder {
+      font-size: 1rem;
+    }
+  }
+
+  .MuiButton-root {
+    border-radius: 3px;
+    padding: 10px;
+  }
+`
+
+const SearchButtonsContainer = styled.div`
+  max-width: 520px;
+`
+
+const StyledChipLink = styled(ChipLink)`
+  margin: 8px 16px 8px 0;
+`
+
+const FrontPageImage = styled.img`
+  height: 435px;
+  ${mediaQueries.down("md")} {
+    display: none;
+  }
+`
+
 const HomePage: React.FC = () => {
   const [searchText, setSearchText] = useState("")
   const onSearchClear = useCallback(() => setSearchText(""), [])
@@ -122,53 +219,50 @@ const HomePage: React.FC = () => {
   const resourcesQuery = useLearningResourcesList()
 
   return (
-    <Container className="homepage">
-      <GridContainer className="top-container">
-        <div className="background-gradient"></div>
+    <HomePageContainer className="homepage">
+      <TopContainer>
+        <BackgroundGradient />
         <Grid item xs={12} md={7}>
-          <h1 className="page-title">Learn from MIT</h1>
-          <h2 className="page-subtitle">
+          <PageTitle>Learn from MIT</PageTitle>
+          <h2>
             Search for MIT courses, videos, podcasts, learning paths, and
             communities
           </h2>
-          <SearchInput
+          <StyledSearchInput
             value={searchText}
             placeholder="What do you want to learn?"
             onSubmit={onSearchSubmit}
             onClear={onSearchClear}
             onChange={onSearchChange}
-            className="homepage-search main-search"
           />
           <div>
-            <h3 className="search-buttons-container-label">Explore</h3>
-            <div className="search-buttons-container">
+            <h3>Explore</h3>
+            <SearchButtonsContainer>
               {EXPLORE_BUTTONS.map(({ label }) => (
-                <ChipLink
-                  className="homepage-explore-chip"
+                <StyledChipLink
                   color="secondary"
                   to=""
                   key={label}
                   label={label}
                 />
               ))}
-            </div>
+            </SearchButtonsContainer>
           </div>
         </Grid>
         <Grid item xs={12} md={5}>
           <div>
-            <img
-              className="frontpage-image-decoration"
+            <FrontPageImage
               alt="Photos from the MIT campus arranged to form the letter M"
               src="/static/images/infinite-front-page-image.png"
             />
           </div>
         </Grid>
-      </GridContainer>
+      </TopContainer>
       <HomePageCarousel
         title={<h2>Upcoming Courses</h2>}
         query={resourcesQuery}
       />
-    </Container>
+    </HomePageContainer>
   )
 }
 

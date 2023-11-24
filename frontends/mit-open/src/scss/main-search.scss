@@ -1,3 +1,8 @@
+/* TODO Implemented on StyledSearchInput in pages/Home.tsx.
+   Remains on infinite-pages/(DemoPage|SearchPage).tsx.
+   Apply same treatment (extract StyledSearchInput, reuse) and remove this file.
+*/
+
 @use "theme";
 
 $max-width: 520px;

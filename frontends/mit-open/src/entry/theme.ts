@@ -25,8 +25,8 @@ const shadow = {
   shadowBlurRadius: 12,
 }
 
-// To replace ../scss/theme.scss for #236 as we refactor out
-export default {
+// To replace ../scss/theme.scss for #236 as we refactor it out
+const theme = {
   ...colors,
   ...shadow,
   colorPrimary: colors.colorRed3,
@@ -69,3 +69,7 @@ export default {
   fontXs: "0.75rem",
   muiAppBarZIndex: "11000",
 }
+
+export type Theme = typeof theme
+
+export default theme
