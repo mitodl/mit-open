@@ -88,20 +88,11 @@ def mock_duplicates(mocker):
 def mock_upsert_tasks(mocker):
     """Mock out the upsert task helpers"""
     return SimpleNamespace(
-        upsert_course=mocker.patch(
-            "learning_resources_search.search_index_helpers.upsert_course"
+        upsert_learning_resource=mocker.patch(
+            "learning_resources_search.tasks.upsert_learning_resource"
         ),
-        delete_course=mocker.patch(
-            "learning_resources_search.search_index_helpers.deindex_course"
-        ),
-        upsert_program=mocker.patch(
-            "learning_resources_search.search_index_helpers.upsert_program"
-        ),
-        delete_program=mocker.patch(
-            "learning_resources_search.search_index_helpers.deindex_program"
-        ),
-        upsert_content_file=mocker.patch(
-            "learning_resources_search.search_index_helpers.upsert_content_file"
+        deindex_learning_resource=mocker.patch(
+            "learning_resources_search.tasks.deindex_document"
         ),
     )
 
@@ -195,12 +186,13 @@ def test_load_program(
     )
 
     if program_exists and not is_published:
-        mock_upsert_tasks.delete_program.assert_called_with(result)
+        mock_upsert_tasks.deindex_learning_resource.assert_called_with(
+            result.id, result.resource_type
+        )
     elif is_published:
-        mock_upsert_tasks.upsert_program.assert_called_with(result.id)
+        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
     else:
-        mock_upsert_tasks.delete_program.assert_not_called()
-        mock_upsert_tasks.upsert_program.assert_not_called()
+        mock_upsert_tasks.upsert_learning_resource.assert_not_called()
 
     assert Program.objects.count() == 1
     assert Course.objects.count() == after_course_count
@@ -262,7 +254,6 @@ def test_load_course(  # noqa: PLR0913
     blocklisted,
 ):
     """Test that load_course loads the course"""
-    #    "learning_resources.etl.loaders.search_index_helpers.deindex_run_content_files"
     platform = LearningResourcePlatformFactory.create()
 
     course = (
@@ -312,13 +303,15 @@ def test_load_course(  # noqa: PLR0913
     result = load_course(props, blocklist, [], config=CourseLoaderConfig(prune=True))
     assert result.professional is True
 
-    if course_exists and (not is_published or not is_run_published) and not blocklisted:
-        mock_upsert_tasks.delete_course.assert_called_with(result)
+    if course_exists and ((not is_published or not is_run_published) or blocklisted):
+        mock_upsert_tasks.deindex_learning_resource.assert_called_with(
+            result.id, result.resource_type
+        )
     elif is_published and is_run_published and not blocklisted:
-        mock_upsert_tasks.upsert_course.assert_called_with(result.id)
+        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
     else:
-        mock_upsert_tasks.delete_program.assert_not_called()
-        mock_upsert_tasks.upsert_course.assert_not_called()
+        mock_upsert_tasks.deindex_learning_resource.assert_not_called()
+        mock_upsert_tasks.upsert_learning_resource.assert_not_called()
 
     if course_exists and is_published and not blocklisted:
         course.refresh_from_db()
@@ -431,9 +424,9 @@ def test_load_duplicate_course(
     result = load_course(props, [], duplicates)
 
     if course_id_is_duplicate and duplicate_course_exists:
-        mock_upsert_tasks.delete_course.assert_called()
+        mock_upsert_tasks.deindex_learning_resource.assert_called()
 
-    mock_upsert_tasks.upsert_course.assert_called_with(result.id)
+    mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
 
     assert Course.objects.count() == (2 if duplicate_course_exists else 1)
 
@@ -723,7 +716,11 @@ def test_load_podcasts_unpublish(podcast_platform):
 @pytest.mark.parametrize("podcast_episode_exists", [True, False])
 @pytest.mark.parametrize("is_published", [True, False])
 def test_load_podcast_episode(
-    learning_resource_offeror, podcast_platform, podcast_episode_exists, is_published
+    mock_upsert_tasks,
+    learning_resource_offeror,
+    podcast_platform,
+    podcast_episode_exists,
+    is_published,
 ):
     """Test that load_podcast_episode loads the podcast episode"""
     podcast_episode = (
@@ -754,17 +751,36 @@ def test_load_podcast_episode(
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"
 
+    if podcast_episode_exists and not is_published:
+        mock_upsert_tasks.deindex_learning_resource.assert_called_with(
+            result.id, result.resource_type
+        )
+    elif is_published:
+        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+    else:
+        mock_upsert_tasks.upsert_learning_resource.assert_not_called()
+        mock_upsert_tasks.deindex_learning_resource.assert_not_called()
+
 
 @pytest.mark.parametrize("podcast_exists", [True, False])
-def test_load_podcast(learning_resource_offeror, podcast_platform, podcast_exists):
+@pytest.mark.parametrize("is_published", [True, False])
+def test_load_podcast(
+    mock_upsert_tasks,
+    learning_resource_offeror,
+    podcast_platform,
+    podcast_exists,
+    is_published,
+):
     """Test that load_podcast loads the podcast"""
     podcast = (
-        PodcastFactory.create(episodes=[])
+        PodcastFactory.create(episodes=[], is_unpublished=not is_published)
         if podcast_exists
-        else PodcastFactory.build(episodes=[])
+        else PodcastFactory.build(episodes=[], is_unpublished=not is_published)
     ).learning_resource
     existing_podcast_episode = (
-        PodcastEpisodeFactory.create().learning_resource if podcast_exists else None
+        PodcastEpisodeFactory.create(is_unpublished=not is_published).learning_resource
+        if podcast_exists
+        else None
     )
     if existing_podcast_episode:
         podcast.resources.set(
@@ -792,15 +808,30 @@ def test_load_podcast(learning_resource_offeror, podcast_platform, podcast_exist
     episode_data["offered_by"] = {"name": learning_resource_offeror.name}
 
     podcast_data["episodes"] = [episode_data]
-    load_podcast(podcast_data)
+    result = load_podcast(podcast_data)
 
     new_podcast = LearningResource.objects.get(readable_id=podcast.readable_id)
     new_podcast_episode = new_podcast.resources.order_by("-created_on").first()
 
     assert new_podcast.title == "New Title"
-    assert new_podcast_episode.published is True
-    if podcast_exists:
+
+    if is_published:
+        assert new_podcast_episode.published is True
+
+    if podcast_exists and is_published:
         assert new_podcast.id == podcast.id
         assert new_podcast.resources.count() == 2
-    else:
+    elif podcast_exists or is_published:
         assert new_podcast.resources.count() == 1
+    else:
+        assert new_podcast.resources.count() == 0
+
+    if podcast_exists and not is_published:
+        mock_upsert_tasks.deindex_learning_resource.assert_called_with(
+            result.id, result.resource_type
+        )
+    elif is_published:
+        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+    else:
+        mock_upsert_tasks.deindex_learning_resource.assert_not_called()
+        mock_upsert_tasks.upsert_learning_resource.assert_not_called()

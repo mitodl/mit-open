@@ -156,9 +156,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
     )
     resource_type = StringArrayField(
         required=False,
-        child=serializers.ChoiceField(
-            choices=[e.value.lower() for e in LearningResourceType]
-        ),
+        child=serializers.ChoiceField(choices=LEARNING_RESOURCE_TYPES),
         default=LEARNING_RESOURCE_TYPES,
     )
     professional = StringArrayField(
@@ -263,32 +261,6 @@ class SearchResponseSerializer(serializers.Serializer):
         }
 
 
-def serialize_bulk_courses(ids):
-    """
-    Serialize courses for bulk indexing
-
-    Args:
-        ids(list of int): List of course id's
-    """
-    for learning_resource in (
-        LearningResource.objects.select_related(*LearningResource.related_selects)
-        .prefetch_related(*LearningResource.prefetches)
-        .filter(id__in=ids)
-    ):
-        yield serialize_course_for_bulk(learning_resource)
-
-
-def serialize_bulk_courses_for_deletion(ids):
-    """
-    Serialize courses for bulk deletion
-
-    Args:
-        ids(list of int): List of course id's
-    """
-    for learning_resource_id in ids:
-        yield serialize_for_deletion(learning_resource_id)
-
-
 def serialize_content_file_for_update(content_file_obj):
     """Serialize a content file for API request"""
 
@@ -302,51 +274,38 @@ def serialize_content_file_for_update(content_file_obj):
     }
 
 
-def serialize_course_for_bulk(learning_resource_obj):
+def serialize_bulk_learning_resources(ids):
     """
-    Serialize a course for bulk API request
+    Serialize learning resource for bulk indexing
 
     Args:
-        learning_resource_obj (LearningResource): A course learning resource
-    """
-    return {
-        "_id": learning_resource_obj.id,
-        **serialize_learning_resource_for_update(learning_resource_obj),
-    }
-
-
-def serialize_bulk_programs(ids):
-    """
-    Serialize programs for bulk indexing
-
-    Args:
-        ids(list of int): List of program id's
+        ids(list of int): List of learning_resource id's
     """
     for learning_resource in (
         LearningResource.objects.select_related(*LearningResource.related_selects)
         .prefetch_related(*LearningResource.prefetches)
         .filter(id__in=ids)
     ):
-        yield serialize_program_for_bulk(learning_resource)
+        yield serialize_learning_resource_for_bulk(learning_resource)
 
 
-def serialize_bulk_programs_for_deletion(ids):
+def serialize_bulk_learning_resources_for_deletion(ids):
     """
-    Serialize programs for bulk deletion
+    Serialize learning_resource for bulk deletion
 
     Args:
-        ids(list of int): List of program id's
+        ids(list of int): List of learning resource id's
     """
     for learning_resource_id in ids:
         yield serialize_for_deletion(learning_resource_id)
 
 
-def serialize_program_for_bulk(learning_resource_obj):
+def serialize_learning_resource_for_bulk(learning_resource_obj):
     """
-    Serialize a program for bulk API request
+    Serialize a learning resource for bulk API request
 
     Args:
-        learning_resource_obj (LearningResource): A program learning_resource object
+        learning_resource_obj (LearningResource): A  learning_resource object
     """
     return {
         "_id": learning_resource_obj.id,

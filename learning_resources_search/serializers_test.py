@@ -7,7 +7,7 @@ from rest_framework.renderers import JSONRenderer
 from learning_resources import factories
 from learning_resources.constants import DEPARTMENTS
 from learning_resources.etl.constants import CourseNumberType
-from learning_resources.models import Course, Program
+from learning_resources.models import LearningResource
 from learning_resources.serializers import LearningResourceSerializer
 from learning_resources_search import serializers
 from learning_resources_search.api import gen_content_file_id
@@ -21,21 +21,36 @@ from learning_resources_search.serializers import (
 
 
 @pytest.mark.django_db()
-def test_serialize_bulk_courses(mocker):
+def test_serialize_bulk_learning_resources(mocker):
     """
-    Test that serialize_bulk_courses calls serialize_course_for_bulk for every existing course
+    Test that serialize_bulk_learning_resource calls serialize_learning_resource_for_bulk for
+    every existing learning resource
     """
-    mock_serialize_course = mocker.patch(
-        "learning_resources_search.serializers.serialize_course_for_bulk"
+    mock_serialize_program = mocker.patch(
+        "learning_resources_search.serializers.serialize_learning_resource_for_bulk"
     )
-    courses = factories.CourseFactory.create_batch(5)
+    resources = factories.LearningResourceFactory.create_batch(5)
     list(
-        serializers.serialize_bulk_courses(
-            [course.learning_resource_id for course in Course.objects.all()]
+        serializers.serialize_bulk_learning_resources(
+            [resource.id for resource in LearningResource.objects.all()]
         )
     )
-    for course in courses:
-        mock_serialize_course.assert_any_call(course.learning_resource)
+    for resource in resources:
+        mock_serialize_program.assert_any_call(resource)
+
+
+@pytest.mark.django_db()
+def test_serialize_learning_resource_for_bulk():
+    """
+    Test that serialize_program_for_bulk yields a valid LearningResourceSerializer
+    """
+    resource = factories.LearningResourceFactory.create()
+    assert serializers.serialize_learning_resource_for_bulk(resource) == {
+        "_id": resource.id,
+        "resource_relations": {"name": "resource"},
+        "created_on": resource.created_on,
+        **LearningResourceSerializer(resource).data,
+    }
 
 
 @pytest.mark.django_db()
@@ -45,7 +60,7 @@ def test_serialize_bulk_courses(mocker):
 @pytest.mark.parametrize(
     ("extra_num", "sorted_extra_num"), [("2", "02"), ("16", "16"), ("CC", "CC")]
 )
-def test_serialize_course_for_bulk(
+def test_serialize_course_numbers_for_bulk(
     readable_id, sort_course_num, extra_num, sorted_extra_num
 ):
     """
@@ -91,66 +106,18 @@ def test_serialize_course_for_bulk(
         "sort_coursenum": sorted_extra_num,
     }
 
-    assert serializers.serialize_course_for_bulk(resource) == expected_data
+    assert serializers.serialize_learning_resource_for_bulk(resource) == expected_data
 
 
 @pytest.mark.django_db()
-def test_serialize_bulk_programs(mocker):
+def test_serialize_bulk_learning_resources_for_deletion():
     """
-    Test that serialize_bulk_programs calls serialize_program_for_bulk for every existing course
+    Test that serialize_bulk_learning_resources_for_deletion yields correct data
     """
-    mock_serialize_program = mocker.patch(
-        "learning_resources_search.serializers.serialize_program_for_bulk"
-    )
-    programs = factories.ProgramFactory.create_batch(5)
-    list(
-        serializers.serialize_bulk_programs(
-            [program.learning_resource_id for program in Program.objects.all()]
-        )
-    )
-    for program in programs:
-        mock_serialize_program.assert_any_call(program.learning_resource)
-
-
-@pytest.mark.django_db()
-def test_serialize_program_for_bulk():
-    """
-    Test that serialize_program_for_bulk yields a valid LearningResourceSerializer
-    """
-    resource = factories.ProgramFactory.create().learning_resource
-    assert serializers.serialize_program_for_bulk(resource) == {
-        "_id": resource.id,
-        "resource_relations": {"name": "resource"},
-        "created_on": resource.created_on,
-        **LearningResourceSerializer(resource).data,
-    }
-
-
-@pytest.mark.django_db()
-def test_serialize_bulk_courses_for_deletion():
-    """
-    Test that serialize_bulk_courses_for_deletion yields correct data
-    """
-    course = factories.CourseFactory.create()
+    resource = factories.LearningResourceFactory.create()
     assert list(
-        serializers.serialize_bulk_courses_for_deletion([course.learning_resource_id])
-    ) == [
-        {
-            "_id": course.learning_resource.id,
-            "_op_type": "delete",
-        }
-    ]
-
-
-@pytest.mark.django_db()
-def test_serialize_bulk_programs_for_deletion():
-    """
-    Test that serialize_bulk_programs_for_deletion yields correct data
-    """
-    program = factories.ProgramFactory.create()
-    assert list(
-        serializers.serialize_bulk_programs_for_deletion([program.learning_resource_id])
-    ) == [{"_id": program.learning_resource.id, "_op_type": "delete"}]
+        serializers.serialize_bulk_learning_resources_for_deletion([resource.id])
+    ) == [{"_id": resource.id, "_op_type": "delete"}]
 
 
 @pytest.mark.django_db()
@@ -219,7 +186,7 @@ def test_learning_resources_search_request_serializer():
         "limit": 1,
         "id": [1],
         "sortby": "-start_date",
-        "resource_type": ["course", "program"],
+        "resource_type": ["course", "program", "podcast", "podcast_episode"],
         "professional": ["true"],
         "certification": ["Certificates"],
         "offered_by": ["xpro", "ocw"],
