@@ -211,21 +211,26 @@ paths:
             - bootcamps
             - xpro
             - csail
-            - professional education
-            - sloan executive education
-            - schwarzman college of computing
-            - center for transportation & logistics
+            - mitpe
+            - see
+            - scc
+            - ctl
             type: string
             description: |-
-              * `mitx` - mitx
-              * `ocw` - ocw
-              * `bootcamps` - bootcamps
-              * `xpro` - xpro
-              * `csail` - csail
-              * `professional education` - professional education
-              * `sloan executive education` - sloan executive education
-              * `schwarzman college of computing` - schwarzman college of computing
-              * `center for transportation & logistics` - center for transportation & logistics
+              * `mitx` - MITx
+              * `ocw` - OCW
+              * `bootcamps` - Bootcamps
+              * `xpro` - xPRO
+              * `csail` - CSAIL
+              * `mitpe` - Professional Education
+              * `see` - Sloan Executive Education
+              * `scc` - Schwarzman College of Computing
+              * `ctl` - Center for Transportation & Logistics
+        description: "The organization that offers learning resources            \
+          \ \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
+          \ - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see`\
+          \ - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
+          * `ctl` - Center for Transportation & Logistics"
       - in: query
         name: offset
         schema:
@@ -238,40 +243,48 @@ paths:
             enum:
             - edx
             - ocw
-            - open learning library
-            - mitx online
+            - oll
+            - mitxonline
             - bootcamps
             - xpro
             - csail
-            - professional education
-            - sloan executive education
-            - schwarzman college of computing
-            - center for transportation & logistics
+            - mitpe
+            - see
+            - scc
+            - ctl
             - whu
             - susskind
-            - global alumni
+            - globalalumni
             - simplilearn
             - emeritus
             - podcast
             type: string
             description: |-
-              * `edx` - edx
-              * `ocw` - ocw
-              * `open learning library` - open learning library
-              * `mitx online` - mitx online
-              * `bootcamps` - bootcamps
-              * `xpro` - xpro
-              * `csail` - csail
-              * `professional education` - professional education
-              * `sloan executive education` - sloan executive education
-              * `schwarzman college of computing` - schwarzman college of computing
-              * `center for transportation & logistics` - center for transportation & logistics
-              * `whu` - whu
-              * `susskind` - susskind
-              * `global alumni` - global alumni
-              * `simplilearn` - simplilearn
-              * `emeritus` - emeritus
-              * `podcast` - podcast
+              * `edx` - edX
+              * `ocw` - OCW
+              * `oll` - Open Learning Library
+              * `mitxonline` - MITx Online
+              * `bootcamps` - Bootcamps
+              * `xpro` - xPRO
+              * `csail` - CSAIL
+              * `mitpe` - Professional Education
+              * `see` - Sloan Executive Education
+              * `scc` - Schwarzman College of Computing
+              * `ctl` - Center for Transportation & Logistics
+              * `whu` - WHU
+              * `susskind` - Susskind
+              * `globalalumni` - Global Alumni
+              * `simplilearn` - Simplilearn
+              * `emeritus` - Emeritus
+              * `podcast` - Podcast
+        description: "The platform on which learning resources are offered       \
+          \      \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
+          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
+          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
+          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
+          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
+          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
+          \ - Emeritus\n* `podcast` - Podcast"
       - in: query
         name: q
         schema:
@@ -448,7 +461,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -508,7 +521,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -548,7 +561,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -582,7 +595,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -772,7 +785,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -832,7 +845,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -872,7 +885,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -906,7 +919,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -1005,7 +1018,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -1065,7 +1078,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -1105,7 +1118,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -1139,7 +1152,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -1484,7 +1497,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -1544,7 +1557,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -1584,7 +1597,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -1618,7 +1631,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -1874,7 +1887,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -1934,7 +1947,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -1974,7 +1987,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -2008,7 +2021,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -2107,7 +2120,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -2167,7 +2180,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -2207,7 +2220,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -2241,7 +2254,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -2334,8 +2347,102 @@ paths:
         schema:
           type: array
           items:
+            enum:
+            - '1'
+            - '2'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
             type: string
-            minLength: 1
+            description: |-
+              * `1` - Civil and Environmental Engineering
+              * `2` - Mechanical Engineering
+              * `3` - Materials Science and Engineering
+              * `4` - Architecture
+              * `5` - Chemistry
+              * `6` - Electrical Engineering and Computer Science
+              * `7` - Biology
+              * `8` - Physics
+              * `9` - Brain and Cognitive Sciences
+              * `10` - Chemical Engineering
+              * `11` - Urban Studies and Planning
+              * `12` - Earth, Atmospheric, and Planetary Sciences
+              * `14` - Economics
+              * `15` - Sloan School of Management
+              * `16` - Aeronautics and Astronautics
+              * `17` - Political Science
+              * `18` - Mathematics
+              * `20` - Biological Engineering
+              * `21A` - Anthropology
+              * `21G` - Global Studies and Languages
+              * `21H` - History
+              * `21L` - Literature
+              * `21M` - Music and Theater Arts
+              * `22` - Nuclear Science and Engineering
+              * `24` - Linguistics and Philosophy
+              * `CC` - Concourse
+              * `CMS-W` - Comparative Media Studies/Writing
+              * `EC` - Edgerton Center
+              * `ES` - Experimental Study Group
+              * `ESD` - Engineering Systems Division
+              * `HST` - Health Sciences and Technology
+              * `IDS` - Institute for Data, Systems, and Society
+              * `MAS` - Media Arts and Sciences
+              * `PE` - Athletics, Physical Education and Recreation
+              * `RES` - Supplemental Resources
+              * `STS` - Science, Technology, and Society
+              * `WGS` - Women's and Gender Studies
+        description: "The department that offers learning resources             \n\
+          \n* `1` - Civil and Environmental Engineering\n* `2` - Mechanical Engineering\n\
+          * `3` - Materials Science and Engineering\n* `4` - Architecture\n* `5` -\
+          \ Chemistry\n* `6` - Electrical Engineering and Computer Science\n* `7`\
+          \ - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n* `10`\
+          \ - Chemical Engineering\n* `11` - Urban Studies and Planning\n* `12` -\
+          \ Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n* `15`\
+          \ - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
+          * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n\
+          * `21A` - Anthropology\n* `21G` - Global Studies and Languages\n* `21H`\
+          \ - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n* `22`\
+          \ - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
+          * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
+          \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
+          \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS` -\
+          \ Institute for Data, Systems, and Society\n* `MAS` - Media Arts and Sciences\n\
+          * `PE` - Athletics, Physical Education and Recreation\n* `RES` - Supplemental\
+          \ Resources\n* `STS` - Science, Technology, and Society\n* `WGS` - Women's\
+          \ and Gender Studies"
       - in: query
         name: id
         schema:
@@ -2364,21 +2471,26 @@ paths:
             - bootcamps
             - xpro
             - csail
-            - professional education
-            - sloan executive education
-            - schwarzman college of computing
-            - center for transportation & logistics
+            - mitpe
+            - see
+            - scc
+            - ctl
             type: string
             description: |-
-              * `mitx` - mitx
-              * `ocw` - ocw
-              * `bootcamps` - bootcamps
-              * `xpro` - xpro
-              * `csail` - csail
-              * `professional education` - professional education
-              * `sloan executive education` - sloan executive education
-              * `schwarzman college of computing` - schwarzman college of computing
-              * `center for transportation & logistics` - center for transportation & logistics
+              * `mitx` - MITx
+              * `ocw` - OCW
+              * `bootcamps` - Bootcamps
+              * `xpro` - xPRO
+              * `csail` - CSAIL
+              * `mitpe` - Professional Education
+              * `see` - Sloan Executive Education
+              * `scc` - Schwarzman College of Computing
+              * `ctl` - Center for Transportation & Logistics
+        description: "The organization that offers learning resources            \
+          \ \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
+          \ - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see`\
+          \ - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
+          * `ctl` - Center for Transportation & Logistics"
       - in: query
         name: offset
         schema:
@@ -2391,40 +2503,48 @@ paths:
             enum:
             - edx
             - ocw
-            - open learning library
-            - mitx online
+            - oll
+            - mitxonline
             - bootcamps
             - xpro
             - csail
-            - professional education
-            - sloan executive education
-            - schwarzman college of computing
-            - center for transportation & logistics
+            - mitpe
+            - see
+            - scc
+            - ctl
             - whu
             - susskind
-            - global alumni
+            - globalalumni
             - simplilearn
             - emeritus
             - podcast
             type: string
             description: |-
-              * `edx` - edx
-              * `ocw` - ocw
-              * `open learning library` - open learning library
-              * `mitx online` - mitx online
-              * `bootcamps` - bootcamps
-              * `xpro` - xpro
-              * `csail` - csail
-              * `professional education` - professional education
-              * `sloan executive education` - sloan executive education
-              * `schwarzman college of computing` - schwarzman college of computing
-              * `center for transportation & logistics` - center for transportation & logistics
-              * `whu` - whu
-              * `susskind` - susskind
-              * `global alumni` - global alumni
-              * `simplilearn` - simplilearn
-              * `emeritus` - emeritus
-              * `podcast` - podcast
+              * `edx` - edX
+              * `ocw` - OCW
+              * `oll` - Open Learning Library
+              * `mitxonline` - MITx Online
+              * `bootcamps` - Bootcamps
+              * `xpro` - xPRO
+              * `csail` - CSAIL
+              * `mitpe` - Professional Education
+              * `see` - Sloan Executive Education
+              * `scc` - Schwarzman College of Computing
+              * `ctl` - Center for Transportation & Logistics
+              * `whu` - WHU
+              * `susskind` - Susskind
+              * `globalalumni` - Global Alumni
+              * `simplilearn` - Simplilearn
+              * `emeritus` - Emeritus
+              * `podcast` - Podcast
+        description: "The platform on which learning resources are offered       \
+          \      \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
+          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
+          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
+          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
+          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
+          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
+          \ - Emeritus\n* `podcast` - Podcast"
       - in: query
         name: professional
         schema:
@@ -2458,19 +2578,24 @@ paths:
             enum:
             - course
             - program
+            - learning_path
             - podcast
             - podcast_episode
             type: string
             description: |-
               * `course` - course
               * `program` - program
+              * `learning_path` - learning path
               * `podcast` - podcast
-              * `podcast_episode` - podcast_episode
+              * `podcast_episode` - podcast episode
           default:
           - course
           - program
           - podcast
           - podcast_episode
+        description: "The type of learning resource             \n\n* `course` - course\n\
+          * `program` - program\n* `learning_path` - learning path\n* `podcast` -\
+          \ podcast\n* `podcast_episode` - podcast episode"
       - in: query
         name: sortby
         schema:
@@ -2571,7 +2696,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -2631,7 +2756,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -2671,7 +2796,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -2705,7 +2830,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -3130,7 +3255,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -3190,7 +3315,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -3230,7 +3355,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -3264,7 +3389,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -3363,7 +3488,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -3423,7 +3548,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -3463,7 +3588,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -3497,7 +3622,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -3596,7 +3721,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -3656,7 +3781,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -3696,7 +3821,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -3730,7 +3855,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -3852,7 +3977,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -3912,7 +4037,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -3952,7 +4077,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -3986,7 +4111,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -4085,7 +4210,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -4145,7 +4270,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -4185,7 +4310,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -4219,7 +4344,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -4318,7 +4443,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -4378,7 +4503,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -4418,7 +4543,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -4452,7 +4577,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -4640,7 +4765,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -4700,7 +4825,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -4740,7 +4865,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -4774,7 +4899,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -4873,7 +4998,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -4933,7 +5058,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -4973,7 +5098,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -5007,7 +5132,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -5106,7 +5231,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -5166,7 +5291,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -5206,7 +5331,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -5240,7 +5365,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -5362,7 +5487,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -5422,7 +5547,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -5462,7 +5587,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -5496,7 +5621,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -5595,7 +5720,7 @@ paths:
           - STS
           - WGS
         description: |-
-          Department ID
+          The department that offers learning resources
 
           * `1` - Civil and Environmental Engineering
           * `2` - Mechanical Engineering
@@ -5655,7 +5780,7 @@ paths:
           - see
           - xpro
         description: |-
-          Offered By
+          The organization that offers a learning resource
 
           * `mitx` - MITx
           * `ocw` - OCW
@@ -5695,7 +5820,7 @@ paths:
           - whu
           - xpro
         description: |-
-          Platform
+          The platform on which learning resources are offered
 
           * `edx` - edX
           * `ocw` - OCW
@@ -5729,7 +5854,7 @@ paths:
           - podcast_episode
           - program
         description: |-
-          Resource Type
+          The type of learning resource
 
           * `course` - Course
           * `program` - Program
@@ -6297,9 +6422,9 @@ components:
           nullable: true
           maxLength: 128
         offered_by:
-          type: string
+          $ref: '#/components/schemas/LearningResourceOfferor'
         platform:
-          type: string
+          $ref: '#/components/schemas/LearningResourcePlatform'
         run_readable_id:
           type: string
       required:
@@ -6669,7 +6794,13 @@ components:
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
         offered_by:
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferor'
+          readOnly: true
+          nullable: true
+        platform:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
         resource_content_tags:
@@ -6775,10 +6906,6 @@ components:
           $ref: '#/components/schemas/ResourceTypeEnum'
         professional:
           type: boolean
-        platform:
-          type: string
-          readOnly: true
-          nullable: true
         resources:
           type: array
           items:
@@ -6866,7 +6993,13 @@ components:
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
         offered_by:
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferor'
+          readOnly: true
+          nullable: true
+        platform:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
         resource_content_tags:
@@ -6973,9 +7106,6 @@ components:
         professional:
           type: boolean
           readOnly: true
-        platform:
-          type: string
-          nullable: true
       required:
       - certification
       - course
@@ -7009,7 +7139,13 @@ components:
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
         offered_by:
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferor'
+          readOnly: true
+          nullable: true
+        platform:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
         resource_content_tags:
@@ -7111,9 +7247,6 @@ components:
         professional:
           type: boolean
           readOnly: true
-        platform:
-          type: string
-          nullable: true
       required:
       - certification
       - course
@@ -7246,6 +7379,60 @@ components:
           type: string
           nullable: true
           maxLength: 256
+    LearningResourceOfferor:
+      type: object
+      description: Serializer for LearningResourceOfferor
+      properties:
+        code:
+          type: string
+          maxLength: 12
+        name:
+          type: string
+          maxLength: 256
+      required:
+      - code
+      - name
+    LearningResourceOfferorRequest:
+      type: object
+      description: Serializer for LearningResourceOfferor
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 12
+        name:
+          type: string
+          minLength: 1
+          maxLength: 256
+      required:
+      - code
+      - name
+    LearningResourcePlatform:
+      type: object
+      description: Serializer for LearningResourcePlatform
+      properties:
+        code:
+          type: string
+          maxLength: 12
+        name:
+          type: string
+          maxLength: 256
+      required:
+      - code
+    LearningResourcePlatformRequest:
+      type: object
+      description: Serializer for LearningResourcePlatform
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 12
+        name:
+          type: string
+          minLength: 1
+          maxLength: 256
+      required:
+      - code
     LearningResourceRequest:
       type: object
       description: Serializer for LearningResource, with program included
@@ -7289,12 +7476,7 @@ components:
           maxLength: 2048
         resource_type:
           $ref: '#/components/schemas/ResourceTypeEnum'
-        platform:
-          type: string
-          minLength: 1
-          nullable: true
       required:
-      - platform
       - readable_id
       - resource_type
       - title

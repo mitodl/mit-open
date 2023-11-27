@@ -28,7 +28,9 @@ OCW_TEST_JSON_PATH = f"./test_json/{OCW_TEST_PREFIX[:-1]}"
 @pytest.fixture()
 def podcast_platform():
     """Return a  podcast platform"""
-    return LearningResourcePlatformFactory.create(platform="podcast")
+    return LearningResourcePlatformFactory.create(
+        code=PlatformType.podcast.name, name=PlatformType.podcast.value
+    )
 
 
 def setup_s3(settings):
@@ -107,7 +109,7 @@ def setup_s3_ocw(settings):
         add_file_to_bucket_recursive(
             ocw_next_bucket, OCW_TEST_JSON_PATH, base_folder, file
         )
-    LearningResourcePlatformFactory.create(platform=PlatformType.ocw.name)
+    LearningResourcePlatformFactory.create(code=PlatformType.ocw.name)
     LearningResourceOfferorFactory.create(is_ocw=True)
     LearningResourceDepartmentFactory.create(
         department_id="16", name="Aeronautics and Astronautics"

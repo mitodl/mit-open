@@ -157,7 +157,7 @@ def test_get_content_tasks(settings, mocker, mocked_celery, mock_xpro_learning_b
             published=True,
             resource_type=LearningResourceType.course.name,
             etl_source=etl_source,
-            platform__platform=platform,
+            platform__code=platform,
         )
         .order_by("id")
         .values_list("id", flat=True)

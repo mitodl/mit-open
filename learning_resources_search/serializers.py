@@ -4,10 +4,12 @@ import logging
 from collections import defaultdict
 
 from django.conf import settings
+from drf_spectacular.plumbing import build_choice_description_list
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from learning_resources.constants import (
+    DEPARTMENTS,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
     LearningResourceType,
     OfferedBy,
@@ -134,13 +136,23 @@ class SearchRequestSerializer(serializers.Serializer):
     id = StringArrayField(  # noqa: A003
         required=False, child=serializers.IntegerField()
     )
+    offered_by_choices = [(e.name.lower(), e.value) for e in OfferedBy]
     offered_by = StringArrayField(
         required=False,
-        child=serializers.ChoiceField(choices=[e.value.lower() for e in OfferedBy]),
+        child=serializers.ChoiceField(choices=offered_by_choices),
+        help_text=(
+            f"The organization that offers learning resources \
+            \n\n{build_choice_description_list(offered_by_choices)}"
+        ),
     )
+    platform_choices = [(e.name.lower(), e.value) for e in PlatformType]
     platform = StringArrayField(
         required=False,
-        child=serializers.ChoiceField(choices=[e.value.lower() for e in PlatformType]),
+        child=serializers.ChoiceField(choices=platform_choices),
+        help_text=(
+            f"The platform on which learning resources are offered \
+            \n\n{build_choice_description_list(platform_choices)}"
+        ),
     )
     topic = StringArrayField(required=False, child=serializers.CharField())
 
@@ -154,9 +166,16 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         ],
         help_text="if the parameter starts with '-' the sort is in descending order",
     )
+    resource_choices = [(e.name, e.value.lower()) for e in LearningResourceType]
     resource_type = StringArrayField(
         required=False,
-        child=serializers.ChoiceField(choices=LEARNING_RESOURCE_TYPES),
+        child=serializers.ChoiceField(
+            choices=resource_choices,
+        ),
+        help_text=(
+            f"The type of learning resource \
+            \n\n{build_choice_description_list(resource_choices)}"
+        ),
         default=LEARNING_RESOURCE_TYPES,
     )
     professional = StringArrayField(
@@ -164,7 +183,15 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         child=serializers.ChoiceField(choices=["true", "false"]),
     )
     certification = StringArrayField(required=False, child=serializers.CharField())
-    department = StringArrayField(required=False, child=serializers.CharField())
+    department_choices = list(DEPARTMENTS.items())
+    department = StringArrayField(
+        required=False,
+        child=serializers.ChoiceField(choices=department_choices),
+        help_text=(
+            f"The department that offers learning resources \
+            \n\n{build_choice_description_list(department_choices)}"
+        ),
+    )
     level = StringArrayField(required=False, child=serializers.CharField())
     resource_content_tags = StringArrayField(
         required=False, child=serializers.CharField()

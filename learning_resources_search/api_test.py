@@ -751,25 +751,6 @@ def test_generate_suggest_clause():
 def test_generate_filter_clauses():
     query = {"offered_by": ["ocw", "xpro"], "level": ["Undergraduate"]}
     result = {
-        "offered_by": {
-            "bool": {
-                "should": [
-                    {
-                        "term": {
-                            "offered_by": {
-                                "value": "ocw",
-                                "case_insensitive": True,
-                            }
-                        }
-                    },
-                    {
-                        "term": {
-                            "offered_by": {"value": "xpro", "case_insensitive": True}
-                        }
-                    },
-                ]
-            }
-        },
         "level": {
             "bool": {
                 "should": [
@@ -779,13 +760,45 @@ def test_generate_filter_clauses():
                             "query": {
                                 "term": {
                                     "runs.level": {
-                                        "value": "Undergraduate",
                                         "case_insensitive": True,
+                                        "value": "Undergraduate",
                                     }
                                 }
                             },
                         }
                     }
+                ]
+            }
+        },
+        "offered_by": {
+            "bool": {
+                "should": [
+                    {
+                        "nested": {
+                            "path": "offered_by",
+                            "query": {
+                                "term": {
+                                    "offered_by.code": {
+                                        "case_insensitive": True,
+                                        "value": "ocw",
+                                    }
+                                }
+                            },
+                        }
+                    },
+                    {
+                        "nested": {
+                            "path": "offered_by",
+                            "query": {
+                                "term": {
+                                    "offered_by.code": {
+                                        "case_insensitive": True,
+                                        "value": "xpro",
+                                    }
+                                }
+                            },
+                        }
+                    },
                 ]
             }
         },
@@ -796,7 +809,12 @@ def test_generate_filter_clauses():
 def test_generate_aggregation_clauses_when_there_is_no_filter():
     params = {"aggregations": ["offered_by", "level"]}
     result = {
-        "offered_by": {"terms": {"field": "offered_by", "size": 10000}},
+        "offered_by": {
+            "aggs": {
+                "offered_by": {"terms": {"field": "offered_by.code", "size": 10000}}
+            },
+            "nested": {"path": "offered_by"},
+        },
         "level": {
             "nested": {"path": "runs"},
             "aggs": {"level": {"terms": {"field": "runs.level", "size": 10000}}},
@@ -810,7 +828,16 @@ def test_generate_aggregation_clauses_with_filter():
     filters = {"platform": "the filter"}
     result = {
         "offered_by": {
-            "aggs": {"offered_by": {"terms": {"field": "offered_by", "size": 10000}}},
+            "aggs": {
+                "offered_by": {
+                    "aggs": {
+                        "offered_by": {
+                            "terms": {"field": "offered_by.code", "size": 10000}
+                        }
+                    },
+                    "nested": {"path": "offered_by"},
+                }
+            },
             "filter": {"bool": {"must": ["the filter"]}},
         },
         "level": {
@@ -836,20 +863,29 @@ def test_generate_aggregation_clauses_with_same_filters_as_aggregation():
         "level": "level filter",
     }
     result = {
-        "offered_by": {
-            "aggs": {"offered_by": {"terms": {"field": "offered_by", "size": 10000}}},
-            "filter": {"bool": {"must": ["platform filter", "level filter"]}},
-        },
         "level": {
             "aggs": {
                 "level": {
-                    "nested": {"path": "runs"},
                     "aggs": {
                         "level": {"terms": {"field": "runs.level", "size": 10000}}
                     },
+                    "nested": {"path": "runs"},
                 }
             },
             "filter": {"bool": {"must": ["platform filter", "offered_by filter"]}},
+        },
+        "offered_by": {
+            "aggs": {
+                "offered_by": {
+                    "aggs": {
+                        "offered_by": {
+                            "terms": {"field": "offered_by.code", "size": 10000}
+                        }
+                    },
+                    "nested": {"path": "offered_by"},
+                }
+            },
+            "filter": {"bool": {"must": ["platform filter", "level filter"]}},
         },
     }
     assert generate_aggregation_clauses(params, filters) == result
@@ -1189,7 +1225,17 @@ def test_execute_learn_search(opensearch):
         "aggs": {
             "offered_by": {
                 "aggs": {
-                    "offered_by": {"terms": {"field": "offered_by", "size": 10000}}
+                    "offered_by": {
+                        "aggs": {
+                            "offered_by": {
+                                "terms": {
+                                    "field": "offered_by.code",
+                                    "size": 10000,
+                                }
+                            }
+                        },
+                        "nested": {"path": "offered_by"},
+                    },
                 },
                 "filter": {
                     "bool": {

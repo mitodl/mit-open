@@ -76,14 +76,12 @@ def parse_platform(offeror: LearningResourceOfferor) -> str:
         offeror: LearningResourceOfferer
 
     Returns:
-        str: Platform.platform value
+        str: platform.code value
     """
     if offeror:
-        platform = LearningResourcePlatform.objects.filter(
-            platform=offeror.code
-        ).first()
+        platform = LearningResourcePlatform.objects.filter(code=offeror.code).first()
         if platform:
-            return platform.platform
+            return platform.code
     return None
 
 

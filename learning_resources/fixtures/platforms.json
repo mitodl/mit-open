@@ -27,7 +27,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "platform": "mitxonline",
-      "name": "MITxOnline",
+      "name": "MITx Online",
       "is_edx": true,
       "has_content_files": true,
       "url": "https://mitxonline.mit.edu",

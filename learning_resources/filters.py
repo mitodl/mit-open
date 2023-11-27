@@ -19,14 +19,14 @@ class LearningResourceFilter(FilterSet):
     """LearningResource filter"""
 
     department = ChoiceFilter(
-        label="Department ID",
+        label="The department that offers learning resources",
         method="filter_department",
         field_name="departments__department_id",
         choices=(list(DEPARTMENTS.items())),
     )
 
     resource_type = ChoiceFilter(
-        label="Resource Type",
+        label="The type of learning resource",
         method="filter_resource_type",
         field_name="resource_type",
         choices=(
@@ -37,14 +37,14 @@ class LearningResourceFilter(FilterSet):
         ),
     )
     offered_by = ChoiceFilter(
-        label="Offered By",
+        label="The organization that offers a learning resource",
         method="filter_offered_by",
         field_name="offered_by__name",
         choices=([(offeror.name, offeror.value) for offeror in OfferedBy]),
     )
 
     platform = ChoiceFilter(
-        label="Platform",
+        label="The platform on which learning resources are offered",
         method="filter_platform",
         field_name="platform__name",
         choices=([(platform.name, platform.value) for platform in PlatformType]),
@@ -71,7 +71,7 @@ class LearningResourceFilter(FilterSet):
 
     def filter_platform(self, queryset, _, value):
         """Platform Filter for learning resources"""
-        return queryset.filter(platform__platform=value)
+        return queryset.filter(platform__code=value)
 
     def filter_department(self, queryset, _, value):
         """Department ID Filter for learning resources"""
