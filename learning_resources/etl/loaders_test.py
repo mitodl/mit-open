@@ -118,12 +118,12 @@ def test_load_program(
     platform = LearningResourcePlatformFactory.create()
 
     program = (
-        ProgramFactory.create(courses=[], platform=platform.platform)
+        ProgramFactory.create(courses=[], platform=platform.code)
         if program_exists
-        else ProgramFactory.build(courses=[], platform=platform.platform)
+        else ProgramFactory.build(courses=[], platform=platform.code)
     )
 
-    LearningResourcePlatformFactory.create(platform=platform.platform)
+    LearningResourcePlatformFactory.create(code=platform.code)
 
     if program_exists:
         learning_resource = program.learning_resource
@@ -133,16 +133,16 @@ def test_load_program(
         learning_resource.save()
 
     courses = (
-        CourseFactory.create_batch(2, platform=platform.platform)
+        CourseFactory.create_batch(2, platform=platform.code)
         if courses_exist
-        else CourseFactory.build_batch(2, platform=platform.platform)
+        else CourseFactory.build_batch(2, platform=platform.code)
     )
 
     before_course_count = len(courses) if courses_exist else 0
     after_course_count = len(courses)
 
     if program_exists and has_retired_course:
-        course = CourseFactory.create(platform=platform.platform)
+        course = CourseFactory.create(platform=platform.code)
         before_course_count += 1
         after_course_count += 1
         program.learning_resource.resources.set(
@@ -165,7 +165,7 @@ def test_load_program(
 
     result = load_program(
         {
-            "platform": platform.platform,
+            "platform": platform.code,
             "readable_id": program.learning_resource.readable_id,
             "professional": False,
             "title": program.learning_resource.title,
@@ -176,7 +176,7 @@ def test_load_program(
             "courses": [
                 {
                     "readable_id": course.learning_resource.readable_id,
-                    "platform": platform.platform,
+                    "platform": platform.code,
                 }
                 for course in courses
             ],
@@ -257,9 +257,9 @@ def test_load_course(  # noqa: PLR0913
     platform = LearningResourcePlatformFactory.create()
 
     course = (
-        CourseFactory.create(runs=[], platform=platform.platform)
+        CourseFactory.create(runs=[], platform=platform.code)
         if course_exists
-        else CourseFactory.build(runs=[], platform=platform.platform)
+        else CourseFactory.build(runs=[], platform=platform.code)
     )
 
     learning_resource = course.learning_resource
@@ -278,7 +278,7 @@ def test_load_course(  # noqa: PLR0913
 
     props = {
         "readable_id": learning_resource.readable_id,
-        "platform": platform.platform,
+        "platform": platform.code,
         "professional": True,
         "title": learning_resource.title,
         "image": {"url": learning_resource.image.url},
@@ -372,13 +372,13 @@ def test_load_duplicate_course(
     platform = LearningResourcePlatformFactory.create()
 
     course = (
-        CourseFactory.create(runs=[], platform=platform.platform)
+        CourseFactory.create(runs=[], platform=platform.code)
         if course_exists
         else CourseFactory.build()
     )
 
     duplicate_course = (
-        CourseFactory.create(runs=[], platform=platform.platform)
+        CourseFactory.create(runs=[], platform=platform.code)
         if duplicate_course_exists
         else CourseFactory.build()
     )
@@ -408,7 +408,7 @@ def test_load_duplicate_course(
 
     props = {
         "readable_id": course_id,
-        "platform": platform.platform,
+        "platform": platform.code,
         "title": "New title",
         "description": "something",
         "runs": [
@@ -682,7 +682,7 @@ def test_load_podcasts(learning_resource_offeror, podcast_platform):
     for result in results:
         assert isinstance(result, LearningResource)
         assert result.resource_type == LearningResourceType.podcast.name
-        assert result.platform.platform == PlatformType.podcast.name
+        assert result.platform.code == PlatformType.podcast.name
         assert result.children.count() > 0
         for relation in result.children.all():
             assert (

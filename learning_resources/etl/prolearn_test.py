@@ -29,11 +29,11 @@ pytestmark = pytest.mark.django_db
 def _mock_offerors_platforms():
     """Make sure necessary platforms and offerors exist"""
     LearningResourceOfferorFactory.create(name="CSAIL", code="csail", professional=True)
-    LearningResourcePlatformFactory.create(platform="csail")
+    LearningResourcePlatformFactory.create(code="csail")
     LearningResourceOfferorFactory.create(
         name="Professional Education", code="mitpe", professional=True
     )
-    LearningResourcePlatformFactory.create(platform="mitpe")
+    LearningResourcePlatformFactory.create(code="mitpe")
     LearningResourceOfferorFactory.create(
         name="Center for Transportation & Logistics", code="ctl", professional=True
     )

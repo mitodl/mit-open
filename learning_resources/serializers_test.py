@@ -6,6 +6,7 @@ from learning_resources import constants, factories, serializers
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
+    PlatformType,
 )
 from learning_resources.models import LearningResource
 from learning_resources.serializers import LearningPathResourceSerializer
@@ -30,7 +31,9 @@ def test_serialize_course_model():
     assert "run_id" in serializer.data["runs"][0]
     assert serializer.data["image"]["url"] is not None
     assert len(serializer.data["offered_by"]) > 0
-    assert serializer.data["offered_by"] in [o.value for o in constants.OfferedBy]
+    assert serializer.data["offered_by"]["name"] in [
+        o.value for o in constants.OfferedBy
+    ]
     assert serializer.data["departments"][0] is not None
     assert serializer.data["platform"] is not None
     assert (
@@ -42,21 +45,19 @@ def test_serialize_course_model():
 
 def test_serialize_dupe_model():
     """A dupe course should fail validation, a non-dupe course should pass"""
-    course = factories.CourseFactory.create()
+    path = factories.LearningPathFactory.create()
     serialized_data = serializers.LearningResourceSerializer(
-        instance=course.learning_resource
+        instance=path.learning_resource
     ).data
     serialized_data.pop("id")
-    dupe_course_serializer = serializers.LearningResourceSerializer(
-        data=serialized_data
-    )
-    assert not dupe_course_serializer.is_valid()
+    dupe_path_serializer = serializers.LearningResourceSerializer(data={})
+    assert not dupe_path_serializer.is_valid()
 
     serialized_data["readable_id"] = "new-unique-id"
-    non_dupe_course_serializer = serializers.LearningResourceSerializer(
+    non_dupe_path_serializer = serializers.LearningResourceSerializer(
         data=serialized_data
     )
-    assert non_dupe_course_serializer.is_valid(raise_exception=True)
+    assert non_dupe_path_serializer.is_valid(raise_exception=True)
 
 
 def test_serialize_program_model():
@@ -83,7 +84,9 @@ def test_serialize_program_model():
     assert "run_id" in serializer.data["runs"][0]
     assert serializer.data["image"]["url"] is not None
     assert serializer.data["offered_by"] is not None
-    assert serializer.data["offered_by"] in [o.value for o in constants.OfferedBy]
+    assert serializer.data["offered_by"]["name"] in [
+        o.value for o in constants.OfferedBy
+    ]
     assert serializer.data["departments"][0] is not None
     assert serializer.data["platform"] is not None
     assert str(serializer.data["prices"][0]).replace(".", "").isnumeric()
@@ -204,8 +207,14 @@ def test_content_file_serializer():
             "id": content_file.id,
             "run_id": content_file.run.id,
             "run_readable_id": content_file.run.run_id,
-            "platform": content_file.run.learning_resource.platform.platform,
-            "offered_by": content_file.run.learning_resource.offered_by.name,
+            "platform": {
+                "name": PlatformType[platform].value,
+                "code": platform,
+            },
+            "offered_by": {
+                "name": content_file.run.learning_resource.offered_by.name,
+                "code": content_file.run.learning_resource.offered_by.code,
+            },
             "run_title": content_file.run.title,
             "run_slug": content_file.run.slug,
             "departments": [

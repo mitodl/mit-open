@@ -59,6 +59,8 @@ SEARCH_NESTED_FILTERS = {
     "topic": "topics.name",
     "level": "runs.level",
     "department": "departments.department_id",
+    "platform": "platform.code",
+    "offered_by": "offered_by.code",
 }
 
 ENGLISH_TEXT_FIELD = {
@@ -94,7 +96,13 @@ LEARNING_RESOURCE_MAP = {
             "alt": ENGLISH_TEXT_FIELD,
         },
     },
-    "platform": {"type": "keyword"},
+    "platform": {
+        "type": "nested",
+        "properties": {
+            "code": {"type": "keyword"},
+            "name": {"type": "keyword"},
+        },
+    },
     "departments": {
         "type": "nested",
         "properties": {
@@ -111,7 +119,13 @@ LEARNING_RESOURCE_MAP = {
             "name": {"type": "keyword"},
         },
     },
-    "offered_by": {"type": "keyword"},
+    "offered_by": {
+        "type": "nested",
+        "properties": {
+            "code": {"type": "keyword"},
+            "name": {"type": "keyword"},
+        },
+    },
     "resource_content_tags": {"type": "keyword"},
     "course": {
         "properties": {
@@ -200,8 +214,20 @@ CONTENT_FILE_MAP = {
     "resource_readable_id": {"type": "keyword"},
     "resource_readable_num": {"type": "keyword"},
     "resource_type": {"type": "keyword"},
-    "offered_by": {"type": "keyword"},
-    "platform": {"type": "keyword"},
+    "offered_by": {
+        "type": "nested",
+        "properties": {
+            "code": {"type": "keyword"},
+            "name": {"type": "keyword"},
+        },
+    },
+    "platform": {
+        "type": "nested",
+        "properties": {
+            "code": {"type": "keyword"},
+            "name": {"type": "keyword"},
+        },
+    },
 }
 
 

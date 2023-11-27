@@ -100,18 +100,18 @@ class LearningResourceImageFactory(DjangoModelFactory):
 class LearningResourcePlatformFactory(DjangoModelFactory):
     """Factory for LearningResourcePlatform"""
 
-    platform = FuzzyChoice([platform.name for platform in constants.PlatformType])
-    name = factory.LazyAttribute(lambda o: constants.PlatformType[o.platform].value)
+    code = FuzzyChoice([platform.name for platform in constants.PlatformType])
+    name = factory.LazyAttribute(lambda o: constants.PlatformType[o.code].value)
     is_edx = Faker("boolean")
     has_content_files = Faker("boolean")
 
     class Meta:
         model = models.LearningResourcePlatform
-        django_get_or_create = ("platform",)
+        django_get_or_create = ("code",)
 
 
 class LearningResourceDepartmentFactory(DjangoModelFactory):
-    """Factory for LearningResourcePlatform"""
+    """Factory for LearningResourceDepartment"""
 
     department_id = factory.Sequence(lambda n: "%03d" % n)
     name = factory.Sequence(lambda n: "%03d name" % n)
@@ -130,7 +130,7 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
 
     class Meta:
         model = models.LearningResourceOfferor
-        django_get_or_create = ("name",)
+        django_get_or_create = ("code",)
 
     class Params:
         is_xpro = factory.Trait(
@@ -220,7 +220,7 @@ class CourseFactory(DjangoModelFactory):
             return
 
         self.learning_resource.platform = LearningResourcePlatformFactory.create(
-            platform=extracted, name=constants.PlatformType[extracted].value
+            code=extracted, name=constants.PlatformType[extracted].value
         )
         self.learning_resource.save()
 
@@ -348,6 +348,8 @@ class LearningPathFactory(DjangoModelFactory):
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
         resource_type=constants.LearningResourceType.learning_path.name,
+        platform=None,
+        offered_by=None,
     )
     author = factory.SubFactory(UserFactory)
 
@@ -413,7 +415,7 @@ class ProgramFactory(DjangoModelFactory):
             return
 
         self.learning_resource.platform = LearningResourcePlatformFactory.create(
-            platform=extracted, name=constants.PlatformType[extracted].value
+            code=extracted, name=constants.PlatformType[extracted].value
         )
         self.learning_resource.save()
 
@@ -548,7 +550,7 @@ class PodcastEpisodeFactory(DjangoModelFactory):
         LearningResourceFactory,
         resource_type=constants.LearningResourceType.podcast_episode.name,
         platform=factory.SubFactory(
-            LearningResourcePlatformFactory, platform=PlatformType.podcast.name
+            LearningResourcePlatformFactory, code=PlatformType.podcast.name
         ),
     )
 
@@ -570,7 +572,7 @@ class PodcastFactory(DjangoModelFactory):
         LearningResourceFactory,
         resource_type=constants.LearningResourceType.podcast.name,
         platform=factory.SubFactory(
-            LearningResourcePlatformFactory, platform=PlatformType.podcast.name
+            LearningResourcePlatformFactory, code=PlatformType.podcast.name
         ),
     )
     apple_podcasts_url = factory.Faker("uri")

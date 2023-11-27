@@ -18,14 +18,14 @@ from open_discussions.models import TimestampedModel
 class LearningResourcePlatform(TimestampedModel):
     """Platforms for all learning resources"""
 
-    platform = models.CharField(max_length=12, primary_key=True)
+    code = models.CharField(max_length=12, primary_key=True)
     name = models.CharField(max_length=256, blank=False, default="")
     url = models.URLField(null=True, blank=True)  # noqa: DJ001
     is_edx = models.BooleanField(default=False)
     has_content_files = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.platform
+        return f"{self.code}: {self.name}"
 
 
 class LearningResourceTopic(TimestampedModel):
@@ -42,12 +42,12 @@ class LearningResourceTopic(TimestampedModel):
 class LearningResourceOfferor(TimestampedModel):
     """Represents who is offering a learning resource"""
 
+    code = models.CharField(max_length=12, unique=True)
     name = models.CharField(max_length=256, unique=True)
-    code = models.CharField(max_length=12, default="")
     professional = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return f"{self.code}: {self.name}"
 
 
 class LearningResourceImage(TimestampedModel):

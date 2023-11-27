@@ -240,9 +240,7 @@ def load_course(  # noqa: C901
     )
 
     with transaction.atomic():
-        platform = LearningResourcePlatform.objects.filter(
-            platform=platform_name
-        ).first()
+        platform = LearningResourcePlatform.objects.filter(code=platform_name).first()
         if not platform:
             log.exception(
                 "Platform %s is null or not in database: %s",
@@ -394,18 +392,16 @@ def load_program(
     offered_by_data = program_data.pop("offered_by", None)
     departments_data = program_data.pop("departments", None)
     image_data = program_data.pop("image", None)
-    platform_name = program_data.pop("platform")
+    platform_code = program_data.pop("platform")
 
     course_resources = []
     with transaction.atomic():
         # lock on the program record
-        platform = LearningResourcePlatform.objects.filter(
-            platform=platform_name
-        ).first()
+        platform = LearningResourcePlatform.objects.filter(code=platform_code).first()
         if not platform:
             log.exception(
                 "Platform %s is null or not in database: %s",
-                platform_name,
+                platform_code,
                 json.dumps(program_data),
             )
             return None
@@ -562,7 +558,7 @@ def load_podcast_episode(episode_data: dict) -> LearningResource:
         learning_resource, created = LearningResource.objects.update_or_create(
             readable_id=readable_id,
             platform=LearningResourcePlatform.objects.get(
-                platform=PlatformType.podcast.name
+                code=PlatformType.podcast.name
             ),
             defaults=episode_data,
         )
@@ -605,7 +601,7 @@ def load_podcast(podcast_data: dict) -> LearningResource:
         learning_resource, created = LearningResource.objects.update_or_create(
             readable_id=readable_id,
             platform=LearningResourcePlatform.objects.get(
-                platform=PlatformType.podcast.name
+                code=PlatformType.podcast.name
             ),
             defaults=podcast_data,
         )

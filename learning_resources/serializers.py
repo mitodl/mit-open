@@ -71,13 +71,12 @@ class WriteableTopicsMixin(serializers.Serializer):
         ]
 
 
-@extend_schema_field({"type": "string"})
-class LearningResourceOfferorField(serializers.Field):
+class LearningResourceOfferorSerializer(serializers.ModelSerializer):
     """Serializer for LearningResourceOfferor"""
 
-    def to_representation(self, value):
-        """Serialize offered_by as the name only"""
-        return value.name
+    class Meta:
+        model = models.LearningResourceOfferor
+        fields = ("code", "name")
 
 
 @extend_schema_field({"type": "array", "items": {"type": "string"}})
@@ -103,7 +102,7 @@ class LearningResourcePlatformSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourcePlatform
-        exclude = COMMON_IGNORED_FIELDS
+        fields = ("code", "name")
 
 
 class LearningResourceDepartmentSerializer(serializers.ModelSerializer):
@@ -231,7 +230,8 @@ class MicroUserListRelationshipSerializer(serializers.ModelSerializer):
 class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopicsMixin):
     """Serializer for LearningResource, minus program"""
 
-    offered_by = LearningResourceOfferorField(read_only=True, allow_null=True)
+    offered_by = LearningResourceOfferorSerializer(read_only=True, allow_null=True)
+    platform = LearningResourcePlatformSerializer(read_only=True, allow_null=True)
     resource_content_tags = LearningResourceContentTagField(
         read_only=True, allow_null=True
     )
@@ -400,7 +400,7 @@ class LearningResourceChildSerializer(serializers.ModelSerializer):
     """Serializer for LearningResourceRelationship children"""
 
     def to_representation(self, instance):
-        """Serializes offered_by as a list of OfferedBy names"""  # noqa: D401
+        """Serializes children as a list of LearningResource objects"""  # noqa: D401
         return LearningResourceSerializer(instance.child).data
 
     class Meta:
@@ -491,8 +491,12 @@ class ContentFileSerializer(serializers.ModelSerializer):
         source="run.learning_resource.resource_num"
     )
     content_category = serializers.SerializerMethodField()
-    offered_by = LearningResourceOfferorField(source="run.learning_resource.offered_by")
-    platform = serializers.CharField(source="run.learning_resource.platform.platform")
+    offered_by = LearningResourceOfferorSerializer(
+        source="run.learning_resource.offered_by"
+    )
+    platform = LearningResourcePlatformSerializer(
+        source="run.learning_resource.platform"
+    )
 
     def get_content_category(self, instance):  # noqa: ARG002
         """

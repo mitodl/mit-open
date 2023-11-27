@@ -58,7 +58,7 @@ const CertificateIcon = () => (
 const CardBody: React.FC<
   Pick<LearningResourceCardTemplateProps, "resource">
 > = ({ resource }) => {
-  const offerer = resource.offered_by ?? null
+  const offerer = resource.offered_by?.name ?? null
   return offerer ? (
     <div>
       <span className="ol-lrc-offered-by">Offered by &ndash;</span>

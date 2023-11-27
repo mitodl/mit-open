@@ -506,7 +506,7 @@ class WebhookOCWNextView(views.APIView):
                 # Remove the course from the search index
                 run = LearningResourceRun.objects.filter(
                     run_id=site_uid,
-                    learning_resource__platform__platform=PlatformType.ocw.name,
+                    learning_resource__platform__code=PlatformType.ocw.name,
                 ).first()
                 if run:
                     resource = run.learning_resource

@@ -7,6 +7,8 @@ import type {
   LearningResource,
   LearningResourceImage,
   LearningResourceDepartment,
+  LearningResourceOfferor,
+  LearningResourcePlatform,
   LearningResourceRun,
   LearningResourceInstructor,
   LearningResourceTopic,
@@ -60,6 +62,26 @@ const learningResourceDepartment: Factory<LearningResourceDepartment> = (
   return {
     department_id: faker.helpers.unique(faker.lorem.words),
     name: faker.lorem.word(),
+    ...overrides,
+  }
+}
+
+const learningResourcePlatform: Factory<LearningResourcePlatform> = (
+  overrides = {},
+) => {
+  return {
+    code: faker.helpers.unique(faker.lorem.words),
+    name: faker.helpers.unique(faker.lorem.words),
+    ...overrides,
+  }
+}
+
+const learningResourceOfferor: Factory<LearningResourceOfferor> = (
+  overrides = {},
+) => {
+  return {
+    code: faker.helpers.unique(faker.lorem.words),
+    name: faker.helpers.unique(faker.lorem.words),
     ...overrides,
   }
 }
@@ -125,8 +147,8 @@ const learningResource: Factory<LearningResource> = (
     departments: [learningResourceDepartment()],
     description: faker.lorem.paragraph(),
     image: learningResourceImage(),
-    offered_by: null,
-    platform: null,
+    offered_by: maybe(learningResourceOfferor) ?? null,
+    platform: maybe(learningResourcePlatform) ?? null,
     prices: null,
     program: null,
     podcast: null,
@@ -148,10 +170,10 @@ const learningResource: Factory<LearningResource> = (
   function typeSpecificOverrides(type: string): Partial<LearningResource> {
     if (type === ResourceTypeEnum.Course) {
       return {
-        platform: faker.lorem.word(),
+        offered_by: learningResourceOfferor(),
+        platform: learningResourcePlatform(),
         runs: repeat(learningResourceRun, { min: 1, max: 5 }),
         certification: faker.lorem.word(),
-        offered_by: faker.lorem.word(),
         course: {
           course_numbers:
             maybe(() => repeat(learningResourceCourseNumber)) ?? [],
@@ -159,9 +181,9 @@ const learningResource: Factory<LearningResource> = (
       }
     } else if (type === ResourceTypeEnum.Program) {
       return {
-        platform: faker.lorem.word(),
+        offered_by: learningResourceOfferor(),
+        platform: learningResourcePlatform(),
         certification: faker.lorem.word(),
-        offered_by: faker.lorem.word(),
       }
     } else if (type === ResourceTypeEnum.LearningPath) {
       return {

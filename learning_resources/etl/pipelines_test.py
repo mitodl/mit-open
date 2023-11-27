@@ -218,7 +218,7 @@ def test_ocw_courses_etl(settings, mocker):
         "16.03",
         "16.04",
     ]
-    assert resource.platform.platform == PlatformType.ocw.name
+    assert resource.platform.code == PlatformType.ocw.name
     assert resource.offered_by.code == OfferedBy.ocw.name
     assert resource.departments.first().department_id == "16"
     assert resource.resource_content_tags.count() == 5
