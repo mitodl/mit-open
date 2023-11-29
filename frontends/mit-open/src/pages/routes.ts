@@ -3,7 +3,10 @@ import HomePage from "./Home"
 import LearningPathListingPage from "./learningpaths/LearningPathListingPage"
 import LearningPathDetailsPage from "./learningpaths/LearningPathDetails"
 import ArticleDetailsPage from "./articles/ArticleDetailsPage"
-import ArticlesEditPage from "./articles/ArticlesEditPage"
+import {
+  ArticleEditingPage,
+  ArticlesCreatePage,
+} from "./articles/ArticleUpsertPages"
 import * as urls from "./urls"
 
 const routes: RouteProps[] = [
@@ -23,13 +26,18 @@ const routes: RouteProps[] = [
     exact: true,
   },
   {
+    path: urls.ARTICLES_CREATE,
+    component: ArticlesCreatePage,
+    exact: true,
+  },
+  {
     path: urls.ARTICLES_DETAILS,
     component: ArticleDetailsPage,
     exact: true,
   },
   {
     path: urls.ARTICLES_EDIT,
-    component: ArticlesEditPage,
+    component: ArticleEditingPage,
     exact: true,
   },
 ]

@@ -6,6 +6,7 @@ import {
   useArticleDetail,
   useArticlePartialUpdate,
   useArticleDestroy,
+  useArticleCreate,
 } from "api/hooks/articles"
 import { useHistory, useParams } from "react-router"
 import {
@@ -22,6 +23,7 @@ import { useFormik } from "formik"
 import { articlesView } from "../urls"
 
 import { Article } from "api"
+import invariant from "tiny-invariant"
 
 const configOverrides = { placeholder: "Write your article here..." }
 
@@ -37,35 +39,42 @@ const postSchema = Yup.object().shape({
 type FormValues = Yup.InferType<typeof postSchema>
 
 type ArticleFormProps = {
-  id: Article["id"]
-  onSaved?: () => void
+  id?: Article["id"]
+  onSaved?: (id: number) => void
   onCancel?: () => void
   onDestroy?: () => void
 }
 
-const ArticleForm = ({
+const ArticleUpsertForm = ({
   id,
   onDestroy,
   onCancel,
   onSaved,
 }: ArticleFormProps) => {
   const [editoryReady, setEditorReady] = useToggle(false)
-  const [busy, setBusy] = useToggle(false)
+  const [editorBusy, setEditorBusy] = useToggle(false)
   const editArticle = useArticlePartialUpdate()
+  const createArticle = useArticleCreate()
   const article = useArticleDetail(id)
 
-  const isReady = editoryReady && !editArticle.isLoading && article.data
+  const hasData = (!id || article.data) && editoryReady
 
   const [confirmationOpen, toggleConfirmationOpen] = useToggle(false)
   const destroyArticle = useArticleDestroy()
   const handleSubmit = useCallback(
-    (e: FormValues) => {
-      editArticle.mutate({ ...e, id })
-      onSaved?.()
+    async (e: FormValues) => {
+      let data: Article
+      if (id) {
+        data = await editArticle.mutateAsync({ ...e, id })
+      } else {
+        data = await createArticle.mutateAsync({ ...e })
+      }
+      onSaved?.(data.id)
     },
-    [id, editArticle, onSaved],
+    [id, editArticle, createArticle, onSaved],
   )
   const handleDestroy = useCallback(async () => {
+    invariant(id)
     await destroyArticle.mutateAsync(id)
     toggleConfirmationOpen.off()
     onDestroy?.()
@@ -81,23 +90,24 @@ const ArticleForm = ({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <TextField
-        name="title"
-        label="Title"
-        variant="outlined"
-        value={formik.values.title}
-        onChange={formik.handleChange}
-        className="title-field"
-        error={!!formik.errors.title}
-        helperText={formik.errors.title}
-      />
       <FormControl fullWidth sx={{ position: "relative" }}>
+        <TextField
+          name="title"
+          label="Title"
+          variant="outlined"
+          value={formik.values.title}
+          onChange={formik.handleChange}
+          className="title-field"
+          error={!!formik.errors.title}
+          helperText={formik.errors.title}
+        />
         <CkeditorArticleLazy
+          aria-label="Article body"
           fallbackLines={10}
           className="article-editor"
           initialData={article.data?.html}
           onReady={setEditorReady.on}
-          onChangeHasPendingActions={setBusy}
+          onChangeHasPendingActions={setEditorBusy}
           onChange={(value) => {
             formik.setFieldValue("html", value)
           }}
@@ -110,19 +120,27 @@ const ArticleForm = ({
 
       <Grid container className="form-footer">
         <Grid item xs={6}>
-          <Button
-            variant="outlined"
-            disabled={!isReady}
-            onClick={toggleConfirmationOpen.on}
-          >
-            Delete
-          </Button>
+          {id ? (
+            <Button
+              variant="outlined"
+              disabled={!hasData || destroyArticle.isLoading}
+              onClick={toggleConfirmationOpen.on}
+            >
+              Delete
+            </Button>
+          ) : null}
         </Grid>
         <Grid item xs={6} className="form-submission-controls">
-          <Button variant="outlined" disabled={!isReady} onClick={onCancel}>
+          <Button variant="outlined" onClick={onCancel}>
             Cancel
           </Button>
-          <Button variant="contained" disabled={!isReady || busy} type="submit">
+          <Button
+            variant="contained"
+            disabled={
+              editorBusy || createArticle.isLoading || editArticle.isLoading
+            }
+            type="submit"
+          >
             Save
           </Button>
         </Grid>
@@ -140,16 +158,14 @@ const ArticleForm = ({
   )
 }
 
-const ArticlesEditPage: React.FC = () => {
-  const id = Number(useParams<RouteParams>().id)
-  const article = useArticleDetail(id)
-  const history = useHistory()
-  const returnToViewing = useCallback(
-    () => history.push(articlesView(id)),
-    [history, id],
-  )
-  const goHome = useCallback(() => history.push("/"), [history])
-
+type ArticleUpsertPageProps = {
+  children: React.ReactNode
+  title: string
+}
+const ArticleUpsertPage: React.FC<ArticleUpsertPageProps> = ({
+  children,
+  title,
+}) => {
   return (
     <BannerPage
       src="/static/images/course_search_banner.png"
@@ -158,22 +174,61 @@ const ArticlesEditPage: React.FC = () => {
       className="articles-editing-page"
     >
       <MetaTags>
-        <title>{`Editing: ${article.data?.title ?? ""}`}</title>
+        <title>{title}</title>
       </MetaTags>
       <Container maxWidth="sm">
         <GridContainer>
-          <GridColumn variant="single-full">
-            <ArticleForm
-              id={id}
-              onCancel={returnToViewing}
-              onSaved={returnToViewing}
-              onDestroy={goHome}
-            />
-          </GridColumn>
+          <GridColumn variant="single-full">{children}</GridColumn>
         </GridContainer>
       </Container>
     </BannerPage>
   )
 }
 
-export default ArticlesEditPage
+/**
+ * Edit articles, reading article id from route.
+ */
+const ArticleEditingPage: React.FC = () => {
+  const id = Number(useParams<RouteParams>().id)
+  const article = useArticleDetail(id)
+  const history = useHistory()
+  const returnToViewing = useCallback(
+    () => history.push(articlesView(id)),
+    [history, id],
+  )
+  const goHome = useCallback(() => history.push("/"), [history])
+  const title = `Editing: ${article.data?.title ?? ""}`
+  return (
+    <ArticleUpsertPage title={title}>
+      <ArticleUpsertForm
+        id={id}
+        onCancel={returnToViewing}
+        onSaved={returnToViewing}
+        onDestroy={goHome}
+      />
+    </ArticleUpsertPage>
+  )
+}
+
+/**
+ * Create new articles.
+ */
+const ArticlesCreatePage: React.FC = () => {
+  const history = useHistory()
+  const goHome = useCallback(() => history.push("/"), [history])
+  const viewDetails = useCallback(
+    (id: number) => history.push(articlesView(id)),
+    [history],
+  )
+  return (
+    <ArticleUpsertPage title="New Article">
+      <ArticleUpsertForm
+        onCancel={goHome}
+        onSaved={viewDetails}
+        onDestroy={goHome}
+      />
+    </ArticleUpsertPage>
+  )
+}
+
+export { ArticleEditingPage, ArticlesCreatePage }

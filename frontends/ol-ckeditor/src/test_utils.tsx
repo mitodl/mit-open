@@ -31,6 +31,7 @@ const setupMockEditors = () => {
       }, [onReady])
       return (
         <textarea
+          data-testid="mock-ckeditor"
           defaultValue={initialData}
           onChange={(e) => {
             if (onChange) {
