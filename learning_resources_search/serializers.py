@@ -51,6 +51,8 @@ def serialize_learning_resource_for_update(
 
     """
     serialized_data = LearningResourceSerializer(instance=learning_resource_obj).data
+    # Note: this is an ES-specific field that is filtered out on retrieval
+    #       see SOURCE_EXCLUDED_FIELDS in learning_resources_search/constants.py
     if learning_resource_obj.resource_type == LearningResourceType.course.name:
         serialized_data["course"]["course_numbers"] = [
             SearchCourseNumberSerializer(instance=num).data
