@@ -1,10 +1,11 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
-import { createBrowserHistory } from "history"
 import { createQueryClient } from "../libs/react-query"
-import App from "../App"
+import { AppProviders } from "../AppProviders"
 import invariant from "tiny-invariant"
 import * as Sentry from "@sentry/react"
+import { createBrowserRouter } from "react-router-dom"
+import routes from "../routes"
 
 Sentry.init({
   dsn: window.SETTINGS.sentry_dsn,
@@ -12,11 +13,11 @@ Sentry.init({
   environment: window.SETTINGS.environment,
 })
 
-const container = document.getElementById("container")
+const container = document.getElementById("app-container")
 invariant(container, "Could not find container element")
 const root = createRoot(container)
 
-const browserHistory = createBrowserHistory()
-const queryClient = createQueryClient(browserHistory)
+const router = createBrowserRouter(routes)
+const queryClient = createQueryClient()
 
-root.render(<App queryClient={queryClient} history={browserHistory} />)
+root.render(<AppProviders queryClient={queryClient} router={router} />)

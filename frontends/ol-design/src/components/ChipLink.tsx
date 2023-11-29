@@ -6,7 +6,7 @@ import type { ChipProps } from "@mui/material/Chip"
 import type { LinkProps } from "react-router-dom"
 
 type ChipLinkProps = Pick<LinkProps, "to"> &
-  Pick<ChipProps<Link>, "color" | "label" | "disabled" | "className">
+  Pick<ChipProps<typeof Link>, "color" | "label" | "disabled" | "className">
 
 /**
  * A link rendered as a "chip".

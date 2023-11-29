@@ -1,5 +1,6 @@
 import failOnConsole from "jest-fail-on-console"
 import "@testing-library/jest-dom"
+import "cross-fetch/polyfill"
 import { configure } from "@testing-library/react"
 import { resetAllWhenMocks } from "jest-when"
 

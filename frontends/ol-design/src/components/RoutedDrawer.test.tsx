@@ -1,5 +1,4 @@
-import { Router } from "react-router"
-import { createMemoryHistory } from "history"
+import { createMemoryRouter, RouterProvider } from "react-router"
 import { RoutedDrawer } from "./RoutedDrawer"
 import type { RoutedDrawerProps } from "./RoutedDrawer"
 import { render, screen } from "@testing-library/react"
@@ -24,16 +23,26 @@ const renderRoutedDrawer = <P extends string, R extends P>(
   props: Omit<RoutedDrawerProps<P, R>, "children">,
   initialSearchParams: string,
 ) => {
-  const history = createMemoryHistory({
-    initialEntries: [{ search: initialSearchParams }],
-  })
   const childFn = jest.fn(TestDrawerContents)
-  render(
-    <Router history={history}>
-      <RoutedDrawer {...props}>{childFn}</RoutedDrawer>
-    </Router>,
+  const router = createMemoryRouter(
+    [
+      {
+        path: "*",
+        element: <RoutedDrawer {...props}>{childFn}</RoutedDrawer>,
+      },
+    ],
+    {
+      initialEntries: [{ search: initialSearchParams }],
+    },
   )
-  return { history, childFn }
+
+  render(<RouterProvider router={router}></RouterProvider>)
+  const location = {
+    get current() {
+      return router.state.location
+    },
+  }
+  return { location, childFn }
 }
 
 describe("RoutedDrawer", () => {
@@ -101,7 +110,7 @@ describe("RoutedDrawer", () => {
     const params = ["a"]
     const requiredParams = ["a"]
     const initialSearch = "?a=1"
-    const { history } = renderRoutedDrawer(
+    const { location } = renderRoutedDrawer(
       { params, requiredParams },
       initialSearch,
     )
@@ -110,14 +119,14 @@ describe("RoutedDrawer", () => {
     await user.click(screen.getByRole("button", { name: "CloseFn" }))
     assertDrawerIsClosed()
 
-    expect(history.location.search).toBe("")
+    expect(location.current.search).toBe("")
   })
 
   it("Passes a closeDrawer callback to child that can close the drawer", async () => {
     const params = ["a"]
     const requiredParams = ["a"]
     const initialSearch = "?a=1"
-    const { history } = renderRoutedDrawer(
+    const { location } = renderRoutedDrawer(
       { params, requiredParams },
       initialSearch,
     )
@@ -126,6 +135,6 @@ describe("RoutedDrawer", () => {
     await user.click(screen.getByRole("button", { name: "Close" }))
     assertDrawerIsClosed()
 
-    expect(history.location.search).toBe("")
+    expect(location.current.search).toBe("")
   })
 })

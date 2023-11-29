@@ -1,5 +1,5 @@
 import React from "react"
-import { useHistory } from "react-router"
+import { useNavigate } from "react-router"
 import { Formik, Form, Field } from "formik"
 import { Button } from "ol-design"
 import * as Yup from "yup"
@@ -20,7 +20,7 @@ const appearanceSchema = Yup.object().shape({
 const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
   const { field } = props
   const mutation = useMutateField(field)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   return (
     <Formik
@@ -37,7 +37,7 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
           },
           {
             onSuccess: () => {
-              history.push(makeFieldViewPath(field.name))
+              navigate(makeFieldViewPath(field.name))
             },
           },
         )
@@ -86,7 +86,7 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
             <div className="form-row actions">
               <Button
                 className="cancel"
-                onClick={() => history.push(makeFieldViewPath(field.name))}
+                onClick={() => navigate(makeFieldViewPath(field.name))}
                 disabled={isSubmitting}
               >
                 Cancel

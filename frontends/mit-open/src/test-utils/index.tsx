@@ -1,7 +1,10 @@
 import React from "react"
-import App, { AppProviders } from "../App"
+import { createMemoryRouter } from "react-router"
+import type { RouteObject } from "react-router"
+
+import { AppProviders } from "../AppProviders"
+import appRoutes from "../routes"
 import { render } from "@testing-library/react"
-import { createMemoryHistory } from "history"
 import { setMockResponse } from "./mockAxios"
 import { createQueryClient } from "../libs/react-query"
 import type { User } from "../types/settings"
@@ -17,27 +20,10 @@ const defaultTestAppOptions = {
 }
 
 /**
- * Render the app for integration testing.
+ * Render routes in a test environment using same providers used by App.
  */
-const renderTestApp = (options: Partial<TestAppOptions> = {}) => {
-  const { url } = { ...defaultTestAppOptions, ...options }
-
-  // window.SETTINGS is reset during tests via afterEach hook.
-  window.SETTINGS.user = makeUserSettings(options.user)
-
-  const history = createMemoryHistory({ initialEntries: [url] })
-  const queryClient = createQueryClient(history)
-  render(<App queryClient={queryClient} history={history} />)
-  return { history, queryClient }
-}
-
-/**
- * Render a component with the same providers app uses.
- *
- * Good for more isolated testing.
- */
-const renderWithProviders = (
-  component: React.ReactNode,
+const renderRoutesWithProviders = (
+  routes: RouteObject[],
   options: Partial<TestAppOptions> = {},
 ) => {
   const { url } = { ...defaultTestAppOptions, ...options }
@@ -45,14 +31,33 @@ const renderWithProviders = (
   // window.SETTINGS is reset during tests via afterEach hook.
   window.SETTINGS.user = makeUserSettings(options.user)
 
-  const history = createMemoryHistory({ initialEntries: [url] })
-  const queryClient = createQueryClient(history)
+  const router = createMemoryRouter(routes, { initialEntries: [url] })
+  const queryClient = createQueryClient()
   const view = render(
-    <AppProviders queryClient={queryClient} history={history}>
-      {component}
-    </AppProviders>,
+    <AppProviders queryClient={queryClient} router={router}></AppProviders>,
   )
-  return { history, view, queryClient }
+
+  const location = {
+    get current() {
+      return router.state.location
+    },
+  }
+
+  return { view, queryClient, location }
+}
+
+const renderTestApp = (options?: Partial<TestAppOptions>) =>
+  renderRoutesWithProviders(appRoutes, options)
+
+/**
+ * Render element in a test environment using same providers used by App.
+ */
+const renderWithProviders = (
+  element: React.ReactNode,
+  options?: Partial<TestAppOptions>,
+) => {
+  const routes: RouteObject[] = [{ element, path: "*" }]
+  return renderRoutesWithProviders(routes, options)
 }
 
 /**
@@ -89,7 +94,13 @@ const expectLastProps = (
   )
 }
 
-export { renderTestApp, renderWithProviders, expectProps, expectLastProps }
+export {
+  renderTestApp,
+  renderWithProviders,
+  renderRoutesWithProviders,
+  expectProps,
+  expectLastProps,
+}
 // Conveniences
 export { setMockResponse }
 export {

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react"
-import { useHistory } from "react-router"
+import { useNavigate } from "react-router"
 import { Formik, Form } from "formik"
 import { Autocomplete, TextField, Button } from "ol-design"
 import { SortableSelect } from "ol-design/deprecated"
@@ -18,7 +18,7 @@ type FormProps = {
 const EditFieldBasicForm = (props: FormProps): JSX.Element => {
   const { field } = props
   const mutation = useMutateField(field)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const listsQuery = useUserListsListing({ public: true })
   const listOptions = useMemo(
@@ -56,7 +56,7 @@ const EditFieldBasicForm = (props: FormProps): JSX.Element => {
           },
           {
             onSuccess: () => {
-              history.push(makeFieldViewPath(field.name))
+              navigate(makeFieldViewPath(field.name))
             },
           },
         )
@@ -133,7 +133,7 @@ const EditFieldBasicForm = (props: FormProps): JSX.Element => {
             <div className="form-row actions">
               <Button
                 className="cancel"
-                onClick={() => history.push(makeFieldViewPath(field.name))}
+                onClick={() => navigate(makeFieldViewPath(field.name))}
                 disabled={isSubmitting}
               >
                 Cancel

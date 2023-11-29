@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react"
-import { useParams, useLocation, useHistory } from "react-router"
+import { useParams, useLocation, useNavigate } from "react-router"
 
 import {
   Container,
@@ -20,6 +20,7 @@ import { useUserListItems } from "../../api/learning-resources"
 import WidgetsList from "./WidgetsList"
 import { GridColumn, GridContainer } from "../../components/layout"
 import LearningResourceCard from "../../components/LearningResourceCard"
+import invariant from "tiny-invariant"
 
 type RouteParams = {
   name: string
@@ -104,15 +105,16 @@ const MANAGE_WIDGETS_SUFFIX = "manage/widgets/"
 
 const FieldPage: React.FC = () => {
   const { name } = useParams<RouteParams>()
-  const history = useHistory()
+  invariant(name, "Route parameter should be defined")
+  const navigate = useNavigate()
   const { hash, pathname } = useLocation()
   const tabValue = keyFromHash(hash)
   const fieldQuery = useFieldDetails(name)
   const handleChange = useCallback(
     (_event: React.SyntheticEvent, newValue: string) => {
-      history.replace({ hash: newValue })
+      navigate({ hash: newValue }, { replace: true })
     },
-    [history],
+    [navigate],
   )
 
   const featuredList = fieldQuery.data?.featured_list
@@ -120,11 +122,13 @@ const FieldPage: React.FC = () => {
   const isEditingWidgets = pathname.endsWith(MANAGE_WIDGETS_SUFFIX)
 
   const leaveWidgetManagement = useCallback(() => {
-    const { pathname } = history.location
-    history.replace({
-      pathname: pathname.slice(0, -MANAGE_WIDGETS_SUFFIX.length),
-    })
-  }, [history])
+    navigate(
+      {
+        pathname: pathname.slice(0, -MANAGE_WIDGETS_SUFFIX.length),
+      },
+      { replace: true },
+    )
+  }, [navigate, pathname])
 
   return (
     <FieldPageSkeleton name={name}>

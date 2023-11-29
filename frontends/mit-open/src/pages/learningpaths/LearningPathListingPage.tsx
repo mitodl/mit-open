@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react"
-import { useHistory } from "react-router"
+import { useNavigate } from "react-router"
 import { Button, SimpleMenu, IconButton } from "ol-design"
 import type { SimpleMenuItem } from "ol-design"
 import { Grid, LoadingSpinner } from "ol-design"
@@ -80,13 +80,13 @@ const ListCard: React.FC<ListCardProps> = ({ list, onActivate, canEdit }) => {
 const LearningPathListingPage: React.FC = () => {
   const listingQuery = useLearningPathsList()
 
-  const history = useHistory()
+  const navigate = useNavigate()
   const handleActivate = useCallback(
     (resource: LearningPathResource) => {
       const path = urls.learningPathsView(resource.id)
-      history.push(path)
+      navigate(path)
     },
-    [history],
+    [navigate],
   )
   const handleCreate = useCallback(() => {
     manageListDialogs.upsert()

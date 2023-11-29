@@ -8,7 +8,7 @@ import {
   useArticleDestroy,
   useArticleCreate,
 } from "api/hooks/articles"
-import { useHistory, useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import {
   Button,
   FormControl,
@@ -191,12 +191,12 @@ const ArticleUpsertPage: React.FC<ArticleUpsertPageProps> = ({
 const ArticleEditingPage: React.FC = () => {
   const id = Number(useParams<RouteParams>().id)
   const article = useArticleDetail(id)
-  const history = useHistory()
+  const navigate = useNavigate()
   const returnToViewing = useCallback(
-    () => history.push(articlesView(id)),
-    [history, id],
+    () => navigate(articlesView(id)),
+    [navigate, id],
   )
-  const goHome = useCallback(() => history.push("/"), [history])
+  const goHome = useCallback(() => navigate("/"), [navigate])
   const title = `Editing: ${article.data?.title ?? ""}`
   return (
     <ArticleUpsertPage title={title}>
@@ -214,11 +214,11 @@ const ArticleEditingPage: React.FC = () => {
  * Create new articles.
  */
 const ArticlesCreatePage: React.FC = () => {
-  const history = useHistory()
-  const goHome = useCallback(() => history.push("/"), [history])
+  const navigate = useNavigate()
+  const goHome = useCallback(() => navigate("/"), [navigate])
   const viewDetails = useCallback(
-    (id: number) => history.push(articlesView(id)),
-    [history],
+    (id: number) => navigate(articlesView(id)),
+    [navigate],
   )
   return (
     <ArticleUpsertPage title="New Article">

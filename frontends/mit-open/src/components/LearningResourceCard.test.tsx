@@ -27,19 +27,19 @@ describe("LearningResourceCard (old interface)", () => {
   }
   const setup = ({ userSettings: user, props = {} }: SetupOptions = {}) => {
     const { resource = makeLearningResource(), variant = "column" } = props
-    const { view, history } = renderWithProviders(
+    const { view, location } = renderWithProviders(
       <LearningResourceCard {...props} resource={resource} variant={variant} />,
       { user },
     )
-    return { resource, view, history }
+    return { resource, view, location }
   }
 
   test("Clicking resource title routes to LearningResourceDrawer", async () => {
-    const { resource, history } = setup()
-    expect(history.location.search).toBe("") // Drawer is closed
+    const { resource, location } = setup()
+    expect(location.current.search).toBe("") // Drawer is closed
     await user.click(screen.getByRole("heading", { name: resource.title }))
 
-    const actual = new URLSearchParams(history.location.search).sort()
+    const actual = new URLSearchParams(location.current.search).sort()
     const expected = new URLSearchParams(
       Object.entries({
         resource_type: resource.object_type,
@@ -63,11 +63,11 @@ describe("LearningResourceCard (new interface)", () => {
   }
   const setup = ({ userSettings: user, props = {} }: SetupOptions = {}) => {
     const { resource = makeResource(), variant = "column" } = props
-    const { view, history } = renderWithProviders(
+    const { view } = renderWithProviders(
       <LearningResourceCard {...props} resource={resource} variant={variant} />,
       { user },
     )
-    return { resource, view, history }
+    return { resource, view }
   }
 
   const labels = {

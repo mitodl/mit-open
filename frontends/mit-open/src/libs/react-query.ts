@@ -1,6 +1,5 @@
-import { QueryCache, QueryClient } from "@tanstack/react-query"
+import { QueryClient } from "@tanstack/react-query"
 import axios from "./axios"
-import { History } from "history"
 
 type MaybeHasStatus = {
   response?: {
@@ -8,17 +7,12 @@ type MaybeHasStatus = {
   }
 }
 
-type global404Flag =
-  | undefined
-  | {
-      hasCustomNotFoundHandler?: boolean
-    }
-const AUTH_STATUS_CODES = [401, 403]
-const NOT_FOUND_STATUS_CODES = [404]
 const RETRY_STATUS_CODES = [408, 429, 502, 503, 504]
 const MAX_RETRIES = 3
 
-const createQueryClient = (history: History): QueryClient => {
+const THROW_ERROR_CODES: (number | undefined)[] = [404, 403, 401]
+
+const createQueryClient = (): QueryClient => {
   return new QueryClient({
     defaultOptions: {
       queries: {
@@ -45,35 +39,16 @@ const createQueryClient = (history: History): QueryClient => {
           }
           return false
         },
+        // Throw runtime errors instead of marking query as errored.
+        // The runtime error will be caught by an error boundary.
+        // For now, only do this for 404s, 403s, and 401s. Other errors should
+        // be handled locally by components.
+        useErrorBoundary: (error) => {
+          const status = (error as MaybeHasStatus)?.response?.status
+          return THROW_ERROR_CODES.includes(status)
+        },
       },
     },
-    queryCache: new QueryCache({
-      onError: async (error, query) => {
-        const status = (error as MaybeHasStatus)?.response?.status
-        const { user } = window.SETTINGS
-        const currentLocation = history.location
-        const hasCustomNotFoundHandler = <global404Flag>query.meta
-
-        if (status !== undefined) {
-          if (AUTH_STATUS_CODES.includes(status)) {
-            if (user.is_authenticated) {
-              const newState = { forbidden: true }
-              history.replace({ ...currentLocation, state: newState })
-            } else {
-              // Once there is an auth flow within this app, this can be moved
-              // off of window.location and use history as well
-              window.location.href = `/login/?next=${currentLocation.pathname}`
-            }
-          }
-          if (NOT_FOUND_STATUS_CODES.includes(status)) {
-            if (!hasCustomNotFoundHandler) {
-              const newState = { notFound: true }
-              history.replace({ ...currentLocation, state: newState })
-            }
-          }
-        }
-      },
-    }),
   })
 }
 
