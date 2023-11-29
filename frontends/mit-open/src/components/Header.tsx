@@ -1,17 +1,16 @@
 import React, { FunctionComponent } from "react"
 import styled from "@emotion/styled"
-import { AppBar, Divider, Toolbar } from "ol-design"
+import { AppBar, Divider, Toolbar, Theme } from "ol-design"
 import { MITLogoLink } from "ol-util"
-import { Theme } from "../entry/theme"
 
-interface Props {
+interface BarProps {
   theme?: Theme
   position: string
 }
 
-const Bar = styled(AppBar)<Props>`
-  background-color: ${({ theme }) => theme.colorBackgroundLight};
-  color: ${({ theme }) => theme.fontColorDefault};
+const Bar = styled(AppBar)<BarProps>`
+  background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
+  color: ${({ theme }) => theme.custom.fontColorDefault};
   min-height: 55px;
   display: flex;
   flex-direction: column;

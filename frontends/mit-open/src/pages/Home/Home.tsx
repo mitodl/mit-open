@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from "react"
 import styled from "@emotion/styled"
-import { ChipLink, Container, Grid, SearchInput } from "ol-design"
+import { ChipLink, Container, Grid, SearchInput, ThemeProps } from "ol-design"
 import type { SearchInputProps } from "ol-design"
 import { mediaQueries } from "ol-util"
 import { GridContainer } from "../../components/layout"
 import { useLearningResourcesList } from "api/hooks/learningResources"
-import { Theme } from "../../entry/theme"
 import HomePageCarousel from "./HomePageCarousel"
 
 const EXPLORE_BUTTONS = [
@@ -59,10 +58,6 @@ const TopContainer = styled(GridContainer)`
   margin-bottom: 3.5rem;
 `
 
-interface ThemeProps {
-  theme?: Theme
-}
-
 const BackgroundGradient = styled.div<ThemeProps>`
   position: absolute;
   top: 0;
@@ -70,21 +65,21 @@ const BackgroundGradient = styled.div<ThemeProps>`
   z-index: -100;
   height: 615px;
   background-image: ${({ theme }) =>
-    `linear-gradient(${theme.colorBlue1}, ${theme.colorGray1})`};
+    `linear-gradient(${theme.custom.colorBlue1}, ${theme.custom!.colorGray1})`};
   width: 100%;
 `
 
 const PageTitle = styled.h1<ThemeProps>`
   margin-bottom: 0.5rem;
   font-size: 50px;
-  color: ${({ theme }) => theme.colorBlue5};
+  color: ${({ theme }) => theme.custom.colorBlue5};
 `
 
 const StyledSearchInput = styled(SearchInput)<ThemeProps>`
   margin-top: 1.75rem;
   margin-bottom: 1.75rem;
 
-  background-color: ${({ theme }) => theme.colorBackgroundLight};
+  background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
 
   &.MuiInputBase-root {
     max-width: 520px;
@@ -93,15 +88,15 @@ const StyledSearchInput = styled(SearchInput)<ThemeProps>`
     font-size: 1.25rem;
 
     fieldset {
-      border: 2px solid ${({ theme }) => theme.colorGray4};
+      border: 2px solid ${({ theme }) => theme.custom.colorGray4};
     }
 
     &.Mui-focused fieldset {
-      border-color: ${({ theme }) => theme.colorBlue5};
+      border-color: ${({ theme }) => theme.custom.colorBlue5};
     }
 
     &.Mui-focused .MuiSvgIcon-root {
-      color: ${({ theme }) => theme.colorBlue5};
+      color: ${({ theme }) => theme.custom.colorBlue5};
     }
   }
 
