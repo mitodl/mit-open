@@ -6843,7 +6843,8 @@ export const DepartmentsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * View the MIT academic departments
+     * MIT academic departments
+     * @summary List of departments
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -6895,7 +6896,8 @@ export const DepartmentsApiAxiosParamCreator = function (
       }
     },
     /**
-     * View the MIT academic departments
+     * MIT academic departments
+     * @summary Details for a specific department
      * @param {number} id A unique integer value identifying this learning resource department.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6953,7 +6955,8 @@ export const DepartmentsApiFp = function (configuration?: Configuration) {
     DepartmentsApiAxiosParamCreator(configuration)
   return {
     /**
-     * View the MIT academic departments
+     * MIT academic departments
+     * @summary List of departments
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -6982,7 +6985,8 @@ export const DepartmentsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * View the MIT academic departments
+     * MIT academic departments
+     * @summary Details for a specific department
      * @param {number} id A unique integer value identifying this learning resource department.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7020,7 +7024,8 @@ export const DepartmentsApiFactory = function (
   const localVarFp = DepartmentsApiFp(configuration)
   return {
     /**
-     * View the MIT academic departments
+     * MIT academic departments
+     * @summary List of departments
      * @param {DepartmentsApiDepartmentsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7038,7 +7043,8 @@ export const DepartmentsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * View the MIT academic departments
+     * MIT academic departments
+     * @summary Details for a specific department
      * @param {DepartmentsApiDepartmentsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7097,7 +7103,8 @@ export interface DepartmentsApiDepartmentsRetrieveRequest {
  */
 export class DepartmentsApi extends BaseAPI {
   /**
-   * View the MIT academic departments
+   * MIT academic departments
+   * @summary List of departments
    * @param {DepartmentsApiDepartmentsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7117,7 +7124,8 @@ export class DepartmentsApi extends BaseAPI {
   }
 
   /**
-   * View the MIT academic departments
+   * MIT academic departments
+   * @summary Details for a specific department
    * @param {DepartmentsApiDepartmentsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13090,8 +13098,8 @@ export const OfferersApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * foo
-     * @summary bar
+     * MIT organizations that offer learning resources
+     * @summary List of offerers
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -13143,7 +13151,8 @@ export const OfferersApiAxiosParamCreator = function (
       }
     },
     /**
-     * View the MIT organizations that offer learning resources
+     * MIT organizations that offer learning resources
+     * @summary Details for a specific offerer
      * @param {number} id A unique integer value identifying this learning resource offeror.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13200,8 +13209,8 @@ export const OfferersApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = OfferersApiAxiosParamCreator(configuration)
   return {
     /**
-     * foo
-     * @summary bar
+     * MIT organizations that offer learning resources
+     * @summary List of offerers
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -13230,7 +13239,8 @@ export const OfferersApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * View the MIT organizations that offer learning resources
+     * MIT organizations that offer learning resources
+     * @summary Details for a specific offerer
      * @param {number} id A unique integer value identifying this learning resource offeror.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13268,8 +13278,8 @@ export const OfferersApiFactory = function (
   const localVarFp = OfferersApiFp(configuration)
   return {
     /**
-     * foo
-     * @summary bar
+     * MIT organizations that offer learning resources
+     * @summary List of offerers
      * @param {OfferersApiOfferersListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13287,7 +13297,8 @@ export const OfferersApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * View the MIT organizations that offer learning resources
+     * MIT organizations that offer learning resources
+     * @summary Details for a specific offerer
      * @param {OfferersApiOfferersRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13346,8 +13357,8 @@ export interface OfferersApiOfferersRetrieveRequest {
  */
 export class OfferersApi extends BaseAPI {
   /**
-   * foo
-   * @summary bar
+   * MIT organizations that offer learning resources
+   * @summary List of offerers
    * @param {OfferersApiOfferersListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13363,7 +13374,8 @@ export class OfferersApi extends BaseAPI {
   }
 
   /**
-   * View the MIT organizations that offer learning resources
+   * MIT organizations that offer learning resources
+   * @summary Details for a specific offerer
    * @param {OfferersApiOfferersRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13388,7 +13400,8 @@ export const PlatformsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * View the platforms on which learning resources are hosted
+     * Platforms on which learning resources are hosted
+     * @summary List of platforms
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -13440,7 +13453,8 @@ export const PlatformsApiAxiosParamCreator = function (
       }
     },
     /**
-     * View the platforms on which learning resources are hosted
+     * Platforms on which learning resources are hosted
+     * @summary Details for a specific platform
      * @param {string} code A unique value identifying this learning resource platform.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13497,7 +13511,8 @@ export const PlatformsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = PlatformsApiAxiosParamCreator(configuration)
   return {
     /**
-     * View the platforms on which learning resources are hosted
+     * Platforms on which learning resources are hosted
+     * @summary List of platforms
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -13526,7 +13541,8 @@ export const PlatformsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * View the platforms on which learning resources are hosted
+     * Platforms on which learning resources are hosted
+     * @summary Details for a specific platform
      * @param {string} code A unique value identifying this learning resource platform.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13564,7 +13580,8 @@ export const PlatformsApiFactory = function (
   const localVarFp = PlatformsApiFp(configuration)
   return {
     /**
-     * View the platforms on which learning resources are hosted
+     * Platforms on which learning resources are hosted
+     * @summary List of platforms
      * @param {PlatformsApiPlatformsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13582,7 +13599,8 @@ export const PlatformsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * View the platforms on which learning resources are hosted
+     * Platforms on which learning resources are hosted
+     * @summary Details for a specific platform
      * @param {PlatformsApiPlatformsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13641,7 +13659,8 @@ export interface PlatformsApiPlatformsRetrieveRequest {
  */
 export class PlatformsApi extends BaseAPI {
   /**
-   * View the platforms on which learning resources are hosted
+   * Platforms on which learning resources are hosted
+   * @summary List of platforms
    * @param {PlatformsApiPlatformsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13657,7 +13676,8 @@ export class PlatformsApi extends BaseAPI {
   }
 
   /**
-   * View the platforms on which learning resources are hosted
+   * Platforms on which learning resources are hosted
+   * @summary Details for a specific platform
    * @param {PlatformsApiPlatformsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -16546,7 +16566,8 @@ export const TopicsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * View the topics covered by learning resources
+     * Topics covered by learning resources
+     * @summary List of topics
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -16598,7 +16619,8 @@ export const TopicsApiAxiosParamCreator = function (
       }
     },
     /**
-     * View the topics covered by learning resources
+     * Topics covered by learning resources
+     * @summary Details for a specific topic
      * @param {number} id A unique integer value identifying this learning resource topic.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -16655,7 +16677,8 @@ export const TopicsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = TopicsApiAxiosParamCreator(configuration)
   return {
     /**
-     * View the topics covered by learning resources
+     * Topics covered by learning resources
+     * @summary List of topics
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -16684,7 +16707,8 @@ export const TopicsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * View the topics covered by learning resources
+     * Topics covered by learning resources
+     * @summary Details for a specific topic
      * @param {number} id A unique integer value identifying this learning resource topic.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -16724,7 +16748,8 @@ export const TopicsApiFactory = function (
   const localVarFp = TopicsApiFp(configuration)
   return {
     /**
-     * View the topics covered by learning resources
+     * Topics covered by learning resources
+     * @summary List of topics
      * @param {TopicsApiTopicsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -16738,7 +16763,8 @@ export const TopicsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * View the topics covered by learning resources
+     * Topics covered by learning resources
+     * @summary Details for a specific topic
      * @param {TopicsApiTopicsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -16797,7 +16823,8 @@ export interface TopicsApiTopicsRetrieveRequest {
  */
 export class TopicsApi extends BaseAPI {
   /**
-   * View the topics covered by learning resources
+   * Topics covered by learning resources
+   * @summary List of topics
    * @param {TopicsApiTopicsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -16813,7 +16840,8 @@ export class TopicsApi extends BaseAPI {
   }
 
   /**
-   * View the topics covered by learning resources
+   * Topics covered by learning resources
+   * @summary Details for a specific topic
    * @param {TopicsApiTopicsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

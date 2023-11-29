@@ -992,7 +992,8 @@ paths:
   /api/v1/departments/:
     get:
       operationId: departments_list
-      description: View the MIT academic departments
+      description: MIT academic departments
+      summary: List of departments
       parameters:
       - name: limit
         required: false
@@ -1020,7 +1021,8 @@ paths:
   /api/v1/departments/{id}/:
     get:
       operationId: departments_retrieve
-      description: View the MIT academic departments
+      description: MIT academic departments
+      summary: Details for a specific department
       parameters:
       - in: path
         name: id
@@ -2833,8 +2835,8 @@ paths:
   /api/v1/offerers/:
     get:
       operationId: offerers_list
-      description: foo
-      summary: bar
+      description: MIT organizations that offer learning resources
+      summary: List of offerers
       parameters:
       - name: limit
         required: false
@@ -2862,7 +2864,8 @@ paths:
   /api/v1/offerers/{id}/:
     get:
       operationId: offerers_retrieve
-      description: View the MIT organizations that offer learning resources
+      description: MIT organizations that offer learning resources
+      summary: Details for a specific offerer
       parameters:
       - in: path
         name: id
@@ -2884,7 +2887,8 @@ paths:
   /api/v1/platforms/:
     get:
       operationId: platforms_list
-      description: View the platforms on which learning resources are hosted
+      description: Platforms on which learning resources are hosted
+      summary: List of platforms
       parameters:
       - name: limit
         required: false
@@ -2912,7 +2916,8 @@ paths:
   /api/v1/platforms/{code}/:
     get:
       operationId: platforms_retrieve
-      description: View the platforms on which learning resources are hosted
+      description: Platforms on which learning resources are hosted
+      summary: Details for a specific platform
       parameters:
       - in: path
         name: code
@@ -4021,7 +4026,8 @@ paths:
   /api/v1/topics/:
     get:
       operationId: topics_list
-      description: View the topics covered by learning resources
+      description: Topics covered by learning resources
+      summary: List of topics
       parameters:
       - name: limit
         required: false
@@ -4049,7 +4055,8 @@ paths:
   /api/v1/topics/{id}/:
     get:
       operationId: topics_retrieve
-      description: View the topics covered by learning resources
+      description: Topics covered by learning resources
+      summary: Details for a specific topic
       parameters:
       - in: path
         name: id
