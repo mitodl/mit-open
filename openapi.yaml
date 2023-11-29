@@ -1963,10 +1963,9 @@ paths:
       - in: query
         name: certification
         schema:
-          type: array
-          items:
-            type: string
-            minLength: 1
+          type: boolean
+          nullable: true
+        description: true if the learning resource offers a certifacate
       - in: query
         name: department
         schema:
@@ -2173,15 +2172,8 @@ paths:
       - in: query
         name: professional
         schema:
-          type: array
-          items:
-            enum:
-            - 'true'
-            - 'false'
-            type: string
-            description: |-
-              * `true` - true
-              * `false` - false
+          type: boolean
+          nullable: true
       - in: query
         name: q
         schema:
@@ -4658,8 +4650,7 @@ components:
           readOnly: true
           nullable: true
         certification:
-          type: string
-          nullable: true
+          type: boolean
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
@@ -5107,8 +5098,7 @@ components:
           readOnly: true
           nullable: true
         certification:
-          type: string
-          nullable: true
+          type: boolean
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
@@ -6243,8 +6233,7 @@ components:
           readOnly: true
           nullable: true
         certification:
-          type: string
-          nullable: true
+          type: boolean
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
@@ -6437,8 +6426,7 @@ components:
           readOnly: true
           nullable: true
         certification:
-          type: string
-          nullable: true
+          type: boolean
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
@@ -6629,8 +6617,7 @@ components:
           readOnly: true
           nullable: true
         certification:
-          type: string
-          nullable: true
+          type: boolean
           description: Returns the certification for the learning resource
           readOnly: true
         prices:

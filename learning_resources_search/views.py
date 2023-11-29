@@ -57,9 +57,11 @@ class LearningResourcesSearchView(ESView):
             return Response(SearchResponseSerializer(response).data)
         else:
             errors = {}
-
-            for key, errors_dict in request_data.errors.items():
-                errors[key] = list(set(chain(*errors_dict.values())))
+            for key, errors_obj in request_data.errors.items():
+                if isinstance(errors_obj, list):
+                    errors[key] = errors_obj
+                else:
+                    errors[key] = list(set(chain(*errors_obj.values())))
 
             return Response(errors, status=400)
 
@@ -87,8 +89,10 @@ class ContentFileSearchView(ESView):
             return Response(SearchResponseSerializer(response).data)
         else:
             errors = {}
-
-            for key, errors_dict in request_data.errors.items():
-                errors[key] = list(set(chain(*errors_dict.values())))
+            for key, errors_obj in request_data.errors.items():
+                if isinstance(errors_obj, list):
+                    errors[key] = errors_obj
+                else:
+                    errors[key] = list(set(chain(*errors_obj.values())))
 
             return Response(errors, status=400)

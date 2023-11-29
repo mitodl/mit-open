@@ -3,10 +3,6 @@
 from django.db.models import TextChoices
 from named_enum import ExtendedEnum
 
-OPEN = "Open Content"
-PROFESSIONAL = "Professional Offerings"
-CERTIFICATE = "Certificates"
-
 FAVORITES_TITLE = "Favorites"
 
 

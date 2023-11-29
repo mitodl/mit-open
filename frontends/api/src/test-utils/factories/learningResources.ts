@@ -146,7 +146,7 @@ const _learningResourceShared = (): Partial<
   return {
     id: faker.helpers.unique(faker.datatype.number),
     professional: faker.datatype.boolean(),
-    certification: null,
+    certification: false,
     departments: [learningResourceDepartment()],
     description: faker.lorem.paragraph(),
     image: learningResourceImage(),
@@ -196,7 +196,7 @@ const program: PartialFactory<ProgramResource> = (overrides = {}) => {
     {
       offered_by: learningResourceOfferor(),
       platform: learningResourcePlatform(),
-      certification: faker.lorem.word(),
+      certification: faker.datatype.boolean(),
       program: {
         courses: repeat(course, { min: 0, max: 5 }),
       },
@@ -214,7 +214,7 @@ const course: LearningResourceFactory<CourseResource> = (overrides = {}) => {
       offered_by: learningResourceOfferor(),
       platform: learningResourcePlatform(),
       runs: repeat(learningResourceRun, { min: 1, max: 5 }),
-      certification: faker.lorem.word(),
+      certification: faker.datatype.boolean(),
       course: {
         course_numbers:
           maybe(() => repeat(learningResourceCourseNumber)) ?? null,

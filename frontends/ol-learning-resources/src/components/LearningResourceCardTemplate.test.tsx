@@ -71,12 +71,9 @@ describe("LearningResourceCard", () => {
     expect(onActivate).toHaveBeenCalledWith(resource)
   })
 
-  it.each([
-    { certification: null, hasCertificate: false },
-    { certification: "cert", hasCertificate: true },
-  ])(
+  it.each([{ certification: false }, { certification: true }])(
     "should render an icon if the object has a certificate",
-    ({ certification, hasCertificate }) => {
+    ({ certification }) => {
       const resource = factory.course({
         certification,
       })
@@ -92,7 +89,7 @@ describe("LearningResourceCard", () => {
       const certIcon = screen.queryByAltText("Receive a certificate", {
         exact: false,
       })
-      expect(certIcon === null).not.toBe(hasCertificate)
+      expect(certIcon === null).not.toBe(certification)
     },
   )
 

@@ -141,8 +141,6 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
   footerActionSlot,
   sortable,
 }: LearningResourceCardTemplateProps<R>) => {
-  const hasCertificate =
-    resource.certification && resource.certification.length > 0
   const handleActivate = useCallback(
     () => onActivate?.(resource),
     [resource, onActivate],
@@ -181,7 +179,7 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
             <span className="ol-lrc-type">
               {getReadableResourceType(resource)}
             </span>
-            {hasCertificate && <CertificateIcon />}
+            {resource.certification && <CertificateIcon />}
           </div>
           {onActivate ? (
             <button className="clickable-title" onClick={handleActivate}>
