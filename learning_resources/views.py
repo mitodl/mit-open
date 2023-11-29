@@ -38,6 +38,9 @@ from learning_resources.filters import LearningResourceFilter
 from learning_resources.models import (
     ContentFile,
     LearningResource,
+    LearningResourceDepartment,
+    LearningResourceOfferor,
+    LearningResourcePlatform,
     LearningResourceRelationship,
     LearningResourceRun,
     LearningResourceTopic,
@@ -55,6 +58,9 @@ from learning_resources.serializers import (
     LearningPathRelationshipSerializer,
     LearningPathResourceSerializer,
     LearningResourceChildSerializer,
+    LearningResourceDepartmentSerializer,
+    LearningResourceOfferorSerializer,
+    LearningResourcePlatformSerializer,
     LearningResourceSerializer,
     LearningResourceTopicSerializer,
     PodcastEpisodeResourceSerializer,
@@ -389,12 +395,16 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
             instance.delete()
 
 
+@extend_schema_view(
+    list=extend_schema(summary="List of topics"),
+    retrieve=extend_schema(summary="Details for a specific topic"),
+)
 class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Viewset for topics
+    Topics covered by learning resources
     """
 
-    queryset = LearningResourceTopic.objects.all()
+    queryset = LearningResourceTopic.objects.all().order_by("name")
     serializer_class = LearningResourceTopicSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
@@ -565,3 +575,48 @@ class WebhookOCWNextView(views.APIView):
                     resource_unpublished_actions(resource)
 
         return Response({})
+
+
+@extend_schema_view(
+    list=extend_schema(summary="List of departments"),
+    retrieve=extend_schema(summary="Details for a specific department"),
+)
+class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    MIT academic departments
+    """
+
+    queryset = LearningResourceDepartment.objects.all().order_by("department_id")
+    serializer_class = LearningResourceDepartmentSerializer
+    pagination_class = LargePagination
+    permission_classes = (AnonymousAccessReadonlyPermission,)
+
+
+@extend_schema_view(
+    list=extend_schema(summary="List of platforms"),
+    retrieve=extend_schema(summary="Details for a specific platform"),
+)
+class PlatformViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Platforms on which learning resources are hosted
+    """
+
+    queryset = LearningResourcePlatform.objects.all().order_by("code")
+    serializer_class = LearningResourcePlatformSerializer
+    pagination_class = LargePagination
+    permission_classes = (AnonymousAccessReadonlyPermission,)
+
+
+@extend_schema_view(
+    list=extend_schema(summary="List of offerers"),
+    retrieve=extend_schema(summary="Details for a specific offerer"),
+)
+class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    MIT organizations that offer learning resources
+    """
+
+    queryset = LearningResourceOfferor.objects.all().order_by("code")
+    serializer_class = LearningResourceOfferorSerializer
+    pagination_class = LargePagination
+    permission_classes = (AnonymousAccessReadonlyPermission,)

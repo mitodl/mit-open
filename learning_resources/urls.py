@@ -66,6 +66,9 @@ router.register(
     parents_query_lookups=["parent_id"],
 )
 router.register(r"topics", views.TopicViewSet, basename="lr_topics_api")
+router.register(r"departments", views.DepartmentViewSet, basename="lr_departments_api")
+router.register(r"platforms", views.PlatformViewSet, basename="lr_platforms_api")
+router.register(r"offerers", views.OfferedByViewSet, basename="lr_offerers_api")
 
 urlpatterns = [
     re_path(r"^api/v1/", include(router.urls)),
