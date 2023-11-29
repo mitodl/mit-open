@@ -5,7 +5,7 @@ from django.http import QueryDict
 from rest_framework.renderers import JSONRenderer
 
 from learning_resources import factories
-from learning_resources.constants import DEPARTMENTS
+from learning_resources.constants import DEPARTMENTS, LearningResourceType
 from learning_resources.etl.constants import CourseNumberType
 from learning_resources.models import LearningResource
 from learning_resources.serializers import LearningResourceSerializer
@@ -40,11 +40,16 @@ def test_serialize_bulk_learning_resources(mocker):
 
 
 @pytest.mark.django_db()
-def test_serialize_learning_resource_for_bulk():
+@pytest.mark.parametrize(
+    "resource_type",
+    set(LearningResourceType.names()) - {LearningResourceType.course.name},
+)
+def test_serialize_learning_resource_for_bulk(resource_type):
     """
-    Test that serialize_program_for_bulk yields a valid LearningResourceSerializer
+    Test that serialize_program_for_bulk yields a valid LearningResourceSerializer for resource types other than "course"
+    The "course" resource type is tested by `test_serialize_course_numbers_for_bulk` below.
     """
-    resource = factories.LearningResourceFactory.create()
+    resource = factories.LearningResourceFactory.create(resource_type=resource_type)
     assert serializers.serialize_learning_resource_for_bulk(resource) == {
         "_id": resource.id,
         "resource_relations": {"name": "resource"},
