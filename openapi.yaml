@@ -1022,7 +1022,7 @@ paths:
     get:
       operationId: departments_retrieve
       description: MIT academic departments
-      summary: Details for a specific department
+      summary: Department details
       parameters:
       - in: path
         name: id
@@ -2865,7 +2865,7 @@ paths:
     get:
       operationId: offerers_retrieve
       description: MIT organizations that offer learning resources
-      summary: Details for a specific offerer
+      summary: Offerer details
       parameters:
       - in: path
         name: id
@@ -2917,7 +2917,7 @@ paths:
     get:
       operationId: platforms_retrieve
       description: Platforms on which learning resources are hosted
-      summary: Details for a specific platform
+      summary: Platform details
       parameters:
       - in: path
         name: code
@@ -4056,7 +4056,7 @@ paths:
     get:
       operationId: topics_retrieve
       description: Topics covered by learning resources
-      summary: Details for a specific topic
+      summary: Topic details
       parameters:
       - in: path
         name: id

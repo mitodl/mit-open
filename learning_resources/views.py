@@ -397,7 +397,7 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
 
 @extend_schema_view(
     list=extend_schema(summary="List of topics"),
-    retrieve=extend_schema(summary="Details for a specific topic"),
+    retrieve=extend_schema(summary="Topic details"),
 )
 class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -579,7 +579,7 @@ class WebhookOCWNextView(views.APIView):
 
 @extend_schema_view(
     list=extend_schema(summary="List of departments"),
-    retrieve=extend_schema(summary="Details for a specific department"),
+    retrieve=extend_schema(summary="Department details"),
 )
 class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -594,7 +594,7 @@ class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
 
 @extend_schema_view(
     list=extend_schema(summary="List of platforms"),
-    retrieve=extend_schema(summary="Details for a specific platform"),
+    retrieve=extend_schema(summary="Platform details"),
 )
 class PlatformViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -609,7 +609,7 @@ class PlatformViewSet(viewsets.ReadOnlyModelViewSet):
 
 @extend_schema_view(
     list=extend_schema(summary="List of offerers"),
-    retrieve=extend_schema(summary="Details for a specific offerer"),
+    retrieve=extend_schema(summary="Offerer details"),
 )
 class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
     """

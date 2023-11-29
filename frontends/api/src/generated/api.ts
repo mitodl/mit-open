@@ -6897,7 +6897,7 @@ export const DepartmentsApiAxiosParamCreator = function (
     },
     /**
      * MIT academic departments
-     * @summary Details for a specific department
+     * @summary Department details
      * @param {number} id A unique integer value identifying this learning resource department.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6986,7 +6986,7 @@ export const DepartmentsApiFp = function (configuration?: Configuration) {
     },
     /**
      * MIT academic departments
-     * @summary Details for a specific department
+     * @summary Department details
      * @param {number} id A unique integer value identifying this learning resource department.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7044,7 +7044,7 @@ export const DepartmentsApiFactory = function (
     },
     /**
      * MIT academic departments
-     * @summary Details for a specific department
+     * @summary Department details
      * @param {DepartmentsApiDepartmentsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7125,7 +7125,7 @@ export class DepartmentsApi extends BaseAPI {
 
   /**
    * MIT academic departments
-   * @summary Details for a specific department
+   * @summary Department details
    * @param {DepartmentsApiDepartmentsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13152,7 +13152,7 @@ export const OfferersApiAxiosParamCreator = function (
     },
     /**
      * MIT organizations that offer learning resources
-     * @summary Details for a specific offerer
+     * @summary Offerer details
      * @param {number} id A unique integer value identifying this learning resource offeror.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13240,7 +13240,7 @@ export const OfferersApiFp = function (configuration?: Configuration) {
     },
     /**
      * MIT organizations that offer learning resources
-     * @summary Details for a specific offerer
+     * @summary Offerer details
      * @param {number} id A unique integer value identifying this learning resource offeror.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13298,7 +13298,7 @@ export const OfferersApiFactory = function (
     },
     /**
      * MIT organizations that offer learning resources
-     * @summary Details for a specific offerer
+     * @summary Offerer details
      * @param {OfferersApiOfferersRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13375,7 +13375,7 @@ export class OfferersApi extends BaseAPI {
 
   /**
    * MIT organizations that offer learning resources
-   * @summary Details for a specific offerer
+   * @summary Offerer details
    * @param {OfferersApiOfferersRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13454,7 +13454,7 @@ export const PlatformsApiAxiosParamCreator = function (
     },
     /**
      * Platforms on which learning resources are hosted
-     * @summary Details for a specific platform
+     * @summary Platform details
      * @param {string} code A unique value identifying this learning resource platform.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13542,7 +13542,7 @@ export const PlatformsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Platforms on which learning resources are hosted
-     * @summary Details for a specific platform
+     * @summary Platform details
      * @param {string} code A unique value identifying this learning resource platform.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13600,7 +13600,7 @@ export const PlatformsApiFactory = function (
     },
     /**
      * Platforms on which learning resources are hosted
-     * @summary Details for a specific platform
+     * @summary Platform details
      * @param {PlatformsApiPlatformsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13677,7 +13677,7 @@ export class PlatformsApi extends BaseAPI {
 
   /**
    * Platforms on which learning resources are hosted
-   * @summary Details for a specific platform
+   * @summary Platform details
    * @param {PlatformsApiPlatformsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -16620,7 +16620,7 @@ export const TopicsApiAxiosParamCreator = function (
     },
     /**
      * Topics covered by learning resources
-     * @summary Details for a specific topic
+     * @summary Topic details
      * @param {number} id A unique integer value identifying this learning resource topic.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -16708,7 +16708,7 @@ export const TopicsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Topics covered by learning resources
-     * @summary Details for a specific topic
+     * @summary Topic details
      * @param {number} id A unique integer value identifying this learning resource topic.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -16764,7 +16764,7 @@ export const TopicsApiFactory = function (
     },
     /**
      * Topics covered by learning resources
-     * @summary Details for a specific topic
+     * @summary Topic details
      * @param {TopicsApiTopicsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -16841,7 +16841,7 @@ export class TopicsApi extends BaseAPI {
 
   /**
    * Topics covered by learning resources
-   * @summary Details for a specific topic
+   * @summary Topic details
    * @param {TopicsApiTopicsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
