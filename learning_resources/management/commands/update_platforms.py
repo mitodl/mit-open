@@ -16,6 +16,8 @@ class Command(BaseCommand):
 
         self.stdout.write("Updating platform data")
         start = now_in_utc()
-        upsert_platform_data()
+        platform_codes = upsert_platform_data()
         total_seconds = (now_in_utc() - start).total_seconds()
-        self.stdout.write(f"Update of platforms finished, took {total_seconds} seconds")
+        self.stdout.write(
+            f"Upserted {len(platform_codes)} platforms, took {total_seconds} seconds"
+        )

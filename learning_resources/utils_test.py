@@ -4,6 +4,7 @@ Test learning_resources utils
 
 import json
 from datetime import datetime
+from pathlib import Path
 
 import pytest
 import pytz
@@ -14,6 +15,7 @@ from learning_resources.constants import (
     CONTENT_TYPE_VIDEO,
 )
 from learning_resources.etl.utils import get_content_type
+from learning_resources.models import LearningResourcePlatform
 from learning_resources.utils import (
     get_ocw_topics,
     load_course_blocklist,
@@ -21,6 +23,7 @@ from learning_resources.utils import (
     parse_instructors,
     safe_load_json,
     semester_year_to_date,
+    upsert_platform_data,
 )
 
 
@@ -173,3 +176,17 @@ def test_get_content_type(file_type, output):
     get_content_type should return expected value
     """
     assert get_content_type(file_type) == output
+
+
+@pytest.mark.django_db()
+def test_platform_data():
+    """
+    Test that the platform data is upserted correctly
+    """
+    LearningResourcePlatform.objects.create(code="bad", name="bad platform")
+    assert LearningResourcePlatform.objects.filter(code="bad").count() == 1
+    with Path.open(Path(__file__).parent / "fixtures" / "platforms.json") as inf:
+        expected_count = len(json.load(inf))
+    upsert_platform_data()
+    assert LearningResourcePlatform.objects.count() == expected_count
+    assert LearningResourcePlatform.objects.filter(code="bad").exists() is False
