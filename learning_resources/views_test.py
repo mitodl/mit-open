@@ -573,7 +573,7 @@ def test_platforms_detail_endpoint(client):
 
 
 def test_offerors_list_endpoint(client):
-    """Test platforms list endpoint"""
+    """Test offerors list endpoint"""
     offerors = sorted(
         [
             LearningResourceOfferorFactory.create(code=code)
