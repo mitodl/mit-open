@@ -38,5 +38,5 @@ test("Redirects unauthenticated users to login", async () => {
     })
   })
 
-  expect(loc.assign).toHaveBeenCalledWith(`/login/?next=${initialUrl}`)
+  expect(loc.assign).toHaveBeenCalledWith(`/login/ol-oidc/?next=${initialUrl}`)
 })

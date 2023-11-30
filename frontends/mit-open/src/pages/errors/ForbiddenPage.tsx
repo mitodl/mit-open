@@ -7,7 +7,7 @@ const ForbiddenPage: React.FC = () => {
   const location = useLocation()
   useEffect(() => {
     if (!user.is_authenticated) {
-      window.location.assign(`/login/?next=${location.pathname}`)
+      window.location.assign(`/login/ol-oidc/?next=${location.pathname}`)
     }
   })
   return (
