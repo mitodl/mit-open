@@ -12,5 +12,3 @@ const combinedTheme: CombinedTheme = {
 
 export { combinedTheme }
 export type { CombinedTheme }
-
-export * from "./breakpoints"

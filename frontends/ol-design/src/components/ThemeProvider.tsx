@@ -74,6 +74,8 @@ const custom = {
   muiAppBarZIndex: "11000",
 }
 
+const spacer = 0.05
+
 const themeOptions = {
   custom: custom,
   palette: {
@@ -83,15 +85,21 @@ const themeOptions = {
     secondary: {
       main: "#03152d",
     },
+    testing: "#a31f34",
   },
   breakpoints: {
     values: {
       // These match our theme breakpoints in breakpoints.scss
       xs: 0, // mui default
-      sm: 600, // mui defailt
+      sm: 600, // mui default
       md: 840, // custom
       lg: 1200, // mui default
       xl: 1536, // mui default
+      xsDown: 0 - spacer,
+      smDown: 600 - spacer,
+      mdDown: 840 - spacer,
+      lgDown: 1200 - spacer,
+      xlDown: 1536 - spacer,
     },
   },
   components: {
@@ -101,10 +109,37 @@ const themeOptions = {
   },
 }
 
+/*
+const spacer = 0.05
+
+// Alert! If you change these values, change them in mui.ts, too.
+const breakpoints = {
+  xs: 0,
+  sm: 600,
+  md: 840,
+  lg: 1200,
+  xl: 1536,
+  xsDown: 0 - spacer,
+  smDown: 600 - spacer,
+  mdDown: 840 - spacer,
+  lgDown: 1200 - spacer,
+  xlDown: 1536 - spacer,
+}
+
+export const mediaQueries = {
+  down: (breakpoint: keyof typeof breakpoints) => {
+    return `@media (max-width: ${breakpoints[breakpoint]}px)`
+  },
+  up: (breakpoint: keyof typeof breakpoints) => {
+    return `@media (min-width: ${breakpoints[breakpoint]}px)`
+  },
+}
+*/
+
 /**
  * MaterialUI Theme for MIT Open
  */
-const theme = createTheme(themeOptions)
+export const theme = createTheme(themeOptions)
 
 type ThemeProviderProps = {
   children?: React.ReactNode

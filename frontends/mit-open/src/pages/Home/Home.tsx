@@ -1,8 +1,14 @@
 import React, { useCallback, useState } from "react"
 import styled from "@emotion/styled"
-import { ChipLink, Container, Grid, SearchInput, ThemeProps } from "ol-design"
+import {
+  ChipLink,
+  Container,
+  Grid,
+  SearchInput,
+  ThemeProps,
+  theme,
+} from "ol-design"
 import type { SearchInputProps } from "ol-design"
-import { mediaQueries } from "ol-util"
 import { GridContainer } from "../../components/layout"
 import { useLearningResourcesList } from "api/hooks/learningResources"
 import HomePageCarousel from "./HomePageCarousel"
@@ -122,7 +128,7 @@ const StyledChipLink = styled(ChipLink)`
 
 const FrontPageImage = styled.img`
   height: 435px;
-  ${mediaQueries.down("md")} {
+  ${theme.breakpoints.down("md")} {
     display: none;
   }
 `
