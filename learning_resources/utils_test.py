@@ -189,4 +189,4 @@ def test_platform_data():
         expected_count = len(json.load(inf))
     codes = upsert_platform_data()
     assert LearningResourcePlatform.objects.count() == expected_count == len(codes)
-    assert LearningResourcePlatform.objects.filter(code="bad").exists() is False
+    assert LearningResourcePlatform.objects.filter(code="bad").count() == 0
