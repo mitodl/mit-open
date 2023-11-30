@@ -6898,19 +6898,19 @@ export const DepartmentsApiAxiosParamCreator = function (
     /**
      * MIT academic departments
      * @summary Department details
-     * @param {number} id A unique integer value identifying this learning resource department.
+     * @param {string} department_id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     departmentsRetrieve: async (
-      id: number,
+      department_id: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("departmentsRetrieve", "id", id)
-      const localVarPath = `/api/v1/departments/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
+      // verify required parameter 'department_id' is not null or undefined
+      assertParamExists("departmentsRetrieve", "department_id", department_id)
+      const localVarPath = `/api/v1/departments/{department_id}/`.replace(
+        `{${"department_id"}}`,
+        encodeURIComponent(String(department_id)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -6987,12 +6987,12 @@ export const DepartmentsApiFp = function (configuration?: Configuration) {
     /**
      * MIT academic departments
      * @summary Department details
-     * @param {number} id A unique integer value identifying this learning resource department.
+     * @param {string} department_id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async departmentsRetrieve(
-      id: number,
+      department_id: string,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -7001,7 +7001,10 @@ export const DepartmentsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<LearningResourceDepartment>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.departmentsRetrieve(id, options)
+        await localVarAxiosParamCreator.departmentsRetrieve(
+          department_id,
+          options,
+        )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -7054,7 +7057,7 @@ export const DepartmentsApiFactory = function (
       options?: AxiosRequestConfig,
     ): AxiosPromise<LearningResourceDepartment> {
       return localVarFp
-        .departmentsRetrieve(requestParameters.id, options)
+        .departmentsRetrieve(requestParameters.department_id, options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -7088,11 +7091,11 @@ export interface DepartmentsApiDepartmentsListRequest {
  */
 export interface DepartmentsApiDepartmentsRetrieveRequest {
   /**
-   * A unique integer value identifying this learning resource department.
-   * @type {number}
+   *
+   * @type {string}
    * @memberof DepartmentsApiDepartmentsRetrieve
    */
-  readonly id: number
+  readonly department_id: string
 }
 
 /**
@@ -7136,7 +7139,7 @@ export class DepartmentsApi extends BaseAPI {
     options?: AxiosRequestConfig,
   ) {
     return DepartmentsApiFp(this.configuration)
-      .departmentsRetrieve(requestParameters.id, options)
+      .departmentsRetrieve(requestParameters.department_id, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -13090,27 +13093,27 @@ export class LearningpathsApi extends BaseAPI {
 }
 
 /**
- * OfferersApi - axios parameter creator
+ * OfferorsApi - axios parameter creator
  * @export
  */
-export const OfferersApiAxiosParamCreator = function (
+export const OfferorsApiAxiosParamCreator = function (
   configuration?: Configuration,
 ) {
   return {
     /**
      * MIT organizations that offer learning resources
-     * @summary List of offerers
+     * @summary List of offerors
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    offerersList: async (
+    offerorsList: async (
       limit?: number,
       offset?: number,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v1/offerers/`
+      const localVarPath = `/api/v1/offerors/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -13153,19 +13156,19 @@ export const OfferersApiAxiosParamCreator = function (
     /**
      * MIT organizations that offer learning resources
      * @summary Offerer details
-     * @param {number} id A unique integer value identifying this learning resource offeror.
+     * @param {string} code
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    offerersRetrieve: async (
-      id: number,
+    offerorsRetrieve: async (
+      code: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("offerersRetrieve", "id", id)
-      const localVarPath = `/api/v1/offerers/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
+      // verify required parameter 'code' is not null or undefined
+      assertParamExists("offerorsRetrieve", "code", code)
+      const localVarPath = `/api/v1/offerors/{code}/`.replace(
+        `{${"code"}}`,
+        encodeURIComponent(String(code)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -13202,21 +13205,21 @@ export const OfferersApiAxiosParamCreator = function (
 }
 
 /**
- * OfferersApi - functional programming interface
+ * OfferorsApi - functional programming interface
  * @export
  */
-export const OfferersApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = OfferersApiAxiosParamCreator(configuration)
+export const OfferorsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = OfferorsApiAxiosParamCreator(configuration)
   return {
     /**
      * MIT organizations that offer learning resources
-     * @summary List of offerers
+     * @summary List of offerors
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async offerersList(
+    async offerorsList(
       limit?: number,
       offset?: number,
       options?: AxiosRequestConfig,
@@ -13226,7 +13229,7 @@ export const OfferersApiFp = function (configuration?: Configuration) {
         basePath?: string,
       ) => AxiosPromise<PaginatedLearningResourceOfferorList>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.offerersList(
+      const localVarAxiosArgs = await localVarAxiosParamCreator.offerorsList(
         limit,
         offset,
         options,
@@ -13241,12 +13244,12 @@ export const OfferersApiFp = function (configuration?: Configuration) {
     /**
      * MIT organizations that offer learning resources
      * @summary Offerer details
-     * @param {number} id A unique integer value identifying this learning resource offeror.
+     * @param {string} code
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async offerersRetrieve(
-      id: number,
+    async offerorsRetrieve(
+      code: string,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -13255,7 +13258,7 @@ export const OfferersApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<LearningResourceOfferor>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.offerersRetrieve(id, options)
+        await localVarAxiosParamCreator.offerorsRetrieve(code, options)
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -13267,29 +13270,29 @@ export const OfferersApiFp = function (configuration?: Configuration) {
 }
 
 /**
- * OfferersApi - factory interface
+ * OfferorsApi - factory interface
  * @export
  */
-export const OfferersApiFactory = function (
+export const OfferorsApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance,
 ) {
-  const localVarFp = OfferersApiFp(configuration)
+  const localVarFp = OfferorsApiFp(configuration)
   return {
     /**
      * MIT organizations that offer learning resources
-     * @summary List of offerers
-     * @param {OfferersApiOfferersListRequest} requestParameters Request parameters.
+     * @summary List of offerors
+     * @param {OfferorsApiOfferorsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    offerersList(
-      requestParameters: OfferersApiOfferersListRequest = {},
+    offerorsList(
+      requestParameters: OfferorsApiOfferorsListRequest = {},
       options?: AxiosRequestConfig,
     ): AxiosPromise<PaginatedLearningResourceOfferorList> {
       return localVarFp
-        .offerersList(
+        .offerorsList(
           requestParameters.limit,
           requestParameters.offset,
           options,
@@ -13299,94 +13302,94 @@ export const OfferersApiFactory = function (
     /**
      * MIT organizations that offer learning resources
      * @summary Offerer details
-     * @param {OfferersApiOfferersRetrieveRequest} requestParameters Request parameters.
+     * @param {OfferorsApiOfferorsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    offerersRetrieve(
-      requestParameters: OfferersApiOfferersRetrieveRequest,
+    offerorsRetrieve(
+      requestParameters: OfferorsApiOfferorsRetrieveRequest,
       options?: AxiosRequestConfig,
     ): AxiosPromise<LearningResourceOfferor> {
       return localVarFp
-        .offerersRetrieve(requestParameters.id, options)
+        .offerorsRetrieve(requestParameters.code, options)
         .then((request) => request(axios, basePath))
     },
   }
 }
 
 /**
- * Request parameters for offerersList operation in OfferersApi.
+ * Request parameters for offerorsList operation in OfferorsApi.
  * @export
- * @interface OfferersApiOfferersListRequest
+ * @interface OfferorsApiOfferorsListRequest
  */
-export interface OfferersApiOfferersListRequest {
+export interface OfferorsApiOfferorsListRequest {
   /**
    * Number of results to return per page.
    * @type {number}
-   * @memberof OfferersApiOfferersList
+   * @memberof OfferorsApiOfferorsList
    */
   readonly limit?: number
 
   /**
    * The initial index from which to return the results.
    * @type {number}
-   * @memberof OfferersApiOfferersList
+   * @memberof OfferorsApiOfferorsList
    */
   readonly offset?: number
 }
 
 /**
- * Request parameters for offerersRetrieve operation in OfferersApi.
+ * Request parameters for offerorsRetrieve operation in OfferorsApi.
  * @export
- * @interface OfferersApiOfferersRetrieveRequest
+ * @interface OfferorsApiOfferorsRetrieveRequest
  */
-export interface OfferersApiOfferersRetrieveRequest {
+export interface OfferorsApiOfferorsRetrieveRequest {
   /**
-   * A unique integer value identifying this learning resource offeror.
-   * @type {number}
-   * @memberof OfferersApiOfferersRetrieve
+   *
+   * @type {string}
+   * @memberof OfferorsApiOfferorsRetrieve
    */
-  readonly id: number
+  readonly code: string
 }
 
 /**
- * OfferersApi - object-oriented interface
+ * OfferorsApi - object-oriented interface
  * @export
- * @class OfferersApi
+ * @class OfferorsApi
  * @extends {BaseAPI}
  */
-export class OfferersApi extends BaseAPI {
+export class OfferorsApi extends BaseAPI {
   /**
    * MIT organizations that offer learning resources
-   * @summary List of offerers
-   * @param {OfferersApiOfferersListRequest} requestParameters Request parameters.
+   * @summary List of offerors
+   * @param {OfferorsApiOfferorsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof OfferersApi
+   * @memberof OfferorsApi
    */
-  public offerersList(
-    requestParameters: OfferersApiOfferersListRequest = {},
+  public offerorsList(
+    requestParameters: OfferorsApiOfferorsListRequest = {},
     options?: AxiosRequestConfig,
   ) {
-    return OfferersApiFp(this.configuration)
-      .offerersList(requestParameters.limit, requestParameters.offset, options)
+    return OfferorsApiFp(this.configuration)
+      .offerorsList(requestParameters.limit, requestParameters.offset, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
    * MIT organizations that offer learning resources
    * @summary Offerer details
-   * @param {OfferersApiOfferersRetrieveRequest} requestParameters Request parameters.
+   * @param {OfferorsApiOfferorsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof OfferersApi
+   * @memberof OfferorsApi
    */
-  public offerersRetrieve(
-    requestParameters: OfferersApiOfferersRetrieveRequest,
+  public offerorsRetrieve(
+    requestParameters: OfferorsApiOfferorsRetrieveRequest,
     options?: AxiosRequestConfig,
   ) {
-    return OfferersApiFp(this.configuration)
-      .offerersRetrieve(requestParameters.id, options)
+    return OfferorsApiFp(this.configuration)
+      .offerorsRetrieve(requestParameters.code, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

@@ -579,7 +579,7 @@ class WebhookOCWNextView(views.APIView):
 
 @extend_schema_view(
     list=extend_schema(summary="List of departments"),
-    retrieve=extend_schema(summary="Department details"),
+    retrieve=extend_schema(summary="Department details", parameters=[]),
 )
 class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -590,6 +590,8 @@ class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceDepartmentSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
+    lookup_url_kwarg = "department_id"
+    lookup_field = "department_id__iexact"
 
 
 @extend_schema_view(
@@ -608,7 +610,7 @@ class PlatformViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(summary="List of offerers"),
+    list=extend_schema(summary="List of offerors"),
     retrieve=extend_schema(summary="Offerer details"),
 )
 class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
@@ -620,3 +622,4 @@ class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceOfferorSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
+    lookup_field = "code"

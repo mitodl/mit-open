@@ -6,6 +6,7 @@ from rest_framework.reverse import reverse
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
+    OfferedBy,
     PlatformType,
 )
 from learning_resources.exceptions import WebhookException
@@ -508,6 +509,13 @@ def test_topics_list_endpoint(client):
         )
 
 
+def test_topics_detail_endpoint(client):
+    """Test topics detail endpoint"""
+    topic = LearningResourceTopicFactory.create()
+    resp = client.get(reverse("lr_topics_api-detail", args=[topic.pk]))
+    assert resp.data == LearningResourceTopicSerializer(instance=topic).data
+
+
 def test_departments_list_endpoint(client):
     """Test departments list endpoint"""
     departments = sorted(
@@ -524,15 +532,31 @@ def test_departments_list_endpoint(client):
         )
 
 
+def test_departments_detail_endpoint(client):
+    """Test departments detail endpoint"""
+    department = LearningResourceDepartmentFactory.create(
+        department_id="ABC", name="Alpha Beta Charlie"
+    )
+
+    for dept_id in ("abc", "aBc", "ABC"):
+        resp = client.get(reverse("lr_departments_api-detail", args=[dept_id]))
+        assert (
+            resp.data == LearningResourceDepartmentSerializer(instance=department).data
+        )
+
+
 def test_platforms_list_endpoint(client):
     """Test platforms list endpoint"""
     platforms = sorted(
-        LearningResourcePlatformFactory.create_batch(3),
+        [
+            LearningResourcePlatformFactory.create(code=code)
+            for code in PlatformType.names()
+        ],
         key=lambda platform: platform.code,
     )
 
     resp = client.get(reverse("lr_platforms_api-list"))
-    assert resp.data.get("count") == 3
+    assert resp.data.get("count") == len(platforms)
     for i in range(3):
         assert (
             resp.data.get("results")[i]
@@ -540,17 +564,36 @@ def test_platforms_list_endpoint(client):
         )
 
 
-def test_offerers_list_endpoint(client):
+def test_platforms_detail_endpoint(client):
+    """Test platforms detail endpoint"""
+    platform = LearningResourcePlatformFactory.create()
+
+    resp = client.get(reverse("lr_platforms_api-detail", args=[platform.pk]))
+    assert resp.data == LearningResourcePlatformSerializer(instance=platform).data
+
+
+def test_offerors_list_endpoint(client):
     """Test platforms list endpoint"""
-    offerers = sorted(
-        LearningResourceOfferorFactory.create_batch(3),
-        key=lambda offerer: offerer.code,
+    offerors = sorted(
+        [
+            LearningResourceOfferorFactory.create(code=code)
+            for code in OfferedBy.names()
+        ],
+        key=lambda offeror: offeror.code,
     )
 
-    resp = client.get(reverse("lr_offerers_api-list"))
-    assert resp.data.get("count") == 3
+    resp = client.get(reverse("lr_offerors_api-list"))
+    assert resp.data.get("count") == len(offerors)
     for i in range(3):
         assert (
             resp.data.get("results")[i]
-            == LearningResourceOfferorSerializer(instance=offerers[i]).data
+            == LearningResourceOfferorSerializer(instance=offerors[i]).data
         )
+
+
+def test_offerors_detail_endpoint(client):
+    """Test offerors detail endpoint"""
+    offeror = LearningResourceOfferorFactory.create()
+
+    resp = client.get(reverse("lr_offerors_api-detail", args=[offeror.code]))
+    assert resp.data == LearningResourceOfferorSerializer(instance=offeror).data

@@ -1018,17 +1018,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceDepartmentList'
           description: ''
-  /api/v1/departments/{id}/:
+  /api/v1/departments/{department_id}/:
     get:
       operationId: departments_retrieve
       description: MIT academic departments
       summary: Department details
       parameters:
       - in: path
-        name: id
+        name: department_id
         schema:
-          type: integer
-        description: A unique integer value identifying this learning resource department.
+          type: string
         required: true
       tags:
       - departments
@@ -2832,11 +2831,11 @@ paths:
       responses:
         '204':
           description: No response body
-  /api/v1/offerers/:
+  /api/v1/offerors/:
     get:
-      operationId: offerers_list
+      operationId: offerors_list
       description: MIT organizations that offer learning resources
-      summary: List of offerers
+      summary: List of offerors
       parameters:
       - name: limit
         required: false
@@ -2851,7 +2850,7 @@ paths:
         schema:
           type: integer
       tags:
-      - offerers
+      - offerors
       security:
       - cookieAuth: []
       responses:
@@ -2861,20 +2860,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceOfferorList'
           description: ''
-  /api/v1/offerers/{id}/:
+  /api/v1/offerors/{code}/:
     get:
-      operationId: offerers_retrieve
+      operationId: offerors_retrieve
       description: MIT organizations that offer learning resources
       summary: Offerer details
       parameters:
       - in: path
-        name: id
+        name: code
         schema:
-          type: integer
-        description: A unique integer value identifying this learning resource offeror.
+          type: string
         required: true
       tags:
-      - offerers
+      - offerors
       security:
       - cookieAuth: []
       responses:
