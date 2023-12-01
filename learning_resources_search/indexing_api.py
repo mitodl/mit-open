@@ -23,7 +23,6 @@ from learning_resources_search.connection import (
 from learning_resources_search.constants import (
     ALIAS_ALL_INDICES,
     COURSE_TYPE,
-    GLOBAL_DOC_TYPE,
     LEARNING_RESOURCE_TYPES,
     MAPPING,
     IndexestoUpdate,
@@ -57,7 +56,6 @@ def _update_document_by_id(doc_id, body, object_type, *, retry_on_conflict=0, **
         try:
             conn.update(
                 index=alias,
-                doc_type=GLOBAL_DOC_TYPE,
                 body=body,
                 id=doc_id,
                 params={"retry_on_conflict": retry_on_conflict, **kwargs},
@@ -124,11 +122,9 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
         }
     }
     if not skip_mapping:
-        index_create_data["mappings"] = {
-            GLOBAL_DOC_TYPE: {"properties": MAPPING[object_type]}
-        }
+        index_create_data["mappings"] = {"properties": MAPPING[object_type]}
     # from https://www.elastic.co/guide/en/elasticsearch/guide/current/asciifolding-token-filter.html
-    conn.indices.create(index_name, body=index_create_data, include_type_name=True)
+    conn.indices.create(index_name, body=index_create_data)
 
 
 def upsert_document(doc_id, doc, object_type, *, retry_on_conflict=0, **kwargs):
@@ -222,7 +218,6 @@ def index_items(documents, object_type, index_types, **kwargs):
                     conn,
                     chunk,
                     index=alias,
-                    doc_type=GLOBAL_DOC_TYPE,
                     chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
                     **kwargs,
                 )
@@ -356,7 +351,7 @@ def deindex_document(doc_id, object_type, **kwargs):
     conn = get_conn()
     for alias in get_active_aliases(conn, object_types=[object_type]):
         try:
-            conn.delete(index=alias, doc_type=GLOBAL_DOC_TYPE, id=doc_id, params=kwargs)
+            conn.delete(index=alias, id=doc_id, params=kwargs)
         except NotFoundError:
             log.debug(
                 "Tried to delete an ES document that didn't exist, doc_id: '%s'", doc_id
