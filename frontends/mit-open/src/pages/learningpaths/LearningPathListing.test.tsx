@@ -37,11 +37,11 @@ const setup = ({
 
   setMockResponse.get(urls.learningPaths.list(), paths)
 
-  const { history } = renderWithProviders(<LearningPathListingPage />, {
+  const { location } = renderWithProviders(<LearningPathListingPage />, {
     user,
   })
 
-  return { paths, history }
+  return { paths, location }
 }
 
 describe("LearningPathListingPage", () => {
@@ -147,11 +147,11 @@ describe("LearningPathListingPage", () => {
   })
 
   test("Clicking on list title navigates to list page", async () => {
-    const { history, paths } = setup()
+    const { location, paths } = setup()
     const path = faker.helpers.arrayElement(paths.results)
     const listTitle = await screen.findByRole("heading", { name: path.title })
     await user.click(listTitle)
-    expect(history.location).toEqual(
+    expect(location.current).toEqual(
       expect.objectContaining({
         pathname: `/learningpaths/${path.id}`,
         search: "",

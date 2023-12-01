@@ -3,8 +3,7 @@ import { render, screen } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import { SimpleMenu } from "./SimpleMenu"
 import type { SimpleMenuItem } from "./SimpleMenu"
-import { Router } from "react-router"
-import { createMemoryHistory } from "history"
+import { RouterProvider, createMemoryRouter } from "react-router"
 
 describe("SimpleMenu", () => {
   it("Opens the menu when trigger is clicked", async () => {
@@ -39,7 +38,6 @@ describe("SimpleMenu", () => {
   ])(
     "Renders links and accepts strings or location objects",
     async ({ loc, expectedLoc }) => {
-      const history = createMemoryHistory()
       const items: SimpleMenuItem[] = [
         { key: "one", label: "Item 1" },
         { key: "two", label: "Item 2" },
@@ -48,15 +46,25 @@ describe("SimpleMenu", () => {
         one: loc,
         two: jest.fn(),
       }
-      render(
-        <Router history={history}>
-          <SimpleMenu
-            trigger={<button>Open Menu</button>}
-            items={items}
-            actionsOrLinks={actionsOrLinks}
-          />
-        </Router>,
-      )
+
+      const router = createMemoryRouter([
+        {
+          path: "/",
+          element: (
+            <SimpleMenu
+              trigger={<button>Open Menu</button>}
+              items={items}
+              actionsOrLinks={actionsOrLinks}
+            />
+          ),
+        },
+        {
+          path: "*",
+          element: null,
+        },
+      ])
+
+      render(<RouterProvider router={router} />)
 
       await user.click(screen.getByRole("button", { name: "Open Menu" }))
 
@@ -66,7 +74,9 @@ describe("SimpleMenu", () => {
       expect(menuItems.length).toBe(2)
       const [link] = links
       await user.click(link)
-      expect(history.location).toEqual(expect.objectContaining(expectedLoc))
+      expect(router.state.location).toEqual(
+        expect.objectContaining(expectedLoc),
+      )
     },
   )
 

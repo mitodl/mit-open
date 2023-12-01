@@ -1,19 +1,11 @@
-import React from "react"
-import { renderWithProviders, screen, waitFor } from "../../test-utils"
-import ArticleDetailsPage from "./ArticleDetailsPage"
-import { Route } from "react-router"
+import { renderTestApp, screen, waitFor } from "../../test-utils"
 import type { Article } from "api"
 import { articles as factory } from "api/test-utils/factories"
 import { setMockResponse, urls } from "api/test-utils"
 
 const setup = ({ article }: { article: Article }) => {
   setMockResponse.get(urls.articles.details(article.id), article)
-  renderWithProviders(
-    <Route path="/article/:id">
-      <ArticleDetailsPage />
-    </Route>,
-    { url: `/article/${article.id}` },
-  )
+  renderTestApp({ url: `/articles/${article.id}` })
 }
 
 describe("ArticleDetailsPage", () => {

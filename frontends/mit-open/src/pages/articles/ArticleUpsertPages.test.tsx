@@ -1,13 +1,13 @@
 import React from "react"
 import {
+  renderRoutesWithProviders,
   renderWithProviders,
   screen,
   user,
   waitFor,
   within,
 } from "../../test-utils"
-import { ArticleEditingPage, ArticlesCreatePage } from "./ArticleUpsertPages"
-import { Route } from "react-router"
+import { ArticlesCreatePage, ArticleEditingPage } from "./ArticleUpsertPages"
 import type { Article } from "api"
 import { articles as factory } from "api/test-utils/factories"
 import { makeRequest, setMockResponse, urls } from "api/test-utils"
@@ -16,11 +16,18 @@ import { getDescriptionFor } from "ol-util/test-utils"
 describe("ArticlesEditPage", () => {
   const setup = ({ article }: { article: Article }) => {
     setMockResponse.get(urls.articles.details(article.id), article)
-    renderWithProviders(
-      <Route path="/article/:id/edit">
-        <ArticleEditingPage />
-      </Route>,
-      { url: `/article/${article.id}/edit` },
+    renderRoutesWithProviders(
+      [
+        {
+          path: "/articles/:id/edit",
+          element: <ArticleEditingPage />,
+        },
+        {
+          path: "*",
+          element: null,
+        },
+      ],
+      { url: `/articles/${article.id}/edit` },
     )
   }
 
@@ -131,7 +138,7 @@ describe("ArticlesCreatePage", () => {
 
   test("Calls creation endpoint when saved", async () => {
     const article = factory.article()
-    const { history } = renderWithProviders(<ArticlesCreatePage />)
+    const { location } = renderWithProviders(<ArticlesCreatePage />)
     const titleInput = await screen.findByLabelText(/Title/)
     const bodyInput = screen.getByTestId("mock-ckeditor")
     const saveButton = screen.getByRole("button", { name: "Save" })
@@ -148,6 +155,6 @@ describe("ArticlesCreatePage", () => {
       html: article.html,
     })
 
-    expect(history.location.pathname).toBe(`/articles/${article.id}`)
+    expect(location.current.pathname).toBe(`/articles/${article.id}`)
   })
 })

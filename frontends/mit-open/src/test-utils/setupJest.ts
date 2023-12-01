@@ -8,11 +8,14 @@ import { makeUserSettings } from "./factories"
 setupMockEditors()
 
 jest.mock("axios", () => {
+  const AxiosError = jest.requireActual("axios").AxiosError
   return {
     __esModule: true,
     default: {
       create: () => mockAxiosInstance,
+      AxiosError,
     },
+    AxiosError,
   }
 })
 

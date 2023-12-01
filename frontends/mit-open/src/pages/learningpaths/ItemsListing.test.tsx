@@ -115,7 +115,7 @@ describe("Sorting ItemListing", () => {
       emptyMessage,
     }
     const allProps = { ...defaultProps, ...props }
-    const { history } = renderWithProviders(<ItemsListing {...allProps} />)
+    renderWithProviders(<ItemsListing {...allProps} />)
 
     const onSortEnd = spySortableList.mock.lastCall?.[0]?.onSortEnd
     invariant(onSortEnd)
@@ -147,7 +147,7 @@ describe("Sorting ItemListing", () => {
         id,
       })
 
-    return { history, simulateDrag, items, patchUrl }
+    return { simulateDrag, items, patchUrl }
   }
 
   test("Dragging an item to a new position calls API correctly", async () => {

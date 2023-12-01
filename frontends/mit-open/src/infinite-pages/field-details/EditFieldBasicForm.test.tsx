@@ -89,7 +89,7 @@ describe("EditFieldBasicForm", () => {
   })
 
   it("updates field values on form submission", async () => {
-    const { history } = renderTestApp({
+    const { location } = renderTestApp({
       url: `/infinite${urls.fieldDetails(field.name)}manage/#basic`,
     })
     const featuredListSelector = (await screen.findByLabelText(
@@ -126,7 +126,7 @@ describe("EditFieldBasicForm", () => {
     const submitBtn = screen.getByText("Save")
     await user.click(submitBtn)
     await waitFor(() => {
-      expect(history.location.pathname).toBe(makeFieldViewPath(field.name))
+      expect(location.current.pathname).toBe(makeFieldViewPath(field.name))
     })
     // New featured list title should appear twice now
     const featuredListTitle = await screen.findAllByText(

@@ -72,7 +72,7 @@ describe("EditFieldAppearanceForm", () => {
       public_description: newDesc,
     }
     setMockResponse.patch(urls.fieldDetails(field.name), updatedValues)
-    const { history } = renderTestApp({
+    const { location } = renderTestApp({
       url: `/infinite${urls.fieldDetails(field.name)}manage/#appearance`,
     })
     const titleInput = (await screen.findByLabelText(
@@ -91,7 +91,7 @@ describe("EditFieldAppearanceForm", () => {
     await user.click(submitBtn)
 
     await waitFor(() => {
-      expect(history.location.pathname).toBe(makeFieldViewPath(field.name))
+      expect(location.current.pathname).toBe(makeFieldViewPath(field.name))
     })
     await screen.findByText(newTitle)
     await screen.findByText(newDesc)

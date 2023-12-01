@@ -44,6 +44,7 @@
     "@types/url-assembler": "^2.1.1",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "casual-browserify": "^1.5.19-2",
+    "cross-fetch": "^4.0.0",
     "css-mediaquery": "^0.1.2",
     "eslint": "^8.18.0",
     "eslint-config-mitodl": "^1.0.0",

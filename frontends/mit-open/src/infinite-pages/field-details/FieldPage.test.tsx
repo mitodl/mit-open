@@ -235,12 +235,12 @@ describe("FieldPage", () => {
     async ({ btnName }) => {
       const { field } = setupApis()
       const url = `/infinite/fields/${field.name}/manage/widgets/`
-      const { history } = renderTestApp({ url })
+      const { location } = renderTestApp({ url })
       // click done without an edit
       await user.click(await screen.findByRole("button", { name: btnName }))
 
       await waitFor(() => {
-        expect(history.location.pathname).toEndWith(`/fields/${field.name}/`)
+        expect(location.current.pathname).toEndWith(`/fields/${field.name}/`)
       })
     },
   )

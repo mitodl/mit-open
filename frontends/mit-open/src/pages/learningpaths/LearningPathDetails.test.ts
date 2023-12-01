@@ -52,12 +52,11 @@ const setup = ({
   setMockResponse.get(detailsUrl, path)
   setMockResponse.get(pathResourcesUrl, paginatedRelationships)
 
-  const { history, queryClient } = renderTestApp({
+  const { queryClient } = renderTestApp({
     user: userSettings,
     url: learningPathsView(path.id),
   })
   return {
-    history,
     paginatedRelationships,
     queryClient,
     pathResourcesUrl,

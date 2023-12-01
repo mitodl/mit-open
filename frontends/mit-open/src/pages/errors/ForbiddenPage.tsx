@@ -1,29 +1,20 @@
-import React from "react"
-import { Container, Card, CardContent, CardActions } from "ol-design"
-
-import { ButtonLink } from "ol-design"
-
-import { HOME } from "../urls"
-import { MetaTags } from "ol-util"
+import React, { useEffect } from "react"
+import ErrorPageTemplate from "./ErrorPageTemplate"
+import { useLocation } from "react-router"
 
 const ForbiddenPage: React.FC = () => {
+  const { user } = window.SETTINGS
+  const location = useLocation()
+  useEffect(() => {
+    if (!user.is_authenticated) {
+      window.location.assign(`/login/ol-oidc/?next=${location.pathname}`)
+    }
+  })
   return (
-    <Container maxWidth="sm">
-      <Card sx={{ marginTop: "1rem" }}>
-        <MetaTags>
-          <meta name="robots" content="noindex,noarchive" />
-        </MetaTags>
-        <CardContent>
-          <h1>403 Forbidden Error</h1>
-          You do not have permission to access this resource.
-        </CardContent>
-        <CardActions>
-          <ButtonLink variant="outlined" to={HOME}>
-            Home
-          </ButtonLink>
-        </CardActions>
-      </Card>
-    </Container>
+    <ErrorPageTemplate title="Forbidden">
+      <h1>403 Forbidden Error</h1>
+      You do not have permission to access this resource.
+    </ErrorPageTemplate>
   )
 }
 

@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { useHistory, useLocation, useParams } from "react-router"
+import { useNavigate, useLocation, useParams } from "react-router"
 import { Link } from "react-router-dom"
 import { Container, Tab, TabList, TabContext, TabPanel } from "ol-design"
 
@@ -10,6 +10,7 @@ import { useFieldDetails } from "../../api/fields"
 import EditFieldAppearanceForm from "./EditFieldAppearanceForm"
 import EditFieldBasicForm from "./EditFieldBasicForm"
 import FieldPageSkeleton from "./FieldPageSkeleton"
+import invariant from "tiny-invariant"
 
 type RouteParams = {
   name: string
@@ -23,15 +24,16 @@ const keyFromHash = (hash: string) => {
 
 const EditFieldPage: React.FC = () => {
   const { name } = useParams<RouteParams>()
-  const history = useHistory()
+  invariant(name, "Route parameter should be defined")
+  const navigate = useNavigate()
   const { hash } = useLocation()
   const tabValue = keyFromHash(hash)
   const field = useFieldDetails(name)
   const handleChange = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
-      history.replace({ hash: newValue })
+      navigate({ hash: newValue }, { replace: true })
     },
-    [history],
+    [navigate],
   )
 
   return field.data ? (

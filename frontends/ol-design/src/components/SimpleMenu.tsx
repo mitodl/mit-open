@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import invariant from "tiny-invariant"
 import { Link } from "react-router-dom"
-import type { LocationDescriptor } from "history"
+import { LinkProps } from "react-router-dom"
 
 interface SimpleMenuItem<K extends string = string> {
   key: K
@@ -15,7 +15,7 @@ interface SimpleMenuItem<K extends string = string> {
 
 type SimpleMenuProps<K extends string> = {
   items: SimpleMenuItem<K>[]
-  actionsOrLinks: Record<K, LocationDescriptor | (() => void)>
+  actionsOrLinks: Record<K, LinkProps["to"] | (() => void)>
   trigger: React.ReactElement
 }
 

@@ -1,11 +1,9 @@
 import React from "react"
-import { Router } from "react-router"
-import { createMemoryHistory } from "history"
-import { render, screen, waitFor } from "@testing-library/react"
+import { screen, waitFor } from "@testing-library/react"
 
 import { urls } from "../../../api/fields"
 import * as factories from "../../../api/fields/factories"
-import { setMockResponse, user } from "../../../test-utils"
+import { setMockResponse, renderWithProviders, user } from "../../../test-utils"
 import FieldMenu from "./FieldMenu"
 import { assertInstanceOf } from "ol-util"
 
@@ -13,12 +11,7 @@ describe("FieldMenu", () => {
   it("Includes links to field management and widget management", async () => {
     const field = factories.makeField()
     setMockResponse.get(urls.fieldDetails(field.name), field)
-    const history = createMemoryHistory()
-    render(
-      <Router history={history}>
-        <FieldMenu field={field} />
-      </Router>,
-    )
+    renderWithProviders(<FieldMenu field={field} />)
     const dropdown = await screen.findByRole("button", { name: "Settings" })
     await user.click(dropdown)
     const links = await waitFor(async () => {
@@ -28,9 +21,15 @@ describe("FieldMenu", () => {
       return found as HTMLAnchorElement[]
     })
 
-    expect(links[0].href).toContain(`/infinite/fields/${field.name}/manage/`)
-    expect(links[1].href).toContain(
-      `/infinite/fields/${field.name}/manage/widgets/`,
+    expect(new URL(links[0].href)).toEqual(
+      expect.objectContaining({
+        pathname: `/infinite/fields/${field.name}/manage`,
+      }),
+    )
+    expect(new URL(links[1].href)).toEqual(
+      expect.objectContaining({
+        pathname: `/infinite/fields/${field.name}/manage/widgets`,
+      }),
     )
   })
 })
