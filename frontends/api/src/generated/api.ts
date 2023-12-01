@@ -2025,6 +2025,37 @@ export interface PaginatedLearningResourceChildList {
 /**
  *
  * @export
+ * @interface PaginatedLearningResourceDepartmentList
+ */
+export interface PaginatedLearningResourceDepartmentList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedLearningResourceDepartmentList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceDepartmentList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceDepartmentList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<LearningResourceDepartment>}
+   * @memberof PaginatedLearningResourceDepartmentList
+   */
+  results?: Array<LearningResourceDepartment>
+}
+/**
+ *
+ * @export
  * @interface PaginatedLearningResourceList
  */
 export interface PaginatedLearningResourceList {
@@ -2052,6 +2083,68 @@ export interface PaginatedLearningResourceList {
    * @memberof PaginatedLearningResourceList
    */
   results?: Array<LearningResource>
+}
+/**
+ *
+ * @export
+ * @interface PaginatedLearningResourceOfferorList
+ */
+export interface PaginatedLearningResourceOfferorList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedLearningResourceOfferorList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceOfferorList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceOfferorList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<LearningResourceOfferor>}
+   * @memberof PaginatedLearningResourceOfferorList
+   */
+  results?: Array<LearningResourceOfferor>
+}
+/**
+ *
+ * @export
+ * @interface PaginatedLearningResourcePlatformList
+ */
+export interface PaginatedLearningResourcePlatformList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedLearningResourcePlatformList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourcePlatformList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourcePlatformList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<LearningResourcePlatform>}
+   * @memberof PaginatedLearningResourcePlatformList
+   */
+  results?: Array<LearningResourcePlatform>
 }
 /**
  *
@@ -6737,6 +6830,316 @@ export class CoursesApi extends BaseAPI {
         requestParameters.sortby,
         options,
       )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * DepartmentsApi - axios parameter creator
+ * @export
+ */
+export const DepartmentsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * MIT academic departments
+     * @summary List of departments
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    departmentsList: async (
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/departments/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * MIT academic departments
+     * @summary Department details
+     * @param {string} department_id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    departmentsRetrieve: async (
+      department_id: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'department_id' is not null or undefined
+      assertParamExists("departmentsRetrieve", "department_id", department_id)
+      const localVarPath = `/api/v1/departments/{department_id}/`.replace(
+        `{${"department_id"}}`,
+        encodeURIComponent(String(department_id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * DepartmentsApi - functional programming interface
+ * @export
+ */
+export const DepartmentsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    DepartmentsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * MIT academic departments
+     * @summary List of departments
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async departmentsList(
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceDepartmentList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.departmentsList(
+        limit,
+        offset,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * MIT academic departments
+     * @summary Department details
+     * @param {string} department_id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async departmentsRetrieve(
+      department_id: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResourceDepartment>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.departmentsRetrieve(
+          department_id,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * DepartmentsApi - factory interface
+ * @export
+ */
+export const DepartmentsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = DepartmentsApiFp(configuration)
+  return {
+    /**
+     * MIT academic departments
+     * @summary List of departments
+     * @param {DepartmentsApiDepartmentsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    departmentsList(
+      requestParameters: DepartmentsApiDepartmentsListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceDepartmentList> {
+      return localVarFp
+        .departmentsList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * MIT academic departments
+     * @summary Department details
+     * @param {DepartmentsApiDepartmentsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    departmentsRetrieve(
+      requestParameters: DepartmentsApiDepartmentsRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<LearningResourceDepartment> {
+      return localVarFp
+        .departmentsRetrieve(requestParameters.department_id, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for departmentsList operation in DepartmentsApi.
+ * @export
+ * @interface DepartmentsApiDepartmentsListRequest
+ */
+export interface DepartmentsApiDepartmentsListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof DepartmentsApiDepartmentsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof DepartmentsApiDepartmentsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for departmentsRetrieve operation in DepartmentsApi.
+ * @export
+ * @interface DepartmentsApiDepartmentsRetrieveRequest
+ */
+export interface DepartmentsApiDepartmentsRetrieveRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof DepartmentsApiDepartmentsRetrieve
+   */
+  readonly department_id: string
+}
+
+/**
+ * DepartmentsApi - object-oriented interface
+ * @export
+ * @class DepartmentsApi
+ * @extends {BaseAPI}
+ */
+export class DepartmentsApi extends BaseAPI {
+  /**
+   * MIT academic departments
+   * @summary List of departments
+   * @param {DepartmentsApiDepartmentsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DepartmentsApi
+   */
+  public departmentsList(
+    requestParameters: DepartmentsApiDepartmentsListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return DepartmentsApiFp(this.configuration)
+      .departmentsList(
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * MIT academic departments
+   * @summary Department details
+   * @param {DepartmentsApiDepartmentsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DepartmentsApi
+   */
+  public departmentsRetrieve(
+    requestParameters: DepartmentsApiDepartmentsRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return DepartmentsApiFp(this.configuration)
+      .departmentsRetrieve(requestParameters.department_id, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -12690,6 +13093,610 @@ export class LearningpathsApi extends BaseAPI {
 }
 
 /**
+ * OfferorsApi - axios parameter creator
+ * @export
+ */
+export const OfferorsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * MIT organizations that offer learning resources
+     * @summary List of offerors
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    offerorsList: async (
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/offerors/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * MIT organizations that offer learning resources
+     * @summary Offerer details
+     * @param {string} code
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    offerorsRetrieve: async (
+      code: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'code' is not null or undefined
+      assertParamExists("offerorsRetrieve", "code", code)
+      const localVarPath = `/api/v1/offerors/{code}/`.replace(
+        `{${"code"}}`,
+        encodeURIComponent(String(code)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * OfferorsApi - functional programming interface
+ * @export
+ */
+export const OfferorsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = OfferorsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * MIT organizations that offer learning resources
+     * @summary List of offerors
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async offerorsList(
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceOfferorList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.offerorsList(
+        limit,
+        offset,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * MIT organizations that offer learning resources
+     * @summary Offerer details
+     * @param {string} code
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async offerorsRetrieve(
+      code: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResourceOfferor>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.offerorsRetrieve(code, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * OfferorsApi - factory interface
+ * @export
+ */
+export const OfferorsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = OfferorsApiFp(configuration)
+  return {
+    /**
+     * MIT organizations that offer learning resources
+     * @summary List of offerors
+     * @param {OfferorsApiOfferorsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    offerorsList(
+      requestParameters: OfferorsApiOfferorsListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceOfferorList> {
+      return localVarFp
+        .offerorsList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * MIT organizations that offer learning resources
+     * @summary Offerer details
+     * @param {OfferorsApiOfferorsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    offerorsRetrieve(
+      requestParameters: OfferorsApiOfferorsRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<LearningResourceOfferor> {
+      return localVarFp
+        .offerorsRetrieve(requestParameters.code, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for offerorsList operation in OfferorsApi.
+ * @export
+ * @interface OfferorsApiOfferorsListRequest
+ */
+export interface OfferorsApiOfferorsListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof OfferorsApiOfferorsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof OfferorsApiOfferorsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for offerorsRetrieve operation in OfferorsApi.
+ * @export
+ * @interface OfferorsApiOfferorsRetrieveRequest
+ */
+export interface OfferorsApiOfferorsRetrieveRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof OfferorsApiOfferorsRetrieve
+   */
+  readonly code: string
+}
+
+/**
+ * OfferorsApi - object-oriented interface
+ * @export
+ * @class OfferorsApi
+ * @extends {BaseAPI}
+ */
+export class OfferorsApi extends BaseAPI {
+  /**
+   * MIT organizations that offer learning resources
+   * @summary List of offerors
+   * @param {OfferorsApiOfferorsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof OfferorsApi
+   */
+  public offerorsList(
+    requestParameters: OfferorsApiOfferorsListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return OfferorsApiFp(this.configuration)
+      .offerorsList(requestParameters.limit, requestParameters.offset, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * MIT organizations that offer learning resources
+   * @summary Offerer details
+   * @param {OfferorsApiOfferorsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof OfferorsApi
+   */
+  public offerorsRetrieve(
+    requestParameters: OfferorsApiOfferorsRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return OfferorsApiFp(this.configuration)
+      .offerorsRetrieve(requestParameters.code, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * PlatformsApi - axios parameter creator
+ * @export
+ */
+export const PlatformsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Platforms on which learning resources are hosted
+     * @summary List of platforms
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    platformsList: async (
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/platforms/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Platforms on which learning resources are hosted
+     * @summary Platform details
+     * @param {string} code A unique value identifying this learning resource platform.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    platformsRetrieve: async (
+      code: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'code' is not null or undefined
+      assertParamExists("platformsRetrieve", "code", code)
+      const localVarPath = `/api/v1/platforms/{code}/`.replace(
+        `{${"code"}}`,
+        encodeURIComponent(String(code)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication cookieAuth required
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * PlatformsApi - functional programming interface
+ * @export
+ */
+export const PlatformsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = PlatformsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Platforms on which learning resources are hosted
+     * @summary List of platforms
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async platformsList(
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourcePlatformList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.platformsList(
+        limit,
+        offset,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Platforms on which learning resources are hosted
+     * @summary Platform details
+     * @param {string} code A unique value identifying this learning resource platform.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async platformsRetrieve(
+      code: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResourcePlatform>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.platformsRetrieve(code, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * PlatformsApi - factory interface
+ * @export
+ */
+export const PlatformsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = PlatformsApiFp(configuration)
+  return {
+    /**
+     * Platforms on which learning resources are hosted
+     * @summary List of platforms
+     * @param {PlatformsApiPlatformsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    platformsList(
+      requestParameters: PlatformsApiPlatformsListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourcePlatformList> {
+      return localVarFp
+        .platformsList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Platforms on which learning resources are hosted
+     * @summary Platform details
+     * @param {PlatformsApiPlatformsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    platformsRetrieve(
+      requestParameters: PlatformsApiPlatformsRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<LearningResourcePlatform> {
+      return localVarFp
+        .platformsRetrieve(requestParameters.code, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for platformsList operation in PlatformsApi.
+ * @export
+ * @interface PlatformsApiPlatformsListRequest
+ */
+export interface PlatformsApiPlatformsListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof PlatformsApiPlatformsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof PlatformsApiPlatformsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for platformsRetrieve operation in PlatformsApi.
+ * @export
+ * @interface PlatformsApiPlatformsRetrieveRequest
+ */
+export interface PlatformsApiPlatformsRetrieveRequest {
+  /**
+   * A unique value identifying this learning resource platform.
+   * @type {string}
+   * @memberof PlatformsApiPlatformsRetrieve
+   */
+  readonly code: string
+}
+
+/**
+ * PlatformsApi - object-oriented interface
+ * @export
+ * @class PlatformsApi
+ * @extends {BaseAPI}
+ */
+export class PlatformsApi extends BaseAPI {
+  /**
+   * Platforms on which learning resources are hosted
+   * @summary List of platforms
+   * @param {PlatformsApiPlatformsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PlatformsApi
+   */
+  public platformsList(
+    requestParameters: PlatformsApiPlatformsListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return PlatformsApiFp(this.configuration)
+      .platformsList(requestParameters.limit, requestParameters.offset, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Platforms on which learning resources are hosted
+   * @summary Platform details
+   * @param {PlatformsApiPlatformsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PlatformsApi
+   */
+  public platformsRetrieve(
+    requestParameters: PlatformsApiPlatformsRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return PlatformsApiFp(this.configuration)
+      .platformsRetrieve(requestParameters.code, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
  * PodcastEpisodesApi - axios parameter creator
  * @export
  */
@@ -15562,7 +16569,8 @@ export const TopicsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for topics
+     * Topics covered by learning resources
+     * @summary List of topics
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -15614,7 +16622,8 @@ export const TopicsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for topics
+     * Topics covered by learning resources
+     * @summary Topic details
      * @param {number} id A unique integer value identifying this learning resource topic.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -15671,7 +16680,8 @@ export const TopicsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = TopicsApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for topics
+     * Topics covered by learning resources
+     * @summary List of topics
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -15700,7 +16710,8 @@ export const TopicsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for topics
+     * Topics covered by learning resources
+     * @summary Topic details
      * @param {number} id A unique integer value identifying this learning resource topic.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -15740,7 +16751,8 @@ export const TopicsApiFactory = function (
   const localVarFp = TopicsApiFp(configuration)
   return {
     /**
-     * Viewset for topics
+     * Topics covered by learning resources
+     * @summary List of topics
      * @param {TopicsApiTopicsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -15754,7 +16766,8 @@ export const TopicsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for topics
+     * Topics covered by learning resources
+     * @summary Topic details
      * @param {TopicsApiTopicsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -15813,7 +16826,8 @@ export interface TopicsApiTopicsRetrieveRequest {
  */
 export class TopicsApi extends BaseAPI {
   /**
-   * Viewset for topics
+   * Topics covered by learning resources
+   * @summary List of topics
    * @param {TopicsApiTopicsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -15829,7 +16843,8 @@ export class TopicsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for topics
+   * Topics covered by learning resources
+   * @summary Topic details
    * @param {TopicsApiTopicsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
