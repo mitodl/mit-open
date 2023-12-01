@@ -308,11 +308,12 @@ def upsert_platform_data():
             for platform in platform_json:
                 platform_fields = platform["fields"]
                 LearningResourcePlatform.objects.update_or_create(
-                    platform=platform_fields["platform"],
+                    code=platform_fields["code"],
                     defaults=platform_fields,
                 )
-                platforms.append(platform_fields["platform"])
-            LearningResourcePlatform.objects.exclude(platform__in=platforms).delete()
+                platforms.append(platform_fields["code"])
+            LearningResourcePlatform.objects.exclude(code__in=platforms).delete()
+        return platforms
 
 
 def resource_upserted_actions(resource: LearningResource):
