@@ -187,17 +187,23 @@ class LearningResource(TimestampedModel):
             return 0
 
     @property
-    def certification(self) -> str | None:
+    def certification(self) -> bool:
         """Returns the certification for the learning resource"""
-        if self.professional or (
-            self.offered_by.name == constants.OfferedBy.mitx.name
-            and any(
-                availability != constants.AvailabilityType.archived.value
-                for availability in self.runs.values_list("availability", flat=True)
+        return bool(
+            self.professional
+            or (
+                self.offered_by
+                and self.offered_by.name == constants.OfferedBy.mitx.value
+                and (
+                    any(
+                        availability != constants.AvailabilityType.archived.value
+                        for availability in self.runs.values_list(
+                            "availability", flat=True
+                        )
+                    )
+                )
             )
-        ):
-            return constants.CERTIFICATE
-        return None
+        )
 
     @property
     def resource_num(self):

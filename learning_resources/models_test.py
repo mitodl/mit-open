@@ -96,6 +96,4 @@ def test_lr_certification(offered_by, availability, has_cert):
         is_professional=(has_cert and offered_by != constants.OfferedBy.mitx.name),
     )
 
-    assert course.learning_resource.certification == (
-        constants.CERTIFICATE if has_cert else None
-    )
+    assert course.learning_resource.certification == has_cert

@@ -400,10 +400,10 @@ export interface CourseResource {
   departments: Array<LearningResourceDepartment> | null
   /**
    * Returns the certification for the learning resource
-   * @type {string}
+   * @type {boolean}
    * @memberof CourseResource
    */
-  certification: string | null
+  certification: boolean
   /**
    * Returns the prices for the learning resource
    * @type {string}
@@ -1039,10 +1039,10 @@ export interface LearningPathResource {
   departments: Array<LearningResourceDepartment> | null
   /**
    * Returns the certification for the learning resource
-   * @type {string}
+   * @type {boolean}
    * @memberof LearningPathResource
    */
-  certification: string | null
+  certification: boolean
   /**
    * Returns the prices for the learning resource
    * @type {string}
@@ -2698,10 +2698,10 @@ export interface PodcastEpisodeResource {
   departments: Array<LearningResourceDepartment> | null
   /**
    * Returns the certification for the learning resource
-   * @type {string}
+   * @type {boolean}
    * @memberof PodcastEpisodeResource
    */
-  certification: string | null
+  certification: boolean
   /**
    * Returns the prices for the learning resource
    * @type {string}
@@ -2943,10 +2943,10 @@ export interface PodcastResource {
   departments: Array<LearningResourceDepartment> | null
   /**
    * Returns the certification for the learning resource
-   * @type {string}
+   * @type {boolean}
    * @memberof PodcastResource
    */
-  certification: string | null
+  certification: boolean
   /**
    * Returns the prices for the learning resource
    * @type {string}
@@ -3190,10 +3190,10 @@ export interface ProgramResource {
   departments: Array<LearningResourceDepartment> | null
   /**
    * Returns the certification for the learning resource
-   * @type {string}
+   * @type {boolean}
    * @memberof ProgramResource
    */
-  certification: string | null
+  certification: boolean
   /**
    * Returns the prices for the learning resource
    * @type {string}
@@ -10279,7 +10279,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
     /**
      * View for executing searches of learning resources
      * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>} [aggregations]
-     * @param {Array<string>} [certification]
+     * @param {boolean} [certification] true if the learning resource offers a certifacate
      * @param {Array<'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>} [department] The department that offers learning resources               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {Array<number>} [id]
      * @param {Array<string>} [level]
@@ -10287,7 +10287,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers learning resources               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset]
      * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform] The platform on which learning resources are offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
-     * @param {Array<'true' | 'false'>} [professional]
+     * @param {boolean} [professional]
      * @param {string} [q] The search text
      * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning_path' | 'podcast' | 'podcast_episode'>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode
@@ -10308,7 +10308,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         | "resource_content_tags"
         | "professional"
       >,
-      certification?: Array<string>,
+      certification?: boolean,
       department?: Array<
         | "1"
         | "2"
@@ -10382,7 +10382,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         | "emeritus"
         | "podcast"
       >,
-      professional?: Array<"true" | "false">,
+      professional?: boolean,
       q?: string,
       resource_content_tags?: Array<string>,
       resource_type?: Array<
@@ -10426,7 +10426,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         localVarQueryParameter["aggregations"] = aggregations
       }
 
-      if (certification) {
+      if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
       }
 
@@ -10458,7 +10458,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         localVarQueryParameter["platform"] = platform
       }
 
-      if (professional) {
+      if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
       }
 
@@ -10512,7 +10512,7 @@ export const LearningResourcesSearchApiFp = function (
     /**
      * View for executing searches of learning resources
      * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>} [aggregations]
-     * @param {Array<string>} [certification]
+     * @param {boolean} [certification] true if the learning resource offers a certifacate
      * @param {Array<'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>} [department] The department that offers learning resources               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {Array<number>} [id]
      * @param {Array<string>} [level]
@@ -10520,7 +10520,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers learning resources               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset]
      * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform] The platform on which learning resources are offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
-     * @param {Array<'true' | 'false'>} [professional]
+     * @param {boolean} [professional]
      * @param {string} [q] The search text
      * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning_path' | 'podcast' | 'podcast_episode'>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode
@@ -10541,7 +10541,7 @@ export const LearningResourcesSearchApiFp = function (
         | "resource_content_tags"
         | "professional"
       >,
-      certification?: Array<string>,
+      certification?: boolean,
       department?: Array<
         | "1"
         | "2"
@@ -10615,7 +10615,7 @@ export const LearningResourcesSearchApiFp = function (
         | "emeritus"
         | "podcast"
       >,
-      professional?: Array<"true" | "false">,
+      professional?: boolean,
       q?: string,
       resource_content_tags?: Array<string>,
       resource_type?: Array<
@@ -10737,11 +10737,11 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   >
 
   /**
-   *
-   * @type {Array<string>}
+   * true if the learning resource offers a certifacate
+   * @type {boolean}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
-  readonly certification?: Array<string>
+  readonly certification?: boolean
 
   /**
    * The department that offers learning resources               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -10860,10 +10860,10 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
 
   /**
    *
-   * @type {Array<'true' | 'false'>}
+   * @type {boolean}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
-  readonly professional?: Array<"true" | "false">
+  readonly professional?: boolean
 
   /**
    * The search text

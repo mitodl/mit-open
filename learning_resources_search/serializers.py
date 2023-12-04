@@ -109,6 +109,23 @@ class StringArrayField(serializers.ListField):
         return super().to_internal_value(normalized)
 
 
+class ArrayWrappedBoolean(serializers.BooleanField):
+    """
+    Wrapper that wraps booleans in arrays so they have the same format as
+    other fields when passed to execute_learn_search() by the view
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def to_representation(self, data):
+        data = super().to_internal_value(data)
+        if data is None:
+            return data
+        else:
+            return [data]
+
+
 CONTENT_FILE_SORTBY_OPTIONS = [
     "id",
     "-id",
@@ -180,11 +197,17 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         ),
         default=LEARNING_RESOURCE_TYPES,
     )
-    professional = StringArrayField(
+    professional = ArrayWrappedBoolean(
         required=False,
-        child=serializers.ChoiceField(choices=["true", "false"]),
+        allow_null=True,
+        default=None,
     )
-    certification = StringArrayField(required=False, child=serializers.CharField())
+    certification = ArrayWrappedBoolean(
+        required=False,
+        allow_null=True,
+        default=None,
+        help_text="true if the learning resource offers a certifacate",
+    )
     department_choices = list(DEPARTMENTS.items())
     department = StringArrayField(
         required=False,
