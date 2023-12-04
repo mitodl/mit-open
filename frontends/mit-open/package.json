@@ -7,6 +7,8 @@
     "url": "https://github.com/mitodl/mit-open.git"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@faker-js/faker": "^7.3.0",
     "@mitodl/course-search-utils": "^2.3.0",
     "@mui/icons-material": "^5.14.15",

@@ -10186,6 +10186,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "mit-open@workspace:frontends/mit-open"
   dependencies:
+    "@emotion/react": ^11.11.1
+    "@emotion/styled": ^11.11.0
     "@faker-js/faker": ^7.3.0
     "@mitodl/course-search-utils": ^2.3.0
     "@mui/icons-material": ^5.14.15
@@ -10670,7 +10672,6 @@ __metadata:
     "@dnd-kit/core": ^6.0.8
     "@dnd-kit/sortable": ^7.0.2
     "@dnd-kit/utilities": ^3.2.1
-    "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
     "@mui/icons-material": ^5.14.15
     "@mui/lab": ^5.0.0-alpha.150
