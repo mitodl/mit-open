@@ -8,15 +8,16 @@ import ForbiddenPage from "./ForbiddenPage"
 test("The ForbiddenPage loads with meta", async () => {
   renderWithProviders(<ForbiddenPage />, { user: { is_authenticated: true } })
   await waitFor(() => {
-    // eslint-disable-next-line testing-library/no-node-access
-    const meta = document.head.querySelector('meta[name="robots"]')
-    expect(meta).toHaveProperty("content", "noindex,noarchive")
+    expect(document.title).toBe("Not Allowed")
   })
+  // eslint-disable-next-line testing-library/no-node-access
+  const meta = document.head.querySelector('meta[name="robots"]')
+  expect(meta).toHaveProperty("content", "noindex,noarchive")
 })
 
 test("The ForbiddenPage loads with Correct Title", () => {
   renderWithProviders(<ForbiddenPage />, { user: { is_authenticated: true } })
-  screen.getByRole("heading", { name: "403 Forbidden Error" })
+  screen.getByRole("heading", { name: "Not Allowed" })
 })
 
 test("The ForbiddenPage loads with a link that directs to HomePage", () => {

@@ -6,6 +6,7 @@ import type { TestAppOptions } from "../../test-utils"
 import ErrorPage from "./ErrorPage"
 import { setMockResponse, mockAxiosInstance as axios } from "api/test-utils"
 import { allowConsoleErrors } from "ol-util/test-utils"
+import RestrictedRoute from "../../components/RestrictedRoute"
 
 /**
  * Renders an erroring-component within a react-router ErrorBoundary using
@@ -36,24 +37,47 @@ const setup = (statusCode: number, opts?: Partial<TestAppOptions>) => {
 }
 
 test.each([{ status: 401 }, { status: 403 }])(
-  "ErrorPage shows Forbbiden on $status errors",
+  "ErrorPage shows ForbiddenPage on $status errors",
   async ({ status }) => {
     allowConsoleErrors()
     // 401 for authenticated users is unrealisted, but we test the login
     // redirect elsewhere.
     setup(status, { user: { is_authenticated: true } })
     await waitFor(() => {
-      expect(document.title).toBe("Forbidden")
+      expect(document.title).toBe("Not Allowed")
     })
   },
 )
 
 test("ErrorPage shows NotFound on 404 errors", async () => {
   allowConsoleErrors()
-  // 401 for authenticated users is unrealisted, but we test the login
-  // redirect elsewhere.
-  setup(404, { user: { is_authenticated: true } })
+  setup(404)
   await waitFor(() => {
     expect(document.title).toBe("Not Found")
+  })
+})
+
+test("ErrorPage shows ForbiddenPage on restricted routes.", async () => {
+  allowConsoleErrors()
+  renderRoutesWithProviders(
+    [
+      {
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            element: (
+              <RestrictedRoute allow={() => false}>
+                You shall not pass.
+              </RestrictedRoute>
+            ),
+            path: "*",
+          },
+        ],
+      },
+    ],
+    { user: { is_authenticated: true } },
+  )
+  await waitFor(() => {
+    expect(document.title).toBe("Not Allowed")
   })
 })

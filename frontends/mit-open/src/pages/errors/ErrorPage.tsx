@@ -4,6 +4,7 @@ import ForbiddenPage from "./ForbiddenPage"
 import NotFoundPage from "./NotFoundPage"
 import { useRouteError } from "react-router"
 import ErrorPageTemplate from "./ErrorPageTemplate"
+import { ForbiddenError as ClientSideForbiddenError } from "../../util/permissions"
 
 const AUTH_STATUS_CODES = [401, 403]
 const NOT_FOUND_STATUS_CODES = [404]
@@ -14,9 +15,10 @@ const isNotFoundError = (error: unknown) =>
   NOT_FOUND_STATUS_CODES.includes(Number(error.response.status))
 
 const isForbiddenError = (error: unknown) =>
-  error instanceof AxiosError &&
-  error.response &&
-  AUTH_STATUS_CODES.includes(error.response.status)
+  error instanceof ClientSideForbiddenError ||
+  (error instanceof AxiosError &&
+    error.response &&
+    AUTH_STATUS_CODES.includes(error.response.status))
 
 const ErrorPage = () => {
   const error = useRouteError()
