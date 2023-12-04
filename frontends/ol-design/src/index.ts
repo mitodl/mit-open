@@ -1,3 +1,5 @@
+/// <reference types="./types/theme.d.ts" />
+
 /**
  * Re-exports from MUI.
  *
@@ -107,5 +109,4 @@ export * from "./components/RadioChoiceField"
 
 export * from "./hooks/useBreakpoint"
 
-/// <reference types="./types/theme.d.ts" />
 export { default as styled } from "@emotion/styled"

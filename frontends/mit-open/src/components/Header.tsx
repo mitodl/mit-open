@@ -1,5 +1,3 @@
-/// <reference types="../../../ol-design/src/types/theme.d.ts" />
-
 import React, { FunctionComponent } from "react"
 import { styled, AppBar, Divider, Toolbar } from "ol-design"
 import { MITLogoLink } from "ol-util"
