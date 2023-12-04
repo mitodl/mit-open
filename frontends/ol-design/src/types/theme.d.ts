@@ -1,5 +1,7 @@
-import "@mui/material/styles"
+import type { Theme as MuiTheme } from "@mui/material/styles"
+
 import "@emotion/react"
+import "@emotion/styled"
 
 interface CustomTheme {
   colorGray1: string
@@ -73,7 +75,7 @@ declare module "@mui/material/styles" {
 }
 
 declare module "@emotion/react" {
-  export interface Theme {
+  export interface Theme extends MuiTheme {
     custom: CustomTheme
   }
 }

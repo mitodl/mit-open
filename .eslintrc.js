@@ -17,6 +17,14 @@ module.exports = {
         },
       ],
     }),
+    "@typescript-eslint/triple-slash-reference": [
+      "error",
+      {
+        path: "never",
+        types: "prefer-import",
+        lib: "never",
+      },
+    ],
   },
   overrides: [
     {

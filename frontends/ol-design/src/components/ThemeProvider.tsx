@@ -116,9 +116,6 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 }
 
 export type Theme = typeof themeOptions
-export type ThemeProps = {
-  theme?: typeof themeOptions
-}
 
 export { ThemeProvider }
 export type { ThemeProviderProps }

@@ -1,14 +1,10 @@
+/// <reference types="../../../ol-design/src/types/theme.d.ts" />
+
 import React, { FunctionComponent } from "react"
-import styled from "@emotion/styled"
-import { AppBar, Divider, Toolbar, Theme } from "ol-design"
+import { styled, AppBar, Divider, Toolbar } from "ol-design"
 import { MITLogoLink } from "ol-util"
 
-interface BarProps {
-  theme?: Theme
-  position: string
-}
-
-const Bar = styled(AppBar)<BarProps>`
+const Bar = styled(AppBar)`
   background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
   color: ${({ theme }) => theme.custom.fontColorDefault};
   min-height: 55px;

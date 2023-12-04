@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from "react"
-import styled from "@emotion/styled"
 import {
+  styled,
   ChipLink,
   Container,
   Grid,
   SearchInput,
-  ThemeProps,
   theme,
 } from "ol-design"
 import type { SearchInputProps } from "ol-design"
@@ -64,24 +63,24 @@ const TopContainer = styled(GridContainer)`
   margin-bottom: 3.5rem;
 `
 
-const BackgroundGradient = styled.div<ThemeProps>`
+const BackgroundGradient = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   z-index: -100;
   height: 615px;
   background-image: ${({ theme }) =>
-    `linear-gradient(${theme.custom.colorBlue1}, ${theme.custom!.colorGray1})`};
+    `linear-gradient(${theme.custom.colorBlue1}, ${theme.custom.colorGray1})`};
   width: 100%;
 `
 
-const PageTitle = styled.h1<ThemeProps>`
+const PageTitle = styled.h1`
   margin-bottom: 0.5rem;
   font-size: 50px;
   color: ${({ theme }) => theme.custom.colorBlue5};
 `
 
-const StyledSearchInput = styled(SearchInput)<ThemeProps>`
+const StyledSearchInput = styled(SearchInput)`
   margin-top: 1.75rem;
   margin-bottom: 1.75rem;
 
