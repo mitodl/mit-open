@@ -76,7 +76,7 @@ class LearningResourcesSearchView(ESView):
 @action(methods=["GET"], detail=False, name="Search Content Files")
 class ContentFileSearchView(ESView):
     """
-    View for executing searches of learning resources
+    View for executing searches of content files
     """
 
     permission_classes = ()

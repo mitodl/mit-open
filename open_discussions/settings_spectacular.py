@@ -11,4 +11,5 @@ open_spectacular_settings = {
     "SERVE_URLCONF": "open_discussions.urls_spectacular",
     "ENUM_GENERATE_CHOICE_DESCRIPTION": True,
     "COMPONENT_SPLIT_REQUEST": True,
+    "AUTHENTICATION_WHITELIST": [],
 }
