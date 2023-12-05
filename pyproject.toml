@@ -183,7 +183,9 @@ ignore = [
     "RET507",
     "RET508",
     "RUF012",
-    "UP007"
+    "UP007",
+    "ERA001",
+    "E501"
 ]
 
 typing-modules = ["colour.hints"]

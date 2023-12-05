@@ -225,6 +225,21 @@ CONTENT_FILE_MAP = {
             "name": {"type": "keyword"},
         },
     },
+    "vector_data": {
+        "type": "knn_vector",
+        "dimension": 768,
+        "method": {
+            "engine": "lucene",
+            "space_type": "l2",
+            "name": "hnsw",
+            "parameters": {},
+        },
+        # "method": {
+        #     "name": "hnsw",
+        #     "space_type": "cosinesimil",
+        #     "engine": "nmslib"
+        # }
+    },
 }
 
 

@@ -50,7 +50,7 @@ def _update_document_by_id(doc_id, body, object_type, *, retry_on_conflict=0, **
         object_type (str): The object type to update.
         retry_on_conflict (int): Number of times to retry if there's a conflict (default=0)
         kwargs (dict): Optional kwargs to be passed to opensearch
-    """  # noqa: E501, D401
+    """  # noqa: D401
     conn = get_conn()
     for alias in get_active_aliases(conn, object_types=[object_type]):
         try:
@@ -60,7 +60,7 @@ def _update_document_by_id(doc_id, body, object_type, *, retry_on_conflict=0, **
                 id=doc_id,
                 params={"retry_on_conflict": retry_on_conflict, **kwargs},
             )
-        # Our policy for document update-related version conflicts right now is to log them  # noqa: E501
+        # Our policy for document update-related version conflicts right now is to log them
         # and allow the app to continue as normal.
         except ConflictError:
             log.error(  # noqa: TRY400
@@ -94,6 +94,8 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
                 "number_of_shards": settings.OPENSEARCH_SHARD_COUNT,
                 "number_of_replicas": settings.OPENSEARCH_REPLICA_COUNT,
                 "refresh_interval": "60s",
+                "knn": True,
+                "default_pipeline": "nlp-ingest-pipeline",
             },
             "analysis": {
                 "analyzer": {
@@ -329,6 +331,7 @@ def deindex_run_content_files(run_id, unpublished_only):
     documents = (
         serialize_content_file_for_bulk_deletion(content_file)
         for content_file in content_files
+        if len(content_file.content)
     )
 
     deindex_items(

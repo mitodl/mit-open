@@ -13,7 +13,6 @@ from opensearchpy.exceptions import NotFoundError, RequestError
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
 from learning_resources.models import (
     ContentFile,
-    Course,
     LearningResource,
 )
 from learning_resources.utils import load_course_blocklist
@@ -231,63 +230,64 @@ def start_recreate_index(self, indexes):
 
         index_tasks = []
 
-        if COURSE_TYPE in indexes:
-            blocklisted_ids = load_course_blocklist()
-            index_tasks = (
-                index_tasks
-                + [
-                    index_learning_resources.si(
-                        ids,
-                        COURSE_TYPE,
-                        index_types=IndexestoUpdate.reindexing_index.value,
-                    )
-                    for ids in chunks(
-                        Course.objects.filter(learning_resource__published=True)
-                        .exclude(learning_resource__readable_id=blocklisted_ids)
-                        .order_by("learning_resource_id")
-                        .values_list("learning_resource_id", flat=True),
-                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
-                    )
-                ]
-                + [
-                    index_course_content_files.si(
-                        ids, index_types=IndexestoUpdate.reindexing_index.value
-                    )
-                    for ids in chunks(
-                        Course.objects.filter(learning_resource__published=True)
-                        .filter(
-                            learning_resource__etl_source__in=RESOURCE_FILE_ETL_SOURCES
-                        )
-                        .exclude(learning_resource__readable_id=blocklisted_ids)
-                        .order_by("learning_resource_id")
-                        .values_list("learning_resource_id", flat=True),
-                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
-                    )
-                ]
-            )
+        # if COURSE_TYPE in indexes:
+        #     blocklisted_ids = load_course_blocklist()
+        #     index_tasks = (
+        #         index_tasks
+        #         + [
+        #             index_learning_resources.si(
+        #                 ids,
+        #                 COURSE_TYPE,
+        #                 index_types=IndexestoUpdate.reindexing_index.value,
+        #             )
+        #             for ids in chunks(
+        #                 Course.objects.filter(learning_resource__published=True)
+        #                 .exclude(learning_resource__readable_id=blocklisted_ids)
+        #                 .order_by("learning_resource_id")
+        #                 .values_list("learning_resource_id", flat=True),
+        #                 chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+        #             )
+        #         ]
+        #         + [
+        #             index_course_content_files.si(
+        #                 ids, index_types=IndexestoUpdate.reindexing_index.value
+        #             )
+        #             for ids in chunks(
+        #                 Course.objects.filter(learning_resource__published=True)
+        #                 .filter(
+        #                     learning_resource__etl_source__in=RESOURCE_FILE_ETL_SOURCES
+        #                 )
+        #                 .exclude(learning_resource__readable_id=blocklisted_ids)
+        #                 .order_by("learning_resource_id")
+        #                 .values_list("learning_resource_id", flat=True),
+        #                 chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+        #             )
+        #         ]
+        #     )
+        #
+        # for resource_type in [
+        #     PROGRAM_TYPE,
+        #     PODCAST_TYPE,
+        #     PODCAST_EPISODE_TYPE,
+        #     LEARNING_PATH_TYPE,
+        # ]:
+        #     if resource_type in indexes:
+        #         index_tasks = index_tasks + [
+        #             index_learning_resources.si(
+        #                 ids,
+        #                 resource_type,
+        #                 index_types=IndexestoUpdate.reindexing_index.value,
+        #             )
+        #             for ids in chunks(
+        #                 LearningResource.objects.filter(
+        #                     published=True, resource_type=resource_type
+        #                 )
+        #                 .order_by("id")
+        #                 .values_list("id", flat=True),
+        #                 chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+        #             )
+        #         ]
 
-        for resource_type in [
-            PROGRAM_TYPE,
-            PODCAST_TYPE,
-            PODCAST_EPISODE_TYPE,
-            LEARNING_PATH_TYPE,
-        ]:
-            if resource_type in indexes:
-                index_tasks = index_tasks + [
-                    index_learning_resources.si(
-                        ids,
-                        resource_type,
-                        index_types=IndexestoUpdate.reindexing_index.value,
-                    )
-                    for ids in chunks(
-                        LearningResource.objects.filter(
-                            published=True, resource_type=resource_type
-                        )
-                        .order_by("id")
-                        .values_list("id", flat=True),
-                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
-                    )
-                ]
 
         index_tasks = celery.group(index_tasks)
     except:  # noqa: E722
@@ -471,7 +471,7 @@ def finish_recreate_index(results, backing_indices):
         raise ReindexError(msg)
 
     log.info(
-        "Done with temporary index. Pointing default aliases to newly created backing indexes..."  # noqa: E501
+        "Done with temporary index. Pointing default aliases to newly created backing indexes..."
     )
     for obj_type, backing_index in backing_indices.items():
         try:
