@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react"
 import Drawer from "@mui/material/Drawer"
 import type { DrawerProps } from "@mui/material/Drawer"
 import { useSearchParams } from "ol-util"
-import { IconButton } from "ol-design"
+import IconButton from "@mui/material/IconButton"
 import CloseIcon from "@mui/icons-material/Close"
 
 const closeSx: React.CSSProperties = {

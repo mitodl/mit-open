@@ -1,12 +1,10 @@
 import React, { useCallback, useMemo, useId } from "react"
-import {
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  RadioGroupProps,
-} from "ol-design"
+import FormControl from "@mui/material/FormControl"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import FormLabel from "@mui/material/FormLabel"
+import Radio from "@mui/material/Radio"
+import RadioGroup from "@mui/material/RadioGroup"
+import type { RadioGroupProps } from "@mui/material/RadioGroup"
 
 interface RadioChoiceProps {
   value: string

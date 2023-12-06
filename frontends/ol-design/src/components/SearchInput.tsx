@@ -4,7 +4,7 @@ import SearchIcon from "@mui/icons-material/Search"
 import ClearIcon from "@mui/icons-material/Clear"
 import OutlinedInput from "@mui/material/OutlinedInput"
 import InputAdornment from "@mui/material/InputAdornment"
-import { IconButton } from "ol-design"
+import IconButton from "@mui/material/IconButton"
 
 interface SearchSubmissionEvent {
   target: {
