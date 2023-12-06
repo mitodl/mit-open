@@ -16,7 +16,7 @@ import EditFieldPage from "./infinite-pages/field-details/EditFieldPage"
 import FieldPage from "./infinite-pages/field-details/FieldPage"
 
 import Header from "./components/Header"
-import { isArticleEditor } from "./util/permissions"
+import { Permissions } from "./util/permissions"
 
 const routes: RouteObject[] = [
   {
@@ -42,7 +42,7 @@ const routes: RouteObject[] = [
         element: <LearningPathDetailsPage />,
       },
       {
-        element: <RestrictedRoute allow={isArticleEditor} />,
+        element: <RestrictedRoute requires={Permissions.ArticleEditor} />,
         children: [
           {
             path: urls.ARTICLES_DETAILS,

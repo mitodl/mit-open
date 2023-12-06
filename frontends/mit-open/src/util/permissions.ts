@@ -1,12 +1,15 @@
-import type { User } from "../types/settings"
+enum Permissions {
+  ArticleEditor = "is_article_editor",
+  Authenticated = "is_authenticated",
+  LearningPathEditor = "is_learning_path_editor",
+}
 
-const isAuthenticated = (user: User) => user.is_authenticated
-
-const isArticleEditor = (user: User) => user.is_article_editor
-
+const hasPermission = (permission: Permissions) => {
+  return window.SETTINGS.user[permission]
+}
 /**
  * Thrown when we know something is forbidden without having to make a request.
  */
 class ForbiddenError extends Error {}
 
-export { isAuthenticated, isArticleEditor, ForbiddenError }
+export { Permissions, hasPermission, ForbiddenError }

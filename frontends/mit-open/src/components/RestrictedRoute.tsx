@@ -1,11 +1,10 @@
 import React from "react"
 import { Outlet } from "react-router"
-import { ForbiddenError } from "../util/permissions"
-import type { User } from "../types/settings"
+import { ForbiddenError, Permissions, hasPermission } from "../util/permissions"
 
 type RestrictedRouteProps = {
   children?: React.ReactNode
-  allow: (user: User) => boolean
+  requires: Permissions
 }
 
 /**
@@ -16,7 +15,7 @@ type RestrictedRouteProps = {
  * ```tsx
  * routes = [
  *   {
- *     element: <RestrictedRoute allow={...}> <SomePage /> </RestrictedRoute>
+ *     element: <RestrictedRoute requires={...}> <SomePage /> </RestrictedRoute>
  *     path: "/some/url"
  *   }
  * ]
@@ -25,7 +24,7 @@ type RestrictedRouteProps = {
  * ```
  * routes = [
  *   {
- *     element: <RestrictedRoute allow={...} />
+ *     element: <RestrictedRoute requires={...} />
  *     children: [
  *        { element: <SomePage />, path: "/some/url" },
  *        { element: <AnotherPage />, path: "/other/url"},
@@ -36,11 +35,9 @@ type RestrictedRouteProps = {
  */
 const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
   children,
-  allow,
+  requires,
 }) => {
-  const { user } = window.SETTINGS
-
-  if (!allow(user)) {
+  if (!hasPermission(requires)) {
     // This error should be caught by an [`errorElement`](https://reactrouter.com/en/main/route/error-element).
     throw new ForbiddenError("Not allowed.")
   }

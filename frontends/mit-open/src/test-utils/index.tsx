@@ -1,5 +1,5 @@
 import React from "react"
-import { createMemoryRouter } from "react-router"
+import { createMemoryRouter, useRouteError } from "react-router"
 import type { RouteObject } from "react-router"
 
 import { AppProviders } from "../AppProviders"
@@ -20,6 +20,19 @@ const defaultTestAppOptions = {
 }
 
 /**
+ * React-router includes a default error boundary which catches thrown errors.
+ *
+ * During testing, we want all unexpected errors to be re-thrown.
+ */
+const RethrowError = () => {
+  const error = useRouteError()
+  if (error) {
+    throw error
+  }
+  return null
+}
+
+/**
  * Render routes in a test environment using same providers used by App.
  */
 const renderRoutesWithProviders = (
@@ -31,7 +44,15 @@ const renderRoutesWithProviders = (
   // window.SETTINGS is reset during tests via afterEach hook.
   window.SETTINGS.user = makeUserSettings(options.user)
 
-  const router = createMemoryRouter(routes, { initialEntries: [url] })
+  const router = createMemoryRouter(
+    [
+      {
+        errorElement: <RethrowError />,
+        children: routes,
+      },
+    ],
+    { initialEntries: [url] },
+  )
   const queryClient = createQueryClient()
   const view = render(
     <AppProviders queryClient={queryClient} router={router}></AppProviders>,
@@ -56,7 +77,9 @@ const renderWithProviders = (
   element: React.ReactNode,
   options?: Partial<TestAppOptions>,
 ) => {
-  const routes: RouteObject[] = [{ element, path: "*" }]
+  const routes: RouteObject[] = [
+    { element, path: "*", errorElement: <RethrowError /> },
+  ]
   return renderRoutesWithProviders(routes, options)
 }
 
