@@ -11,7 +11,11 @@ from django.contrib.auth import get_user_model
 from opensearchpy.exceptions import ConflictError, NotFoundError
 from opensearchpy.helpers import BulkIndexError, bulk
 
-from learning_resources.models import ContentFile, LearningResourceRun
+from learning_resources.models import (
+    ContentFile,
+    ContentFileEmbedding,
+    LearningResourceRun,
+)
 from learning_resources_search.connection import (
     get_active_aliases,
     get_conn,
@@ -22,6 +26,7 @@ from learning_resources_search.connection import (
 )
 from learning_resources_search.constants import (
     ALIAS_ALL_INDICES,
+    CONTENT_EMBEDDING_TYPE,
     COURSE_TYPE,
     LEARNING_RESOURCE_TYPES,
     MAPPING,
@@ -31,6 +36,7 @@ from learning_resources_search.exceptions import ReindexError
 from learning_resources_search.serializers import (
     serialize_bulk_learning_resources,
     serialize_bulk_learning_resources_for_deletion,
+    serialize_content_embedding_for_bulk,
     serialize_content_file_for_bulk,
     serialize_content_file_for_bulk_deletion,
 )
@@ -95,7 +101,7 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
                 "number_of_replicas": settings.OPENSEARCH_REPLICA_COUNT,
                 "refresh_interval": "60s",
                 "knn": True,
-                "default_pipeline": "nlp-ingest-pipeline",
+                # "default_pipeline": "nlp-ingest-pipeline",
             },
             "analysis": {
                 "analyzer": {
@@ -278,6 +284,7 @@ def index_course_content_files(learning_resource_ids, index_types):
         learning_resource_id__in=learning_resource_ids, published=True
     ).values_list("id", flat=True):
         index_run_content_files(run_id, index_types)
+        index_run_content_embeddings(run_id, index_types)
 
 
 def index_run_content_files(run_id, index_types):
@@ -337,6 +344,78 @@ def deindex_run_content_files(run_id, unpublished_only):
     deindex_items(
         documents,
         COURSE_TYPE,
+        index_types=IndexestoUpdate.all_indexes.value,
+        routing=run.learning_resource_id,
+    )
+
+
+def index_run_content_embeddings(run_id, index_types):
+    """
+    Index a list of content embeddings by run id
+
+    Args:
+        run_id(int): Course run id
+        index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
+    """
+    run = LearningResourceRun.objects.get(id=run_id)
+    content_embedding_ids = (
+        run.content_files.filter(published=True)
+        .exclude(embeddings__isnull=True)
+        .values_list("embeddings__id", flat=True)
+        .distinct()
+    )
+
+    for ids_chunk in chunks(
+        content_embedding_ids,
+        chunk_size=settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE,
+    ):
+        documents = (
+            serialize_content_embedding_for_bulk(content_embedding)
+            for content_embedding in ContentFileEmbedding.objects.filter(
+                pk__in=ids_chunk
+            )
+        )
+
+        index_items(
+            documents,
+            CONTENT_EMBEDDING_TYPE,
+            index_types=index_types,
+            routing=run.learning_resource.id,
+        )
+
+
+def deindex_run_content_embeddings(run_id, unpublished_only):
+    """
+    Deindex and delete a list of content files by run from the index
+
+    Args:
+        run_id(int): Course run id
+        unpublished_only(bool): if true only delete  files with published=False
+
+    """
+    run = LearningResourceRun.objects.get(id=run_id)
+    if unpublished_only:
+        content_file_ids = run.content_files.filter(published=False).values_list(
+            "id", flat=True
+        )
+    else:
+        content_file_ids = run.content_files.all().values_list("id", flat=True)
+    content_embeddings = ContentFileEmbedding.objects.filter(
+        content_file_id__in=content_file_ids
+    ).all()
+
+    if not content_embeddings.exists():
+        return
+
+    documents = (
+        serialize_content_file_for_bulk_deletion(content_embedding)
+        for content_embedding in content_embeddings
+    )
+
+    deindex_items(
+        documents,
+        CONTENT_EMBEDDING_TYPE,
         index_types=IndexestoUpdate.all_indexes.value,
         routing=run.learning_resource_id,
     )

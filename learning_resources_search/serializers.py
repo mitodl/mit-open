@@ -25,6 +25,7 @@ from learning_resources.serializers import (
 )
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
+    CONTENT_EMBEDDING_TYPE,
     CONTENT_FILE_TYPE,
 )
 
@@ -367,6 +368,28 @@ def serialize_content_file_for_update(content_file_obj):
         },
         "resource_type": CONTENT_FILE_TYPE,
         **ContentFileSerializer(content_file_obj).data,
+        "content": content_file_obj.content[:4000],
+        "text_chunks": [
+            {
+                "chunk": chunk.text_chunk,
+                "embedding": chunk.embedding,
+            }
+            for chunk in content_file_obj.contentfileembedding_set.all()
+        ],
+    }
+
+
+def serialize_content_embedding_for_update(embedding_obj):
+    """Serialize a content file for API request"""
+
+    return {
+        "id": embedding_obj.id,
+        "resource_relations": {
+            "name": CONTENT_EMBEDDING_TYPE,
+            "parent": embedding_obj.content_file_id,
+        },
+        "resource_type": CONTENT_EMBEDDING_TYPE,
+        "chunk": embedding_obj.text_chunk,
     }
 
 
@@ -433,6 +456,33 @@ def serialize_content_file_for_bulk(content_file_obj):
         "_id": gen_content_file_id(content_file_obj.id),
         **serialize_content_file_for_update(content_file_obj),
     }
+
+
+def serialize_content_embedding_for_bulk(embedding_obj):
+    """
+    Serialize a content embedding for bulk API request
+
+    Args:
+        embedding_obj (ContentFile): A content embedding for a contentfile
+    """
+    return {
+        "_id": f"cf_chunk_{embedding_obj.id}",
+        **serialize_content_embedding_for_update(embedding_obj),
+    }
+
+
+def serialize_content_embedding_for_bulk_deletion(content_embedding_obj):
+    """
+    Serialize a content embedding for bulk API request
+
+    Args:
+        content_embedding_obj (ContentFileEmbedding): A content embedding for a contentfile
+    """
+    return serialize_for_deletion(
+        gen_content_file_id(
+            f"cf_chunk_{content_embedding_obj.id}",
+        )
+    )
 
 
 def serialize_content_file_for_bulk_deletion(content_file_obj):

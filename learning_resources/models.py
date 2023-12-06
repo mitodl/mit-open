@@ -250,7 +250,7 @@ class LearningResourceRun(TimestampedModel):
     checksum = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
 
     def __str__(self):
-        return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"  # noqa: E501
+        return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"
 
     class Meta:
         unique_together = (("learning_resource", "run_id"),)
@@ -278,7 +278,7 @@ class Program(TimestampedModel):
     A program is essentially a list of courses.
     There is nothing specific to programs at this point, but the relationship between
     programs and courses may end up being Program->Courses instead of an LR-LR relationship.
-    """  # noqa: E501
+    """
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -302,7 +302,7 @@ class LearningPath(TimestampedModel):
     """
     Model for representing a publishable list of  learning resources
     The LearningResource readable_id should probably be something like an auto-generated UUID.
-    """  # noqa: E501
+    """
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -321,7 +321,7 @@ class LearningResourceRelationship(TimestampedModel):
     """
     LearningResourceRelationship model tracks the relationships between learning resources,
     for example: course LR's in a program LR, all LR's included in a LearningList LR, etc.
-    """  # noqa: E501
+    """
 
     parent = models.ForeignKey(
         LearningResource, on_delete=models.deletion.CASCADE, related_name="children"
@@ -377,6 +377,18 @@ class ContentFile(TimestampedModel):
     class Meta:
         unique_together = (("key", "run"),)
         verbose_name = "contentfile"
+
+
+class ContentFileEmbedding(TimestampedModel):
+    """
+    ContentFileEmbedding model for semantic search
+    """
+
+    content_file = models.ForeignKey(
+        ContentFile, related_name="embeddings", on_delete=models.CASCADE
+    )
+    text_chunk = models.TextField()
+    embedding = ArrayField(models.FloatField(), null=True, blank=True)
 
 
 class UserList(TimestampedModel):

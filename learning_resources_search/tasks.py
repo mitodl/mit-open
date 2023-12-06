@@ -167,6 +167,8 @@ def index_run_content_files(run_id, index_types=IndexestoUpdate.all_indexes.valu
         with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
             api.index_run_content_files(run_id, index_types=index_types)
             api.deindex_run_content_files(run_id, unpublished_only=True)
+            api.index_run_content_embeddings(run_id, index_types=index_types)
+            api.deindex_run_content_embeddings(run_id, unpublished_only=True)
     except (RetryError, Ignore):
         raise
     except:  # noqa: E722

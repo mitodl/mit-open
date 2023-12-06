@@ -9,6 +9,7 @@ ALIAS_ALL_INDICES = "all"
 COURSE_TYPE = "course"
 PROGRAM_TYPE = "program"
 CONTENT_FILE_TYPE = "content_file"
+CONTENT_EMBEDDING_TYPE = "content_embedding"
 PODCAST_TYPE = "podcast"
 PODCAST_EPISODE_TYPE = "podcast_episode"
 LEARNING_PATH_TYPE = "learning_path"
@@ -180,6 +181,7 @@ LEARNING_RESOURCE_MAP = {
 
 
 CONTENT_FILE_MAP = {
+    # "resource_relations": {"type": "join", "relations": {"content_file": "content_file_chunk"}},
     "id": {"type": "long"},
     "run_id": {"type": "long"},
     "run_readble_id": {"type": "keyword"},
@@ -225,20 +227,24 @@ CONTENT_FILE_MAP = {
             "name": {"type": "keyword"},
         },
     },
-    "vector_data": {
-        "type": "knn_vector",
-        "dimension": 768,
-        "method": {
-            "engine": "lucene",
-            "space_type": "l2",
-            "name": "hnsw",
-            "parameters": {},
+    "text_chunks": {
+        "type": "nested",
+        "properties": {
+            "chunk": ENGLISH_TEXT_FIELD,
+            "embedding": {
+                "type": "knn_vector",
+                "dimension": 1536,
+            },
         },
-        # "method": {
-        #     "name": "hnsw",
-        #     "space_type": "cosinesimil",
-        #     "engine": "nmslib"
-        # }
+    },
+}
+
+CONTENT_FILE_EMBEDDING_MAP = {
+    "id": {"type": "long"},
+    "chunk": {"type": "text"},
+    "embedding": {
+        "type": "knn_vector",
+        "dimension": 1536,
     },
 }
 
@@ -282,7 +288,11 @@ RESOURCEFILE_QUERY_FIELDS = [
 ]
 
 MAPPING = {
-    COURSE_TYPE: {**LEARNING_RESOURCE_MAP, **CONTENT_FILE_MAP},
+    COURSE_TYPE: {
+        **LEARNING_RESOURCE_MAP,
+        **CONTENT_FILE_MAP,
+        **CONTENT_FILE_EMBEDDING_MAP,
+    },
     PROGRAM_TYPE: LEARNING_RESOURCE_MAP,
     PODCAST_TYPE: LEARNING_RESOURCE_MAP,
     PODCAST_EPISODE_TYPE: LEARNING_RESOURCE_MAP,
