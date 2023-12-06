@@ -3619,8 +3619,6 @@ export const ArticlesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -3673,8 +3671,6 @@ export const ArticlesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -3716,8 +3712,6 @@ export const ArticlesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -3774,8 +3768,6 @@ export const ArticlesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -3828,8 +3820,6 @@ export const ArticlesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -3878,8 +3868,6 @@ export const ArticlesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       localVarHeaderParameter["Content-Type"] = "application/json"
 
@@ -4400,7 +4388,7 @@ export const ContentFileSearchApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * View for executing searches of learning resources
+     * View for executing searches of content files
      * @param {Array<'topic' | 'content_category' | 'platform' | 'offered_by'>} [aggregations]
      * @param {Array<string>} [content_category]
      * @param {Array<number>} [id]
@@ -4477,8 +4465,6 @@ export const ContentFileSearchApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (aggregations) {
         localVarQueryParameter["aggregations"] = aggregations
       }
@@ -4553,7 +4539,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
     ContentFileSearchApiAxiosParamCreator(configuration)
   return {
     /**
-     * View for executing searches of learning resources
+     * View for executing searches of content files
      * @param {Array<'topic' | 'content_category' | 'platform' | 'offered_by'>} [aggregations]
      * @param {Array<string>} [content_category]
      * @param {Array<number>} [id]
@@ -4654,7 +4640,7 @@ export const ContentFileSearchApiFactory = function (
   const localVarFp = ContentFileSearchApiFp(configuration)
   return {
     /**
-     * View for executing searches of learning resources
+     * View for executing searches of content files
      * @param {ContentFileSearchApiContentFileSearchRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4817,7 +4803,7 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
  */
 export class ContentFileSearchApi extends BaseAPI {
   /**
-   * View for executing searches of learning resources
+   * View for executing searches of content files
    * @param {ContentFileSearchApiContentFileSearchRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4894,8 +4880,6 @@ export const ContentfilesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -4977,8 +4961,6 @@ export const ContentfilesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -5308,8 +5290,6 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -5381,8 +5361,6 @@ export const CoursesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -5519,8 +5497,6 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -5592,8 +5568,6 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -5639,8 +5613,6 @@ export const CoursesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -5776,8 +5748,6 @@ export const CoursesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
@@ -6871,8 +6841,6 @@ export const DepartmentsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -6926,8 +6894,6 @@ export const DepartmentsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -7184,8 +7150,6 @@ export const FieldsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -7238,8 +7202,6 @@ export const FieldsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -7281,8 +7243,6 @@ export const FieldsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -7338,8 +7298,6 @@ export const FieldsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       localVarHeaderParameter["Content-Type"] = "application/json"
 
@@ -7404,8 +7362,6 @@ export const FieldsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -7450,8 +7406,6 @@ export const FieldsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -7499,8 +7453,6 @@ export const FieldsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       localVarHeaderParameter["Content-Type"] = "application/json"
 
@@ -7554,8 +7506,6 @@ export const FieldsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -7608,8 +7558,6 @@ export const FieldsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       localVarHeaderParameter["Content-Type"] = "application/json"
 
@@ -8414,8 +8362,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -8488,8 +8434,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -8541,8 +8485,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -8607,8 +8549,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -8745,8 +8685,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -8818,8 +8756,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -8865,8 +8801,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -9002,8 +8936,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
@@ -10420,8 +10352,6 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (aggregations) {
         localVarQueryParameter["aggregations"] = aggregations
       }
@@ -10996,8 +10926,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -11049,8 +10977,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -11187,8 +11113,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -11268,8 +11192,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -11331,8 +11253,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -11388,8 +11308,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -11441,8 +11359,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -11510,8 +11426,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -11571,8 +11485,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -11629,8 +11541,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -11684,8 +11594,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -11738,8 +11646,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       localVarHeaderParameter["Content-Type"] = "application/json"
 
@@ -13129,8 +13035,6 @@ export const OfferorsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -13184,8 +13088,6 @@ export const OfferorsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -13431,8 +13333,6 @@ export const PlatformsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -13486,8 +13386,6 @@ export const PlatformsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -13825,8 +13723,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -13904,8 +13800,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -14397,8 +14291,6 @@ export const PodcastsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -14458,8 +14350,6 @@ export const PodcastsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -14596,8 +14486,6 @@ export const PodcastsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -14675,8 +14563,6 @@ export const PodcastsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -15452,8 +15338,6 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -15525,8 +15409,6 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -15572,8 +15454,6 @@ export const ProgramsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -15709,8 +15589,6 @@ export const ProgramsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
@@ -16597,8 +16475,6 @@ export const TopicsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
       }
@@ -16652,8 +16528,6 @@ export const TopicsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -16896,8 +16770,6 @@ export const UserlistsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -16950,8 +16822,6 @@ export const UserlistsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -16993,8 +16863,6 @@ export const UserlistsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -17050,8 +16918,6 @@ export const UserlistsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       localVarHeaderParameter["Content-Type"] = "application/json"
 
@@ -17113,8 +16979,6 @@ export const UserlistsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -17170,8 +17034,6 @@ export const UserlistsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -17220,8 +17082,6 @@ export const UserlistsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -17285,8 +17145,6 @@ export const UserlistsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -17341,8 +17199,6 @@ export const UserlistsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -17400,8 +17256,6 @@ export const UserlistsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -17454,8 +17308,6 @@ export const UserlistsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      // authentication cookieAuth required
-
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -17504,8 +17356,6 @@ export const UserlistsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      // authentication cookieAuth required
 
       localVarHeaderParameter["Content-Type"] = "application/json"
 

@@ -18,7 +18,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, re_path
-from rest_framework_jwt.views import refresh_jwt_token
 
 from open_discussions.views import index
 
@@ -47,7 +46,6 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("articles.urls")),
     re_path(r"", include("livestream.urls")),
     re_path(r"", include("interactions.urls")),
-    re_path(r"^api/token/refresh/", refresh_jwt_token),
     # React App
     re_path(r"^$", index, name="open_discussions-index"),
     re_path(r"^infinite/", index),
