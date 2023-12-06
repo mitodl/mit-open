@@ -1,7 +1,7 @@
 import React from "react"
-import { BannerPage, MetaTags } from "ol-util"
+import { MetaTags } from "ol-util"
 import { GridColumn, GridContainer } from "../../components/layout"
-import { Container, LoadingSpinner } from "ol-design"
+import { Container, LoadingSpinner, BannerPage } from "ol-design"
 import { useArticleDetail } from "api/hooks/articles"
 import { useParams } from "react-router"
 import { ButtonLink } from "ol-design"
@@ -21,7 +21,6 @@ const ArticlesDetailPage: React.FC = () => {
     <BannerPage
       src="/static/images/course_search_banner.png"
       alt=""
-      compactOnMobile
       className="articles-detail-page"
     >
       <MetaTags>

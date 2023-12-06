@@ -13,6 +13,8 @@
     "@mui/icons-material": "^5.14.15",
     "@mui/lab": "^5.0.0-alpha.150",
     "@mui/material": "^5.14.15",
+    "lodash": "^4.17.21",
+    "nuka-carousel": "^7.0.0",
     "ol-util": "workspace:*",
     "react-router": "^6.19.0",
     "react-router-dom": "^6.19.0",

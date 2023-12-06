@@ -1,16 +1,4 @@
-export {
-  BannerContainer,
-  BannerImage,
-  Gradient,
-  BannerPageHeader,
-  BannerPageWrapper,
-  BannerPage,
-} from "./PageBanner"
-
 export { default as MITLogoLink } from "./MITLogoLink"
-
-export { default as TitledCarousel } from "./TitledCarousel"
-export type { TitledCarouselProps } from "./TitledCarousel"
 
 export {
   default as SortableList,

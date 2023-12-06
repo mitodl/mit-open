@@ -1,8 +1,6 @@
 import React, { useMemo } from "react"
-import { Container } from "ol-design"
+import { Container, Grid, Button, BannerPage } from "ol-design"
 import EditIcon from "@mui/icons-material/Edit"
-import { Grid } from "ol-design"
-import { Button } from "ol-design"
 import SwapVertIcon from "@mui/icons-material/SwapVert"
 
 import { useParams } from "react-router"
@@ -12,7 +10,7 @@ import {
   useLearningPathsDetail,
 } from "api/hooks/learningResources"
 
-import { BannerPage, useToggle, pluralize, MetaTags } from "ol-util"
+import { useToggle, pluralize, MetaTags } from "ol-util"
 import { GridColumn, GridContainer } from "../../components/layout"
 import { manageListDialogs } from "./ManageListDialogs"
 
@@ -42,7 +40,6 @@ const LearningPathDetailsPage: React.FC = () => {
     <BannerPage
       src="/static/images/course_search_banner.png"
       alt=""
-      compactOnMobile
       className="learningpaths-page"
     >
       <MetaTags>

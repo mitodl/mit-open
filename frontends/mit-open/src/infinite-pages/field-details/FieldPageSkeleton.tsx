@@ -1,8 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../urls"
-import { BannerPage } from "ol-util"
-import { Container } from "ol-design"
+import { Container, BannerPage } from "ol-design"
 import { useFieldDetails } from "../../api/fields"
 import FieldAvatar from "./components/FieldAvatar"
 import FieldMenu from "./components/FieldMenu"
@@ -28,7 +27,6 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
       src={field.data?.banner ?? ""}
       alt=""
       omitBackground={field.isLoading}
-      compactOnMobile
       bannerContent={
         <Container className="field-title-container">
           <div className="field-title-row">

@@ -12,7 +12,6 @@
     "striptags": "^3.2.0"
   },
   "peerDependencies": {
-    "react": "^16.10 || 17 || 18",
-    "styled-components": "5"
+    "react": "^16.10 || 17 || 18"
   }
 }

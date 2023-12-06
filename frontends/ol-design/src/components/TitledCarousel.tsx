@@ -2,7 +2,7 @@ import React, { ElementType, useCallback, useRef, useState } from "react"
 import Carousel from "nuka-carousel"
 import { clamp } from "lodash"
 import type { CarouselProps } from "nuka-carousel"
-import styled from "styled-components"
+import styled from "@emotion/styled"
 
 type TitledCarouselProps = {
   children: React.ReactNode
@@ -125,5 +125,5 @@ const TitledCarousel: React.FC<TitledCarouselProps> = ({
   )
 }
 
-export default TitledCarousel
+export { TitledCarousel }
 export type { TitledCarouselProps }

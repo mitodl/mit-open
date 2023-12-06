@@ -8,9 +8,9 @@ import {
   TabContext,
   TabList,
   TabPanel,
+  TitledCarousel,
 } from "ol-design"
 import type { UserList } from "ol-search-ui"
-import { TitledCarousel } from "ol-util"
 import { Link } from "react-router-dom"
 import FieldPageSkeleton from "./FieldPageSkeleton"
 import ArrowForward from "@mui/icons-material/ArrowForward"
