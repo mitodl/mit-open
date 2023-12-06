@@ -360,7 +360,7 @@ class SearchResponseSerializer(serializers.Serializer):
 
 def serialize_content_file_for_update(content_file_obj):
     """Serialize a content file for API request"""
-
+    cf_embedding = content_file_obj.embeddings.first()
     return {
         "resource_relations": {
             "name": CONTENT_FILE_TYPE,
@@ -369,13 +369,7 @@ def serialize_content_file_for_update(content_file_obj):
         "resource_type": CONTENT_FILE_TYPE,
         **ContentFileSerializer(content_file_obj).data,
         "content": content_file_obj.content[:4000],
-        "text_chunks": [
-            {
-                "chunk": chunk.text_chunk,
-                "embedding": chunk.embedding,
-            }
-            for chunk in content_file_obj.contentfileembedding_set.all()
-        ],
+        "embedding": cf_embedding.embedding if cf_embedding else None,
     }
 
 
