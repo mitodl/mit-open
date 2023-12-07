@@ -11,8 +11,8 @@ const ForbiddenPage: React.FC = () => {
     }
   })
   return (
-    <ErrorPageTemplate title="Forbidden">
-      <h1>403 Forbidden Error</h1>
+    <ErrorPageTemplate title="Not Allowed">
+      <h1>Not Allowed</h1>
       You do not have permission to access this resource.
     </ErrorPageTemplate>
   )

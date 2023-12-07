@@ -5,7 +5,10 @@ import { setMockResponse, urls } from "api/test-utils"
 
 const setup = ({ article }: { article: Article }) => {
   setMockResponse.get(urls.articles.details(article.id), article)
-  renderTestApp({ url: `/articles/${article.id}` })
+  renderTestApp({
+    url: `/articles/${article.id}`,
+    user: { is_article_editor: true },
+  })
 }
 
 describe("ArticleDetailsPage", () => {
