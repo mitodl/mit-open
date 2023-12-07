@@ -18,7 +18,6 @@ from learning_resources_search.connection import get_default_alias_name
 from learning_resources_search.constants import (
     ALIAS_ALL_INDICES,
     COURSE_TYPE,
-    GLOBAL_DOC_TYPE,
     PROGRAM_TYPE,
     IndexestoUpdate,
 )
@@ -243,7 +242,6 @@ def test_index_learning_resources(
                     mocked_es.conn,
                     chunk,
                     index=alias,
-                    doc_type=GLOBAL_DOC_TYPE,
                     chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
                 )
 
@@ -291,7 +289,6 @@ def test_deindex_learning_resources(mocked_es, mocker, settings, errors):
                     mocked_es.conn,
                     chunk,
                     index=alias,
-                    doc_type=GLOBAL_DOC_TYPE,
                     chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
                 )
 
@@ -306,9 +303,7 @@ def test_deindex_document(mocked_es, mocker):
         return_value=["a"],
     )
     deindex_document(1, "course")
-    mocked_es.conn.delete.assert_called_with(
-        index="a", doc_type=GLOBAL_DOC_TYPE, id=1, params={}
-    )
+    mocked_es.conn.delete.assert_called_with(index="a", id=1, params={})
 
 
 def test_deindex_document_not_found(mocked_es, mocker):
@@ -540,7 +535,6 @@ def test_bulk_index_content_files(  # noqa: PLR0913
                     mocked_es.conn,
                     chunk,
                     index=alias,
-                    doc_type=GLOBAL_DOC_TYPE,
                     chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
                     routing=course.learning_resource_id,
                 )
