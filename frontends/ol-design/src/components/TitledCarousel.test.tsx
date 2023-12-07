@@ -3,7 +3,8 @@ import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { render, screen } from "@testing-library/react"
 import user from "@testing-library/user-event"
-import TitledCarousel, { TitledCarouselProps } from "./TitledCarousel"
+import { TitledCarousel } from "./TitledCarousel"
+import type { TitledCarouselProps } from "./TitledCarousel"
 import TrueNukaCarousel from "nuka-carousel"
 
 jest.mock("nuka-carousel", () => {

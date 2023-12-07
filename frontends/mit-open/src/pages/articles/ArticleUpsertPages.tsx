@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { BannerPage, MetaTags, useToggle } from "ol-util"
+import { MetaTags, useToggle } from "ol-util"
 import { GridColumn, GridContainer } from "../../components/layout"
 import { CkeditorArticleLazy } from "ol-ckeditor"
 import {
@@ -17,6 +17,7 @@ import {
   TextField,
   Container,
   BasicDialog,
+  BannerPage,
 } from "ol-design"
 import * as Yup from "yup"
 import { useFormik } from "formik"
@@ -170,7 +171,6 @@ const ArticleUpsertPage: React.FC<ArticleUpsertPageProps> = ({
     <BannerPage
       src="/static/images/course_search_banner.png"
       alt=""
-      compactOnMobile
       className="articles-editing-page"
     >
       <MetaTags>

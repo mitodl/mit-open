@@ -1,14 +1,20 @@
 import React, { useCallback, useMemo } from "react"
 import { useNavigate } from "react-router"
-import { Button, SimpleMenu, IconButton } from "ol-design"
+import {
+  Button,
+  SimpleMenu,
+  IconButton,
+  Grid,
+  LoadingSpinner,
+  BannerPage,
+  Container,
+} from "ol-design"
 import type { SimpleMenuItem } from "ol-design"
-import { Grid, LoadingSpinner } from "ol-design"
 import EditIcon from "@mui/icons-material/Edit"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { Container } from "ol-design"
 
-import { BannerPage, MetaTags } from "ol-util"
+import { MetaTags } from "ol-util"
 import type { LearningPathResource } from "api"
 import { useLearningPathsList } from "api/hooks/learningResources"
 
@@ -98,7 +104,6 @@ const LearningPathListingPage: React.FC = () => {
     <BannerPage
       src="/static/images/course_search_banner.png"
       alt=""
-      compactOnMobile
       className="learningpaths-page"
     >
       <MetaTags>

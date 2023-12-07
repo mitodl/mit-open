@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-} from "ol-design"
-import type { ButtonProps, DialogProps } from "ol-design"
+import Button from "@mui/material/Button"
+import type { ButtonProps } from "@mui/material/Button"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
+import DialogTitle from "@mui/material/DialogTitle"
+import IconButton from "@mui/material/IconButton"
+import type { DialogProps } from "@mui/material/Dialog"
 import Close from "@mui/icons-material/Close"
 
 const topRightStyle: React.CSSProperties = {
