@@ -31,6 +31,6 @@ describe("ArticleDetailsPage", () => {
     const link = await screen.findByRole<HTMLAnchorElement>("link", {
       name: "Edit",
     })
-    expect(link.href).toEndWith(`/articles/${article.id}/edit`)
+    expect(link.href.endsWith(`/articles/${article.id}/edit`)).toBe(true)
   })
 })

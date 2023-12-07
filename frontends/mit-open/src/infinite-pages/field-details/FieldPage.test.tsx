@@ -240,7 +240,9 @@ describe("FieldPage", () => {
       await user.click(await screen.findByRole("button", { name: btnName }))
 
       await waitFor(() => {
-        expect(location.current.pathname).toEndWith(`/fields/${field.name}/`)
+        expect(
+          location.current.pathname.endsWith(`/fields/${field.name}/`),
+        ).toBe(true)
       })
     },
   )
