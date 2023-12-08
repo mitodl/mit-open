@@ -73,4 +73,13 @@ class Migration(migrations.Migration):
             model_name="learningresourceofferor",
             name="id",
         ),
+        migrations.AlterField(
+            model_name="learningresource",
+            name="offered_by",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=models.deletion.SET_NULL,
+                to="learning_resources.learningresourceofferor",
+            ),
+        ),
     ]

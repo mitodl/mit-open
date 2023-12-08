@@ -67,4 +67,9 @@ class Migration(migrations.Migration):
         migrations.RenameModel(
             "LearningResourceDepartmentNew", "LearningResourceDepartment"
         ),
+        migrations.AlterField(
+            model_name="learningresourcedepartment",
+            name="department_id",
+            field=models.CharField(max_length=6, primary_key=True, serialize=False),
+        ),
     ]
