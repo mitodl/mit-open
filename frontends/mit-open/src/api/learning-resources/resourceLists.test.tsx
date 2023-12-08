@@ -14,7 +14,7 @@ import {
   makeSearchResponse,
   makeStaffList,
   makeUserList,
-} from "ol-search-ui/src/factories"
+} from "ol-search-ui/src/test-utils/factories"
 
 import {
   useAddToListItems,

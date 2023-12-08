@@ -5,7 +5,7 @@ import {
   fireEvent,
   user,
 } from "../../test-utils"
-import * as factory from "../../api/fields/factories"
+import * as factory from "../../api/fields/test-utils/factories"
 import { FieldChannel, urls } from "../../api/fields"
 import { urls as widgetUrls } from "../../api/widgets"
 import { urls as lrUrls } from "../../api/learning-resources"

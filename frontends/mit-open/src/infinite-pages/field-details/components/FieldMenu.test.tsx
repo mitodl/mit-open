@@ -2,7 +2,7 @@ import React from "react"
 import { screen, waitFor } from "@testing-library/react"
 
 import { urls } from "../../../api/fields"
-import * as factories from "../../../api/fields/factories"
+import * as factories from "../../../api/fields/test-utils/factories"
 import { setMockResponse, renderWithProviders, user } from "../../../test-utils"
 import FieldMenu from "./FieldMenu"
 import { assertInstanceOf } from "ol-util"

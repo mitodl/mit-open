@@ -3,9 +3,10 @@ module.exports = {
     "eslint-config-mitodl",
     "eslint-config-mitodl/jest",
     "plugin:testing-library/react",
+    "plugin:import/typescript",
     "prettier",
   ],
-  plugins: ["testing-library"],
+  plugins: ["testing-library", "import"],
   ignorePatterns: ["**/build/**"],
   rules: {
     ...restrictedImports({
@@ -23,6 +24,20 @@ module.exports = {
         path: "never",
         types: "prefer-import",
         lib: "never",
+      },
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: [
+          "**/*.test.ts",
+          "**/*.test.tsx",
+          "**/src/setupJest.ts",
+          "**/test-utils/**",
+          "**/test-utils/**",
+          "webpack.config.js",
+          "postcss.config.js",
+        ],
       },
     ],
   },

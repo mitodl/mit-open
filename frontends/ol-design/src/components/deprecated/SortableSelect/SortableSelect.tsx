@@ -10,7 +10,7 @@ import SortWrapper from "./SortWrapper"
 import { DragEndEvent, UniqueIdentifier } from "@dnd-kit/core"
 import { arrayMove } from "@dnd-kit/sortable"
 
-export interface SortableItem {
+interface SortableItem {
   // the id for this item
   id: UniqueIdentifier
   // title, used to display a sortable entry in the list
@@ -149,4 +149,4 @@ const SortableSelect: React.FC<SortableSelectProps> = (props) => {
 }
 
 export { SortableSelect }
-export { SortableSelectProps }
+export type { SortableSelectProps, SortableItem }

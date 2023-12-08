@@ -7,7 +7,7 @@ import {
   makeImgConfig,
   makeStaffList,
   makeUserList,
-} from "../factories"
+} from "../test-utils/factories"
 import { resourceThumbnailSrc } from "../util"
 import { allowConsoleErrors } from "ol-util/test-utils"
 
