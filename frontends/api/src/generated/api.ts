@@ -6866,7 +6866,7 @@ export const DepartmentsApiAxiosParamCreator = function (
     /**
      * MIT academic departments
      * @summary Department details
-     * @param {string} department_id
+     * @param {string} department_id A unique value identifying this learning resource department.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -6953,7 +6953,7 @@ export const DepartmentsApiFp = function (configuration?: Configuration) {
     /**
      * MIT academic departments
      * @summary Department details
-     * @param {string} department_id
+     * @param {string} department_id A unique value identifying this learning resource department.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -7057,7 +7057,7 @@ export interface DepartmentsApiDepartmentsListRequest {
  */
 export interface DepartmentsApiDepartmentsRetrieveRequest {
   /**
-   *
+   * A unique value identifying this learning resource department.
    * @type {string}
    * @memberof DepartmentsApiDepartmentsRetrieve
    */
@@ -13060,7 +13060,7 @@ export const OfferorsApiAxiosParamCreator = function (
     /**
      * MIT organizations that offer learning resources
      * @summary Offerer details
-     * @param {string} code
+     * @param {string} code A unique value identifying this learning resource offeror.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -13146,7 +13146,7 @@ export const OfferorsApiFp = function (configuration?: Configuration) {
     /**
      * MIT organizations that offer learning resources
      * @summary Offerer details
-     * @param {string} code
+     * @param {string} code A unique value identifying this learning resource offeror.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -13247,7 +13247,7 @@ export interface OfferorsApiOfferorsListRequest {
  */
 export interface OfferorsApiOfferorsRetrieveRequest {
   /**
-   *
+   * A unique value identifying this learning resource offeror.
    * @type {string}
    * @memberof OfferorsApiOfferorsRetrieve
    */

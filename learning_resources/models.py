@@ -42,7 +42,7 @@ class LearningResourceTopic(TimestampedModel):
 class LearningResourceOfferor(TimestampedModel):
     """Represents who is offering a learning resource"""
 
-    code = models.CharField(max_length=12, unique=True)
+    code = models.CharField(max_length=12, primary_key=True)
     name = models.CharField(max_length=256, unique=True)
     professional = models.BooleanField(default=False)
 
@@ -66,7 +66,7 @@ class LearningResourceImage(TimestampedModel):
 class LearningResourceDepartment(TimestampedModel):
     """Department data for a learning resource"""
 
-    department_id = models.CharField(max_length=6, unique=True)
+    department_id = models.CharField(max_length=6, primary_key=True)
     name = models.CharField(max_length=256, null=False, blank=False)
 
     def __str__(self):
