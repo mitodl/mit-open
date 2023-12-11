@@ -10,8 +10,8 @@
     "./test-utils/svgmock": "./src/test-utils/svgmock.js"
   },
   "peerDependencies": {
-    "react": "^16.10 || 17 || 18",
-    "react-router": "^5.3.3"
+    "react": "^18.2.0",
+    "react-router": "^6.19.0"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",

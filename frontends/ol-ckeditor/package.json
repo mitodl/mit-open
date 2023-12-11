@@ -7,7 +7,7 @@
     "./webpack-utils": "./src/webpack-utils.js"
   },
   "peerDependencies": {
-    "react": "^18.2"
+    "react": "^18.2.0"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-adapter-ckfinder": "^40.1.0",
