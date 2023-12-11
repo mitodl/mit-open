@@ -978,13 +978,13 @@ Django = ">=2.2"
 
 [[package]]
 name = "django-hijack"
-version = "3.4.2"
+version = "3.4.4"
 description = "django-hijack allows superusers to hijack (=login as) and work on behalf of another user."
 optional = false
 python-versions = "*"
 files = [
-    {file = "django-hijack-3.4.2.tar.gz", hash = "sha256:b2628a4fbb3bf92aaba88e661bdfbb7c59a95350efedae8852a41e07e7245326"},
-    {file = "django_hijack-3.4.2-py3-none-any.whl", hash = "sha256:bf8f8aa5c2678dc0a5dc43be1d48406459a47014f12682c2986658fa243ddae8"},
+    {file = "django-hijack-3.4.4.tar.gz", hash = "sha256:272a0121f8adb4411b3219903b2042b885bccc90e23a8a260976dc7c8b6fd2c7"},
+    {file = "django_hijack-3.4.4-py3-none-any.whl", hash = "sha256:c78dd661a414f8b33ef5ff044d1d240eb4162fa6554c7ef17aec6262a4c60fae"},
 ]
 
 [package.dependencies]
