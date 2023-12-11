@@ -11,10 +11,13 @@ def assign_new_offeror_foreign_keys(apps, schema_editor):
     LearningResourceOfferor = apps.get_model(
         "learning_resources", "LearningResourceOfferor"
     )
-    offerors = LearningResourceOfferor.objects.all()
+    LearningResourceOfferorNew = apps.get_model(
+        "learning_resources", "LearningResourceOfferorNew"
+    )
+    for offeror in LearningResourceOfferor.objects.all():
+        LearningResourceOfferorNew.objects.create(code=offeror.code, name=offeror.name)
     for lr in LearningResource.objects.filter(offered_by_id__isnull=False):
-        new_pk = offerors.filter(id=lr.offered_by_id).first().code
-        lr.offered_by_new_id = new_pk
+        lr.offered_by_new_id = lr.offered_by.code
         lr.offered_by = None
         lr.save()
 
@@ -25,36 +28,31 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name="learningresource",
-            name="offered_by",
-            field=models.ForeignKey(
-                "learningresourceofferor",
-                blank=True,
-                null=True,
-                db_constraint=False,
-                on_delete=models.SET_NULL,
-            ),
-        ),
-        migrations.AlterField(
-            model_name="learningresourceofferor",
-            name="id",
-            field=models.IntegerField(),
-        ),
-        migrations.AlterField(
-            model_name="learningresourceofferor",
-            name="code",
-            field=models.CharField(max_length=12, primary_key=True, serialize=False),
+        migrations.CreateModel(
+            name="LearningResourceOfferorNew",
+            fields=[
+                ("created_on", models.DateTimeField(auto_now_add=True)),
+                ("updated_on", models.DateTimeField(auto_now=True)),
+                (
+                    "code",
+                    models.CharField(max_length=12, primary_key=True, serialize=False),
+                ),
+                ("name", models.CharField(max_length=256, unique=True)),
+                ("professional", models.BooleanField(default=False)),
+            ],
+            options={
+                "abstract": False,
+            },
         ),
         migrations.AddField(
             model_name="learningresource",
             name="offered_by_new",
             field=models.ForeignKey(
+                "learningresourceofferornew",
                 blank=True,
                 null=True,
+                db_constraint=True,
                 on_delete=models.SET_NULL,
-                related_name="learning_resources",
-                to="learning_resources.learningresourceofferor",
             ),
         ),
         migrations.RunPython(
@@ -64,15 +62,15 @@ class Migration(migrations.Migration):
             model_name="learningresource",
             name="offered_by",
         ),
+        migrations.DeleteModel(
+            name="LearningResourceOfferor",
+        ),
         migrations.RenameField(
             model_name="learningresource",
             old_name="offered_by_new",
             new_name="offered_by",
         ),
-        migrations.RemoveField(
-            model_name="learningresourceofferor",
-            name="id",
-        ),
+        migrations.RenameModel("LearningResourceOfferorNew", "LearningResourceOfferor"),
         migrations.AlterField(
             model_name="learningresource",
             name="offered_by",

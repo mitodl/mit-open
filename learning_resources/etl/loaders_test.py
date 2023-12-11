@@ -668,14 +668,16 @@ def test_load_podcasts(learning_resource_offeror, podcast_platform):
         podcast_data["image"] = {"url": podcast.learning_resource.image.url}
         podcast_data["offered_by"] = {"name": learning_resource_offeror.name}
         episodes_data = [
-            model_to_dict(
-                episode.learning_resource, exclude=non_transformable_attributes
-            )
+            {
+                **model_to_dict(
+                    episode.learning_resource, exclude=non_transformable_attributes
+                ),
+                "offered_by": {"name": learning_resource_offeror.name},
+            }
             for episode in episodes
         ]
         podcast_data["episodes"] = episodes_data
         podcasts_data.append(podcast_data)
-
     results = load_podcasts(podcasts_data)
 
     assert len(results) == len(podcasts_data)
