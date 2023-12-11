@@ -5307,7 +5307,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"decode-uri-component@npm:^0.2.0, decode-uri-component@npm:^0.2.2":
+"decode-uri-component@npm:^0.2.0":
   version: 0.2.2
   resolution: "decode-uri-component@npm:0.2.2"
   checksum: 95476a7d28f267292ce745eac3524a9079058bbb35767b76e3ee87d42e34cd0275d2eb19d9d08c3e167f97556e8a2872747f5e65cbebcac8b0c98d83e285f139
@@ -6435,13 +6435,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exec-sh@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "exec-sh@npm:0.4.0"
-  checksum: 57e0bb253b5ece8e284dca1608a19c0fd7986342daa3c2a54400dda941eb8190d2153c912fec5f08e406d0d2a2f254fdd6d410db807aebbcbd8671544d86ebe6
-  languageName: node
-  linkType: hard
-
 "execa@npm:^5.0.0":
   version: 5.1.1
   resolution: "execa@npm:5.1.1"
@@ -7402,7 +7395,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-entities@npm:^2.1.0, html-entities@npm:^2.3.2, html-entities@npm:^2.3.3, html-entities@npm:^2.4.0":
+"html-entities@npm:^2.1.0, html-entities@npm:^2.3.2, html-entities@npm:^2.4.0":
   version: 2.4.0
   resolution: "html-entities@npm:2.4.0"
   checksum: 25bea32642ce9ebd0eedc4d24381883ecb0335ccb8ac26379a0958b9b16652fdbaa725d70207ce54a51db24103436a698a8e454397d3ba8ad81460224751f1dc
@@ -8255,31 +8248,6 @@ __metadata:
   version: 3.1.1
   resolution: "isexe@npm:3.1.1"
   checksum: 7fe1931ee4e88eb5aa524cd3ceb8c882537bc3a81b02e438b240e47012eef49c86904d0f0e593ea7c3a9996d18d0f1f3be8d3eaa92333977b0c3a9d353d5563e
-  languageName: node
-  linkType: hard
-
-"iso-3166-1-alpha-2@npm:~1.0.0":
-  version: 1.0.1
-  resolution: "iso-3166-1-alpha-2@npm:1.0.1"
-  dependencies:
-    mout: ^1.2.3
-  checksum: b8932aa55fe26568c136df053fa3a5d7858778ca32b95bab9c4a773f932327e4d5a7cf9f69627e720232ecc91550e75009961861584853c5014427c56f753810
-  languageName: node
-  linkType: hard
-
-"iso-639-1-zh@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "iso-639-1-zh@npm:2.0.4"
-  dependencies:
-    iso-639-1: ^2.0.0
-  checksum: 417132e23765774856e3ca03eafb9ddc414674c9edfe395425bcebc3586664609fe20327f5aea27c6e0d89ef060d19c23e16b13f0870a7b7c1f869820e4a5b76
-  languageName: node
-  linkType: hard
-
-"iso-639-1@npm:^2.0.0":
-  version: 2.1.15
-  resolution: "iso-639-1@npm:2.1.15"
-  checksum: a201530819d33e9ce077b02c786d67b35be5d823be27b5aacc18d880e580e559e39ec5055f8e2abcdc210f46618a643bf3c74e6fe6e8255fe62059682750e595
   languageName: node
   linkType: hard
 
@@ -9263,16 +9231,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"locale-code@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "locale-code@npm:2.0.2"
-  dependencies:
-    iso-3166-1-alpha-2: ~1.0.0
-    iso-639-1-zh: ^2.0.4
-  checksum: 88288f76eb823b334556f3235619358d2eac3135b2e579c728be4bd523978afdf5f3e1de83db72a8e1bde63156f6a2041c351bf5c6a533dcad605bb0ee46f8a7
-  languageName: node
-  linkType: hard
-
 "locate-path@npm:^5.0.0":
   version: 5.0.0
   resolution: "locate-path@npm:5.0.0"
@@ -10194,13 +10152,6 @@ __metadata:
   version: 2.29.4
   resolution: "moment@npm:2.29.4"
   checksum: 0ec3f9c2bcba38dc2451b1daed5daded747f17610b92427bebe1d08d48d8b7bdd8d9197500b072d14e326dd0ccf3e326b9e3d07c5895d3d49e39b6803b76e80e
-  languageName: node
-  linkType: hard
-
-"mout@npm:^1.2.3":
-  version: 1.2.4
-  resolution: "mout@npm:1.2.4"
-  checksum: 761801ab6616cea1a7f3c2082d1e2fb0b984898cc92117c70f34aab104723285eadf03545b5e092d44a17d6cfbd367a005064d7b23a8517ee4f6b77a8d345561
   languageName: node
   linkType: hard
 
@@ -11847,18 +11798,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"query-string@npm:^7.1.1":
-  version: 7.1.3
-  resolution: "query-string@npm:7.1.3"
-  dependencies:
-    decode-uri-component: ^0.2.2
-    filter-obj: ^1.1.0
-    split-on-first: ^1.0.0
-    strict-uri-encode: ^2.0.0
-  checksum: 91af02dcd9cc9227a052841d5c2eecb80a0d6489d05625df506a097ef1c59037cfb5e907f39b84643cbfd535c955abec3e553d0130a7b510120c37d06e0f4346
-  languageName: node
-  linkType: hard
-
 "querystringify@npm:^2.1.1":
   version: 2.2.0
   resolution: "querystringify@npm:2.2.0"
@@ -12004,13 +11943,6 @@ __metadata:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
   checksum: 40d0411fb5d6b0a187e718ff16c18f3d68eae3d7e4def43a9a9b2690b89cfce639077a69d683aa01302f8132394dd633baf76b07e5a3b8438fb706b1abb31937
-  languageName: node
-  linkType: hard
-
-"react-appzi@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "react-appzi@npm:1.0.4"
-  checksum: 7f98d6e0426dcb2bf00c8effdd52e36d8c04157b5de264737ec7acfe36c35c49679e7e4dc0d2be441281b328b18724215392315543bdeae8784e4c44e9013148
   languageName: node
   linkType: hard
 
@@ -12574,7 +12506,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root@workspace:."
   dependencies:
-    "@ebay/nice-modal-react": ^1.2.13
     "@swc/core": ^1.3.32
     "@swc/jest": ^0.2.26
     "@testing-library/jest-dom": ^5.16.4
@@ -12586,9 +12517,7 @@ __metadata:
     "@types/react-infinite-scroller": ^1.2.3
     "@types/url-assembler": ^2.1.1
     "@typescript-eslint/eslint-plugin": ^6.9.1
-    casual-browserify: ^1.5.19-2
     cross-fetch: ^4.0.0
-    css-mediaquery: ^0.1.2
     eslint: ^8.18.0
     eslint-config-mitodl: ^1.0.0
     eslint-config-prettier: ^9.0.0
@@ -12599,23 +12528,16 @@ __metadata:
     eslint-plugin-react: ^7.30.1
     eslint-plugin-react-hooks: ^4.6.0
     eslint-plugin-testing-library: ^5.5.1
-    exec-sh: ^0.4.0
-    html-entities: ^2.3.3
     jest: ^29.6.4
     jest-environment-jsdom: ^29.5.0
     jest-fail-on-console: ^2.4.2
     jest-watch-typeahead: ^2.2.2
     jest-when: ^3.6.0
-    locale-code: ^2.0.2
     prettier: ^3.0.3
     prettier-plugin-django-alpine: ^1.2.6
-    query-string: ^7.1.1
-    react-appzi: ^1.0.4
-    rimraf: ^3.0.2
     stylelint: ^15.2.0
     stylelint-config-standard-scss: ^7.0.1
     swc-loader: ^0.2.3
-    tiny-invariant: ^1.3.1
     ts-node: ^10.9.1
     type-fest: ^4.8.1
     typescript: ^5.1.6
