@@ -58,7 +58,6 @@ const baseEditorConfig: EditorConfig = {
   ],
   blockToolbar: {
     items: ["imageUpload", "mediaEmbed"],
-    // @ts-expect-error See https://github.com/ckeditor/ckeditor5/issues/15151
     icon: "plus",
   },
   toolbar: {
