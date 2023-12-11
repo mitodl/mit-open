@@ -368,7 +368,7 @@ def serialize_content_file_for_update(content_file_obj):
         },
         "resource_type": CONTENT_FILE_TYPE,
         **ContentFileSerializer(content_file_obj).data,
-        "content": content_file_obj.content[:4000],
+        "content": content_file_obj.content[:4000] if content_file_obj.content else "",
         "embedding": cf_embedding.embedding if cf_embedding else None,
     }
 
