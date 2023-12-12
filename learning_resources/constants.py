@@ -232,3 +232,16 @@ LEARNING_RESOURCE_SORTBY_OPTIONS = {
         "sort": "-course__course_numbers__0__sort_coursenum",
     },
 }
+
+
+class LevelType(ExtendedEnum):
+    """Enum for LearningResource levels"""
+
+    undergraduate = "Undergraduate"
+    graduate = "Graduate"
+    both = "Both"
+    advanced = "Advanced"
+    intermediate = "Intermediate"
+    introductory = "Introductory"
+    high_school = "High School"
+    noncredit = "Non Credit"

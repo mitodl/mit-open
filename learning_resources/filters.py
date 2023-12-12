@@ -1,21 +1,16 @@
 """Filters for learning_resources API"""
 import logging
 
-from django.db.models import F, Func
-from django_filters import ChoiceFilter, FilterSet
+from django.db.models import Q
+from django_filters import CharFilter, ChoiceFilter, FilterSet
 
 from learning_resources.constants import (
-    DEPARTMENTS,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
     LearningResourceType,
+    LevelType,
 )
 from learning_resources.models import (
     LearningResource,
-    LearningResourceContentTag,
-    LearningResourceOfferor,
-    LearningResourcePlatform,
-    LearningResourceRun,
-    LearningResourceTopic,
 )
 
 log = logging.getLogger(__name__)
@@ -24,11 +19,10 @@ log = logging.getLogger(__name__)
 class LearningResourceFilter(FilterSet):
     """LearningResource filter"""
 
-    department = ChoiceFilter(
+    department = CharFilter(
         label="The department that offers learning resources",
         method="filter_department",
         field_name="departments__department_id",
-        choices=(list(DEPARTMENTS.items())),
     )
 
     resource_type = ChoiceFilter(
@@ -42,74 +36,34 @@ class LearningResourceFilter(FilterSet):
             ]
         ),
     )
-    offered_by = ChoiceFilter(
+    offered_by = CharFilter(
         label="The organization that offers a learning resource",
         method="filter_offered_by",
         field_name="offered_by__name",
-        choices=(
-            [
-                (offeror.code, offeror.name)
-                for offeror in LearningResourceOfferor.objects.all()
-            ]
-        ),
     )
 
-    platform = ChoiceFilter(
+    platform = CharFilter(
         label="The platform on which learning resources are offered",
         method="filter_platform",
         field_name="platform__name",
-        choices=(
-            [
-                (platform.code, platform.name)
-                for platform in LearningResourcePlatform.objects.all()
-            ]
-        ),
     )
 
     level = ChoiceFilter(
         label="The academic level of the resources",
         method="filter_level",
-        choices=(
-            [
-                (level, level)
-                for level in LearningResourceRun.objects.annotate(
-                    levels=Func(F("level"), function="unnest")
-                )
-                .values_list("levels", flat=True)
-                .order_by("levels")
-                .distinct()
-            ]
-        ),
+        choices=([(level.name, level.value) for level in LevelType]),
     )
 
-    topic = ChoiceFilter(
-        label="Topics covered by the resources. Load the 'topics' api endpoint "
-        "for a list of topics",
+    topic = CharFilter(
+        label="Topics covered by learning resources",
         field_name="topics__name",
         lookup_expr="iexact",
-        choices=(
-            [
-                (topic, topic)
-                for topic in LearningResourceTopic.objects.values_list(
-                    "name", flat=True
-                ).distinct()
-            ]
-        ),
     )
 
-    resource_content_tags = ChoiceFilter(
-        label="The content tags for the resources. Load the 'content_tags' endpoint "
-        "for a list of tags",
+    resource_content_tags = CharFilter(
+        label="Content tags for the learning resources",
         field_name="resource_content_tags__name",
         lookup_expr="iexact",
-        choices=(
-            [
-                (tag, tag)
-                for tag in LearningResourceContentTag.objects.values_list(
-                    "name", flat=True
-                ).distinct()
-            ]
-        ),
     )
 
     sortby = ChoiceFilter(
@@ -141,7 +95,17 @@ class LearningResourceFilter(FilterSet):
 
     def filter_level(self, queryset, _, value):
         """Level Filter for learning resources"""
-        return queryset.filter(runs__level__contains=[value])
+        return queryset.filter(
+            Q(runs__level__contains=[value]) | Q(runs__level__contains=[value.title()])
+        )
+
+    def filter_topic(self, queryset, _, value):
+        """LearningResourceTopic Filter for learning resources"""
+        return queryset.filter(topics__name__iexact=value)
+
+    def filter_tag(self, queryset, _, value):
+        """LearningResourceContentTag Filter for learning resources"""
+        return queryset.filter(learning_resource_tags__iexact=value)
 
     def filter_sortby(self, queryset, _, value):
         """Sort the queryset in the order specified by the value"""
