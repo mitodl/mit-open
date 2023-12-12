@@ -17,9 +17,15 @@ from learning_resources.factories import (
     LearningResourceRunFactory,
     PodcastFactory,
 )
-from learning_resources.filters import LearningResourceFilter
 
 pytestmark = pytest.mark.django_db
+
+
+def set_filter(*args, **kwargs):
+    """Get around a pytest/django_db issue"""
+    from learning_resources.filters import LearningResourceFilter
+
+    return LearningResourceFilter(*args, **kwargs)
 
 
 @pytest.fixture()
@@ -47,7 +53,7 @@ def test_learning_resource_filter_department(mock_courses):
     """Test that the department_id filter works"""
     ocw_department_id = mock_courses.ocw_course.departments.first().department_id
 
-    query = LearningResourceFilter({"department": ocw_department_id}).qs
+    query = set_filter({"department": ocw_department_id}).qs
     assert query.count() == 1
 
     assert mock_courses.ocw_course in query
@@ -57,7 +63,7 @@ def test_learning_resource_filter_department(mock_courses):
 def test_learning_resource_filter_offered_by(mock_courses):
     """Test that the offered_by filter works"""
 
-    query = LearningResourceFilter({"offered_by": OfferedBy.ocw.name}).qs
+    query = set_filter({"offered_by": OfferedBy.ocw.name}).qs
 
     assert mock_courses.ocw_course in query
     assert mock_courses.mitx_course not in query
@@ -66,7 +72,7 @@ def test_learning_resource_filter_offered_by(mock_courses):
 def test_learning_resource_filter_platform(mock_courses):
     """Test that the platform filter works"""
 
-    query = LearningResourceFilter({"platform": PlatformType.ocw.name}).qs
+    query = set_filter({"platform": PlatformType.ocw.name}).qs
 
     assert mock_courses.ocw_course in query
     assert mock_courses.mitx_course not in query
@@ -86,7 +92,7 @@ def test_learning_resource_filter_professional(is_professional):
     assert professional_course.professional is True
     assert open_course.professional is False
 
-    query = LearningResourceFilter({"professional": is_professional}).qs
+    query = set_filter({"professional": is_professional}).qs
 
     assert (professional_course in query) is is_professional
     assert (open_course in query) is not is_professional
@@ -98,9 +104,7 @@ def test_learning_resource_filter_resource_type():
     course = CourseFactory.create().learning_resource
     podcast = PodcastFactory.create().learning_resource
 
-    query = LearningResourceFilter(
-        {"resource_type": LearningResourceType.podcast.name}
-    ).qs
+    query = set_filter({"resource_type": LearningResourceType.podcast.name}).qs
 
     assert podcast in query
     assert course not in query
@@ -114,7 +118,7 @@ def test_learning_resource_sortby(sortby, descending):
     sortby_param = sortby
     if descending:
         sortby_param = f"-{sortby}"
-    query = LearningResourceFilter(
+    query = set_filter(
         {
             "resource_type": LearningResourceType.course.name,
             "sortby": sortby_param,
@@ -147,7 +151,7 @@ def test_learning_resource_filter_topics():
         == []
     )
 
-    query = LearningResourceFilter({"topic": resource_1.topics.first().name}).qs
+    query = set_filter({"topic": resource_1.topics.first().name}).qs
 
     assert resource_1 in query
     assert resource_2 not in query
@@ -167,7 +171,7 @@ def test_learning_resource_filter_tags():
         )
     )
 
-    query = LearningResourceFilter({"resource_content_tags": "exams"}).qs
+    query = set_filter({"resource_content_tags": "Exams"}).qs
 
     assert resource_with_exams in query
     assert resource_with_notes not in query
@@ -177,13 +181,18 @@ def test_learning_resource_filter_level():
     """Test that the level filter works"""
 
     hs_resource = LearningResourceRunFactory.create(
-        level="High School"
+        level=["High School", "Undergraduate"]
     ).learning_resource
     jhs_resource = LearningResourceRunFactory.create(
-        level="Junior High School"
+        level=["Junior High School", "Undergraduate", "Graduate"]
     ).learning_resource
 
-    query = LearningResourceFilter({"level": "high school"}).qs
+    query = set_filter({"level": "High School"}).qs
 
     assert hs_resource in query
     assert jhs_resource not in query
+
+    query = set_filter({"level": "Graduate"}).qs
+
+    assert hs_resource not in query
+    assert jhs_resource in query

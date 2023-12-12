@@ -360,7 +360,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
     description = factory.Faker("sentence")
     full_description = factory.Faker("text")
     url = factory.Faker("url")
-    level = FuzzyChoice(("Undergraduate", "Graduate"))
+    level = factory.List(random.choices(("Undergraduate", "Graduate")))  # noqa: S311
     languages = factory.List(random.choices(["en", "es"]))  # noqa: S311
     year = factory.Faker("year")
     image = factory.SubFactory(LearningResourceImageFactory)

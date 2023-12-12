@@ -249,7 +249,7 @@ def transform_run(course_data: dict) -> dict:
                 .get("image-alt")
             ),
         },
-        "level": ", ".join(course_data.get("level", [])),
+        "level": course_data.get("level", []),
         "last_modified": course_data.get("last_modified"),
         "title": course_data.get("course_title"),
         "slug": course_data.get("slug"),
