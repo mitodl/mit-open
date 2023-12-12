@@ -1,7 +1,7 @@
 """Filters for learning_resources API"""
 import logging
 
-from django_filters import ChoiceFilter, FilterSet
+from django_filters import CharFilter, ChoiceFilter, FilterSet
 
 from learning_resources.constants import (
     DEPARTMENTS,
@@ -48,6 +48,26 @@ class LearningResourceFilter(FilterSet):
         method="filter_platform",
         field_name="platform__name",
         choices=([(platform.name, platform.value) for platform in PlatformType]),
+    )
+
+    level = CharFilter(
+        label="The academic level of the resources (Undergraduate, Graduate, etc)",
+        field_name="runs__level",
+        lookup_expr="iexact",
+    )
+
+    topic = CharFilter(
+        label="Topics covered by the resources. Load the 'topics' api endpoint "
+        "for a list of topics",
+        field_name="topics__name",
+        lookup_expr="iexact",
+    )
+
+    resource_content_tags = CharFilter(
+        label="The content tags for the resources. Load the 'content_tags' endpoint "
+        "for a list of tags",
+        field_name="resource_content_tags__name",
+        lookup_expr="iexact",
     )
 
     sortby = ChoiceFilter(

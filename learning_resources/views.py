@@ -38,6 +38,7 @@ from learning_resources.filters import LearningResourceFilter
 from learning_resources.models import (
     ContentFile,
     LearningResource,
+    LearningResourceContentTag,
     LearningResourceDepartment,
     LearningResourceOfferor,
     LearningResourcePlatform,
@@ -58,6 +59,7 @@ from learning_resources.serializers import (
     LearningPathRelationshipSerializer,
     LearningPathResourceSerializer,
     LearningResourceChildSerializer,
+    LearningResourceContentTagSerializer,
     LearningResourceDepartmentSerializer,
     LearningResourceOfferorSerializer,
     LearningResourcePlatformSerializer,
@@ -623,3 +625,18 @@ class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
     lookup_field = "code"
+
+
+@extend_schema_view(
+    list=extend_schema(summary="List of resource content tags"),
+    retrieve=extend_schema(summary="Resource content tag details"),
+)
+class ContentTagViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Topics covered by learning resources
+    """
+
+    queryset = LearningResourceContentTag.objects.all().order_by("name")
+    serializer_class = LearningResourceContentTagSerializer
+    pagination_class = LargePagination
+    permission_classes = (AnonymousAccessReadonlyPermission,)
