@@ -5,8 +5,9 @@
     "rootDir": "./src",
     "baseUrl": "./src",
     "paths": {
-      "page-components/*": ["page-components/*"],
-      "components/*": ["components/*"]
+      "common/*": ["common/*"],
+      "components/*": ["components/*"],
+      "page-components/*": ["page-components/*"]
     }
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"],

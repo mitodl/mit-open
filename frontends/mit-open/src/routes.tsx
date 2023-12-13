@@ -1,7 +1,7 @@
 import React from "react"
 import { RouteObject, Outlet } from "react-router"
 import HomePage from "./pages/HomePage/HomePage"
-import RestrictedRoute from "./components/RestrictedRoute"
+import RestrictedRoute from "components/RestrictedRoute/RestrictedRoute"
 import LearningPathListingPage from "./pages/LearningPathListingPage/LearningPathListingPage"
 import LearningPathDetailsPage from "./pages/LearningPathDetailsPage/LearningPathDetailsPage"
 import ArticleDetailsPage from "./pages/ArticleDetailsPage/ArticleDetailsPage"

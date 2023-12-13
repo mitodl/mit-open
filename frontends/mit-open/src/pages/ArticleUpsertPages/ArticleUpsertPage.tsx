@@ -1,5 +1,5 @@
 import React from "react"
-import { GridColumn, GridContainer } from "../../components/layout"
+import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
 import { Container, BannerPage } from "ol-design"
 import { MetaTags } from "ol-util"
 

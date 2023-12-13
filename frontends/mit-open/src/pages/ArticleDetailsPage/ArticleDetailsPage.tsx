@@ -1,6 +1,6 @@
 import React from "react"
 import { MetaTags } from "ol-util"
-import { GridColumn, GridContainer } from "../../components/layout"
+import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
 import { Container, LoadingSpinner, BannerPage } from "ol-design"
 import { useArticleDetail } from "api/hooks/articles"
 import { useParams } from "react-router"

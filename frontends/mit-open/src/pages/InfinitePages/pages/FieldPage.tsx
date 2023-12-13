@@ -18,7 +18,7 @@ import ArrowBack from "@mui/icons-material/ArrowBack"
 import { useFieldDetails } from "../../../api/fields"
 import { useUserListItems } from "../../../api/learning-resources"
 import WidgetsList from "../components/WidgetsList"
-import { GridColumn, GridContainer } from "../../../components/layout"
+import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
 import LearningResourceCard from "page-components/LearningResourceCard/LearningResourceCard"
 import invariant from "tiny-invariant"
 

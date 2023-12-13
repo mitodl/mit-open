@@ -18,7 +18,7 @@ import { MetaTags } from "ol-util"
 import type { LearningPathResource } from "api"
 import { useLearningPathsList } from "api/hooks/learningResources"
 
-import { GridColumn, GridContainer } from "components/layout"
+import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
 
 import { LearningResourceCardTemplate } from "ol-learning-resources"
 

@@ -8,7 +8,7 @@ import {
   theme,
 } from "ol-design"
 import type { SearchInputProps } from "ol-design"
-import { GridContainer } from "../../components/layout"
+import { GridContainer } from "components/GridLayout/GridLayout"
 import { useLearningResourcesList } from "api/hooks/learningResources"
 import HomePageCarousel from "./HomePageCarousel"
 
