@@ -2,7 +2,7 @@
 
 import pytest
 
-from learning_resources import constants, factories, serializers, utils
+from learning_resources import factories, serializers, utils
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -383,7 +383,10 @@ def test_learningpathitem_serializer_validation(child_exists):
         )
 
 
-def test_content_file_serializer():
+@pytest.mark.parametrize(
+    "expected_types", [["Assignments", "Tools"], ["Lecture Audio"], [], None]
+)
+def test_content_file_serializer(expected_types):
     """Verify that the ContentFileSerializer has the correct data"""
     content_kwargs = {
         "content": "Test content",
@@ -391,7 +394,7 @@ def test_content_file_serializer():
         "content_language": "en",
         "content_title": "test title",
     }
-    platform = constants.PlatformType.xpro.name
+    platform = PlatformType.ocw.name
     course = factories.CourseFactory.create(platform=platform)
     content_file = factories.ContentFileFactory.create(
         run=course.learning_resource.runs.first(), **content_kwargs
