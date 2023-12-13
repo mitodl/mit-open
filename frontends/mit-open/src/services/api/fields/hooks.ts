@@ -5,16 +5,15 @@ import {
   FieldChannelBasicForm,
   FieldList,
 } from "./interfaces"
-import * as urls from "./urls"
+import { fieldsList, fieldDetails } from "./urls"
 import axios from "services/axios"
-import { fieldDetails } from "./urls"
 
 const useFieldsList = () => {
-  return useQuery<FieldList>([urls.fieldsList])
+  return useQuery<FieldList>([fieldsList])
 }
 
 const useFieldDetails = (name: string) => {
-  return useQuery<FieldChannel>([urls.fieldDetails(name)])
+  return useQuery<FieldChannel>([fieldDetails(name)])
 }
 
 const editFieldChannel = async (

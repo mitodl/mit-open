@@ -6,7 +6,7 @@ import type {
 } from "api"
 import { manageListDialogs } from "page-components/ManageListDialogs/ManageListDialogs"
 import ItemsListing from "./ItemsListing"
-import { learningPathsView } from "../urls"
+import { learningPathsView } from "common/urls"
 import {
   screen,
   renderTestApp,

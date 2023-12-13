@@ -1,7 +1,7 @@
 import React, { useCallback } from "react"
 import { useNavigate } from "react-router"
 import ArticleUpsertForm from "page-components/ArticleUpsertForm/ArticleUpsertForm"
-import { articlesView } from "../urls"
+import { articlesView } from "common/urls"
 import ArticleUpsertPage from "./ArticleUpsertPage"
 
 /**

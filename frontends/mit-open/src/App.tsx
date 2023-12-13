@@ -10,7 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { Provider as NiceModalProvider } from "@ebay/nice-modal-react"
 import { ThemeProvider } from "ol-design"
 import { createQueryClient } from "services/react-query/react-query"
-import routes from "./routes"
+import routes from "common/routes"
 
 Sentry.init({
   dsn: window.SETTINGS.sentry_dsn,
@@ -54,3 +54,5 @@ const App: React.FC<AppProps> = ({ router, queryClient }) => {
 }
 
 root.render(<App queryClient={queryClient} router={router} />)
+
+export default App

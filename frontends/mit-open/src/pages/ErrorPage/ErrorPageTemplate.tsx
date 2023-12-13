@@ -2,7 +2,7 @@ import React from "react"
 import { Container, Card, CardContent, CardActions } from "ol-design"
 import { ButtonLink } from "ol-design"
 
-import { HOME } from "../urls"
+import { HOME } from "common/urls"
 import { MetaTags } from "ol-util"
 
 type ErrorPageTemplateProps = {

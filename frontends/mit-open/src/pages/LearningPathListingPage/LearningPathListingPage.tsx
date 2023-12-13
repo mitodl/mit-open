@@ -25,7 +25,7 @@ import { LearningResourceCardTemplate } from "ol-learning-resources"
 import { imgConfigs } from "common/constants"
 import { manageListDialogs } from "page-components/ManageListDialogs/ManageListDialogs"
 
-import * as urls from "../urls"
+import * as urls from "common/urls"
 
 type EditListMenuProps = {
   resource: LearningPathResource
