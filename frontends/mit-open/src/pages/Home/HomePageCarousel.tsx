@@ -1,9 +1,13 @@
 import React from "react"
-import styled from "@emotion/styled"
 import { UseQueryResult } from "@tanstack/react-query"
 import ArrowBack from "@mui/icons-material/ArrowBack"
 import ArrowForward from "@mui/icons-material/ArrowForward"
-import { Button, TitledCarousel, useMuiBreakpointAtLeast } from "ol-design"
+import {
+  Button,
+  TitledCarousel,
+  useMuiBreakpointAtLeast,
+  styled,
+} from "ol-design"
 import type { PaginatedLearningResourceList } from "api"
 import LearningResourceCard from "../../components/LearningResourceCard"
 

@@ -1,6 +1,3 @@
-import "jest-extended"
-import "jest-extended/all"
-
 import { setupMockEditors } from "ol-ckeditor/test_utils"
 import { mockAxiosInstance } from "./mockAxios"
 import { makeUserSettings } from "./factories"

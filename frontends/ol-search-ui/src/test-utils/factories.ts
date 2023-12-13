@@ -1,7 +1,7 @@
 //@ts-expect-error casual-browserify does not have typescript types
 import casual from "casual-browserify"
 import { faker } from "@faker-js/faker/locale/en"
-import { DATE_FORMAT } from "./util"
+import { DATE_FORMAT } from "../util"
 import { Factory, makePaginatedFactory } from "ol-util/factories"
 import {
   CourseTopic,
@@ -16,7 +16,7 @@ import {
   PrivacyLevel,
   ListItemMember,
   StaffList,
-} from "./interfaces"
+} from "../interfaces"
 
 import { times } from "lodash"
 import moment from "moment"

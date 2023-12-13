@@ -1,6 +1,6 @@
 import { isUserListOrPath, isStaffListOrPath, languageName } from "./util"
 import { LearningResourceType as LR } from "./interfaces"
-import * as factories from "./factories"
+import * as factories from "./test-utils/factories"
 
 describe("languageName", () => {
   it("Returns english name for 2-digit ISO-639-1 code", () => {

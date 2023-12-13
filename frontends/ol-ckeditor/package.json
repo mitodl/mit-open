@@ -6,27 +6,35 @@
     "./test_utils": "./src/test_utils.tsx",
     "./webpack-utils": "./src/webpack-utils.js"
   },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
   "dependencies": {
-    "@ckeditor/ckeditor5-adapter-ckfinder": "^40.0.0",
-    "@ckeditor/ckeditor5-autoformat": "^40.0.0",
-    "@ckeditor/ckeditor5-basic-styles": "^40.0.0",
-    "@ckeditor/ckeditor5-block-quote": "^40.0.0",
-    "@ckeditor/ckeditor5-cloud-services": "^40.0.0",
-    "@ckeditor/ckeditor5-core": "^40.0.0",
-    "@ckeditor/ckeditor5-dev-translations": "^39.1.0",
-    "@ckeditor/ckeditor5-dev-utils": "^39.1.0",
-    "@ckeditor/ckeditor5-easy-image": "^40.0.0",
-    "@ckeditor/ckeditor5-editor-classic": "^40.0.0",
-    "@ckeditor/ckeditor5-essentials": "^40.0.0",
-    "@ckeditor/ckeditor5-heading": "^40.0.0",
-    "@ckeditor/ckeditor5-image": "^40.0.0",
-    "@ckeditor/ckeditor5-link": "^40.0.0",
-    "@ckeditor/ckeditor5-list": "^40.0.0",
-    "@ckeditor/ckeditor5-markdown-gfm": "^40.0.0",
-    "@ckeditor/ckeditor5-media-embed": "^40.0.0",
-    "@ckeditor/ckeditor5-paragraph": "^40.0.0",
-    "@ckeditor/ckeditor5-react": "^6.1.0",
-    "@ckeditor/ckeditor5-theme-lark": "^40.0.0",
-    "axios": "^1.4.0"
+    "@ckeditor/ckeditor5-adapter-ckfinder": "^40.1.0",
+    "@ckeditor/ckeditor5-autoformat": "^40.1.0",
+    "@ckeditor/ckeditor5-basic-styles": "^40.1.0",
+    "@ckeditor/ckeditor5-block-quote": "^40.1.0",
+    "@ckeditor/ckeditor5-cloud-services": "^40.1.0",
+    "@ckeditor/ckeditor5-core": "^40.1.0",
+    "@ckeditor/ckeditor5-dev-translations": "^39.3.0",
+    "@ckeditor/ckeditor5-dev-utils": "^39.3.0",
+    "@ckeditor/ckeditor5-easy-image": "^40.1.0",
+    "@ckeditor/ckeditor5-editor-classic": "^40.1.0",
+    "@ckeditor/ckeditor5-essentials": "^40.1.0",
+    "@ckeditor/ckeditor5-heading": "^40.1.0",
+    "@ckeditor/ckeditor5-image": "^40.1.0",
+    "@ckeditor/ckeditor5-link": "^40.1.0",
+    "@ckeditor/ckeditor5-list": "^40.1.0",
+    "@ckeditor/ckeditor5-markdown-gfm": "^40.1.0",
+    "@ckeditor/ckeditor5-media-embed": "^40.1.0",
+    "@ckeditor/ckeditor5-paragraph": "^40.1.0",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
+    "@ckeditor/ckeditor5-theme-lark": "^40.1.0",
+    "@ckeditor/ckeditor5-ui": "^40.1.0",
+    "axios": "^0.27.2",
+    "classnames": "^2.3.2"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.1.2"
   }
 }

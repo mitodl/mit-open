@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker/locale/en"
 import type { PaginatedResult } from "./interfaces"
 import { times } from "lodash"
-import { PartialDeep } from "type-fest"
+import type { PartialDeep } from "type-fest"
 
 type Factory<T, U = never> = (overrides?: Partial<T>, options?: U) => T
 type PartialFactory<T, U = T> = (overrides?: PartialDeep<T>) => U

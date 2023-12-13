@@ -7,8 +7,8 @@ import { LearningResource } from "ol-search-ui"
 import { TitledCarousel } from "ol-design"
 import type { UserList, ListItem } from "ol-search-ui"
 import type { FieldChannel } from "../../api/fields"
-import * as factory from "../../api/fields/factories"
-import * as lrFactory from "ol-search-ui/src/factories"
+import * as factory from "../../api/fields/test-utils/factories"
+import * as lrFactory from "ol-search-ui/src/test-utils/factories"
 import WidgetList from "./WidgetsList"
 import {
   renderTestApp,
@@ -19,7 +19,7 @@ import {
   waitFor,
 } from "../../test-utils"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
-import { makeLearningResource } from "ol-search-ui/src/factories"
+import { makeLearningResource } from "ol-search-ui/src/test-utils/factories"
 import LearningResourceCard from "../../components/LearningResourceCard"
 
 jest.mock("./WidgetsList", () => {
@@ -240,7 +240,9 @@ describe("FieldPage", () => {
       await user.click(await screen.findByRole("button", { name: btnName }))
 
       await waitFor(() => {
-        expect(location.current.pathname).toEndWith(`/fields/${field.name}/`)
+        expect(
+          location.current.pathname.endsWith(`/fields/${field.name}/`),
+        ).toBe(true)
       })
     },
   )

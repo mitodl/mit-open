@@ -3,7 +3,7 @@ import { useNavigate } from "react-router"
 import { Formik, Form } from "formik"
 import { Autocomplete, TextField, Button } from "ol-design"
 import { SortableSelect } from "ol-design/deprecated"
-import { UniqueIdentifier } from "@dnd-kit/core"
+import type { SortableItem } from "ol-design/deprecated"
 
 import { FieldChannelBasicForm, useMutateField } from "../../api/fields"
 import type { FieldChannel } from "../../api/fields/interfaces"
@@ -111,7 +111,7 @@ const EditFieldBasicForm = (props: FormProps): JSX.Element => {
                 options={listOptions}
                 defaultOptions={listOptions}
                 loadOptions={loadOptions}
-                onChange={(items: Array<UniqueIdentifier>) => {
+                onChange={(items: Array<SortableItem["id"]>) => {
                   setFieldValue(
                     "lists",
                     items.map((item) => ~~item),

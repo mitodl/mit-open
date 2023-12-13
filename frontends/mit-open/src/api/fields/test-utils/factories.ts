@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker/locale/en"
 import { makePaginatedFactory, Factory } from "ol-util/factories"
-import { makeUserList } from "ol-search-ui/src/factories"
+import { makeUserList } from "ol-search-ui/src/test-utils/factories"
 import type { UserList } from "ol-search-ui"
 import { PrivacyLevel, LearningResourceType } from "ol-search-ui"
-import type { FieldChannel } from "./interfaces"
+import type { FieldChannel } from "../interfaces"
 
 const makeFieldUserList: Factory<UserList> = (overrides) =>
   makeUserList({

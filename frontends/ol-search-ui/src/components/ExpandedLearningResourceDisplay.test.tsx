@@ -8,7 +8,12 @@ import { makeUrl } from "ol-util/factories"
 import LearningResourceDetails, {
   LearningResourceDetailsProps,
 } from "./ExpandedLearningResourceDisplay"
-import { makeCourse, makeImgConfig, makeRun, makeVideo } from "../factories"
+import {
+  makeCourse,
+  makeImgConfig,
+  makeRun,
+  makeVideo,
+} from "../test-utils/factories"
 import { resourceThumbnailSrc, getInstructorName, findBestRun } from "../util"
 
 const formatShareLink: LearningResourceDetailsProps["formatShareLink"] = (r) =>

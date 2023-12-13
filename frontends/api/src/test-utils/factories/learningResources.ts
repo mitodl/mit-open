@@ -22,7 +22,7 @@ import type {
   PodcastEpisodeResource,
 } from "api"
 import { ResourceTypeEnum } from "api"
-import { PartialDeep } from "type-fest"
+import type { PartialDeep } from "type-fest"
 
 const maybe = faker.helpers.maybe
 type RepeatOptins = { min?: number; max?: number }
