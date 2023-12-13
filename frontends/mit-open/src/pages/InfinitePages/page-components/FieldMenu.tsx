@@ -3,7 +3,7 @@ import { SimpleMenu, IconButton } from "ol-design"
 import type { SimpleMenuItem } from "ol-design"
 import SettingsIcon from "@mui/icons-material/Settings"
 
-import { FieldChannel } from "../../../api/fields"
+import { FieldChannel } from "services/api/fields"
 import {
   makeFieldEditPath,
   makeFieldManageWidgetsPath,

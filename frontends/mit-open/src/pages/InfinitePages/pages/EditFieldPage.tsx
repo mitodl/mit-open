@@ -6,7 +6,7 @@ import { Container, Tab, TabList, TabContext, TabPanel } from "ol-design"
 import { MetaTags } from "ol-util"
 
 import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
-import { useFieldDetails } from "../../../api/fields"
+import { useFieldDetails } from "services/api/fields"
 import EditFieldAppearanceForm from "../page-components/EditFieldAppearanceForm"
 import EditFieldBasicForm from "../page-components/EditFieldBasicForm"
 import FieldPageSkeleton from "./FieldPageSkeleton"

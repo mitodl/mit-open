@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { useResource } from "../../api/learning-resources"
+import { useResource } from "services/api/learning-resources"
 import { RoutedDrawer } from "ol-design"
 import {
   ExpandedLearningResourceDisplay,

@@ -1,7 +1,7 @@
 import { renderTestApp, screen, setMockResponse } from "../../../test-utils"
-import * as factory from "../../../api/fields/test-utils/factories"
-import { FieldChannel, urls } from "../../../api/fields"
-import { urls as lrUrls } from "../../../api/learning-resources"
+import * as factory from "services/api/fields/test-utils/factories"
+import { FieldChannel, urls } from "services/api/fields"
+import { urls as lrUrls } from "services/api/learning-resources"
 
 describe("EditFieldPage", () => {
   const setup = (overrides?: Partial<FieldChannel>) => {

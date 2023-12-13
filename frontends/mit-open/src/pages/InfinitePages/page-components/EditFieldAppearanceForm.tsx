@@ -4,8 +4,8 @@ import { Formik, Form, Field } from "formik"
 import { Button } from "ol-design"
 import * as Yup from "yup"
 
-import { FieldChannelAppearanceForm, useMutateField } from "../../../api/fields"
-import type { FieldChannel } from "../../../api/fields/interfaces"
+import { FieldChannelAppearanceForm, useMutateField } from "services/api/fields"
+import type { FieldChannel } from "services/api/fields/interfaces"
 import FieldAvatar from "../components/FieldAvatar"
 import { makeFieldViewPath } from "../common/infinite-pages-urls"
 

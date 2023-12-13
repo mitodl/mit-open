@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { makeFieldViewPath } from "../common/infinite-pages-urls"
 import { Container, BannerPage } from "ol-design"
-import { useFieldDetails } from "../../../api/fields"
+import { useFieldDetails } from "services/api/fields"
 import FieldAvatar from "../components/FieldAvatar"
 import FieldMenu from "../page-components/FieldMenu"
 

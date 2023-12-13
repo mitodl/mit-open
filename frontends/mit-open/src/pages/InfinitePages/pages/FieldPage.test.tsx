@@ -1,13 +1,13 @@
 /* eslint-disable testing-library/no-node-access */
 import { assertInstanceOf, assertNotNil } from "ol-util"
-import { urls } from "../../../api/fields"
-import { urls as widgetUrls } from "../../../api/widgets"
-import { urls as lrUrls } from "../../../api/learning-resources"
+import { urls } from "services/api/fields"
+import { urls as widgetUrls } from "services/api/widgets"
+import { urls as lrUrls } from "services/api/learning-resources"
 import { LearningResource } from "ol-search-ui"
 import { TitledCarousel } from "ol-design"
 import type { UserList, ListItem } from "ol-search-ui"
-import type { FieldChannel } from "../../../api/fields"
-import * as factory from "../../../api/fields/test-utils/factories"
+import type { FieldChannel } from "services/api/fields"
+import * as factory from "services/api/fields/test-utils/factories"
 import * as lrFactory from "ol-search-ui/src/test-utils/factories"
 import WidgetList from "../components/WidgetsList"
 
