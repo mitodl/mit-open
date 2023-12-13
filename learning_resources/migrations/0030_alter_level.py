@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
             model_name="learningresourcerun",
             name="level",
             field=django.contrib.postgres.fields.ArrayField(
-                base_field=models.CharField(max_length=128), size=None
+                base_field=models.CharField(max_length=128), size=None, default=[]
             ),
         ),
     ]

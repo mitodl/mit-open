@@ -487,8 +487,11 @@ paths:
         schema:
           type: string
           enum:
+          - advanced
           - graduate
           - high_school
+          - intermediate
+          - introductory
           - noncredit
           - undergraduate
         description: |-
@@ -498,6 +501,9 @@ paths:
           * `graduate` - Graduate
           * `high_school` - High School
           * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -849,8 +855,11 @@ paths:
         schema:
           type: string
           enum:
+          - advanced
           - graduate
           - high_school
+          - intermediate
+          - introductory
           - noncredit
           - undergraduate
         description: |-
@@ -860,6 +869,9 @@ paths:
           * `graduate` - Graduate
           * `high_school` - High School
           * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -1384,8 +1396,11 @@ paths:
         schema:
           type: string
           enum:
+          - advanced
           - graduate
           - high_school
+          - intermediate
+          - introductory
           - noncredit
           - undergraduate
         description: |-
@@ -1395,6 +1410,9 @@ paths:
           * `graduate` - Graduate
           * `high_school` - High School
           * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -1808,8 +1826,11 @@ paths:
         schema:
           type: string
           enum:
+          - advanced
           - graduate
           - high_school
+          - intermediate
+          - introductory
           - noncredit
           - undergraduate
         description: |-
@@ -1819,6 +1840,9 @@ paths:
           * `graduate` - Graduate
           * `high_school` - High School
           * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -2400,8 +2424,11 @@ paths:
         schema:
           type: string
           enum:
+          - advanced
           - graduate
           - high_school
+          - intermediate
+          - introductory
           - noncredit
           - undergraduate
         description: |-
@@ -2411,6 +2438,9 @@ paths:
           * `graduate` - Graduate
           * `high_school` - High School
           * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -3059,8 +3089,11 @@ paths:
         schema:
           type: string
           enum:
+          - advanced
           - graduate
           - high_school
+          - intermediate
+          - introductory
           - noncredit
           - undergraduate
         description: |-
@@ -3070,6 +3103,9 @@ paths:
           * `graduate` - Graduate
           * `high_school` - High School
           * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -3339,8 +3375,11 @@ paths:
         schema:
           type: string
           enum:
+          - advanced
           - graduate
           - high_school
+          - intermediate
+          - introductory
           - noncredit
           - undergraduate
         description: |-
@@ -3350,6 +3389,9 @@ paths:
           * `graduate` - Graduate
           * `high_school` - High School
           * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -3681,8 +3723,11 @@ paths:
         schema:
           type: string
           enum:
+          - advanced
           - graduate
           - high_school
+          - intermediate
+          - introductory
           - noncredit
           - undergraduate
         description: |-
@@ -3692,6 +3737,9 @@ paths:
           * `graduate` - Graduate
           * `high_school` - High School
           * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -3979,8 +4027,11 @@ paths:
         schema:
           type: string
           enum:
+          - advanced
           - graduate
           - high_school
+          - intermediate
+          - introductory
           - noncredit
           - undergraduate
         description: |-
@@ -3990,6 +4041,9 @@ paths:
           * `graduate` - Graduate
           * `high_school` - High School
           * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -5630,7 +5684,6 @@ components:
       - id
       - image
       - instructors
-      - level
       - run_id
       - title
     LearningResourceRunRequest:
@@ -5721,7 +5774,6 @@ components:
           nullable: true
           maxLength: 32
       required:
-      - level
       - run_id
       - title
     LearningResourceTopic:

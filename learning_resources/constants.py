@@ -241,3 +241,6 @@ class LevelType(ExtendedEnum):
     graduate = "Graduate"
     high_school = "High School"
     noncredit = "Non Credit"
+    advanced = "Advanced"
+    intermediate = "Intermediate"
+    introductory = "Introductory"
