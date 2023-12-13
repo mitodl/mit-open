@@ -1,6 +1,6 @@
 import React from "react"
-import { Grid } from "ol-design"
-import type { GridProps } from "ol-design"
+import { Grid } from "ol-components"
+import type { GridProps } from "ol-components"
 
 type GridContainerProps = Omit<
   GridProps,

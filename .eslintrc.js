@@ -40,6 +40,7 @@ module.exports = {
         ],
       },
     ],
+    "import/no-duplicates": "error",
   },
   overrides: [
     {

@@ -9,7 +9,7 @@ import {
   arrayMove,
   OnSortEnd,
 } from "ol-util"
-import { LoadingSpinner } from "ol-design"
+import { LoadingSpinner } from "ol-components"
 import { useLearningpathRelationshipMove } from "api/hooks/learningResources"
 
 type ItemsListingProps = {

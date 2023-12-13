@@ -4,7 +4,7 @@ import { urls } from "services/api/fields"
 import { urls as widgetUrls } from "services/api/widgets"
 import { urls as lrUrls } from "services/api/learning-resources"
 import { LearningResource } from "ol-search-ui"
-import { TitledCarousel } from "ol-design"
+import { TitledCarousel } from "ol-components"
 import type { UserList, ListItem } from "ol-search-ui"
 import type { FieldChannel } from "services/api/fields"
 import * as factory from "services/api/fields/test-utils/factories"
@@ -34,8 +34,8 @@ const mockWidgetList = jest.mocked(WidgetList)
 
 const spyLearningResourceCard = jest.mocked(LearningResourceCard)
 
-jest.mock("ol-design", () => {
-  const actual = jest.requireActual("ol-design")
+jest.mock("ol-components", () => {
+  const actual = jest.requireActual("ol-components")
   return {
     ...actual,
     TitledCarousel: jest.fn(actual.TitledCarousel),

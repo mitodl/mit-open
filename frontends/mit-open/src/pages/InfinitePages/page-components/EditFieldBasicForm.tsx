@@ -1,10 +1,9 @@
 import React, { useCallback, useMemo } from "react"
 import { useNavigate } from "react-router"
 import { Formik, Form } from "formik"
-import { Autocomplete, TextField, Button } from "ol-design"
-import { SortableSelect } from "ol-design/deprecated"
-import type { SortableItem } from "ol-design/deprecated"
-
+import { Autocomplete, TextField, Button } from "ol-components"
+import { SortableSelect } from "ol-components/deprecated"
+import type { SortableItem } from "ol-components/deprecated"
 import { FieldChannelBasicForm, useMutateField } from "services/api/fields"
 import type { FieldChannel } from "services/api/fields/interfaces"
 import type { UserList } from "ol-search-ui"

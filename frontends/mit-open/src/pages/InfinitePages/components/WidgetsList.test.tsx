@@ -6,11 +6,11 @@ import {
   expectProps,
   user,
   expectLastProps,
+  setMockResponse,
 } from "../../../test-utils"
 import { Widget, WidgetsListEditable } from "ol-widgets"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import WidgetsList from "./WidgetsList"
-import { setMockResponse } from "../../../test-utils"
 import { urls } from "services/api/widgets"
 import { makeRequest } from "../../../test-utils/mockAxios"
 

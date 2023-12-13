@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { Button } from "ol-design"
-import { IconButton } from "ol-design"
+import { Button, IconButton } from "ol-components"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 
 import FacetDisplay from "./FacetDisplay"

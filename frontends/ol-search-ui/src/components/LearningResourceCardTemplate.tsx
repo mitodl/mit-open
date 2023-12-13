@@ -3,8 +3,7 @@ import Dotdotdot from "react-dotdotdot"
 import invariant from "tiny-invariant"
 import { toQueryString, pluralize } from "ol-util"
 import classNames from "classnames"
-
-import { Card, CardContent, Chip, CardMedia } from "ol-design"
+import { Card, CardContent, Chip, CardMedia } from "ol-components"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 

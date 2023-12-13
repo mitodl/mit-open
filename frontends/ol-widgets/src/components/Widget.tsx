@@ -1,6 +1,6 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
-import { Divider, Card, CardContent, CardActions } from "ol-design"
+import { Divider, Card, CardContent, CardActions } from "ol-components"
 import IconEdit from "@mui/icons-material/Edit"
 import IconDelete from "@mui/icons-material/Delete"
 import IconDrag from "@mui/icons-material/DragHandle"

@@ -14,7 +14,7 @@ import {
   Grid,
   TextField,
   BasicDialog,
-} from "ol-design"
+} from "ol-components"
 import * as Yup from "yup"
 import { useFormik } from "formik"
 import { Article } from "api"

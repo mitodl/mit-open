@@ -8,8 +8,8 @@ import {
   LoadingSpinner,
   BannerPage,
   Container,
-} from "ol-design"
-import type { SimpleMenuItem } from "ol-design"
+} from "ol-components"
+import type { SimpleMenuItem } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import DeleteIcon from "@mui/icons-material/Delete"

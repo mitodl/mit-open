@@ -8,7 +8,7 @@ import {
   ListItemButton,
   ListItemText,
   LoadingSpinner,
-} from "ol-design"
+} from "ol-components"
 
 import LockOpenIcon from "@mui/icons-material/LockOpen"
 import LockIcon from "@mui/icons-material/Lock"

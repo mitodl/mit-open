@@ -3,9 +3,7 @@ import Dotdotdot from "react-dotdotdot"
 import invariant from "tiny-invariant"
 import classNames from "classnames"
 import { ResourceTypeEnum, type LearningResource } from "api"
-
-import { Card, CardContent, Chip, CardMedia } from "ol-design"
-
+import { Card, CardContent, Chip, CardMedia } from "ol-components"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import moment from "moment"

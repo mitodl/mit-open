@@ -1,6 +1,6 @@
 import React, { useCallback } from "react"
 import { useResource } from "services/api/learning-resources"
-import { RoutedDrawer } from "ol-design"
+import { RoutedDrawer } from "ol-components"
 import {
   ExpandedLearningResourceDisplay,
   ExpandedLearningResourceDisplayProps as LRDisplayProps,

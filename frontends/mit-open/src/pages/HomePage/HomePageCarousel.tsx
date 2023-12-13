@@ -7,7 +7,7 @@ import {
   TitledCarousel,
   useMuiBreakpointAtLeast,
   styled,
-} from "ol-design"
+} from "ol-components"
 import type { PaginatedLearningResourceList } from "api"
 import LearningResourceCard from "page-components/LearningResourceCard/LearningResourceCard"
 

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react"
-import { styled, AppBar, Divider, Toolbar } from "ol-design"
+import { styled, AppBar, Divider, Toolbar } from "ol-components"
 import { MITLogoLink } from "ol-util"
 
 const Bar = styled(AppBar)`

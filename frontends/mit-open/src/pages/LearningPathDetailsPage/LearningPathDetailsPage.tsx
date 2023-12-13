@@ -1,5 +1,5 @@
 import React, { useMemo } from "react"
-import { Container, Grid, Button, BannerPage } from "ol-design"
+import { Container, Grid, Button, BannerPage } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
 import SwapVertIcon from "@mui/icons-material/SwapVert"
 

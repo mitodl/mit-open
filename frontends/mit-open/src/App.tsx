@@ -8,7 +8,7 @@ import * as Sentry from "@sentry/react"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { Provider as NiceModalProvider } from "@ebay/nice-modal-react"
-import { ThemeProvider } from "ol-design"
+import { ThemeProvider } from "ol-components"
 import { createQueryClient } from "services/react-query/react-query"
 import routes from "common/routes"
 

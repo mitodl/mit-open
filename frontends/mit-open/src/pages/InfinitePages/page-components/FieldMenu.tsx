@@ -1,8 +1,7 @@
 import * as React from "react"
-import { SimpleMenu, IconButton } from "ol-design"
-import type { SimpleMenuItem } from "ol-design"
+import { SimpleMenu, IconButton } from "ol-components"
+import type { SimpleMenuItem } from "ol-components"
 import SettingsIcon from "@mui/icons-material/Settings"
-
 import { FieldChannel } from "services/api/fields"
 import {
   makeFieldEditPath,

@@ -1,9 +1,8 @@
 import React from "react"
 import { useNavigate } from "react-router"
 import { Formik, Form, Field } from "formik"
-import { Button } from "ol-design"
+import { Button } from "ol-components"
 import * as Yup from "yup"
-
 import { FieldChannelAppearanceForm, useMutateField } from "services/api/fields"
 import type { FieldChannel } from "services/api/fields/interfaces"
 import FieldAvatar from "../components/FieldAvatar"

@@ -6,8 +6,8 @@ import {
   Grid,
   SearchInput,
   theme,
-} from "ol-design"
-import type { SearchInputProps } from "ol-design"
+} from "ol-components"
+import type { SearchInputProps } from "ol-components"
 import { GridContainer } from "components/GridLayout/GridLayout"
 import { useLearningResourcesList } from "api/hooks/learningResources"
 import HomePageCarousel from "./HomePageCarousel"

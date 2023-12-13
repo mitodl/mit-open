@@ -1,7 +1,11 @@
 import React from "react"
-import { Container, Card, CardContent, CardActions } from "ol-design"
-import { ButtonLink } from "ol-design"
-
+import {
+  Container,
+  Card,
+  CardContent,
+  CardActions,
+  ButtonLink,
+} from "ol-components"
 import { HOME } from "common/urls"
 import { MetaTags } from "ol-util"
 

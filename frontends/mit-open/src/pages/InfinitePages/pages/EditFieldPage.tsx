@@ -1,10 +1,8 @@
 import React, { useCallback } from "react"
 import { useNavigate, useLocation, useParams } from "react-router"
 import { Link } from "react-router-dom"
-import { Container, Tab, TabList, TabContext, TabPanel } from "ol-design"
-
+import { Container, Tab, TabList, TabContext, TabPanel } from "ol-components"
 import { MetaTags } from "ol-util"
-
 import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
 import { useFieldDetails } from "services/api/fields"
 import EditFieldAppearanceForm from "../page-components/EditFieldAppearanceForm"

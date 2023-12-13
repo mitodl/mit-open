@@ -9,7 +9,7 @@ import {
   TabList,
   TabPanel,
   TitledCarousel,
-} from "ol-design"
+} from "ol-components"
 import type { UserList } from "ol-search-ui"
 import { Link } from "react-router-dom"
 import FieldPageSkeleton from "./FieldPageSkeleton"

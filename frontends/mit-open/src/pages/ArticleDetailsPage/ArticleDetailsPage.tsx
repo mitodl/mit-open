@@ -1,11 +1,15 @@
 import React from "react"
 import { MetaTags } from "ol-util"
 import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
-import { Container, LoadingSpinner, BannerPage } from "ol-design"
+import {
+  Container,
+  LoadingSpinner,
+  BannerPage,
+  ButtonLink,
+  Grid,
+} from "ol-components"
 import { useArticleDetail } from "api/hooks/articles"
 import { useParams } from "react-router"
-import { ButtonLink } from "ol-design"
-import { Grid } from "ol-design"
 import { articlesEditView } from "common/urls"
 import { CkeditorDisplay } from "ol-ckeditor"
 

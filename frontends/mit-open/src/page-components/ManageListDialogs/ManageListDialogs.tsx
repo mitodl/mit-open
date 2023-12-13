@@ -8,7 +8,7 @@ import {
   BooleanRadioChoiceField,
   FormDialog,
   BasicDialog,
-} from "ol-design"
+} from "ol-components"
 import * as Yup from "yup"
 import type { LearningPathResource } from "api"
 

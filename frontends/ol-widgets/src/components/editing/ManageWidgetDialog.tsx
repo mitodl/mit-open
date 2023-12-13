@@ -1,4 +1,4 @@
-import React, { useId } from "react"
+import React, { useId, useCallback, useEffect, useMemo, useState } from "react"
 import {
   Dialog,
   DialogActions,
@@ -6,12 +6,11 @@ import {
   DialogTitle,
   Button,
   RadioChoiceField,
-} from "ol-design"
+} from "ol-components"
 import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik"
 import { isNil } from "lodash"
 import { AnonymousWidget, WidgetSpec, WidgetTypes } from "../../interfaces"
 import { getWidgetFieldComponent, renameFieldProps } from "./widgetFields"
-import { useCallback, useEffect, useMemo, useState } from "react"
 import { getWidgetSchema } from "./schemas"
 import classNames from "classnames"
 
