@@ -234,7 +234,7 @@ class LearningResourceRun(TimestampedModel):
         LearningResourceImage, null=True, blank=True, on_delete=models.deletion.SET_NULL
     )
     level = ArrayField(
-        models.CharField(max_length=128), null=False, blank=False, default=[]
+        models.CharField(max_length=128), null=False, blank=False, default=list
     )
     slug = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
     availability = models.CharField(  # noqa: DJ001
