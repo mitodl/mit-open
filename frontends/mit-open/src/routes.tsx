@@ -9,7 +9,7 @@ import {
   ArticlesCreatePage,
   ArticleEditingPage,
 } from "./pages/articles/ArticleUpsertPages"
-import ErrorPage from "./pages/errors/ErrorPage"
+import ErrorPage from "./pages/ErrorPage/ErrorPage"
 import * as urls from "./pages/urls"
 import * as deprecatedUrls from "./infinite-pages/urls"
 import EditFieldPage from "./infinite-pages/field-details/EditFieldPage"
