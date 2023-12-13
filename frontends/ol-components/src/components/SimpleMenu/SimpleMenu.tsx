@@ -4,8 +4,7 @@ import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import invariant from "tiny-invariant"
-import { Link } from "react-router-dom"
-import { LinkProps } from "react-router-dom"
+import { Link , LinkProps } from "react-router-dom"
 
 interface SimpleMenuItem<K extends string = string> {
   key: K

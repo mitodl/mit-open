@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react"
 import striptags from "striptags"
 import { decode } from "html-entities"
-import { propsNotNil } from "ol-util"
+import { propsNotNil , EmbedlyCard, formatDurationClockTime } from "ol-util"
 
 import TruncatedText from "./TruncatedText"
 
@@ -24,7 +24,6 @@ import {
   EmbedlyConfig,
 } from "../util"
 
-import { EmbedlyCard, formatDurationClockTime } from "ol-util"
 import moment from "moment"
 
 type LearningResourceDetailsProps = {

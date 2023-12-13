@@ -3,8 +3,7 @@ import {
   FacebookShareButton,
   LinkedinShareButton,
   TwitterShareButton,
-} from "react-share"
-import { FacebookIcon, TwitterIcon, LinkedinIcon } from "react-share"
+ FacebookIcon, TwitterIcon, LinkedinIcon } from "react-share"
 import Tooltip from "rc-tooltip"
 
 type HelperProps = {

@@ -3,8 +3,7 @@ import {
   SearchQueryParams,
   buildSearchQuery,
 } from "@mitodl/course-search-utils"
-import { act } from "@testing-library/react"
-import { renderHook, waitFor } from "@testing-library/react"
+import { act , renderHook, waitFor } from "@testing-library/react"
 import * as factories from "ol-search-ui/src/test-utils/factories"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { setMockResponse } from "../../../test-utils/mockAxios"

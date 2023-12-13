@@ -1,7 +1,6 @@
 import React from "react"
-import { render, screen } from "@testing-library/react"
+import { render, screen , fireEvent, waitFor } from "@testing-library/react"
 import SearchFilter from "./SearchFilter"
-import { fireEvent, waitFor } from "@testing-library/react"
 
 describe("SearchFilter", () => {
   const onClickStub = jest.fn()
