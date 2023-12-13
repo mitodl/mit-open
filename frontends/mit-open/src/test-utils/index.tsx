@@ -2,7 +2,7 @@ import React from "react"
 import { createMemoryRouter, useRouteError } from "react-router"
 import type { RouteObject } from "react-router"
 
-import App from "../App"
+import AppProviders from "../AppProviders"
 import appRoutes from "common/routes"
 import { render } from "@testing-library/react"
 import { setMockResponse } from "./mockAxios"
@@ -54,7 +54,9 @@ const renderRoutesWithProviders = (
     { initialEntries: [url] },
   )
   const queryClient = createQueryClient()
-  const view = render(<App queryClient={queryClient} router={router}></App>)
+  const view = render(
+    <AppProviders queryClient={queryClient} router={router}></AppProviders>,
+  )
 
   const location = {
     get current() {

@@ -23,8 +23,8 @@ import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import { makeLearningResource } from "ol-search-ui/src/test-utils/factories"
 import LearningResourceCard from "page-components/LearningResourceCard/LearningResourceCard"
 
-jest.mock("./WidgetsList", () => {
-  const actual = jest.requireActual("./WidgetsList")
+jest.mock("../components/WidgetsList", () => {
+  const actual = jest.requireActual("../components/WidgetsList")
   return {
     __esModule: true,
     default: jest.fn(actual.default),

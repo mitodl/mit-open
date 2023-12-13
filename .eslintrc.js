@@ -61,7 +61,7 @@ function restrictedImports({ paths = [], patterns = [] } = {}) {
    * it's difficult to restrict imports but allow a few exceptions.
    *
    * For example:
-   *  - forbid importing `@mui/material/*`, EXCEPT within `ol-design`.
+   *  - forbid importing `@mui/material/*`, EXCEPT within `ol-components`.
    *
    * It is possible to do this using overrides.
    *

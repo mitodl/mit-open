@@ -9,7 +9,8 @@
       "components/*": ["components/*"],
       "page-components/*": ["page-components/*"],
       "services/*": ["services/*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"],
   "typeRoots": ["./src/typings", "./node_modules/@types/"]
