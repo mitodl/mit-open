@@ -1,6 +1,6 @@
 import React from "react"
 
-import HomePage from "./Home"
+import HomePage from "./HomePage"
 
 import { urls, setMockResponse } from "api/test-utils"
 import { learningResources as factory } from "api/test-utils/factories"

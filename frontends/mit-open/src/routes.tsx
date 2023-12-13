@@ -1,6 +1,6 @@
 import React from "react"
 import { RouteObject, Outlet } from "react-router"
-import HomePage from "./pages/Home/Home"
+import HomePage from "./pages/HomePage/HomePage"
 import RestrictedRoute from "./components/RestrictedRoute"
 import LearningPathListingPage from "./pages/learningpaths/LearningPathListingPage"
 import LearningPathDetailsPage from "./pages/learningpaths/LearningPathDetails"
