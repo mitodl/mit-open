@@ -324,55 +324,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchResponse'
           description: ''
-  /api/v1/content_tags/:
-    get:
-      operationId: content_tags_list
-      description: Topics covered by learning resources
-      summary: List of resource content tags
-      parameters:
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      tags:
-      - content_tags
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceContentTagList'
-          description: ''
-  /api/v1/content_tags/{id}/:
-    get:
-      operationId: content_tags_retrieve
-      description: Topics covered by learning resources
-      summary: Resource content tag details
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this learning resource content
-          tag.
-        required: true
-      tags:
-      - content_tags
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningResourceContentTag'
-          description: ''
   /api/v1/contentfiles/:
     get:
       operationId: contentfiles_list
@@ -535,8 +486,18 @@ paths:
         name: level
         schema:
           type: string
-        description: The academic level of the resources (Undergraduate, Graduate,
-          etc)
+          enum:
+          - graduate
+          - high_school
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
       - name: limit
         required: false
         in: query
@@ -625,8 +586,8 @@ paths:
         name: resource_content_tags
         schema:
           type: string
-        description: The content tags for the resources. Load the 'content_tags' endpoint
-          for a list of tags
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -681,7 +642,7 @@ paths:
         name: topic
         schema:
           type: string
-        description: Topics covered by the resources. Load the 'topics' api endpoint
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
           for a list of topics
       tags:
       - courses
@@ -887,8 +848,18 @@ paths:
         name: level
         schema:
           type: string
-        description: The academic level of the resources (Undergraduate, Graduate,
-          etc)
+          enum:
+          - graduate
+          - high_school
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
       - name: limit
         required: false
         in: query
@@ -977,8 +948,8 @@ paths:
         name: resource_content_tags
         schema:
           type: string
-        description: The content tags for the resources. Load the 'content_tags' endpoint
-          for a list of tags
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -1033,7 +1004,7 @@ paths:
         name: topic
         schema:
           type: string
-        description: Topics covered by the resources. Load the 'topics' api endpoint
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
           for a list of topics
       tags:
       - courses
@@ -1412,8 +1383,18 @@ paths:
         name: level
         schema:
           type: string
-        description: The academic level of the resources (Undergraduate, Graduate,
-          etc)
+          enum:
+          - graduate
+          - high_school
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
       - name: limit
         required: false
         in: query
@@ -1502,8 +1483,8 @@ paths:
         name: resource_content_tags
         schema:
           type: string
-        description: The content tags for the resources. Load the 'content_tags' endpoint
-          for a list of tags
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -1558,7 +1539,7 @@ paths:
         name: topic
         schema:
           type: string
-        description: Topics covered by the resources. Load the 'topics' api endpoint
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
           for a list of topics
       tags:
       - learning_resources
@@ -1826,8 +1807,18 @@ paths:
         name: level
         schema:
           type: string
-        description: The academic level of the resources (Undergraduate, Graduate,
-          etc)
+          enum:
+          - graduate
+          - high_school
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
       - name: limit
         required: false
         in: query
@@ -1916,8 +1907,8 @@ paths:
         name: resource_content_tags
         schema:
           type: string
-        description: The content tags for the resources. Load the 'content_tags' endpoint
-          for a list of tags
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -1972,7 +1963,7 @@ paths:
         name: topic
         schema:
           type: string
-        description: Topics covered by the resources. Load the 'topics' api endpoint
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
           for a list of topics
       tags:
       - learning_resources
@@ -2408,8 +2399,18 @@ paths:
         name: level
         schema:
           type: string
-        description: The academic level of the resources (Undergraduate, Graduate,
-          etc)
+          enum:
+          - graduate
+          - high_school
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
       - name: limit
         required: false
         in: query
@@ -2498,8 +2499,8 @@ paths:
         name: resource_content_tags
         schema:
           type: string
-        description: The content tags for the resources. Load the 'content_tags' endpoint
-          for a list of tags
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -2554,7 +2555,7 @@ paths:
         name: topic
         schema:
           type: string
-        description: Topics covered by the resources. Load the 'topics' api endpoint
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
           for a list of topics
       tags:
       - learningpaths
@@ -3057,8 +3058,18 @@ paths:
         name: level
         schema:
           type: string
-        description: The academic level of the resources (Undergraduate, Graduate,
-          etc)
+          enum:
+          - graduate
+          - high_school
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
       - name: limit
         required: false
         in: query
@@ -3147,8 +3158,8 @@ paths:
         name: resource_content_tags
         schema:
           type: string
-        description: The content tags for the resources. Load the 'content_tags' endpoint
-          for a list of tags
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -3203,7 +3214,7 @@ paths:
         name: topic
         schema:
           type: string
-        description: Topics covered by the resources. Load the 'topics' api endpoint
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
           for a list of topics
       tags:
       - podcast_episodes
@@ -3327,8 +3338,18 @@ paths:
         name: level
         schema:
           type: string
-        description: The academic level of the resources (Undergraduate, Graduate,
-          etc)
+          enum:
+          - graduate
+          - high_school
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
       - name: limit
         required: false
         in: query
@@ -3417,8 +3438,8 @@ paths:
         name: resource_content_tags
         schema:
           type: string
-        description: The content tags for the resources. Load the 'content_tags' endpoint
-          for a list of tags
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -3473,7 +3494,7 @@ paths:
         name: topic
         schema:
           type: string
-        description: Topics covered by the resources. Load the 'topics' api endpoint
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
           for a list of topics
       tags:
       - podcasts
@@ -3659,8 +3680,18 @@ paths:
         name: level
         schema:
           type: string
-        description: The academic level of the resources (Undergraduate, Graduate,
-          etc)
+          enum:
+          - graduate
+          - high_school
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
       - name: limit
         required: false
         in: query
@@ -3749,8 +3780,8 @@ paths:
         name: resource_content_tags
         schema:
           type: string
-        description: The content tags for the resources. Load the 'content_tags' endpoint
-          for a list of tags
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -3805,7 +3836,7 @@ paths:
         name: topic
         schema:
           type: string
-        description: Topics covered by the resources. Load the 'topics' api endpoint
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
           for a list of topics
       tags:
       - programs
@@ -3947,8 +3978,18 @@ paths:
         name: level
         schema:
           type: string
-        description: The academic level of the resources (Undergraduate, Graduate,
-          etc)
+          enum:
+          - graduate
+          - high_school
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
       - name: limit
         required: false
         in: query
@@ -4037,8 +4078,8 @@ paths:
         name: resource_content_tags
         schema:
           type: string
-        description: The content tags for the resources. Load the 'content_tags' endpoint
-          for a list of tags
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -4093,7 +4134,7 @@ paths:
         name: topic
         schema:
           type: string
-        description: Topics covered by the resources. Load the 'topics' api endpoint
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
           for a list of topics
       tags:
       - programs
@@ -5316,19 +5357,6 @@ components:
           type: integer
       required:
       - child
-    LearningResourceContentTag:
-      type: object
-      description: Serializer for LearningResourceContentTag model
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          maxLength: 128
-      required:
-      - id
-      - name
     LearningResourceDepartment:
       type: object
       description: Serializer for LearningResourceDepartment
@@ -5550,9 +5578,10 @@ components:
           nullable: true
           maxLength: 2048
         level:
-          type: string
-          nullable: true
-          maxLength: 128
+          type: array
+          items:
+            type: string
+            maxLength: 128
         slug:
           type: string
           nullable: true
@@ -5601,6 +5630,7 @@ components:
       - id
       - image
       - instructors
+      - level
       - run_id
       - title
     LearningResourceRunRequest:
@@ -5641,9 +5671,11 @@ components:
           minLength: 1
           maxLength: 2048
         level:
-          type: string
-          nullable: true
-          maxLength: 128
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
         slug:
           type: string
           nullable: true
@@ -5689,6 +5721,7 @@ components:
           nullable: true
           maxLength: 32
       required:
+      - level
       - run_id
       - title
     LearningResourceTopic:
@@ -5880,26 +5913,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceChild'
-    PaginatedLearningResourceContentTagList:
-      type: object
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceContentTag'
     PaginatedLearningResourceDepartmentList:
       type: object
       properties:

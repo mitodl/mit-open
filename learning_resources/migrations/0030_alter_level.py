@@ -30,7 +30,7 @@ def level_to_string(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("learning_resources", "0027_unique_offeror_code"),
+        ("learning_resources", "0029_alter_department_pk"),
     ]
 
     operations = [
