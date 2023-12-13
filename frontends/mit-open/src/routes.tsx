@@ -4,11 +4,8 @@ import HomePage from "./pages/HomePage/HomePage"
 import RestrictedRoute from "./components/RestrictedRoute"
 import LearningPathListingPage from "./pages/LearningPathListingPage/LearningPathListingPage"
 import LearningPathDetailsPage from "./pages/LearningPathDetailsPage/LearningPathDetailsPage"
-import ArticleDetailsPage from "./pages/articles/ArticleDetailsPage"
-import {
-  ArticlesCreatePage,
-  ArticleEditingPage,
-} from "./pages/articles/ArticleUpsertPages"
+import ArticleDetailsPage from "./pages/ArticleDetailsPage/ArticleDetailsPage"
+import { ArticleCreatePage, ArticleEditPage } from "./pages/ArticleUpsertPages"
 import ErrorPage from "./pages/ErrorPage/ErrorPage"
 import * as urls from "./pages/urls"
 import * as deprecatedUrls from "./pages/InfinitePages/common/infinite-pages-urls"
@@ -50,11 +47,11 @@ const routes: RouteObject[] = [
           },
           {
             path: urls.ARTICLES_EDIT,
-            element: <ArticleEditingPage />,
+            element: <ArticleEditPage />,
           },
           {
             path: urls.ARTICLES_CREATE,
-            element: <ArticlesCreatePage />,
+            element: <ArticleCreatePage />,
           },
         ],
       },

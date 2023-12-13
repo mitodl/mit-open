@@ -1,6 +1,5 @@
 import React, { useCallback } from "react"
-import { MetaTags, useToggle } from "ol-util"
-import { GridColumn, GridContainer } from "../../components/layout"
+import { useToggle } from "ol-util"
 import { CkeditorArticleLazy } from "ol-ckeditor"
 import {
   useArticleDetail,
@@ -8,29 +7,20 @@ import {
   useArticleDestroy,
   useArticleCreate,
 } from "api/hooks/articles"
-import { useNavigate, useParams } from "react-router"
 import {
   Button,
   FormControl,
   FormHelperText,
   Grid,
   TextField,
-  Container,
   BasicDialog,
-  BannerPage,
 } from "ol-design"
 import * as Yup from "yup"
 import { useFormik } from "formik"
-import { articlesView } from "../urls"
-
 import { Article } from "api"
 import invariant from "tiny-invariant"
 
 const configOverrides = { placeholder: "Write your article here..." }
-
-type RouteParams = {
-  id: string
-}
 
 const postSchema = Yup.object().shape({
   title: Yup.string().default("").required("Title is required."),
@@ -159,76 +149,4 @@ const ArticleUpsertForm = ({
   )
 }
 
-type ArticleUpsertPageProps = {
-  children: React.ReactNode
-  title: string
-}
-const ArticleUpsertPage: React.FC<ArticleUpsertPageProps> = ({
-  children,
-  title,
-}) => {
-  return (
-    <BannerPage
-      src="/static/images/course_search_banner.png"
-      alt=""
-      className="articles-editing-page"
-    >
-      <MetaTags>
-        <title>{title}</title>
-      </MetaTags>
-      <Container maxWidth="sm">
-        <GridContainer>
-          <GridColumn variant="single-full">{children}</GridColumn>
-        </GridContainer>
-      </Container>
-    </BannerPage>
-  )
-}
-
-/**
- * Edit articles, reading article id from route.
- */
-const ArticleEditingPage: React.FC = () => {
-  const id = Number(useParams<RouteParams>().id)
-  const article = useArticleDetail(id)
-  const navigate = useNavigate()
-  const returnToViewing = useCallback(
-    () => navigate(articlesView(id)),
-    [navigate, id],
-  )
-  const goHome = useCallback(() => navigate("/"), [navigate])
-  const title = `Editing: ${article.data?.title ?? ""}`
-  return (
-    <ArticleUpsertPage title={title}>
-      <ArticleUpsertForm
-        id={id}
-        onCancel={returnToViewing}
-        onSaved={returnToViewing}
-        onDestroy={goHome}
-      />
-    </ArticleUpsertPage>
-  )
-}
-
-/**
- * Create new articles.
- */
-const ArticlesCreatePage: React.FC = () => {
-  const navigate = useNavigate()
-  const goHome = useCallback(() => navigate("/"), [navigate])
-  const viewDetails = useCallback(
-    (id: number) => navigate(articlesView(id)),
-    [navigate],
-  )
-  return (
-    <ArticleUpsertPage title="New Article">
-      <ArticleUpsertForm
-        onCancel={goHome}
-        onSaved={viewDetails}
-        onDestroy={goHome}
-      />
-    </ArticleUpsertPage>
-  )
-}
-
-export { ArticleEditingPage, ArticlesCreatePage }
+export default ArticleUpsertForm
