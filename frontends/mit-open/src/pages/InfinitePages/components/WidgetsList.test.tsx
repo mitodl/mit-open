@@ -6,13 +6,13 @@ import {
   expectProps,
   user,
   expectLastProps,
-} from "../../test-utils"
+} from "../../../test-utils"
 import { Widget, WidgetsListEditable } from "ol-widgets"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import WidgetsList from "./WidgetsList"
-import { setMockResponse } from "../../test-utils"
+import { setMockResponse } from "../../../test-utils"
 import { urls } from "services/api/widgets"
-import { makeRequest } from "../../test-utils/mockAxios"
+import { makeRequest } from "../../../test-utils/mockAxios"
 
 jest.mock("ol-widgets", () => {
   const actual = jest.requireActual("ol-widgets")
