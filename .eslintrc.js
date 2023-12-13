@@ -14,7 +14,7 @@ module.exports = {
         {
           group: ["@mui/material*", "@mui/lab/*"],
           message:
-            "Please use 'ol-design' isInterfaceDeclaration; Direct use of @mui/material is limited to ol-design.",
+            "Please use 'ol-components' isInterfaceDeclaration; Direct use of @mui/material is limited to ol-components.",
         },
       ],
     }),
@@ -45,8 +45,8 @@ module.exports = {
   overrides: [
     {
       files: [
-        "./frontends/ol-design/**/*.ts",
-        "./frontends/ol-design/**/*.tsx",
+        "./frontends/ol-components/**/*.ts",
+        "./frontends/ol-components/**/*.tsx",
       ],
       rules: {
         ...restrictedImports(),
