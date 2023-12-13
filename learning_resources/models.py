@@ -233,9 +233,7 @@ class LearningResourceRun(TimestampedModel):
     image = models.ForeignKey(
         LearningResourceImage, null=True, blank=True, on_delete=models.deletion.SET_NULL
     )
-    level = ArrayField(
-        models.CharField(max_length=128), null=False, blank=False, default=list
-    )
+    level = ArrayField(models.CharField(max_length=128), null=False, blank=False)
     slug = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
     availability = models.CharField(  # noqa: DJ001
         max_length=128, null=True, blank=True
