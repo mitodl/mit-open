@@ -12,7 +12,7 @@ import * as deprecatedUrls from "./pages/InfinitePages/common/infinite-pages-url
 import EditFieldPage from "./pages/InfinitePages/pages/EditFieldPage"
 import FieldPage from "./pages/InfinitePages/pages/FieldPage"
 
-import Header from "./components/Header"
+import Header from "components/Header/Header"
 import { Permissions } from "./util/permissions"
 
 const routes: RouteObject[] = [
