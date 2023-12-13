@@ -39,7 +39,7 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
     context: __dirname,
     devtool: "source-map",
     entry: {
-      root: "./src/entry/root",
+      root: "./src/App",
       style: "./src/entry/style",
     },
     output: {

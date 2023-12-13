@@ -3,9 +3,9 @@ import {
   renderRoutesWithProviders,
   renderWithProviders,
   screen,
-} from "../test-utils"
+} from "../../test-utils"
 import RestrictedRoute from "./RestrictedRoute"
-import { ForbiddenError, Permissions } from "../util/permissions"
+import { ForbiddenError, Permissions } from "../../util/permissions"
 import { allowConsoleErrors } from "ol-util/test-utils"
 
 test("Renders children if permission check satisfied", () => {

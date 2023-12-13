@@ -1,6 +1,6 @@
 import React from "react"
 import Header from "./Header"
-import { renderWithProviders, screen, within } from "../test-utils"
+import { renderWithProviders, screen, within } from "../../test-utils"
 
 describe("Header", () => {
   it("Includes a link to MIT Homepage", async () => {
