@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import type { AnonymousWidget, WidgetListResponse } from "ol-widgets"
 import * as urls from "./urls"
-import axios from "../../libs/axios"
+import axios from "services/axios"
 
 const useWidgetList = (id: number) => {
   return useQuery<WidgetListResponse>([urls.widgetList(id)], {

@@ -10,7 +10,7 @@ import type {
 import { LearningResourceCardTemplate } from "ol-learning-resources"
 import type { LearningResourceCardTemplateProps } from "ol-learning-resources"
 import { useActivateResourceDrawer } from "./LearningResourceDrawer"
-import { deprecatedImgConfig, imgConfigs } from "../../util/constants"
+import { deprecatedImgConfig, imgConfigs } from "common/constants"
 import { IconButton } from "ol-design"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import AddToListDialog from "./AddToListDialog"

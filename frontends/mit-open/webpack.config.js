@@ -5,6 +5,7 @@ const BundleTracker = require("webpack-bundle-tracker")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 const { withCKEditor } = require("ol-ckeditor/webpack-utils")
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 
 const STATS_FILEPATH = path.resolve(
   __dirname,
@@ -40,7 +41,7 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
     devtool: "source-map",
     entry: {
       root: "./src/App",
-      style: "./src/entry/style",
+      style: "./src/common/style",
     },
     output: {
       path: path.resolve(__dirname, "build"),
@@ -114,6 +115,7 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       ),
     resolve: {
       extensions: [".js", ".jsx", ".ts", ".tsx"],
+      plugins: [new TsconfigPathsPlugin()],
     },
     performance: {
       hints: false,

@@ -4,7 +4,7 @@ import ForbiddenPage from "./ForbiddenPage"
 import NotFoundPage from "./NotFoundPage"
 import { useRouteError } from "react-router"
 import ErrorPageTemplate from "./ErrorPageTemplate"
-import { ForbiddenError as ClientSideForbiddenError } from "../../util/permissions"
+import { ForbiddenError as ClientSideForbiddenError } from "common/permissions"
 
 const AUTH_STATUS_CODES = [401, 403]
 const NOT_FOUND_STATUS_CODES = [404]

@@ -29,7 +29,7 @@ import {
 } from "./resourceLists"
 import { useResource } from "./resources"
 import { ControlledPromise } from "ol-util/test-utils"
-import axios from "../../libs/axios"
+import axios from "services/axios"
 import { clone } from "lodash"
 import { useInfiniteSearch } from "./search"
 

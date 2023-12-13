@@ -13,7 +13,7 @@ import EditFieldPage from "./pages/InfinitePages/pages/EditFieldPage"
 import FieldPage from "./pages/InfinitePages/pages/FieldPage"
 
 import Header from "components/Header/Header"
-import { Permissions } from "./util/permissions"
+import { Permissions } from "common/permissions"
 
 const routes: RouteObject[] = [
   {

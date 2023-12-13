@@ -9,7 +9,7 @@ import * as factories from "ol-search-ui/src/test-utils/factories"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { setMockResponse } from "../../test-utils/mockAxios"
 import { urls } from "./urls"
-import axios from "../../libs/axios"
+import axios from "services/axios"
 import { useInfiniteSearch } from "./search"
 
 import { assertNotNil } from "ol-util"

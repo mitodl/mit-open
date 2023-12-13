@@ -22,7 +22,7 @@ import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
 
 import { LearningResourceCardTemplate } from "ol-learning-resources"
 
-import { imgConfigs } from "../../util/constants"
+import { imgConfigs } from "common/constants"
 import { manageListDialogs } from "page-components/ManageListDialogs/ManageListDialogs"
 
 import * as urls from "../urls"

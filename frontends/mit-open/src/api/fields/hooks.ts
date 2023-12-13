@@ -6,7 +6,7 @@ import {
   FieldList,
 } from "./interfaces"
 import * as urls from "./urls"
-import axios from "../../libs/axios"
+import axios from "services/axios"
 import { fieldDetails } from "./urls"
 
 const useFieldsList = () => {

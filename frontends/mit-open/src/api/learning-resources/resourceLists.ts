@@ -9,7 +9,7 @@ import {
   isUserListOrPath,
 } from "ol-search-ui"
 import { PaginatedResult, PaginationSearchParams } from "ol-util"
-import axios from "../../libs/axios"
+import axios from "services/axios"
 import {
   useMutation,
   useQuery,
