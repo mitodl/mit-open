@@ -1,15 +1,16 @@
 /* eslint-disable testing-library/no-node-access */
 import { assertInstanceOf, assertNotNil } from "ol-util"
-import { urls } from "../../api/fields"
-import { urls as widgetUrls } from "../../api/widgets"
-import { urls as lrUrls } from "../../api/learning-resources"
+import { urls } from "../../../api/fields"
+import { urls as widgetUrls } from "../../../api/widgets"
+import { urls as lrUrls } from "../../../api/learning-resources"
 import { LearningResource } from "ol-search-ui"
 import { TitledCarousel } from "ol-design"
 import type { UserList, ListItem } from "ol-search-ui"
-import type { FieldChannel } from "../../api/fields"
-import * as factory from "../../api/fields/test-utils/factories"
+import type { FieldChannel } from "../../../api/fields"
+import * as factory from "../../../api/fields/test-utils/factories"
 import * as lrFactory from "ol-search-ui/src/test-utils/factories"
-import WidgetList from "./WidgetsList"
+import WidgetList from "../components/WidgetsList"
+
 import {
   renderTestApp,
   screen,
@@ -17,10 +18,10 @@ import {
   within,
   user,
   waitFor,
-} from "../../test-utils"
+} from "../../../test-utils"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import { makeLearningResource } from "ol-search-ui/src/test-utils/factories"
-import LearningResourceCard from "../../components/LearningResourceCard"
+import LearningResourceCard from "page-components/LearningResourceCard/LearningResourceCard"
 
 jest.mock("./WidgetsList", () => {
   const actual = jest.requireActual("./WidgetsList")

@@ -4,7 +4,10 @@ import type { SimpleMenuItem } from "ol-design"
 import SettingsIcon from "@mui/icons-material/Settings"
 
 import { FieldChannel } from "../../../api/fields"
-import { makeFieldEditPath, makeFieldManageWidgetsPath } from "../../urls"
+import {
+  makeFieldEditPath,
+  makeFieldManageWidgetsPath,
+} from "../common/infinite-pages-urls"
 
 type SettingsMenuProps = {
   field: FieldChannel

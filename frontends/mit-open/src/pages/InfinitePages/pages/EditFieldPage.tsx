@@ -5,10 +5,10 @@ import { Container, Tab, TabList, TabContext, TabPanel } from "ol-design"
 
 import { MetaTags } from "ol-util"
 
-import { GridColumn, GridContainer } from "../../components/layout"
-import { useFieldDetails } from "../../api/fields"
-import EditFieldAppearanceForm from "./EditFieldAppearanceForm"
-import EditFieldBasicForm from "./EditFieldBasicForm"
+import { GridColumn, GridContainer } from "../../../components/layout"
+import { useFieldDetails } from "../../../api/fields"
+import EditFieldAppearanceForm from "../page-components/EditFieldAppearanceForm"
+import EditFieldBasicForm from "../page-components/EditFieldBasicForm"
 import FieldPageSkeleton from "./FieldPageSkeleton"
 import invariant from "tiny-invariant"
 

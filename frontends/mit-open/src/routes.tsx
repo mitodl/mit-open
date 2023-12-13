@@ -11,9 +11,9 @@ import {
 } from "./pages/articles/ArticleUpsertPages"
 import ErrorPage from "./pages/ErrorPage/ErrorPage"
 import * as urls from "./pages/urls"
-import * as deprecatedUrls from "./infinite-pages/urls"
-import EditFieldPage from "./infinite-pages/field-details/EditFieldPage"
-import FieldPage from "./infinite-pages/field-details/FieldPage"
+import * as deprecatedUrls from "./pages/InfinitePages/common/infinite-pages-urls"
+import EditFieldPage from "./pages/InfinitePages/pages/EditFieldPage"
+import FieldPage from "./pages/InfinitePages/pages/FieldPage"
 
 import Header from "./components/Header"
 import { Permissions } from "./util/permissions"

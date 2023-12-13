@@ -1,14 +1,19 @@
 import { waitFor } from "@testing-library/react"
 
 import { PaginatedResult } from "ol-util"
-import { FieldChannel, urls } from "../../api/fields"
-import { urls as widgetUrls } from "../../api/widgets"
-import { urls as lrUrls } from "../../api/learning-resources"
-import * as factory from "../../api/fields/test-utils/factories"
+import { FieldChannel, urls } from "../../../api/fields"
+import { urls as widgetUrls } from "../../../api/widgets"
+import { urls as lrUrls } from "../../../api/learning-resources"
+import * as factory from "../../../api/fields/test-utils/factories"
 import * as resourceFactory from "ol-search-ui/src/test-utils/factories"
 import type { UserList } from "ol-search-ui"
-import { makeFieldViewPath } from "../urls"
-import { renderTestApp, screen, setMockResponse, user } from "../../test-utils"
+import { makeFieldViewPath } from "../common/infinite-pages-urls"
+import {
+  renderTestApp,
+  screen,
+  setMockResponse,
+  user,
+} from "../../../test-utils"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 
 describe("EditFieldBasicForm", () => {

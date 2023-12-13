@@ -5,11 +5,11 @@ import { Autocomplete, TextField, Button } from "ol-design"
 import { SortableSelect } from "ol-design/deprecated"
 import type { SortableItem } from "ol-design/deprecated"
 
-import { FieldChannelBasicForm, useMutateField } from "../../api/fields"
-import type { FieldChannel } from "../../api/fields/interfaces"
+import { FieldChannelBasicForm, useMutateField } from "../../../api/fields"
+import type { FieldChannel } from "../../../api/fields/interfaces"
 import type { UserList } from "ol-search-ui"
-import { useUserListsListing } from "../../api/learning-resources"
-import { makeFieldViewPath } from "../urls"
+import { useUserListsListing } from "../../../api/learning-resources"
+import { makeFieldViewPath } from "../common/infinite-pages-urls"
 
 type FormProps = {
   field: FieldChannel

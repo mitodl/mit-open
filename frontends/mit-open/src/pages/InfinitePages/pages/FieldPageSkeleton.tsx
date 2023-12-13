@@ -1,10 +1,10 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import * as routes from "../urls"
+import { makeFieldViewPath } from "../common/infinite-pages-urls"
 import { Container, BannerPage } from "ol-design"
-import { useFieldDetails } from "../../api/fields"
-import FieldAvatar from "./components/FieldAvatar"
-import FieldMenu from "./components/FieldMenu"
+import { useFieldDetails } from "../../../api/fields"
+import FieldAvatar from "../components/FieldAvatar"
+import FieldMenu from "../page-components/FieldMenu"
 
 interface FieldSkeletonProps {
   children: React.ReactNode
@@ -34,7 +34,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
               <>
                 <FieldAvatar field={field.data} imageSize="medium" />
                 <h1>
-                  <Link to={routes.makeFieldViewPath(field.data.name)}>
+                  <Link to={makeFieldViewPath(field.data.name)}>
                     {field.data.title}
                   </Link>
                 </h1>

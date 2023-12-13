@@ -4,13 +4,13 @@ import {
   setMockResponse,
   fireEvent,
   user,
-} from "../../test-utils"
-import * as factory from "../../api/fields/test-utils/factories"
-import { FieldChannel, urls } from "../../api/fields"
-import { urls as widgetUrls } from "../../api/widgets"
-import { urls as lrUrls } from "../../api/learning-resources"
+} from "../../../test-utils"
+import * as factory from "../../../api/fields/test-utils/factories"
+import { FieldChannel, urls } from "../../../api/fields"
+import { urls as widgetUrls } from "../../../api/widgets"
+import { urls as lrUrls } from "../../../api/learning-resources"
 import { waitFor } from "@testing-library/react"
-import { makeFieldViewPath } from "../urls"
+import { makeFieldViewPath } from "../common/infinite-pages-urls"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 
 const setupApis = (fieldOverrides?: Partial<FieldChannel>) => {

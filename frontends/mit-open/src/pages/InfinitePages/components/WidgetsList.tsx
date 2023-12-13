@@ -5,7 +5,7 @@ import {
   WidgetsListEditableProps,
   WidgetDialogClasses,
 } from "ol-widgets"
-import { useMutateWidgetsList, useWidgetList } from "../../api/widgets"
+import { useMutateWidgetsList, useWidgetList } from "../../../api/widgets"
 
 interface WidgetsListProps {
   isEditing: boolean
