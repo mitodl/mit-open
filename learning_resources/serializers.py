@@ -575,7 +575,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
     resource_readable_num = serializers.CharField(
         source="run.learning_resource.resource_num"
     )
-    content_tags = LearningResourceContentTagField(source="content_tags")
+    content_tags = LearningResourceContentTagField()
     offered_by = LearningResourceOfferorSerializer(
         source="run.learning_resource.offered_by"
     )
