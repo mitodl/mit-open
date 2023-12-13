@@ -482,6 +482,28 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -567,6 +589,12 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: resource_content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: resource_type
         schema:
           type: string
@@ -616,6 +644,12 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
       tags:
       - courses
       responses:
@@ -816,6 +850,28 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -901,6 +957,12 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: resource_content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: resource_type
         schema:
           type: string
@@ -950,6 +1012,12 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
       tags:
       - courses
       responses:
@@ -1323,6 +1391,28 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -1408,6 +1498,12 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: resource_content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: resource_type
         schema:
           type: string
@@ -1457,6 +1553,12 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
       tags:
       - learning_resources
       responses:
@@ -1719,6 +1821,28 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -1804,6 +1928,12 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: resource_content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: resource_type
         schema:
           type: string
@@ -1853,6 +1983,12 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
       tags:
       - learning_resources
       responses:
@@ -2283,6 +2419,28 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -2368,6 +2526,12 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: resource_content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: resource_type
         schema:
           type: string
@@ -2417,6 +2581,12 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
       tags:
       - learningpaths
       responses:
@@ -2914,6 +3084,28 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -2999,6 +3191,12 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: resource_content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: resource_type
         schema:
           type: string
@@ -3048,6 +3246,12 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
       tags:
       - podcast_episodes
       responses:
@@ -3166,6 +3370,28 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -3251,6 +3477,12 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: resource_content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: resource_type
         schema:
           type: string
@@ -3300,6 +3532,12 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
       tags:
       - podcasts
       responses:
@@ -3480,6 +3718,28 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -3565,6 +3825,12 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: resource_content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: resource_type
         schema:
           type: string
@@ -3614,6 +3880,12 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
       tags:
       - programs
       responses:
@@ -3750,6 +4022,28 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
       - name: limit
         required: false
         in: query
@@ -3835,6 +4129,12 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: resource_content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: resource_type
         schema:
           type: string
@@ -3884,6 +4184,12 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
       tags:
       - programs
       responses:
@@ -5326,9 +5632,10 @@ components:
           nullable: true
           maxLength: 2048
         level:
-          type: string
-          nullable: true
-          maxLength: 128
+          type: array
+          items:
+            type: string
+            maxLength: 128
         slug:
           type: string
           nullable: true
@@ -5417,9 +5724,11 @@ components:
           minLength: 1
           maxLength: 2048
         level:
-          type: string
-          nullable: true
-          maxLength: 128
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
         slug:
           type: string
           nullable: true

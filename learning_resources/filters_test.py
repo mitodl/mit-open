@@ -7,11 +7,15 @@ import pytest
 from learning_resources.constants import (
     LEARNING_RESOURCE_SORTBY_OPTIONS,
     LearningResourceType,
+    LevelType,
     OfferedBy,
     PlatformType,
 )
 from learning_resources.factories import (
     CourseFactory,
+    LearningResourceContentTagFactory,
+    LearningResourceFactory,
+    LearningResourceRunFactory,
     PodcastFactory,
 )
 from learning_resources.filters import LearningResourceFilter
@@ -129,3 +133,63 @@ def test_learning_resource_sortby(sortby, descending):
         ],
         reverse=descending,
     )
+
+
+def test_learning_resource_filter_topics():
+    """Test that the topic filter works"""
+    resource_1, resource_2 = (
+        course.learning_resource for course in CourseFactory.create_batch(2)
+    )
+    assert (
+        list(
+            set(resource_1.topics.all().values_list("name", flat=True))
+            & set(resource_2.topics.all().values_list("name", flat=True))
+        )
+        == []
+    )
+
+    query = LearningResourceFilter({"topic": resource_1.topics.first().name.upper()}).qs
+
+    assert resource_1 in query
+    assert resource_2 not in query
+
+
+def test_learning_resource_filter_tags():
+    """Test that the resource_content_tag filter works"""
+
+    resource_with_exams = LearningResourceFactory.create(
+        resource_content_tags=LearningResourceContentTagFactory.create_batch(
+            1, name="Exams"
+        )
+    )
+    resource_with_notes = LearningResourceFactory.create(
+        resource_content_tags=LearningResourceContentTagFactory.create_batch(
+            1, name="Lecture Notes"
+        )
+    )
+
+    query = LearningResourceFilter({"resource_content_tags": "ExamS"}).qs
+
+    assert resource_with_exams in query
+    assert resource_with_notes not in query
+
+
+def test_learning_resource_filter_level():
+    """Test that the level filter works"""
+
+    hs_resource = LearningResourceRunFactory.create(
+        level=["High School", "Undergraduate"]
+    ).learning_resource
+    jhs_resource = LearningResourceRunFactory.create(
+        level=["Junior High School", "Undergraduate", "Graduate"]
+    ).learning_resource
+
+    query = LearningResourceFilter({"level": LevelType.high_school.name}).qs
+
+    assert hs_resource in query
+    assert jhs_resource not in query
+
+    query = LearningResourceFilter({"level": LevelType.graduate.name}).qs
+
+    assert hs_resource not in query
+    assert jhs_resource in query
