@@ -9,7 +9,7 @@ import {
   styled,
 } from "ol-design"
 import type { PaginatedLearningResourceList } from "api"
-import LearningResourceCard from "../../components/LearningResourceCard"
+import LearningResourceCard from "page-components/LearningResourceCard/LearningResourceCard"
 
 interface HomePageCarouselProps {
   query: UseQueryResult<PaginatedLearningResourceList>

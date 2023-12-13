@@ -11,7 +11,7 @@ import {
   within,
   act,
 } from "../../test-utils"
-import { manageListDialogs } from "./ManageListDialogs"
+import { manageListDialogs } from "page-components/ManageListDialogs/ManageListDialogs"
 import { waitForElementToBeRemoved } from "@testing-library/react"
 import {
   LearningPathRelationship,

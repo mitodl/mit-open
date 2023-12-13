@@ -18,12 +18,12 @@ import { MetaTags } from "ol-util"
 import type { LearningPathResource } from "api"
 import { useLearningPathsList } from "api/hooks/learningResources"
 
-import { GridColumn, GridContainer } from "../../components/layout"
+import { GridColumn, GridContainer } from "components/layout"
 
 import { LearningResourceCardTemplate } from "ol-learning-resources"
 
 import { imgConfigs } from "../../util/constants"
-import { manageListDialogs } from "./ManageListDialogs"
+import { manageListDialogs } from "page-components/ManageListDialogs/ManageListDialogs"
 
 import * as urls from "../urls"
 

@@ -11,8 +11,8 @@ import {
 } from "api/hooks/learningResources"
 
 import { useToggle, pluralize, MetaTags } from "ol-util"
-import { GridColumn, GridContainer } from "../../components/layout"
-import { manageListDialogs } from "./ManageListDialogs"
+import { GridColumn, GridContainer } from "components/layout"
+import { manageListDialogs } from "page-components/ManageListDialogs/ManageListDialogs"
 
 import ItemsListing from "./ItemsListing"
 
