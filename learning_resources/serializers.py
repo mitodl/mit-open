@@ -38,6 +38,16 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
+class LearningResourceContentTagSerializer(serializers.ModelSerializer):
+    """
+    Serializer for LearningResourceContentTag model
+    """
+
+    class Meta:
+        model = models.LearningResourceContentTag
+        fields = ["id", "name"]
+
+
 class WriteableTopicsMixin(serializers.Serializer):
     """Class for editable topics"""
 

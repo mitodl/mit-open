@@ -12,10 +12,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.plumbing import build_choice_description_list
-from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
-    OpenApiParameter,
     extend_schema,
     extend_schema_view,
 )
@@ -41,7 +38,6 @@ from learning_resources.filters import LearningResourceFilter
 from learning_resources.models import (
     ContentFile,
     LearningResource,
-    LearningResourceContentTag,
     LearningResourceDepartment,
     LearningResourceOfferor,
     LearningResourcePlatform,
@@ -83,79 +79,6 @@ from open_discussions.permissions import (
 log = logging.getLogger(__name__)
 
 
-def generate_learning_resource_api_choices() -> list[OpenApiParameter]:
-    """Return a list of database-backed API parameter choices for learning resources"""
-
-    try:
-        departments = LearningResourceDepartment.objects.all().order_by("department_id")
-        offerors = LearningResourceOfferor.objects.all().order_by("code")
-        platforms = LearningResourcePlatform.objects.all().order_by("code")
-        topics = LearningResourceTopic.objects.all().order_by("name")
-        tags = LearningResourceContentTag.objects.all().order_by("name")
-
-        return [
-            OpenApiParameter(
-                "department",
-                type=OpenApiTypes.STR,
-                many=True,
-                enum=[item.department_id for item in departments],
-                description="Department that offers learning resources\n\n{}".format(
-                    build_choice_description_list(
-                        [(item.department_id, item.name) for item in departments]
-                    )
-                ),
-            ),
-            OpenApiParameter(
-                "offered_by",
-                type=OpenApiTypes.STR,
-                many=True,
-                enum=[item.code for item in offerors],
-                description="Organization that offers a learning resource\n\n{}".format(
-                    build_choice_description_list(
-                        [(item.code, item.name) for item in offerors]
-                    )
-                ),
-            ),
-            OpenApiParameter(
-                "platform",
-                type=OpenApiTypes.STR,
-                many=True,
-                enum=[item.code for item in platforms],
-                description="Platform on which resources are offered\n\n{}".format(
-                    build_choice_description_list(
-                        [(item.code, item.name) for item in platforms]
-                    )
-                ),
-            ),
-            OpenApiParameter(
-                "topic",
-                type=OpenApiTypes.STR,
-                many=True,
-                enum=[item.name for item in topics],
-                description="Topics covered by learning resources\n\n{}".format(
-                    build_choice_description_list(
-                        [(item.name, item.name) for item in topics]
-                    )
-                ),
-            ),
-            OpenApiParameter(
-                "resource_content_tags",
-                type=OpenApiTypes.STR,
-                many=True,
-                enum=[item.name for item in tags],
-                description="Content tags for the learning resources\n\n{}".format(
-                    build_choice_description_list(
-                        [(item.name, item.name) for item in tags]
-                    )
-                ),
-            ),
-        ]
-    except:  # noqa: E722
-        # This only seems to happen duringZ CI with an empty database
-        log.info("Error generating learning resource API choices")
-        return []
-
-
 class DefaultPagination(LimitOffsetPagination):
     """
     Pagination class for learning_resources viewsets which gets default_limit and max_limit from settings
@@ -176,7 +99,6 @@ class LargePagination(DefaultPagination):
     list=extend_schema(
         summary="List",
         description="Get a paginated list of learning resources.",
-        parameters=generate_learning_resource_api_choices(),
     ),
     retrieve=extend_schema(
         summary="Retrieve",
