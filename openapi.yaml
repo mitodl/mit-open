@@ -996,6 +996,7 @@ paths:
         name: department_id
         schema:
           type: string
+        description: A unique value identifying this learning resource department.
         required: true
       tags:
       - departments
@@ -2766,6 +2767,7 @@ paths:
         name: code
         schema:
           type: string
+        description: A unique value identifying this learning resource offeror.
         required: true
       tags:
       - offerors
