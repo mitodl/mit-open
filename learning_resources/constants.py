@@ -235,7 +235,7 @@ LEARNING_RESOURCE_SORTBY_OPTIONS = {
 
 
 class LevelType(ExtendedEnum):
-    """Enum for LearningResource levels"""
+    """Enum for LearningResourceRun levels"""
 
     undergraduate = "Undergraduate"
     graduate = "Graduate"

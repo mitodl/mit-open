@@ -9,7 +9,7 @@ def level_to_array(apps, schema_editor):
     Convert level from a string to an array
     """
     LearningResourceRun = apps.get_model("learning_resources", "LearningResourceRun")
-    for run in LearningResourceRun.objects.iterator():
+    for run in LearningResourceRun.objects.filter(level__isnull=False).iterator():
         str_level = ",".join(
             [f'"{val.strip()}"' for val in run.level.split(",") if val.strip()]
         )
