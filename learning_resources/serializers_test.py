@@ -392,7 +392,6 @@ def test_content_file_serializer():
         "content_author": "MIT",
         "content_language": "en",
         "content_title": "test title",
-        "section": "test section",
     }
     platform = constants.PlatformType.xpro.name
     course = factories.CourseFactory.create(platform=platform)
@@ -435,9 +434,6 @@ def test_content_file_serializer():
             "file_type": content_file.file_type,
             "content_type": content_file.content_type,
             "url": content_file.url,
-            "short_url": content_file.short_url,
-            "section": content_file.section,
-            "section_slug": content_file.section_slug,
             "content": content_kwargs["content"],
             "content_title": content_kwargs["content_title"],
             "content_author": content_kwargs["content_author"],

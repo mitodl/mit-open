@@ -166,24 +166,6 @@ export interface ContentFile {
    * @type {string}
    * @memberof ContentFile
    */
-  short_url?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ContentFile
-   */
-  section?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ContentFile
-   */
-  section_slug?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ContentFile
-   */
   content_category: string
   /**
    *

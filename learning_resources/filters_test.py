@@ -177,19 +177,20 @@ def test_learning_resource_filter_tags():
 def test_learning_resource_filter_level():
     """Test that the level filter works"""
 
-    hs_resource = LearningResourceRunFactory.create(
-        level=["High School", "Undergraduate"]
-    ).learning_resource
-    jhs_resource = LearningResourceRunFactory.create(
-        level=["Junior High School", "Undergraduate", "Graduate"]
-    ).learning_resource
+    hs_run = LearningResourceRunFactory.create(level=["High School", "Undergraduate"])
+    grad_run = LearningResourceRunFactory.create(level=["Undergraduate", "Graduate"])
+    hs_resource = hs_run.learning_resource
+    grad_resource = grad_run.learning_resource
+
+    hs_resource.runs.set([hs_run])
+    grad_resource.runs.set([grad_run])
 
     query = LearningResourceFilter({"level": LevelType.high_school.name}).qs
 
     assert hs_resource in query
-    assert jhs_resource not in query
+    assert grad_resource not in query
 
     query = LearningResourceFilter({"level": LevelType.graduate.name}).qs
 
     assert hs_resource not in query
-    assert jhs_resource in query
+    assert grad_resource in query
