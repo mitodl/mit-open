@@ -1,7 +1,7 @@
 import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { SortableList, SortableItem } from "ol-utilities"
-import LearningResourceCard from "page-components/LearningResourceCard/LearningResourceCard"
+import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import { factories, urls, makeRequest } from "api/test-utils"
 import {
   screen,

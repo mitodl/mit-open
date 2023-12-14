@@ -7,7 +7,7 @@ import { learningResources as factory } from "api/test-utils/factories"
 import { renderWithProviders, screen, within } from "../../test-utils"
 import invariant from "tiny-invariant"
 import type { LearningResource } from "api"
-import LearningResourceCard from "page-components/LearningResourceCard/LearningResourceCard"
+import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 
 const spyLearningResourceCard = jest.mocked(LearningResourceCard)
 

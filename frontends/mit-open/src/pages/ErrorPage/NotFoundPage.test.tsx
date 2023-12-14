@@ -1,7 +1,7 @@
 import React from "react"
 import { waitFor } from "@testing-library/react"
 import { renderWithProviders, screen } from "../../test-utils"
-import { HOME } from "common/urls"
+import { HOME } from "@/common/urls"
 import NotFoundPage from "./NotFoundPage"
 
 test("The NotFoundPage loads with meta", async () => {

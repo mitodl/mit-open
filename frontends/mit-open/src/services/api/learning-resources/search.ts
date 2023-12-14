@@ -7,7 +7,7 @@ import type {
   Facets,
 } from "@mitodl/course-search-utils"
 import { buildSearchQuery } from "@mitodl/course-search-utils"
-import axios from "services/axios"
+import axios from "@/services/axios"
 import { keys, urls } from "./urls"
 
 const DEFAULT_SEARCH_PAGE_SIZE = 10

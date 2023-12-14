@@ -9,7 +9,7 @@ import {
 } from "ol-common"
 import { isUserListOrPath } from "ol-utilities/deprecated"
 import { PaginatedResult, PaginationSearchParams } from "ol-utilities"
-import axios from "services/axios"
+import axios from "@/services/axios"
 import {
   useMutation,
   useQuery,

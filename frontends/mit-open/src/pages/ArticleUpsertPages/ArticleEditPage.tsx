@@ -1,8 +1,8 @@
 import React, { useCallback } from "react"
 import { useNavigate, useParams } from "react-router"
 import { useArticleDetail } from "api/hooks/articles"
-import ArticleUpsertForm from "page-components/ArticleUpsertForm/ArticleUpsertForm"
-import { articlesView } from "common/urls"
+import ArticleUpsertForm from "@/page-components/ArticleUpsertForm/ArticleUpsertForm"
+import { articlesView } from "@/common/urls"
 import ArticleUpsertPage from "./ArticleUpsertPage"
 
 type RouteParams = {

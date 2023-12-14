@@ -8,7 +8,7 @@ import * as factories from "ol-utilities/factories"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { setMockResponse } from "../../../test-utils/mockAxios"
 import { urls } from "./urls"
-import axios from "services/axios"
+import axios from "@/services/axios"
 import { useInfiniteSearch } from "./search"
 
 import { assertNotNil } from "ol-utilities"

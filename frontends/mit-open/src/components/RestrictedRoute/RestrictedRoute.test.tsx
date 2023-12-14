@@ -5,7 +5,7 @@ import {
   screen,
 } from "../../test-utils"
 import RestrictedRoute from "./RestrictedRoute"
-import { ForbiddenError, Permissions } from "common/permissions"
+import { ForbiddenError, Permissions } from "@/common/permissions"
 import { allowConsoleErrors } from "ol-utilities/test-utils"
 
 test("Renders children if permission check satisfied", () => {

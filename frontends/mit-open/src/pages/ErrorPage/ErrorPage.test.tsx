@@ -6,8 +6,8 @@ import type { TestAppOptions } from "../../test-utils"
 import ErrorPage from "./ErrorPage"
 import { setMockResponse, mockAxiosInstance as axios } from "api/test-utils"
 import { allowConsoleErrors } from "ol-utilities/test-utils"
-import RestrictedRoute from "components/RestrictedRoute/RestrictedRoute"
-import { Permissions } from "common/permissions"
+import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
+import { Permissions } from "@/common/permissions"
 
 /**
  * Renders an erroring-component within a react-router ErrorBoundary using

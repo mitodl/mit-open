@@ -1,4 +1,4 @@
-import axios from "services/axios"
+import axios from "@/services/axios"
 import { setMockResponse } from "./test-utils"
 import { ControlledPromise, allowConsoleErrors } from "ol-utilities/test-utils"
 
