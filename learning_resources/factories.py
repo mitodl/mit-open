@@ -565,7 +565,6 @@ class ContentFileFactory(DjangoModelFactory):
     uid = factory.Faker("text", max_nb_chars=32)
     url = factory.Faker("url")
     image_src = FuzzyChoice(("https://img.youtube.com/thumb.jpg", None))
-    short_url = factory.Faker("word")
     content_type = FuzzyChoice(
         (constants.CONTENT_TYPE_FILE, constants.CONTENT_TYPE_PAGE)
     )

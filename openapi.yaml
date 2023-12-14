@@ -4644,17 +4644,6 @@ components:
         url:
           type: string
           nullable: true
-        short_url:
-          type: string
-          nullable: true
-        section:
-          type: string
-          nullable: true
-          maxLength: 512
-        section_slug:
-          type: string
-          nullable: true
-          maxLength: 512
         content_category:
           type: string
           readOnly: true

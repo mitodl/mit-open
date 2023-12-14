@@ -358,12 +358,7 @@ class ContentFile(TimestampedModel):
     image_src = models.URLField(null=True, blank=True)  # noqa: DJ001
 
     url = models.TextField(null=True, blank=True)  # noqa: DJ001
-    short_url = models.TextField(null=True, blank=True)  # noqa: DJ001
     file_type = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
-    section = models.CharField(max_length=512, null=True, blank=True)  # noqa: DJ001
-    section_slug = models.CharField(  # noqa: DJ001
-        max_length=512, null=True, blank=True
-    )
 
     content = models.TextField(null=True, blank=True)  # noqa: DJ001
     content_title = models.CharField(  # noqa: DJ001
