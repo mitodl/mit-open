@@ -1,9 +1,9 @@
 import React from "react"
 
 import Facet from "./Facet"
-import SearchFilter from "./SearchFilter"
+import SearchFilter from "../SearchFilter/SearchFilter"
 import { Aggregation, Facets } from "@mitodl/course-search-utils"
-import { FacetManifest, FacetKey } from "../interfaces"
+import { FacetManifest, FacetKey } from "ol-common"
 
 interface FacetDisplayProps {
   facetMap: FacetManifest

@@ -10201,7 +10201,7 @@ __metadata:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
     "@faker-js/faker": ^7.3.0
-    "@mitodl/course-search-utils": ^2.3.0
+    "@mitodl/course-search-utils": ^2.3.2
     "@mui/icons-material": ^5.14.19
     "@sentry/react": ^7.57.0
     "@swc/core": ^1.3.32
@@ -10717,6 +10717,7 @@ __metadata:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
     "@faker-js/faker": ^7.3.0
+    "@mitodl/course-search-utils": ^2.3.2
     "@mui/icons-material": ^5.14.19
     "@mui/lab": ^5.0.0-alpha.150
     "@mui/material": ^5.14.15

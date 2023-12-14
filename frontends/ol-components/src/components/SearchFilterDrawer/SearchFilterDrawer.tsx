@@ -1,9 +1,13 @@
+/*
+ * Not imported anywhere - deprecate?
+ */
+
 import React, { useCallback, useState } from "react"
 import { Button, IconButton } from "ol-components"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 
 import FacetDisplay from "./FacetDisplay"
-import { FacetManifest } from "../interfaces"
+import { FacetManifest } from "ol-common"
 
 import { Aggregation, Facets } from "@mitodl/course-search-utils"
 

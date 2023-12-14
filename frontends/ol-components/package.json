@@ -11,6 +11,7 @@
     "@dnd-kit/utilities": "^3.2.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mitodl/course-search-utils": "^2.3.2",
     "@mui/icons-material": "^5.14.19",
     "@mui/lab": "^5.0.0-alpha.150",
     "@mui/material": "^5.14.15",

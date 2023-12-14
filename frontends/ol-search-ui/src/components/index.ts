@@ -4,5 +4,3 @@ export type {
   OnActivateCard,
   CardVariant,
 } from "./LearningResourceCardTemplate"
-
-export { default as SearchFilterDrawer } from "./SearchFilterDrawer"

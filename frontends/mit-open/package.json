@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
-    "@mitodl/course-search-utils": "^2.3.0",
+    "@mitodl/course-search-utils": "^2.3.2",
     "@mui/icons-material": "^5.14.19",
     "@sentry/react": "^7.57.0",
     "@tanstack/react-query": "^4.36.1",

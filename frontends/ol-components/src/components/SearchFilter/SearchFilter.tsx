@@ -1,3 +1,7 @@
+/*
+ * Not imported anywhere outside SearchFilterDrawer, also not imported - deprecate?
+ */
+
 import React from "react"
 
 interface Props {
