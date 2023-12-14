@@ -32,19 +32,6 @@ class LearningResourceType(ExtendedEnum):
     podcast_episode = "Podcast Episode"
 
 
-class LevelType(ExtendedEnum):
-    """Enum for LearningResource levels"""
-
-    undergraduate = "Undergraduate"
-    graduate = "Graduate"
-    both = "Both"
-    advanced = "Advanced"
-    intermediate = "Intermediate"
-    introductory = "Introductory"
-    high_school = "High School"
-    noncredit = "Non Credit"
-
-
 class OfferedBy(ExtendedEnum):
     """
     Enum for our Offered By labels. They are our MIT "brands" for LearningResources
