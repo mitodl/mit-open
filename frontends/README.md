@@ -30,7 +30,7 @@ Commands can be run for all workspaces or for a specific workspace. For example:
 Most workspaces are shared dependencies built using typescript and tested with jest. Generally, these workspaces do not define their own linting and testing commands, instead using the `global:lint-fix`, etc, commands defined at the project root. For example:
 
 ```bash
-# Lint the ol-utils workspace
+# Lint the ol-utilities workspace
 > docker compose run --rm watch yarn workspace ol-utilities run globa:lint-fix
 ```
 
