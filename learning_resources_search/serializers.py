@@ -256,6 +256,7 @@ class ContentFileSearchRequestSerializer(SearchRequestSerializer):
         choices=CONTENT_FILE_SORTBY_OPTIONS,
         help_text="if the parameter starts with '-' the sort is in descending order",
     )
+    content_category = StringArrayField(required=False, child=serializers.CharField())
     aggregations = StringArrayField(
         required=False,
         help_text="Show resource counts by category",

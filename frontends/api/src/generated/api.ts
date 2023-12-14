@@ -4447,6 +4447,7 @@ export const ContentFileSearchApiAxiosParamCreator = function (
      * Search for content files
      * @summary Search
      * @param {Array<'topic' | 'content_category' | 'platform' | 'offered_by'>} [aggregations] Show resource counts by category
+     * @param {Array<string>} [content_category]
      * @param {Array<number>} [id] The id value for the content file
      * @param {number} [limit] Number of results to return per page
      * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
@@ -4464,6 +4465,7 @@ export const ContentFileSearchApiAxiosParamCreator = function (
       aggregations?: Array<
         "topic" | "content_category" | "platform" | "offered_by"
       >,
+      content_category?: Array<string>,
       id?: Array<number>,
       limit?: number,
       offered_by?: Array<
@@ -4522,6 +4524,10 @@ export const ContentFileSearchApiAxiosParamCreator = function (
 
       if (aggregations) {
         localVarQueryParameter["aggregations"] = aggregations
+      }
+
+      if (content_category) {
+        localVarQueryParameter["content_category"] = content_category
       }
 
       if (id) {
@@ -4593,6 +4599,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
      * Search for content files
      * @summary Search
      * @param {Array<'topic' | 'content_category' | 'platform' | 'offered_by'>} [aggregations] Show resource counts by category
+     * @param {Array<string>} [content_category]
      * @param {Array<number>} [id] The id value for the content file
      * @param {number} [limit] Number of results to return per page
      * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
@@ -4610,6 +4617,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
       aggregations?: Array<
         "topic" | "content_category" | "platform" | "offered_by"
       >,
+      content_category?: Array<string>,
       id?: Array<number>,
       limit?: number,
       offered_by?: Array<
@@ -4655,6 +4663,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.contentFileSearchRetrieve(
           aggregations,
+          content_category,
           id,
           limit,
           offered_by,
@@ -4702,6 +4711,7 @@ export const ContentFileSearchApiFactory = function (
       return localVarFp
         .contentFileSearchRetrieve(
           requestParameters.aggregations,
+          requestParameters.content_category,
           requestParameters.id,
           requestParameters.limit,
           requestParameters.offered_by,
@@ -4733,6 +4743,13 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
   readonly aggregations?: Array<
     "topic" | "content_category" | "platform" | "offered_by"
   >
+
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly content_category?: Array<string>
 
   /**
    * The id value for the content file
@@ -4859,6 +4876,7 @@ export class ContentFileSearchApi extends BaseAPI {
     return ContentFileSearchApiFp(this.configuration)
       .contentFileSearchRetrieve(
         requestParameters.aggregations,
+        requestParameters.content_category,
         requestParameters.id,
         requestParameters.limit,
         requestParameters.offered_by,

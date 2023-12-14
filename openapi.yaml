@@ -180,6 +180,13 @@ paths:
               * `offered_by` - offered_by
         description: Show resource counts by category
       - in: query
+        name: content_category
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+      - in: query
         name: id
         schema:
           type: array
