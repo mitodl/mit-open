@@ -4,7 +4,7 @@ import { urls } from "services/api/fields"
 import * as factories from "services/api/fields/test-utils/factories"
 import { setMockResponse, renderWithProviders, user } from "../../../test-utils"
 import FieldMenu from "./FieldMenu"
-import { assertInstanceOf } from "ol-util"
+import { assertInstanceOf } from "ol-utilities"
 
 describe("FieldMenu", () => {
   it("Includes links to field management and widget management", async () => {

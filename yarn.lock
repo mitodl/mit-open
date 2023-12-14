@@ -3762,7 +3762,7 @@ __metadata:
     "@testing-library/react": ^14.1.2
     jest-when: ^3.6.0
     lodash: ^4.17.21
-    ol-util: "workspace:*"
+    ol-utilities: "workspace:*"
   peerDependencies:
     "@tanstack/react-query": ^4.36.1
     axios: ^0.27.2
@@ -10214,7 +10214,7 @@ __metadata:
     ol-ckeditor: "workspace:*"
     ol-common: "workspace:*"
     ol-components: "workspace:*"
-    ol-util: "workspace:*"
+    ol-utilities: "workspace:*"
     ol-widgets: "workspace:*"
     postcss-loader: ^7.0.1
     react: ^18.2.0
@@ -10715,7 +10715,7 @@ __metadata:
     "@testing-library/user-event": ^14.5.1
     lodash: ^4.17.21
     nuka-carousel: ^7.0.0
-    ol-util: "workspace:*"
+    ol-utilities: "workspace:*"
     rc-tooltip: ^6.1.2
     react-router: ^6.19.0
     react-router-dom: ^6.19.0
@@ -10735,9 +10735,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"ol-util@workspace:*, ol-util@workspace:frontends/ol-util":
+"ol-utilities@workspace:*, ol-utilities@workspace:frontends/ol-utilities":
   version: 0.0.0-use.local
-  resolution: "ol-util@workspace:frontends/ol-util"
+  resolution: "ol-utilities@workspace:frontends/ol-utilities"
   dependencies:
     "@dnd-kit/core": ^6.0.8
     "@dnd-kit/sortable": ^7.0.2
@@ -10779,7 +10779,7 @@ __metadata:
     js-beautify: ^1.14.6
     lodash: ^4.17.21
     ol-ckeditor: "workspace:*"
-    ol-util: "workspace:*"
+    ol-utilities: "workspace:*"
     react-markdown: ^6.0.3
     remark-gfm: ^1.0.0
     tiny-invariant: ^1.3.1

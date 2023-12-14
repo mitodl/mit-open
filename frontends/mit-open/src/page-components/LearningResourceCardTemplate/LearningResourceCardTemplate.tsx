@@ -12,7 +12,7 @@ import {
   resourceThumbnailSrc,
   getReadableResourceType,
   findBestRun,
-} from "ol-util"
+} from "ol-utilities"
 
 import type { EmbedlyConfig } from "ol-common"
 

@@ -8,7 +8,7 @@ import {
   makeLearningResource,
   makeLearningResourcesPaginated,
   makeListItemsPaginated,
-} from "ol-util/factories"
+} from "ol-utilities/factories"
 import { urls } from "./urls"
 import {
   useNewVideos,

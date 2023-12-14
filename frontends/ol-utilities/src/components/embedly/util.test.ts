@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-node-access */
 import { waitFor } from "@testing-library/react"
-import { assertNotNil } from "ol-util"
+import { assertNotNil } from "ol-utilities"
 import {
   createStylesheet,
   EmbedlyEventTypes,

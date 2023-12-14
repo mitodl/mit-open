@@ -1,6 +1,6 @@
 import React from "react"
 import type { EmbeddedUrlWidgetInstance } from "../interfaces"
-import { EmbedlyCard } from "ol-util"
+import { EmbedlyCard } from "ol-utilities"
 
 const RichTextWdigetContent: React.FC<{
   className?: string

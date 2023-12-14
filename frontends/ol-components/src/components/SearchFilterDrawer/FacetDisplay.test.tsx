@@ -1,5 +1,5 @@
 import FacetDisplay, { FacetDisplayProps } from "./FacetDisplay"
-import type { FacetManifest } from "../interfaces"
+import type { FacetManifest } from "ol-common"
 import { render, screen } from "@testing-library/react"
 import React from "react"
 

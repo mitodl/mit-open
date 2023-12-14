@@ -1,7 +1,7 @@
 import React, { useCallback } from "react"
 import Dotdotdot from "react-dotdotdot"
 import invariant from "tiny-invariant"
-import { toQueryString, pluralize } from "ol-util"
+import { toQueryString, pluralize } from "ol-utilities"
 import classNames from "classnames"
 import { Card, CardContent, Chip, CardMedia } from "ol-components"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
@@ -19,7 +19,7 @@ import {
   getStartDate,
   resourceThumbnailSrcLegacy,
   CertificateIcon,
-} from "ol-util/deprecated"
+} from "ol-utilities/deprecated"
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard<R extends CardMinimalResource = CardMinimalResource> = (

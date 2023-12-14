@@ -1,6 +1,6 @@
 import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
-import { SortableList, SortableItem } from "ol-util"
+import { SortableList, SortableItem } from "ol-utilities"
 import LearningResourceCard from "page-components/LearningResourceCard/LearningResourceCard"
 import { factories, urls, makeRequest } from "api/test-utils"
 import {
@@ -13,11 +13,11 @@ import {
 } from "../../test-utils"
 import ItemsListing from "./ItemsListing"
 import type { ItemsListingProps } from "./ItemsListing"
-import { ControlledPromise } from "ol-util/test-utils"
+import { ControlledPromise } from "ol-utilities/test-utils"
 import invariant from "tiny-invariant"
 
-jest.mock("ol-util", () => {
-  const actual = jest.requireActual("ol-util")
+jest.mock("ol-utilities", () => {
+  const actual = jest.requireActual("ol-utilities")
   return {
     __esModule: true,
     ...actual,

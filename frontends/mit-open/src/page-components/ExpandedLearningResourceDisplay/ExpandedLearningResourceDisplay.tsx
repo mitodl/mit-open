@@ -5,7 +5,7 @@ import {
   formatDurationClockTime,
   decodeAndStripTags,
   formatDate,
-} from "ol-util"
+} from "ol-utilities"
 
 import TruncatedText from "./TruncatedText"
 import { ShareTooltip } from "ol-components"
@@ -26,7 +26,7 @@ import {
   resourceThumbnailSrcLegacy,
   CertificateIcon,
   getReadableResourceTypeLegacy,
-} from "ol-util/deprecated"
+} from "ol-utilities/deprecated"
 
 type ExpandedLearningResourceDisplayProps = {
   resource: LearningResource

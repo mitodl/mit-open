@@ -1,5 +1,5 @@
 @use "theme";
-@use "ol-util/assets/breakpoint";
+@use "ol-utilities/assets/breakpoint";
 @use "../page-components/LearningResourceCardTemplateLegacy/learning-resource-card-legacy"
   with (
   $light-text: theme.$font-color-light

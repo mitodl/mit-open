@@ -5,7 +5,7 @@ import { LearningResource } from "ol-common"
 import ExpandedLearningResourceDisplay, {
   ExpandedLearningResourceDisplayProps as LRDisplayProps,
 } from "page-components/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay"
-import { useSearchParams } from "ol-util"
+import { useSearchParams } from "ol-utilities"
 
 const RESOURCE_ID_PARAM = "resource_id"
 const RESOURCE_TYPE_PARAM = "resource_type"

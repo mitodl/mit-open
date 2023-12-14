@@ -1,4 +1,4 @@
-import { PaginatedResult } from "ol-util"
+import { PaginatedResult } from "ol-utilities"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import type {
   UseInfiniteQueryOptions,

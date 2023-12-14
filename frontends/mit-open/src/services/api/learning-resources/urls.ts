@@ -4,7 +4,7 @@ import {
   TYPE_FAVORITES,
   TYPE_POPULAR,
 } from "ol-common"
-import type { PaginationSearchParams } from "ol-util"
+import type { PaginationSearchParams } from "ol-utilities"
 import type { SearchQueryParams } from "@mitodl/course-search-utils"
 
 const DEFAULT_PAGINATION_PARAMS: PaginationSearchParams = {

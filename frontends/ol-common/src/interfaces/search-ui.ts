@@ -1,5 +1,5 @@
 import { Facets } from "@mitodl/course-search-utils"
-import { PaginatedResult } from "ol-util"
+import { PaginatedResult } from "ol-utilities"
 
 export enum LearningResourceType {
   Course = "course",

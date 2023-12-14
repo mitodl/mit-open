@@ -1,5 +1,5 @@
 /* eslint-disable testing-library/no-node-access */
-import { assertInstanceOf, assertNotNil } from "ol-util"
+import { assertInstanceOf, assertNotNil } from "ol-utilities"
 import { urls } from "services/api/fields"
 import { urls as widgetUrls } from "services/api/widgets"
 import { urls as lrUrls } from "services/api/learning-resources"
@@ -8,7 +8,7 @@ import { TitledCarousel } from "ol-components"
 import type { UserList, ListItem } from "ol-common"
 import type { FieldChannel } from "services/api/fields"
 import * as factory from "services/api/fields/test-utils/factories"
-import * as lrFactory from "ol-util/factories"
+import * as lrFactory from "ol-utilities/factories"
 import WidgetList from "../components/WidgetsList"
 
 import {
@@ -20,7 +20,7 @@ import {
   waitFor,
 } from "../../../test-utils"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
-import { makeLearningResource } from "ol-util/factories"
+import { makeLearningResource } from "ol-utilities/factories"
 import LearningResourceCard from "page-components/LearningResourceCard/LearningResourceCard"
 
 jest.mock("../components/WidgetsList", () => {

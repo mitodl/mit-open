@@ -9,7 +9,7 @@ import {
 import type { Article } from "api"
 import { articles as factory } from "api/test-utils/factories"
 import { makeRequest, setMockResponse, urls } from "api/test-utils"
-import { getDescriptionFor } from "ol-util/test-utils"
+import { getDescriptionFor } from "ol-utilities/test-utils"
 import ArticleEditPage from "./ArticleEditPage"
 
 describe("ArticleEditPage", () => {

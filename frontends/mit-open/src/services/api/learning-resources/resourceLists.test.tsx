@@ -14,7 +14,7 @@ import {
   makeSearchResponse,
   makeStaffList,
   makeUserList,
-} from "ol-util/factories"
+} from "ol-utilities/factories"
 
 import {
   useAddToListItems,
@@ -28,7 +28,7 @@ import {
   useUpdateUserList,
 } from "./resourceLists"
 import { useResource } from "./resources"
-import { ControlledPromise } from "ol-util/test-utils"
+import { ControlledPromise } from "ol-utilities/test-utils"
 import axios from "services/axios"
 import { clone } from "lodash"
 import { useInfiniteSearch } from "./search"

@@ -1,4 +1,4 @@
-import type { PaginatedResult } from "ol-util"
+import type { PaginatedResult } from "ol-utilities"
 import type { UserList } from "ol-common"
 
 interface FieldChannel {

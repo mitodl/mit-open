@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react"
 import { styled, AppBar, Divider, Toolbar } from "ol-components"
-import { MITLogoLink } from "ol-util"
+import { MITLogoLink } from "ol-utilities"
 
 const Bar = styled(AppBar)`
   background-color: ${({ theme }) => theme.custom.colorBackgroundLight};

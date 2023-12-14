@@ -4,7 +4,7 @@ import { render, screen, act, waitFor } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import { FormDialog } from "./FormDialog"
 import type { FormDialogProps } from "./FormDialog"
-import { ControlledPromise } from "ol-util/test-utils"
+import { ControlledPromise } from "ol-utilities/test-utils"
 
 const setup = (props?: Partial<FormDialogProps>) => {
   const onSubmit = jest.fn((e) => {

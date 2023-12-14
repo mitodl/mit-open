@@ -2,15 +2,15 @@ import React from "react"
 import { render, screen, fireEvent, within } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import { faker } from "@faker-js/faker/locale/en"
-import { assertInstanceOf, assertNotNil } from "ol-util"
-import { getByTerm, queryByTerm } from "ol-util/test-utils"
+import { assertInstanceOf, assertNotNil } from "ol-utilities"
+import { getByTerm, queryByTerm } from "ol-utilities/test-utils"
 import {
   makeUrl,
   makeCourse,
   makeImgConfigLegacy,
   makeRun,
   makeVideo,
-} from "ol-util/factories"
+} from "ol-utilities/factories"
 import ExpandedLearningResourceDisplay, {
   ExpandedLearningResourceDisplayProps,
 } from "./ExpandedLearningResourceDisplay"
@@ -18,7 +18,7 @@ import {
   resourceThumbnailSrcLegacy,
   getInstructorName,
   findBestRunLegacy,
-} from "ol-util/deprecated"
+} from "ol-utilities/deprecated"
 
 const formatShareLink: ExpandedLearningResourceDisplayProps["formatShareLink"] =
   (r) => `www.tests.org?resource_id=${r.id}&resource_type=${r.object_type}`

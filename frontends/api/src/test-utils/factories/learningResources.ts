@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker/locale/en"
 import { mergeWith } from "lodash"
-import type { Factory, PartialFactory } from "ol-util/factories"
-import { makePaginatedFactory } from "ol-util/factories"
-import type { PaginatedResult } from "ol-util"
+import type { Factory, PartialFactory } from "ol-utilities/factories"
+import { makePaginatedFactory } from "ol-utilities/factories"
+import type { PaginatedResult } from "ol-utilities"
 import type {
   CourseNumber,
   LearningResource,

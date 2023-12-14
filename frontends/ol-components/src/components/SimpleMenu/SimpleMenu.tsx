@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useState } from "react"
-import { useToggle } from "ol-util"
+import { useToggle } from "ol-utilities"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import invariant from "tiny-invariant"
-import { Link , LinkProps } from "react-router-dom"
+import { Link, LinkProps } from "react-router-dom"
 
 interface SimpleMenuItem<K extends string = string> {
   key: K

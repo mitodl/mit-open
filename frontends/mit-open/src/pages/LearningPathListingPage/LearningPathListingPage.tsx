@@ -14,7 +14,7 @@ import EditIcon from "@mui/icons-material/Edit"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import DeleteIcon from "@mui/icons-material/Delete"
 
-import { MetaTags } from "ol-util"
+import { MetaTags } from "ol-utilities"
 import type { LearningPathResource } from "api"
 import { useLearningPathsList } from "api/hooks/learningResources"
 

@@ -1,6 +1,6 @@
 import React from "react"
 import * as NiceModal from "@ebay/nice-modal-react"
-import { makeLearningResource } from "ol-util/factories"
+import { makeLearningResource } from "ol-utilities/factories"
 import { renderWithProviders, user, screen } from "../../test-utils"
 import type { User } from "../../test-utils"
 import LearningResourceCard from "./LearningResourceCard"

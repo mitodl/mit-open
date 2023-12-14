@@ -7,8 +7,8 @@ import {
   ListItem,
   LearningResourceRef,
 } from "ol-common"
-import { isUserListOrPath } from "ol-util/deprecated"
-import { PaginatedResult, PaginationSearchParams } from "ol-util"
+import { isUserListOrPath } from "ol-utilities/deprecated"
+import { PaginatedResult, PaginationSearchParams } from "ol-utilities"
 import axios from "services/axios"
 import {
   useMutation,

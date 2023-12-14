@@ -9,11 +9,11 @@ import { makeWidgetListResponse, makeWidget } from "../../factories"
 import WidgetsListEditable from "./WidgetsListEditable"
 import { btnLabel } from "../Widget"
 import { WidgetTypes } from "../../interfaces"
-import { assertInstanceOf, SortableList, SortEndEvent } from "ol-util"
+import { assertInstanceOf, SortableList, SortEndEvent } from "ol-utilities"
 import invariant from "tiny-invariant"
 
-jest.mock("ol-util", () => {
-  const actual = jest.requireActual("ol-util")
+jest.mock("ol-utilities", () => {
+  const actual = jest.requireActual("ol-utilities")
   return {
     __esModule: true,
     ...actual,

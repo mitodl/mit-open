@@ -21,6 +21,6 @@
   },
   "dependencies": {
     "@lukemorales/query-key-factory": "^1.3.2",
-    "ol-util": "workspace:*"
+    "ol-utilities": "workspace:*"
   }
 }

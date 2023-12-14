@@ -1,15 +1,15 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
-import { assertInstanceOf } from "ol-util"
+import { assertInstanceOf } from "ol-utilities"
 import LearningResourceCardTemplateLegacy from "./LearningResourceCardTemplateLegacy"
 import {
   makeCourse,
   makeImgConfigLegacy,
   makeStaffList,
   makeUserList,
-} from "ol-util/factories"
-import { resourceThumbnailSrcLegacy } from "ol-util/deprecated"
-import { allowConsoleErrors } from "ol-util/test-utils"
+} from "ol-utilities/factories"
+import { resourceThumbnailSrcLegacy } from "ol-utilities/deprecated"
+import { allowConsoleErrors } from "ol-utilities/test-utils"
 
 describe("LearningResourceCard", () => {
   it("renders title and cover image", () => {

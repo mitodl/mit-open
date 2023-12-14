@@ -1,5 +1,5 @@
 import React from "react"
-import { MetaTags } from "ol-util"
+import { MetaTags } from "ol-utilities"
 import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
 import {
   Container,

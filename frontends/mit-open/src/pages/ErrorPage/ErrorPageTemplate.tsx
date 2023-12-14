@@ -7,7 +7,7 @@ import {
   ButtonLink,
 } from "ol-components"
 import { HOME } from "common/urls"
-import { MetaTags } from "ol-util"
+import { MetaTags } from "ol-utilities"
 
 type ErrorPageTemplateProps = {
   title: string

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import type { UseQueryOptions } from "@tanstack/react-query"
 import { urls, keys } from "./urls"
 import type { CourseOptions } from "./urls"
-import type { PaginatedResult, PaginationSearchParams } from "ol-util"
+import type { PaginatedResult, PaginationSearchParams } from "ol-utilities"
 
 const useResource = (
   type: string,

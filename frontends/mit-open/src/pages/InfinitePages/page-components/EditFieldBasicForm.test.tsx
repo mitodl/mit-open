@@ -1,10 +1,10 @@
 import { waitFor } from "@testing-library/react"
-import { PaginatedResult } from "ol-util"
+import { PaginatedResult } from "ol-utilities"
 import { FieldChannel, urls } from "services/api/fields"
 import { urls as widgetUrls } from "services/api/widgets"
 import { urls as lrUrls } from "services/api/learning-resources"
 import * as factory from "services/api/fields/test-utils/factories"
-import * as resourceFactory from "ol-util/factories"
+import * as resourceFactory from "ol-utilities/factories"
 import type { UserList } from "ol-common"
 import { makeFieldViewPath } from "../common/infinite-pages-urls"
 import {

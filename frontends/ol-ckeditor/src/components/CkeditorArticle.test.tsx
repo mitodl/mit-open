@@ -3,10 +3,10 @@
 import React from "react"
 import { render } from "@testing-library/react"
 import CkeditorArticle from "./CkeditorArticle"
-import * as utils from "ol-util"
+import * as utils from "ol-utilities"
 
-jest.mock("ol-util", () => {
-  const original = jest.requireActual("ol-util")
+jest.mock("ol-utilities", () => {
+  const original = jest.requireActual("ol-utilities")
   return {
     ...original,
     ensureEmbedlyPlatform: jest.fn(original.ensureEmbedlyPlatform),

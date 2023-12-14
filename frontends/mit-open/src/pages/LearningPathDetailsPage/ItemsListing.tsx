@@ -8,7 +8,7 @@ import {
   RenderActive,
   arrayMove,
   OnSortEnd,
-} from "ol-util"
+} from "ol-utilities"
 import { LoadingSpinner } from "ol-components"
 import { useLearningpathRelationshipMove } from "api/hooks/learningResources"
 

@@ -1,6 +1,6 @@
 import axios from "services/axios"
 import { setMockResponse } from "./test-utils"
-import { ControlledPromise, allowConsoleErrors } from "ol-util/test-utils"
+import { ControlledPromise, allowConsoleErrors } from "ol-utilities/test-utils"
 
 describe("request mocking", () => {
   test("mocking specific responses and spying", async () => {

@@ -15,7 +15,7 @@ import {
   EmbedlyConfigLegacy,
 } from "ol-common"
 import React, { useState, useEffect } from "react"
-import { capitalize, emptyOrNil } from "ol-util"
+import { capitalize, emptyOrNil } from "ol-utilities"
 import ISO6391 from "iso-639-1"
 import Decimal from "decimal.js-light"
 

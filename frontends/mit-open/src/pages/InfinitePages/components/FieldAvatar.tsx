@@ -1,6 +1,6 @@
 import React from "react"
 
-import { initials } from "ol-util"
+import { initials } from "ol-utilities"
 
 import type { FieldChannel } from "services/api/fields/interfaces"
 
