@@ -2898,15 +2898,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dotdotdot@npm:^1.2.5":
-  version: 1.2.5
-  resolution: "@types/react-dotdotdot@npm:1.2.5"
-  dependencies:
-    react-dotdotdot: "*"
-  checksum: e2c036b5cc365d18c338a0b6ec2c69f1f8356e03eb4ad9158500572277c4feda7b161b61332d885422202c2ef36fad79dd23cfc7e4860054a9d6c3d1446b332a
-  languageName: node
-  linkType: hard
-
 "@types/react-infinite-scroller@npm:^1.2.3":
   version: 1.2.5
   resolution: "@types/react-infinite-scroller@npm:1.2.5"
@@ -10223,7 +10214,6 @@ __metadata:
     ol-ckeditor: "workspace:*"
     ol-common: "workspace:*"
     ol-components: "workspace:*"
-    ol-learning-resources: "workspace:*"
     ol-util: "workspace:*"
     ol-widgets: "workspace:*"
     postcss-loader: ^7.0.1
@@ -10731,24 +10721,6 @@ __metadata:
     react-router-dom: ^6.19.0
     react-select: ^5.7.7
     react-share: ^5.0.3
-    tiny-invariant: ^1.3.1
-  peerDependencies:
-    react: ^18.2.0
-  languageName: unknown
-  linkType: soft
-
-"ol-learning-resources@workspace:*, ol-learning-resources@workspace:frontends/ol-learning-resources":
-  version: 0.0.0-use.local
-  resolution: "ol-learning-resources@workspace:frontends/ol-learning-resources"
-  dependencies:
-    "@faker-js/faker": ^7.3.0
-    "@mui/icons-material": ^5.14.19
-    "@testing-library/react": ^14.1.2
-    "@testing-library/user-event": ^14.5.1
-    "@types/react-dotdotdot": ^1.2.5
-    classnames: ^2.3.2
-    moment: ^2.29.4
-    react-dotdotdot: ^1.3.1
     tiny-invariant: ^1.3.1
   peerDependencies:
     react: ^18.2.0
@@ -12074,7 +12046,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dotdotdot@npm:*, react-dotdotdot@npm:^1.3.1":
+"react-dotdotdot@npm:^1.3.1":
   version: 1.3.1
   resolution: "react-dotdotdot@npm:1.3.1"
   dependencies:
