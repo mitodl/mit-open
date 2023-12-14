@@ -118,6 +118,14 @@ class LearningResourceDepartmentSerializer(serializers.ModelSerializer):
         fields = ["department_id", "name"]
 
 
+class LearningResourceContentTagSerializer(serializers.ModelSerializer):
+    """Serializer for LearningResourceContentTag"""
+
+    class Meta:
+        model = models.LearningResourceContentTag
+        fields = ["id", "name"]
+
+
 class LearningResourceImageSerializer(serializers.ModelSerializer):
     """Serializer for LearningResourceImage"""
 
@@ -233,7 +241,10 @@ class MicroLearningPathRelationshipSerializer(serializers.ModelSerializer):
     Serializer containing only parent and child ids for a learning path relationship
     """
 
-    parent = serializers.ReadOnlyField(source="parent_id")
+    parent = serializers.ReadOnlyField(
+        source="parent_id",
+        help_text="The id of the parent learning resource",
+    )
     child = serializers.ReadOnlyField(source="child_id")
 
     class Meta:
@@ -246,7 +257,9 @@ class MicroUserListRelationshipSerializer(serializers.ModelSerializer):
     Serializer containing only parent and child ids for a user list relationship
     """
 
-    parent = serializers.ReadOnlyField(source="parent_id")
+    parent = serializers.ReadOnlyField(
+        source="parent_id", help_text="The id of the parent learning resource"
+    )
     child = serializers.ReadOnlyField(source="child_id")
 
     class Meta:

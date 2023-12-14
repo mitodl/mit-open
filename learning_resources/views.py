@@ -12,10 +12,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import (
-    extend_schema,
-    extend_schema_view,
-)
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import views, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
@@ -38,6 +35,7 @@ from learning_resources.filters import LearningResourceFilter
 from learning_resources.models import (
     ContentFile,
     LearningResource,
+    LearningResourceContentTag,
     LearningResourceDepartment,
     LearningResourceOfferor,
     LearningResourcePlatform,
@@ -58,6 +56,7 @@ from learning_resources.serializers import (
     LearningPathRelationshipSerializer,
     LearningPathResourceSerializer,
     LearningResourceChildSerializer,
+    LearningResourceContentTagSerializer,
     LearningResourceDepartmentSerializer,
     LearningResourceOfferorSerializer,
     LearningResourcePlatformSerializer,
@@ -144,7 +143,7 @@ class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class NewResourcesViewSetMixin(GenericAPIView):
-    """ViewSet mixin for adding upcoming resource functionality."""
+    """ViewSet mixin for adding new resource functionality."""
 
     resource_type_name_plural: str
 
@@ -153,21 +152,16 @@ class NewResourcesViewSetMixin(GenericAPIView):
         name = cls.resource_type_name_plural
         # this decorator mutates the view in place so the return value is safely ignored
         extend_schema_view(
-            upcoming=extend_schema(
-                description=f"Get a paginated list of newly released ${name}.",
+            new=extend_schema(
+                description=f"Get a paginated list of newly released {name}.",
                 responses=cls.serializer_class(many=True),
             ),
         )(cls)
+        super().__init_subclass__()
 
     @extend_schema(summary="List New")
     @action(methods=["GET"], detail=False, name="New Resources")
     def new(self, request: Request) -> QuerySet:  # noqa: ARG002
-        """
-        Get new LearningResources
-
-        Returns:
-            QuerySet of LearningResource objects ordered by reverse created_on
-        """
         page = self.paginate_queryset(self.get_queryset().order_by("-created_on"))
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
@@ -184,10 +178,11 @@ class UpcomingResourcesViewSetMixin(GenericAPIView):
         # this decorator mutates the view in place so the return value is safely ignored
         extend_schema_view(
             upcoming=extend_schema(
-                description=f"Get a paginated list of upcoming ${name}.",
+                description=f"Get a paginated list of upcoming {name}.",
                 responses=cls.serializer_class(many=True),
             ),
         )(cls)
+        super().__init_subclass__()
 
     @extend_schema(summary="List Upcoming")
     @action(methods=["GET"], detail=False, name="Upcoming Resources")
@@ -217,6 +212,14 @@ class UpcomingResourcesViewSetMixin(GenericAPIView):
         return self.get_paginated_response(serializer.data)
 
 
+@extend_schema_view(
+    list=extend_schema(
+        description="Get a paginated list of learning resources.",
+    ),
+    retrieve=extend_schema(
+        description="Retrieve a single learning resource.",
+    ),
+)
 class LearningResourceViewSet(
     BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
 ):
@@ -228,8 +231,16 @@ class LearningResourceViewSet(
     serializer_class = LearningResourceSerializer
 
 
+@extend_schema_view(
+    list=extend_schema(
+        description="Get a paginated list of courses",
+    ),
+    retrieve=extend_schema(
+        description="Retrieve a single course",
+    ),
+)
 class CourseViewSet(
-    BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
+    BaseLearningResourceViewSet, NewResourcesViewSetMixin, UpcomingResourcesViewSetMixin
 ):
     """
     Viewset for Courses
@@ -251,6 +262,14 @@ class CourseViewSet(
         ).filter(published=True)
 
 
+@extend_schema_view(
+    list=extend_schema(
+        description="Get a paginated list of programs",
+    ),
+    retrieve=extend_schema(
+        description="Retrieve a single program",
+    ),
+)
 class ProgramViewSet(
     BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
 ):
@@ -274,6 +293,14 @@ class ProgramViewSet(
         ).filter(published=True)
 
 
+@extend_schema_view(
+    list=extend_schema(
+        description="Get a paginated list of podcasts",
+    ),
+    retrieve=extend_schema(
+        description="Retrieve a single podcast",
+    ),
+)
 class PodcastViewSet(BaseLearningResourceViewSet):
     """
     Viewset for Podcasts
@@ -293,6 +320,14 @@ class PodcastViewSet(BaseLearningResourceViewSet):
         ).filter(published=True)
 
 
+@extend_schema_view(
+    list=extend_schema(
+        description="Get a paginated list of podcast episodes",
+    ),
+    retrieve=extend_schema(
+        description="Retrieve a single podcast episode",
+    ),
+)
 class PodcastEpisodeViewSet(BaseLearningResourceViewSet):
     """
     Viewset for Podcast Episodes
@@ -312,6 +347,23 @@ class PodcastEpisodeViewSet(BaseLearningResourceViewSet):
         ).filter(published=True)
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="List", description="Get a paginated list of learning paths"
+    ),
+    retrieve=extend_schema(
+        summary="Retrieve", description="Retrive a single learning path"
+    ),
+    create=extend_schema(summary="Create", description="Create a learning path"),
+    update=extend_schema(
+        summary="Update", description="Update all fields of a learning path"
+    ),
+    destroy=extend_schema(summary="Destroy", description="Remove a learning path"),
+    partial_update=extend_schema(
+        summary="Partial Update",
+        description="Update individual fields of a learning path",
+    ),
+)
 class LearningPathViewSet(BaseLearningResourceViewSet, viewsets.ModelViewSet):
     """
     Viewset for LearningPaths
@@ -348,9 +400,20 @@ class NestedParentMixin(NestedViewSetMixin):
         return self.get_parents_query_dict()[id_field]
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="Nested Learning Resource List",
+        description="Get a list of related learning resources for a learning resource.",
+    ),
+    retrieve=extend_schema(
+        summary="Nested Learning Resource Retrieve",
+        description="Get a singe related learning resource for a learning resource.",
+    ),
+)
 class ResourceListItemsViewSet(NestedParentMixin, viewsets.ReadOnlyModelViewSet):
     """
-    Viewset for LearningResource related resources
+    Viewset for nested learning resources.
+
     """
 
     permission_classes = (AnonymousAccessReadonlyPermission,)
@@ -368,6 +431,14 @@ class ResourceListItemsViewSet(NestedParentMixin, viewsets.ReadOnlyModelViewSet)
     ordering = ["position", "-child__last_modified"]
 
 
+@extend_schema_view(
+    create=extend_schema(summary="Learning Path Resource Relationship Add"),
+    update=extend_schema(summary="Learning Path Resource Relationship Update"),
+    destroy=extend_schema(summary="Learning Path Resource Relationship Remove"),
+    partial_update=extend_schema(
+        summary="Learning Path Resource Relationship Partial Update"
+    ),
+)
 class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
     """
     Viewset for LearningPath related resources
@@ -396,8 +467,8 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(summary="List of topics"),
-    retrieve=extend_schema(summary="Topic details"),
+    list=extend_schema(summary="List"),
+    retrieve=extend_schema(summary="Retrieve"),
 )
 class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -410,9 +481,13 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (AnonymousAccessReadonlyPermission,)
 
 
+@extend_schema_view(
+    list=extend_schema(summary="List"),
+    retrieve=extend_schema(summary="Retrieve"),
+)
 class ContentFileViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Viewset for CpntentFiles
+    Viewset for ContentFiles
     """
 
     serializer_class = ContentFileSerializer
@@ -430,9 +505,17 @@ class ContentFileViewSet(viewsets.ReadOnlyModelViewSet):
     ]
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="Learning Resource Content File List",
+    ),
+    retrieve=extend_schema(
+        summary="Learning Resource Content File Retrieve",
+    ),
+)
 class LearningResourceContentFilesViewSet(NestedViewSetMixin, ContentFileViewSet):
     """
-    Viewset for LearningResource nested ContentFiles
+    Show content files for a learning resource
     """
 
     filterset_fields = ["run", "run__run_id"]
@@ -442,6 +525,14 @@ class LearningResourceContentFilesViewSet(NestedViewSetMixin, ContentFileViewSet
         return self.get_parents_query_dict()["run__learning_resource"]
 
 
+@extend_schema_view(
+    list=extend_schema(summary="List"),
+    retrieve=extend_schema(summary="Retrieve"),
+    create=extend_schema(summary="Create"),
+    update=extend_schema(summary="Update"),
+    destroy=extend_schema(summary="Destroy"),
+    partial_update=extend_schema(summary="Partial Update"),
+)
 class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
     """
     Viewset for UserLists
@@ -482,6 +573,16 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
         instance.delete()
 
 
+@extend_schema_view(
+    list=extend_schema(summary="User List Resources List"),
+    retrieve=extend_schema(summary="User List Resources Retrieve"),
+    create=extend_schema(summary="User List Resource Relationship Add"),
+    update=extend_schema(summary="User List Resource Relationship Update"),
+    destroy=extend_schema(summary="User List Resource Relationship Remove"),
+    partial_update=extend_schema(
+        summary="User List Resource Relationship Partial Update"
+    ),
+)
 class UserListItemViewSet(NestedParentMixin, viewsets.ModelViewSet):
     """
     Viewset for UserListRelationships
@@ -578,8 +679,25 @@ class WebhookOCWNextView(views.APIView):
 
 
 @extend_schema_view(
-    list=extend_schema(summary="List of departments"),
-    retrieve=extend_schema(summary="Department details", parameters=[]),
+    list=extend_schema(summary="List"),
+    retrieve=extend_schema(summary="Retrieve", parameters=[]),
+)
+class ContentTagViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Learning Resource Content Tags
+    """
+
+    queryset = LearningResourceContentTag.objects.all().order_by("id")
+    serializer_class = LearningResourceContentTagSerializer
+    pagination_class = LargePagination
+    permission_classes = (AnonymousAccessReadonlyPermission,)
+    lookup_url_kwarg = "id"
+    lookup_field = "id_iexact"
+
+
+@extend_schema_view(
+    list=extend_schema(summary="List"),
+    retrieve=extend_schema(summary="Retrieve", parameters=[]),
 )
 class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -595,8 +713,8 @@ class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(summary="List of platforms"),
-    retrieve=extend_schema(summary="Platform details"),
+    list=extend_schema(summary="List"),
+    retrieve=extend_schema(summary="Retrieve"),
 )
 class PlatformViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -610,8 +728,8 @@ class PlatformViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(summary="List of offerors"),
-    retrieve=extend_schema(summary="Offerer details"),
+    list=extend_schema(summary="List"),
+    retrieve=extend_schema(summary="Retrieve"),
 )
 class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
     """

@@ -12,6 +12,7 @@ from learning_resources.constants import (
     DEPARTMENTS,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
     LearningResourceType,
+    LevelType,
     OfferedBy,
     PlatformType,
 )
@@ -150,17 +151,18 @@ CONTENT_FILE_AGGREGATIONS = ["topic", "content_category", "platform", "offered_b
 
 class SearchRequestSerializer(serializers.Serializer):
     q = serializers.CharField(required=False, help_text="The search text")
-    offset = serializers.IntegerField(required=False)
-    limit = serializers.IntegerField(required=False)
-    id = StringArrayField(  # noqa: A003
-        required=False, child=serializers.IntegerField()
+    offset = serializers.IntegerField(
+        required=False, help_text="The initial index from which to return the results"
+    )
+    limit = serializers.IntegerField(
+        required=False, help_text="Number of results to return per page"
     )
     offered_by_choices = [(e.name.lower(), e.value) for e in OfferedBy]
     offered_by = StringArrayField(
         required=False,
         child=serializers.ChoiceField(choices=offered_by_choices),
         help_text=(
-            f"The organization that offers learning resources \
+            f"The organization that offers the learning resource \
             \n\n{build_choice_description_list(offered_by_choices)}"
         ),
     )
@@ -169,21 +171,30 @@ class SearchRequestSerializer(serializers.Serializer):
         required=False,
         child=serializers.ChoiceField(choices=platform_choices),
         help_text=(
-            f"The platform on which learning resources are offered \
+            f"The platform on which the learning resource id offered \
             \n\n{build_choice_description_list(platform_choices)}"
         ),
     )
-    topic = StringArrayField(required=False, child=serializers.CharField())
+    topic = StringArrayField(
+        required=False,
+        child=serializers.CharField(),
+        help_text="The topic name. To see a list of options go to api/v1/topics/",
+    )
 
 
 class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
+    id = StringArrayField(  # noqa: A003
+        required=False,
+        child=serializers.IntegerField(),
+        help_text="The id value for the learning resource",
+    )
     sortby = serializers.ChoiceField(
         required=False,
         choices=[
             (key, LEARNING_RESOURCE_SORTBY_OPTIONS[key]["title"])
             for key in LEARNING_RESOURCE_SORTBY_OPTIONS
         ],
-        help_text="if the parameter starts with '-' the sort is in descending order",
+        help_text="If the parameter starts with '-' the sort is in descending order",
     )
     resource_choices = [(e.name, e.value.lower()) for e in LearningResourceType]
     resource_type = StringArrayField(
@@ -206,28 +217,40 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         required=False,
         allow_null=True,
         default=None,
-        help_text="true if the learning resource offers a certifacate",
+        help_text="True if the learning resource offers a certificate",
     )
     department_choices = list(DEPARTMENTS.items())
     department = StringArrayField(
         required=False,
         child=serializers.ChoiceField(choices=department_choices),
         help_text=(
-            f"The department that offers learning resources \
+            f"The department that offers the learning resource \
             \n\n{build_choice_description_list(department_choices)}"
         ),
     )
-    level = StringArrayField(required=False, child=serializers.CharField())
+
+    level_choices = [(e.name, e.value.lower()) for e in LevelType]
+    level = StringArrayField(
+        required=False, child=serializers.ChoiceField(choices=level_choices)
+    )
     resource_content_tags = StringArrayField(
-        required=False, child=serializers.CharField()
+        required=False,
+        child=serializers.CharField(),
+        help_text="The content tag name. Possible options are at api/v1/contenttags/",
     )
     aggregations = StringArrayField(
         required=False,
+        help_text="Show resource counts by category",
         child=serializers.ChoiceField(choices=LEARNING_RESOURCE_AGGREGATIONS),
     )
 
 
 class ContentFileSearchRequestSerializer(SearchRequestSerializer):
+    id = StringArrayField(  # noqa: A003
+        required=False,
+        child=serializers.IntegerField(),
+        help_text="The id value for the content file",
+    )
     sortby = serializers.ChoiceField(
         required=False,
         choices=CONTENT_FILE_SORTBY_OPTIONS,
@@ -236,11 +259,20 @@ class ContentFileSearchRequestSerializer(SearchRequestSerializer):
     content_category = StringArrayField(required=False, child=serializers.CharField())
     aggregations = StringArrayField(
         required=False,
+        help_text="Show resource counts by category",
         child=serializers.ChoiceField(choices=CONTENT_FILE_AGGREGATIONS),
     )
     resource_type = serializers.ReadOnlyField(default=[CONTENT_FILE_TYPE])
-    run_id = StringArrayField(required=False, child=serializers.IntegerField())
-    resource_id = StringArrayField(required=False, child=serializers.IntegerField())
+    run_id = StringArrayField(
+        required=False,
+        child=serializers.IntegerField(),
+        help_text="The id value of the run that the content file belongs to",
+    )
+    resource_id = StringArrayField(
+        required=False,
+        child=serializers.IntegerField(),
+        help_text="The id value of the parent learning resource for the content file",
+    )
 
 
 def _transform_aggregations(aggregations):
