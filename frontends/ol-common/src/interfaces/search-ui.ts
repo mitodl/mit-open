@@ -32,6 +32,7 @@ export enum PrivacyLevel {
   Private = "private",
 }
 
+/* Legacy (from ol-search-ui) */
 export type LearningResource = {
   id: number
   title: string
@@ -177,7 +178,7 @@ export type CardMinimalResource =
     >
   | Favorites
 
-export type EmbedlyConfig = {
+export type EmbedlyConfigLegacy = {
   embedlyKey: string
   ocwBaseUrl: string
   width: number

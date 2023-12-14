@@ -9,7 +9,7 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 
 import {
   CardMinimalResource,
-  EmbedlyConfig,
+  EmbedlyConfigLegacy,
   LearningResourceType,
   TYPE_FAVORITES,
 } from "ol-common"
@@ -25,7 +25,7 @@ type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard<R extends CardMinimalResource = CardMinimalResource> = (
   resource: R,
 ) => void
-type LearningResourceCardTemplateProps<
+type LearningResourceCardTemplateLegacyProps<
   R extends CardMinimalResource = CardMinimalResource,
 > = {
   /**
@@ -38,7 +38,7 @@ type LearningResourceCardTemplateProps<
   /**
    * Config used to generate embedly urls.
    */
-  imgConfig: EmbedlyConfig
+  imgConfig: EmbedlyConfigLegacy
   onActivate?: OnActivateCard<R>
   /**
    * Suppress the image.
@@ -62,7 +62,7 @@ const Offerer: React.FC<OffererProps> = ({ offerer }) => {
 }
 
 const CardBody: React.FC<
-  Pick<LearningResourceCardTemplateProps, "resource">
+  Pick<LearningResourceCardTemplateLegacyProps, "resource">
 > = ({ resource }) => {
   const offerer = resource.offered_by ?? null
   return offerer ? (
@@ -74,7 +74,7 @@ const CardBody: React.FC<
 }
 
 const ResourceFooterDetails: React.FC<
-  Pick<LearningResourceCardTemplateProps, "resource">
+  Pick<LearningResourceCardTemplateLegacyProps, "resource">
 > = ({ resource }) => {
   const isList = [
     LearningResourceType.Userlist,
@@ -112,7 +112,7 @@ const ResourceFooterDetails: React.FC<
 }
 
 type LRCImageProps = Pick<
-  LearningResourceCardTemplateProps,
+  LearningResourceCardTemplateLegacyProps,
   "resource" | "imgConfig" | "suppressImage" | "variant"
 >
 const LRCImage: React.FC<LRCImageProps> = ({
@@ -151,7 +151,7 @@ const variantClasses: Record<CardVariant, string> = {
  * does accept props to build user interaction (e.g., `onActivate` and
  * `footerActionSlot`).
  */
-const LearningResourceCardTemplate = <R extends CardMinimalResource>({
+const LearningResourceCardTemplateLegacy = <R extends CardMinimalResource>({
   variant,
   resource,
   imgConfig,
@@ -160,7 +160,7 @@ const LearningResourceCardTemplate = <R extends CardMinimalResource>({
   onActivate,
   footerActionSlot,
   sortable,
-}: LearningResourceCardTemplateProps<R>) => {
+}: LearningResourceCardTemplateLegacyProps<R>) => {
   const hasCertificate =
     resource.certification && resource.certification.length > 0
   const handleActivate = useCallback(
@@ -238,10 +238,10 @@ const LearningResourceCardTemplate = <R extends CardMinimalResource>({
   )
 }
 
-export default LearningResourceCardTemplate
+export default LearningResourceCardTemplateLegacy
 
 export type {
-  LearningResourceCardTemplateProps,
+  LearningResourceCardTemplateLegacyProps,
   CardMinimalResource,
   CardVariant,
   OnActivateCard,

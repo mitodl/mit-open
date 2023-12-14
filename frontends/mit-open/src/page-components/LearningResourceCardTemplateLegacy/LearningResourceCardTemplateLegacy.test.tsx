@@ -1,7 +1,7 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
 import { assertInstanceOf } from "ol-util"
-import LearningResourceCardTemplate from "./LearningResourceCardTemplate"
+import LearningResourceCardTemplateLegacy from "./LearningResourceCardTemplateLegacy"
 import {
   makeCourse,
   makeImgConfig,
@@ -16,7 +16,7 @@ describe("LearningResourceCard", () => {
     const resource = makeCourse()
     const imgConfig = makeImgConfig()
     render(
-      <LearningResourceCardTemplate
+      <LearningResourceCardTemplateLegacy
         variant="column"
         resource={resource}
         imgConfig={imgConfig}
@@ -43,7 +43,7 @@ describe("LearningResourceCard", () => {
       })
       const imgConfig = makeImgConfig()
       render(
-        <LearningResourceCardTemplate
+        <LearningResourceCardTemplateLegacy
           variant="column"
           resource={resource}
           imgConfig={imgConfig}
@@ -59,7 +59,7 @@ describe("LearningResourceCard", () => {
     const resource = makeCourse()
     const imgConfig = makeImgConfig()
     render(
-      <LearningResourceCardTemplate
+      <LearningResourceCardTemplateLegacy
         variant="column"
         resource={resource}
         imgConfig={imgConfig}
@@ -84,7 +84,7 @@ describe("LearningResourceCard", () => {
       const imgConfig = makeImgConfig()
 
       render(
-        <LearningResourceCardTemplate
+        <LearningResourceCardTemplateLegacy
           variant="column"
           resource={resource}
           imgConfig={imgConfig}
@@ -108,7 +108,7 @@ describe("LearningResourceCard", () => {
     ({ resource, expectedText }) => {
       const imgConfig = makeImgConfig()
       render(
-        <LearningResourceCardTemplate
+        <LearningResourceCardTemplateLegacy
           variant="column"
           resource={resource}
           imgConfig={imgConfig}
@@ -122,7 +122,7 @@ describe("LearningResourceCard", () => {
     const resource = makeCourse()
     const imgConfig = makeImgConfig()
     render(
-      <LearningResourceCardTemplate
+      <LearningResourceCardTemplateLegacy
         variant="column"
         resource={resource}
         imgConfig={imgConfig}
@@ -138,7 +138,7 @@ describe("LearningResourceCard", () => {
     const resource = makeCourse()
     const imgConfig = makeImgConfig()
     render(
-      <LearningResourceCardTemplate
+      <LearningResourceCardTemplateLegacy
         variant="row-reverse"
         resource={resource}
         imgConfig={imgConfig}
@@ -156,7 +156,7 @@ describe("LearningResourceCard", () => {
       const imgConfig = makeImgConfig()
       const shouldThrow = () => {
         render(
-          <LearningResourceCardTemplate
+          <LearningResourceCardTemplateLegacy
             variant={variant}
             resource={resource}
             imgConfig={imgConfig}

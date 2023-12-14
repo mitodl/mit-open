@@ -13,7 +13,6 @@ const alwaysError = (
   _body?: unknown,
 ): Promise<PartialAxiosResponse> => {
   const msg = `No response specified for ${method} ${url}`
-  console.error(msg)
   throw new Error(msg)
 }
 

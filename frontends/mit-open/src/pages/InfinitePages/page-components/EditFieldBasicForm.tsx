@@ -6,7 +6,7 @@ import { SortableSelect } from "ol-components/deprecated"
 import type { SortableItem } from "ol-components/deprecated"
 import { FieldChannelBasicForm, useMutateField } from "services/api/fields"
 import type { FieldChannel } from "services/api/fields/interfaces"
-import type { UserList } from "ol-search-ui"
+import type { UserList } from "ol-common"
 import { useUserListsListing } from "services/api/learning-resources"
 import { makeFieldViewPath } from "../common/infinite-pages-urls"
 

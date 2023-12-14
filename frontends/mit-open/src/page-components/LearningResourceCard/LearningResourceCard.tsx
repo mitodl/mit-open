@@ -1,12 +1,14 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
 import * as NiceModal from "@ebay/nice-modal-react"
-import { LearningResourceCardTemplate as LearningResourceCardTemplateOld } from "ol-search-ui"
+import LearningResourceCardTemplateLegacy, {
+  LearningResourceCardTemplateLegacyProps,
+} from "../LearningResourceCardTemplateLegacy/LearningResourceCardTemplateLegacy"
 import type {
-  LearningResourceCardTemplateProps as LearningResourceCardTemplatePropsOld,
   LearningResource as LearningResourceOld,
   LearningResourceSearchResult,
-} from "ol-search-ui"
+} from "ol-common"
+
 import { LearningResourceCardTemplate } from "ol-learning-resources"
 import type { LearningResourceCardTemplateProps } from "ol-learning-resources"
 import { useActivateResourceDrawer } from "./LearningResourceDrawer"
@@ -17,7 +19,7 @@ import AddToListDialog from "./AddToListDialog"
 import { LearningResource } from "api"
 
 type LearningResourceCardPropsOld = Pick<
-  LearningResourceCardTemplatePropsOld<
+  LearningResourceCardTemplateLegacyProps<
     LearningResourceOld | LearningResourceSearchResult
   >,
   "variant" | "resource" | "className" | "sortable" | "suppressImage"
@@ -96,7 +98,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
 
   return (
     <>
-      <LearningResourceCardTemplateOld
+      <LearningResourceCardTemplateLegacy
         variant={variant}
         sortable={sortable}
         suppressImage={suppressImage}

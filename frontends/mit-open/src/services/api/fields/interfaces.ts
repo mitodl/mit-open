@@ -1,5 +1,5 @@
 import type { PaginatedResult } from "ol-util"
-import type { UserList } from "ol-search-ui"
+import type { UserList } from "ol-common"
 
 interface FieldChannel {
   banner: string | null

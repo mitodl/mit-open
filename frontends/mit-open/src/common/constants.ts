@@ -1,9 +1,7 @@
-import type { EmbedlyConfig as DeprecatedEmbedlyConfig } from "ol-search-ui"
+import type { EmbedlyConfigLegacy } from "ol-common"
 import type { EmbedlyConfig } from "ol-learning-resources"
 
-const deprecatedImgConfig = (
-  config: EmbedlyConfig,
-): DeprecatedEmbedlyConfig => ({
+const deprecatedImgConfig = (config: EmbedlyConfig): EmbedlyConfigLegacy => ({
   embedlyKey: config.key,
   width: config.width,
   height: config.height,
