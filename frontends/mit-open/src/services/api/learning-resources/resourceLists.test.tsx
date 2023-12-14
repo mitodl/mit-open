@@ -125,7 +125,7 @@ describe.each([
       setMockResponse.patch(listUrls.details(list.id), list)
       await act(() =>
         result.current.mutateAsync(
-          // ts-expect-error TS has trouble with the correlation between list & useUpdate:
+          // @ts-expect-error TS has trouble with the correlation between list & useUpdate:
           // argument 'A | B' is not passable to function with type '(A) => ... | (B) => ...'
           list,
         ),
