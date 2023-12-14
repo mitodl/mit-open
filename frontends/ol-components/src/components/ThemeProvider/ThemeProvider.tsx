@@ -1,5 +1,8 @@
 import React from "react"
-import { createTheme , ThemeProvider as MuiThemeProvider } from "@mui/material/styles"
+import {
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material/styles"
 
 const colors = {
   colorGray1: "#fff",
