@@ -200,9 +200,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "professional": resource.professional,
         "published": resource.published,
         "readable_id": resource.readable_id,
-        "resource_content_tags": [
-            tag.name for tag in resource.resource_content_tags.all()
-        ],
+        "content_tags": [tag.name for tag in resource.content_tags.all()],
         "resource_type": resource.resource_type,
         "url": resource.url,
         "user_list_parents": [],
@@ -444,6 +442,6 @@ def test_content_file_serializer():
             "resource_readable_num": (
                 content_file.run.learning_resource.readable_id.split("+")[-1]
             ),
-            "content_category": None,
+            "content_tags": [tag.name for tag in content_file.content_tags.all()],
         },
     )

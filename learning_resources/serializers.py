@@ -575,20 +575,13 @@ class ContentFileSerializer(serializers.ModelSerializer):
     resource_readable_num = serializers.CharField(
         source="run.learning_resource.resource_num"
     )
-    content_category = serializers.SerializerMethodField()
+    content_tags = LearningResourceContentTagField(source="content_tags")
     offered_by = LearningResourceOfferorSerializer(
         source="run.learning_resource.offered_by"
     )
     platform = LearningResourcePlatformSerializer(
         source="run.learning_resource.platform"
     )
-
-    def get_content_category(self, instance):  # noqa: ARG002
-        """
-        Get the file type of the ContentFile. For now, just return None.
-        NOTE: This function needs to be updated once OCW courses are added.
-        """
-        return
 
     class Meta:
         model = models.ContentFile
@@ -606,7 +599,10 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "url",
-            "content_category",
+            "short_url",
+            "section",
+            "section_slug",
+            "content_tags",
             "content_type",
             "content",
             "content_title",

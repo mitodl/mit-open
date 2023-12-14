@@ -64,7 +64,7 @@ non_transformable_attributes = (
     "id",
     "platform",
     "departments",
-    "resource_content_tags",
+    "content_tags",
     "resources",
 )
 

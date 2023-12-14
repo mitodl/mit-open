@@ -158,7 +158,7 @@ class LearningResource(TimestampedModel):
     offered_by = models.ForeignKey(
         LearningResourceOfferor, null=True, on_delete=models.SET_NULL
     )
-    resource_content_tags = models.ManyToManyField(LearningResourceContentTag)
+    content_tags = models.ManyToManyField(LearningResourceContentTag)
     resources = models.ManyToManyField(
         "self", through="LearningResourceRelationship", symmetrical=False, blank=True
     )
@@ -375,11 +375,7 @@ class ContentFile(TimestampedModel):
         default=constants.CONTENT_TYPE_FILE,
         max_length=10,
     )
-    learning_resource_types = ArrayField(
-        models.CharField(max_length=256, null=False, blank=False),
-        null=True,
-        blank=True,
-    )
+    content_tags = models.ManyToManyField(LearningResourceContentTag)
     published = models.BooleanField(default=True)
     checksum = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
 

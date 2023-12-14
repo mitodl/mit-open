@@ -180,7 +180,7 @@ def test_learning_resources_search_request_serializer():
         "topic": "Math",
         "department": "18,5",
         "level": "undergraduate",
-        "resource_content_tags": "Lecture Videos",
+        "content_tags": "Lecture Videos",
         "aggregations": "resource_type,platform,level",
         "extra_field": "ignored",
     }
@@ -199,7 +199,7 @@ def test_learning_resources_search_request_serializer():
         "topic": ["Math"],
         "department": ["18", "5"],
         "level": ["undergraduate"],
-        "resource_content_tags": ["Lecture Videos"],
+        "content_tags": ["Lecture Videos"],
         "aggregations": ["resource_type", "platform", "level"],
     }
 
@@ -299,7 +299,7 @@ def test_learning_resources_search_response_serializer(settings):
                             {"id": 6, "name": "Innovation"},
                         ],
                         "offered_by": "xPRO",
-                        "resource_content_tags": [],
+                        "content_tags": [],
                         "department": None,
                         "professional": True,
                         "certification": "Certificates",
@@ -432,7 +432,7 @@ def test_learning_resources_search_response_serializer(settings):
                     {"id": 6, "name": "Innovation"},
                 ],
                 "offered_by": "xPRO",
-                "resource_content_tags": [],
+                "content_tags": [],
                 "department": None,
                 "professional": True,
                 "certification": "Certificates",
