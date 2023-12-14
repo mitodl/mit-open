@@ -1,6 +1,7 @@
-import type { LearningResource, LearningResourceRun } from "api"
 import moment from "moment"
+import type { LearningResource, LearningResourceRun } from "api"
 import { ResourceTypeEnum } from "api"
+import { EmbedlyConfig } from "ol-common"
 
 const readableResourceTypes: Record<ResourceTypeEnum, string> = {
   [ResourceTypeEnum.Course]: "Course",
@@ -17,12 +18,6 @@ const BLANK_THUMBNAIL = new URL(
   "/static/images/blank.png",
   window.location.origin,
 ).toString()
-
-type EmbedlyConfig = {
-  key: string
-  width: number
-  height: number
-}
 
 const embedlyThumbnail = (url: string, { key, width, height }: EmbedlyConfig) =>
   `https://i.embed.ly/1/display/crop/?key=${key}&url=${encodeURIComponent(
@@ -93,4 +88,3 @@ const findBestRun = (
 }
 
 export { resourceThumbnailSrc, getReadableResourceType, findBestRun }
-export type { EmbedlyConfig }

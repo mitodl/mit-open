@@ -1,4 +1,4 @@
-import { findBestRun } from "./index"
+import { findBestRun } from "./learning-resources"
 import * as factories from "api/test-utils/factories"
 import { faker } from "@faker-js/faker/locale/en"
 

@@ -14,18 +14,18 @@ import {
   LearningResourceType,
   LearningResource,
   LearningResourceRun,
+  EmbedlyConfigLegacy,
 } from "ol-common"
 
 import {
-  findBestRun,
+  findBestRunLegacy,
   minPrice,
   getStartDate,
   getInstructorName,
   languageName,
-  resourceThumbnailSrc,
+  resourceThumbnailSrcLegacy,
   CertificateIcon,
-  getReadableResourceType,
-  EmbedlyConfig,
+  getReadableResourceTypeLegacy,
 } from "ol-util/deprecated"
 
 type ExpandedLearningResourceDisplayProps = {
@@ -34,7 +34,7 @@ type ExpandedLearningResourceDisplayProps = {
   /**
    * Config used to generate embedly urls.
    */
-  imgConfig: EmbedlyConfig
+  imgConfig: EmbedlyConfigLegacy
 }
 
 const ExpandedLearningResourceDisplay: React.FC<
@@ -42,7 +42,7 @@ const ExpandedLearningResourceDisplay: React.FC<
 > = ({ resource, formatShareLink, imgConfig }) => {
   const objectRuns = resource.runs ?? []
   const [runId, setRunId] = useState<number | undefined>(
-    () => findBestRun(objectRuns)?.id,
+    () => findBestRunLegacy(objectRuns)?.id,
   )
   const selectedRun = objectRuns.find((r) => r.id === runId)
 
@@ -60,7 +60,7 @@ const ExpandedLearningResourceDisplay: React.FC<
   return (
     <div className="expanded-lr-summary">
       <div className="object-type">
-        {getReadableResourceType(resource.object_type)}
+        {getReadableResourceTypeLegacy(resource.object_type)}
       </div>
       <h3 className="title">{resource.title}</h3>
       <div className="run-certification-container">
@@ -92,7 +92,7 @@ const ExpandedLearningResourceDisplay: React.FC<
         {resource.object_type === "video" && resource.url ? (
           <EmbedlyCard url={resource.url} className="watch-video" />
         ) : (
-          <img src={resourceThumbnailSrc(resource, imgConfig)} alt="" />
+          <img src={resourceThumbnailSrcLegacy(resource, imgConfig)} alt="" />
         )}
       </div>
       <div className="link-share-offered-by">

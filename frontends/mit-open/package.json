@@ -48,7 +48,6 @@
     "ol-ckeditor": "workspace:*",
     "ol-common": "workspace:*",
     "ol-components": "workspace:*",
-    "ol-learning-resources": "workspace:*",
     "ol-util": "workspace:*",
     "ol-widgets": "workspace:*",
     "react": "^18.2.0",

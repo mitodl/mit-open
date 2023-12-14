@@ -4,17 +4,17 @@ import { assertInstanceOf } from "ol-util"
 import LearningResourceCardTemplateLegacy from "./LearningResourceCardTemplateLegacy"
 import {
   makeCourse,
-  makeImgConfig,
+  makeImgConfigLegacy,
   makeStaffList,
   makeUserList,
 } from "ol-util/factories"
-import { resourceThumbnailSrc } from "ol-util/deprecated"
+import { resourceThumbnailSrcLegacy } from "ol-util/deprecated"
 import { allowConsoleErrors } from "ol-util/test-utils"
 
 describe("LearningResourceCard", () => {
   it("renders title and cover image", () => {
     const resource = makeCourse()
-    const imgConfig = makeImgConfig()
+    const imgConfig = makeImgConfigLegacy()
     render(
       <LearningResourceCardTemplateLegacy
         variant="column"
@@ -28,7 +28,7 @@ describe("LearningResourceCard", () => {
     assertInstanceOf(coverImg, HTMLImageElement)
     expect(heading).toHaveAccessibleName(resource.title)
     expect(coverImg.alt).toBe("") // Alert! This should be empty unless it is meaningful.
-    expect(coverImg.src).toBe(resourceThumbnailSrc(resource, imgConfig))
+    expect(coverImg.src).toBe(resourceThumbnailSrcLegacy(resource, imgConfig))
   })
 
   it.each([
@@ -41,7 +41,7 @@ describe("LearningResourceCard", () => {
         // if has certificates, we'll get extra images. Simpler to have none for this test.
         certification: [],
       })
-      const imgConfig = makeImgConfig()
+      const imgConfig = makeImgConfigLegacy()
       render(
         <LearningResourceCardTemplateLegacy
           variant="column"
@@ -57,7 +57,7 @@ describe("LearningResourceCard", () => {
 
   it("has the correct embedly url", () => {
     const resource = makeCourse()
-    const imgConfig = makeImgConfig()
+    const imgConfig = makeImgConfigLegacy()
     render(
       <LearningResourceCardTemplateLegacy
         variant="column"
@@ -81,7 +81,7 @@ describe("LearningResourceCard", () => {
     "should render an icon if the object has a certificate",
     ({ certification, hasCertificate }) => {
       const resource = makeCourse({ certification })
-      const imgConfig = makeImgConfig()
+      const imgConfig = makeImgConfigLegacy()
 
       render(
         <LearningResourceCardTemplateLegacy
@@ -106,7 +106,7 @@ describe("LearningResourceCard", () => {
   ])(
     "Renders item count for UserLists and StaffLists",
     ({ resource, expectedText }) => {
-      const imgConfig = makeImgConfig()
+      const imgConfig = makeImgConfigLegacy()
       render(
         <LearningResourceCardTemplateLegacy
           variant="column"
@@ -120,7 +120,7 @@ describe("LearningResourceCard", () => {
 
   it("Does not render item count for courses, etc", () => {
     const resource = makeCourse()
-    const imgConfig = makeImgConfig()
+    const imgConfig = makeImgConfigLegacy()
     render(
       <LearningResourceCardTemplateLegacy
         variant="column"
@@ -136,7 +136,7 @@ describe("LearningResourceCard", () => {
     { sortable: false, shows: "Does not show" },
   ])("$shows a drag handle when sortable is $sortable", ({ sortable }) => {
     const resource = makeCourse()
-    const imgConfig = makeImgConfig()
+    const imgConfig = makeImgConfigLegacy()
     render(
       <LearningResourceCardTemplateLegacy
         variant="row-reverse"
@@ -153,7 +153,7 @@ describe("LearningResourceCard", () => {
     "Throws error if sortable & unsupported variant",
     ({ variant }) => {
       const resource = makeCourse()
-      const imgConfig = makeImgConfig()
+      const imgConfig = makeImgConfigLegacy()
       const shouldThrow = () => {
         render(
           <LearningResourceCardTemplateLegacy

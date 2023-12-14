@@ -14,10 +14,10 @@ import {
   TYPE_FAVORITES,
 } from "ol-common"
 import {
-  findBestRun,
-  getReadableResourceType,
+  findBestRunLegacy,
+  getReadableResourceTypeLegacy,
   getStartDate,
-  resourceThumbnailSrc,
+  resourceThumbnailSrcLegacy,
   CertificateIcon,
 } from "ol-util/deprecated"
 
@@ -91,7 +91,7 @@ const ResourceFooterDetails: React.FC<
     )
   }
 
-  const bestAvailableRun = findBestRun(resource.runs ?? [])
+  const bestAvailableRun = findBestRunLegacy(resource.runs ?? [])
   const hasCertificate =
     resource.certification && resource.certification.length > 0
   const startDate =
@@ -131,7 +131,7 @@ const LRCImage: React.FC<LRCImageProps> = ({
       component="img"
       className="ol-lrc-image"
       sx={dims}
-      src={resourceThumbnailSrc(resource, imgConfig)}
+      src={resourceThumbnailSrcLegacy(resource, imgConfig)}
       alt=""
     />
   )
@@ -199,7 +199,7 @@ const LearningResourceCardTemplateLegacy = <R extends CardMinimalResource>({
         <div className="ol-lrc-details">
           <div className="ol-lrc-type-row">
             <span className="ol-lrc-type">
-              {getReadableResourceType(resource.object_type)}
+              {getReadableResourceTypeLegacy(resource.object_type)}
             </span>
             {hasCertificate && <CertificateIcon />}
           </div>

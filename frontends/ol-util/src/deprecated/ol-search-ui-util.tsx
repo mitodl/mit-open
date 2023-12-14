@@ -1,5 +1,5 @@
 /*
- *  Moved from deprecated ol-search-ui util file, though we may want to reinstate alongside ol-learning-resources overlap
+ *  Moved from deprecated ol-search-ui util file. In use exports renamed with Legacy suffix
  */
 
 import moment from "moment"
@@ -12,6 +12,7 @@ import {
   StaffList,
   TYPE_FAVORITES,
   LearningResource,
+  EmbedlyConfigLegacy,
 } from "ol-common"
 import React, { useState, useEffect } from "react"
 import { capitalize, emptyOrNil } from "ol-util"
@@ -49,16 +50,9 @@ export const defaultResourceImageURL = () =>
     window.location.origin,
   ).toString()
 
-type EmbedlyConfig = {
-  embedlyKey: string
-  ocwBaseUrl: string
-  width: number
-  height: number
-}
-
-const resourceThumbnailSrc = (
+const resourceThumbnailSrcLegacy = (
   resource: { image_src?: string | null; platform?: string | null },
-  config: EmbedlyConfig,
+  config: EmbedlyConfigLegacy,
 ) =>
   embedlyThumbnail(
     config.embedlyKey,
@@ -80,7 +74,7 @@ const compareRuns = (
   secondRun: LearningResourceRun,
 ) => runStartDate(firstRun).diff(runStartDate(secondRun), "hours")
 
-const findBestRun = (
+const findBestRunLegacy = (
   runs: LearningResourceRun[],
 ): LearningResourceRun | undefined => {
   const dated = runs.filter((run) => run.start_date && run.end_date)
@@ -130,17 +124,21 @@ const assertIsLrType: (
 
 /**
  * Convert a LearningResourceType to a readable string. For example,
- * `getReadableResourceType('podcastepisode')` is `"Podcast Episode"`.
+ * `getReadableResourceTypeLegacy('podcastepisode')` is `"Podcast Episode"`.
  *
  * Throws if `type` is not a valid `LearningResourceType`.
  */
-const getReadableResourceType = (type: string): string => {
+const getReadableResourceTypeLegacy = (type: string): string => {
   assertIsLrType(type)
   return readableLearningResources[type]
 }
 
-export { resourceThumbnailSrc, findBestRun, getReadableResourceType }
-export type { EmbedlyConfig }
+export {
+  resourceThumbnailSrcLegacy,
+  findBestRunLegacy,
+  getReadableResourceTypeLegacy,
+}
+export type { EmbedlyConfigLegacy }
 
 export const getViewportWidth = () => window.innerWidth
 

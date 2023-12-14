@@ -9,7 +9,7 @@ import {
   LearningResourceRun,
   LearningResource,
   LearningResourceType,
-  EmbedlyConfig,
+  EmbedlyConfigLegacy,
   Course,
   UserList,
   ListItem,
@@ -324,7 +324,9 @@ export const makeVideosPaginated = makePaginatedFactory(makeVideo)
 export const makeLearningResourcesPaginated =
   makePaginatedFactory(makeLearningResource)
 
-export const makeImgConfig: Factory<EmbedlyConfig> = (overrides) => {
+export const makeImgConfigLegacy: Factory<EmbedlyConfigLegacy> = (
+  overrides,
+) => {
   const imgConfig = {
     width: faker.datatype.number(),
     height: faker.datatype.number(),

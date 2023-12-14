@@ -6,15 +6,15 @@ import { ResourceTypeEnum, type LearningResource } from "api"
 import { Card, CardContent, Chip, CardMedia } from "ol-components"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
-import moment from "moment"
-
 import {
+  formatDate,
+  pluralize,
   resourceThumbnailSrc,
   getReadableResourceType,
   findBestRun,
-} from "../utils"
-import type { EmbedlyConfig } from "../utils"
-import { pluralize } from "ol-util"
+} from "ol-util"
+
+import type { EmbedlyConfig } from "ol-common"
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard<R extends LearningResource> = (resource: R) => void
@@ -66,7 +66,7 @@ const ResourceFooterDetails: React.FC<
   const bestRun = findBestRun(resource.runs ?? [])
   const startDate = bestRun?.start_date
   const formattedDate = startDate
-    ? moment(startDate).format("MMMM DD, YYYY")
+    ? formatDate(startDate, "MMMM DD, YYYY")
     : null
 
   if (resource.resource_type === ResourceTypeEnum.LearningPath) {

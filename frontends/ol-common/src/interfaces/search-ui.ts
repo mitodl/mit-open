@@ -185,6 +185,12 @@ export type EmbedlyConfigLegacy = {
   height: number
 }
 
+export type EmbedlyConfig = {
+  key: string
+  width: number
+  height: number
+}
+
 export type PaginatedListItems = PaginatedResult<ListItem>
 
 export type PaginatedUserLists = PaginatedResult<UserList>

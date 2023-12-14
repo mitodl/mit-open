@@ -2,8 +2,8 @@ import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { factories, urls } from "api/test-utils"
 import { manageListDialogs } from "page-components/ManageListDialogs/ManageListDialogs"
+import LearningResourceCardTemplate from "page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import LearningPathListingPage from "./LearningPathListingPage"
-import { LearningResourceCardTemplate } from "ol-learning-resources"
 import {
   screen,
   renderWithProviders,
@@ -14,13 +14,19 @@ import {
 } from "../../test-utils"
 import type { User } from "../../types/settings"
 
-jest.mock("ol-learning-resources", () => {
-  const actual = jest.requireActual("ol-learning-resources")
-  return {
-    ...actual,
-    LearningResourceCardTemplate: jest.fn(actual.LearningResourceCardTemplate),
-  }
-})
+jest.mock(
+  "../../page-components/LearningResourceCardTemplate/LearningResourceCardTemplate",
+  () => {
+    const actual = jest.requireActual(
+      "../../page-components/LearningResourceCardTemplate/LearningResourceCardTemplate",
+    )
+    return {
+      __esModule: true,
+      ...actual,
+      default: jest.fn(actual.default),
+    }
+  },
+)
 const spyLRCardTemplate = jest.mocked(LearningResourceCardTemplate)
 
 /**

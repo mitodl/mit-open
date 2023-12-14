@@ -7,7 +7,7 @@ import { getByTerm, queryByTerm } from "ol-util/test-utils"
 import {
   makeUrl,
   makeCourse,
-  makeImgConfig,
+  makeImgConfigLegacy,
   makeRun,
   makeVideo,
 } from "ol-util/factories"
@@ -15,9 +15,9 @@ import ExpandedLearningResourceDisplay, {
   ExpandedLearningResourceDisplayProps,
 } from "./ExpandedLearningResourceDisplay"
 import {
-  resourceThumbnailSrc,
+  resourceThumbnailSrcLegacy,
   getInstructorName,
-  findBestRun,
+  findBestRunLegacy,
 } from "ol-util/deprecated"
 
 const formatShareLink: ExpandedLearningResourceDisplayProps["formatShareLink"] =
@@ -27,7 +27,7 @@ const renderExpandedLearningResourceDisplay = (
   overrides: Partial<ExpandedLearningResourceDisplayProps> = {},
 ): ExpandedLearningResourceDisplayProps => {
   const resource = makeCourse()
-  const imgConfig = makeImgConfig()
+  const imgConfig = makeImgConfigLegacy()
   const props = { resource, imgConfig, formatShareLink, ...overrides }
   render(<ExpandedLearningResourceDisplay {...props} />)
   return props
@@ -52,7 +52,7 @@ describe("ExpandedLearningResourceDisplay", () => {
     const coverImg = screen.getByAltText("")
     assertInstanceOf(coverImg, HTMLImageElement)
     expect(coverImg).toHaveAccessibleName("")
-    expect(coverImg.src).toBe(resourceThumbnailSrc(resource, imgConfig))
+    expect(coverImg.src).toBe(resourceThumbnailSrcLegacy(resource, imgConfig))
 
     expect(queryByTerm(document.body, "Date Posted:")).toBe(null)
   })
@@ -208,7 +208,7 @@ describe("ExpandedLearningResourceDisplay", () => {
     const runs = Array(4)
       .fill(null)
       .map(() => makeRun())
-    const bestRun = findBestRun(runs)
+    const bestRun = findBestRunLegacy(runs)
     assertNotNil(bestRun)
 
     const resource = makeCourse({ runs })

@@ -4,7 +4,8 @@
   with (
   $light-text: theme.$font-color-light
 );
-@use "ol-learning-resources/assets/learning-resource-card-template" with (
+@use "../page-components/LearningResourceCardTemplate/learning-resource-card-template"
+  with (
   $light-text: theme.$font-color-light
 );
 @use "../page-components/ExpandedLearningResourceDisplay/learning-resource-drawer";

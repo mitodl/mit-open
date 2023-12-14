@@ -1,5 +1,4 @@
-import type { EmbedlyConfigLegacy } from "ol-common"
-import type { EmbedlyConfig } from "ol-learning-resources"
+import type { EmbedlyConfig, EmbedlyConfigLegacy } from "ol-common"
 
 const deprecatedImgConfig = (config: EmbedlyConfig): EmbedlyConfigLegacy => ({
   embedlyKey: config.key,

@@ -9,8 +9,8 @@ import type {
   LearningResourceSearchResult,
 } from "ol-common"
 
-import { LearningResourceCardTemplate } from "ol-learning-resources"
-import type { LearningResourceCardTemplateProps } from "ol-learning-resources"
+import LearningResourceCardTemplate from "page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
+import type { LearningResourceCardTemplateProps } from "page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import { useActivateResourceDrawer } from "./LearningResourceDrawer"
 import { deprecatedImgConfig, imgConfigs } from "common/constants"
 import { IconButton } from "ol-components"

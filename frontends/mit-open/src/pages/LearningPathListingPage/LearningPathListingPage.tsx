@@ -20,7 +20,7 @@ import { useLearningPathsList } from "api/hooks/learningResources"
 
 import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
 
-import { LearningResourceCardTemplate } from "ol-learning-resources"
+import LearningResourceCardTemplate from "page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 
 import { imgConfigs } from "common/constants"
 import { manageListDialogs } from "page-components/ManageListDialogs/ManageListDialogs"
