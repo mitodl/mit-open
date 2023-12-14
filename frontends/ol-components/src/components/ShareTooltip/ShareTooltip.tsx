@@ -3,7 +3,10 @@ import {
   FacebookShareButton,
   LinkedinShareButton,
   TwitterShareButton,
- FacebookIcon, TwitterIcon, LinkedinIcon } from "react-share"
+  FacebookIcon,
+  TwitterIcon,
+  LinkedinIcon,
+} from "react-share"
 import Tooltip from "rc-tooltip"
 
 type HelperProps = {
@@ -62,7 +65,7 @@ type Props = {
   objectType?: string | null
 }
 
-export default function ShareTooltip({ children, placement, ...props }: Props) {
+export function ShareTooltip({ children, placement, ...props }: Props) {
   return (
     <Tooltip
       placement={placement || "top"}
@@ -70,7 +73,7 @@ export default function ShareTooltip({ children, placement, ...props }: Props) {
       overlay={() => <ShareTooltipHelper {...props} />}
       destroyTooltipOnHide={true}
     >
-      {children}
+      {children!}
     </Tooltip>
   )
 }

@@ -46,6 +46,7 @@
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.6.1",
     "ol-ckeditor": "workspace:*",
+    "ol-common": "workspace:*",
     "ol-components": "workspace:*",
     "ol-learning-resources": "workspace:*",
     "ol-search-ui": "workspace:*",

@@ -1,11 +1,10 @@
 import React, { useCallback } from "react"
 import { useResource } from "services/api/learning-resources"
 import { RoutedDrawer } from "ol-components"
-import {
-  ExpandedLearningResourceDisplay,
+import { LearningResource } from "ol-common"
+import ExpandedLearningResourceDisplay, {
   ExpandedLearningResourceDisplayProps as LRDisplayProps,
-  LearningResource,
-} from "ol-search-ui"
+} from "page-components/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay"
 import { useSearchParams } from "ol-util"
 
 const RESOURCE_ID_PARAM = "resource_id"

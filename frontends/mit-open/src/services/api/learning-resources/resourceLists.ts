@@ -6,8 +6,8 @@ import {
   StaffList,
   ListItem,
   LearningResourceRef,
-  isUserListOrPath,
-} from "ol-search-ui"
+} from "ol-common"
+import { isUserListOrPath } from "ol-util/deprecated"
 import { PaginatedResult, PaginationSearchParams } from "ol-util"
 import axios from "services/axios"
 import {

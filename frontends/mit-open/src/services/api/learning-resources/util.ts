@@ -6,7 +6,7 @@ import type {
   Query,
   QueryClient,
 } from "@tanstack/react-query"
-import type { LearningResource, ListItem } from "ol-search-ui"
+import type { LearningResource, ListItem } from "ol-common"
 import axios from "services/axios"
 
 import { keys } from "./urls"

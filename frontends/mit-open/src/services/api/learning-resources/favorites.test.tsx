@@ -8,10 +8,7 @@ import { urls } from "./urls"
 import { clone } from "lodash"
 import { useInfiniteSearch } from "./search"
 import { useFavorite, useUnfavorite } from "./favorites"
-import {
-  makeCourse,
-  makeSearchResponse,
-} from "ol-search-ui/src/test-utils/factories"
+import { makeCourse, makeSearchResponse } from "ol-util/factories"
 
 jest.mock("./util", () => {
   const actual = jest.requireActual("./util")

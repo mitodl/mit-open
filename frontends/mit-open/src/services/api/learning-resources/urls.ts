@@ -3,7 +3,7 @@ import {
   LearningResourceType as LRT,
   TYPE_FAVORITES,
   TYPE_POPULAR,
-} from "ol-search-ui"
+} from "ol-common"
 import type { PaginationSearchParams } from "ol-util"
 import type { SearchQueryParams } from "@mitodl/course-search-utils"
 

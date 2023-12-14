@@ -12,14 +12,14 @@ import {
   EmbedlyConfig,
   LearningResourceType,
   TYPE_FAVORITES,
-} from "../interfaces"
+} from "ol-common"
 import {
   findBestRun,
   getReadableResourceType,
   getStartDate,
   resourceThumbnailSrc,
   CertificateIcon,
-} from "../util"
+} from "ol-util/deprecated"
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard<R extends CardMinimalResource = CardMinimalResource> = (

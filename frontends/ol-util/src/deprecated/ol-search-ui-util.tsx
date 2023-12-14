@@ -1,3 +1,7 @@
+/*
+ *  Moved from deprecated ol-search-ui util file, though we may want to reinstate alongside ol-learning-resources overlap
+ */
+
 import moment from "moment"
 import {
   LearningResourceRun,
@@ -8,7 +12,7 @@ import {
   StaffList,
   TYPE_FAVORITES,
   LearningResource,
-} from "./interfaces"
+} from "ol-common"
 import React, { useState, useEffect } from "react"
 import { capitalize, emptyOrNil } from "ol-util"
 import ISO6391 from "iso-639-1"

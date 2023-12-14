@@ -1,6 +1,6 @@
 import React from "react"
 import { Bucket } from "@mitodl/course-search-utils"
-import { CertificateIcon } from "../util"
+import { CertificateIcon } from "ol-util/deprecated"
 
 const featuredFacetNames = ["certification"]
 

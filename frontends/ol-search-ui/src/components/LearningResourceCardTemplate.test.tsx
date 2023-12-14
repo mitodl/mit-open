@@ -7,8 +7,8 @@ import {
   makeImgConfig,
   makeStaffList,
   makeUserList,
-} from "../test-utils/factories"
-import { resourceThumbnailSrc } from "../util"
+} from "ol-util/factories"
+import { resourceThumbnailSrc } from "ol-util/deprecated"
 import { allowConsoleErrors } from "ol-util/test-utils"
 
 describe("LearningResourceCard", () => {

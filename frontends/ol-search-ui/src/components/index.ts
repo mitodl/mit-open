@@ -6,8 +6,3 @@ export type {
 } from "./LearningResourceCardTemplate"
 
 export { default as SearchFilterDrawer } from "./SearchFilterDrawer"
-
-export {
-  default as ExpandedLearningResourceDisplay,
-  type LearningResourceDetailsProps as ExpandedLearningResourceDisplayProps,
-} from "./ExpandedLearningResourceDisplay"

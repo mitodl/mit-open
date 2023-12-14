@@ -4,8 +4,10 @@
 export * from "./components"
 export * from "./styles"
 
+export * from "./date/format"
+export * from "./strings/html"
 export * from "./predicates"
 export * from "./hooks"
-export * from "./interfaces"
+export * from "./test-utils/factories/interfaces"
 export * from "./querystrings"
 export * from "./lib"

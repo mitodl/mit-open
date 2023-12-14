@@ -5,7 +5,7 @@ import { faker } from "@faker-js/faker/locale/en"
 import { setMockResponse, act } from "../../../test-utils"
 import { invalidateResourceQueries } from "./util"
 import { keys, urls } from "./urls"
-import { LearningResourceType as LR, LearningResource } from "ol-search-ui"
+import { LearningResourceType as LR, LearningResource } from "ol-common"
 import {
   makeCourse,
   makeLearningResource,
@@ -14,7 +14,7 @@ import {
   makeSearchResponse,
   makeStaffList,
   makeUserList,
-} from "ol-search-ui/src/test-utils/factories"
+} from "ol-util/factories"
 
 import {
   useAddToListItems,
@@ -125,7 +125,7 @@ describe.each([
       setMockResponse.patch(listUrls.details(list.id), list)
       await act(() =>
         result.current.mutateAsync(
-          // @ts-expect-error TS has trouble with the correlation between list & useUpdate:
+          // ts-expect-error TS has trouble with the correlation between list & useUpdate:
           // argument 'A | B' is not passable to function with type '(A) => ... | (B) => ...'
           list,
         ),

@@ -1,0 +1,10 @@
+{
+  "name": "ol-common",
+  "packageManager": "yarn@3.6.4",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@mitodl/course-search-utils": "^2.3.2"
+  }
+}

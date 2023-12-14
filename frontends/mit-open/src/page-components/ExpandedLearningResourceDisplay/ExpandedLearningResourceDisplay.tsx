@@ -1,17 +1,21 @@
 import React, { useCallback, useState } from "react"
-import striptags from "striptags"
-import { decode } from "html-entities"
-import { propsNotNil , EmbedlyCard, formatDurationClockTime } from "ol-util"
+import {
+  propsNotNil,
+  EmbedlyCard,
+  formatDurationClockTime,
+  decodeAndStripTags,
+  formatDate,
+} from "ol-util"
 
 import TruncatedText from "./TruncatedText"
-
-import ShareTooltip from "./ShareTooltip"
+import { ShareTooltip } from "ol-components"
 
 import {
   LearningResourceType,
   LearningResource,
   LearningResourceRun,
-} from "../interfaces"
+} from "ol-common"
+
 import {
   findBestRun,
   minPrice,
@@ -22,11 +26,9 @@ import {
   CertificateIcon,
   getReadableResourceType,
   EmbedlyConfig,
-} from "../util"
+} from "ol-util/deprecated"
 
-import moment from "moment"
-
-type LearningResourceDetailsProps = {
+type ExpandedLearningResourceDisplayProps = {
   resource: LearningResource
   formatShareLink: (resource: LearningResource) => string
   /**
@@ -35,11 +37,9 @@ type LearningResourceDetailsProps = {
   imgConfig: EmbedlyConfig
 }
 
-const LearningResourceDetails: React.FC<LearningResourceDetailsProps> = ({
-  resource,
-  formatShareLink,
-  imgConfig,
-}) => {
+const ExpandedLearningResourceDisplay: React.FC<
+  ExpandedLearningResourceDisplayProps
+> = ({ resource, formatShareLink, imgConfig }) => {
   const objectRuns = resource.runs ?? []
   const [runId, setRunId] = useState<number | undefined>(
     () => findBestRun(objectRuns)?.id,
@@ -129,7 +129,7 @@ const LearningResourceDetails: React.FC<LearningResourceDetailsProps> = ({
         <TruncatedText
           text={
             resource.short_description
-              ? decode(striptags(resource.short_description))
+              ? decodeAndStripTags(resource.short_description)
               : ""
           }
           lines={5}
@@ -187,7 +187,7 @@ const getInfoRows = (
       include: resource.object_type === LearningResourceType.Video,
       value:
         resource.last_modified &&
-        moment(resource.last_modified).format("MMM D, YYYY"),
+        formatDate(resource.last_modified, "MMM D, YYYY"),
     },
     {
       label: "Cost",
@@ -225,5 +225,6 @@ const getInfoRows = (
     .map((r) => ({ label: r.label, value: String(r.value) }))
 }
 
-export default LearningResourceDetails
-export type { LearningResourceDetailsProps }
+export default ExpandedLearningResourceDisplay
+
+export type { ExpandedLearningResourceDisplayProps }

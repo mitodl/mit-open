@@ -1,4 +1,4 @@
-import type { CourseTopic, LearningResource } from "ol-search-ui"
+import type { CourseTopic, LearningResource } from "ol-common"
 import axios from "services/axios"
 import { useQuery } from "@tanstack/react-query"
 import type { UseQueryOptions } from "@tanstack/react-query"
