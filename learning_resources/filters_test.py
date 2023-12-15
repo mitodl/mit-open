@@ -154,7 +154,7 @@ def test_learning_resource_filter_topics():
     assert resource_2 not in query
 
 
-def test_learning_resource_filter_tags():
+def test_learning_resource_filter_features():
     """Test that the resource_content_tag filter works"""
 
     resource_with_exams = LearningResourceFactory.create(
@@ -166,7 +166,7 @@ def test_learning_resource_filter_tags():
         )
     )
 
-    query = LearningResourceFilter({"content_category": "ExamS"}).qs
+    query = LearningResourceFilter({"course_feature": "ExamS"}).qs
 
     assert resource_with_exams in query
     assert resource_with_notes not in query

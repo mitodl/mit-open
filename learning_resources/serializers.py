@@ -272,7 +272,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
 
     offered_by = LearningResourceOfferorSerializer(read_only=True, allow_null=True)
     platform = LearningResourcePlatformSerializer(read_only=True, allow_null=True)
-    content_category = LearningResourceContentTagField(
+    course_feature = LearningResourceContentTagField(
         source="content_tags", read_only=True, allow_null=True
     )
     departments = LearningResourceDepartmentSerializer(
@@ -575,7 +575,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
     resource_readable_num = serializers.CharField(
         source="run.learning_resource.resource_num"
     )
-    content_category = LearningResourceContentTagField(source="content_tags")
+    content_feature_type = LearningResourceContentTagField(source="content_tags")
     offered_by = LearningResourceOfferorSerializer(
         source="run.learning_resource.offered_by"
     )
@@ -599,7 +599,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "url",
-            "content_category",
+            "content_feature_type",
             "content_type",
             "content",
             "content_title",

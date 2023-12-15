@@ -166,7 +166,7 @@ export interface ContentFile {
    * @type {Array<string>}
    * @memberof ContentFile
    */
-  content_tags: Array<string>
+  content_feature_type: Array<string>
   /**
    *
    * @type {ContentTypeEnum}
@@ -373,7 +373,7 @@ export interface CourseResource {
    * @type {Array<string>}
    * @memberof CourseResource
    */
-  content_tags: Array<string> | null
+  course_feature: Array<string> | null
   /**
    *
    * @type {Array<LearningResourceDepartment>}
@@ -1012,7 +1012,7 @@ export interface LearningPathResource {
    * @type {Array<string>}
    * @memberof LearningPathResource
    */
-  content_tags: Array<string> | null
+  course_feature: Array<string> | null
   /**
    *
    * @type {Array<LearningResourceDepartment>}
@@ -2721,7 +2721,7 @@ export interface PodcastEpisodeResource {
    * @type {Array<string>}
    * @memberof PodcastEpisodeResource
    */
-  content_tags: Array<string> | null
+  course_feature: Array<string> | null
   /**
    *
    * @type {Array<LearningResourceDepartment>}
@@ -2966,7 +2966,7 @@ export interface PodcastResource {
    * @type {Array<string>}
    * @memberof PodcastResource
    */
-  content_tags: Array<string> | null
+  course_feature: Array<string> | null
   /**
    *
    * @type {Array<LearningResourceDepartment>}
@@ -3213,7 +3213,7 @@ export interface ProgramResource {
    * @type {Array<string>}
    * @memberof ProgramResource
    */
-  content_tags: Array<string> | null
+  course_feature: Array<string> | null
   /**
    *
    * @type {Array<LearningResourceDepartment>}
@@ -4446,8 +4446,8 @@ export const ContentFileSearchApiAxiosParamCreator = function (
     /**
      * Search for content files
      * @summary Search
-     * @param {Array<'topic' | 'content_tags' | 'platform' | 'offered_by'>} [aggregations] Show resource counts by category
-     * @param {Array<string>} [content_tags] The content tag name. Possible options are at api/v1/contenttags/
+     * @param {Array<'topic' | 'content_feature_type' | 'platform' | 'offered_by'>} [aggregations] Show resource counts by category
+     * @param {Array<string>} [content_feature_type] The feature type of the content file. Possible options are at api/v1/contenttags/
      * @param {Array<number>} [id] The id value for the content file
      * @param {number} [limit] Number of results to return per page
      * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
@@ -4463,9 +4463,9 @@ export const ContentFileSearchApiAxiosParamCreator = function (
      */
     contentFileSearchRetrieve: async (
       aggregations?: Array<
-        "topic" | "content_tags" | "platform" | "offered_by"
+        "topic" | "content_feature_type" | "platform" | "offered_by"
       >,
-      content_tags?: Array<string>,
+      content_feature_type?: Array<string>,
       id?: Array<number>,
       limit?: number,
       offered_by?: Array<
@@ -4526,8 +4526,8 @@ export const ContentFileSearchApiAxiosParamCreator = function (
         localVarQueryParameter["aggregations"] = aggregations
       }
 
-      if (content_tags) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (content_feature_type) {
+        localVarQueryParameter["content_feature_type"] = content_feature_type
       }
 
       if (id) {
@@ -4598,8 +4598,8 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
     /**
      * Search for content files
      * @summary Search
-     * @param {Array<'topic' | 'content_tags' | 'platform' | 'offered_by'>} [aggregations] Show resource counts by category
-     * @param {Array<string>} [content_tags] The content tag name. Possible options are at api/v1/contenttags/
+     * @param {Array<'topic' | 'content_feature_type' | 'platform' | 'offered_by'>} [aggregations] Show resource counts by category
+     * @param {Array<string>} [content_feature_type] The feature type of the content file. Possible options are at api/v1/contenttags/
      * @param {Array<number>} [id] The id value for the content file
      * @param {number} [limit] Number of results to return per page
      * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
@@ -4615,9 +4615,9 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
      */
     async contentFileSearchRetrieve(
       aggregations?: Array<
-        "topic" | "content_tags" | "platform" | "offered_by"
+        "topic" | "content_feature_type" | "platform" | "offered_by"
       >,
-      content_tags?: Array<string>,
+      content_feature_type?: Array<string>,
       id?: Array<number>,
       limit?: number,
       offered_by?: Array<
@@ -4663,7 +4663,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.contentFileSearchRetrieve(
           aggregations,
-          content_tags,
+          content_feature_type,
           id,
           limit,
           offered_by,
@@ -4711,7 +4711,7 @@ export const ContentFileSearchApiFactory = function (
       return localVarFp
         .contentFileSearchRetrieve(
           requestParameters.aggregations,
-          requestParameters.content_tags,
+          requestParameters.content_feature_type,
           requestParameters.id,
           requestParameters.limit,
           requestParameters.offered_by,
@@ -4737,19 +4737,19 @@ export const ContentFileSearchApiFactory = function (
 export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
   /**
    * Show resource counts by category
-   * @type {Array<'topic' | 'content_tags' | 'platform' | 'offered_by'>}
+   * @type {Array<'topic' | 'content_feature_type' | 'platform' | 'offered_by'>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly aggregations?: Array<
-    "topic" | "content_tags" | "platform" | "offered_by"
+    "topic" | "content_feature_type" | "platform" | "offered_by"
   >
 
   /**
-   * The content tag name. Possible options are at api/v1/contenttags/
+   * The feature type of the content file. Possible options are at api/v1/contenttags/
    * @type {Array<string>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
-  readonly content_tags?: Array<string>
+  readonly content_feature_type?: Array<string>
 
   /**
    * The id value for the content file
@@ -4876,7 +4876,7 @@ export class ContentFileSearchApi extends BaseAPI {
     return ContentFileSearchApiFp(this.configuration)
       .contentFileSearchRetrieve(
         requestParameters.aggregations,
-        requestParameters.content_tags,
+        requestParameters.content_feature_type,
         requestParameters.id,
         requestParameters.limit,
         requestParameters.offered_by,
@@ -5752,7 +5752,7 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of courses
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -5767,7 +5767,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     coursesList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -5883,8 +5883,8 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -5944,7 +5944,7 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released Courses.
      * @summary List New
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -5959,7 +5959,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     coursesNewList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -6075,8 +6075,8 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -6182,7 +6182,7 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming Courses.
      * @summary List Upcoming
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -6197,7 +6197,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     coursesUpcomingList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -6313,8 +6313,8 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -6452,7 +6452,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of courses
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -6467,7 +6467,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async coursesList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -6573,7 +6573,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedCourseResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesList(
-        content_tags,
+        course_feature,
         department,
         level,
         limit,
@@ -6596,7 +6596,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released Courses.
      * @summary List New
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -6611,7 +6611,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async coursesNewList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -6717,7 +6717,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedCourseResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesNewList(
-        content_tags,
+        course_feature,
         department,
         level,
         limit,
@@ -6764,7 +6764,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming Courses.
      * @summary List Upcoming
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -6779,7 +6779,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async coursesUpcomingList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -6886,7 +6886,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.coursesUpcomingList(
-          content_tags,
+          course_feature,
           department,
           level,
           limit,
@@ -6974,7 +6974,7 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedCourseResourceList> {
       return localVarFp
         .coursesList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -7002,7 +7002,7 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedCourseResourceList> {
       return localVarFp
         .coursesNewList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -7045,7 +7045,7 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedCourseResourceList> {
       return localVarFp
         .coursesUpcomingList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -7133,11 +7133,11 @@ export interface CoursesApiCoursesContentfilesRetrieveRequest {
  */
 export interface CoursesApiCoursesListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof CoursesApiCoursesList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -7304,11 +7304,11 @@ export interface CoursesApiCoursesListRequest {
  */
 export interface CoursesApiCoursesNewListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof CoursesApiCoursesNewList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -7489,11 +7489,11 @@ export interface CoursesApiCoursesRetrieveRequest {
  */
 export interface CoursesApiCoursesUpcomingListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof CoursesApiCoursesUpcomingList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -7719,7 +7719,7 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -7749,7 +7749,7 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesNewList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -7796,7 +7796,7 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesUpcomingList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -9616,7 +9616,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -9631,7 +9631,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -9747,8 +9747,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -9808,7 +9808,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released Learning Resources.
      * @summary List New
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -9823,7 +9823,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesNewList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -9939,8 +9939,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -10046,7 +10046,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming Learning Resources.
      * @summary List Upcoming
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -10061,7 +10061,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesUpcomingList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -10177,8 +10177,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -10385,7 +10385,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -10400,7 +10400,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -10507,7 +10507,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesList(
-          content_tags,
+          course_feature,
           department,
           level,
           limit,
@@ -10530,7 +10530,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released Learning Resources.
      * @summary List New
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -10545,7 +10545,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesNewList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -10652,7 +10652,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesNewList(
-          content_tags,
+          course_feature,
           department,
           level,
           limit,
@@ -10700,7 +10700,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming Learning Resources.
      * @summary List Upcoming
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -10715,7 +10715,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesUpcomingList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -10822,7 +10822,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesUpcomingList(
-          content_tags,
+          course_feature,
           department,
           level,
           limit,
@@ -10950,7 +10950,7 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -10978,7 +10978,7 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesNewList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -11021,7 +11021,7 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesUpcomingList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -11165,11 +11165,11 @@ export interface LearningResourcesApiLearningResourcesItemsRetrieveRequest {
  */
 export interface LearningResourcesApiLearningResourcesListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof LearningResourcesApiLearningResourcesList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -11336,11 +11336,11 @@ export interface LearningResourcesApiLearningResourcesListRequest {
  */
 export interface LearningResourcesApiLearningResourcesNewListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof LearningResourcesApiLearningResourcesNewList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -11521,11 +11521,11 @@ export interface LearningResourcesApiLearningResourcesRetrieveRequest {
  */
 export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -11795,7 +11795,7 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -11825,7 +11825,7 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesNewList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -11872,7 +11872,7 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesUpcomingList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -11900,9 +11900,9 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
     /**
      * Search for learning resources
      * @summary Search
-     * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'content_tags' | 'professional'>} [aggregations] Show resource counts by category
+     * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional'>} [aggregations] Show resource counts by category
      * @param {boolean} [certification] True if the learning resource offers a certificate
-     * @param {Array<string>} [content_tags] The content tag name. Possible options are at api/v1/contenttags/
+     * @param {Array<string>} [course_feature] The content category name. Possible options are at api/v1/contenttags/
      * @param {Array<'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {Array<number>} [id] The id value for the learning resource
      * @param {Array<'undergraduate' | 'graduate' | 'high_school' | 'noncredit' | 'advanced' | 'intermediate' | 'introductory'>} [level]
@@ -11927,11 +11927,11 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         | "topic"
         | "department"
         | "level"
-        | "content_tags"
+        | "course_feature"
         | "professional"
       >,
       certification?: boolean,
-      content_tags?: Array<string>,
+      course_feature?: Array<string>,
       department?: Array<
         | "1"
         | "2"
@@ -12058,8 +12058,8 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         localVarQueryParameter["certification"] = certification
       }
 
-      if (content_tags) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department) {
@@ -12140,9 +12140,9 @@ export const LearningResourcesSearchApiFp = function (
     /**
      * Search for learning resources
      * @summary Search
-     * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'content_tags' | 'professional'>} [aggregations] Show resource counts by category
+     * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional'>} [aggregations] Show resource counts by category
      * @param {boolean} [certification] True if the learning resource offers a certificate
-     * @param {Array<string>} [content_tags] The content tag name. Possible options are at api/v1/contenttags/
+     * @param {Array<string>} [course_feature] The content category name. Possible options are at api/v1/contenttags/
      * @param {Array<'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {Array<number>} [id] The id value for the learning resource
      * @param {Array<'undergraduate' | 'graduate' | 'high_school' | 'noncredit' | 'advanced' | 'intermediate' | 'introductory'>} [level]
@@ -12167,11 +12167,11 @@ export const LearningResourcesSearchApiFp = function (
         | "topic"
         | "department"
         | "level"
-        | "content_tags"
+        | "course_feature"
         | "professional"
       >,
       certification?: boolean,
-      content_tags?: Array<string>,
+      course_feature?: Array<string>,
       department?: Array<
         | "1"
         | "2"
@@ -12280,7 +12280,7 @@ export const LearningResourcesSearchApiFp = function (
         await localVarAxiosParamCreator.learningResourcesSearchRetrieve(
           aggregations,
           certification,
-          content_tags,
+          course_feature,
           department,
           id,
           level,
@@ -12331,7 +12331,7 @@ export const LearningResourcesSearchApiFactory = function (
         .learningResourcesSearchRetrieve(
           requestParameters.aggregations,
           requestParameters.certification,
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.id,
           requestParameters.level,
@@ -12359,7 +12359,7 @@ export const LearningResourcesSearchApiFactory = function (
 export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest {
   /**
    * Show resource counts by category
-   * @type {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'content_tags' | 'professional'>}
+   * @type {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional'>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly aggregations?: Array<
@@ -12370,7 +12370,7 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
     | "topic"
     | "department"
     | "level"
-    | "content_tags"
+    | "course_feature"
     | "professional"
   >
 
@@ -12382,11 +12382,11 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   readonly certification?: boolean
 
   /**
-   * The content tag name. Possible options are at api/v1/contenttags/
+   * The content category name. Possible options are at api/v1/contenttags/
    * @type {Array<string>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
-  readonly content_tags?: Array<string>
+  readonly course_feature?: Array<string>
 
   /**
    * The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -12584,7 +12584,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
       .learningResourcesSearchRetrieve(
         requestParameters.aggregations,
         requestParameters.certification,
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.id,
         requestParameters.level,
@@ -12714,7 +12714,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning paths
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -12729,7 +12729,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningpathsList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -12845,8 +12845,8 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -13484,7 +13484,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning paths
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -13499,7 +13499,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningpathsList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -13606,7 +13606,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsList(
-          content_tags,
+          course_feature,
           department,
           level,
           limit,
@@ -13968,7 +13968,7 @@ export const LearningpathsApiFactory = function (
     ): AxiosPromise<PaginatedLearningPathResourceList> {
       return localVarFp
         .learningpathsList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -14192,11 +14192,11 @@ export interface LearningpathsApiLearningpathsDestroyRequest {
  */
 export interface LearningpathsApiLearningpathsListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof LearningpathsApiLearningpathsList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -14624,7 +14624,7 @@ export class LearningpathsApi extends BaseAPI {
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -15437,7 +15437,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of podcast episodes
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -15452,7 +15452,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     podcastEpisodesList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -15568,8 +15568,8 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -15686,7 +15686,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of podcast episodes
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -15701,7 +15701,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async podcastEpisodesList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -15808,7 +15808,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.podcastEpisodesList(
-          content_tags,
+          course_feature,
           department,
           level,
           limit,
@@ -15880,7 +15880,7 @@ export const PodcastEpisodesApiFactory = function (
     ): AxiosPromise<PaginatedPodcastEpisodeResourceList> {
       return localVarFp
         .podcastEpisodesList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -15920,11 +15920,11 @@ export const PodcastEpisodesApiFactory = function (
  */
 export interface PodcastEpisodesApiPodcastEpisodesListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof PodcastEpisodesApiPodcastEpisodesList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -16119,7 +16119,7 @@ export class PodcastEpisodesApi extends BaseAPI {
   ) {
     return PodcastEpisodesApiFp(this.configuration)
       .podcastEpisodesList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -16277,7 +16277,7 @@ export const PodcastsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of podcasts
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -16292,7 +16292,7 @@ export const PodcastsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     podcastsList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -16408,8 +16408,8 @@ export const PodcastsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -16593,7 +16593,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of podcasts
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -16608,7 +16608,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async podcastsList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -16714,7 +16714,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedPodcastResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.podcastsList(
-        content_tags,
+        course_feature,
         department,
         level,
         limit,
@@ -16826,7 +16826,7 @@ export const PodcastsApiFactory = function (
     ): AxiosPromise<PaginatedPodcastResourceList> {
       return localVarFp
         .podcastsList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -16922,11 +16922,11 @@ export interface PodcastsApiPodcastsItemsRetrieveRequest {
  */
 export interface PodcastsApiPodcastsListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof PodcastsApiPodcastsList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -17165,7 +17165,7 @@ export class PodcastsApi extends BaseAPI {
   ) {
     return PodcastsApiFp(this.configuration)
       .podcastsList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -17210,7 +17210,7 @@ export const ProgramsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of programs
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -17225,7 +17225,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     programsList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -17341,8 +17341,8 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -17402,7 +17402,7 @@ export const ProgramsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of newly released Programs.
      * @summary List New
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -17417,7 +17417,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     programsNewList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -17533,8 +17533,8 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -17640,7 +17640,7 @@ export const ProgramsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of upcoming Programs.
      * @summary List Upcoming
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -17655,7 +17655,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     programsUpcomingList: async (
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -17771,8 +17771,8 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
-      if (content_tags !== undefined) {
-        localVarQueryParameter["content_tags"] = content_tags
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
       if (department !== undefined) {
@@ -17842,7 +17842,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of programs
      * @summary List
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -17857,7 +17857,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async programsList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -17963,7 +17963,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedProgramResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsList(
-        content_tags,
+        course_feature,
         department,
         level,
         limit,
@@ -17986,7 +17986,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of newly released Programs.
      * @summary List New
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -18001,7 +18001,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async programsNewList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -18107,7 +18107,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedProgramResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsNewList(
-        content_tags,
+        course_feature,
         department,
         level,
         limit,
@@ -18155,7 +18155,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of upcoming Programs.
      * @summary List Upcoming
-     * @param {string} [content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -18170,7 +18170,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async programsUpcomingList(
-      content_tags?: string,
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -18277,7 +18277,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.programsUpcomingList(
-          content_tags,
+          course_feature,
           department,
           level,
           limit,
@@ -18324,7 +18324,7 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedProgramResourceList> {
       return localVarFp
         .programsList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -18352,7 +18352,7 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedProgramResourceList> {
       return localVarFp
         .programsNewList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -18395,7 +18395,7 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedProgramResourceList> {
       return localVarFp
         .programsUpcomingList(
-          requestParameters.content_tags,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -18420,11 +18420,11 @@ export const ProgramsApiFactory = function (
  */
 export interface ProgramsApiProgramsListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof ProgramsApiProgramsList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -18591,11 +18591,11 @@ export interface ProgramsApiProgramsListRequest {
  */
 export interface ProgramsApiProgramsNewListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof ProgramsApiProgramsNewList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -18776,11 +18776,11 @@ export interface ProgramsApiProgramsRetrieveRequest {
  */
 export interface ProgramsApiProgramsUpcomingListRequest {
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
+   * Content feature for the resources. Load the \&#39;api/v1/contenttags\&#39; endpoint for a list of tags
    * @type {string}
    * @memberof ProgramsApiProgramsUpcomingList
    */
-  readonly content_tags?: string
+  readonly course_feature?: string
 
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -18961,7 +18961,7 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -18991,7 +18991,7 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsNewList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -19038,7 +19038,7 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsUpcomingList(
-        requestParameters.content_tags,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,

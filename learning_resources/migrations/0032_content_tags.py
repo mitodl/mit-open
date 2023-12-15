@@ -16,7 +16,7 @@ def assign_tags(apps, schema_editor):
         .only("learning_resource_types")
         .iterator()
     ):
-        cf.content_category.set(
+        cf.content_tags.set(
             [
                 LearningResourceContentTag.objects.get_or_create(name=tag)[0]
                 for tag in cf.learning_resource_types
