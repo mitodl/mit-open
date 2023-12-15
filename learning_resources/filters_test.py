@@ -12,13 +12,14 @@ from learning_resources.constants import (
     PlatformType,
 )
 from learning_resources.factories import (
+    ContentFileFactory,
     CourseFactory,
     LearningResourceContentTagFactory,
     LearningResourceFactory,
     LearningResourceRunFactory,
     PodcastFactory,
 )
-from learning_resources.filters import LearningResourceFilter
+from learning_resources.filters import ContentFileFilter, LearningResourceFilter
 from learning_resources.models import LearningResourceRun
 
 pytestmark = pytest.mark.django_db
@@ -192,3 +193,109 @@ def test_learning_resource_filter_level():
 
     assert hs_resource not in query
     assert grad_resource in query
+
+
+def test_content_file_filter_run_id():
+    """Test that the run_id type filter works"""
+
+    content_file1 = ContentFileFactory.create()
+    content_file2 = ContentFileFactory.create()
+
+    query = ContentFileFilter({"run_id": content_file1.run_id}).qs
+
+    assert content_file1 in query
+    assert content_file2 not in query
+
+
+def test_content_file_filter_learning_resource_id():
+    """Test that the learning_resource_id type filter works"""
+
+    content_file1 = ContentFileFactory.create()
+    content_file2 = ContentFileFactory.create()
+
+    query = ContentFileFilter(
+        {"learning_resource_id": content_file1.run.learning_resource_id}
+    ).qs
+
+    assert content_file1 in query
+    assert content_file2 not in query
+
+
+def test_content_file_filter_content_feature_type():
+    """Test that the content_feature_type type filter works"""
+
+    resource_with_exams = ContentFileFactory.create(
+        content_tags=LearningResourceContentTagFactory.create_batch(1, name="Exams")
+    )
+    resource_with_notes = ContentFileFactory.create(
+        content_tags=LearningResourceContentTagFactory.create_batch(
+            1, name="Lecture Notes"
+        )
+    )
+
+    query = ContentFileFilter({"content_feature_type": "ExamS"}).qs
+
+    assert resource_with_exams in query
+    assert resource_with_notes not in query
+
+
+def test_content_file_filter_offered_by():
+    """Test that the offered_by filter works"""
+
+    ocw_resource = CourseFactory.create(offered_by=OfferedBy.ocw.name).learning_resource
+    mitx_resource = CourseFactory.create(
+        offered_by=OfferedBy.mitx.name
+    ).learning_resource
+
+    ocw_content_file = ContentFileFactory.create(run=ocw_resource.runs.first())
+    mitx_content_file = ContentFileFactory.create(run=mitx_resource.runs.first())
+    query = ContentFileFilter({"offered_by": OfferedBy.ocw.name}).qs
+
+    assert ocw_content_file in query
+    assert mitx_content_file not in query
+
+
+def test_content_file_filter_platform():
+    """Test that the offered_by filter works"""
+
+    ocw_resource = CourseFactory.create(
+        platform=PlatformType.ocw.name
+    ).learning_resource
+    mitx_resource = CourseFactory.create(
+        platform=PlatformType.mitxonline.name
+    ).learning_resource
+
+    ocw_content_file = ContentFileFactory.create(run=ocw_resource.runs.first())
+    mitx_content_file = ContentFileFactory.create(run=mitx_resource.runs.first())
+    query = ContentFileFilter({"platform": OfferedBy.ocw.name}).qs
+
+    assert ocw_content_file in query
+    assert mitx_content_file not in query
+
+
+def test_content_file_filter_run_readable_id():
+    """Test that the run_readable_id type filter works"""
+
+    content_file1 = ContentFileFactory.create()
+    content_file2 = ContentFileFactory.create()
+
+    query = ContentFileFilter({"run_readable_id": content_file1.run.run_id}).qs
+
+    assert content_file1 in query
+    assert content_file2 not in query
+
+
+def test_content_file_filter_learning_resource_readable_id():
+    """Test that the learning_resource_readable_id type filter works"""
+
+    content_file1 = ContentFileFactory.create()
+    content_file2 = ContentFileFactory.create()
+
+    query = ContentFileFilter(
+        {
+            "learning_resource_readable_id": content_file1.run.learning_resource.readable_id
+        }
+    ).qs
+
+    assert content_file1 in query
+    assert content_file2 not in query

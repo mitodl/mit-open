@@ -31,7 +31,7 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.podcast import generate_aggregate_podcast_rss
 from learning_resources.exceptions import WebhookException
-from learning_resources.filters import LearningResourceFilter
+from learning_resources.filters import ContentFileFilter, LearningResourceFilter
 from learning_resources.models import (
     ContentFile,
     LearningResource,
@@ -492,14 +492,7 @@ class ContentFileViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ContentFile.objects.filter(published=True).order_by("-updated_on")
     pagination_class = DefaultPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = [
-        "run",
-        "run__run_id",
-        "run__learning_resource",
-        "run__learning_resource__readable_id",
-        "run__learning_resource__platform",
-        "run__learning_resource__offered_by__name",
-    ]
+    filterset_class = ContentFileFilter
 
 
 @extend_schema_view(
