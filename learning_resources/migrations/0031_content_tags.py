@@ -11,11 +11,15 @@ def assign_tags(apps, schema_editor):
     LearningResourceContentTag = apps.get_model(
         "learning_resources", "LearningResourceContentTag"
     )
-    for cf in ContentFile.objects.exclude(learning_resource_types=[]).iterator():
+    for cf in (
+        ContentFile.objects.exclude(learning_resource_types__isnull=True)
+        .only("learning_resource_types")
+        .iterator()
+    ):
         cf.content_tags.set(
             [
                 LearningResourceContentTag.objects.get_or_create(name=tag)[0]
-                for tag in cf.learning_resources_types
+                for tag in cf.learning_resource_types
             ]
         )
 

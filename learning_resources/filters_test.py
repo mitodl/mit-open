@@ -158,17 +158,15 @@ def test_learning_resource_filter_tags():
     """Test that the resource_content_tag filter works"""
 
     resource_with_exams = LearningResourceFactory.create(
-        resource_content_tags=LearningResourceContentTagFactory.create_batch(
-            1, name="Exams"
-        )
+        content_tags=LearningResourceContentTagFactory.create_batch(1, name="Exams")
     )
     resource_with_notes = LearningResourceFactory.create(
-        resource_content_tags=LearningResourceContentTagFactory.create_batch(
+        content_tags=LearningResourceContentTagFactory.create_batch(
             1, name="Lecture Notes"
         )
     )
 
-    query = LearningResourceFilter({"resource_content_tags": "ExamS"}).qs
+    query = LearningResourceFilter({"content_tags": "ExamS"}).qs
 
     assert resource_with_exams in query
     assert resource_with_notes not in query

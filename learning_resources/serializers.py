@@ -89,7 +89,7 @@ class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 
     def to_representation(self, value):
-        """Serialize resource_content_tags as a list of names"""
+        """Serialize content_tags as a list of names"""
         return [tag.name for tag in value.all()]
 
 
@@ -272,9 +272,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
 
     offered_by = LearningResourceOfferorSerializer(read_only=True, allow_null=True)
     platform = LearningResourcePlatformSerializer(read_only=True, allow_null=True)
-    resource_content_tags = LearningResourceContentTagField(
-        read_only=True, allow_null=True
-    )
+    content_tags = LearningResourceContentTagField(read_only=True, allow_null=True)
     departments = LearningResourceDepartmentSerializer(
         read_only=True, allow_null=True, many=True
     )
@@ -599,9 +597,6 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "url",
-            "short_url",
-            "section",
-            "section_slug",
             "content_tags",
             "content_type",
             "content",

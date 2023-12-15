@@ -90,7 +90,7 @@ def mock_upsert_tasks(mocker):
     """Mock out the upsert task helpers"""
     return SimpleNamespace(
         upsert_learning_resource=mocker.patch(
-            "learning_resources_search.tasks.upsert_learning_resource"
+            "learning_resources_search.tasks.upsert_learning_resource",
         ),
         deindex_learning_resource=mocker.patch(
             "learning_resources_search.tasks.deindex_document"

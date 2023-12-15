@@ -105,7 +105,7 @@ class LearningResource(TimestampedModel):
         "topics",
         "offered_by",
         "departments",
-        "resource_content_tags",
+        "content_tags",
         "runs",
         "runs__instructors",
         "runs__image",
@@ -120,7 +120,7 @@ class LearningResource(TimestampedModel):
         "children__child__topics",
         "children__child__image",
         "children__child__offered_by",
-        "children__child__resource_content_tags",
+        "children__child__content_tags",
     ]
 
     related_selects = [
@@ -234,7 +234,7 @@ class LearningResourceRun(TimestampedModel):
         LearningResourceImage, null=True, blank=True, on_delete=models.deletion.SET_NULL
     )
     level = ArrayField(
-        models.CharField(max_length=128), null=False, blank=False, default=[]
+        models.CharField(max_length=128), null=False, blank=False, default=list
     )
     slug = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
     availability = models.CharField(  # noqa: DJ001

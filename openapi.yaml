@@ -169,23 +169,24 @@ paths:
           items:
             enum:
             - topic
-            - content_category
+            - content_tags
             - platform
             - offered_by
             type: string
             description: |-
               * `topic` - topic
-              * `content_category` - content_category
+              * `content_tags` - content_tags
               * `platform` - platform
               * `offered_by` - offered_by
         description: Show resource counts by category
       - in: query
-        name: content_category
+        name: content_tags
         schema:
           type: array
           items:
             type: string
             minLength: 1
+        description: The content tag name. Possible options are at api/v1/contenttags/
       - in: query
         name: id
         schema:
@@ -465,6 +466,12 @@ paths:
       summary: List
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -652,12 +659,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -817,6 +818,12 @@ paths:
       summary: List New
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -1004,12 +1011,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -1082,6 +1083,12 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -1269,12 +1276,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -1632,6 +1633,12 @@ paths:
       summary: List
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -1819,12 +1826,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -2048,6 +2049,12 @@ paths:
       summary: List New
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -2235,12 +2242,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -2313,6 +2314,12 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -2500,12 +2507,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -2590,7 +2591,7 @@ paths:
             - topic
             - department
             - level
-            - resource_content_tags
+            - content_tags
             - professional
             type: string
             description: |-
@@ -2601,7 +2602,7 @@ paths:
               * `topic` - topic
               * `department` - department
               * `level` - level
-              * `resource_content_tags` - resource_content_tags
+              * `content_tags` - content_tags
               * `professional` - professional
         description: Show resource counts by category
       - in: query
@@ -2610,6 +2611,14 @@ paths:
           type: boolean
           nullable: true
         description: True if the learning resource offers a certificate
+      - in: query
+        name: content_tags
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        description: The content tag name. Possible options are at api/v1/contenttags/
       - in: query
         name: department
         schema:
@@ -2843,14 +2852,6 @@ paths:
           minLength: 1
         description: The search text
       - in: query
-        name: resource_content_tags
-        schema:
-          type: array
-          items:
-            type: string
-            minLength: 1
-        description: The content tag name. Possible options are at api/v1/contenttags/
-      - in: query
         name: resource_type
         schema:
           type: array
@@ -2932,6 +2933,12 @@ paths:
       description: Get a paginated list of learning paths
       summary: List
       parameters:
+      - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
       - in: query
         name: department
         schema:
@@ -3120,12 +3127,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -3608,6 +3609,12 @@ paths:
       summary: List
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -3795,12 +3802,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -3894,6 +3895,12 @@ paths:
       summary: List
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -4081,12 +4088,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -4244,6 +4245,12 @@ paths:
       summary: List
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -4431,12 +4438,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -4530,6 +4531,12 @@ paths:
       summary: List New
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -4717,12 +4724,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -4795,6 +4796,12 @@ paths:
       summary: List Upcoming
       parameters:
       - in: query
+        name: content_tags
+        schema:
+          type: string
+        description: Content tags for the resources. Load the 'api/v1/content_tags'
+          endpoint for a list of tags
+      - in: query
         name: department
         schema:
           type: string
@@ -4982,12 +4989,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -5510,9 +5511,10 @@ components:
         url:
           type: string
           nullable: true
-        content_category:
-          type: string
-          readOnly: true
+        content_tags:
+          type: array
+          items:
+            type: string
         content_type:
           $ref: '#/components/schemas/ContentTypeEnum'
         content:
@@ -5552,7 +5554,7 @@ components:
         run_readable_id:
           type: string
       required:
-      - content_category
+      - content_tags
       - departments
       - id
       - offered_by
@@ -5650,7 +5652,7 @@ components:
           - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
-        resource_content_tags:
+        content_tags:
           type: array
           items:
             type: string
@@ -5737,6 +5739,7 @@ components:
           readOnly: true
       required:
       - certification
+      - content_tags
       - course
       - departments
       - id
@@ -5747,7 +5750,6 @@ components:
       - prices
       - professional
       - readable_id
-      - resource_content_tags
       - resource_type
       - runs
       - title
@@ -6098,7 +6100,7 @@ components:
           - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
-        resource_content_tags:
+        content_tags:
           type: array
           items:
             type: string
@@ -6184,6 +6186,7 @@ components:
           type: boolean
       required:
       - certification
+      - content_tags
       - departments
       - id
       - image
@@ -6193,7 +6196,6 @@ components:
       - platform
       - prices
       - readable_id
-      - resource_content_tags
       - resource_type
       - runs
       - title
@@ -7271,7 +7273,7 @@ components:
           - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
-        resource_content_tags:
+        content_tags:
           type: array
           items:
             type: string
@@ -7358,6 +7360,7 @@ components:
           readOnly: true
       required:
       - certification
+      - content_tags
       - departments
       - id
       - image
@@ -7368,7 +7371,6 @@ components:
       - prices
       - professional
       - readable_id
-      - resource_content_tags
       - resource_type
       - runs
       - title
@@ -7464,7 +7466,7 @@ components:
           - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
-        resource_content_tags:
+        content_tags:
           type: array
           items:
             type: string
@@ -7551,6 +7553,7 @@ components:
           readOnly: true
       required:
       - certification
+      - content_tags
       - departments
       - id
       - image
@@ -7561,7 +7564,6 @@ components:
       - prices
       - professional
       - readable_id
-      - resource_content_tags
       - resource_type
       - runs
       - title
@@ -7655,7 +7657,7 @@ components:
           - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
-        resource_content_tags:
+        content_tags:
           type: array
           items:
             type: string
@@ -7742,6 +7744,7 @@ components:
           readOnly: true
       required:
       - certification
+      - content_tags
       - departments
       - id
       - image
@@ -7752,7 +7755,6 @@ components:
       - professional
       - program
       - readable_id
-      - resource_content_tags
       - resource_type
       - runs
       - title

@@ -44,7 +44,6 @@ LEARNING_RESOURCE_SEARCH_FILTERS = [
     "topic",
     "department",
     "level",
-    "content_tags",
     "platform",
     "professional",
     "id",
