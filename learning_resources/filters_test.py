@@ -166,7 +166,7 @@ def test_learning_resource_filter_tags():
         )
     )
 
-    query = LearningResourceFilter({"content_tags": "ExamS"}).qs
+    query = LearningResourceFilter({"content_category": "ExamS"}).qs
 
     assert resource_with_exams in query
     assert resource_with_notes not in query

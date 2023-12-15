@@ -16,7 +16,7 @@ def assign_tags(apps, schema_editor):
         .only("learning_resource_types")
         .iterator()
     ):
-        cf.content_tags.set(
+        cf.content_category.set(
             [
                 LearningResourceContentTag.objects.get_or_create(name=tag)[0]
                 for tag in cf.learning_resource_types
@@ -26,7 +26,7 @@ def assign_tags(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("learning_resources", "0030_alter_level"),
+        ("learning_resources", "0031_remove_contentfile_fields"),
     ]
 
     operations = [

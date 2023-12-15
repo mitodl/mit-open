@@ -6,7 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("learning_resources", "0032_remove_contentfile_learning_resource_types"),
+        ("learning_resources", "0033_remove_contentfile_learning_resource_types"),
     ]
 
     operations = [

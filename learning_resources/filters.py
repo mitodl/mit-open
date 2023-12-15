@@ -61,9 +61,9 @@ class LearningResourceFilter(FilterSet):
         lookup_expr="iexact",
     )
 
-    content_tags = CharFilter(
-        label="Content tags for the resources. Load the 'api/v1/content_tags' endpoint "
-        "for a list of tags",
+    content_category = CharFilter(
+        label="Content category for the resources. Load the 'api/v1/contenttags' "
+        "endpoint for a list of tags",
         field_name="content_tags__name",
         lookup_expr="iexact",
     )

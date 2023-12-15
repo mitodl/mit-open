@@ -5,7 +5,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("learning_resources", "0031_content_tags"),
+        ("learning_resources", "0032_content_tags"),
     ]
 
     operations = [

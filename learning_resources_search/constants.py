@@ -47,7 +47,7 @@ LEARNING_RESOURCE_SEARCH_FILTERS = [
     "platform",
     "professional",
     "id",
-    "content_tags",
+    "content_category",
     "run_id",
     "resource_id",
 ]
@@ -123,7 +123,7 @@ LEARNING_RESOURCE_MAP = {
             "name": {"type": "keyword"},
         },
     },
-    "content_tags": {"type": "keyword"},
+    "content_category": {"type": "keyword"},
     "course": {
         "properties": {
             "course_numbers": {
@@ -198,7 +198,7 @@ CONTENT_FILE_MAP = {
     "url": {"type": "keyword"},
     "file_type": {"type": "keyword"},
     "content_type": {"type": "keyword"},
-    "content_tags": {"type": "keyword"},
+    "content_category": {"type": "keyword"},
     "content": ENGLISH_TEXT_FIELD,
     "content_title": ENGLISH_TEXT_FIELD,
     "content_author": ENGLISH_TEXT_FIELD,
@@ -233,7 +233,7 @@ LEARNING_RESOURCE_QUERY_FIELDS = [
     "platform",
     "readable_id",
     "offered_by",
-    "content_tags",
+    "content_category",
     "course",
 ]
 
@@ -260,7 +260,7 @@ RESOURCEFILE_QUERY_FIELDS = [
     "content",
     "title.english^3",
     "short_description.english^2",
-    "content_tags",
+    "content_category",
 ]
 
 MAPPING = {

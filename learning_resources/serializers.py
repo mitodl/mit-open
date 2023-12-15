@@ -89,7 +89,7 @@ class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 
     def to_representation(self, value):
-        """Serialize content_tags as a list of names"""
+        """Serialize resource_content_tags as a list of names"""
         return [tag.name for tag in value.all()]
 
 
@@ -272,7 +272,9 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
 
     offered_by = LearningResourceOfferorSerializer(read_only=True, allow_null=True)
     platform = LearningResourcePlatformSerializer(read_only=True, allow_null=True)
-    content_tags = LearningResourceContentTagField(read_only=True, allow_null=True)
+    content_category = LearningResourceContentTagField(
+        source="content_tags", read_only=True, allow_null=True
+    )
     departments = LearningResourceDepartmentSerializer(
         read_only=True, allow_null=True, many=True
     )
@@ -348,7 +350,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     class Meta:
         model = models.LearningResource
         read_only_fields = ["professional"]
-        exclude = ["resources", "etl_source", *COMMON_IGNORED_FIELDS]
+        exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 
 class ProgramResourceSerializer(LearningResourceBaseSerializer):
@@ -434,7 +436,7 @@ class LearningPathResourceSerializer(LearningResourceBaseSerializer):
 
     class Meta:
         model = models.LearningResource
-        exclude = ["resources", "etl_source", *COMMON_IGNORED_FIELDS]
+        exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
         read_only_fields = ["platform", "offered_by", "readable_id"]
 
 
@@ -573,7 +575,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
     resource_readable_num = serializers.CharField(
         source="run.learning_resource.resource_num"
     )
-    content_tags = LearningResourceContentTagField()
+    content_category = LearningResourceContentTagField(source="content_tags")
     offered_by = LearningResourceOfferorSerializer(
         source="run.learning_resource.offered_by"
     )
@@ -597,7 +599,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "url",
-            "content_tags",
+            "content_category",
             "content_type",
             "content",
             "content_title",

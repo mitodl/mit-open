@@ -142,11 +142,11 @@ LEARNING_RESOURCE_AGGREGATIONS = [
     "topic",
     "department",
     "level",
-    "content_tags",
+    "content_category",
     "professional",
 ]
 
-CONTENT_FILE_AGGREGATIONS = ["topic", "content_tags", "platform", "offered_by"]
+CONTENT_FILE_AGGREGATIONS = ["topic", "content_category", "platform", "offered_by"]
 
 
 class SearchRequestSerializer(serializers.Serializer):
@@ -233,10 +233,11 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
     level = StringArrayField(
         required=False, child=serializers.ChoiceField(choices=level_choices)
     )
-    content_tags = StringArrayField(
+    content_category = StringArrayField(
         required=False,
         child=serializers.CharField(),
-        help_text="The content tag name. Possible options are at api/v1/contenttags/",
+        help_text="The content category name. "
+        "Possible options are at api/v1/contenttags/",
     )
     aggregations = StringArrayField(
         required=False,
@@ -256,10 +257,11 @@ class ContentFileSearchRequestSerializer(SearchRequestSerializer):
         choices=CONTENT_FILE_SORTBY_OPTIONS,
         help_text="if the parameter starts with '-' the sort is in descending order",
     )
-    content_tags = StringArrayField(
+    content_category = StringArrayField(
         required=False,
         child=serializers.CharField(),
-        help_text="The content tag name. Possible options are at api/v1/contenttags/",
+        help_text="The content category name. "
+        "Possible options are at api/v1/contenttags/",
     )
     aggregations = StringArrayField(
         required=False,
