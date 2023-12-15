@@ -89,7 +89,7 @@ class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 
     def to_representation(self, value):
-        """Serialize resource_content_tags as a list of names"""
+        """Serialize content tags as a list of names"""
         return [tag.name for tag in value.all()]
 
 
