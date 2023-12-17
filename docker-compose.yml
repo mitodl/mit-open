@@ -19,7 +19,7 @@ x-environment: &py-environment
 
 services:
   db:
-    image: postgres:12.11
+    image: postgres:12.17
     ports:
       - 5432:5432
     environment:
