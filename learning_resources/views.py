@@ -358,7 +358,7 @@ class PodcastEpisodeViewSet(BaseLearningResourceViewSet):
     create=extend_schema(summary="Create", description="Create a learning path"),
     destroy=extend_schema(summary="Destroy", description="Remove a learning path"),
     partial_update=extend_schema(
-        summary="Partial Update",
+        summary="Update",
         description="Update individual fields of a learning path",
     ),
 )
@@ -433,9 +433,7 @@ class ResourceListItemsViewSet(NestedParentMixin, viewsets.ReadOnlyModelViewSet)
 @extend_schema_view(
     create=extend_schema(summary="Learning Path Resource Relationship Add"),
     destroy=extend_schema(summary="Learning Path Resource Relationship Remove"),
-    partial_update=extend_schema(
-        summary="Learning Path Resource Relationship Partial Update"
-    ),
+    partial_update=extend_schema(summary="Learning Path Resource Relationship Update"),
 )
 class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
     """
@@ -529,7 +527,7 @@ class LearningResourceContentFilesViewSet(NestedViewSetMixin, ContentFileViewSet
     retrieve=extend_schema(summary="Retrieve"),
     create=extend_schema(summary="Create"),
     destroy=extend_schema(summary="Destroy"),
-    partial_update=extend_schema(summary="Partial Update"),
+    partial_update=extend_schema(summary="Update"),
 )
 class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
     """
@@ -577,9 +575,7 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
     retrieve=extend_schema(summary="User List Resources Retrieve"),
     create=extend_schema(summary="User List Resource Relationship Add"),
     destroy=extend_schema(summary="User List Resource Relationship Remove"),
-    partial_update=extend_schema(
-        summary="User List Resource Relationship Partial Update"
-    ),
+    partial_update=extend_schema(summary="User List Resource Relationship Update"),
 )
 class UserListItemViewSet(NestedParentMixin, viewsets.ModelViewSet):
     """

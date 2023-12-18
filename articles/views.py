@@ -24,7 +24,7 @@ class DefaultPagination(LimitOffsetPagination):
     retrieve=extend_schema(summary="Retrieve"),
     create=extend_schema(summary="Create"),
     destroy=extend_schema(summary="Destroy"),
-    partial_update=extend_schema(summary="Partial Update"),
+    partial_update=extend_schema(summary="Update"),
 )
 class ArticleViewSet(viewsets.ModelViewSet):
     """

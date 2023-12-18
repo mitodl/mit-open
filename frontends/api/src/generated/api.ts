@@ -3717,7 +3717,7 @@ export const ArticlesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for Article viewing and editing.
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this article.
      * @param {PatchedArticleRequest} [PatchedArticleRequest]
      * @param {*} [options] Override http request option.
@@ -3906,7 +3906,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for Article viewing and editing.
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this article.
      * @param {PatchedArticleRequest} [PatchedArticleRequest]
      * @param {*} [options] Override http request option.
@@ -4019,7 +4019,7 @@ export const ArticlesApiFactory = function (
     },
     /**
      * Viewset for Article viewing and editing.
-     * @summary Partial Update
+     * @summary Update
      * @param {ArticlesApiArticlesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4198,7 +4198,7 @@ export class ArticlesApi extends BaseAPI {
 
   /**
    * Viewset for Article viewing and editing.
-   * @summary Partial Update
+   * @summary Update
    * @param {ArticlesApiArticlesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8239,7 +8239,7 @@ export const FieldsApiAxiosParamCreator = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Partial Update
+     * @summary Update
      * @param {string} field_name
      * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
      * @param {*} [options] Override http request option.
@@ -8512,7 +8512,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Partial Update
+     * @summary Update
      * @param {string} field_name
      * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
      * @param {*} [options] Override http request option.
@@ -8676,7 +8676,7 @@ export const FieldsApiFactory = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Partial Update
+     * @summary Update
      * @param {FieldsApiFieldsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8970,7 +8970,7 @@ export class FieldsApi extends BaseAPI {
 
   /**
    * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-   * @summary Partial Update
+   * @summary Update
    * @param {FieldsApiFieldsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -12557,7 +12557,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     },
     /**
      * Update individual fields of a learning path
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {PatchedLearningPathResourceRequest} [PatchedLearningPathResourceRequest]
      * @param {*} [options] Override http request option.
@@ -12788,7 +12788,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Partial Update
+     * @summary Learning Path Resource Relationship Update
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
@@ -13155,7 +13155,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Update individual fields of a learning path
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {PatchedLearningPathResourceRequest} [PatchedLearningPathResourceRequest]
      * @param {*} [options] Override http request option.
@@ -13282,7 +13282,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Partial Update
+     * @summary Learning Path Resource Relationship Update
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
@@ -13447,7 +13447,7 @@ export const LearningpathsApiFactory = function (
     },
     /**
      * Update individual fields of a learning path
-     * @summary Partial Update
+     * @summary Update
      * @param {LearningpathsApiLearningpathsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13525,7 +13525,7 @@ export const LearningpathsApiFactory = function (
     },
     /**
      * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Partial Update
+     * @summary Learning Path Resource Relationship Update
      * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -14016,7 +14016,7 @@ export class LearningpathsApi extends BaseAPI {
 
   /**
    * Update individual fields of a learning path
-   * @summary Partial Update
+   * @summary Update
    * @param {LearningpathsApiLearningpathsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -14102,7 +14102,7 @@ export class LearningpathsApi extends BaseAPI {
 
   /**
    * Viewset for LearningPath related resources
-   * @summary Learning Path Resource Relationship Partial Update
+   * @summary Learning Path Resource Relationship Update
    * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -18839,7 +18839,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserLists
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this user list.
      * @param {PatchedUserListRequest} [PatchedUserListRequest]
      * @param {*} [options] Override http request option.
@@ -19062,7 +19062,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Partial Update
+     * @summary User List Resource Relationship Update
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
@@ -19305,7 +19305,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserLists
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this user list.
      * @param {PatchedUserListRequest} [PatchedUserListRequest]
      * @param {*} [options] Override http request option.
@@ -19426,7 +19426,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Partial Update
+     * @summary User List Resource Relationship Update
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
@@ -19576,7 +19576,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserLists
-     * @summary Partial Update
+     * @summary Update
      * @param {UserlistsApiUserlistsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -19653,7 +19653,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Partial Update
+     * @summary User List Resource Relationship Update
      * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -19971,7 +19971,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserLists
-   * @summary Partial Update
+   * @summary Update
    * @param {UserlistsApiUserlistsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -20056,7 +20056,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserListRelationships
-   * @summary User List Resource Relationship Partial Update
+   * @summary User List Resource Relationship Update
    * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

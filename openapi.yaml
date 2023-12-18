@@ -80,7 +80,7 @@ paths:
     patch:
       operationId: articles_partial_update
       description: Viewset for Article viewing and editing.
-      summary: Partial Update
+      summary: Update
       parameters:
       - in: path
         name: id
@@ -1441,7 +1441,7 @@ paths:
       description: |-
         CRUD Operations related to Fields. Fields may represent groups or organizations
         at MIT and are a high-level categorization of content.
-      summary: Partial Update
+      summary: Update
       parameters:
       - in: path
         name: field_name
@@ -3251,7 +3251,7 @@ paths:
     patch:
       operationId: learningpaths_resources_partial_update
       description: Viewset for LearningPath related resources
-      summary: Learning Path Resource Relationship Partial Update
+      summary: Learning Path Resource Relationship Update
       parameters:
       - in: path
         name: id
@@ -3329,7 +3329,7 @@ paths:
     patch:
       operationId: learningpaths_partial_update
       description: Update individual fields of a learning path
-      summary: Partial Update
+      summary: Update
       parameters:
       - in: path
         name: id
@@ -5113,7 +5113,7 @@ paths:
     patch:
       operationId: userlists_resources_partial_update
       description: Viewset for UserListRelationships
-      summary: User List Resource Relationship Partial Update
+      summary: User List Resource Relationship Update
       parameters:
       - in: path
         name: id
@@ -5191,7 +5191,7 @@ paths:
     patch:
       operationId: userlists_partial_update
       description: Viewset for UserLists
-      summary: Partial Update
+      summary: Update
       parameters:
       - in: path
         name: id
