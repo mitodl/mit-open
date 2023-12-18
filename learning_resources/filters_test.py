@@ -182,8 +182,12 @@ def test_learning_resource_filter_level():
     hs_resource = hs_run.learning_resource
     grad_resource = grad_run.learning_resource
 
-    hs_resource.runs.set([hs_run])
-    grad_resource.runs.set([grad_run])
+    # We'll test filtering with high_school and graduate values;
+    # Ensure other runs do not include these values.
+    for run in [hs_run, grad_run]:
+        for other_run in run.learning_resource.runs.exclude(id=run.id):
+            other_run.level = [LevelType.noncredit.name]
+            other_run.save()
 
     query = LearningResourceFilter({"level": LevelType.high_school.name}).qs
 
