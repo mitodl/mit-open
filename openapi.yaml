@@ -471,7 +471,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -823,7 +823,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -1088,7 +1088,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -1638,7 +1638,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -2054,7 +2054,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -2319,7 +2319,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -2619,7 +2619,7 @@ paths:
           items:
             type: string
             minLength: 1
-        description: The content category name. Possible options are at api/v1/course_features/
+        description: The course feature. Possible options are at api/v1/course_features/
       - in: query
         name: department
         schema:
@@ -2939,7 +2939,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -3614,7 +3614,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -3900,7 +3900,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -4250,7 +4250,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -4536,7 +4536,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -4801,7 +4801,7 @@ paths:
         schema:
           type: string
         description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of features
+          endpoint for a list of course features
       - in: query
         name: department
         schema:

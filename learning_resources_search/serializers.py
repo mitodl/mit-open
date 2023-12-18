@@ -236,7 +236,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
     course_feature = StringArrayField(
         required=False,
         child=serializers.CharField(),
-        help_text="The content category name. "
+        help_text="The course feature. "
         "Possible options are at api/v1/course_features/",
     )
     aggregations = StringArrayField(

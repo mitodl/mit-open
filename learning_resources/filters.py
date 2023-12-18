@@ -63,7 +63,7 @@ class LearningResourceFilter(FilterSet):
 
     course_feature = CharFilter(
         label="Content feature for the resources. Load the 'api/v1/course_features' "
-        "endpoint for a list of features",
+        "endpoint for a list of course features",
         field_name="content_tags__name",
         lookup_expr="iexact",
     )
