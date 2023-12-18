@@ -174,7 +174,8 @@ def test_learning_resource_filter_tags():
     assert resource_with_notes not in query
 
 
-def test_learning_resource_filter_level():
+@pytest.mark.parametrize("unused", range(100))
+def test_learning_resource_filter_level(unused):
     """Test that the level filter works"""
 
     hs_run = LearningResourceRunFactory.create(level=["High School", "Undergraduate"])
