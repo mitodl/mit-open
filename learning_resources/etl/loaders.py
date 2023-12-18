@@ -148,7 +148,8 @@ def load_offered_by(
 
 
 def load_content_tags(
-    resource: LearningResource, content_tags_data: list[str]
+    learning_resources_obj: LearningResource or ContentFile,
+    content_tags_data: list[str],
 ) -> list[LearningResourceContentTag]:
     """Load the content tags for a resource into the database"""
     if content_tags_data is not None:
@@ -156,9 +157,9 @@ def load_content_tags(
         for content_tag in content_tags_data:
             tag, _ = LearningResourceContentTag.objects.get_or_create(name=content_tag)
             tags.append(tag)
-        resource.content_tags.set(tags)
-        resource.save()
-    return resource.content_tags.all()
+        learning_resources_obj.content_tags.set(tags)
+        learning_resources_obj.save()
+    return learning_resources_obj.content_tags.all()
 
 
 def load_run(
