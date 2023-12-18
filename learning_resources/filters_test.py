@@ -19,6 +19,7 @@ from learning_resources.factories import (
     PodcastFactory,
 )
 from learning_resources.filters import LearningResourceFilter
+from learning_resources.models import LearningResourceRun
 
 pytestmark = pytest.mark.django_db
 
@@ -180,8 +181,7 @@ def test_learning_resource_filter_level():
     hs_resource = hs_run.learning_resource
     grad_resource = grad_run.learning_resource
 
-    hs_resource.runs.set([hs_run])
-    grad_resource.runs.set([grad_run])
+    LearningResourceRun.objects.exclude(id__in=[hs_run.id, grad_run.id]).delete()
 
     query = LearningResourceFilter({"level": LevelType.high_school.name}).qs
 

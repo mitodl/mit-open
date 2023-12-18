@@ -187,7 +187,7 @@ paths:
             type: string
             minLength: 1
         description: The feature type of the content file. Possible options are at
-          api/v1/contenttags/
+          api/v1/course_features/
       - in: query
         name: id
         schema:
@@ -413,10 +413,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/ContentFile'
           description: ''
-  /api/v1/contenttags/:
+  /api/v1/course_features/:
     get:
-      operationId: contenttags_list
-      description: Learning Resource Content Tags
+      operationId: course_features_list
+      description: Course Features and Content Feature Types
       summary: List
       parameters:
       - name: limit
@@ -432,7 +432,7 @@ paths:
         schema:
           type: integer
       tags:
-      - contenttags
+      - course_features
       responses:
         '200':
           content:
@@ -440,10 +440,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceContentTagList'
           description: ''
-  /api/v1/contenttags/{id}/:
+  /api/v1/course_features/{id}/:
     get:
-      operationId: contenttags_retrieve
-      description: Learning Resource Content Tags
+      operationId: course_features_retrieve
+      description: Course Features and Content Feature Types
       summary: Retrieve
       parameters:
       - in: path
@@ -452,7 +452,7 @@ paths:
           type: string
         required: true
       tags:
-      - contenttags
+      - course_features
       responses:
         '200':
           content:
@@ -470,8 +470,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -822,8 +822,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -1087,8 +1087,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -1637,8 +1637,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -2053,8 +2053,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -2318,8 +2318,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -2619,7 +2619,7 @@ paths:
           items:
             type: string
             minLength: 1
-        description: The content category name. Possible options are at api/v1/contenttags/
+        description: The content category name. Possible options are at api/v1/course_features/
       - in: query
         name: department
         schema:
@@ -2938,8 +2938,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -3613,8 +3613,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -3899,8 +3899,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -4249,8 +4249,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -4535,8 +4535,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
@@ -4800,8 +4800,8 @@ paths:
         name: course_feature
         schema:
           type: string
-        description: Content feature for the resources. Load the 'api/v1/contenttags'
-          endpoint for a list of tags
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of features
       - in: query
         name: department
         schema:
