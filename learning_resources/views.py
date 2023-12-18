@@ -70,6 +70,7 @@ from learning_resources.serializers import (
 )
 from learning_resources.tasks import get_ocw_courses
 from learning_resources.utils import resource_unpublished_actions
+from open_discussions.constants import VALID_HTTP_METHODS
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
@@ -355,9 +356,6 @@ class PodcastEpisodeViewSet(BaseLearningResourceViewSet):
         summary="Retrieve", description="Retrive a single learning path"
     ),
     create=extend_schema(summary="Create", description="Create a learning path"),
-    update=extend_schema(
-        summary="Update", description="Update all fields of a learning path"
-    ),
     destroy=extend_schema(summary="Destroy", description="Remove a learning path"),
     partial_update=extend_schema(
         summary="Partial Update",
@@ -371,6 +369,7 @@ class LearningPathViewSet(BaseLearningResourceViewSet, viewsets.ModelViewSet):
 
     serializer_class = LearningPathResourceSerializer
     permission_classes = (permissions.HasLearningPathPermissions,)
+    http_method_names = VALID_HTTP_METHODS
 
     def get_queryset(self):
         """
@@ -433,7 +432,6 @@ class ResourceListItemsViewSet(NestedParentMixin, viewsets.ReadOnlyModelViewSet)
 
 @extend_schema_view(
     create=extend_schema(summary="Learning Path Resource Relationship Add"),
-    update=extend_schema(summary="Learning Path Resource Relationship Update"),
     destroy=extend_schema(summary="Learning Path Resource Relationship Remove"),
     partial_update=extend_schema(
         summary="Learning Path Resource Relationship Partial Update"
@@ -446,6 +444,7 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
 
     serializer_class = LearningPathRelationshipSerializer
     permission_classes = (permissions.HasLearningPathItemPermissions,)
+    http_method_names = VALID_HTTP_METHODS
 
     def create(self, request, *args, **kwargs):
         request.data["parent"] = self.get_parent_id()
@@ -529,7 +528,6 @@ class LearningResourceContentFilesViewSet(NestedViewSetMixin, ContentFileViewSet
     list=extend_schema(summary="List"),
     retrieve=extend_schema(summary="Retrieve"),
     create=extend_schema(summary="Create"),
-    update=extend_schema(summary="Update"),
     destroy=extend_schema(summary="Destroy"),
     partial_update=extend_schema(summary="Partial Update"),
 )
@@ -541,6 +539,7 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
     serializer_class = UserListSerializer
     pagination_class = DefaultPagination
     permission_classes = (HasUserListPermissions,)
+    http_method_names = VALID_HTTP_METHODS
 
     def get_queryset(self):
         """Return a queryset for this user"""
@@ -577,7 +576,6 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
     list=extend_schema(summary="User List Resources List"),
     retrieve=extend_schema(summary="User List Resources Retrieve"),
     create=extend_schema(summary="User List Resource Relationship Add"),
-    update=extend_schema(summary="User List Resource Relationship Update"),
     destroy=extend_schema(summary="User List Resource Relationship Remove"),
     partial_update=extend_schema(
         summary="User List Resource Relationship Partial Update"
@@ -594,6 +592,7 @@ class UserListItemViewSet(NestedParentMixin, viewsets.ModelViewSet):
     serializer_class = UserListRelationshipSerializer
     pagination_class = DefaultPagination
     permission_classes = (HasUserListItemPermissions,)
+    http_method_names = VALID_HTTP_METHODS
 
     def create(self, request, *args, **kwargs):
         user_list_id = self.get_parent_id()
