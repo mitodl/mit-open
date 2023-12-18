@@ -237,7 +237,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         required=False,
         child=serializers.CharField(),
         help_text="The content category name. "
-        "Possible options are at api/v1/contenttags/",
+        "Possible options are at api/v1/course_features/",
     )
     aggregations = StringArrayField(
         required=False,
@@ -261,7 +261,7 @@ class ContentFileSearchRequestSerializer(SearchRequestSerializer):
         required=False,
         child=serializers.CharField(),
         help_text="The feature type of the content file. "
-        "Possible options are at api/v1/contenttags/",
+        "Possible options are at api/v1/course_features/",
     )
     aggregations = StringArrayField(
         required=False,

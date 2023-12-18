@@ -67,7 +67,9 @@ router.register(
 )
 router.register(r"topics", views.TopicViewSet, basename="lr_topics_api")
 router.register(r"departments", views.DepartmentViewSet, basename="lr_departments_api")
-router.register(r"contenttags", views.ContentTagViewSet, basename="lr_contenttags_api")
+router.register(
+    r"course_features", views.ContentTagViewSet, basename="lr_contenttags_api"
+)
 
 router.register(r"platforms", views.PlatformViewSet, basename="lr_platforms_api")
 router.register(r"offerors", views.OfferedByViewSet, basename="lr_offerors_api")
