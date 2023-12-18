@@ -154,7 +154,7 @@ const _learningResourceShared = (): Partial<
     platform: maybe(learningResourcePlatform) ?? null,
     prices: null,
     readable_id: faker.lorem.slug(),
-    resource_content_tags: repeat(faker.lorem.word),
+    course_feature: repeat(faker.lorem.word),
     runs: [],
     published: faker.datatype.boolean(),
     title: faker.lorem.words(),

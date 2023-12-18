@@ -72,7 +72,7 @@ def test_transform_content_files(settings, mocker):
         "description": "This resource contains problem set 1",
         "file_type": "application/pdf",
         "key": "courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/resources/resource/",
-        "learning_resource_types": [
+        "content_tags": [
             "Activity Assignments",
             "Activity Assignments with Examples",
         ],
@@ -88,7 +88,7 @@ def test_transform_content_files(settings, mocker):
         "description": "Video Description",
         "file_type": "video/mp4",
         "key": "courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/resources/video/",
-        "learning_resource_types": ["Competition Videos"],
+        "content_tags": ["Competition Videos"],
         "published": True,
         "title": None,
         "content_title": None,

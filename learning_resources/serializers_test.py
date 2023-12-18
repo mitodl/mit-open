@@ -2,7 +2,7 @@
 
 import pytest
 
-from learning_resources import constants, factories, serializers, utils
+from learning_resources import factories, serializers, utils
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -200,9 +200,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "professional": resource.professional,
         "published": resource.published,
         "readable_id": resource.readable_id,
-        "resource_content_tags": [
-            tag.name for tag in resource.resource_content_tags.all()
-        ],
+        "course_feature": [tag.name for tag in resource.content_tags.all()],
         "resource_type": resource.resource_type,
         "url": resource.url,
         "user_list_parents": [],
@@ -385,7 +383,10 @@ def test_learningpathitem_serializer_validation(child_exists):
         )
 
 
-def test_content_file_serializer():
+@pytest.mark.parametrize(
+    "expected_types", [["Assignments", "Tools"], ["Lecture Audio"], [], None]
+)
+def test_content_file_serializer(expected_types):
     """Verify that the ContentFileSerializer has the correct data"""
     content_kwargs = {
         "content": "Test content",
@@ -393,7 +394,7 @@ def test_content_file_serializer():
         "content_language": "en",
         "content_title": "test title",
     }
-    platform = constants.PlatformType.xpro.name
+    platform = PlatformType.ocw.name
     course = factories.CourseFactory.create(platform=platform)
     content_file = factories.ContentFileFactory.create(
         run=course.learning_resource.runs.first(), **content_kwargs
@@ -444,6 +445,8 @@ def test_content_file_serializer():
             "resource_readable_num": (
                 content_file.run.learning_resource.readable_id.split("+")[-1]
             ),
-            "content_category": None,
+            "content_feature_type": [
+                tag.name for tag in content_file.content_tags.all()
+            ],
         },
     )

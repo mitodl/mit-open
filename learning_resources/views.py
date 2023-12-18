@@ -684,7 +684,7 @@ class WebhookOCWNextView(views.APIView):
 )
 class ContentTagViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Learning Resource Content Tags
+    Course Features and Content Feature Types
     """
 
     queryset = LearningResourceContentTag.objects.all().order_by("id")

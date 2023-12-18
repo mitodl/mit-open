@@ -124,7 +124,7 @@ def test_generate_learning_resources_text_clause():
                                                 "platform",
                                                 "readable_id",
                                                 "offered_by",
-                                                "resource_content_tags",
+                                                "course_feature",
                                                 "course",
                                             ],
                                         }
@@ -219,7 +219,7 @@ def test_generate_learning_resources_text_clause():
                                                         "content",
                                                         "title.english^3",
                                                         "short_description.english^2",
-                                                        "content_category",
+                                                        "content_feature_type",
                                                     ],
                                                 }
                                             },
@@ -244,7 +244,7 @@ def test_generate_learning_resources_text_clause():
                             "platform",
                             "readable_id",
                             "offered_by",
-                            "resource_content_tags",
+                            "course_feature",
                             "course",
                         ],
                     }
@@ -327,7 +327,7 @@ def test_generate_learning_resources_text_clause():
                                     "content",
                                     "title.english^3",
                                     "short_description.english^2",
-                                    "content_category",
+                                    "content_feature_type",
                                 ],
                             }
                         },
@@ -356,7 +356,7 @@ def test_generate_learning_resources_text_clause():
                                                 "platform",
                                                 "readable_id",
                                                 "offered_by",
-                                                "resource_content_tags",
+                                                "course_feature",
                                                 "course",
                                             ],
                                         }
@@ -451,7 +451,7 @@ def test_generate_learning_resources_text_clause():
                                                         "content",
                                                         "title.english^3",
                                                         "short_description.english^2",
-                                                        "content_category",
+                                                        "content_feature_type",
                                                     ],
                                                 }
                                             },
@@ -476,7 +476,7 @@ def test_generate_learning_resources_text_clause():
                             "platform",
                             "readable_id",
                             "offered_by",
-                            "resource_content_tags",
+                            "course_feature",
                             "course",
                         ],
                     }
@@ -562,7 +562,7 @@ def test_generate_learning_resources_text_clause():
                                     "content",
                                     "title.english^3",
                                     "short_description.english^2",
-                                    "content_category",
+                                    "content_feature_type",
                                 ],
                             }
                         },
@@ -592,7 +592,7 @@ def test_generate_content_file_text_clause():
                                                 "content",
                                                 "title.english^3",
                                                 "short_description.english^2",
-                                                "content_category",
+                                                "content_feature_type",
                                             ],
                                         }
                                     },
@@ -623,7 +623,7 @@ def test_generate_content_file_text_clause():
                             "content",
                             "title.english^3",
                             "short_description.english^2",
-                            "content_category",
+                            "content_feature_type",
                         ],
                     }
                 },
@@ -656,7 +656,7 @@ def test_generate_content_file_text_clause():
                                                 "content",
                                                 "title.english^3",
                                                 "short_description.english^2",
-                                                "content_category",
+                                                "content_feature_type",
                                             ],
                                         }
                                     },
@@ -687,7 +687,7 @@ def test_generate_content_file_text_clause():
                             "content",
                             "title.english^3",
                             "short_description.english^2",
-                            "content_category",
+                            "content_feature_type",
                         ],
                     }
                 },
@@ -929,7 +929,7 @@ def test_execute_learn_search(opensearch):
                                                                     "platform",
                                                                     "readable_id",
                                                                     "offered_by",
-                                                                    "resource_content_tags",
+                                                                    "course_feature",
                                                                     "course",
                                                                 ],
                                                             }
@@ -1028,7 +1028,7 @@ def test_execute_learn_search(opensearch):
                                                                             "content",
                                                                             "title.english^3",
                                                                             "short_description.english^2",
-                                                                            "content_category",
+                                                                            "content_feature_type",
                                                                         ],
                                                                     }
                                                                 },
@@ -1054,7 +1054,7 @@ def test_execute_learn_search(opensearch):
                                             "platform",
                                             "readable_id",
                                             "offered_by",
-                                            "resource_content_tags",
+                                            "course_feature",
                                             "course",
                                         ],
                                     }
@@ -1147,7 +1147,7 @@ def test_execute_learn_search(opensearch):
                                                     "content",
                                                     "title.english^3",
                                                     "short_description.english^2",
-                                                    "content_category",
+                                                    "content_feature_type",
                                                 ],
                                             }
                                         },
