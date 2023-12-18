@@ -1,72 +1,106 @@
 import React, { useCallback, useMemo, useState } from "react"
-import { useToggle } from "ol-utilities"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
-import invariant from "tiny-invariant"
-import { Link, LinkProps } from "react-router-dom"
+import { Link as RouterLink } from "react-router-dom"
+import type { LinkProps as RouterLinkProps } from "react-router-dom"
 
-interface SimpleMenuItem<K extends string = string> {
-  key: K
-  label: string
+/**
+ * See https://mui.com/material-ui/guides/routing/#global-theme-link
+ */
+const LinkBehavior = React.forwardRef<
+  HTMLAnchorElement,
+  Omit<RouterLinkProps, "to"> & { href: RouterLinkProps["to"] }
+>((props, ref) => {
+  const { href, ...other } = props
+  // Map href (Material UI) -> to (react-router)
+  return <RouterLink ref={ref} to={href} {...other} />
+})
+
+interface SimpleMenuItem {
+  key: string
+  label: React.ReactNode
   icon?: React.ReactNode
+  onClick?: () => void
+  href?: string
+  LinkComponent?: React.ElementType
 }
 
-type SimpleMenuProps<K extends string> = {
-  items: SimpleMenuItem<K>[]
-  actionsOrLinks: Record<K, LinkProps["to"] | (() => void)>
+type SimpleMenuProps = {
+  items: SimpleMenuItem[]
   trigger: React.ReactElement
+  onVisibilityChange?: (visible: boolean) => void
 }
 
-const SimpleMenu = <K extends string>({
+/**
+ * A wrapper around MUI's Menu that handles visibility, icons, placement
+ * relative to trigger, and links as children.
+ *
+ * By default <SimpleMenu /> will render links using React Router's <Link />
+ * component for SPA routing. For external links or links where a full reload
+ * is desirable, an anchor tag is more appropriate. Use `LinkComponent: "a"`
+ * in such cases.
+ */
+const SimpleMenu: React.FC<SimpleMenuProps> = ({
   items,
-  actionsOrLinks,
   trigger: _trigger,
-}: SimpleMenuProps<K>) => {
-  const [open, setOpen] = useToggle(false)
+  onVisibilityChange,
+}) => {
+  const [open, _setOpen] = useState(false)
+  const setOpen = useCallback(
+    (newValue: boolean) => {
+      _setOpen(newValue)
+      if (newValue !== open) {
+        onVisibilityChange?.(newValue)
+      }
+    },
+    [open, onVisibilityChange],
+  )
+
   const [el, setEl] = useState<HTMLElement | null>(null)
 
   const trigger = useMemo(() => {
     return React.cloneElement(_trigger, {
       onClick: (e: React.MouseEvent) => {
-        setOpen((currentlyOpen) => !currentlyOpen)
+        setOpen(!open)
         _trigger.props.onClick?.(e)
       },
       ref: setEl,
     })
-  }, [_trigger, setOpen])
-
-  const handleItemClick: React.MouseEventHandler = useCallback(
-    (e) => {
-      const key = e.currentTarget.getAttribute("data-key") as K
-      invariant(key, "Missing data-key")
-      const actionOrLink = actionsOrLinks[key]
-      if (typeof actionOrLink === "function") {
-        actionOrLink()
-      }
-      setOpen(false)
-    },
-    [actionsOrLinks, setOpen],
-  )
+  }, [_trigger, setOpen, open])
 
   return (
     <>
       {trigger}
-      <Menu open={open} anchorEl={el} onClose={setOpen.off}>
+      <Menu open={open} anchorEl={el} onClose={() => setOpen(false)}>
         {items.map((item) => {
-          const actionOrLink = actionsOrLinks[item.key]
+          const linkProps = item.href
+            ? {
+                /**
+                 * Used to render the MenuItem as a react router link (or
+                 * specified link component) instead of a <li>.
+                 *
+                 * This is technically invalid HTML: The child of a <ul> should
+                 * be a <li>. However, this seems to be the most accessible way
+                 * to render a link inside MUI's <Menu /> components.
+                 *
+                 * See:
+                 *  - https://github.com/mui/material-ui/issues/33268
+                 *  - https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/examples/menu-button-links/
+                 *    shows a more correct implementation.
+                 */
+                component: item.LinkComponent ?? LinkBehavior,
+                href: item.href,
+              }
+            : {}
+          const onClick = () => {
+            item.onClick?.()
+            setOpen(false)
+          }
           return (
-            <MenuItem
-              key={item.key}
-              data-key={item.key}
-              onClick={handleItemClick}
-            >
+            <MenuItem {...linkProps} key={item.key} onClick={onClick}>
               {item.icon ? <ListItemIcon>{item.icon}</ListItemIcon> : null}
-              {typeof actionOrLink === "function" ? (
-                item.label
-              ) : (
-                <Link to={actionOrLink}>{item.label}</Link>
-              )}
+              {item.label}
             </MenuItem>
           )
         })}
