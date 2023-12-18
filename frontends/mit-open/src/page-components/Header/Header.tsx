@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from "react"
 import { styled, AppBar, Divider, Toolbar } from "ol-components"
 import { MITLogoLink } from "ol-utilities"
+import UserMenu from "./UserMenu"
+import { Link } from "react-router-dom"
 
 const Bar = styled(AppBar)`
   background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
@@ -27,12 +29,24 @@ const StyledDivider = styled(Divider)({
   margin: "0.5em 1em",
 })
 
+const BrandLink = styled(Link)`
+  font-weight: bold;
+  color: ${({ theme }) => theme.palette.secondary.main};
+`
+
+const Spacer = styled.div`
+  flex: 1;
+`
+
 const Header: FunctionComponent = () => {
   return (
     <Bar position="sticky">
       <StyledToolbar variant="dense">
         <LogoLink />
         <StyledDivider orientation="vertical" flexItem />
+        <BrandLink to="/">MIT Open</BrandLink>
+        <Spacer />
+        <UserMenu />
       </StyledToolbar>
     </Bar>
   )

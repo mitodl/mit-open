@@ -25,6 +25,8 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
         "search_page_size": settings.OPENSEARCH_DEFAULT_PAGE_SIZE,
         "user": {
             "id": user.id,
+            "first_name": getattr(user, "first_name", None),
+            "last_name": getattr(user, "last_name", None),
             "is_authenticated": bool(user.is_authenticated),
             "is_learning_path_editor": user.is_authenticated
             and (is_admin_user(request) or is_learning_path_editor(request)),
