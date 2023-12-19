@@ -499,7 +499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-core@npm:40.1.0, @ckeditor/ckeditor5-core@npm:^40.1.0":
+"@ckeditor/ckeditor5-core@npm:40.1.0":
   version: 40.1.0
   resolution: "@ckeditor/ckeditor5-core@npm:40.1.0"
   dependencies:
@@ -507,6 +507,17 @@ __metadata:
     "@ckeditor/ckeditor5-utils": 40.1.0
     lodash-es: 4.17.21
   checksum: 14a1504e9d1fb9a404591abf8d164899bff64c2b40f675ae20e15781af6c6b1d4d62cad881774b70aa4ed352e4bafda3ce3d2be38c7fde412ac5b7c3c41dcbd6
+  languageName: node
+  linkType: hard
+
+"@ckeditor/ckeditor5-core@npm:^40.1.0":
+  version: 40.2.0
+  resolution: "@ckeditor/ckeditor5-core@npm:40.2.0"
+  dependencies:
+    "@ckeditor/ckeditor5-engine": 40.2.0
+    "@ckeditor/ckeditor5-utils": 40.2.0
+    lodash-es: 4.17.21
+  checksum: 527f75065019f9a1fee86fca1ce354ce8845a0043a81c63360b0362e1acf4cc1548d55328101de4616f18b5e1ec00cbddea5050f902ab385ea63d3ca8d9d8cc5
   languageName: node
   linkType: hard
 
@@ -580,6 +591,16 @@ __metadata:
     "@ckeditor/ckeditor5-utils": 40.1.0
     lodash-es: 4.17.21
   checksum: e396658c2d39a106a778d36434f102783e4b3fccb0cb2a26255aed52ad6ad16b90e8c81ca43eb494deae59849ea13c7371681c4f6005d4aff93fef2ca6fac5fa
+  languageName: node
+  linkType: hard
+
+"@ckeditor/ckeditor5-engine@npm:40.2.0":
+  version: 40.2.0
+  resolution: "@ckeditor/ckeditor5-engine@npm:40.2.0"
+  dependencies:
+    "@ckeditor/ckeditor5-utils": 40.2.0
+    lodash-es: 4.17.21
+  checksum: 750c2f5eb8713b7f7fd37d605d861d3f0f1deb16919d025bdcdf57e42c5298f8e0e39a0a58f3a3efe7c1ecc6fb7b7e01d569115f01c5c28142d37b0c51f63b13
   languageName: node
   linkType: hard
 
@@ -767,6 +788,15 @@ __metadata:
   dependencies:
     lodash-es: 4.17.21
   checksum: a1c61db144a4d6d39f21f8d8bfb9951e53a2fede2ebb1cc78277cae2a3dffa2118d6a6f50dcaeaea472ea8cc53627b777ba829e70fd610e4e8b97dcac85e5b46
+  languageName: node
+  linkType: hard
+
+"@ckeditor/ckeditor5-utils@npm:40.2.0":
+  version: 40.2.0
+  resolution: "@ckeditor/ckeditor5-utils@npm:40.2.0"
+  dependencies:
+    lodash-es: 4.17.21
+  checksum: ba332a1911572dc54f93f6de2e848691fff2192f450197fc93cd37561a0c47b7c14d64d201dd08af3726ad9534b2b6e7d1493eb43ef33471c79506cfc480cfda
   languageName: node
   linkType: hard
 
