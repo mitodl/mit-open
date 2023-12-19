@@ -147,8 +147,9 @@ def load_offered_by(
     return resource.offered_by
 
 
-def load_resource_content_tags(
-    resource: LearningResource, content_tags_data: list[str]
+def load_content_tags(
+    learning_resources_obj: LearningResource or ContentFile,
+    content_tags_data: list[str],
 ) -> list[LearningResourceContentTag]:
     """Load the content tags for a resource into the database"""
     if content_tags_data is not None:
@@ -156,9 +157,9 @@ def load_resource_content_tags(
         for content_tag in content_tags_data:
             tag, _ = LearningResourceContentTag.objects.get_or_create(name=content_tag)
             tags.append(tag)
-        resource.resource_content_tags.set(tags)
-        resource.save()
-    return resource.resource_content_tags.all()
+        learning_resources_obj.content_tags.set(tags)
+        learning_resources_obj.save()
+    return learning_resources_obj.content_tags.all()
 
 
 def load_run(
@@ -225,7 +226,7 @@ def load_course(  # noqa: C901
     image_data = resource_data.pop("image", None)
     course_data = resource_data.pop("course", None)
     department_data = resource_data.pop("departments", [])
-    content_tags_data = resource_data.pop("resource_content_tags", [])
+    content_tags_data = resource_data.pop("content_tags", [])
 
     if readable_id in blocklist or not runs_data:
         resource_data["published"] = False
@@ -312,7 +313,7 @@ def load_course(  # noqa: C901
         load_offered_by(learning_resource, offered_bys_data)
         load_image(learning_resource, image_data)
         load_departments(learning_resource, department_data)
-        load_resource_content_tags(learning_resource, content_tags_data)
+        load_content_tags(learning_resource, content_tags_data)
 
         update_index(learning_resource, created)
     return learning_resource
@@ -490,9 +491,11 @@ def load_content_file(
         Int: the id of the object that was created or updated
     """
     try:
+        content_file_tags = content_file_data.pop("content_tags", [])
         content_file, _ = ContentFile.objects.update_or_create(
             run=course_run, key=content_file_data.get("key"), defaults=content_file_data
         )
+        load_content_tags(content_file, content_file_tags)
         return content_file.id  # noqa: TRY300
     except:  # noqa: E722
         log.exception(

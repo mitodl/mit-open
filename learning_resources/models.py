@@ -105,7 +105,7 @@ class LearningResource(TimestampedModel):
         "topics",
         "offered_by",
         "departments",
-        "resource_content_tags",
+        "content_tags",
         "runs",
         "runs__instructors",
         "runs__image",
@@ -120,7 +120,7 @@ class LearningResource(TimestampedModel):
         "children__child__topics",
         "children__child__image",
         "children__child__offered_by",
-        "children__child__resource_content_tags",
+        "children__child__content_tags",
     ]
 
     related_selects = [
@@ -158,7 +158,7 @@ class LearningResource(TimestampedModel):
     offered_by = models.ForeignKey(
         LearningResourceOfferor, null=True, on_delete=models.SET_NULL
     )
-    resource_content_tags = models.ManyToManyField(LearningResourceContentTag)
+    content_tags = models.ManyToManyField(LearningResourceContentTag)
     resources = models.ManyToManyField(
         "self", through="LearningResourceRelationship", symmetrical=False, blank=True
     )
@@ -234,7 +234,7 @@ class LearningResourceRun(TimestampedModel):
         LearningResourceImage, null=True, blank=True, on_delete=models.deletion.SET_NULL
     )
     level = ArrayField(
-        models.CharField(max_length=128), null=False, blank=False, default=[]
+        models.CharField(max_length=128), null=False, blank=False, default=list
     )
     slug = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
     availability = models.CharField(  # noqa: DJ001
@@ -358,12 +358,7 @@ class ContentFile(TimestampedModel):
     image_src = models.URLField(null=True, blank=True)  # noqa: DJ001
 
     url = models.TextField(null=True, blank=True)  # noqa: DJ001
-    short_url = models.TextField(null=True, blank=True)  # noqa: DJ001
     file_type = models.CharField(max_length=128, null=True, blank=True)  # noqa: DJ001
-    section = models.CharField(max_length=512, null=True, blank=True)  # noqa: DJ001
-    section_slug = models.CharField(  # noqa: DJ001
-        max_length=512, null=True, blank=True
-    )
 
     content = models.TextField(null=True, blank=True)  # noqa: DJ001
     content_title = models.CharField(  # noqa: DJ001
@@ -380,11 +375,7 @@ class ContentFile(TimestampedModel):
         default=constants.CONTENT_TYPE_FILE,
         max_length=10,
     )
-    learning_resource_types = ArrayField(
-        models.CharField(max_length=256, null=False, blank=False),
-        null=True,
-        blank=True,
-    )
+    content_tags = models.ManyToManyField(LearningResourceContentTag)
     published = models.BooleanField(default=True)
     checksum = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
 

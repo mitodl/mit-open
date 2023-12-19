@@ -163,28 +163,10 @@ export interface ContentFile {
   url?: string | null
   /**
    *
-   * @type {string}
+   * @type {Array<string>}
    * @memberof ContentFile
    */
-  short_url?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ContentFile
-   */
-  section?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ContentFile
-   */
-  section_slug?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ContentFile
-   */
-  content_category: string
+  content_feature_type: Array<string>
   /**
    *
    * @type {ContentTypeEnum}
@@ -391,7 +373,7 @@ export interface CourseResource {
    * @type {Array<string>}
    * @memberof CourseResource
    */
-  resource_content_tags: Array<string> | null
+  course_feature: Array<string> | null
   /**
    *
    * @type {Array<LearningResourceDepartment>}
@@ -1030,7 +1012,7 @@ export interface LearningPathResource {
    * @type {Array<string>}
    * @memberof LearningPathResource
    */
-  resource_content_tags: Array<string> | null
+  course_feature: Array<string> | null
   /**
    *
    * @type {Array<LearningResourceDepartment>}
@@ -1238,6 +1220,25 @@ export interface LearningResourceChild {
    * @memberof LearningResourceChild
    */
   child: number
+}
+/**
+ * Serializer for LearningResourceContentTag
+ * @export
+ * @interface LearningResourceContentTag
+ */
+export interface LearningResourceContentTag {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceContentTag
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceContentTag
+   */
+  name: string
 }
 /**
  * Serializer for LearningResourceDepartment
@@ -1768,7 +1769,7 @@ export interface MicroLearningPathRelationship {
    */
   id: number
   /**
-   *
+   * The id of the parent learning resource
    * @type {number}
    * @memberof MicroLearningPathRelationship
    */
@@ -1793,7 +1794,7 @@ export interface MicroUserListRelationship {
    */
   id: number
   /**
-   *
+   * The id of the parent learning resource
    * @type {number}
    * @memberof MicroUserListRelationship
    */
@@ -2021,6 +2022,37 @@ export interface PaginatedLearningResourceChildList {
    * @memberof PaginatedLearningResourceChildList
    */
   results?: Array<LearningResourceChild>
+}
+/**
+ *
+ * @export
+ * @interface PaginatedLearningResourceContentTagList
+ */
+export interface PaginatedLearningResourceContentTagList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedLearningResourceContentTagList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceContentTagList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceContentTagList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<LearningResourceContentTag>}
+   * @memberof PaginatedLearningResourceContentTagList
+   */
+  results?: Array<LearningResourceContentTag>
 }
 /**
  *
@@ -2689,7 +2721,7 @@ export interface PodcastEpisodeResource {
    * @type {Array<string>}
    * @memberof PodcastEpisodeResource
    */
-  resource_content_tags: Array<string> | null
+  course_feature: Array<string> | null
   /**
    *
    * @type {Array<LearningResourceDepartment>}
@@ -2934,7 +2966,7 @@ export interface PodcastResource {
    * @type {Array<string>}
    * @memberof PodcastResource
    */
-  resource_content_tags: Array<string> | null
+  course_feature: Array<string> | null
   /**
    *
    * @type {Array<LearningResourceDepartment>}
@@ -3181,7 +3213,7 @@ export interface ProgramResource {
    * @type {Array<string>}
    * @memberof ProgramResource
    */
-  resource_content_tags: Array<string> | null
+  course_feature: Array<string> | null
   /**
    *
    * @type {Array<LearningResourceDepartment>}
@@ -3593,6 +3625,7 @@ export const ArticlesApiAxiosParamCreator = function (
   return {
     /**
      * Viewset for Article viewing and editing.
+     * @summary Create
      * @param {ArticleRequest} ArticleRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3642,6 +3675,7 @@ export const ArticlesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Destroy
      * @param {number} id A unique integer value identifying this article.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3687,6 +3721,7 @@ export const ArticlesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -3737,6 +3772,7 @@ export const ArticlesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Partial Update
      * @param {number} id A unique integer value identifying this article.
      * @param {PatchedArticleRequest} [PatchedArticleRequest]
      * @param {*} [options] Override http request option.
@@ -3791,6 +3827,7 @@ export const ArticlesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this article.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3836,6 +3873,7 @@ export const ArticlesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Update
      * @param {number} id A unique integer value identifying this article.
      * @param {ArticleRequest} ArticleRequest
      * @param {*} [options] Override http request option.
@@ -3902,6 +3940,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
   return {
     /**
      * Viewset for Article viewing and editing.
+     * @summary Create
      * @param {ArticleRequest} ArticleRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3925,6 +3964,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Destroy
      * @param {number} id A unique integer value identifying this article.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3948,6 +3988,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -3977,6 +4018,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Partial Update
      * @param {number} id A unique integer value identifying this article.
      * @param {PatchedArticleRequest} [PatchedArticleRequest]
      * @param {*} [options] Override http request option.
@@ -4004,6 +4046,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this article.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4025,6 +4068,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Update
      * @param {number} id A unique integer value identifying this article.
      * @param {ArticleRequest} ArticleRequest
      * @param {*} [options] Override http request option.
@@ -4065,6 +4109,7 @@ export const ArticlesApiFactory = function (
   return {
     /**
      * Viewset for Article viewing and editing.
+     * @summary Create
      * @param {ArticlesApiArticlesCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4079,6 +4124,7 @@ export const ArticlesApiFactory = function (
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Destroy
      * @param {ArticlesApiArticlesDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4093,6 +4139,7 @@ export const ArticlesApiFactory = function (
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary List
      * @param {ArticlesApiArticlesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4111,6 +4158,7 @@ export const ArticlesApiFactory = function (
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Partial Update
      * @param {ArticlesApiArticlesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4129,6 +4177,7 @@ export const ArticlesApiFactory = function (
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Retrieve
      * @param {ArticlesApiArticlesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4143,6 +4192,7 @@ export const ArticlesApiFactory = function (
     },
     /**
      * Viewset for Article viewing and editing.
+     * @summary Update
      * @param {ArticlesApiArticlesUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4276,6 +4326,7 @@ export interface ArticlesApiArticlesUpdateRequest {
 export class ArticlesApi extends BaseAPI {
   /**
    * Viewset for Article viewing and editing.
+   * @summary Create
    * @param {ArticlesApiArticlesCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4292,6 +4343,7 @@ export class ArticlesApi extends BaseAPI {
 
   /**
    * Viewset for Article viewing and editing.
+   * @summary Destroy
    * @param {ArticlesApiArticlesDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4308,6 +4360,7 @@ export class ArticlesApi extends BaseAPI {
 
   /**
    * Viewset for Article viewing and editing.
+   * @summary List
    * @param {ArticlesApiArticlesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4324,6 +4377,7 @@ export class ArticlesApi extends BaseAPI {
 
   /**
    * Viewset for Article viewing and editing.
+   * @summary Partial Update
    * @param {ArticlesApiArticlesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4344,6 +4398,7 @@ export class ArticlesApi extends BaseAPI {
 
   /**
    * Viewset for Article viewing and editing.
+   * @summary Retrieve
    * @param {ArticlesApiArticlesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4360,6 +4415,7 @@ export class ArticlesApi extends BaseAPI {
 
   /**
    * Viewset for Article viewing and editing.
+   * @summary Update
    * @param {ArticlesApiArticlesUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4388,27 +4444,28 @@ export const ContentFileSearchApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * View for executing searches of content files
-     * @param {Array<'topic' | 'content_category' | 'platform' | 'offered_by'>} [aggregations]
-     * @param {Array<string>} [content_category]
-     * @param {Array<number>} [id]
-     * @param {number} [limit]
-     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers learning resources               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-     * @param {number} [offset]
-     * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform] The platform on which learning resources are offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * Search for content files
+     * @summary Search
+     * @param {Array<'topic' | 'content_feature_type' | 'platform' | 'offered_by'>} [aggregations] Show resource counts by category
+     * @param {Array<string>} [content_feature_type] The feature type of the content file. Possible options are at api/v1/course_features/
+     * @param {Array<number>} [id] The id value for the content file
+     * @param {number} [limit] Number of results to return per page
+     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results
+     * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform] The platform on which the learning resource id offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {string} [q] The search text
-     * @param {Array<number>} [resource_id]
-     * @param {Array<number>} [run_id]
+     * @param {Array<number>} [resource_id] The id value of the parent learning resource for the content file
+     * @param {Array<number>} [run_id] The id value of the run that the content file belongs to
      * @param {'id' | '-id' | 'resource_readable_id' | '-resource_readable_id'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;resource_readable_id&#x60; - resource_readable_id * &#x60;-resource_readable_id&#x60; - -resource_readable_id
-     * @param {Array<string>} [topic]
+     * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     contentFileSearchRetrieve: async (
       aggregations?: Array<
-        "topic" | "content_category" | "platform" | "offered_by"
+        "topic" | "content_feature_type" | "platform" | "offered_by"
       >,
-      content_category?: Array<string>,
+      content_feature_type?: Array<string>,
       id?: Array<number>,
       limit?: number,
       offered_by?: Array<
@@ -4469,8 +4526,8 @@ export const ContentFileSearchApiAxiosParamCreator = function (
         localVarQueryParameter["aggregations"] = aggregations
       }
 
-      if (content_category) {
-        localVarQueryParameter["content_category"] = content_category
+      if (content_feature_type) {
+        localVarQueryParameter["content_feature_type"] = content_feature_type
       }
 
       if (id) {
@@ -4539,27 +4596,28 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
     ContentFileSearchApiAxiosParamCreator(configuration)
   return {
     /**
-     * View for executing searches of content files
-     * @param {Array<'topic' | 'content_category' | 'platform' | 'offered_by'>} [aggregations]
-     * @param {Array<string>} [content_category]
-     * @param {Array<number>} [id]
-     * @param {number} [limit]
-     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers learning resources               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-     * @param {number} [offset]
-     * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform] The platform on which learning resources are offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * Search for content files
+     * @summary Search
+     * @param {Array<'topic' | 'content_feature_type' | 'platform' | 'offered_by'>} [aggregations] Show resource counts by category
+     * @param {Array<string>} [content_feature_type] The feature type of the content file. Possible options are at api/v1/course_features/
+     * @param {Array<number>} [id] The id value for the content file
+     * @param {number} [limit] Number of results to return per page
+     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results
+     * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform] The platform on which the learning resource id offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {string} [q] The search text
-     * @param {Array<number>} [resource_id]
-     * @param {Array<number>} [run_id]
+     * @param {Array<number>} [resource_id] The id value of the parent learning resource for the content file
+     * @param {Array<number>} [run_id] The id value of the run that the content file belongs to
      * @param {'id' | '-id' | 'resource_readable_id' | '-resource_readable_id'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - id * &#x60;-id&#x60; - -id * &#x60;resource_readable_id&#x60; - resource_readable_id * &#x60;-resource_readable_id&#x60; - -resource_readable_id
-     * @param {Array<string>} [topic]
+     * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async contentFileSearchRetrieve(
       aggregations?: Array<
-        "topic" | "content_category" | "platform" | "offered_by"
+        "topic" | "content_feature_type" | "platform" | "offered_by"
       >,
-      content_category?: Array<string>,
+      content_feature_type?: Array<string>,
       id?: Array<number>,
       limit?: number,
       offered_by?: Array<
@@ -4605,7 +4663,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.contentFileSearchRetrieve(
           aggregations,
-          content_category,
+          content_feature_type,
           id,
           limit,
           offered_by,
@@ -4640,7 +4698,8 @@ export const ContentFileSearchApiFactory = function (
   const localVarFp = ContentFileSearchApiFp(configuration)
   return {
     /**
-     * View for executing searches of content files
+     * Search for content files
+     * @summary Search
      * @param {ContentFileSearchApiContentFileSearchRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4652,7 +4711,7 @@ export const ContentFileSearchApiFactory = function (
       return localVarFp
         .contentFileSearchRetrieve(
           requestParameters.aggregations,
-          requestParameters.content_category,
+          requestParameters.content_feature_type,
           requestParameters.id,
           requestParameters.limit,
           requestParameters.offered_by,
@@ -4677,37 +4736,37 @@ export const ContentFileSearchApiFactory = function (
  */
 export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
   /**
-   *
-   * @type {Array<'topic' | 'content_category' | 'platform' | 'offered_by'>}
+   * Show resource counts by category
+   * @type {Array<'topic' | 'content_feature_type' | 'platform' | 'offered_by'>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly aggregations?: Array<
-    "topic" | "content_category" | "platform" | "offered_by"
+    "topic" | "content_feature_type" | "platform" | "offered_by"
   >
 
   /**
-   *
+   * The feature type of the content file. Possible options are at api/v1/course_features/
    * @type {Array<string>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
-  readonly content_category?: Array<string>
+  readonly content_feature_type?: Array<string>
 
   /**
-   *
+   * The id value for the content file
    * @type {Array<number>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly id?: Array<number>
 
   /**
-   *
+   * Number of results to return per page
    * @type {number}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly limit?: number
 
   /**
-   * The organization that offers learning resources               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
    * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
@@ -4724,14 +4783,14 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
   >
 
   /**
-   *
+   * The initial index from which to return the results
    * @type {number}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly offset?: number
 
   /**
-   * The platform on which learning resources are offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+   * The platform on which the learning resource id offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
@@ -4763,14 +4822,14 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
   readonly q?: string
 
   /**
-   *
+   * The id value of the parent learning resource for the content file
    * @type {Array<number>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly resource_id?: Array<number>
 
   /**
-   *
+   * The id value of the run that the content file belongs to
    * @type {Array<number>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
@@ -4788,7 +4847,7 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
     | "-resource_readable_id"
 
   /**
-   *
+   * The topic name. To see a list of options go to api/v1/topics/
    * @type {Array<string>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
@@ -4803,7 +4862,8 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
  */
 export class ContentFileSearchApi extends BaseAPI {
   /**
-   * View for executing searches of content files
+   * Search for content files
+   * @summary Search
    * @param {ContentFileSearchApiContentFileSearchRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4816,7 +4876,7 @@ export class ContentFileSearchApi extends BaseAPI {
     return ContentFileSearchApiFp(this.configuration)
       .contentFileSearchRetrieve(
         requestParameters.aggregations,
-        requestParameters.content_category,
+        requestParameters.content_feature_type,
         requestParameters.id,
         requestParameters.limit,
         requestParameters.offered_by,
@@ -4842,7 +4902,8 @@ export const ContentfilesApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for CpntentFiles
+     * Viewset for ContentFiles
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {number} [run]
@@ -4932,7 +4993,8 @@ export const ContentfilesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for CpntentFiles
+     * Viewset for ContentFiles
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4988,7 +5050,8 @@ export const ContentfilesApiFp = function (configuration?: Configuration) {
     ContentfilesApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for CpntentFiles
+     * Viewset for ContentFiles
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {number} [run]
@@ -5036,7 +5099,8 @@ export const ContentfilesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for CpntentFiles
+     * Viewset for ContentFiles
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5071,7 +5135,8 @@ export const ContentfilesApiFactory = function (
   const localVarFp = ContentfilesApiFp(configuration)
   return {
     /**
-     * Viewset for CpntentFiles
+     * Viewset for ContentFiles
+     * @summary List
      * @param {ContentfilesApiContentfilesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5095,7 +5160,8 @@ export const ContentfilesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for CpntentFiles
+     * Viewset for ContentFiles
+     * @summary Retrieve
      * @param {ContentfilesApiContentfilesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5196,7 +5262,8 @@ export interface ContentfilesApiContentfilesRetrieveRequest {
  */
 export class ContentfilesApi extends BaseAPI {
   /**
-   * Viewset for CpntentFiles
+   * Viewset for ContentFiles
+   * @summary List
    * @param {ContentfilesApiContentfilesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -5222,7 +5289,8 @@ export class ContentfilesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for CpntentFiles
+   * Viewset for ContentFiles
+   * @summary Retrieve
    * @param {ContentfilesApiContentfilesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -5239,6 +5307,310 @@ export class ContentfilesApi extends BaseAPI {
 }
 
 /**
+ * CourseFeaturesApi - axios parameter creator
+ * @export
+ */
+export const CourseFeaturesApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Course Features and Content Feature Types
+     * @summary List
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    courseFeaturesList: async (
+      limit?: number,
+      offset?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/course_features/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Course Features and Content Feature Types
+     * @summary Retrieve
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    courseFeaturesRetrieve: async (
+      id: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("courseFeaturesRetrieve", "id", id)
+      const localVarPath = `/api/v1/course_features/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * CourseFeaturesApi - functional programming interface
+ * @export
+ */
+export const CourseFeaturesApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    CourseFeaturesApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Course Features and Content Feature Types
+     * @summary List
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async courseFeaturesList(
+      limit?: number,
+      offset?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceContentTagList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.courseFeaturesList(
+          limit,
+          offset,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Course Features and Content Feature Types
+     * @summary Retrieve
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async courseFeaturesRetrieve(
+      id: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResourceContentTag>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.courseFeaturesRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+  }
+}
+
+/**
+ * CourseFeaturesApi - factory interface
+ * @export
+ */
+export const CourseFeaturesApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = CourseFeaturesApiFp(configuration)
+  return {
+    /**
+     * Course Features and Content Feature Types
+     * @summary List
+     * @param {CourseFeaturesApiCourseFeaturesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    courseFeaturesList(
+      requestParameters: CourseFeaturesApiCourseFeaturesListRequest = {},
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceContentTagList> {
+      return localVarFp
+        .courseFeaturesList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Course Features and Content Feature Types
+     * @summary Retrieve
+     * @param {CourseFeaturesApiCourseFeaturesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    courseFeaturesRetrieve(
+      requestParameters: CourseFeaturesApiCourseFeaturesRetrieveRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<LearningResourceContentTag> {
+      return localVarFp
+        .courseFeaturesRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for courseFeaturesList operation in CourseFeaturesApi.
+ * @export
+ * @interface CourseFeaturesApiCourseFeaturesListRequest
+ */
+export interface CourseFeaturesApiCourseFeaturesListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof CourseFeaturesApiCourseFeaturesList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof CourseFeaturesApiCourseFeaturesList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for courseFeaturesRetrieve operation in CourseFeaturesApi.
+ * @export
+ * @interface CourseFeaturesApiCourseFeaturesRetrieveRequest
+ */
+export interface CourseFeaturesApiCourseFeaturesRetrieveRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof CourseFeaturesApiCourseFeaturesRetrieve
+   */
+  readonly id: string
+}
+
+/**
+ * CourseFeaturesApi - object-oriented interface
+ * @export
+ * @class CourseFeaturesApi
+ * @extends {BaseAPI}
+ */
+export class CourseFeaturesApi extends BaseAPI {
+  /**
+   * Course Features and Content Feature Types
+   * @summary List
+   * @param {CourseFeaturesApiCourseFeaturesListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CourseFeaturesApi
+   */
+  public courseFeaturesList(
+    requestParameters: CourseFeaturesApiCourseFeaturesListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
+    return CourseFeaturesApiFp(this.configuration)
+      .courseFeaturesList(
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Course Features and Content Feature Types
+   * @summary Retrieve
+   * @param {CourseFeaturesApiCourseFeaturesRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CourseFeaturesApi
+   */
+  public courseFeaturesRetrieve(
+    requestParameters: CourseFeaturesApiCourseFeaturesRetrieveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return CourseFeaturesApiFp(this.configuration)
+      .courseFeaturesRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
  * CoursesApi - axios parameter creator
  * @export
  */
@@ -5247,7 +5619,8 @@ export const CoursesApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File List
      * @param {number} run__learning_resource
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -5321,7 +5694,8 @@ export const CoursesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
      * @param {number} run__learning_resource
      * @param {*} [options] Override http request option.
@@ -5377,8 +5751,9 @@ export const CoursesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of courses
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -5386,7 +5761,6 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -5394,6 +5768,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     coursesList: async (
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -5471,7 +5846,6 @@ export const CoursesApiAxiosParamCreator = function (
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -5510,6 +5884,10 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -5536,10 +5914,6 @@ export const CoursesApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
-      }
-
-      if (resource_content_tags !== undefined) {
-        localVarQueryParameter["resource_content_tags"] = resource_content_tags
       }
 
       if (resource_type !== undefined) {
@@ -5569,12 +5943,121 @@ export const CoursesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released Courses.
      * @summary List New
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+     * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {boolean} [professional]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+     * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    coursesNewRetrieve: async (
+    coursesNewList: async (
+      course_feature?: string,
+      department?:
+        | "1"
+        | "10"
+        | "11"
+        | "12"
+        | "14"
+        | "15"
+        | "16"
+        | "17"
+        | "18"
+        | "2"
+        | "20"
+        | "21A"
+        | "21G"
+        | "21H"
+        | "21L"
+        | "21M"
+        | "22"
+        | "24"
+        | "3"
+        | "4"
+        | "5"
+        | "6"
+        | "7"
+        | "8"
+        | "9"
+        | "CC"
+        | "CMS-W"
+        | "EC"
+        | "ES"
+        | "ESD"
+        | "HST"
+        | "IDS"
+        | "MAS"
+        | "PE"
+        | "RES"
+        | "STS"
+        | "WGS",
+      level?:
+        | "advanced"
+        | "graduate"
+        | "high_school"
+        | "intermediate"
+        | "introductory"
+        | "noncredit"
+        | "undergraduate",
+      limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
+      offset?: number,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      professional?: boolean,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
+      topic?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/courses/new/`
@@ -5593,6 +6076,50 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
+      if (department !== undefined) {
+        localVarQueryParameter["department"] = department
+      }
+
+      if (level !== undefined) {
+        localVarQueryParameter["level"] = level
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by !== undefined) {
+        localVarQueryParameter["offered_by"] = offered_by
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (professional !== undefined) {
+        localVarQueryParameter["professional"] = professional
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
+      }
+
+      if (topic !== undefined) {
+        localVarQueryParameter["topic"] = topic
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -5608,7 +6135,7 @@ export const CoursesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrieve a single course
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
@@ -5654,8 +6181,9 @@ export const CoursesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get a paginated list of upcoming $Courses.
+     * Get a paginated list of upcoming Courses.
      * @summary List Upcoming
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -5663,7 +6191,6 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -5671,6 +6198,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     coursesUpcomingList: async (
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -5748,7 +6276,6 @@ export const CoursesApiAxiosParamCreator = function (
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -5787,6 +6314,10 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -5813,10 +6344,6 @@ export const CoursesApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
-      }
-
-      if (resource_content_tags !== undefined) {
-        localVarQueryParameter["resource_content_tags"] = resource_content_tags
       }
 
       if (resource_type !== undefined) {
@@ -5856,7 +6383,8 @@ export const CoursesApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CoursesApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File List
      * @param {number} run__learning_resource
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -5895,7 +6423,8 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
      * @param {number} run__learning_resource
      * @param {*} [options] Override http request option.
@@ -5922,8 +6451,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of courses
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -5931,7 +6461,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -5939,6 +6468,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async coursesList(
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -6016,7 +6546,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -6045,6 +6574,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedCourseResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesList(
+        course_feature,
         department,
         level,
         limit,
@@ -6052,7 +6582,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         professional,
-        resource_content_tags,
         resource_type,
         sortby,
         topic,
@@ -6066,52 +6595,9 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released Courses.
      * @summary List New
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async coursesNewRetrieve(
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CourseResource>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.coursesNewRetrieve(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     * Retrieve a single learning resource.
-     * @summary Retrieve
-     * @param {number} id A unique integer value identifying this learning resource.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async coursesRetrieve(
-      id: number,
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CourseResource>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.coursesRetrieve(
-        id,
-        options,
-      )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     * Get a paginated list of upcoming $Courses.
-     * @summary List Upcoming
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -6119,14 +6605,14 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async coursesUpcomingList(
+    async coursesNewList(
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -6204,7 +6690,174 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
+      topic?: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedCourseResourceList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.coursesNewList(
+        course_feature,
+        department,
+        level,
+        limit,
+        offered_by,
+        offset,
+        platform,
+        professional,
+        resource_type,
+        sortby,
+        topic,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Retrieve a single course
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async coursesRetrieve(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CourseResource>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.coursesRetrieve(
+        id,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Get a paginated list of upcoming Courses.
+     * @summary List Upcoming
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+     * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {boolean} [professional]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+     * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async coursesUpcomingList(
+      course_feature?: string,
+      department?:
+        | "1"
+        | "10"
+        | "11"
+        | "12"
+        | "14"
+        | "15"
+        | "16"
+        | "17"
+        | "18"
+        | "2"
+        | "20"
+        | "21A"
+        | "21G"
+        | "21H"
+        | "21L"
+        | "21M"
+        | "22"
+        | "24"
+        | "3"
+        | "4"
+        | "5"
+        | "6"
+        | "7"
+        | "8"
+        | "9"
+        | "CC"
+        | "CMS-W"
+        | "EC"
+        | "ES"
+        | "ESD"
+        | "HST"
+        | "IDS"
+        | "MAS"
+        | "PE"
+        | "RES"
+        | "STS"
+        | "WGS",
+      level?:
+        | "advanced"
+        | "graduate"
+        | "high_school"
+        | "intermediate"
+        | "introductory"
+        | "noncredit"
+        | "undergraduate",
+      limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
+      offset?: number,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      professional?: boolean,
       resource_type?:
         | "course"
         | "learning_path"
@@ -6234,6 +6887,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.coursesUpcomingList(
+          course_feature,
           department,
           level,
           limit,
@@ -6241,7 +6895,6 @@ export const CoursesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
-          resource_content_tags,
           resource_type,
           sortby,
           topic,
@@ -6269,7 +6922,8 @@ export const CoursesApiFactory = function (
   const localVarFp = CoursesApiFp(configuration)
   return {
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File List
      * @param {CoursesApiCoursesContentfilesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6290,7 +6944,8 @@ export const CoursesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File Retrieve
      * @param {CoursesApiCoursesContentfilesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6308,7 +6963,7 @@ export const CoursesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of courses
      * @summary List
      * @param {CoursesApiCoursesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -6320,6 +6975,7 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedCourseResourceList> {
       return localVarFp
         .coursesList(
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -6327,7 +6983,6 @@ export const CoursesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
-          requestParameters.resource_content_tags,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -6336,20 +6991,35 @@ export const CoursesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released Courses.
      * @summary List New
+     * @param {CoursesApiCoursesNewListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    coursesNewRetrieve(
+    coursesNewList(
+      requestParameters: CoursesApiCoursesNewListRequest = {},
       options?: AxiosRequestConfig,
-    ): AxiosPromise<CourseResource> {
+    ): AxiosPromise<PaginatedCourseResourceList> {
       return localVarFp
-        .coursesNewRetrieve(options)
+        .coursesNewList(
+          requestParameters.course_feature,
+          requestParameters.department,
+          requestParameters.level,
+          requestParameters.limit,
+          requestParameters.offered_by,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.professional,
+          requestParameters.resource_type,
+          requestParameters.sortby,
+          requestParameters.topic,
+          options,
+        )
         .then((request) => request(axios, basePath))
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrieve a single course
      * @summary Retrieve
      * @param {CoursesApiCoursesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -6364,7 +7034,7 @@ export const CoursesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get a paginated list of upcoming $Courses.
+     * Get a paginated list of upcoming Courses.
      * @summary List Upcoming
      * @param {CoursesApiCoursesUpcomingListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -6376,6 +7046,7 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedCourseResourceList> {
       return localVarFp
         .coursesUpcomingList(
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -6383,7 +7054,6 @@ export const CoursesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
-          requestParameters.resource_content_tags,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -6464,6 +7134,13 @@ export interface CoursesApiCoursesContentfilesRetrieveRequest {
  */
 export interface CoursesApiCoursesListRequest {
   /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly course_feature?: string
+
+  /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
    * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
    * @memberof CoursesApiCoursesList
@@ -6581,13 +7258,6 @@ export interface CoursesApiCoursesListRequest {
    * @memberof CoursesApiCoursesList
    */
   readonly professional?: boolean
-
-  /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
-   * @type {string}
-   * @memberof CoursesApiCoursesList
-   */
-  readonly resource_content_tags?: string
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
@@ -6629,6 +7299,177 @@ export interface CoursesApiCoursesListRequest {
 }
 
 /**
+ * Request parameters for coursesNewList operation in CoursesApi.
+ * @export
+ * @interface CoursesApiCoursesNewListRequest
+ */
+export interface CoursesApiCoursesNewListRequest {
+  /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly course_feature?: string
+
+  /**
+   * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+   * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly department?:
+    | "1"
+    | "10"
+    | "11"
+    | "12"
+    | "14"
+    | "15"
+    | "16"
+    | "17"
+    | "18"
+    | "2"
+    | "20"
+    | "21A"
+    | "21G"
+    | "21H"
+    | "21L"
+    | "21M"
+    | "22"
+    | "24"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "CC"
+    | "CMS-W"
+    | "EC"
+    | "ES"
+    | "ESD"
+    | "HST"
+    | "IDS"
+    | "MAS"
+    | "PE"
+    | "RES"
+    | "STS"
+    | "WGS"
+
+  /**
+   * The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+   * @type {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly level?:
+    | "advanced"
+    | "graduate"
+    | "high_school"
+    | "intermediate"
+    | "introductory"
+    | "noncredit"
+    | "undergraduate"
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly limit?: number
+
+  /**
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly offered_by?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "mitpe"
+    | "mitx"
+    | "ocw"
+    | "scc"
+    | "see"
+    | "xpro"
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly offset?: number
+
+  /**
+   * The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
+   *
+   * @type {boolean}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly professional?: boolean
+
+  /**
+   * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
+
+  /**
+   * Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
+   * @type {string}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly topic?: string
+}
+
+/**
  * Request parameters for coursesRetrieve operation in CoursesApi.
  * @export
  * @interface CoursesApiCoursesRetrieveRequest
@@ -6648,6 +7489,13 @@ export interface CoursesApiCoursesRetrieveRequest {
  * @interface CoursesApiCoursesUpcomingListRequest
  */
 export interface CoursesApiCoursesUpcomingListRequest {
+  /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof CoursesApiCoursesUpcomingList
+   */
+  readonly course_feature?: string
+
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
    * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
@@ -6766,13 +7614,6 @@ export interface CoursesApiCoursesUpcomingListRequest {
    * @memberof CoursesApiCoursesUpcomingList
    */
   readonly professional?: boolean
-
-  /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
-   * @type {string}
-   * @memberof CoursesApiCoursesUpcomingList
-   */
-  readonly resource_content_tags?: string
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
@@ -6821,7 +7662,8 @@ export interface CoursesApiCoursesUpcomingListRequest {
  */
 export class CoursesApi extends BaseAPI {
   /**
-   * Viewset for LearningResource nested ContentFiles
+   * Show content files for a learning resource
+   * @summary Learning Resource Content File List
    * @param {CoursesApiCoursesContentfilesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -6844,7 +7686,8 @@ export class CoursesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningResource nested ContentFiles
+   * Show content files for a learning resource
+   * @summary Learning Resource Content File Retrieve
    * @param {CoursesApiCoursesContentfilesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -6864,7 +7707,7 @@ export class CoursesApi extends BaseAPI {
   }
 
   /**
-   * Get a paginated list of learning resources.
+   * Get a paginated list of courses
    * @summary List
    * @param {CoursesApiCoursesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -6877,6 +7720,7 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesList(
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -6884,7 +7728,6 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
-        requestParameters.resource_content_tags,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -6894,20 +7737,37 @@ export class CoursesApi extends BaseAPI {
   }
 
   /**
-   * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+   * Get a paginated list of newly released Courses.
    * @summary List New
+   * @param {CoursesApiCoursesNewListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CoursesApi
    */
-  public coursesNewRetrieve(options?: AxiosRequestConfig) {
+  public coursesNewList(
+    requestParameters: CoursesApiCoursesNewListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
     return CoursesApiFp(this.configuration)
-      .coursesNewRetrieve(options)
+      .coursesNewList(
+        requestParameters.course_feature,
+        requestParameters.department,
+        requestParameters.level,
+        requestParameters.limit,
+        requestParameters.offered_by,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.professional,
+        requestParameters.resource_type,
+        requestParameters.sortby,
+        requestParameters.topic,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * Retrieve a single learning resource.
+   * Retrieve a single course
    * @summary Retrieve
    * @param {CoursesApiCoursesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -6924,7 +7784,7 @@ export class CoursesApi extends BaseAPI {
   }
 
   /**
-   * Get a paginated list of upcoming $Courses.
+   * Get a paginated list of upcoming Courses.
    * @summary List Upcoming
    * @param {CoursesApiCoursesUpcomingListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -6937,6 +7797,7 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesUpcomingList(
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -6944,7 +7805,6 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
-        requestParameters.resource_content_tags,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -6964,7 +7824,7 @@ export const DepartmentsApiAxiosParamCreator = function (
   return {
     /**
      * MIT academic departments
-     * @summary List of departments
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -7015,7 +7875,7 @@ export const DepartmentsApiAxiosParamCreator = function (
     },
     /**
      * MIT academic departments
-     * @summary Department details
+     * @summary Retrieve
      * @param {string} department_id A unique value identifying this learning resource department.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7072,7 +7932,7 @@ export const DepartmentsApiFp = function (configuration?: Configuration) {
   return {
     /**
      * MIT academic departments
-     * @summary List of departments
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -7102,7 +7962,7 @@ export const DepartmentsApiFp = function (configuration?: Configuration) {
     },
     /**
      * MIT academic departments
-     * @summary Department details
+     * @summary Retrieve
      * @param {string} department_id A unique value identifying this learning resource department.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7144,7 +8004,7 @@ export const DepartmentsApiFactory = function (
   return {
     /**
      * MIT academic departments
-     * @summary List of departments
+     * @summary List
      * @param {DepartmentsApiDepartmentsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7163,7 +8023,7 @@ export const DepartmentsApiFactory = function (
     },
     /**
      * MIT academic departments
-     * @summary Department details
+     * @summary Retrieve
      * @param {DepartmentsApiDepartmentsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7223,7 +8083,7 @@ export interface DepartmentsApiDepartmentsRetrieveRequest {
 export class DepartmentsApi extends BaseAPI {
   /**
    * MIT academic departments
-   * @summary List of departments
+   * @summary List
    * @param {DepartmentsApiDepartmentsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7244,7 +8104,7 @@ export class DepartmentsApi extends BaseAPI {
 
   /**
    * MIT academic departments
-   * @summary Department details
+   * @summary Retrieve
    * @param {DepartmentsApiDepartmentsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7270,6 +8130,7 @@ export const FieldsApiAxiosParamCreator = function (
   return {
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Create
      * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7323,6 +8184,7 @@ export const FieldsApiAxiosParamCreator = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Destroy
      * @param {string} field_name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7368,6 +8230,7 @@ export const FieldsApiAxiosParamCreator = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -7418,6 +8281,7 @@ export const FieldsApiAxiosParamCreator = function (
     },
     /**
      * View for listing and adding moderators
+     * @summary Field Moderators Create
      * @param {string} field_name
      * @param {FieldModeratorRequest} [FieldModeratorRequest]
      * @param {*} [options] Override http request option.
@@ -7472,6 +8336,7 @@ export const FieldsApiAxiosParamCreator = function (
     },
     /**
      * Remove the user from the moderator groups for this website
+     * @summary Field Moderators Destroy
      * @param {string} field_name
      * @param {string} moderator_name
      * @param {*} [options] Override http request option.
@@ -7528,6 +8393,7 @@ export const FieldsApiAxiosParamCreator = function (
     },
     /**
      * View for listing and adding moderators
+     * @summary Field Moderators List
      * @param {string} field_name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7573,6 +8439,7 @@ export const FieldsApiAxiosParamCreator = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Partial Update
      * @param {string} field_name
      * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
      * @param {*} [options] Override http request option.
@@ -7627,6 +8494,7 @@ export const FieldsApiAxiosParamCreator = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Retrieve
      * @param {string} field_name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7672,6 +8540,7 @@ export const FieldsApiAxiosParamCreator = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Update
      * @param {string} field_name
      * @param {FieldChannelWriteRequest} FieldChannelWriteRequest
      * @param {*} [options] Override http request option.
@@ -7742,6 +8611,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
   return {
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Create
      * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7765,6 +8635,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Destroy
      * @param {string} field_name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7788,6 +8659,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -7817,6 +8689,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     },
     /**
      * View for listing and adding moderators
+     * @summary Field Moderators Create
      * @param {string} field_name
      * @param {FieldModeratorRequest} [FieldModeratorRequest]
      * @param {*} [options] Override http request option.
@@ -7844,6 +8717,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Remove the user from the moderator groups for this website
+     * @summary Field Moderators Destroy
      * @param {string} field_name
      * @param {string} moderator_name
      * @param {*} [options] Override http request option.
@@ -7871,6 +8745,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     },
     /**
      * View for listing and adding moderators
+     * @summary Field Moderators List
      * @param {string} field_name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7898,6 +8773,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Partial Update
      * @param {string} field_name
      * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
      * @param {*} [options] Override http request option.
@@ -7925,6 +8801,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Retrieve
      * @param {string} field_name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7948,6 +8825,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Update
      * @param {string} field_name
      * @param {FieldChannelWriteRequest} FieldChannelWriteRequest
      * @param {*} [options] Override http request option.
@@ -7988,6 +8866,7 @@ export const FieldsApiFactory = function (
   return {
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Create
      * @param {FieldsApiFieldsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8002,6 +8881,7 @@ export const FieldsApiFactory = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Destroy
      * @param {FieldsApiFieldsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8016,6 +8896,7 @@ export const FieldsApiFactory = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary List
      * @param {FieldsApiFieldsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8030,6 +8911,7 @@ export const FieldsApiFactory = function (
     },
     /**
      * View for listing and adding moderators
+     * @summary Field Moderators Create
      * @param {FieldsApiFieldsModeratorsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8048,6 +8930,7 @@ export const FieldsApiFactory = function (
     },
     /**
      * Remove the user from the moderator groups for this website
+     * @summary Field Moderators Destroy
      * @param {FieldsApiFieldsModeratorsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8066,6 +8949,7 @@ export const FieldsApiFactory = function (
     },
     /**
      * View for listing and adding moderators
+     * @summary Field Moderators List
      * @param {FieldsApiFieldsModeratorsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8080,6 +8964,7 @@ export const FieldsApiFactory = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Partial Update
      * @param {FieldsApiFieldsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8098,6 +8983,7 @@ export const FieldsApiFactory = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Retrieve
      * @param {FieldsApiFieldsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8112,6 +8998,7 @@ export const FieldsApiFactory = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Update
      * @param {FieldsApiFieldsUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8301,6 +9188,7 @@ export interface FieldsApiFieldsUpdateRequest {
 export class FieldsApi extends BaseAPI {
   /**
    * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @summary Create
    * @param {FieldsApiFieldsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8317,6 +9205,7 @@ export class FieldsApi extends BaseAPI {
 
   /**
    * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @summary Destroy
    * @param {FieldsApiFieldsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8333,6 +9222,7 @@ export class FieldsApi extends BaseAPI {
 
   /**
    * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @summary List
    * @param {FieldsApiFieldsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8349,6 +9239,7 @@ export class FieldsApi extends BaseAPI {
 
   /**
    * View for listing and adding moderators
+   * @summary Field Moderators Create
    * @param {FieldsApiFieldsModeratorsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8369,6 +9260,7 @@ export class FieldsApi extends BaseAPI {
 
   /**
    * Remove the user from the moderator groups for this website
+   * @summary Field Moderators Destroy
    * @param {FieldsApiFieldsModeratorsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8389,6 +9281,7 @@ export class FieldsApi extends BaseAPI {
 
   /**
    * View for listing and adding moderators
+   * @summary Field Moderators List
    * @param {FieldsApiFieldsModeratorsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8405,6 +9298,7 @@ export class FieldsApi extends BaseAPI {
 
   /**
    * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @summary Partial Update
    * @param {FieldsApiFieldsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8425,6 +9319,7 @@ export class FieldsApi extends BaseAPI {
 
   /**
    * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @summary Retrieve
    * @param {FieldsApiFieldsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8441,6 +9336,7 @@ export class FieldsApi extends BaseAPI {
 
   /**
    * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * @summary Update
    * @param {FieldsApiFieldsUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8469,7 +9365,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File List
      * @param {number} run__learning_resource
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -8543,7 +9440,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
      * @param {number} run__learning_resource
      * @param {*} [options] Override http request option.
@@ -8599,7 +9497,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningResource related resources
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -8663,7 +9562,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningResource related resources
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -8717,6 +9617,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -8724,7 +9625,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -8732,6 +9632,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesList: async (
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -8809,7 +9710,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -8848,6 +9748,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -8874,10 +9778,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
-      }
-
-      if (resource_content_tags !== undefined) {
-        localVarQueryParameter["resource_content_tags"] = resource_content_tags
       }
 
       if (resource_type !== undefined) {
@@ -8907,12 +9807,121 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released Learning Resources.
      * @summary List New
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+     * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {boolean} [professional]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+     * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    learningResourcesNewRetrieve: async (
+    learningResourcesNewList: async (
+      course_feature?: string,
+      department?:
+        | "1"
+        | "10"
+        | "11"
+        | "12"
+        | "14"
+        | "15"
+        | "16"
+        | "17"
+        | "18"
+        | "2"
+        | "20"
+        | "21A"
+        | "21G"
+        | "21H"
+        | "21L"
+        | "21M"
+        | "22"
+        | "24"
+        | "3"
+        | "4"
+        | "5"
+        | "6"
+        | "7"
+        | "8"
+        | "9"
+        | "CC"
+        | "CMS-W"
+        | "EC"
+        | "ES"
+        | "ESD"
+        | "HST"
+        | "IDS"
+        | "MAS"
+        | "PE"
+        | "RES"
+        | "STS"
+        | "WGS",
+      level?:
+        | "advanced"
+        | "graduate"
+        | "high_school"
+        | "intermediate"
+        | "introductory"
+        | "noncredit"
+        | "undergraduate",
+      limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
+      offset?: number,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      professional?: boolean,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
+      topic?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources/new/`
@@ -8930,6 +9939,50 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
+      if (department !== undefined) {
+        localVarQueryParameter["department"] = department
+      }
+
+      if (level !== undefined) {
+        localVarQueryParameter["level"] = level
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by !== undefined) {
+        localVarQueryParameter["offered_by"] = offered_by
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (professional !== undefined) {
+        localVarQueryParameter["professional"] = professional
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
+      }
+
+      if (topic !== undefined) {
+        localVarQueryParameter["topic"] = topic
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -8992,8 +10045,9 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get a paginated list of upcoming $Learning Resources.
+     * Get a paginated list of upcoming Learning Resources.
      * @summary List Upcoming
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -9001,7 +10055,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -9009,6 +10062,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesUpcomingList: async (
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -9086,7 +10140,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -9125,6 +10178,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -9151,10 +10208,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
-      }
-
-      if (resource_content_tags !== undefined) {
-        localVarQueryParameter["resource_content_tags"] = resource_content_tags
       }
 
       if (resource_type !== undefined) {
@@ -9195,7 +10248,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     LearningResourcesApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File List
      * @param {number} run__learning_resource
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -9234,7 +10288,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
      * @param {number} run__learning_resource
      * @param {*} [options] Override http request option.
@@ -9261,7 +10316,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningResource related resources
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -9297,7 +10353,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningResource related resources
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -9329,6 +10386,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -9336,7 +10394,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -9344,6 +10401,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesList(
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -9421,7 +10479,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -9451,6 +10508,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesList(
+          course_feature,
           department,
           level,
           limit,
@@ -9458,7 +10516,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
-          resource_content_tags,
           resource_type,
           sortby,
           topic,
@@ -9472,21 +10529,143 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released Learning Resources.
      * @summary List New
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+     * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {boolean} [professional]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+     * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async learningResourcesNewRetrieve(
+    async learningResourcesNewList(
+      course_feature?: string,
+      department?:
+        | "1"
+        | "10"
+        | "11"
+        | "12"
+        | "14"
+        | "15"
+        | "16"
+        | "17"
+        | "18"
+        | "2"
+        | "20"
+        | "21A"
+        | "21G"
+        | "21H"
+        | "21L"
+        | "21M"
+        | "22"
+        | "24"
+        | "3"
+        | "4"
+        | "5"
+        | "6"
+        | "7"
+        | "8"
+        | "9"
+        | "CC"
+        | "CMS-W"
+        | "EC"
+        | "ES"
+        | "ESD"
+        | "HST"
+        | "IDS"
+        | "MAS"
+        | "PE"
+        | "RES"
+        | "STS"
+        | "WGS",
+      level?:
+        | "advanced"
+        | "graduate"
+        | "high_school"
+        | "intermediate"
+        | "introductory"
+        | "noncredit"
+        | "undergraduate",
+      limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
+      offset?: number,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      professional?: boolean,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
+      topic?: string,
       options?: AxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<LearningResource>
+      ) => AxiosPromise<PaginatedLearningResourceList>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningResourcesNewRetrieve(options)
+        await localVarAxiosParamCreator.learningResourcesNewList(
+          course_feature,
+          department,
+          level,
+          limit,
+          offered_by,
+          offset,
+          platform,
+          professional,
+          resource_type,
+          sortby,
+          topic,
+          options,
+        )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -9520,8 +10699,9 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get a paginated list of upcoming $Learning Resources.
+     * Get a paginated list of upcoming Learning Resources.
      * @summary List Upcoming
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -9529,7 +10709,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -9537,6 +10716,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesUpcomingList(
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -9614,7 +10794,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -9644,6 +10823,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesUpcomingList(
+          course_feature,
           department,
           level,
           limit,
@@ -9651,7 +10831,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
-          resource_content_tags,
           resource_type,
           sortby,
           topic,
@@ -9679,7 +10858,8 @@ export const LearningResourcesApiFactory = function (
   const localVarFp = LearningResourcesApiFp(configuration)
   return {
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File List
      * @param {LearningResourcesApiLearningResourcesContentfilesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9700,7 +10880,8 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningResource nested ContentFiles
+     * Show content files for a learning resource
+     * @summary Learning Resource Content File Retrieve
      * @param {LearningResourcesApiLearningResourcesContentfilesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9718,7 +10899,8 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningResource related resources
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
      * @param {LearningResourcesApiLearningResourcesItemsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9738,7 +10920,8 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningResource related resources
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
      * @param {LearningResourcesApiLearningResourcesItemsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9768,6 +10951,7 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesList(
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -9775,7 +10959,6 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
-          requestParameters.resource_content_tags,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -9784,16 +10967,31 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released Learning Resources.
      * @summary List New
+     * @param {LearningResourcesApiLearningResourcesNewListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    learningResourcesNewRetrieve(
+    learningResourcesNewList(
+      requestParameters: LearningResourcesApiLearningResourcesNewListRequest = {},
       options?: AxiosRequestConfig,
-    ): AxiosPromise<LearningResource> {
+    ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
-        .learningResourcesNewRetrieve(options)
+        .learningResourcesNewList(
+          requestParameters.course_feature,
+          requestParameters.department,
+          requestParameters.level,
+          requestParameters.limit,
+          requestParameters.offered_by,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.professional,
+          requestParameters.resource_type,
+          requestParameters.sortby,
+          requestParameters.topic,
+          options,
+        )
         .then((request) => request(axios, basePath))
     },
     /**
@@ -9812,7 +11010,7 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get a paginated list of upcoming $Learning Resources.
+     * Get a paginated list of upcoming Learning Resources.
      * @summary List Upcoming
      * @param {LearningResourcesApiLearningResourcesUpcomingListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -9824,6 +11022,7 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesUpcomingList(
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -9831,7 +11030,6 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
-          requestParameters.resource_content_tags,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -9968,6 +11166,13 @@ export interface LearningResourcesApiLearningResourcesItemsRetrieveRequest {
  */
 export interface LearningResourcesApiLearningResourcesListRequest {
   /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly course_feature?: string
+
+  /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
    * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
    * @memberof LearningResourcesApiLearningResourcesList
@@ -10085,13 +11290,6 @@ export interface LearningResourcesApiLearningResourcesListRequest {
    * @memberof LearningResourcesApiLearningResourcesList
    */
   readonly professional?: boolean
-
-  /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
-   * @type {string}
-   * @memberof LearningResourcesApiLearningResourcesList
-   */
-  readonly resource_content_tags?: string
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
@@ -10133,6 +11331,177 @@ export interface LearningResourcesApiLearningResourcesListRequest {
 }
 
 /**
+ * Request parameters for learningResourcesNewList operation in LearningResourcesApi.
+ * @export
+ * @interface LearningResourcesApiLearningResourcesNewListRequest
+ */
+export interface LearningResourcesApiLearningResourcesNewListRequest {
+  /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly course_feature?: string
+
+  /**
+   * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+   * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly department?:
+    | "1"
+    | "10"
+    | "11"
+    | "12"
+    | "14"
+    | "15"
+    | "16"
+    | "17"
+    | "18"
+    | "2"
+    | "20"
+    | "21A"
+    | "21G"
+    | "21H"
+    | "21L"
+    | "21M"
+    | "22"
+    | "24"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "CC"
+    | "CMS-W"
+    | "EC"
+    | "ES"
+    | "ESD"
+    | "HST"
+    | "IDS"
+    | "MAS"
+    | "PE"
+    | "RES"
+    | "STS"
+    | "WGS"
+
+  /**
+   * The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+   * @type {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly level?:
+    | "advanced"
+    | "graduate"
+    | "high_school"
+    | "intermediate"
+    | "introductory"
+    | "noncredit"
+    | "undergraduate"
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly limit?: number
+
+  /**
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly offered_by?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "mitpe"
+    | "mitx"
+    | "ocw"
+    | "scc"
+    | "see"
+    | "xpro"
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly offset?: number
+
+  /**
+   * The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly professional?: boolean
+
+  /**
+   * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
+
+  /**
+   * Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly topic?: string
+}
+
+/**
  * Request parameters for learningResourcesRetrieve operation in LearningResourcesApi.
  * @export
  * @interface LearningResourcesApiLearningResourcesRetrieveRequest
@@ -10152,6 +11521,13 @@ export interface LearningResourcesApiLearningResourcesRetrieveRequest {
  * @interface LearningResourcesApiLearningResourcesUpcomingListRequest
  */
 export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
+  /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesUpcomingList
+   */
+  readonly course_feature?: string
+
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
    * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
@@ -10270,13 +11646,6 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
    */
   readonly professional?: boolean
-
-  /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
-   * @type {string}
-   * @memberof LearningResourcesApiLearningResourcesUpcomingList
-   */
-  readonly resource_content_tags?: string
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
@@ -10325,7 +11694,8 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
  */
 export class LearningResourcesApi extends BaseAPI {
   /**
-   * Viewset for LearningResource nested ContentFiles
+   * Show content files for a learning resource
+   * @summary Learning Resource Content File List
    * @param {LearningResourcesApiLearningResourcesContentfilesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -10348,7 +11718,8 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningResource nested ContentFiles
+   * Show content files for a learning resource
+   * @summary Learning Resource Content File Retrieve
    * @param {LearningResourcesApiLearningResourcesContentfilesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -10368,7 +11739,8 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningResource related resources
+   * Get a list of related learning resources for a learning resource.
+   * @summary Nested Learning Resource List
    * @param {LearningResourcesApiLearningResourcesItemsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -10390,7 +11762,8 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningResource related resources
+   * Get a singe related learning resource for a learning resource.
+   * @summary Nested Learning Resource Retrieve
    * @param {LearningResourcesApiLearningResourcesItemsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -10423,6 +11796,7 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesList(
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -10430,7 +11804,6 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
-        requestParameters.resource_content_tags,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -10440,15 +11813,32 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+   * Get a paginated list of newly released Learning Resources.
    * @summary List New
+   * @param {LearningResourcesApiLearningResourcesNewListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LearningResourcesApi
    */
-  public learningResourcesNewRetrieve(options?: AxiosRequestConfig) {
+  public learningResourcesNewList(
+    requestParameters: LearningResourcesApiLearningResourcesNewListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
     return LearningResourcesApiFp(this.configuration)
-      .learningResourcesNewRetrieve(options)
+      .learningResourcesNewList(
+        requestParameters.course_feature,
+        requestParameters.department,
+        requestParameters.level,
+        requestParameters.limit,
+        requestParameters.offered_by,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.professional,
+        requestParameters.resource_type,
+        requestParameters.sortby,
+        requestParameters.topic,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -10470,7 +11860,7 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Get a paginated list of upcoming $Learning Resources.
+   * Get a paginated list of upcoming Learning Resources.
    * @summary List Upcoming
    * @param {LearningResourcesApiLearningResourcesUpcomingListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -10483,6 +11873,7 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesUpcomingList(
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -10490,7 +11881,6 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
-        requestParameters.resource_content_tags,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -10509,22 +11899,23 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * View for executing searches of learning resources
-     * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>} [aggregations]
-     * @param {boolean} [certification] true if the learning resource offers a certifacate
-     * @param {Array<'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>} [department] The department that offers learning resources               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
-     * @param {Array<number>} [id]
-     * @param {Array<string>} [level]
-     * @param {number} [limit]
-     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers learning resources               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-     * @param {number} [offset]
-     * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform] The platform on which learning resources are offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * Search for learning resources
+     * @summary Search
+     * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional'>} [aggregations] Show resource counts by category
+     * @param {boolean} [certification] True if the learning resource offers a certificate
+     * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
+     * @param {Array<'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {Array<number>} [id] The id value for the learning resource
+     * @param {Array<'undergraduate' | 'graduate' | 'high_school' | 'noncredit' | 'advanced' | 'intermediate' | 'introductory'>} [level]
+     * @param {number} [limit] Number of results to return per page
+     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results
+     * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform] The platform on which the learning resource id offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {string} [q] The search text
-     * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning_path' | 'podcast' | 'podcast_episode'>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode
-     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'created_on' | '-created_on' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
-     * @param {Array<string>} [topic]
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'created_on' | '-created_on' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+     * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -10537,10 +11928,11 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         | "topic"
         | "department"
         | "level"
-        | "resource_content_tags"
+        | "course_feature"
         | "professional"
       >,
       certification?: boolean,
+      course_feature?: Array<string>,
       department?: Array<
         | "1"
         | "2"
@@ -10581,7 +11973,15 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         | "WGS"
       >,
       id?: Array<number>,
-      level?: Array<string>,
+      level?: Array<
+        | "undergraduate"
+        | "graduate"
+        | "high_school"
+        | "noncredit"
+        | "advanced"
+        | "intermediate"
+        | "introductory"
+      >,
       limit?: number,
       offered_by?: Array<
         | "mitx"
@@ -10616,7 +12016,6 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       >,
       professional?: boolean,
       q?: string,
-      resource_content_tags?: Array<string>,
       resource_type?: Array<
         "course" | "program" | "learning_path" | "podcast" | "podcast_episode"
       >,
@@ -10660,6 +12059,10 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         localVarQueryParameter["certification"] = certification
       }
 
+      if (course_feature) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
       if (department) {
         localVarQueryParameter["department"] = department
       }
@@ -10694,10 +12097,6 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
 
       if (q !== undefined) {
         localVarQueryParameter["q"] = q
-      }
-
-      if (resource_content_tags) {
-        localVarQueryParameter["resource_content_tags"] = resource_content_tags
       }
 
       if (resource_type) {
@@ -10740,22 +12139,23 @@ export const LearningResourcesSearchApiFp = function (
     LearningResourcesSearchApiAxiosParamCreator(configuration)
   return {
     /**
-     * View for executing searches of learning resources
-     * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>} [aggregations]
-     * @param {boolean} [certification] true if the learning resource offers a certifacate
-     * @param {Array<'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>} [department] The department that offers learning resources               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
-     * @param {Array<number>} [id]
-     * @param {Array<string>} [level]
-     * @param {number} [limit]
-     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers learning resources               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-     * @param {number} [offset]
-     * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform] The platform on which learning resources are offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * Search for learning resources
+     * @summary Search
+     * @param {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional'>} [aggregations] Show resource counts by category
+     * @param {boolean} [certification] True if the learning resource offers a certificate
+     * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
+     * @param {Array<'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {Array<number>} [id] The id value for the learning resource
+     * @param {Array<'undergraduate' | 'graduate' | 'high_school' | 'noncredit' | 'advanced' | 'intermediate' | 'introductory'>} [level]
+     * @param {number} [limit] Number of results to return per page
+     * @param {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results
+     * @param {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>} [platform] The platform on which the learning resource id offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
      * @param {string} [q] The search text
-     * @param {Array<string>} [resource_content_tags]
      * @param {Array<'course' | 'program' | 'learning_path' | 'podcast' | 'podcast_episode'>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode
-     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'created_on' | '-created_on' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
-     * @param {Array<string>} [topic]
+     * @param {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'created_on' | '-created_on' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+     * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -10768,10 +12168,11 @@ export const LearningResourcesSearchApiFp = function (
         | "topic"
         | "department"
         | "level"
-        | "resource_content_tags"
+        | "course_feature"
         | "professional"
       >,
       certification?: boolean,
+      course_feature?: Array<string>,
       department?: Array<
         | "1"
         | "2"
@@ -10812,7 +12213,15 @@ export const LearningResourcesSearchApiFp = function (
         | "WGS"
       >,
       id?: Array<number>,
-      level?: Array<string>,
+      level?: Array<
+        | "undergraduate"
+        | "graduate"
+        | "high_school"
+        | "noncredit"
+        | "advanced"
+        | "intermediate"
+        | "introductory"
+      >,
       limit?: number,
       offered_by?: Array<
         | "mitx"
@@ -10847,7 +12256,6 @@ export const LearningResourcesSearchApiFp = function (
       >,
       professional?: boolean,
       q?: string,
-      resource_content_tags?: Array<string>,
       resource_type?: Array<
         "course" | "program" | "learning_path" | "podcast" | "podcast_episode"
       >,
@@ -10873,6 +12281,7 @@ export const LearningResourcesSearchApiFp = function (
         await localVarAxiosParamCreator.learningResourcesSearchRetrieve(
           aggregations,
           certification,
+          course_feature,
           department,
           id,
           level,
@@ -10882,7 +12291,6 @@ export const LearningResourcesSearchApiFp = function (
           platform,
           professional,
           q,
-          resource_content_tags,
           resource_type,
           sortby,
           topic,
@@ -10910,7 +12318,8 @@ export const LearningResourcesSearchApiFactory = function (
   const localVarFp = LearningResourcesSearchApiFp(configuration)
   return {
     /**
-     * View for executing searches of learning resources
+     * Search for learning resources
+     * @summary Search
      * @param {LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -10923,6 +12332,7 @@ export const LearningResourcesSearchApiFactory = function (
         .learningResourcesSearchRetrieve(
           requestParameters.aggregations,
           requestParameters.certification,
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.id,
           requestParameters.level,
@@ -10932,7 +12342,6 @@ export const LearningResourcesSearchApiFactory = function (
           requestParameters.platform,
           requestParameters.professional,
           requestParameters.q,
-          requestParameters.resource_content_tags,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -10950,8 +12359,8 @@ export const LearningResourcesSearchApiFactory = function (
  */
 export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest {
   /**
-   *
-   * @type {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'resource_content_tags' | 'professional'>}
+   * Show resource counts by category
+   * @type {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional'>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly aggregations?: Array<
@@ -10962,19 +12371,26 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
     | "topic"
     | "department"
     | "level"
-    | "resource_content_tags"
+    | "course_feature"
     | "professional"
   >
 
   /**
-   * true if the learning resource offers a certifacate
+   * True if the learning resource offers a certificate
    * @type {boolean}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly certification?: boolean
 
   /**
-   * The department that offers learning resources               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+   * The course feature. Possible options are at api/v1/course_features/
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly course_feature?: Array<string>
+
+  /**
+   * The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
    * @type {Array<'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
@@ -11019,7 +12435,7 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   >
 
   /**
-   *
+   * The id value for the learning resource
    * @type {Array<number>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
@@ -11027,20 +12443,28 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
 
   /**
    *
-   * @type {Array<string>}
+   * @type {Array<'undergraduate' | 'graduate' | 'high_school' | 'noncredit' | 'advanced' | 'intermediate' | 'introductory'>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
-  readonly level?: Array<string>
+  readonly level?: Array<
+    | "undergraduate"
+    | "graduate"
+    | "high_school"
+    | "noncredit"
+    | "advanced"
+    | "intermediate"
+    | "introductory"
+  >
 
   /**
-   *
+   * Number of results to return per page
    * @type {number}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly limit?: number
 
   /**
-   * The organization that offers learning resources               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
    * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
@@ -11057,14 +12481,14 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   >
 
   /**
-   *
+   * The initial index from which to return the results
    * @type {number}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly offset?: number
 
   /**
-   * The platform on which learning resources are offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+   * The platform on which the learning resource id offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
    * @type {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast'>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
@@ -11103,13 +12527,6 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   readonly q?: string
 
   /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
-   */
-  readonly resource_content_tags?: Array<string>
-
-  /**
    * The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode
    * @type {Array<'course' | 'program' | 'learning_path' | 'podcast' | 'podcast_episode'>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
@@ -11119,7 +12536,7 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   >
 
   /**
-   * if the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
    * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'created_on' | '-created_on' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber'}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
@@ -11138,7 +12555,7 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
     | "-mitcoursenumber"
 
   /**
-   *
+   * The topic name. To see a list of options go to api/v1/topics/
    * @type {Array<string>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
@@ -11153,7 +12570,8 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
  */
 export class LearningResourcesSearchApi extends BaseAPI {
   /**
-   * View for executing searches of learning resources
+   * Search for learning resources
+   * @summary Search
    * @param {LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -11167,6 +12585,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
       .learningResourcesSearchRetrieve(
         requestParameters.aggregations,
         requestParameters.certification,
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.id,
         requestParameters.level,
@@ -11176,7 +12595,6 @@ export class LearningResourcesSearchApi extends BaseAPI {
         requestParameters.platform,
         requestParameters.professional,
         requestParameters.q,
-        requestParameters.resource_content_tags,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -11195,7 +12613,8 @@ export const LearningpathsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for LearningPaths
+     * Create a learning path
+     * @summary Create
      * @param {LearningPathResourceRequest} LearningPathResourceRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11248,7 +12667,8 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPaths
+     * Remove a learning path
+     * @summary Destroy
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11293,8 +12713,9 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of learning paths
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -11302,7 +12723,6 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -11310,6 +12730,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningpathsList: async (
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -11387,7 +12808,6 @@ export const LearningpathsApiAxiosParamCreator = function (
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -11426,6 +12846,10 @@ export const LearningpathsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -11452,10 +12876,6 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
-      }
-
-      if (resource_content_tags !== undefined) {
-        localVarQueryParameter["resource_content_tags"] = resource_content_tags
       }
 
       if (resource_type !== undefined) {
@@ -11485,7 +12905,8 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPaths
+     * Update individual fields of a learning path
+     * @summary Partial Update
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {PatchedLearningPathResourceRequest} [PatchedLearningPathResourceRequest]
      * @param {*} [options] Override http request option.
@@ -11540,6 +12961,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Add
      * @param {number} parent_id
      * @param {LearningPathRelationshipRequest} LearningPathRelationshipRequest
      * @param {*} [options] Override http request option.
@@ -11601,6 +13023,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Remove
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -11648,7 +13071,8 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPath related resources
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -11713,6 +13137,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Partial Update
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
@@ -11773,7 +13198,8 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPath related resources
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -11826,6 +13252,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Update
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {LearningPathRelationshipRequest} LearningPathRelationshipRequest
@@ -11888,7 +13315,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrive a single learning path
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
@@ -11934,7 +13361,8 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPaths
+     * Update all fields of a learning path
+     * @summary Update
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {LearningPathResourceRequest} LearningPathResourceRequest
      * @param {*} [options] Override http request option.
@@ -12005,7 +13433,8 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     LearningpathsApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for LearningPaths
+     * Create a learning path
+     * @summary Create
      * @param {LearningPathResourceRequest} LearningPathResourceRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12032,7 +13461,8 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPaths
+     * Remove a learning path
+     * @summary Destroy
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12053,8 +13483,9 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of learning paths
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -12062,7 +13493,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -12070,6 +13500,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningpathsList(
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -12147,7 +13578,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -12177,6 +13607,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsList(
+          course_feature,
           department,
           level,
           limit,
@@ -12184,7 +13615,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
-          resource_content_tags,
           resource_type,
           sortby,
           topic,
@@ -12198,7 +13628,8 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPaths
+     * Update individual fields of a learning path
+     * @summary Partial Update
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {PatchedLearningPathResourceRequest} [PatchedLearningPathResourceRequest]
      * @param {*} [options] Override http request option.
@@ -12229,6 +13660,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Add
      * @param {number} parent_id
      * @param {LearningPathRelationshipRequest} LearningPathRelationshipRequest
      * @param {*} [options] Override http request option.
@@ -12259,6 +13691,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Remove
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -12285,7 +13718,8 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPath related resources
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -12322,6 +13756,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Partial Update
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
@@ -12354,7 +13789,8 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPath related resources
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -12385,6 +13821,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Update
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {LearningPathRelationshipRequest} LearningPathRelationshipRequest
@@ -12417,7 +13854,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrive a single learning path
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
@@ -12442,7 +13879,8 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPaths
+     * Update all fields of a learning path
+     * @summary Update
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {LearningPathResourceRequest} LearningPathResourceRequest
      * @param {*} [options] Override http request option.
@@ -12486,7 +13924,8 @@ export const LearningpathsApiFactory = function (
   const localVarFp = LearningpathsApiFp(configuration)
   return {
     /**
-     * Viewset for LearningPaths
+     * Create a learning path
+     * @summary Create
      * @param {LearningpathsApiLearningpathsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12503,7 +13942,8 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPaths
+     * Remove a learning path
+     * @summary Destroy
      * @param {LearningpathsApiLearningpathsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12517,7 +13957,7 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of learning paths
      * @summary List
      * @param {LearningpathsApiLearningpathsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -12529,6 +13969,7 @@ export const LearningpathsApiFactory = function (
     ): AxiosPromise<PaginatedLearningPathResourceList> {
       return localVarFp
         .learningpathsList(
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -12536,7 +13977,6 @@ export const LearningpathsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
-          requestParameters.resource_content_tags,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -12545,7 +13985,8 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPaths
+     * Update individual fields of a learning path
+     * @summary Partial Update
      * @param {LearningpathsApiLearningpathsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12564,6 +14005,7 @@ export const LearningpathsApiFactory = function (
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Add
      * @param {LearningpathsApiLearningpathsResourcesCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12582,6 +14024,7 @@ export const LearningpathsApiFactory = function (
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Remove
      * @param {LearningpathsApiLearningpathsResourcesDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12599,7 +14042,8 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPath related resources
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
      * @param {LearningpathsApiLearningpathsResourcesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12620,6 +14064,7 @@ export const LearningpathsApiFactory = function (
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Partial Update
      * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12638,7 +14083,8 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPath related resources
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
      * @param {LearningpathsApiLearningpathsResourcesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12657,6 +14103,7 @@ export const LearningpathsApiFactory = function (
     },
     /**
      * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Update
      * @param {LearningpathsApiLearningpathsResourcesUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12675,7 +14122,7 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrive a single learning path
      * @summary Retrieve
      * @param {LearningpathsApiLearningpathsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -12690,7 +14137,8 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPaths
+     * Update all fields of a learning path
+     * @summary Update
      * @param {LearningpathsApiLearningpathsUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12744,6 +14192,13 @@ export interface LearningpathsApiLearningpathsDestroyRequest {
  * @interface LearningpathsApiLearningpathsListRequest
  */
 export interface LearningpathsApiLearningpathsListRequest {
+  /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly course_feature?: string
+
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
    * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
@@ -12862,13 +14317,6 @@ export interface LearningpathsApiLearningpathsListRequest {
    * @memberof LearningpathsApiLearningpathsList
    */
   readonly professional?: boolean
-
-  /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
-   * @type {string}
-   * @memberof LearningpathsApiLearningpathsList
-   */
-  readonly resource_content_tags?: string
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
@@ -13127,7 +14575,8 @@ export interface LearningpathsApiLearningpathsUpdateRequest {
  */
 export class LearningpathsApi extends BaseAPI {
   /**
-   * Viewset for LearningPaths
+   * Create a learning path
+   * @summary Create
    * @param {LearningpathsApiLearningpathsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13146,7 +14595,8 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPaths
+   * Remove a learning path
+   * @summary Destroy
    * @param {LearningpathsApiLearningpathsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13162,7 +14612,7 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Get a paginated list of learning resources.
+   * Get a paginated list of learning paths
    * @summary List
    * @param {LearningpathsApiLearningpathsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -13175,6 +14625,7 @@ export class LearningpathsApi extends BaseAPI {
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsList(
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -13182,7 +14633,6 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
-        requestParameters.resource_content_tags,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -13192,7 +14642,8 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPaths
+   * Update individual fields of a learning path
+   * @summary Partial Update
    * @param {LearningpathsApiLearningpathsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13213,6 +14664,7 @@ export class LearningpathsApi extends BaseAPI {
 
   /**
    * Viewset for LearningPath related resources
+   * @summary Learning Path Resource Relationship Add
    * @param {LearningpathsApiLearningpathsResourcesCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13233,6 +14685,7 @@ export class LearningpathsApi extends BaseAPI {
 
   /**
    * Viewset for LearningPath related resources
+   * @summary Learning Path Resource Relationship Remove
    * @param {LearningpathsApiLearningpathsResourcesDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13252,7 +14705,8 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPath related resources
+   * Get a list of related learning resources for a learning resource.
+   * @summary Nested Learning Resource List
    * @param {LearningpathsApiLearningpathsResourcesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13275,6 +14729,7 @@ export class LearningpathsApi extends BaseAPI {
 
   /**
    * Viewset for LearningPath related resources
+   * @summary Learning Path Resource Relationship Partial Update
    * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13295,7 +14750,8 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPath related resources
+   * Get a singe related learning resource for a learning resource.
+   * @summary Nested Learning Resource Retrieve
    * @param {LearningpathsApiLearningpathsResourcesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13316,6 +14772,7 @@ export class LearningpathsApi extends BaseAPI {
 
   /**
    * Viewset for LearningPath related resources
+   * @summary Learning Path Resource Relationship Update
    * @param {LearningpathsApiLearningpathsResourcesUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13336,7 +14793,7 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Retrieve a single learning resource.
+   * Retrive a single learning path
    * @summary Retrieve
    * @param {LearningpathsApiLearningpathsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -13353,7 +14810,8 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPaths
+   * Update all fields of a learning path
+   * @summary Update
    * @param {LearningpathsApiLearningpathsUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13383,7 +14841,7 @@ export const OfferorsApiAxiosParamCreator = function (
   return {
     /**
      * MIT organizations that offer learning resources
-     * @summary List of offerors
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -13434,7 +14892,7 @@ export const OfferorsApiAxiosParamCreator = function (
     },
     /**
      * MIT organizations that offer learning resources
-     * @summary Offerer details
+     * @summary Retrieve
      * @param {string} code A unique value identifying this learning resource offeror.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13490,7 +14948,7 @@ export const OfferorsApiFp = function (configuration?: Configuration) {
   return {
     /**
      * MIT organizations that offer learning resources
-     * @summary List of offerors
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -13520,7 +14978,7 @@ export const OfferorsApiFp = function (configuration?: Configuration) {
     },
     /**
      * MIT organizations that offer learning resources
-     * @summary Offerer details
+     * @summary Retrieve
      * @param {string} code A unique value identifying this learning resource offeror.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13559,7 +15017,7 @@ export const OfferorsApiFactory = function (
   return {
     /**
      * MIT organizations that offer learning resources
-     * @summary List of offerors
+     * @summary List
      * @param {OfferorsApiOfferorsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13578,7 +15036,7 @@ export const OfferorsApiFactory = function (
     },
     /**
      * MIT organizations that offer learning resources
-     * @summary Offerer details
+     * @summary Retrieve
      * @param {OfferorsApiOfferorsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13638,7 +15096,7 @@ export interface OfferorsApiOfferorsRetrieveRequest {
 export class OfferorsApi extends BaseAPI {
   /**
    * MIT organizations that offer learning resources
-   * @summary List of offerors
+   * @summary List
    * @param {OfferorsApiOfferorsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13655,7 +15113,7 @@ export class OfferorsApi extends BaseAPI {
 
   /**
    * MIT organizations that offer learning resources
-   * @summary Offerer details
+   * @summary Retrieve
    * @param {OfferorsApiOfferorsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13681,7 +15139,7 @@ export const PlatformsApiAxiosParamCreator = function (
   return {
     /**
      * Platforms on which learning resources are hosted
-     * @summary List of platforms
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -13732,7 +15190,7 @@ export const PlatformsApiAxiosParamCreator = function (
     },
     /**
      * Platforms on which learning resources are hosted
-     * @summary Platform details
+     * @summary Retrieve
      * @param {string} code A unique value identifying this learning resource platform.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13788,7 +15246,7 @@ export const PlatformsApiFp = function (configuration?: Configuration) {
   return {
     /**
      * Platforms on which learning resources are hosted
-     * @summary List of platforms
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -13818,7 +15276,7 @@ export const PlatformsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Platforms on which learning resources are hosted
-     * @summary Platform details
+     * @summary Retrieve
      * @param {string} code A unique value identifying this learning resource platform.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13857,7 +15315,7 @@ export const PlatformsApiFactory = function (
   return {
     /**
      * Platforms on which learning resources are hosted
-     * @summary List of platforms
+     * @summary List
      * @param {PlatformsApiPlatformsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13876,7 +15334,7 @@ export const PlatformsApiFactory = function (
     },
     /**
      * Platforms on which learning resources are hosted
-     * @summary Platform details
+     * @summary Retrieve
      * @param {PlatformsApiPlatformsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13936,7 +15394,7 @@ export interface PlatformsApiPlatformsRetrieveRequest {
 export class PlatformsApi extends BaseAPI {
   /**
    * Platforms on which learning resources are hosted
-   * @summary List of platforms
+   * @summary List
    * @param {PlatformsApiPlatformsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13953,7 +15411,7 @@ export class PlatformsApi extends BaseAPI {
 
   /**
    * Platforms on which learning resources are hosted
-   * @summary Platform details
+   * @summary Retrieve
    * @param {PlatformsApiPlatformsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -13978,8 +15436,9 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of podcast episodes
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -13987,7 +15446,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -13995,6 +15453,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     podcastEpisodesList: async (
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -14072,7 +15531,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -14111,6 +15569,10 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -14137,10 +15599,6 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
-      }
-
-      if (resource_content_tags !== undefined) {
-        localVarQueryParameter["resource_content_tags"] = resource_content_tags
       }
 
       if (resource_type !== undefined) {
@@ -14170,7 +15628,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrieve a single podcast episode
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
@@ -14227,8 +15685,9 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     PodcastEpisodesApiAxiosParamCreator(configuration)
   return {
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of podcast episodes
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -14236,7 +15695,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -14244,6 +15702,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async podcastEpisodesList(
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -14321,7 +15780,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -14351,6 +15809,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.podcastEpisodesList(
+          course_feature,
           department,
           level,
           limit,
@@ -14358,7 +15817,6 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
-          resource_content_tags,
           resource_type,
           sortby,
           topic,
@@ -14372,7 +15830,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrieve a single podcast episode
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
@@ -14411,7 +15869,7 @@ export const PodcastEpisodesApiFactory = function (
   const localVarFp = PodcastEpisodesApiFp(configuration)
   return {
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of podcast episodes
      * @summary List
      * @param {PodcastEpisodesApiPodcastEpisodesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -14423,6 +15881,7 @@ export const PodcastEpisodesApiFactory = function (
     ): AxiosPromise<PaginatedPodcastEpisodeResourceList> {
       return localVarFp
         .podcastEpisodesList(
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -14430,7 +15889,6 @@ export const PodcastEpisodesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
-          requestParameters.resource_content_tags,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -14439,7 +15897,7 @@ export const PodcastEpisodesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrieve a single podcast episode
      * @summary Retrieve
      * @param {PodcastEpisodesApiPodcastEpisodesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -14462,6 +15920,13 @@ export const PodcastEpisodesApiFactory = function (
  * @interface PodcastEpisodesApiPodcastEpisodesListRequest
  */
 export interface PodcastEpisodesApiPodcastEpisodesListRequest {
+  /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly course_feature?: string
+
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
    * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
@@ -14582,13 +16047,6 @@ export interface PodcastEpisodesApiPodcastEpisodesListRequest {
   readonly professional?: boolean
 
   /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
-   * @type {string}
-   * @memberof PodcastEpisodesApiPodcastEpisodesList
-   */
-  readonly resource_content_tags?: string
-
-  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
    * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
    * @memberof PodcastEpisodesApiPodcastEpisodesList
@@ -14649,7 +16107,7 @@ export interface PodcastEpisodesApiPodcastEpisodesRetrieveRequest {
  */
 export class PodcastEpisodesApi extends BaseAPI {
   /**
-   * Get a paginated list of learning resources.
+   * Get a paginated list of podcast episodes
    * @summary List
    * @param {PodcastEpisodesApiPodcastEpisodesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -14662,6 +16120,7 @@ export class PodcastEpisodesApi extends BaseAPI {
   ) {
     return PodcastEpisodesApiFp(this.configuration)
       .podcastEpisodesList(
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -14669,7 +16128,6 @@ export class PodcastEpisodesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
-        requestParameters.resource_content_tags,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -14679,7 +16137,7 @@ export class PodcastEpisodesApi extends BaseAPI {
   }
 
   /**
-   * Retrieve a single learning resource.
+   * Retrieve a single podcast episode
    * @summary Retrieve
    * @param {PodcastEpisodesApiPodcastEpisodesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -14705,7 +16163,8 @@ export const PodcastsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for LearningResource related resources
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -14768,7 +16227,8 @@ export const PodcastsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningResource related resources
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -14816,8 +16276,9 @@ export const PodcastsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of podcasts
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -14825,7 +16286,6 @@ export const PodcastsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -14833,6 +16293,7 @@ export const PodcastsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     podcastsList: async (
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -14910,7 +16371,6 @@ export const PodcastsApiAxiosParamCreator = function (
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -14949,6 +16409,10 @@ export const PodcastsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -14975,10 +16439,6 @@ export const PodcastsApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
-      }
-
-      if (resource_content_tags !== undefined) {
-        localVarQueryParameter["resource_content_tags"] = resource_content_tags
       }
 
       if (resource_type !== undefined) {
@@ -15008,7 +16468,7 @@ export const PodcastsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrieve a single podcast
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
@@ -15064,7 +16524,8 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = PodcastsApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for LearningResource related resources
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -15100,7 +16561,8 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningResource related resources
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -15130,8 +16592,9 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of podcasts
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -15139,7 +16602,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -15147,6 +16609,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async podcastsList(
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -15224,7 +16687,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -15253,6 +16715,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedPodcastResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.podcastsList(
+        course_feature,
         department,
         level,
         limit,
@@ -15260,7 +16723,6 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         professional,
-        resource_content_tags,
         resource_type,
         sortby,
         topic,
@@ -15274,7 +16736,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrieve a single podcast
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
@@ -15313,7 +16775,8 @@ export const PodcastsApiFactory = function (
   const localVarFp = PodcastsApiFp(configuration)
   return {
     /**
-     * Viewset for LearningResource related resources
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
      * @param {PodcastsApiPodcastsItemsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -15333,7 +16796,8 @@ export const PodcastsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningResource related resources
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
      * @param {PodcastsApiPodcastsItemsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -15351,7 +16815,7 @@ export const PodcastsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of podcasts
      * @summary List
      * @param {PodcastsApiPodcastsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -15363,6 +16827,7 @@ export const PodcastsApiFactory = function (
     ): AxiosPromise<PaginatedPodcastResourceList> {
       return localVarFp
         .podcastsList(
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -15370,7 +16835,6 @@ export const PodcastsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
-          requestParameters.resource_content_tags,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -15379,7 +16843,7 @@ export const PodcastsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrieve a single podcast
      * @summary Retrieve
      * @param {PodcastsApiPodcastsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -15459,6 +16923,13 @@ export interface PodcastsApiPodcastsItemsRetrieveRequest {
  */
 export interface PodcastsApiPodcastsListRequest {
   /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly course_feature?: string
+
+  /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
    * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
    * @memberof PodcastsApiPodcastsList
@@ -15576,13 +17047,6 @@ export interface PodcastsApiPodcastsListRequest {
    * @memberof PodcastsApiPodcastsList
    */
   readonly professional?: boolean
-
-  /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
-   * @type {string}
-   * @memberof PodcastsApiPodcastsList
-   */
-  readonly resource_content_tags?: string
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
@@ -15645,7 +17109,8 @@ export interface PodcastsApiPodcastsRetrieveRequest {
  */
 export class PodcastsApi extends BaseAPI {
   /**
-   * Viewset for LearningResource related resources
+   * Get a list of related learning resources for a learning resource.
+   * @summary Nested Learning Resource List
    * @param {PodcastsApiPodcastsItemsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -15667,7 +17132,8 @@ export class PodcastsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningResource related resources
+   * Get a singe related learning resource for a learning resource.
+   * @summary Nested Learning Resource Retrieve
    * @param {PodcastsApiPodcastsItemsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -15687,7 +17153,7 @@ export class PodcastsApi extends BaseAPI {
   }
 
   /**
-   * Get a paginated list of learning resources.
+   * Get a paginated list of podcasts
    * @summary List
    * @param {PodcastsApiPodcastsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -15700,6 +17166,7 @@ export class PodcastsApi extends BaseAPI {
   ) {
     return PodcastsApiFp(this.configuration)
       .podcastsList(
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -15707,7 +17174,6 @@ export class PodcastsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
-        requestParameters.resource_content_tags,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -15717,7 +17183,7 @@ export class PodcastsApi extends BaseAPI {
   }
 
   /**
-   * Retrieve a single learning resource.
+   * Retrieve a single podcast
    * @summary Retrieve
    * @param {PodcastsApiPodcastsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -15743,8 +17209,9 @@ export const ProgramsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of programs
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -15752,7 +17219,6 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -15760,6 +17226,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     programsList: async (
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -15837,7 +17304,6 @@ export const ProgramsApiAxiosParamCreator = function (
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -15876,6 +17342,10 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -15902,10 +17372,6 @@ export const ProgramsApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
-      }
-
-      if (resource_content_tags !== undefined) {
-        localVarQueryParameter["resource_content_tags"] = resource_content_tags
       }
 
       if (resource_type !== undefined) {
@@ -15935,12 +17401,121 @@ export const ProgramsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released Programs.
      * @summary List New
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+     * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {boolean} [professional]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+     * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    programsNewRetrieve: async (
+    programsNewList: async (
+      course_feature?: string,
+      department?:
+        | "1"
+        | "10"
+        | "11"
+        | "12"
+        | "14"
+        | "15"
+        | "16"
+        | "17"
+        | "18"
+        | "2"
+        | "20"
+        | "21A"
+        | "21G"
+        | "21H"
+        | "21L"
+        | "21M"
+        | "22"
+        | "24"
+        | "3"
+        | "4"
+        | "5"
+        | "6"
+        | "7"
+        | "8"
+        | "9"
+        | "CC"
+        | "CMS-W"
+        | "EC"
+        | "ES"
+        | "ESD"
+        | "HST"
+        | "IDS"
+        | "MAS"
+        | "PE"
+        | "RES"
+        | "STS"
+        | "WGS",
+      level?:
+        | "advanced"
+        | "graduate"
+        | "high_school"
+        | "intermediate"
+        | "introductory"
+        | "noncredit"
+        | "undergraduate",
+      limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
+      offset?: number,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      professional?: boolean,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
+      topic?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/programs/new/`
@@ -15959,6 +17534,50 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
+      if (department !== undefined) {
+        localVarQueryParameter["department"] = department
+      }
+
+      if (level !== undefined) {
+        localVarQueryParameter["level"] = level
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by !== undefined) {
+        localVarQueryParameter["offered_by"] = offered_by
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (professional !== undefined) {
+        localVarQueryParameter["professional"] = professional
+      }
+
+      if (resource_type !== undefined) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
+      }
+
+      if (topic !== undefined) {
+        localVarQueryParameter["topic"] = topic
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -15974,7 +17593,7 @@ export const ProgramsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrieve a single program
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {*} [options] Override http request option.
@@ -16020,8 +17639,9 @@ export const ProgramsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get a paginated list of upcoming $Programs.
+     * Get a paginated list of upcoming Programs.
      * @summary List Upcoming
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -16029,7 +17649,6 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -16037,6 +17656,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     programsUpcomingList: async (
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -16114,7 +17734,6 @@ export const ProgramsApiAxiosParamCreator = function (
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -16153,6 +17772,10 @@ export const ProgramsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (course_feature !== undefined) {
+        localVarQueryParameter["course_feature"] = course_feature
+      }
+
       if (department !== undefined) {
         localVarQueryParameter["department"] = department
       }
@@ -16179,10 +17802,6 @@ export const ProgramsApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
-      }
-
-      if (resource_content_tags !== undefined) {
-        localVarQueryParameter["resource_content_tags"] = resource_content_tags
       }
 
       if (resource_type !== undefined) {
@@ -16222,8 +17841,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ProgramsApiAxiosParamCreator(configuration)
   return {
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of programs
      * @summary List
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -16231,7 +17851,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
@@ -16239,6 +17858,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async programsList(
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -16316,7 +17936,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
       resource_type?:
         | "course"
         | "learning_path"
@@ -16345,6 +17964,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedProgramResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsList(
+        course_feature,
         department,
         level,
         limit,
@@ -16352,7 +17972,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         professional,
-        resource_content_tags,
         resource_type,
         sortby,
         topic,
@@ -16366,56 +17985,9 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released Programs.
      * @summary List New
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async programsNewRetrieve(
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<ProgramResource>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.programsNewRetrieve(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     * Retrieve a single learning resource.
-     * @summary Retrieve
-     * @param {number} id A unique integer value identifying this learning resource.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async programsRetrieve(
-      id: number,
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<ProgramResource>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.programsRetrieve(id, options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     * Get a paginated list of upcoming $Programs.
-     * @summary List Upcoming
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
@@ -16423,14 +17995,14 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
      * @param {boolean} [professional]
-     * @param {string} [resource_content_tags] Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
      * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
      * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async programsUpcomingList(
+    async programsNewList(
+      course_feature?: string,
       department?:
         | "1"
         | "10"
@@ -16508,7 +18080,175 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         | "whu"
         | "xpro",
       professional?: boolean,
-      resource_content_tags?: string,
+      resource_type?:
+        | "course"
+        | "learning_path"
+        | "podcast"
+        | "podcast_episode"
+        | "program",
+      sortby?:
+        | "-created_on"
+        | "-id"
+        | "-last_modified"
+        | "-mitcoursenumber"
+        | "-readable_id"
+        | "-start_date"
+        | "created_on"
+        | "id"
+        | "last_modified"
+        | "mitcoursenumber"
+        | "readable_id"
+        | "start_date",
+      topic?: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedProgramResourceList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.programsNewList(
+        course_feature,
+        department,
+        level,
+        limit,
+        offered_by,
+        offset,
+        platform,
+        professional,
+        resource_type,
+        sortby,
+        topic,
+        options,
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Retrieve a single program
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async programsRetrieve(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ProgramResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.programsRetrieve(id, options)
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     * Get a paginated list of upcoming Programs.
+     * @summary List Upcoming
+     * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+     * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {boolean} [professional]
+     * @param {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+     * @param {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+     * @param {string} [topic] Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async programsUpcomingList(
+      course_feature?: string,
+      department?:
+        | "1"
+        | "10"
+        | "11"
+        | "12"
+        | "14"
+        | "15"
+        | "16"
+        | "17"
+        | "18"
+        | "2"
+        | "20"
+        | "21A"
+        | "21G"
+        | "21H"
+        | "21L"
+        | "21M"
+        | "22"
+        | "24"
+        | "3"
+        | "4"
+        | "5"
+        | "6"
+        | "7"
+        | "8"
+        | "9"
+        | "CC"
+        | "CMS-W"
+        | "EC"
+        | "ES"
+        | "ESD"
+        | "HST"
+        | "IDS"
+        | "MAS"
+        | "PE"
+        | "RES"
+        | "STS"
+        | "WGS",
+      level?:
+        | "advanced"
+        | "graduate"
+        | "high_school"
+        | "intermediate"
+        | "introductory"
+        | "noncredit"
+        | "undergraduate",
+      limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
+      offset?: number,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      professional?: boolean,
       resource_type?:
         | "course"
         | "learning_path"
@@ -16538,6 +18278,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.programsUpcomingList(
+          course_feature,
           department,
           level,
           limit,
@@ -16545,7 +18286,6 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
-          resource_content_tags,
           resource_type,
           sortby,
           topic,
@@ -16573,7 +18313,7 @@ export const ProgramsApiFactory = function (
   const localVarFp = ProgramsApiFp(configuration)
   return {
     /**
-     * Get a paginated list of learning resources.
+     * Get a paginated list of programs
      * @summary List
      * @param {ProgramsApiProgramsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -16585,6 +18325,7 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedProgramResourceList> {
       return localVarFp
         .programsList(
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -16592,7 +18333,6 @@ export const ProgramsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
-          requestParameters.resource_content_tags,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -16601,20 +18341,35 @@ export const ProgramsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+     * Get a paginated list of newly released Programs.
      * @summary List New
+     * @param {ProgramsApiProgramsNewListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    programsNewRetrieve(
+    programsNewList(
+      requestParameters: ProgramsApiProgramsNewListRequest = {},
       options?: AxiosRequestConfig,
-    ): AxiosPromise<ProgramResource> {
+    ): AxiosPromise<PaginatedProgramResourceList> {
       return localVarFp
-        .programsNewRetrieve(options)
+        .programsNewList(
+          requestParameters.course_feature,
+          requestParameters.department,
+          requestParameters.level,
+          requestParameters.limit,
+          requestParameters.offered_by,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.professional,
+          requestParameters.resource_type,
+          requestParameters.sortby,
+          requestParameters.topic,
+          options,
+        )
         .then((request) => request(axios, basePath))
     },
     /**
-     * Retrieve a single learning resource.
+     * Retrieve a single program
      * @summary Retrieve
      * @param {ProgramsApiProgramsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -16629,7 +18384,7 @@ export const ProgramsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get a paginated list of upcoming $Programs.
+     * Get a paginated list of upcoming Programs.
      * @summary List Upcoming
      * @param {ProgramsApiProgramsUpcomingListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -16641,6 +18396,7 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedProgramResourceList> {
       return localVarFp
         .programsUpcomingList(
+          requestParameters.course_feature,
           requestParameters.department,
           requestParameters.level,
           requestParameters.limit,
@@ -16648,7 +18404,6 @@ export const ProgramsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
-          requestParameters.resource_content_tags,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -16665,6 +18420,13 @@ export const ProgramsApiFactory = function (
  * @interface ProgramsApiProgramsListRequest
  */
 export interface ProgramsApiProgramsListRequest {
+  /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly course_feature?: string
+
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
    * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
@@ -16783,13 +18545,6 @@ export interface ProgramsApiProgramsListRequest {
    * @memberof ProgramsApiProgramsList
    */
   readonly professional?: boolean
-
-  /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
-   * @type {string}
-   * @memberof ProgramsApiProgramsList
-   */
-  readonly resource_content_tags?: string
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
@@ -16831,6 +18586,177 @@ export interface ProgramsApiProgramsListRequest {
 }
 
 /**
+ * Request parameters for programsNewList operation in ProgramsApi.
+ * @export
+ * @interface ProgramsApiProgramsNewListRequest
+ */
+export interface ProgramsApiProgramsNewListRequest {
+  /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly course_feature?: string
+
+  /**
+   * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+   * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly department?:
+    | "1"
+    | "10"
+    | "11"
+    | "12"
+    | "14"
+    | "15"
+    | "16"
+    | "17"
+    | "18"
+    | "2"
+    | "20"
+    | "21A"
+    | "21G"
+    | "21H"
+    | "21L"
+    | "21M"
+    | "22"
+    | "24"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "CC"
+    | "CMS-W"
+    | "EC"
+    | "ES"
+    | "ESD"
+    | "HST"
+    | "IDS"
+    | "MAS"
+    | "PE"
+    | "RES"
+    | "STS"
+    | "WGS"
+
+  /**
+   * The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+   * @type {'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly level?:
+    | "advanced"
+    | "graduate"
+    | "high_school"
+    | "intermediate"
+    | "introductory"
+    | "noncredit"
+    | "undergraduate"
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly limit?: number
+
+  /**
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly offered_by?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "mitpe"
+    | "mitx"
+    | "ocw"
+    | "scc"
+    | "see"
+    | "xpro"
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly offset?: number
+
+  /**
+   * The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
+   *
+   * @type {boolean}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly professional?: boolean
+
+  /**
+   * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
+   * @type {'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program'}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly resource_type?:
+    | "course"
+    | "learning_path"
+    | "podcast"
+    | "podcast_episode"
+    | "program"
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
+   * @type {'-created_on' | '-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | 'created_on' | 'id' | 'last_modified' | 'mitcoursenumber' | 'readable_id' | 'start_date'}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly sortby?:
+    | "-created_on"
+    | "-id"
+    | "-last_modified"
+    | "-mitcoursenumber"
+    | "-readable_id"
+    | "-start_date"
+    | "created_on"
+    | "id"
+    | "last_modified"
+    | "mitcoursenumber"
+    | "readable_id"
+    | "start_date"
+
+  /**
+   * Topics covered by the resources. Load the \&#39;/api/v1/topics\&#39; endpoint for a list of topics
+   * @type {string}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly topic?: string
+}
+
+/**
  * Request parameters for programsRetrieve operation in ProgramsApi.
  * @export
  * @interface ProgramsApiProgramsRetrieveRequest
@@ -16850,6 +18776,13 @@ export interface ProgramsApiProgramsRetrieveRequest {
  * @interface ProgramsApiProgramsUpcomingListRequest
  */
 export interface ProgramsApiProgramsUpcomingListRequest {
+  /**
+   * Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof ProgramsApiProgramsUpcomingList
+   */
+  readonly course_feature?: string
+
   /**
    * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
    * @type {'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'}
@@ -16968,13 +18901,6 @@ export interface ProgramsApiProgramsUpcomingListRequest {
    * @memberof ProgramsApiProgramsUpcomingList
    */
   readonly professional?: boolean
-
-  /**
-   * Content tags for the resources. Load the \&#39;api/v1/content_tags\&#39; endpoint for a list of tags
-   * @type {string}
-   * @memberof ProgramsApiProgramsUpcomingList
-   */
-  readonly resource_content_tags?: string
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode
@@ -17023,7 +18949,7 @@ export interface ProgramsApiProgramsUpcomingListRequest {
  */
 export class ProgramsApi extends BaseAPI {
   /**
-   * Get a paginated list of learning resources.
+   * Get a paginated list of programs
    * @summary List
    * @param {ProgramsApiProgramsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -17036,6 +18962,7 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsList(
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -17043,7 +18970,6 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
-        requestParameters.resource_content_tags,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -17053,20 +18979,37 @@ export class ProgramsApi extends BaseAPI {
   }
 
   /**
-   * Get new LearningResources  Returns:     QuerySet of LearningResource objects ordered by reverse created_on
+   * Get a paginated list of newly released Programs.
    * @summary List New
+   * @param {ProgramsApiProgramsNewListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ProgramsApi
    */
-  public programsNewRetrieve(options?: AxiosRequestConfig) {
+  public programsNewList(
+    requestParameters: ProgramsApiProgramsNewListRequest = {},
+    options?: AxiosRequestConfig,
+  ) {
     return ProgramsApiFp(this.configuration)
-      .programsNewRetrieve(options)
+      .programsNewList(
+        requestParameters.course_feature,
+        requestParameters.department,
+        requestParameters.level,
+        requestParameters.limit,
+        requestParameters.offered_by,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.professional,
+        requestParameters.resource_type,
+        requestParameters.sortby,
+        requestParameters.topic,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * Retrieve a single learning resource.
+   * Retrieve a single program
    * @summary Retrieve
    * @param {ProgramsApiProgramsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -17083,7 +19026,7 @@ export class ProgramsApi extends BaseAPI {
   }
 
   /**
-   * Get a paginated list of upcoming $Programs.
+   * Get a paginated list of upcoming Programs.
    * @summary List Upcoming
    * @param {ProgramsApiProgramsUpcomingListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -17096,6 +19039,7 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsUpcomingList(
+        requestParameters.course_feature,
         requestParameters.department,
         requestParameters.level,
         requestParameters.limit,
@@ -17103,7 +19047,6 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
-        requestParameters.resource_content_tags,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -17123,7 +19066,7 @@ export const TopicsApiAxiosParamCreator = function (
   return {
     /**
      * Topics covered by learning resources
-     * @summary List of topics
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -17174,7 +19117,7 @@ export const TopicsApiAxiosParamCreator = function (
     },
     /**
      * Topics covered by learning resources
-     * @summary Topic details
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource topic.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17230,7 +19173,7 @@ export const TopicsApiFp = function (configuration?: Configuration) {
   return {
     /**
      * Topics covered by learning resources
-     * @summary List of topics
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -17260,7 +19203,7 @@ export const TopicsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Topics covered by learning resources
-     * @summary Topic details
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource topic.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17301,7 +19244,7 @@ export const TopicsApiFactory = function (
   return {
     /**
      * Topics covered by learning resources
-     * @summary List of topics
+     * @summary List
      * @param {TopicsApiTopicsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17316,7 +19259,7 @@ export const TopicsApiFactory = function (
     },
     /**
      * Topics covered by learning resources
-     * @summary Topic details
+     * @summary Retrieve
      * @param {TopicsApiTopicsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17376,7 +19319,7 @@ export interface TopicsApiTopicsRetrieveRequest {
 export class TopicsApi extends BaseAPI {
   /**
    * Topics covered by learning resources
-   * @summary List of topics
+   * @summary List
    * @param {TopicsApiTopicsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -17393,7 +19336,7 @@ export class TopicsApi extends BaseAPI {
 
   /**
    * Topics covered by learning resources
-   * @summary Topic details
+   * @summary Retrieve
    * @param {TopicsApiTopicsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -17419,6 +19362,7 @@ export const UserlistsApiAxiosParamCreator = function (
   return {
     /**
      * Viewset for UserLists
+     * @summary Create
      * @param {UserListRequest} UserListRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17468,6 +19412,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserLists
+     * @summary Destroy
      * @param {number} id A unique integer value identifying this user list.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17513,6 +19458,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserLists
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -17563,6 +19509,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserLists
+     * @summary Partial Update
      * @param {number} id A unique integer value identifying this user list.
      * @param {PatchedUserListRequest} [PatchedUserListRequest]
      * @param {*} [options] Override http request option.
@@ -17617,6 +19564,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Add
      * @param {number} parent_id
      * @param {UserListRelationshipRequest} UserListRelationshipRequest
      * @param {*} [options] Override http request option.
@@ -17677,6 +19625,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Remove
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -17725,6 +19674,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resources List
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -17782,6 +19732,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Partial Update
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
@@ -17843,6 +19794,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resources Retrieve
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -17891,6 +19843,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Update
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {UserListRelationshipRequest} UserListRelationshipRequest
@@ -17954,6 +19907,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserLists
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this user list.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17999,6 +19953,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserLists
+     * @summary Update
      * @param {number} id A unique integer value identifying this user list.
      * @param {UserListRequest} UserListRequest
      * @param {*} [options] Override http request option.
@@ -18065,6 +20020,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
   return {
     /**
      * Viewset for UserLists
+     * @summary Create
      * @param {UserListRequest} UserListRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18088,6 +20044,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserLists
+     * @summary Destroy
      * @param {number} id A unique integer value identifying this user list.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18109,6 +20066,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserLists
+     * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -18138,6 +20096,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserLists
+     * @summary Partial Update
      * @param {number} id A unique integer value identifying this user list.
      * @param {PatchedUserListRequest} [PatchedUserListRequest]
      * @param {*} [options] Override http request option.
@@ -18165,6 +20124,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Add
      * @param {number} parent_id
      * @param {UserListRelationshipRequest} UserListRelationshipRequest
      * @param {*} [options] Override http request option.
@@ -18195,6 +20155,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Remove
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -18222,6 +20183,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resources List
      * @param {number} parent_id
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -18255,6 +20217,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Partial Update
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
@@ -18288,6 +20251,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resources Retrieve
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {*} [options] Override http request option.
@@ -18318,6 +20282,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Update
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {UserListRelationshipRequest} UserListRelationshipRequest
@@ -18351,6 +20316,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserLists
+     * @summary Retrieve
      * @param {number} id A unique integer value identifying this user list.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18372,6 +20338,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserLists
+     * @summary Update
      * @param {number} id A unique integer value identifying this user list.
      * @param {UserListRequest} UserListRequest
      * @param {*} [options] Override http request option.
@@ -18412,6 +20379,7 @@ export const UserlistsApiFactory = function (
   return {
     /**
      * Viewset for UserLists
+     * @summary Create
      * @param {UserlistsApiUserlistsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18426,6 +20394,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserLists
+     * @summary Destroy
      * @param {UserlistsApiUserlistsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18440,6 +20409,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserLists
+     * @summary List
      * @param {UserlistsApiUserlistsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18458,6 +20428,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserLists
+     * @summary Partial Update
      * @param {UserlistsApiUserlistsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18476,6 +20447,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Add
      * @param {UserlistsApiUserlistsResourcesCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18494,6 +20466,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Remove
      * @param {UserlistsApiUserlistsResourcesDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18512,6 +20485,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resources List
      * @param {UserlistsApiUserlistsResourcesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18531,6 +20505,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Partial Update
      * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18550,6 +20525,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resources Retrieve
      * @param {UserlistsApiUserlistsResourcesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18568,6 +20544,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Update
      * @param {UserlistsApiUserlistsResourcesUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18587,6 +20564,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserLists
+     * @summary Retrieve
      * @param {UserlistsApiUserlistsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18601,6 +20579,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserLists
+     * @summary Update
      * @param {UserlistsApiUserlistsUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18881,6 +20860,7 @@ export interface UserlistsApiUserlistsUpdateRequest {
 export class UserlistsApi extends BaseAPI {
   /**
    * Viewset for UserLists
+   * @summary Create
    * @param {UserlistsApiUserlistsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -18897,6 +20877,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserLists
+   * @summary Destroy
    * @param {UserlistsApiUserlistsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -18913,6 +20894,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserLists
+   * @summary List
    * @param {UserlistsApiUserlistsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -18929,6 +20911,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserLists
+   * @summary Partial Update
    * @param {UserlistsApiUserlistsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -18949,6 +20932,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserListRelationships
+   * @summary User List Resource Relationship Add
    * @param {UserlistsApiUserlistsResourcesCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -18969,6 +20953,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserListRelationships
+   * @summary User List Resource Relationship Remove
    * @param {UserlistsApiUserlistsResourcesDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -18989,6 +20974,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserListRelationships
+   * @summary User List Resources List
    * @param {UserlistsApiUserlistsResourcesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -19010,6 +20996,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserListRelationships
+   * @summary User List Resource Relationship Partial Update
    * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -19031,6 +21018,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserListRelationships
+   * @summary User List Resources Retrieve
    * @param {UserlistsApiUserlistsResourcesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -19051,6 +21039,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserListRelationships
+   * @summary User List Resource Relationship Update
    * @param {UserlistsApiUserlistsResourcesUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -19072,6 +21061,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserLists
+   * @summary Retrieve
    * @param {UserlistsApiUserlistsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -19088,6 +21078,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserLists
+   * @summary Update
    * @param {UserlistsApiUserlistsUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

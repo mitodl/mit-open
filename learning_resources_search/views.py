@@ -45,11 +45,12 @@ class ESView(APIView):
 @action(methods=["GET"], detail=False, name="Search Learning Resources")
 class LearningResourcesSearchView(ESView):
     """
-    View for executing searches of learning resources
+    Search for learning resources
     """
 
     permission_classes = ()
 
+    @extend_schema(summary="Search")
     def get(self, request):
         request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
         if request_data.is_valid():
@@ -76,11 +77,13 @@ class LearningResourcesSearchView(ESView):
 @action(methods=["GET"], detail=False, name="Search Content Files")
 class ContentFileSearchView(ESView):
     """
-    View for executing searches of content files
+    Search for content files
+
     """
 
     permission_classes = ()
 
+    @extend_schema(summary="Search")
     def get(self, request):
         request_data = ContentFileSearchRequestSerializer(data=request.GET)
 

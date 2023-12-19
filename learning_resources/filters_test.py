@@ -19,6 +19,7 @@ from learning_resources.factories import (
     PodcastFactory,
 )
 from learning_resources.filters import LearningResourceFilter
+from learning_resources.models import LearningResourceRun
 
 pytestmark = pytest.mark.django_db
 
@@ -154,21 +155,19 @@ def test_learning_resource_filter_topics():
     assert resource_2 not in query
 
 
-def test_learning_resource_filter_tags():
+def test_learning_resource_filter_features():
     """Test that the resource_content_tag filter works"""
 
     resource_with_exams = LearningResourceFactory.create(
-        resource_content_tags=LearningResourceContentTagFactory.create_batch(
-            1, name="Exams"
-        )
+        content_tags=LearningResourceContentTagFactory.create_batch(1, name="Exams")
     )
     resource_with_notes = LearningResourceFactory.create(
-        resource_content_tags=LearningResourceContentTagFactory.create_batch(
+        content_tags=LearningResourceContentTagFactory.create_batch(
             1, name="Lecture Notes"
         )
     )
 
-    query = LearningResourceFilter({"resource_content_tags": "ExamS"}).qs
+    query = LearningResourceFilter({"course_feature": "ExamS"}).qs
 
     assert resource_with_exams in query
     assert resource_with_notes not in query
@@ -177,19 +176,19 @@ def test_learning_resource_filter_tags():
 def test_learning_resource_filter_level():
     """Test that the level filter works"""
 
-    hs_resource = LearningResourceRunFactory.create(
-        level=["High School", "Undergraduate"]
-    ).learning_resource
-    jhs_resource = LearningResourceRunFactory.create(
-        level=["Junior High School", "Undergraduate", "Graduate"]
-    ).learning_resource
+    hs_run = LearningResourceRunFactory.create(level=["High School", "Undergraduate"])
+    grad_run = LearningResourceRunFactory.create(level=["Undergraduate", "Graduate"])
+    hs_resource = hs_run.learning_resource
+    grad_resource = grad_run.learning_resource
+
+    LearningResourceRun.objects.exclude(id__in=[hs_run.id, grad_run.id]).delete()
 
     query = LearningResourceFilter({"level": LevelType.high_school.name}).qs
 
     assert hs_resource in query
-    assert jhs_resource not in query
+    assert grad_resource not in query
 
     query = LearningResourceFilter({"level": LevelType.graduate.name}).qs
 
     assert hs_resource not in query
-    assert jhs_resource in query
+    assert grad_resource in query
