@@ -24,7 +24,7 @@ import {
   useLearningpathRelationshipCreate,
   useLearningpathRelationshipDestroy,
 } from "api/hooks/learningResources"
-import { manageListDialogs } from "page-components/ManageListDialogs/ManageListDialogs"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 type AddToListDialogProps = {
   resourceId: number

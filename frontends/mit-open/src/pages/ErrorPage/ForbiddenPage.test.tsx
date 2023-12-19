@@ -2,7 +2,7 @@ import React from "react"
 import { waitFor } from "@testing-library/react"
 import { renderWithProviders, screen } from "../../test-utils"
 import { withFakeLocation } from "../../test-utils/withFakeLocation"
-import { HOME } from "common/urls"
+import { HOME } from "@/common/urls"
 import ForbiddenPage from "./ForbiddenPage"
 
 test("The ForbiddenPage loads with meta", async () => {

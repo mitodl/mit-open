@@ -6,7 +6,7 @@ import {
   FieldList,
 } from "./interfaces"
 import { fieldsList, fieldDetails } from "./urls"
-import axios from "services/axios"
+import axios from "@/services/axios"
 
 const useFieldsList = () => {
   return useQuery<FieldList>([fieldsList])

@@ -33,10 +33,10 @@ afterEach(() => {
  * We frequently spy on these, so let's just do it once.
  */
 jest.mock(
-  "page-components/LearningResourceCardTemplateLegacy/LearningResourceCardTemplateLegacy",
+  "@/page-components/LearningResourceCardTemplateLegacy/LearningResourceCardTemplateLegacy",
   () => {
     const actual = jest.requireActual(
-      "page-components/LearningResourceCardTemplateLegacy/LearningResourceCardTemplateLegacy",
+      "@/page-components/LearningResourceCardTemplateLegacy/LearningResourceCardTemplateLegacy",
     )
     return {
       __esModule: true,
@@ -47,10 +47,10 @@ jest.mock(
 )
 
 jest.mock(
-  "page-components/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay",
+  "@/page-components/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay",
   () => {
     const actual = jest.requireActual(
-      "page-components/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay",
+      "@/page-components/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay",
     )
     return {
       __esModule: true,
@@ -60,9 +60,9 @@ jest.mock(
   },
 )
 
-jest.mock("page-components/LearningResourceCard/LearningResourceCard", () => {
+jest.mock("@/page-components/LearningResourceCard/LearningResourceCard", () => {
   const actual = jest.requireActual(
-    "page-components/LearningResourceCard/LearningResourceCard",
+    "@/page-components/LearningResourceCard/LearningResourceCard",
   )
   return {
     __esModule: true,

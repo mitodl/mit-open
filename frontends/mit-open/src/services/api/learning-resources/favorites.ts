@@ -1,6 +1,6 @@
 import { LearningResource, PaginatedListItems } from "ol-common"
 import { PaginationSearchParams } from "ol-utilities"
-import axios from "services/axios"
+import axios from "@/services/axios"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { urls, keys } from "./urls"
 import { modifyCachedSearchResource } from "./search"

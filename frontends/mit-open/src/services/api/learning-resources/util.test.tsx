@@ -3,7 +3,7 @@ import { renderHook, waitFor } from "@testing-library/react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { invalidateResourceQueries, useInfiniteLimitOffsetQuery } from "./util"
 import { setMockResponse, act } from "../../../test-utils"
-import axios from "services/axios"
+import axios from "@/services/axios"
 import {
   makeLearningResource,
   makeLearningResourcesPaginated,

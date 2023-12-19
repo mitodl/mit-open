@@ -1,6 +1,10 @@
 import React from "react"
 import { Outlet } from "react-router"
-import { ForbiddenError, Permissions, hasPermission } from "common/permissions"
+import {
+  ForbiddenError,
+  Permissions,
+  hasPermission,
+} from "@/common/permissions"
 
 type RestrictedRouteProps = {
   children?: React.ReactNode

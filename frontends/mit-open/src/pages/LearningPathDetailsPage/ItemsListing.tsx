@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react"
 import classNames from "classnames"
 import type { LearningPathRelationship } from "api"
-import LearningResourceCard from "page-components/LearningResourceCard/LearningResourceCard"
+import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import {
   SortableItem,
   SortableList,

@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client"
 import { createBrowserRouter } from "react-router-dom"
 import invariant from "tiny-invariant"
 import * as Sentry from "@sentry/react"
-import { createQueryClient } from "services/react-query/react-query"
-import routes from "common/routes"
+import { createQueryClient } from "@/services/react-query/react-query"
+import routes from "./routes"
 import AppProviders from "./AppProviders"
 
 Sentry.init({

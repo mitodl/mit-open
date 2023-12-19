@@ -18,14 +18,14 @@ import { MetaTags } from "ol-utilities"
 import type { LearningPathResource } from "api"
 import { useLearningPathsList } from "api/hooks/learningResources"
 
-import { GridColumn, GridContainer } from "components/GridLayout/GridLayout"
+import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
-import LearningResourceCardTemplate from "page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
+import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 
-import { imgConfigs } from "common/constants"
-import { manageListDialogs } from "page-components/ManageListDialogs/ManageListDialogs"
+import { imgConfigs } from "@/common/constants"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
-import * as urls from "common/urls"
+import * as urls from "@/common/urls"
 
 type EditListMenuProps = {
   resource: LearningPathResource
