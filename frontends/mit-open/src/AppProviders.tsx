@@ -1,13 +1,11 @@
 import React, { StrictMode } from "react"
 import { HelmetProvider } from "react-helmet-async"
-
 import { RouterProvider } from "react-router-dom"
 import type { RouterProviderProps } from "react-router-dom"
-
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { ThemeProvider } from "ol-design"
 import { Provider as NiceModalProvider } from "@ebay/nice-modal-react"
+import { ThemeProvider } from "ol-components"
 
 interface AppProps {
   router: RouterProviderProps["router"]
@@ -37,4 +35,4 @@ const AppProviders: React.FC<AppProps> = ({ router, queryClient }) => {
   )
 }
 
-export { AppProviders }
+export default AppProviders

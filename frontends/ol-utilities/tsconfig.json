@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "deprecated/*": ["deprecated/*"]
+    }
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+}

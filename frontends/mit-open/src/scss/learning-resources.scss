@@ -1,12 +1,14 @@
 @use "theme";
-@use "ol-util/assets/breakpoint";
-@use "ol-search-ui/assets/learning-resource-card" with (
+@use "ol-utilities/assets/breakpoint";
+@use "../page-components/LearningResourceCardTemplateLegacy/learning-resource-card-legacy"
+  with (
   $light-text: theme.$font-color-light
 );
-@use "ol-learning-resources/assets/learning-resource-card-template" with (
+@use "../page-components/LearningResourceCardTemplate/learning-resource-card-template"
+  with (
   $light-text: theme.$font-color-light
 );
-@use "ol-search-ui/assets/learning-resource-drawer";
+@use "../page-components/ExpandedLearningResourceDisplay/learning-resource-drawer";
 
 $card-list-spacer: 1.5em;
 

@@ -1,9 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import type { Dispatch, SetStateAction } from "react"
-import { Button } from "ol-design"
+import { Button } from "ol-components"
 import AddIcon from "@mui/icons-material/Add"
 import { uniqueId, zip } from "lodash"
-import { RenderActive, SortableItem, SortableList, SortEndEvent } from "ol-util"
+import {
+  RenderActive,
+  SortableItem,
+  SortableList,
+  SortEndEvent,
+} from "ol-utilities"
 import Widget from "../Widget"
 import type { WidgetListResponse, AnonymousWidget } from "../../interfaces"
 import type {

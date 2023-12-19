@@ -14,7 +14,7 @@ module.exports = {
         {
           group: ["@mui/material*", "@mui/lab/*"],
           message:
-            "Please use 'ol-design' isInterfaceDeclaration; Direct use of @mui/material is limited to ol-design.",
+            "Please use 'ol-components' isInterfaceDeclaration; Direct use of @mui/material is limited to ol-components.",
         },
       ],
     }),
@@ -40,12 +40,13 @@ module.exports = {
         ],
       },
     ],
+    "import/no-duplicates": "error",
   },
   overrides: [
     {
       files: [
-        "./frontends/ol-design/**/*.ts",
-        "./frontends/ol-design/**/*.tsx",
+        "./frontends/ol-components/**/*.ts",
+        "./frontends/ol-components/**/*.tsx",
       ],
       rules: {
         ...restrictedImports(),
@@ -60,7 +61,7 @@ function restrictedImports({ paths = [], patterns = [] } = {}) {
    * it's difficult to restrict imports but allow a few exceptions.
    *
    * For example:
-   *  - forbid importing `@mui/material/*`, EXCEPT within `ol-design`.
+   *  - forbid importing `@mui/material/*`, EXCEPT within `ol-components`.
    *
    * It is possible to do this using overrides.
    *

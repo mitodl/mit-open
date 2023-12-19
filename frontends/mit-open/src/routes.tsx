@@ -1,22 +1,15 @@
 import React from "react"
 import { RouteObject, Outlet } from "react-router"
-import HomePage from "./pages/Home/Home"
-import RestrictedRoute from "./components/RestrictedRoute"
-import LearningPathListingPage from "./pages/learningpaths/LearningPathListingPage"
-import LearningPathDetailsPage from "./pages/learningpaths/LearningPathDetails"
-import ArticleDetailsPage from "./pages/articles/ArticleDetailsPage"
-import {
-  ArticlesCreatePage,
-  ArticleEditingPage,
-} from "./pages/articles/ArticleUpsertPages"
-import ErrorPage from "./pages/errors/ErrorPage"
-import * as urls from "./pages/urls"
-import * as deprecatedUrls from "./infinite-pages/urls"
-import EditFieldPage from "./infinite-pages/field-details/EditFieldPage"
-import FieldPage from "./infinite-pages/field-details/FieldPage"
-
-import Header from "./components/Header"
-import { Permissions } from "./util/permissions"
+import HomePage from "@/pages/HomePage/HomePage"
+import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
+import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
+import LearningPathDetailsPage from "@/pages/LearningPathDetailsPage/LearningPathDetailsPage"
+import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
+import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
+import ErrorPage from "@/pages/ErrorPage/ErrorPage"
+import * as urls from "@/common/urls"
+import Header from "@/components/Header/Header"
+import { Permissions } from "@/common/permissions"
 
 const routes: RouteObject[] = [
   {
@@ -50,25 +43,13 @@ const routes: RouteObject[] = [
           },
           {
             path: urls.ARTICLES_EDIT,
-            element: <ArticleEditingPage />,
+            element: <ArticleEditPage />,
           },
           {
             path: urls.ARTICLES_CREATE,
-            element: <ArticlesCreatePage />,
+            element: <ArticleCreatePage />,
           },
         ],
-      },
-      {
-        path: deprecatedUrls.FIELD_VIEW,
-        element: <FieldPage />,
-      },
-      {
-        path: deprecatedUrls.FIELD_EDIT_WIDGETS,
-        element: <FieldPage />,
-      },
-      {
-        path: deprecatedUrls.FIELD_EDIT,
-        element: <EditFieldPage />,
       },
     ],
   },

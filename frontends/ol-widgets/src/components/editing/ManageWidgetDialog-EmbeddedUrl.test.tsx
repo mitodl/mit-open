@@ -1,7 +1,7 @@
 import React from "react"
 import { screen, render } from "@testing-library/react"
 import user from "@testing-library/user-event"
-import { assertInstanceOf, assertNotNil, EmbedlyCard } from "ol-util"
+import { assertInstanceOf, assertNotNil, EmbedlyCard } from "ol-utilities"
 import {
   makeEmbeddedUrlWidgetSpec,
   makeEmbeddedUrlWidget,
@@ -23,8 +23,8 @@ const getErrorFor = (el: HTMLElement) => {
   return errEl
 }
 
-jest.mock("ol-util", () => {
-  const actual = jest.requireActual("ol-util")
+jest.mock("ol-utilities", () => {
+  const actual = jest.requireActual("ol-utilities")
   return {
     __esModule: true,
     ...actual,

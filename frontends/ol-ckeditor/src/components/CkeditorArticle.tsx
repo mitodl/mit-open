@@ -22,13 +22,12 @@ import {
 import { Link } from "@ckeditor/ckeditor5-link"
 import { List } from "@ckeditor/ckeditor5-list"
 import { MediaEmbed } from "@ckeditor/ckeditor5-media-embed"
-import { Paragraph } from "@ckeditor/ckeditor5-paragraph"
+import { Paragraph, ParagraphButtonUI } from "@ckeditor/ckeditor5-paragraph"
 import { CloudServices } from "@ckeditor/ckeditor5-cloud-services"
 
 // block toolbar setup
 import { BlockToolbar } from "@ckeditor/ckeditor5-ui"
-import { ParagraphButtonUI } from "@ckeditor/ckeditor5-paragraph"
-import { ensureEmbedlyPlatform, embedlyCardHtml } from "ol-util"
+import { ensureEmbedlyPlatform, embedlyCardHtml } from "ol-utilities"
 import cloudServicesConfig from "./cloudServices"
 import { useOnChangePendingActions } from "./util"
 

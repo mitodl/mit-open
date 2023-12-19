@@ -32,18 +32,38 @@ afterEach(() => {
 /**
  * We frequently spy on these, so let's just do it once.
  */
-jest.mock("ol-search-ui", () => {
-  const actual = jest.requireActual("ol-search-ui")
-  return {
-    ...actual,
-    LearningResourceCardTemplate: jest.fn(actual.LearningResourceCardTemplate),
-    ExpandedLearningResourceDisplay: jest.fn(
-      actual.ExpandedLearningResourceDisplay,
-    ),
-  }
-})
-jest.mock("../components/LearningResourceCard", () => {
-  const actual = jest.requireActual("../components/LearningResourceCard")
+jest.mock(
+  "@/page-components/LearningResourceCardTemplateLegacy/LearningResourceCardTemplateLegacy",
+  () => {
+    const actual = jest.requireActual(
+      "@/page-components/LearningResourceCardTemplateLegacy/LearningResourceCardTemplateLegacy",
+    )
+    return {
+      __esModule: true,
+      ...actual,
+      default: jest.fn(actual.default),
+    }
+  },
+)
+
+jest.mock(
+  "@/page-components/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay",
+  () => {
+    const actual = jest.requireActual(
+      "@/page-components/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay",
+    )
+    return {
+      __esModule: true,
+      ...actual,
+      default: jest.fn(actual.default),
+    }
+  },
+)
+
+jest.mock("@/page-components/LearningResourceCard/LearningResourceCard", () => {
+  const actual = jest.requireActual(
+    "@/page-components/LearningResourceCard/LearningResourceCard",
+  )
   return {
     __esModule: true,
     ...actual,

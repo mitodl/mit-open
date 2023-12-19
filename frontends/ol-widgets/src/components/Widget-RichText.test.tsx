@@ -4,7 +4,7 @@ import { render } from "@testing-library/react"
 import Widget from "./Widget"
 import { makeRichTextWidget } from "../factories"
 import { html_beautify as htmlBeautify } from "js-beautify"
-import { assertInstanceOf } from "ol-util"
+import { assertInstanceOf } from "ol-utilities"
 
 describe("Widget-RichText", () => {
   test("it renders markdown as expected", () => {

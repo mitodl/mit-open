@@ -2,11 +2,11 @@ import React from "react"
 import { createMemoryRouter, useRouteError } from "react-router"
 import type { RouteObject } from "react-router"
 
-import { AppProviders } from "../AppProviders"
+import AppProviders from "../AppProviders"
 import appRoutes from "../routes"
 import { render } from "@testing-library/react"
 import { setMockResponse } from "./mockAxios"
-import { createQueryClient } from "../libs/react-query"
+import { createQueryClient } from "@/services/react-query/react-query"
 import type { User } from "../types/settings"
 import { makeUserSettings } from "./factories"
 
