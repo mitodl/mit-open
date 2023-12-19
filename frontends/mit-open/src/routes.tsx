@@ -8,9 +8,6 @@ import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ErrorPage from "@/pages/ErrorPage/ErrorPage"
 import * as urls from "@/common/urls"
-import * as deprecatedUrls from "@/pages/InfinitePages/common/infinite-pages-urls"
-import EditFieldPage from "@/pages/InfinitePages/pages/EditFieldPage"
-import FieldPage from "@/pages/InfinitePages/pages/FieldPage"
 import Header from "@/components/Header/Header"
 import { Permissions } from "@/common/permissions"
 
@@ -53,18 +50,6 @@ const routes: RouteObject[] = [
             element: <ArticleCreatePage />,
           },
         ],
-      },
-      {
-        path: deprecatedUrls.FIELD_VIEW,
-        element: <FieldPage />,
-      },
-      {
-        path: deprecatedUrls.FIELD_EDIT_WIDGETS,
-        element: <FieldPage />,
-      },
-      {
-        path: deprecatedUrls.FIELD_EDIT,
-        element: <EditFieldPage />,
       },
     ],
   },
