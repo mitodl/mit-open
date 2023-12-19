@@ -87,24 +87,6 @@ Workspaces that can be shared across application root workspaces can follow the 
 
 - `ol-common` - For code common to `mit-open`, `ol-page-components` and `ol-components`. Used for TypeScript definitions and anything that has visibility of the app or is not a utility or service.
 
-## Large shared components
-
-Some components are large, contain a lot of functionality or can be considered a “mini app” for embedding within root applications. It may not necessarily be only their size that qualifies them for different treatment - perhaps they have special build chains, are not built on React, or have other requirements. The example in the project is the CKEditor, a rich text editor that has its own workspace, ol-ckeditor, in which we wrap and configure it for use in our application.
-
-These will always have their own package.json (as a defining factor), so are publishable independently to a package repository and should be, for reuse outside the project. To contain these and prevent our top level directories from sprawling, let’s introduce an ol-packages workspace that constitutes our npm packages library. Each of its child directories may contain a workspace of its own.
-
-```text
-├─ ol-packages
-│ ├─ ol-ckeditor – moved from top level
-│ │ ├─ ...
-│ ├─ ol-editable-widget – previously ol-widgets
-│ │ ├─ ...
-│ ├─ ol-rich-text-widget – abstracted from ol-widgets
-│ │ ├─ ...
-│ ├─ ol-embedded-url-widget – abstracted from ol-widgets
-│ │ ├─ ...
-```
-
 ## Import rules example
 
 In this sample project:
