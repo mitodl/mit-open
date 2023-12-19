@@ -45,6 +45,14 @@ def extend_schema_responses(serializer):
 
 
 @extend_schema_responses(FieldChannelSerializer)
+@extend_schema_view(
+    list=extend_schema(summary="List"),
+    retrieve=extend_schema(summary="Retrieve"),
+    create=extend_schema(summary="Create"),
+    update=extend_schema(summary="Update"),
+    destroy=extend_schema(summary="Destroy"),
+    partial_update=extend_schema(summary="Partial Update"),
+)
 class FieldChannelViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
@@ -82,6 +90,10 @@ class FieldChannelViewSet(
         return Response(status=HTTP_204_NO_CONTENT)
 
 
+@extend_schema_view(
+    get=extend_schema(summary="Field Moderators List"),
+    post=extend_schema(summary="Field Moderators Create"),
+)
 class FieldModeratorListView(ListCreateAPIView):
     """
     View for listing and adding moderators
@@ -102,6 +114,9 @@ class FieldModeratorListView(ListCreateAPIView):
         return User.objects.filter(groups__name=field_group_name)
 
 
+@extend_schema_view(
+    delete=extend_schema(summary="Field Moderators Destroy"),
+)
 class FieldModeratorDetailView(APIView):
     """
     View to retrieve and remove field channel moderators

@@ -210,7 +210,7 @@ def transform_contentfile(
         "title": title,
         "content_title": title,
         "key": s3_path,
-        "learning_resource_types": contentfile_data.get("learning_resource_types"),
+        "content_tags": contentfile_data.get("learning_resource_types"),
         "published": True,
     }
 
@@ -310,7 +310,7 @@ def transform_course(course_data: dict) -> dict:
         "etl_source": ETLSource.ocw.name,
         "title": course_data["course_title"],
         "departments": course_data.get("department_numbers", []),
-        "resource_content_tags": course_data.get("learning_resource_types", []),
+        "content_tags": course_data.get("learning_resource_types", []),
         "image": {
             "url": urljoin(settings.OCW_BASE_URL, image_src) if image_src else None,
             "description": course_data.get("course_image_metadata", {}).get(

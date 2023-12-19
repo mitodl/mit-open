@@ -89,7 +89,7 @@ class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 
     def to_representation(self, value):
-        """Serialize resource_content_tags as a list of names"""
+        """Serialize content tags as a list of names"""
         return [tag.name for tag in value.all()]
 
 
@@ -116,6 +116,14 @@ class LearningResourceDepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LearningResourceDepartment
         fields = ["department_id", "name"]
+
+
+class LearningResourceContentTagSerializer(serializers.ModelSerializer):
+    """Serializer for LearningResourceContentTag"""
+
+    class Meta:
+        model = models.LearningResourceContentTag
+        fields = ["id", "name"]
 
 
 class LearningResourceImageSerializer(serializers.ModelSerializer):
@@ -233,7 +241,10 @@ class MicroLearningPathRelationshipSerializer(serializers.ModelSerializer):
     Serializer containing only parent and child ids for a learning path relationship
     """
 
-    parent = serializers.ReadOnlyField(source="parent_id")
+    parent = serializers.ReadOnlyField(
+        source="parent_id",
+        help_text="The id of the parent learning resource",
+    )
     child = serializers.ReadOnlyField(source="child_id")
 
     class Meta:
@@ -246,7 +257,9 @@ class MicroUserListRelationshipSerializer(serializers.ModelSerializer):
     Serializer containing only parent and child ids for a user list relationship
     """
 
-    parent = serializers.ReadOnlyField(source="parent_id")
+    parent = serializers.ReadOnlyField(
+        source="parent_id", help_text="The id of the parent learning resource"
+    )
     child = serializers.ReadOnlyField(source="child_id")
 
     class Meta:
@@ -259,8 +272,8 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
 
     offered_by = LearningResourceOfferorSerializer(read_only=True, allow_null=True)
     platform = LearningResourcePlatformSerializer(read_only=True, allow_null=True)
-    resource_content_tags = LearningResourceContentTagField(
-        read_only=True, allow_null=True
+    course_feature = LearningResourceContentTagField(
+        source="content_tags", read_only=True, allow_null=True
     )
     departments = LearningResourceDepartmentSerializer(
         read_only=True, allow_null=True, many=True
@@ -337,7 +350,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     class Meta:
         model = models.LearningResource
         read_only_fields = ["professional"]
-        exclude = ["resources", "etl_source", *COMMON_IGNORED_FIELDS]
+        exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 
 class ProgramResourceSerializer(LearningResourceBaseSerializer):
@@ -423,7 +436,7 @@ class LearningPathResourceSerializer(LearningResourceBaseSerializer):
 
     class Meta:
         model = models.LearningResource
-        exclude = ["resources", "etl_source", *COMMON_IGNORED_FIELDS]
+        exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
         read_only_fields = ["platform", "offered_by", "readable_id"]
 
 
@@ -562,20 +575,13 @@ class ContentFileSerializer(serializers.ModelSerializer):
     resource_readable_num = serializers.CharField(
         source="run.learning_resource.resource_num"
     )
-    content_category = serializers.SerializerMethodField()
+    content_feature_type = LearningResourceContentTagField(source="content_tags")
     offered_by = LearningResourceOfferorSerializer(
         source="run.learning_resource.offered_by"
     )
     platform = LearningResourcePlatformSerializer(
         source="run.learning_resource.platform"
     )
-
-    def get_content_category(self, instance):  # noqa: ARG002
-        """
-        Get the file type of the ContentFile. For now, just return None.
-        NOTE: This function needs to be updated once OCW courses are added.
-        """
-        return
 
     class Meta:
         model = models.ContentFile
@@ -593,10 +599,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "url",
-            "short_url",
-            "section",
-            "section_slug",
-            "content_category",
+            "content_feature_type",
             "content_type",
             "content",
             "content_title",

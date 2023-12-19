@@ -50,7 +50,7 @@ def _post_gen_tags(obj, create, extracted, **kwargs):  # noqa: ARG001
             random.randint(1, 5)  # noqa: S311
         )
 
-    obj.resource_content_tags.set(extracted)
+    obj.content_tags.set(extracted)
 
 
 class LearningResourceContentTagFactory(DjangoModelFactory):
@@ -169,7 +169,7 @@ class LearningResourceFactory(DjangoModelFactory):
     offered_by = factory.SubFactory(LearningResourceOfferorFactory)
     departments = factory.PostGeneration(_post_gen_departments)
     topics = factory.PostGeneration(_post_gen_topics)
-    resource_content_tags = factory.PostGeneration(_post_gen_tags)
+    content_tags = factory.PostGeneration(_post_gen_tags)
     published = True
 
     course = factory.Maybe(
@@ -565,12 +565,12 @@ class ContentFileFactory(DjangoModelFactory):
     uid = factory.Faker("text", max_nb_chars=32)
     url = factory.Faker("url")
     image_src = FuzzyChoice(("https://img.youtube.com/thumb.jpg", None))
-    short_url = factory.Faker("word")
     content_type = FuzzyChoice(
         (constants.CONTENT_TYPE_FILE, constants.CONTENT_TYPE_PAGE)
     )
     file_type = FuzzyChoice(("application/pdf", "video/mp4", "text"))
     published = True
+    content_tags = factory.PostGeneration(_post_gen_tags)
 
     class Meta:
         model = models.ContentFile

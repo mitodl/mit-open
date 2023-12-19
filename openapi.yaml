@@ -8,6 +8,7 @@ paths:
     get:
       operationId: articles_list
       description: Viewset for Article viewing and editing.
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -33,6 +34,7 @@ paths:
     post:
       operationId: articles_create
       description: Viewset for Article viewing and editing.
+      summary: Create
       tags:
       - articles
       requestBody:
@@ -58,6 +60,7 @@ paths:
     get:
       operationId: articles_retrieve
       description: Viewset for Article viewing and editing.
+      summary: Retrieve
       parameters:
       - in: path
         name: id
@@ -77,6 +80,7 @@ paths:
     put:
       operationId: articles_update
       description: Viewset for Article viewing and editing.
+      summary: Update
       parameters:
       - in: path
         name: id
@@ -108,6 +112,7 @@ paths:
     patch:
       operationId: articles_partial_update
       description: Viewset for Article viewing and editing.
+      summary: Partial Update
       parameters:
       - in: path
         name: id
@@ -138,6 +143,7 @@ paths:
     delete:
       operationId: articles_destroy
       description: Viewset for Article viewing and editing.
+      summary: Destroy
       parameters:
       - in: path
         name: id
@@ -153,7 +159,8 @@ paths:
   /api/v1/content_file_search/:
     get:
       operationId: content_file_search_retrieve
-      description: View for executing searches of content files
+      description: Search for content files
+      summary: Search
       parameters:
       - in: query
         name: aggregations
@@ -162,32 +169,37 @@ paths:
           items:
             enum:
             - topic
-            - content_category
+            - content_feature_type
             - platform
             - offered_by
             type: string
             description: |-
               * `topic` - topic
-              * `content_category` - content_category
+              * `content_feature_type` - content_feature_type
               * `platform` - platform
               * `offered_by` - offered_by
+        description: Show resource counts by category
       - in: query
-        name: content_category
+        name: content_feature_type
         schema:
           type: array
           items:
             type: string
             minLength: 1
+        description: The feature type of the content file. Possible options are at
+          api/v1/course_features/
       - in: query
         name: id
         schema:
           type: array
           items:
             type: integer
+        description: The id value for the content file
       - in: query
         name: limit
         schema:
           type: integer
+        description: Number of results to return per page
       - in: query
         name: offered_by
         schema:
@@ -214,8 +226,8 @@ paths:
               * `see` - Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
-        description: "The organization that offers learning resources            \
-          \ \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
+        description: "The organization that offers the learning resource         \
+          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
           \ - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see`\
           \ - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
           * `ctl` - Center for Transportation & Logistics"
@@ -223,6 +235,7 @@ paths:
         name: offset
         schema:
           type: integer
+        description: The initial index from which to return the results
       - in: query
         name: platform
         schema:
@@ -265,8 +278,8 @@ paths:
               * `simplilearn` - Simplilearn
               * `emeritus` - Emeritus
               * `podcast` - Podcast
-        description: "The platform on which learning resources are offered       \
-          \      \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
+        description: "The platform on which the learning resource id offered     \
+          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
           * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
           * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
           \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
@@ -285,12 +298,15 @@ paths:
           type: array
           items:
             type: integer
+        description: The id value of the parent learning resource for the content
+          file
       - in: query
         name: run_id
         schema:
           type: array
           items:
             type: integer
+        description: The id value of the run that the content file belongs to
       - in: query
         name: sortby
         schema:
@@ -315,6 +331,7 @@ paths:
           items:
             type: string
             minLength: 1
+        description: The topic name. To see a list of options go to api/v1/topics/
       tags:
       - content_file_search
       responses:
@@ -327,7 +344,8 @@ paths:
   /api/v1/contentfiles/:
     get:
       operationId: contentfiles_list
-      description: Viewset for CpntentFiles
+      description: Viewset for ContentFiles
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -377,7 +395,8 @@ paths:
   /api/v1/contentfiles/{id}/:
     get:
       operationId: contentfiles_retrieve
-      description: Viewset for CpntentFiles
+      description: Viewset for ContentFiles
+      summary: Retrieve
       parameters:
       - in: path
         name: id
@@ -394,12 +413,65 @@ paths:
               schema:
                 $ref: '#/components/schemas/ContentFile'
           description: ''
+  /api/v1/course_features/:
+    get:
+      operationId: course_features_list
+      description: Course Features and Content Feature Types
+      summary: List
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - course_features
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceContentTagList'
+          description: ''
+  /api/v1/course_features/{id}/:
+    get:
+      operationId: course_features_retrieve
+      description: Course Features and Content Feature Types
+      summary: Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - course_features
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceContentTag'
+          description: ''
   /api/v1/courses/:
     get:
       operationId: courses_list
-      description: Get a paginated list of learning resources.
+      description: Get a paginated list of courses
       summary: List
       parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -588,12 +660,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -662,7 +728,7 @@ paths:
   /api/v1/courses/{id}/:
     get:
       operationId: courses_retrieve
-      description: Retrieve a single learning resource.
+      description: Retrieve a single course
       summary: Retrieve
       parameters:
       - in: path
@@ -683,7 +749,8 @@ paths:
   /api/v1/courses/{run__learning_resource}/contentfiles/:
     get:
       operationId: courses_contentfiles_list
-      description: Viewset for LearningResource nested ContentFiles
+      description: Show content files for a learning resource
+      summary: Learning Resource Content File List
       parameters:
       - name: limit
         required: false
@@ -722,7 +789,8 @@ paths:
   /api/v1/courses/{run__learning_resource}/contentfiles/{id}/:
     get:
       operationId: courses_contentfiles_retrieve
-      description: Viewset for LearningResource nested ContentFiles
+      description: Show content files for a learning resource
+      summary: Learning Resource Content File Retrieve
       parameters:
       - in: path
         name: id
@@ -746,28 +814,16 @@ paths:
           description: ''
   /api/v1/courses/new/:
     get:
-      operationId: courses_new_retrieve
-      description: |-
-        Get new LearningResources
-
-        Returns:
-            QuerySet of LearningResource objects ordered by reverse created_on
+      operationId: courses_new_list
+      description: Get a paginated list of newly released Courses.
       summary: List New
-      tags:
-      - courses
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CourseResource'
-          description: ''
-  /api/v1/courses/upcoming/:
-    get:
-      operationId: courses_upcoming_list
-      description: Get a paginated list of upcoming $Courses.
-      summary: List Upcoming
       parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -957,11 +1013,270 @@ paths:
         schema:
           type: boolean
       - in: query
-        name: resource_content_tags
+        name: resource_type
         schema:
           type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
+          enum:
+          - course
+          - learning_path
+          - podcast
+          - podcast_episode
+          - program
+        description: |-
+          The type of learning resource
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -mitcoursenumber
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - mitcoursenumber
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
+      tags:
+      - courses
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCourseResourceList'
+          description: ''
+  /api/v1/courses/upcoming/:
+    get:
+      operationId: courses_upcoming_list
+      description: Get a paginated list of upcoming Courses.
+      summary: List Upcoming
+      parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          The department that offers learning resources
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - mitpe
+          - mitx
+          - ocw
+          - scc
+          - see
+          - xpro
+        description: |-
+          The organization that offers a learning resource
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          The platform on which learning resources are offered
+
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
+      - in: query
+        name: professional
+        schema:
+          type: boolean
       - in: query
         name: resource_type
         schema:
@@ -1031,7 +1346,7 @@ paths:
     get:
       operationId: departments_list
       description: MIT academic departments
-      summary: List of departments
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -1058,7 +1373,7 @@ paths:
     get:
       operationId: departments_retrieve
       description: MIT academic departments
-      summary: Department details
+      summary: Retrieve
       parameters:
       - in: path
         name: department_id
@@ -1081,6 +1396,7 @@ paths:
       description: |-
         CRUD Operations related to Fields. Fields may represent groups or organizations
         at MIT and are a high-level categorization of content.
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -1108,6 +1424,7 @@ paths:
       description: |-
         CRUD Operations related to Fields. Fields may represent groups or organizations
         at MIT and are a high-level categorization of content.
+      summary: Create
       tags:
       - fields
       requestBody:
@@ -1135,6 +1452,7 @@ paths:
       description: |-
         CRUD Operations related to Fields. Fields may represent groups or organizations
         at MIT and are a high-level categorization of content.
+      summary: Retrieve
       parameters:
       - in: path
         name: field_name
@@ -1155,6 +1473,7 @@ paths:
       description: |-
         CRUD Operations related to Fields. Fields may represent groups or organizations
         at MIT and are a high-level categorization of content.
+      summary: Update
       parameters:
       - in: path
         name: field_name
@@ -1187,6 +1506,7 @@ paths:
       description: |-
         CRUD Operations related to Fields. Fields may represent groups or organizations
         at MIT and are a high-level categorization of content.
+      summary: Partial Update
       parameters:
       - in: path
         name: field_name
@@ -1218,6 +1538,7 @@ paths:
       description: |-
         CRUD Operations related to Fields. Fields may represent groups or organizations
         at MIT and are a high-level categorization of content.
+      summary: Destroy
       parameters:
       - in: path
         name: field_name
@@ -1233,6 +1554,7 @@ paths:
     get:
       operationId: fields_moderators_list
       description: View for listing and adding moderators
+      summary: Field Moderators List
       parameters:
       - in: path
         name: field_name
@@ -1254,6 +1576,7 @@ paths:
     post:
       operationId: fields_moderators_create
       description: View for listing and adding moderators
+      summary: Field Moderators Create
       parameters:
       - in: path
         name: field_name
@@ -1285,6 +1608,7 @@ paths:
     delete:
       operationId: fields_moderators_destroy
       description: Remove the user from the moderator groups for this website
+      summary: Field Moderators Destroy
       parameters:
       - in: path
         name: field_name
@@ -1309,6 +1633,12 @@ paths:
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -1497,12 +1827,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -1571,7 +1895,8 @@ paths:
   /api/v1/learning_resources/{parent_id}/items/:
     get:
       operationId: learning_resources_items_list
-      description: Viewset for LearningResource related resources
+      description: Get a list of related learning resources for a learning resource.
+      summary: Nested Learning Resource List
       parameters:
       - name: limit
         required: false
@@ -1608,7 +1933,8 @@ paths:
   /api/v1/learning_resources/{parent_id}/items/{id}/:
     get:
       operationId: learning_resources_items_retrieve
-      description: Viewset for LearningResource related resources
+      description: Get a singe related learning resource for a learning resource.
+      summary: Nested Learning Resource Retrieve
       parameters:
       - in: path
         name: id
@@ -1654,7 +1980,8 @@ paths:
   /api/v1/learning_resources/{run__learning_resource}/contentfiles/:
     get:
       operationId: learning_resources_contentfiles_list
-      description: Viewset for LearningResource nested ContentFiles
+      description: Show content files for a learning resource
+      summary: Learning Resource Content File List
       parameters:
       - name: limit
         required: false
@@ -1693,7 +2020,8 @@ paths:
   /api/v1/learning_resources/{run__learning_resource}/contentfiles/{id}/:
     get:
       operationId: learning_resources_contentfiles_retrieve
-      description: Viewset for LearningResource nested ContentFiles
+      description: Show content files for a learning resource
+      summary: Learning Resource Content File Retrieve
       parameters:
       - in: path
         name: id
@@ -1717,28 +2045,16 @@ paths:
           description: ''
   /api/v1/learning_resources/new/:
     get:
-      operationId: learning_resources_new_retrieve
-      description: |-
-        Get new LearningResources
-
-        Returns:
-            QuerySet of LearningResource objects ordered by reverse created_on
+      operationId: learning_resources_new_list
+      description: Get a paginated list of newly released Learning Resources.
       summary: List New
-      tags:
-      - learning_resources
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningResource'
-          description: ''
-  /api/v1/learning_resources/upcoming/:
-    get:
-      operationId: learning_resources_upcoming_list
-      description: Get a paginated list of upcoming $Learning Resources.
-      summary: List Upcoming
       parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -1928,11 +2244,270 @@ paths:
         schema:
           type: boolean
       - in: query
-        name: resource_content_tags
+        name: resource_type
         schema:
           type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
+          enum:
+          - course
+          - learning_path
+          - podcast
+          - podcast_episode
+          - program
+        description: |-
+          The type of learning resource
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -mitcoursenumber
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - mitcoursenumber
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
+      tags:
+      - learning_resources
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
+          description: ''
+  /api/v1/learning_resources/upcoming/:
+    get:
+      operationId: learning_resources_upcoming_list
+      description: Get a paginated list of upcoming Learning Resources.
+      summary: List Upcoming
+      parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          The department that offers learning resources
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - mitpe
+          - mitx
+          - ocw
+          - scc
+          - see
+          - xpro
+        description: |-
+          The organization that offers a learning resource
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          The platform on which learning resources are offered
+
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
+      - in: query
+        name: professional
+        schema:
+          type: boolean
       - in: query
         name: resource_type
         schema:
@@ -2001,7 +2576,8 @@ paths:
   /api/v1/learning_resources_search/:
     get:
       operationId: learning_resources_search_retrieve
-      description: View for executing searches of learning resources
+      description: Search for learning resources
+      summary: Search
       parameters:
       - in: query
         name: aggregations
@@ -2016,7 +2592,7 @@ paths:
             - topic
             - department
             - level
-            - resource_content_tags
+            - course_feature
             - professional
             type: string
             description: |-
@@ -2027,14 +2603,23 @@ paths:
               * `topic` - topic
               * `department` - department
               * `level` - level
-              * `resource_content_tags` - resource_content_tags
+              * `course_feature` - course_feature
               * `professional` - professional
+        description: Show resource counts by category
       - in: query
         name: certification
         schema:
           type: boolean
           nullable: true
-        description: true if the learning resource offers a certifacate
+        description: True if the learning resource offers a certificate
+      - in: query
+        name: course_feature
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        description: The course feature. Possible options are at api/v1/course_features/
       - in: query
         name: department
         schema:
@@ -2117,8 +2702,8 @@ paths:
               * `RES` - Supplemental Resources
               * `STS` - Science, Technology, and Society
               * `WGS` - Women's and Gender Studies
-        description: "The department that offers learning resources             \n\
-          \n* `1` - Civil and Environmental Engineering\n* `2` - Mechanical Engineering\n\
+        description: "The department that offers the learning resource           \
+          \  \n\n* `1` - Civil and Environmental Engineering\n* `2` - Mechanical Engineering\n\
           * `3` - Materials Science and Engineering\n* `4` - Architecture\n* `5` -\
           \ Chemistry\n* `6` - Electrical Engineering and Computer Science\n* `7`\
           \ - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n* `10`\
@@ -2142,17 +2727,34 @@ paths:
           type: array
           items:
             type: integer
+        description: The id value for the learning resource
       - in: query
         name: level
         schema:
           type: array
           items:
+            enum:
+            - undergraduate
+            - graduate
+            - high_school
+            - noncredit
+            - advanced
+            - intermediate
+            - introductory
             type: string
-            minLength: 1
+            description: |-
+              * `undergraduate` - undergraduate
+              * `graduate` - graduate
+              * `high_school` - high school
+              * `noncredit` - non credit
+              * `advanced` - advanced
+              * `intermediate` - intermediate
+              * `introductory` - introductory
       - in: query
         name: limit
         schema:
           type: integer
+        description: Number of results to return per page
       - in: query
         name: offered_by
         schema:
@@ -2179,8 +2781,8 @@ paths:
               * `see` - Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
-        description: "The organization that offers learning resources            \
-          \ \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
+        description: "The organization that offers the learning resource         \
+          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
           \ - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see`\
           \ - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
           * `ctl` - Center for Transportation & Logistics"
@@ -2188,6 +2790,7 @@ paths:
         name: offset
         schema:
           type: integer
+        description: The initial index from which to return the results
       - in: query
         name: platform
         schema:
@@ -2230,8 +2833,8 @@ paths:
               * `simplilearn` - Simplilearn
               * `emeritus` - Emeritus
               * `podcast` - Podcast
-        description: "The platform on which learning resources are offered       \
-          \      \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
+        description: "The platform on which the learning resource id offered     \
+          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
           * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
           * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
           \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
@@ -2249,13 +2852,6 @@ paths:
           type: string
           minLength: 1
         description: The search text
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: array
-          items:
-            type: string
-            minLength: 1
       - in: query
         name: resource_type
         schema:
@@ -2301,7 +2897,7 @@ paths:
           type: string
           minLength: 1
         description: |-
-          if the parameter starts with '-' the sort is in descending order
+          If the parameter starts with '-' the sort is in descending order
 
           * `id` - Object ID ascending
           * `-id` - Object ID descending
@@ -2322,6 +2918,7 @@ paths:
           items:
             type: string
             minLength: 1
+        description: The topic name. To see a list of options go to api/v1/topics/
       tags:
       - learning_resources_search
       responses:
@@ -2334,9 +2931,15 @@ paths:
   /api/v1/learningpaths/:
     get:
       operationId: learningpaths_list
-      description: Get a paginated list of learning resources.
+      description: Get a paginated list of learning paths
       summary: List
       parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -2525,12 +3128,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -2598,7 +3195,8 @@ paths:
           description: ''
     post:
       operationId: learningpaths_create
-      description: Viewset for LearningPaths
+      description: Create a learning path
+      summary: Create
       tags:
       - learningpaths
       requestBody:
@@ -2623,7 +3221,8 @@ paths:
   /api/v1/learningpaths/{parent_id}/resources/:
     get:
       operationId: learningpaths_resources_list
-      description: Viewset for LearningPath related resources
+      description: Get a list of related learning resources for a learning resource.
+      summary: Nested Learning Resource List
       parameters:
       - name: limit
         required: false
@@ -2660,6 +3259,7 @@ paths:
     post:
       operationId: learningpaths_resources_create
       description: Viewset for LearningPath related resources
+      summary: Learning Path Resource Relationship Add
       parameters:
       - in: path
         name: parent_id
@@ -2690,7 +3290,8 @@ paths:
   /api/v1/learningpaths/{parent_id}/resources/{id}/:
     get:
       operationId: learningpaths_resources_retrieve
-      description: Viewset for LearningPath related resources
+      description: Get a singe related learning resource for a learning resource.
+      summary: Nested Learning Resource Retrieve
       parameters:
       - in: path
         name: id
@@ -2715,6 +3316,7 @@ paths:
     put:
       operationId: learningpaths_resources_update
       description: Viewset for LearningPath related resources
+      summary: Learning Path Resource Relationship Update
       parameters:
       - in: path
         name: id
@@ -2751,6 +3353,7 @@ paths:
     patch:
       operationId: learningpaths_resources_partial_update
       description: Viewset for LearningPath related resources
+      summary: Learning Path Resource Relationship Partial Update
       parameters:
       - in: path
         name: id
@@ -2786,6 +3389,7 @@ paths:
     delete:
       operationId: learningpaths_resources_destroy
       description: Viewset for LearningPath related resources
+      summary: Learning Path Resource Relationship Remove
       parameters:
       - in: path
         name: id
@@ -2806,7 +3410,7 @@ paths:
   /api/v1/learningpaths/{id}/:
     get:
       operationId: learningpaths_retrieve
-      description: Retrieve a single learning resource.
+      description: Retrive a single learning path
       summary: Retrieve
       parameters:
       - in: path
@@ -2826,7 +3430,8 @@ paths:
           description: ''
     put:
       operationId: learningpaths_update
-      description: Viewset for LearningPaths
+      description: Update all fields of a learning path
+      summary: Update
       parameters:
       - in: path
         name: id
@@ -2857,7 +3462,8 @@ paths:
           description: ''
     patch:
       operationId: learningpaths_partial_update
-      description: Viewset for LearningPaths
+      description: Update individual fields of a learning path
+      summary: Partial Update
       parameters:
       - in: path
         name: id
@@ -2887,7 +3493,8 @@ paths:
           description: ''
     delete:
       operationId: learningpaths_destroy
-      description: Viewset for LearningPaths
+      description: Remove a learning path
+      summary: Destroy
       parameters:
       - in: path
         name: id
@@ -2904,7 +3511,7 @@ paths:
     get:
       operationId: offerors_list
       description: MIT organizations that offer learning resources
-      summary: List of offerors
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -2931,7 +3538,7 @@ paths:
     get:
       operationId: offerors_retrieve
       description: MIT organizations that offer learning resources
-      summary: Offerer details
+      summary: Retrieve
       parameters:
       - in: path
         name: code
@@ -2952,7 +3559,7 @@ paths:
     get:
       operationId: platforms_list
       description: Platforms on which learning resources are hosted
-      summary: List of platforms
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -2979,7 +3586,7 @@ paths:
     get:
       operationId: platforms_retrieve
       description: Platforms on which learning resources are hosted
-      summary: Platform details
+      summary: Retrieve
       parameters:
       - in: path
         name: code
@@ -2999,9 +3606,15 @@ paths:
   /api/v1/podcast_episodes/:
     get:
       operationId: podcast_episodes_list
-      description: Get a paginated list of learning resources.
+      description: Get a paginated list of podcast episodes
       summary: List
       parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -3190,12 +3803,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -3264,7 +3871,7 @@ paths:
   /api/v1/podcast_episodes/{id}/:
     get:
       operationId: podcast_episodes_retrieve
-      description: Retrieve a single learning resource.
+      description: Retrieve a single podcast episode
       summary: Retrieve
       parameters:
       - in: path
@@ -3285,9 +3892,15 @@ paths:
   /api/v1/podcasts/:
     get:
       operationId: podcasts_list
-      description: Get a paginated list of learning resources.
+      description: Get a paginated list of podcasts
       summary: List
       parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -3476,12 +4089,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -3550,7 +4157,8 @@ paths:
   /api/v1/podcasts/{parent_id}/items/:
     get:
       operationId: podcasts_items_list
-      description: Viewset for LearningResource related resources
+      description: Get a list of related learning resources for a learning resource.
+      summary: Nested Learning Resource List
       parameters:
       - name: limit
         required: false
@@ -3587,7 +4195,8 @@ paths:
   /api/v1/podcasts/{parent_id}/items/{id}/:
     get:
       operationId: podcasts_items_retrieve
-      description: Viewset for LearningResource related resources
+      description: Get a singe related learning resource for a learning resource.
+      summary: Nested Learning Resource Retrieve
       parameters:
       - in: path
         name: id
@@ -3612,7 +4221,7 @@ paths:
   /api/v1/podcasts/{id}/:
     get:
       operationId: podcasts_retrieve
-      description: Retrieve a single learning resource.
+      description: Retrieve a single podcast
       summary: Retrieve
       parameters:
       - in: path
@@ -3633,9 +4242,15 @@ paths:
   /api/v1/programs/:
     get:
       operationId: programs_list
-      description: Get a paginated list of learning resources.
+      description: Get a paginated list of programs
       summary: List
       parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -3824,12 +4439,6 @@ paths:
         name: professional
         schema:
           type: boolean
-      - in: query
-        name: resource_content_tags
-        schema:
-          type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
       - in: query
         name: resource_type
         schema:
@@ -3898,7 +4507,7 @@ paths:
   /api/v1/programs/{id}/:
     get:
       operationId: programs_retrieve
-      description: Retrieve a single learning resource.
+      description: Retrieve a single program
       summary: Retrieve
       parameters:
       - in: path
@@ -3918,28 +4527,16 @@ paths:
           description: ''
   /api/v1/programs/new/:
     get:
-      operationId: programs_new_retrieve
-      description: |-
-        Get new LearningResources
-
-        Returns:
-            QuerySet of LearningResource objects ordered by reverse created_on
+      operationId: programs_new_list
+      description: Get a paginated list of newly released Programs.
       summary: List New
-      tags:
-      - programs
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProgramResource'
-          description: ''
-  /api/v1/programs/upcoming/:
-    get:
-      operationId: programs_upcoming_list
-      description: Get a paginated list of upcoming $Programs.
-      summary: List Upcoming
       parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
       - in: query
         name: department
         schema:
@@ -4129,11 +4726,270 @@ paths:
         schema:
           type: boolean
       - in: query
-        name: resource_content_tags
+        name: resource_type
         schema:
           type: string
-        description: Content tags for the resources. Load the 'api/v1/content_tags'
-          endpoint for a list of tags
+          enum:
+          - course
+          - learning_path
+          - podcast
+          - podcast_episode
+          - program
+        description: |-
+          The type of learning resource
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -mitcoursenumber
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - mitcoursenumber
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: string
+        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
+          for a list of topics
+      tags:
+      - programs
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProgramResourceList'
+          description: ''
+  /api/v1/programs/upcoming/:
+    get:
+      operationId: programs_upcoming_list
+      description: Get a paginated list of upcoming Programs.
+      summary: List Upcoming
+      parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: string
+        description: Content feature for the resources. Load the 'api/v1/course_features'
+          endpoint for a list of course features
+      - in: query
+        name: department
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '10'
+          - '11'
+          - '12'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '2'
+          - '20'
+          - 21A
+          - 21G
+          - 21H
+          - 21L
+          - 21M
+          - '22'
+          - '24'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - CC
+          - CMS-W
+          - EC
+          - ES
+          - ESD
+          - HST
+          - IDS
+          - MAS
+          - PE
+          - RES
+          - STS
+          - WGS
+        description: |-
+          The department that offers learning resources
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum:
+          - advanced
+          - graduate
+          - high_school
+          - intermediate
+          - introductory
+          - noncredit
+          - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - mitpe
+          - mitx
+          - ocw
+          - scc
+          - see
+          - xpro
+        description: |-
+          The organization that offers a learning resource
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - bootcamps
+          - csail
+          - ctl
+          - edx
+          - emeritus
+          - globalalumni
+          - mitpe
+          - mitxonline
+          - ocw
+          - oll
+          - podcast
+          - scc
+          - see
+          - simplilearn
+          - susskind
+          - whu
+          - xpro
+        description: |-
+          The platform on which learning resources are offered
+
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
+      - in: query
+        name: professional
+        schema:
+          type: boolean
       - in: query
         name: resource_type
         schema:
@@ -4203,7 +5059,7 @@ paths:
     get:
       operationId: topics_list
       description: Topics covered by learning resources
-      summary: List of topics
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -4230,7 +5086,7 @@ paths:
     get:
       operationId: topics_retrieve
       description: Topics covered by learning resources
-      summary: Topic details
+      summary: Retrieve
       parameters:
       - in: path
         name: id
@@ -4251,6 +5107,7 @@ paths:
     get:
       operationId: userlists_list
       description: Viewset for UserLists
+      summary: List
       parameters:
       - name: limit
         required: false
@@ -4276,6 +5133,7 @@ paths:
     post:
       operationId: userlists_create
       description: Viewset for UserLists
+      summary: Create
       tags:
       - userlists
       requestBody:
@@ -4301,6 +5159,7 @@ paths:
     get:
       operationId: userlists_resources_list
       description: Viewset for UserListRelationships
+      summary: User List Resources List
       parameters:
       - name: limit
         required: false
@@ -4331,6 +5190,7 @@ paths:
     post:
       operationId: userlists_resources_create
       description: Viewset for UserListRelationships
+      summary: User List Resource Relationship Add
       parameters:
       - in: path
         name: parent_id
@@ -4362,6 +5222,7 @@ paths:
     get:
       operationId: userlists_resources_retrieve
       description: Viewset for UserListRelationships
+      summary: User List Resources Retrieve
       parameters:
       - in: path
         name: id
@@ -4386,6 +5247,7 @@ paths:
     put:
       operationId: userlists_resources_update
       description: Viewset for UserListRelationships
+      summary: User List Resource Relationship Update
       parameters:
       - in: path
         name: id
@@ -4422,6 +5284,7 @@ paths:
     patch:
       operationId: userlists_resources_partial_update
       description: Viewset for UserListRelationships
+      summary: User List Resource Relationship Partial Update
       parameters:
       - in: path
         name: id
@@ -4457,6 +5320,7 @@ paths:
     delete:
       operationId: userlists_resources_destroy
       description: Viewset for UserListRelationships
+      summary: User List Resource Relationship Remove
       parameters:
       - in: path
         name: id
@@ -4478,6 +5342,7 @@ paths:
     get:
       operationId: userlists_retrieve
       description: Viewset for UserLists
+      summary: Retrieve
       parameters:
       - in: path
         name: id
@@ -4497,6 +5362,7 @@ paths:
     put:
       operationId: userlists_update
       description: Viewset for UserLists
+      summary: Update
       parameters:
       - in: path
         name: id
@@ -4528,6 +5394,7 @@ paths:
     patch:
       operationId: userlists_partial_update
       description: Viewset for UserLists
+      summary: Partial Update
       parameters:
       - in: path
         name: id
@@ -4558,6 +5425,7 @@ paths:
     delete:
       operationId: userlists_destroy
       description: Viewset for UserLists
+      summary: Destroy
       parameters:
       - in: path
         name: id
@@ -4644,20 +5512,10 @@ components:
         url:
           type: string
           nullable: true
-        short_url:
-          type: string
-          nullable: true
-        section:
-          type: string
-          nullable: true
-          maxLength: 512
-        section_slug:
-          type: string
-          nullable: true
-          maxLength: 512
-        content_category:
-          type: string
-          readOnly: true
+        content_feature_type:
+          type: array
+          items:
+            type: string
         content_type:
           $ref: '#/components/schemas/ContentTypeEnum'
         content:
@@ -4697,7 +5555,7 @@ components:
         run_readable_id:
           type: string
       required:
-      - content_category
+      - content_feature_type
       - departments
       - id
       - offered_by
@@ -4795,7 +5653,7 @@ components:
           - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
-        resource_content_tags:
+        course_feature:
           type: array
           items:
             type: string
@@ -4883,6 +5741,7 @@ components:
       required:
       - certification
       - course
+      - course_feature
       - departments
       - id
       - image
@@ -4892,7 +5751,6 @@ components:
       - prices
       - professional
       - readable_id
-      - resource_content_tags
       - resource_type
       - runs
       - title
@@ -5243,7 +6101,7 @@ components:
           - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
-        resource_content_tags:
+        course_feature:
           type: array
           items:
             type: string
@@ -5329,6 +6187,7 @@ components:
           type: boolean
       required:
       - certification
+      - course_feature
       - departments
       - id
       - image
@@ -5338,7 +6197,6 @@ components:
       - platform
       - prices
       - readable_id
-      - resource_content_tags
       - resource_type
       - runs
       - title
@@ -5411,6 +6269,19 @@ components:
           type: integer
       required:
       - child
+    LearningResourceContentTag:
+      type: object
+      description: Serializer for LearningResourceContentTag
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+      required:
+      - id
+      - name
     LearningResourceDepartment:
       type: object
       description: Serializer for LearningResourceDepartment
@@ -5800,6 +6671,7 @@ components:
         parent:
           type: integer
           readOnly: true
+          description: The id of the parent learning resource
         child:
           type: integer
           readOnly: true
@@ -5818,6 +6690,7 @@ components:
         parent:
           type: integer
           readOnly: true
+          description: The id of the parent learning resource
         child:
           type: integer
           readOnly: true
@@ -5965,6 +6838,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceChild'
+    PaginatedLearningResourceContentTagList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceContentTag'
     PaginatedLearningResourceDepartmentList:
       type: object
       properties:
@@ -6381,7 +7274,7 @@ components:
           - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
-        resource_content_tags:
+        course_feature:
           type: array
           items:
             type: string
@@ -6468,6 +7361,7 @@ components:
           readOnly: true
       required:
       - certification
+      - course_feature
       - departments
       - id
       - image
@@ -6478,7 +7372,6 @@ components:
       - prices
       - professional
       - readable_id
-      - resource_content_tags
       - resource_type
       - runs
       - title
@@ -6574,7 +7467,7 @@ components:
           - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
-        resource_content_tags:
+        course_feature:
           type: array
           items:
             type: string
@@ -6661,6 +7554,7 @@ components:
           readOnly: true
       required:
       - certification
+      - course_feature
       - departments
       - id
       - image
@@ -6671,7 +7565,6 @@ components:
       - prices
       - professional
       - readable_id
-      - resource_content_tags
       - resource_type
       - runs
       - title
@@ -6765,7 +7658,7 @@ components:
           - $ref: '#/components/schemas/LearningResourcePlatform'
           readOnly: true
           nullable: true
-        resource_content_tags:
+        course_feature:
           type: array
           items:
             type: string
@@ -6852,6 +7745,7 @@ components:
           readOnly: true
       required:
       - certification
+      - course_feature
       - departments
       - id
       - image
@@ -6862,7 +7756,6 @@ components:
       - professional
       - program
       - readable_id
-      - resource_content_tags
       - resource_type
       - runs
       - title

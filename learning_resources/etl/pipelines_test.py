@@ -221,7 +221,7 @@ def test_ocw_courses_etl(settings, mocker):
     assert resource.platform.code == PlatformType.ocw.name
     assert resource.offered_by.code == OfferedBy.ocw.name
     assert resource.departments.first().department_id == "16"
-    assert resource.resource_content_tags.count() == 5
+    assert resource.content_tags.count() == 5
     run = resource.runs.first()
     assert run.instructors.count() == 10
     assert run.run_id == "97db384ef34009a64df7cb86cf701979"
