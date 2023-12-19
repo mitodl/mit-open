@@ -89,7 +89,10 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       new BundleTracker({ filename: STATS_FILEPATH }),
       new webpack.DefinePlugin({
         "process.env": {
-          env: { NODE_ENV: JSON.stringify(mode) },
+          env: {
+            NODE_ENV: JSON.stringify(mode),
+            HIDE_DEV_TOOLS: JSON.stringify(!!process.env.HIDE_DEV_TOOLS),
+          },
         },
       }),
     ]

@@ -25,10 +25,12 @@ const AppProviders: React.FC<AppProps> = ({ router, queryClient }) => {
               <RouterProvider router={router} />
             </NiceModalProvider>
           </HelmetProvider>
-          <ReactQueryDevtools
-            initialIsOpen={false}
-            toggleButtonProps={{ style: { opacity: 0.5 } }}
-          />
+          {process.env.HIDE_DEV_TOOLS ? null : (
+            <ReactQueryDevtools
+              initialIsOpen={false}
+              toggleButtonProps={{ style: { opacity: 0.5 } }}
+            />
+          )}
         </QueryClientProvider>
       </ThemeProvider>
     </StrictMode>
