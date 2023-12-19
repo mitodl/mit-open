@@ -80,14 +80,21 @@ const SimpleMenu: React.FC<SimpleMenuProps> = ({
                  * Used to render the MenuItem as a react router link (or
                  * specified link component) instead of a <li>.
                  *
-                 * This is technically invalid HTML: The child of a <ul> should
-                 * be a <li>. However, this seems to be the most accessible way
-                 * to render a link inside MUI's <Menu /> components.
+                 * Using `<MenuItem component={LinkComponent} />` has the
+                 * following consequences
+                 *
+                 * Good:
+                 *  - the whole MenuItem is clickable as a link
+                 *  - the MenuItem maintains its uparrow/downarrow keyboard
+                 *    within parent Menu.
+                 *  - the element's role stays `menuitem`
+                 * Bad:
+                 *  - Technically, this is invalid HTML: The child of a <ul>
+                 *    should be a <li>.
                  *
                  * See:
                  *  - https://github.com/mui/material-ui/issues/33268
-                 *  - https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/examples/menu-button-links/
-                 *    shows a more correct implementation.
+                 *  - https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
                  */
                 component: item.LinkComponent ?? LinkBehavior,
                 href: item.href,
