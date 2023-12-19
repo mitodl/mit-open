@@ -12,6 +12,7 @@ from learning_resources.constants import (
     LearningResourceType,
     PrivacyLevel,
 )
+from learning_resources.etl.constants import CourseNumberType
 from open_discussions.models import TimestampedModel
 
 
@@ -208,7 +209,15 @@ class LearningResource(TimestampedModel):
     @property
     def resource_num(self):
         """Extracts the course/program number from the readable_id"""
-        return self.readable_id.split("+")[-1]  # pylint:disable=use-maxsplit-arg
+        if hasattr(self, "course"):
+            primary_course = [
+                course_num["value"]
+                for course_num in self.course.course_numbers
+                if course_num["listing_type"] == CourseNumberType.primary.value
+            ]
+            if primary_course:
+                return primary_course[0]
+        return self.readable_id.split("+")[-1]
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
