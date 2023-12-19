@@ -44,15 +44,7 @@ const renderRoutesWithProviders = (
   // window.SETTINGS is reset during tests via afterEach hook.
   window.SETTINGS.user = makeUserSettings(options.user)
 
-  const router = createMemoryRouter(
-    [
-      {
-        errorElement: <RethrowError />,
-        children: routes,
-      },
-    ],
-    { initialEntries: [url] },
-  )
+  const router = createMemoryRouter(routes, { initialEntries: [url] })
   const queryClient = createQueryClient()
   const view = render(
     <AppProviders queryClient={queryClient} router={router}></AppProviders>,
