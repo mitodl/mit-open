@@ -20,6 +20,8 @@ const makeUserSettings: Factory<User> = (overrides = {}) => {
   }
   return {
     id: null,
+    first_name: null,
+    last_name: null,
     is_authenticated: false,
     is_article_editor: false,
     is_learning_path_editor: false,

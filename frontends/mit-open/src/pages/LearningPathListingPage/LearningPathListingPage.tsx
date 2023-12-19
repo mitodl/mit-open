@@ -31,25 +31,22 @@ type EditListMenuProps = {
   resource: LearningPathResource
 }
 
-const EDIT_MENU_ITEMS: SimpleMenuItem<"edit" | "delete">[] = [
-  {
-    key: "edit",
-    label: "Edit",
-    icon: <EditIcon />,
-  },
-  {
-    key: "delete",
-    label: "Delete",
-    icon: <DeleteIcon />,
-  },
-]
-
 const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
-  const actionsOrLinks = useMemo(
-    () => ({
-      delete: () => manageListDialogs.destroy(resource),
-      edit: () => manageListDialogs.upsert(resource),
-    }),
+  const items: SimpleMenuItem[] = useMemo(
+    () => [
+      {
+        key: "edit",
+        label: "Edit",
+        icon: <EditIcon />,
+        onClick: () => manageListDialogs.upsert(resource),
+      },
+      {
+        key: "delete",
+        label: "Delete",
+        icon: <DeleteIcon />,
+        onClick: () => manageListDialogs.destroy(resource),
+      },
+    ],
     [resource],
   )
   return (
@@ -59,8 +56,7 @@ const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
           <MoreVertIcon fontSize="inherit" />
         </IconButton>
       }
-      items={EDIT_MENU_ITEMS}
-      actionsOrLinks={actionsOrLinks}
+      items={items}
     />
   )
 }

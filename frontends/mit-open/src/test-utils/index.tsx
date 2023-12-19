@@ -117,12 +117,31 @@ const expectLastProps = (
   )
 }
 
+/**
+ * Useful for checking that "real" navigation occurs, i.e., navigation with a
+ * full browser reload, not React Router's SPA-routing.
+ */
+const expectWindowNavigation = async (cb: () => void | Promise<void>) => {
+  const consoleError = console.error
+  try {
+    const spy = jest.spyOn(console, "error").mockImplementation()
+    await cb()
+    expect(spy).toHaveBeenCalledTimes(1)
+    const error = spy.mock.calls[0][0]
+    expect(error instanceof Error)
+    expect(error.message).toMatch(/Not implemented: navigation/)
+  } finally {
+    console.error = consoleError
+  }
+}
+
 export {
   renderTestApp,
   renderWithProviders,
   renderRoutesWithProviders,
   expectProps,
   expectLastProps,
+  expectWindowNavigation,
 }
 // Conveniences
 export { setMockResponse }

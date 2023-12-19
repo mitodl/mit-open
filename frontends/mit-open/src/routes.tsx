@@ -8,7 +8,7 @@ import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ErrorPage from "@/pages/ErrorPage/ErrorPage"
 import * as urls from "@/common/urls"
-import Header from "@/components/Header/Header"
+import Header from "@/page-components/Header/Header"
 import { Permissions } from "@/common/permissions"
 
 const routes: RouteObject[] = [

@@ -12,6 +12,12 @@
 export { default as Alert } from "@mui/material/Alert"
 export type { AlertProps } from "@mui/material/Alert"
 
+export { default as Avatar } from "@mui/material/Avatar"
+export type { AvatarProps } from "@mui/material/Avatar"
+
+export { default as Badge } from "@mui/material/Badge"
+export type { BadgeProps } from "@mui/material/Badge"
+
 export { default as AppBar } from "@mui/material/AppBar"
 export type { AppBarProps } from "@mui/material/AppBar"
 

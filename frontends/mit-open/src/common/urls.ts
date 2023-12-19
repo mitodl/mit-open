@@ -15,3 +15,6 @@ export const articlesView = (id: number) =>
   generatePath(ARTICLES_DETAILS, { id: String(id) })
 export const articlesEditView = (id: number) =>
   generatePath(ARTICLES_EDIT, { id: String(id) })
+
+export const LOGIN = "/login/ol-oidc/"
+export const LOGOUT = "/logout/"
