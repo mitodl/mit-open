@@ -77,42 +77,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Article'
           description: ''
-    put:
-      operationId: articles_update
-      description: Viewset for Article viewing and editing.
-      summary: Update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this article.
-        required: true
-      tags:
-      - articles
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ArticleRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/ArticleRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/ArticleRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Article'
-          description: ''
     patch:
       operationId: articles_partial_update
       description: Viewset for Article viewing and editing.
-      summary: Partial Update
+      summary: Update
       parameters:
       - in: path
         name: id
@@ -1468,45 +1436,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/FieldChannel'
           description: ''
-    put:
-      operationId: fields_update
-      description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
-      summary: Update
-      parameters:
-      - in: path
-        name: field_name
-        schema:
-          type: string
-        required: true
-      tags:
-      - fields
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FieldChannelWriteRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/FieldChannelWriteRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/FieldChannelWriteRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FieldChannel'
-          description: ''
     patch:
       operationId: fields_partial_update
       description: |-
         CRUD Operations related to Fields. Fields may represent groups or organizations
         at MIT and are a high-level categorization of content.
-      summary: Partial Update
+      summary: Update
       parameters:
       - in: path
         name: field_name
@@ -3313,47 +3248,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/LearningPathRelationship'
           description: ''
-    put:
-      operationId: learningpaths_resources_update
-      description: Viewset for LearningPath related resources
-      summary: Learning Path Resource Relationship Update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this learning resource relationship.
-        required: true
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - learningpaths
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LearningPathRelationshipRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/LearningPathRelationshipRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/LearningPathRelationshipRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningPathRelationship'
-          description: ''
     patch:
       operationId: learningpaths_resources_partial_update
       description: Viewset for LearningPath related resources
-      summary: Learning Path Resource Relationship Partial Update
+      summary: Learning Path Resource Relationship Update
       parameters:
       - in: path
         name: id
@@ -3428,42 +3326,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/LearningPathResource'
           description: ''
-    put:
-      operationId: learningpaths_update
-      description: Update all fields of a learning path
-      summary: Update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this learning resource.
-        required: true
-      tags:
-      - learningpaths
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LearningPathResourceRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/LearningPathResourceRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/LearningPathResourceRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningPathResource'
-          description: ''
     patch:
       operationId: learningpaths_partial_update
       description: Update individual fields of a learning path
-      summary: Partial Update
+      summary: Update
       parameters:
       - in: path
         name: id
@@ -5244,47 +5110,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserListRelationship'
           description: ''
-    put:
-      operationId: userlists_resources_update
-      description: Viewset for UserListRelationships
-      summary: User List Resource Relationship Update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this user list relationship.
-        required: true
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - userlists
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserListRelationshipRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/UserListRelationshipRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/UserListRelationshipRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserListRelationship'
-          description: ''
     patch:
       operationId: userlists_resources_partial_update
       description: Viewset for UserListRelationships
-      summary: User List Resource Relationship Partial Update
+      summary: User List Resource Relationship Update
       parameters:
       - in: path
         name: id
@@ -5359,42 +5188,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserList'
           description: ''
-    put:
-      operationId: userlists_update
-      description: Viewset for UserLists
-      summary: Update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this user list.
-        required: true
-      tags:
-      - userlists
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserListRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/UserListRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/UserListRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserList'
-          description: ''
     patch:
       operationId: userlists_partial_update
       description: Viewset for UserLists
-      summary: Partial Update
+      summary: Update
       parameters:
       - in: path
         name: id
@@ -5934,43 +5731,6 @@ components:
           nullable: true
       required:
       - name
-      - title
-    FieldChannelWriteRequest:
-      type: object
-      description: Similar to FieldChannelCreateSerializer, with read-only name
-      properties:
-        title:
-          type: string
-          minLength: 1
-          maxLength: 100
-        public_description:
-          type: string
-        subfields:
-          type: array
-          items:
-            type: string
-            minLength: 1
-        featured_list:
-          type: integer
-          nullable: true
-          description: Learng path featured in this field.
-        lists:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Learng paths in this field.
-        avatar:
-          type: string
-          description: Get the avatar image URL
-        banner:
-          type: string
-          description: Get the banner image URL
-        about:
-          type: object
-          additionalProperties: {}
-          nullable: true
-      required:
       - title
     FieldModerator:
       type: object

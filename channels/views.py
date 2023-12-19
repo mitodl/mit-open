@@ -21,6 +21,7 @@ from channels.serializers import (
     FieldModeratorSerializer,
 )
 from learning_resources.views import LargePagination
+from open_discussions.constants import VALID_HTTP_METHODS
 
 log = logging.getLogger(__name__)
 
@@ -49,9 +50,8 @@ def extend_schema_responses(serializer):
     list=extend_schema(summary="List"),
     retrieve=extend_schema(summary="Retrieve"),
     create=extend_schema(summary="Create"),
-    update=extend_schema(summary="Update"),
     destroy=extend_schema(summary="Destroy"),
-    partial_update=extend_schema(summary="Partial Update"),
+    partial_update=extend_schema(summary="Update"),
 )
 class FieldChannelViewSet(
     mixins.ListModelMixin,
@@ -68,6 +68,7 @@ class FieldChannelViewSet(
 
     pagination_class = LargePagination
     permission_classes = (HasFieldPermission,)
+    http_method_names = VALID_HTTP_METHODS
     lookup_field = "name"
     lookup_url_kwarg = "field_name"
 

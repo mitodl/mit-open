@@ -10,3 +10,4 @@ DJANGO_PERMISSION_ERROR_TYPES = (
 )
 
 ISOFORMAT = "%Y-%m-%dT%H:%M:%SZ"
+VALID_HTTP_METHODS = ["get", "post", "patch", "delete"]

@@ -754,61 +754,6 @@ export interface FieldChannelFeaturedList {
   id: number
 }
 /**
- * Similar to FieldChannelCreateSerializer, with read-only name
- * @export
- * @interface FieldChannelWriteRequest
- */
-export interface FieldChannelWriteRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelWriteRequest
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelWriteRequest
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof FieldChannelWriteRequest
-   */
-  subfields?: Array<string>
-  /**
-   * Learng path featured in this field.
-   * @type {number}
-   * @memberof FieldChannelWriteRequest
-   */
-  featured_list?: number | null
-  /**
-   * Learng paths in this field.
-   * @type {Array<number>}
-   * @memberof FieldChannelWriteRequest
-   */
-  lists?: Array<number>
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof FieldChannelWriteRequest
-   */
-  avatar?: string
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof FieldChannelWriteRequest
-   */
-  banner?: string
-  /**
-   *
-   * @type {{ [key: string]: any; }}
-   * @memberof FieldChannelWriteRequest
-   */
-  about?: { [key: string]: any } | null
-}
-/**
  * Serializer for moderators
  * @export
  * @interface FieldModerator
@@ -3772,7 +3717,7 @@ export const ArticlesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for Article viewing and editing.
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this article.
      * @param {PatchedArticleRequest} [PatchedArticleRequest]
      * @param {*} [options] Override http request option.
@@ -3871,63 +3816,6 @@ export const ArticlesApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
-    /**
-     * Viewset for Article viewing and editing.
-     * @summary Update
-     * @param {number} id A unique integer value identifying this article.
-     * @param {ArticleRequest} ArticleRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    articlesUpdate: async (
-      id: number,
-      ArticleRequest: ArticleRequest,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("articlesUpdate", "id", id)
-      // verify required parameter 'ArticleRequest' is not null or undefined
-      assertParamExists("articlesUpdate", "ArticleRequest", ArticleRequest)
-      const localVarPath = `/api/v1/articles/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "PUT",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        ArticleRequest,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
   }
 }
 
@@ -4018,7 +3906,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for Article viewing and editing.
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this article.
      * @param {PatchedArticleRequest} [PatchedArticleRequest]
      * @param {*} [options] Override http request option.
@@ -4059,33 +3947,6 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.articlesRetrieve(id, options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     * Viewset for Article viewing and editing.
-     * @summary Update
-     * @param {number} id A unique integer value identifying this article.
-     * @param {ArticleRequest} ArticleRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async articlesUpdate(
-      id: number,
-      ArticleRequest: ArticleRequest,
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Article>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.articlesUpdate(
-        id,
-        ArticleRequest,
-        options,
-      )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -4158,7 +4019,7 @@ export const ArticlesApiFactory = function (
     },
     /**
      * Viewset for Article viewing and editing.
-     * @summary Partial Update
+     * @summary Update
      * @param {ArticlesApiArticlesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4188,25 +4049,6 @@ export const ArticlesApiFactory = function (
     ): AxiosPromise<Article> {
       return localVarFp
         .articlesRetrieve(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Viewset for Article viewing and editing.
-     * @summary Update
-     * @param {ArticlesApiArticlesUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    articlesUpdate(
-      requestParameters: ArticlesApiArticlesUpdateRequest,
-      options?: AxiosRequestConfig,
-    ): AxiosPromise<Article> {
-      return localVarFp
-        .articlesUpdate(
-          requestParameters.id,
-          requestParameters.ArticleRequest,
-          options,
-        )
         .then((request) => request(axios, basePath))
     },
   }
@@ -4297,27 +4139,6 @@ export interface ArticlesApiArticlesRetrieveRequest {
 }
 
 /**
- * Request parameters for articlesUpdate operation in ArticlesApi.
- * @export
- * @interface ArticlesApiArticlesUpdateRequest
- */
-export interface ArticlesApiArticlesUpdateRequest {
-  /**
-   * A unique integer value identifying this article.
-   * @type {number}
-   * @memberof ArticlesApiArticlesUpdate
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {ArticleRequest}
-   * @memberof ArticlesApiArticlesUpdate
-   */
-  readonly ArticleRequest: ArticleRequest
-}
-
-/**
  * ArticlesApi - object-oriented interface
  * @export
  * @class ArticlesApi
@@ -4377,7 +4198,7 @@ export class ArticlesApi extends BaseAPI {
 
   /**
    * Viewset for Article viewing and editing.
-   * @summary Partial Update
+   * @summary Update
    * @param {ArticlesApiArticlesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4410,27 +4231,6 @@ export class ArticlesApi extends BaseAPI {
   ) {
     return ArticlesApiFp(this.configuration)
       .articlesRetrieve(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for Article viewing and editing.
-   * @summary Update
-   * @param {ArticlesApiArticlesUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ArticlesApi
-   */
-  public articlesUpdate(
-    requestParameters: ArticlesApiArticlesUpdateRequest,
-    options?: AxiosRequestConfig,
-  ) {
-    return ArticlesApiFp(this.configuration)
-      .articlesUpdate(
-        requestParameters.id,
-        requestParameters.ArticleRequest,
-        options,
-      )
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -8439,7 +8239,7 @@ export const FieldsApiAxiosParamCreator = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Partial Update
+     * @summary Update
      * @param {string} field_name
      * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
      * @param {*} [options] Override http request option.
@@ -8532,67 +8332,6 @@ export const FieldsApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Update
-     * @param {string} field_name
-     * @param {FieldChannelWriteRequest} FieldChannelWriteRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    fieldsUpdate: async (
-      field_name: string,
-      FieldChannelWriteRequest: FieldChannelWriteRequest,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'field_name' is not null or undefined
-      assertParamExists("fieldsUpdate", "field_name", field_name)
-      // verify required parameter 'FieldChannelWriteRequest' is not null or undefined
-      assertParamExists(
-        "fieldsUpdate",
-        "FieldChannelWriteRequest",
-        FieldChannelWriteRequest,
-      )
-      const localVarPath = `/api/v1/fields/{field_name}/`.replace(
-        `{${"field_name"}}`,
-        encodeURIComponent(String(field_name)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "PUT",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        FieldChannelWriteRequest,
-        localVarRequestOptions,
-        configuration,
-      )
 
       return {
         url: toPathString(localVarUrlObj),
@@ -8773,7 +8512,7 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Partial Update
+     * @summary Update
      * @param {string} field_name
      * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
      * @param {*} [options] Override http request option.
@@ -8814,33 +8553,6 @@ export const FieldsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.fieldsRetrieve(
         field_name,
-        options,
-      )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Update
-     * @param {string} field_name
-     * @param {FieldChannelWriteRequest} FieldChannelWriteRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async fieldsUpdate(
-      field_name: string,
-      FieldChannelWriteRequest: FieldChannelWriteRequest,
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.fieldsUpdate(
-        field_name,
-        FieldChannelWriteRequest,
         options,
       )
       return createRequestFunction(
@@ -8964,7 +8676,7 @@ export const FieldsApiFactory = function (
     },
     /**
      * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Partial Update
+     * @summary Update
      * @param {FieldsApiFieldsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8994,25 +8706,6 @@ export const FieldsApiFactory = function (
     ): AxiosPromise<FieldChannel> {
       return localVarFp
         .fieldsRetrieve(requestParameters.field_name, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Update
-     * @param {FieldsApiFieldsUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    fieldsUpdate(
-      requestParameters: FieldsApiFieldsUpdateRequest,
-      options?: AxiosRequestConfig,
-    ): AxiosPromise<FieldChannel> {
-      return localVarFp
-        .fieldsUpdate(
-          requestParameters.field_name,
-          requestParameters.FieldChannelWriteRequest,
-          options,
-        )
         .then((request) => request(axios, basePath))
     },
   }
@@ -9159,27 +8852,6 @@ export interface FieldsApiFieldsRetrieveRequest {
 }
 
 /**
- * Request parameters for fieldsUpdate operation in FieldsApi.
- * @export
- * @interface FieldsApiFieldsUpdateRequest
- */
-export interface FieldsApiFieldsUpdateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof FieldsApiFieldsUpdate
-   */
-  readonly field_name: string
-
-  /**
-   *
-   * @type {FieldChannelWriteRequest}
-   * @memberof FieldsApiFieldsUpdate
-   */
-  readonly FieldChannelWriteRequest: FieldChannelWriteRequest
-}
-
-/**
  * FieldsApi - object-oriented interface
  * @export
  * @class FieldsApi
@@ -9298,7 +8970,7 @@ export class FieldsApi extends BaseAPI {
 
   /**
    * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-   * @summary Partial Update
+   * @summary Update
    * @param {FieldsApiFieldsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9331,27 +9003,6 @@ export class FieldsApi extends BaseAPI {
   ) {
     return FieldsApiFp(this.configuration)
       .fieldsRetrieve(requestParameters.field_name, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
-   * @summary Update
-   * @param {FieldsApiFieldsUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof FieldsApi
-   */
-  public fieldsUpdate(
-    requestParameters: FieldsApiFieldsUpdateRequest,
-    options?: AxiosRequestConfig,
-  ) {
-    return FieldsApiFp(this.configuration)
-      .fieldsUpdate(
-        requestParameters.field_name,
-        requestParameters.FieldChannelWriteRequest,
-        options,
-      )
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -12906,7 +12557,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     },
     /**
      * Update individual fields of a learning path
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {PatchedLearningPathResourceRequest} [PatchedLearningPathResourceRequest]
      * @param {*} [options] Override http request option.
@@ -13137,7 +12788,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Partial Update
+     * @summary Learning Path Resource Relationship Update
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
@@ -13251,70 +12902,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Update
-     * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
-     * @param {LearningPathRelationshipRequest} LearningPathRelationshipRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesUpdate: async (
-      id: number,
-      parent_id: number,
-      LearningPathRelationshipRequest: LearningPathRelationshipRequest,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("learningpathsResourcesUpdate", "id", id)
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("learningpathsResourcesUpdate", "parent_id", parent_id)
-      // verify required parameter 'LearningPathRelationshipRequest' is not null or undefined
-      assertParamExists(
-        "learningpathsResourcesUpdate",
-        "LearningPathRelationshipRequest",
-        LearningPathRelationshipRequest,
-      )
-      const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
-        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "PUT",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        LearningPathRelationshipRequest,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
      * Retrive a single learning path
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
@@ -13354,67 +12941,6 @@ export const LearningpathsApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Update all fields of a learning path
-     * @summary Update
-     * @param {number} id A unique integer value identifying this learning resource.
-     * @param {LearningPathResourceRequest} LearningPathResourceRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsUpdate: async (
-      id: number,
-      LearningPathResourceRequest: LearningPathResourceRequest,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("learningpathsUpdate", "id", id)
-      // verify required parameter 'LearningPathResourceRequest' is not null or undefined
-      assertParamExists(
-        "learningpathsUpdate",
-        "LearningPathResourceRequest",
-        LearningPathResourceRequest,
-      )
-      const localVarPath = `/api/v1/learningpaths/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "PUT",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        LearningPathResourceRequest,
-        localVarRequestOptions,
-        configuration,
-      )
 
       return {
         url: toPathString(localVarUrlObj),
@@ -13629,7 +13155,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Update individual fields of a learning path
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this learning resource.
      * @param {PatchedLearningPathResourceRequest} [PatchedLearningPathResourceRequest]
      * @param {*} [options] Override http request option.
@@ -13756,7 +13282,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Partial Update
+     * @summary Learning Path Resource Relationship Update
      * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} parent_id
      * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
@@ -13820,40 +13346,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Update
-     * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
-     * @param {LearningPathRelationshipRequest} LearningPathRelationshipRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningpathsResourcesUpdate(
-      id: number,
-      parent_id: number,
-      LearningPathRelationshipRequest: LearningPathRelationshipRequest,
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<LearningPathRelationship>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningpathsResourcesUpdate(
-          id,
-          parent_id,
-          LearningPathRelationshipRequest,
-          options,
-        )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
      * Retrive a single learning path
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
@@ -13871,37 +13363,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsRetrieve(id, options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     * Update all fields of a learning path
-     * @summary Update
-     * @param {number} id A unique integer value identifying this learning resource.
-     * @param {LearningPathResourceRequest} LearningPathResourceRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningpathsUpdate(
-      id: number,
-      LearningPathResourceRequest: LearningPathResourceRequest,
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<LearningPathResource>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningpathsUpdate(
-          id,
-          LearningPathResourceRequest,
-          options,
-        )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -13986,7 +13447,7 @@ export const LearningpathsApiFactory = function (
     },
     /**
      * Update individual fields of a learning path
-     * @summary Partial Update
+     * @summary Update
      * @param {LearningpathsApiLearningpathsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -14064,7 +13525,7 @@ export const LearningpathsApiFactory = function (
     },
     /**
      * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Partial Update
+     * @summary Learning Path Resource Relationship Update
      * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -14102,26 +13563,6 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Update
-     * @param {LearningpathsApiLearningpathsResourcesUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesUpdate(
-      requestParameters: LearningpathsApiLearningpathsResourcesUpdateRequest,
-      options?: AxiosRequestConfig,
-    ): AxiosPromise<LearningPathRelationship> {
-      return localVarFp
-        .learningpathsResourcesUpdate(
-          requestParameters.id,
-          requestParameters.parent_id,
-          requestParameters.LearningPathRelationshipRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
      * Retrive a single learning path
      * @summary Retrieve
      * @param {LearningpathsApiLearningpathsRetrieveRequest} requestParameters Request parameters.
@@ -14134,25 +13575,6 @@ export const LearningpathsApiFactory = function (
     ): AxiosPromise<LearningPathResource> {
       return localVarFp
         .learningpathsRetrieve(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Update all fields of a learning path
-     * @summary Update
-     * @param {LearningpathsApiLearningpathsUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsUpdate(
-      requestParameters: LearningpathsApiLearningpathsUpdateRequest,
-      options?: AxiosRequestConfig,
-    ): AxiosPromise<LearningPathResource> {
-      return localVarFp
-        .learningpathsUpdate(
-          requestParameters.id,
-          requestParameters.LearningPathResourceRequest,
-          options,
-        )
         .then((request) => request(axios, basePath))
     },
   }
@@ -14505,34 +13927,6 @@ export interface LearningpathsApiLearningpathsResourcesRetrieveRequest {
 }
 
 /**
- * Request parameters for learningpathsResourcesUpdate operation in LearningpathsApi.
- * @export
- * @interface LearningpathsApiLearningpathsResourcesUpdateRequest
- */
-export interface LearningpathsApiLearningpathsResourcesUpdateRequest {
-  /**
-   * A unique integer value identifying this learning resource relationship.
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesUpdate
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesUpdate
-   */
-  readonly parent_id: number
-
-  /**
-   *
-   * @type {LearningPathRelationshipRequest}
-   * @memberof LearningpathsApiLearningpathsResourcesUpdate
-   */
-  readonly LearningPathRelationshipRequest: LearningPathRelationshipRequest
-}
-
-/**
  * Request parameters for learningpathsRetrieve operation in LearningpathsApi.
  * @export
  * @interface LearningpathsApiLearningpathsRetrieveRequest
@@ -14544,27 +13938,6 @@ export interface LearningpathsApiLearningpathsRetrieveRequest {
    * @memberof LearningpathsApiLearningpathsRetrieve
    */
   readonly id: number
-}
-
-/**
- * Request parameters for learningpathsUpdate operation in LearningpathsApi.
- * @export
- * @interface LearningpathsApiLearningpathsUpdateRequest
- */
-export interface LearningpathsApiLearningpathsUpdateRequest {
-  /**
-   * A unique integer value identifying this learning resource.
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsUpdate
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {LearningPathResourceRequest}
-   * @memberof LearningpathsApiLearningpathsUpdate
-   */
-  readonly LearningPathResourceRequest: LearningPathResourceRequest
 }
 
 /**
@@ -14643,7 +14016,7 @@ export class LearningpathsApi extends BaseAPI {
 
   /**
    * Update individual fields of a learning path
-   * @summary Partial Update
+   * @summary Update
    * @param {LearningpathsApiLearningpathsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -14729,7 +14102,7 @@ export class LearningpathsApi extends BaseAPI {
 
   /**
    * Viewset for LearningPath related resources
-   * @summary Learning Path Resource Relationship Partial Update
+   * @summary Learning Path Resource Relationship Update
    * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -14771,28 +14144,6 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for LearningPath related resources
-   * @summary Learning Path Resource Relationship Update
-   * @param {LearningpathsApiLearningpathsResourcesUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningpathsApi
-   */
-  public learningpathsResourcesUpdate(
-    requestParameters: LearningpathsApiLearningpathsResourcesUpdateRequest,
-    options?: AxiosRequestConfig,
-  ) {
-    return LearningpathsApiFp(this.configuration)
-      .learningpathsResourcesUpdate(
-        requestParameters.id,
-        requestParameters.parent_id,
-        requestParameters.LearningPathRelationshipRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
    * Retrive a single learning path
    * @summary Retrieve
    * @param {LearningpathsApiLearningpathsRetrieveRequest} requestParameters Request parameters.
@@ -14806,27 +14157,6 @@ export class LearningpathsApi extends BaseAPI {
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsRetrieve(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Update all fields of a learning path
-   * @summary Update
-   * @param {LearningpathsApiLearningpathsUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningpathsApi
-   */
-  public learningpathsUpdate(
-    requestParameters: LearningpathsApiLearningpathsUpdateRequest,
-    options?: AxiosRequestConfig,
-  ) {
-    return LearningpathsApiFp(this.configuration)
-      .learningpathsUpdate(
-        requestParameters.id,
-        requestParameters.LearningPathResourceRequest,
-        options,
-      )
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -19509,7 +18839,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserLists
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this user list.
      * @param {PatchedUserListRequest} [PatchedUserListRequest]
      * @param {*} [options] Override http request option.
@@ -19732,7 +19062,7 @@ export const UserlistsApiAxiosParamCreator = function (
     },
     /**
      * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Partial Update
+     * @summary User List Resource Relationship Update
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
@@ -19842,70 +19172,6 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Update
-     * @param {number} id A unique integer value identifying this user list relationship.
-     * @param {number} parent_id
-     * @param {UserListRelationshipRequest} UserListRelationshipRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesUpdate: async (
-      id: number,
-      parent_id: number,
-      UserListRelationshipRequest: UserListRelationshipRequest,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("userlistsResourcesUpdate", "id", id)
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("userlistsResourcesUpdate", "parent_id", parent_id)
-      // verify required parameter 'UserListRelationshipRequest' is not null or undefined
-      assertParamExists(
-        "userlistsResourcesUpdate",
-        "UserListRelationshipRequest",
-        UserListRelationshipRequest,
-      )
-      const localVarPath = `/api/v1/userlists/{parent_id}/resources/{id}/`
-        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "PUT",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        UserListRelationshipRequest,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
      * Viewset for UserLists
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this user list.
@@ -19945,63 +19211,6 @@ export const UserlistsApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Viewset for UserLists
-     * @summary Update
-     * @param {number} id A unique integer value identifying this user list.
-     * @param {UserListRequest} UserListRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsUpdate: async (
-      id: number,
-      UserListRequest: UserListRequest,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("userlistsUpdate", "id", id)
-      // verify required parameter 'UserListRequest' is not null or undefined
-      assertParamExists("userlistsUpdate", "UserListRequest", UserListRequest)
-      const localVarPath = `/api/v1/userlists/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "PUT",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        UserListRequest,
-        localVarRequestOptions,
-        configuration,
-      )
 
       return {
         url: toPathString(localVarUrlObj),
@@ -20096,7 +19305,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserLists
-     * @summary Partial Update
+     * @summary Update
      * @param {number} id A unique integer value identifying this user list.
      * @param {PatchedUserListRequest} [PatchedUserListRequest]
      * @param {*} [options] Override http request option.
@@ -20217,7 +19426,7 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Partial Update
+     * @summary User List Resource Relationship Update
      * @param {number} id A unique integer value identifying this user list relationship.
      * @param {number} parent_id
      * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
@@ -20281,40 +19490,6 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Update
-     * @param {number} id A unique integer value identifying this user list relationship.
-     * @param {number} parent_id
-     * @param {UserListRelationshipRequest} UserListRelationshipRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async userlistsResourcesUpdate(
-      id: number,
-      parent_id: number,
-      UserListRelationshipRequest: UserListRelationshipRequest,
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<UserListRelationship>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.userlistsResourcesUpdate(
-          id,
-          parent_id,
-          UserListRelationshipRequest,
-          options,
-        )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
      * Viewset for UserLists
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this user list.
@@ -20329,33 +19504,6 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.userlistsRetrieve(id, options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     * Viewset for UserLists
-     * @summary Update
-     * @param {number} id A unique integer value identifying this user list.
-     * @param {UserListRequest} UserListRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async userlistsUpdate(
-      id: number,
-      UserListRequest: UserListRequest,
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserList>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.userlistsUpdate(
-        id,
-        UserListRequest,
-        options,
-      )
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -20428,7 +19576,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserLists
-     * @summary Partial Update
+     * @summary Update
      * @param {UserlistsApiUserlistsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -20505,7 +19653,7 @@ export const UserlistsApiFactory = function (
     },
     /**
      * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Partial Update
+     * @summary User List Resource Relationship Update
      * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -20543,26 +19691,6 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Update
-     * @param {UserlistsApiUserlistsResourcesUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesUpdate(
-      requestParameters: UserlistsApiUserlistsResourcesUpdateRequest,
-      options?: AxiosRequestConfig,
-    ): AxiosPromise<UserListRelationship> {
-      return localVarFp
-        .userlistsResourcesUpdate(
-          requestParameters.id,
-          requestParameters.parent_id,
-          requestParameters.UserListRelationshipRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
      * Viewset for UserLists
      * @summary Retrieve
      * @param {UserlistsApiUserlistsRetrieveRequest} requestParameters Request parameters.
@@ -20575,25 +19703,6 @@ export const UserlistsApiFactory = function (
     ): AxiosPromise<UserList> {
       return localVarFp
         .userlistsRetrieve(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Viewset for UserLists
-     * @summary Update
-     * @param {UserlistsApiUserlistsUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsUpdate(
-      requestParameters: UserlistsApiUserlistsUpdateRequest,
-      options?: AxiosRequestConfig,
-    ): AxiosPromise<UserList> {
-      return localVarFp
-        .userlistsUpdate(
-          requestParameters.id,
-          requestParameters.UserListRequest,
-          options,
-        )
         .then((request) => request(axios, basePath))
     },
   }
@@ -20789,34 +19898,6 @@ export interface UserlistsApiUserlistsResourcesRetrieveRequest {
 }
 
 /**
- * Request parameters for userlistsResourcesUpdate operation in UserlistsApi.
- * @export
- * @interface UserlistsApiUserlistsResourcesUpdateRequest
- */
-export interface UserlistsApiUserlistsResourcesUpdateRequest {
-  /**
-   * A unique integer value identifying this user list relationship.
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesUpdate
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesUpdate
-   */
-  readonly parent_id: number
-
-  /**
-   *
-   * @type {UserListRelationshipRequest}
-   * @memberof UserlistsApiUserlistsResourcesUpdate
-   */
-  readonly UserListRelationshipRequest: UserListRelationshipRequest
-}
-
-/**
  * Request parameters for userlistsRetrieve operation in UserlistsApi.
  * @export
  * @interface UserlistsApiUserlistsRetrieveRequest
@@ -20828,27 +19909,6 @@ export interface UserlistsApiUserlistsRetrieveRequest {
    * @memberof UserlistsApiUserlistsRetrieve
    */
   readonly id: number
-}
-
-/**
- * Request parameters for userlistsUpdate operation in UserlistsApi.
- * @export
- * @interface UserlistsApiUserlistsUpdateRequest
- */
-export interface UserlistsApiUserlistsUpdateRequest {
-  /**
-   * A unique integer value identifying this user list.
-   * @type {number}
-   * @memberof UserlistsApiUserlistsUpdate
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {UserListRequest}
-   * @memberof UserlistsApiUserlistsUpdate
-   */
-  readonly UserListRequest: UserListRequest
 }
 
 /**
@@ -20911,7 +19971,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserLists
-   * @summary Partial Update
+   * @summary Update
    * @param {UserlistsApiUserlistsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -20996,7 +20056,7 @@ export class UserlistsApi extends BaseAPI {
 
   /**
    * Viewset for UserListRelationships
-   * @summary User List Resource Relationship Partial Update
+   * @summary User List Resource Relationship Update
    * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -21038,28 +20098,6 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
-   * Viewset for UserListRelationships
-   * @summary User List Resource Relationship Update
-   * @param {UserlistsApiUserlistsResourcesUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UserlistsApi
-   */
-  public userlistsResourcesUpdate(
-    requestParameters: UserlistsApiUserlistsResourcesUpdateRequest,
-    options?: AxiosRequestConfig,
-  ) {
-    return UserlistsApiFp(this.configuration)
-      .userlistsResourcesUpdate(
-        requestParameters.id,
-        requestParameters.parent_id,
-        requestParameters.UserListRelationshipRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
    * Viewset for UserLists
    * @summary Retrieve
    * @param {UserlistsApiUserlistsRetrieveRequest} requestParameters Request parameters.
@@ -21073,27 +20111,6 @@ export class UserlistsApi extends BaseAPI {
   ) {
     return UserlistsApiFp(this.configuration)
       .userlistsRetrieve(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for UserLists
-   * @summary Update
-   * @param {UserlistsApiUserlistsUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UserlistsApi
-   */
-  public userlistsUpdate(
-    requestParameters: UserlistsApiUserlistsUpdateRequest,
-    options?: AxiosRequestConfig,
-  ) {
-    return UserlistsApiFp(this.configuration)
-      .userlistsUpdate(
-        requestParameters.id,
-        requestParameters.UserListRequest,
-        options,
-      )
       .then((request) => request(this.axios, this.basePath))
   }
 }

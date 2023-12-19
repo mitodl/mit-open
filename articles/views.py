@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAdminUser
 
 from articles.models import Article
 from articles.serializers import ArticleSerializer
+from open_discussions.constants import VALID_HTTP_METHODS
 
 # Create your views here.
 
@@ -22,9 +23,8 @@ class DefaultPagination(LimitOffsetPagination):
     list=extend_schema(summary="List"),
     retrieve=extend_schema(summary="Retrieve"),
     create=extend_schema(summary="Create"),
-    update=extend_schema(summary="Update"),
     destroy=extend_schema(summary="Destroy"),
-    partial_update=extend_schema(summary="Partial Update"),
+    partial_update=extend_schema(summary="Update"),
 )
 class ArticleViewSet(viewsets.ModelViewSet):
     """
@@ -36,3 +36,4 @@ class ArticleViewSet(viewsets.ModelViewSet):
     pagination_class = DefaultPagination
 
     permission_classes = [IsAdminUser]
+    http_method_names = VALID_HTTP_METHODS
