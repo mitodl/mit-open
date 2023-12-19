@@ -443,7 +443,7 @@ def test_content_file_serializer(expected_types):
             "resource_id": str(content_file.run.learning_resource.id),
             "resource_readable_id": content_file.run.learning_resource.readable_id,
             "resource_readable_num": (
-                content_file.run.learning_resource.readable_id.split("+")[-1]
+                content_file.run.learning_resource.course.course_numbers[0]["value"]
             ),
             "content_feature_type": [
                 tag.name for tag in content_file.content_tags.all()

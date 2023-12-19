@@ -97,3 +97,11 @@ def test_lr_certification(offered_by, availability, has_cert):
     )
 
     assert course.learning_resource.certification == has_cert
+
+
+def test_resource_num():
+    """The resource_num property should return the expected value"""
+    course = CourseFactory.create()
+    assert course.learning_resource.resource_num == course.course_numbers[0]["value"]
+    program = ProgramFactory.create()
+    assert program.learning_resource.resource_num is None
