@@ -205,19 +205,6 @@ class LearningResource(TimestampedModel):
             )
         )
 
-    @property
-    def resource_num(self):
-        """Extracts the primary course number from the readable_id"""
-        if hasattr(self, "course"):
-            primary_course = [
-                course_num["value"]
-                for course_num in self.course.course_numbers
-                if course_num["primary"]
-            ]
-            if primary_course:
-                return primary_course[0]
-        return None
-
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
 
