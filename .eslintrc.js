@@ -6,6 +6,17 @@ module.exports = {
     "plugin:import/typescript",
     "prettier",
   ],
+  settings: {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"],
+    },
+    "import/resolver": {
+      typescript: {
+        alwaysTryTypes: true,
+        project: "frontends/*/tsconfig.json",
+      },
+    },
+  },
   plugins: ["testing-library", "import"],
   ignorePatterns: ["**/build/**"],
   rules: {
@@ -29,6 +40,7 @@ module.exports = {
     "import/no-extraneous-dependencies": [
       "error",
       {
+        includeInternal: true,
         devDependencies: [
           "**/*.test.ts",
           "**/*.test.tsx",
@@ -41,6 +53,33 @@ module.exports = {
       },
     ],
     "import/no-duplicates": "error",
+    "import/no-restricted-paths": [
+      "error",
+      {
+        zones: [
+          {
+            target: "**/page-components/**",
+            from: "**/pages/**",
+          },
+          {
+            target: "**/services/**",
+            from: "**/pages/**",
+          },
+          {
+            target: "**/common/**",
+            from: "**/pages/**",
+          },
+          {
+            target: "**/components/**",
+            from: "**/{pages,page-components,services}/**",
+          },
+          {
+            target: "**/utilities/**",
+            from: "**/{pages,page-components,services}/**",
+          },
+        ],
+      },
+    ],
   },
   overrides: [
     {
