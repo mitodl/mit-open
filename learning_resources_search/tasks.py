@@ -22,6 +22,7 @@ from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
     COURSE_TYPE,
+    LEARNING_PATH_TYPE,
     PODCAST_EPISODE_TYPE,
     PODCAST_TYPE,
     PROGRAM_TYPE,
@@ -265,7 +266,12 @@ def start_recreate_index(self, indexes):
                 ]
             )
 
-        for resource_type in [PROGRAM_TYPE, PODCAST_TYPE, PODCAST_EPISODE_TYPE]:
+        for resource_type in [
+            PROGRAM_TYPE,
+            PODCAST_TYPE,
+            PODCAST_EPISODE_TYPE,
+            LEARNING_PATH_TYPE,
+        ]:
             if resource_type in indexes:
                 index_tasks = index_tasks + [
                     index_learning_resources.si(
@@ -319,7 +325,12 @@ def start_update_index(self, indexes, etl_source):
                 blocklisted_ids, etl_source
             )
 
-        for resource_type in [PROGRAM_TYPE, PODCAST_TYPE, PODCAST_EPISODE_TYPE]:
+        for resource_type in [
+            PROGRAM_TYPE,
+            PODCAST_TYPE,
+            PODCAST_EPISODE_TYPE,
+            LEARNING_PATH_TYPE,
+        ]:
             if resource_type in indexes:
                 index_tasks = index_tasks + get_update_learning_resource_tasks(
                     resource_type

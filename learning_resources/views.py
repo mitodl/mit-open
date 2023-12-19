@@ -69,7 +69,10 @@ from learning_resources.serializers import (
     UserListSerializer,
 )
 from learning_resources.tasks import get_ocw_courses
-from learning_resources.utils import resource_unpublished_actions
+from learning_resources.utils import (
+    resource_delete_actions,
+    resource_unpublished_actions,
+)
 from open_discussions.constants import VALID_HTTP_METHODS
 from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
@@ -386,7 +389,7 @@ class LearningPathViewSet(BaseLearningResourceViewSet, viewsets.ModelViewSet):
         return queryset
 
     def perform_destroy(self, instance):
-        instance.delete()
+        resource_delete_actions(instance)
 
 
 class NestedParentMixin(NestedViewSetMixin):

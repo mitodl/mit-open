@@ -1,4 +1,5 @@
 """Tests for learning_resources LearningPath views"""
+from types import SimpleNamespace
 
 import pytest
 from django.urls import reverse
@@ -11,6 +12,16 @@ from learning_resources.utils import update_editor_group
 from open_discussions.factories import UserFactory
 
 # pylint:disable=redefined-outer-name,unused-argument
+
+
+@pytest.fixture(autouse=True)
+def mock_opensearch(mocker):
+    """Mock opensearch tasks"""
+    mock_upsert = mocker.patch(
+        "learning_resources_search.tasks.upsert_learning_resource"
+    )
+    mock_deindex = mocker.patch("learning_resources_search.tasks.deindex_document")
+    return SimpleNamespace(upsert=mock_upsert, deindex=mock_deindex)
 
 
 @pytest.mark.parametrize("is_public", [True, False])
@@ -86,6 +97,7 @@ def test_learning_path_endpoint_get(client, user, is_public, is_editor, has_imag
 @pytest.mark.parametrize("is_editor", [True, False])
 @pytest.mark.parametrize("is_anonymous", [True, False])
 def test_learning_path_endpoint_create(  # pylint: disable=too-many-arguments  # noqa: PLR0913
+    mock_opensearch,
     client,
     is_anonymous,
     is_published,
@@ -113,12 +125,17 @@ def test_learning_path_endpoint_create(  # pylint: disable=too-many-arguments  #
         assert resp.data.get("title") == resp.data.get("title")
         assert resp.data.get("description") == resp.data.get("description")
         assert resp.data.get("learning_path").get("author") == user.id
+    assert mock_opensearch.upsert.call_count == (
+        1 if has_permission and is_published else 0
+    )
 
 
 @pytest.mark.parametrize("is_public", [True, False])
 @pytest.mark.parametrize("is_editor", [True, False])
 @pytest.mark.parametrize("update_topics", [True, False])
-def test_learning_path_endpoint_patch(client, update_topics, is_public, is_editor):
+def test_learning_path_endpoint_patch(
+    mock_opensearch, client, update_topics, is_public, is_editor
+):
     """Test learningpath endpoint for updating a LearningPath"""
     [original_topic, new_topic] = factories.LearningResourceTopicFactory.create_batch(2)
     user = UserFactory.create()
@@ -152,6 +169,7 @@ def test_learning_path_endpoint_patch(client, update_topics, is_public, is_edito
         assert resp.data["topics"][0]["id"] == (
             new_topic.id if update_topics else original_topic.id
         )
+    assert mock_opensearch.upsert.call_count == (1 if is_editor and is_public else 0)
 
 
 @pytest.mark.parametrize("is_editor", [True, False])
@@ -312,7 +330,7 @@ def test_learning_path_items_endpoint_delete_items(client, user, is_editor, num_
 
 
 @pytest.mark.parametrize("is_editor", [True, False])
-def test_learning_path_endpoint_delete(client, user, is_editor):
+def test_learning_path_endpoint_delete(mock_opensearch, client, user, is_editor):
     """Test learningpath endpoint for deleting a LearningPath"""
     learning_path = factories.LearningPathFactory.create()
 
@@ -335,6 +353,7 @@ def test_learning_path_endpoint_delete(client, user, is_editor):
         ).exists()
         is not is_editor
     )
+    assert mock_opensearch.deindex.call_count == (1 if is_editor else 0)
 
 
 @pytest.mark.parametrize("is_editor", [True, False])
