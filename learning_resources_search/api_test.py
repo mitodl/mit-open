@@ -27,6 +27,7 @@ from learning_resources_search.constants import SOURCE_EXCLUDED_FIELDS
                 "testindex_program_default",
                 "testindex_podcast_default",
                 "testindex_podcast_episode_default",
+                "testindex_learning_path_default",
             ],
         ),
         (["content_file"], [], ["testindex_course_default"]),
