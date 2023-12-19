@@ -20,11 +20,11 @@ class DefaultPagination(LimitOffsetPagination):
 
 
 @extend_schema_view(
-    list=extend_schema(summary="List"),
-    retrieve=extend_schema(summary="Retrieve"),
-    create=extend_schema(summary="Create"),
-    destroy=extend_schema(summary="Destroy"),
-    partial_update=extend_schema(summary="Update"),
+    list=extend_schema(summary="List", description="Get a paginated list of articles"),
+    retrieve=extend_schema(summary="Retrieve", description="Retrieve a single article"),
+    create=extend_schema(summary="Create", description="Create a new article"),
+    destroy=extend_schema(summary="Destroy", description="Delete an article"),
+    partial_update=extend_schema(summary="Update", description="Update an article"),
 )
 class ArticleViewSet(viewsets.ModelViewSet):
     """

@@ -3569,7 +3569,7 @@ export const ArticlesApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Viewset for Article viewing and editing.
+     * Create a new article
      * @summary Create
      * @param {ArticleRequest} ArticleRequest
      * @param {*} [options] Override http request option.
@@ -3619,7 +3619,7 @@ export const ArticlesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Delete an article
      * @summary Destroy
      * @param {number} id A unique integer value identifying this article.
      * @param {*} [options] Override http request option.
@@ -3665,7 +3665,7 @@ export const ArticlesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Get a paginated list of articles
      * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -3716,7 +3716,7 @@ export const ArticlesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Update an article
      * @summary Update
      * @param {number} id A unique integer value identifying this article.
      * @param {PatchedArticleRequest} [PatchedArticleRequest]
@@ -3771,7 +3771,7 @@ export const ArticlesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Retrieve a single article
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this article.
      * @param {*} [options] Override http request option.
@@ -3827,7 +3827,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ArticlesApiAxiosParamCreator(configuration)
   return {
     /**
-     * Viewset for Article viewing and editing.
+     * Create a new article
      * @summary Create
      * @param {ArticleRequest} ArticleRequest
      * @param {*} [options] Override http request option.
@@ -3851,7 +3851,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Delete an article
      * @summary Destroy
      * @param {number} id A unique integer value identifying this article.
      * @param {*} [options] Override http request option.
@@ -3875,7 +3875,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Get a paginated list of articles
      * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -3905,7 +3905,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Update an article
      * @summary Update
      * @param {number} id A unique integer value identifying this article.
      * @param {PatchedArticleRequest} [PatchedArticleRequest]
@@ -3933,7 +3933,7 @@ export const ArticlesApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Retrieve a single article
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this article.
      * @param {*} [options] Override http request option.
@@ -3969,7 +3969,7 @@ export const ArticlesApiFactory = function (
   const localVarFp = ArticlesApiFp(configuration)
   return {
     /**
-     * Viewset for Article viewing and editing.
+     * Create a new article
      * @summary Create
      * @param {ArticlesApiArticlesCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3984,7 +3984,7 @@ export const ArticlesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Delete an article
      * @summary Destroy
      * @param {ArticlesApiArticlesDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3999,7 +3999,7 @@ export const ArticlesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Get a paginated list of articles
      * @summary List
      * @param {ArticlesApiArticlesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -4018,7 +4018,7 @@ export const ArticlesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Update an article
      * @summary Update
      * @param {ArticlesApiArticlesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -4037,7 +4037,7 @@ export const ArticlesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Viewset for Article viewing and editing.
+     * Retrieve a single article
      * @summary Retrieve
      * @param {ArticlesApiArticlesRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -4146,7 +4146,7 @@ export interface ArticlesApiArticlesRetrieveRequest {
  */
 export class ArticlesApi extends BaseAPI {
   /**
-   * Viewset for Article viewing and editing.
+   * Create a new article
    * @summary Create
    * @param {ArticlesApiArticlesCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -4163,7 +4163,7 @@ export class ArticlesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Article viewing and editing.
+   * Delete an article
    * @summary Destroy
    * @param {ArticlesApiArticlesDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -4180,7 +4180,7 @@ export class ArticlesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Article viewing and editing.
+   * Get a paginated list of articles
    * @summary List
    * @param {ArticlesApiArticlesListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -4197,7 +4197,7 @@ export class ArticlesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Article viewing and editing.
+   * Update an article
    * @summary Update
    * @param {ArticlesApiArticlesPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -4218,7 +4218,7 @@ export class ArticlesApi extends BaseAPI {
   }
 
   /**
-   * Viewset for Article viewing and editing.
+   * Retrieve a single article
    * @summary Retrieve
    * @param {ArticlesApiArticlesRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -4704,26 +4704,54 @@ export const ContentfilesApiAxiosParamCreator = function (
     /**
      * Viewset for ContentFiles
      * @summary List
+     * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
+     * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
      * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {number} [run]
-     * @param {number} [run__learning_resource]
-     * @param {string} [run__learning_resource__offered_by__name]
-     * @param {string} [run__learning_resource__platform]
-     * @param {string} [run__learning_resource__readable_id]
-     * @param {string} [run__run_id]
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {number} [run_id] The id of the learning resource run the content file belongs to
+     * @param {string} [run_readable_id] The readable id of the learning resource run the content file belongs to
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     contentfilesList: async (
+      content_feature_type?: string,
+      learning_resource_id?: number,
+      learning_resource_readable_id?: string,
       limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
       offset?: number,
-      run?: number,
-      run__learning_resource?: number,
-      run__learning_resource__offered_by__name?: string,
-      run__learning_resource__platform?: string,
-      run__learning_resource__readable_id?: string,
-      run__run_id?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      run_id?: number,
+      run_readable_id?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/contentfiles/`
@@ -4742,40 +4770,41 @@ export const ContentfilesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (content_feature_type !== undefined) {
+        localVarQueryParameter["content_feature_type"] = content_feature_type
+      }
+
+      if (learning_resource_id !== undefined) {
+        localVarQueryParameter["learning_resource_id"] = learning_resource_id
+      }
+
+      if (learning_resource_readable_id !== undefined) {
+        localVarQueryParameter["learning_resource_readable_id"] =
+          learning_resource_readable_id
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by !== undefined) {
+        localVarQueryParameter["offered_by"] = offered_by
       }
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
       }
 
-      if (run !== undefined) {
-        localVarQueryParameter["run"] = run
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
       }
 
-      if (run__learning_resource !== undefined) {
-        localVarQueryParameter["run__learning_resource"] =
-          run__learning_resource
+      if (run_id !== undefined) {
+        localVarQueryParameter["run_id"] = run_id
       }
 
-      if (run__learning_resource__offered_by__name !== undefined) {
-        localVarQueryParameter["run__learning_resource__offered_by__name"] =
-          run__learning_resource__offered_by__name
-      }
-
-      if (run__learning_resource__platform !== undefined) {
-        localVarQueryParameter["run__learning_resource__platform"] =
-          run__learning_resource__platform
-      }
-
-      if (run__learning_resource__readable_id !== undefined) {
-        localVarQueryParameter["run__learning_resource__readable_id"] =
-          run__learning_resource__readable_id
-      }
-
-      if (run__run_id !== undefined) {
-        localVarQueryParameter["run__run_id"] = run__run_id
+      if (run_readable_id !== undefined) {
+        localVarQueryParameter["run_readable_id"] = run_readable_id
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -4852,26 +4881,54 @@ export const ContentfilesApiFp = function (configuration?: Configuration) {
     /**
      * Viewset for ContentFiles
      * @summary List
+     * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
+     * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
      * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {number} [run]
-     * @param {number} [run__learning_resource]
-     * @param {string} [run__learning_resource__offered_by__name]
-     * @param {string} [run__learning_resource__platform]
-     * @param {string} [run__learning_resource__readable_id]
-     * @param {string} [run__run_id]
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {number} [run_id] The id of the learning resource run the content file belongs to
+     * @param {string} [run_readable_id] The readable id of the learning resource run the content file belongs to
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async contentfilesList(
+      content_feature_type?: string,
+      learning_resource_id?: number,
+      learning_resource_readable_id?: string,
       limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
       offset?: number,
-      run?: number,
-      run__learning_resource?: number,
-      run__learning_resource__offered_by__name?: string,
-      run__learning_resource__platform?: string,
-      run__learning_resource__readable_id?: string,
-      run__run_id?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      run_id?: number,
+      run_readable_id?: string,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -4881,14 +4938,15 @@ export const ContentfilesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.contentfilesList(
+          content_feature_type,
+          learning_resource_id,
+          learning_resource_readable_id,
           limit,
+          offered_by,
           offset,
-          run,
-          run__learning_resource,
-          run__learning_resource__offered_by__name,
-          run__learning_resource__platform,
-          run__learning_resource__readable_id,
-          run__run_id,
+          platform,
+          run_id,
+          run_readable_id,
           options,
         )
       return createRequestFunction(
@@ -4947,14 +5005,15 @@ export const ContentfilesApiFactory = function (
     ): AxiosPromise<PaginatedContentFileList> {
       return localVarFp
         .contentfilesList(
+          requestParameters.content_feature_type,
+          requestParameters.learning_resource_id,
+          requestParameters.learning_resource_readable_id,
           requestParameters.limit,
+          requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.run,
-          requestParameters.run__learning_resource,
-          requestParameters.run__learning_resource__offered_by__name,
-          requestParameters.run__learning_resource__platform,
-          requestParameters.run__learning_resource__readable_id,
-          requestParameters.run__run_id,
+          requestParameters.platform,
+          requestParameters.run_id,
+          requestParameters.run_readable_id,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -4984,11 +5043,48 @@ export const ContentfilesApiFactory = function (
  */
 export interface ContentfilesApiContentfilesListRequest {
   /**
+   * Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly content_feature_type?: string
+
+  /**
+   * The id of the learning resource the content file belongs to
+   * @type {number}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly learning_resource_id?: number
+
+  /**
+   * The readable id of the learning resource the content file belongs to
+   * @type {string}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly learning_resource_readable_id?: string
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof ContentfilesApiContentfilesList
    */
   readonly limit?: number
+
+  /**
+   * The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly offered_by?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "mitpe"
+    | "mitx"
+    | "ocw"
+    | "scc"
+    | "see"
+    | "xpro"
 
   /**
    * The initial index from which to return the results.
@@ -4998,46 +5094,42 @@ export interface ContentfilesApiContentfilesListRequest {
   readonly offset?: number
 
   /**
-   *
+   * The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
+   * The id of the learning resource run the content file belongs to
    * @type {number}
    * @memberof ContentfilesApiContentfilesList
    */
-  readonly run?: number
+  readonly run_id?: number
 
   /**
-   *
-   * @type {number}
-   * @memberof ContentfilesApiContentfilesList
-   */
-  readonly run__learning_resource?: number
-
-  /**
-   *
+   * The readable id of the learning resource run the content file belongs to
    * @type {string}
    * @memberof ContentfilesApiContentfilesList
    */
-  readonly run__learning_resource__offered_by__name?: string
-
-  /**
-   *
-   * @type {string}
-   * @memberof ContentfilesApiContentfilesList
-   */
-  readonly run__learning_resource__platform?: string
-
-  /**
-   *
-   * @type {string}
-   * @memberof ContentfilesApiContentfilesList
-   */
-  readonly run__learning_resource__readable_id?: string
-
-  /**
-   *
-   * @type {string}
-   * @memberof ContentfilesApiContentfilesList
-   */
-  readonly run__run_id?: string
+  readonly run_readable_id?: string
 }
 
 /**
@@ -5075,14 +5167,15 @@ export class ContentfilesApi extends BaseAPI {
   ) {
     return ContentfilesApiFp(this.configuration)
       .contentfilesList(
+        requestParameters.content_feature_type,
+        requestParameters.learning_resource_id,
+        requestParameters.learning_resource_readable_id,
         requestParameters.limit,
+        requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.run,
-        requestParameters.run__learning_resource,
-        requestParameters.run__learning_resource__offered_by__name,
-        requestParameters.run__learning_resource__platform,
-        requestParameters.run__learning_resource__readable_id,
-        requestParameters.run__run_id,
+        requestParameters.platform,
+        requestParameters.run_id,
+        requestParameters.run_readable_id,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -5422,19 +5515,55 @@ export const CoursesApiAxiosParamCreator = function (
      * Show content files for a learning resource
      * @summary Learning Resource Content File List
      * @param {number} run__learning_resource
+     * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
+     * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
      * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {number} [run]
-     * @param {string} [run__run_id]
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {number} [run_id] The id of the learning resource run the content file belongs to
+     * @param {string} [run_readable_id] The readable id of the learning resource run the content file belongs to
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     coursesContentfilesList: async (
       run__learning_resource: number,
+      content_feature_type?: string,
+      learning_resource_id?: number,
+      learning_resource_readable_id?: string,
       limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
       offset?: number,
-      run?: number,
-      run__run_id?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      run_id?: number,
+      run_readable_id?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'run__learning_resource' is not null or undefined
@@ -5463,20 +5592,41 @@ export const CoursesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (content_feature_type !== undefined) {
+        localVarQueryParameter["content_feature_type"] = content_feature_type
+      }
+
+      if (learning_resource_id !== undefined) {
+        localVarQueryParameter["learning_resource_id"] = learning_resource_id
+      }
+
+      if (learning_resource_readable_id !== undefined) {
+        localVarQueryParameter["learning_resource_readable_id"] =
+          learning_resource_readable_id
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by !== undefined) {
+        localVarQueryParameter["offered_by"] = offered_by
       }
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
       }
 
-      if (run !== undefined) {
-        localVarQueryParameter["run"] = run
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
       }
 
-      if (run__run_id !== undefined) {
-        localVarQueryParameter["run__run_id"] = run__run_id
+      if (run_id !== undefined) {
+        localVarQueryParameter["run_id"] = run_id
+      }
+
+      if (run_readable_id !== undefined) {
+        localVarQueryParameter["run_readable_id"] = run_readable_id
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -6186,19 +6336,55 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * Show content files for a learning resource
      * @summary Learning Resource Content File List
      * @param {number} run__learning_resource
+     * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
+     * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
      * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {number} [run]
-     * @param {string} [run__run_id]
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {number} [run_id] The id of the learning resource run the content file belongs to
+     * @param {string} [run_readable_id] The readable id of the learning resource run the content file belongs to
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async coursesContentfilesList(
       run__learning_resource: number,
+      content_feature_type?: string,
+      learning_resource_id?: number,
+      learning_resource_readable_id?: string,
       limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
       offset?: number,
-      run?: number,
-      run__run_id?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      run_id?: number,
+      run_readable_id?: string,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -6209,10 +6395,15 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.coursesContentfilesList(
           run__learning_resource,
+          content_feature_type,
+          learning_resource_id,
+          learning_resource_readable_id,
           limit,
+          offered_by,
           offset,
-          run,
-          run__run_id,
+          platform,
+          run_id,
+          run_readable_id,
           options,
         )
       return createRequestFunction(
@@ -6735,10 +6926,15 @@ export const CoursesApiFactory = function (
       return localVarFp
         .coursesContentfilesList(
           requestParameters.run__learning_resource,
+          requestParameters.content_feature_type,
+          requestParameters.learning_resource_id,
+          requestParameters.learning_resource_readable_id,
           requestParameters.limit,
+          requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.run,
-          requestParameters.run__run_id,
+          requestParameters.platform,
+          requestParameters.run_id,
+          requestParameters.run_readable_id,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -6878,11 +7074,48 @@ export interface CoursesApiCoursesContentfilesListRequest {
   readonly run__learning_resource: number
 
   /**
+   * Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof CoursesApiCoursesContentfilesList
+   */
+  readonly content_feature_type?: string
+
+  /**
+   * The id of the learning resource the content file belongs to
+   * @type {number}
+   * @memberof CoursesApiCoursesContentfilesList
+   */
+  readonly learning_resource_id?: number
+
+  /**
+   * The readable id of the learning resource the content file belongs to
+   * @type {string}
+   * @memberof CoursesApiCoursesContentfilesList
+   */
+  readonly learning_resource_readable_id?: string
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof CoursesApiCoursesContentfilesList
    */
   readonly limit?: number
+
+  /**
+   * The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
+   * @memberof CoursesApiCoursesContentfilesList
+   */
+  readonly offered_by?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "mitpe"
+    | "mitx"
+    | "ocw"
+    | "scc"
+    | "see"
+    | "xpro"
 
   /**
    * The initial index from which to return the results.
@@ -6892,18 +7125,42 @@ export interface CoursesApiCoursesContentfilesListRequest {
   readonly offset?: number
 
   /**
-   *
+   * The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof CoursesApiCoursesContentfilesList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
+   * The id of the learning resource run the content file belongs to
    * @type {number}
    * @memberof CoursesApiCoursesContentfilesList
    */
-  readonly run?: number
+  readonly run_id?: number
 
   /**
-   *
+   * The readable id of the learning resource run the content file belongs to
    * @type {string}
    * @memberof CoursesApiCoursesContentfilesList
    */
-  readonly run__run_id?: string
+  readonly run_readable_id?: string
 }
 
 /**
@@ -7476,10 +7733,15 @@ export class CoursesApi extends BaseAPI {
     return CoursesApiFp(this.configuration)
       .coursesContentfilesList(
         requestParameters.run__learning_resource,
+        requestParameters.content_feature_type,
+        requestParameters.learning_resource_id,
+        requestParameters.learning_resource_readable_id,
         requestParameters.limit,
+        requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.run,
-        requestParameters.run__run_id,
+        requestParameters.platform,
+        requestParameters.run_id,
+        requestParameters.run_readable_id,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -9019,19 +9281,55 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * Show content files for a learning resource
      * @summary Learning Resource Content File List
      * @param {number} run__learning_resource
+     * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
+     * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
      * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {number} [run]
-     * @param {string} [run__run_id]
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {number} [run_id] The id of the learning resource run the content file belongs to
+     * @param {string} [run_readable_id] The readable id of the learning resource run the content file belongs to
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesContentfilesList: async (
       run__learning_resource: number,
+      content_feature_type?: string,
+      learning_resource_id?: number,
+      learning_resource_readable_id?: string,
       limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
       offset?: number,
-      run?: number,
-      run__run_id?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      run_id?: number,
+      run_readable_id?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'run__learning_resource' is not null or undefined
@@ -9060,20 +9358,41 @@ export const LearningResourcesApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
+      if (content_feature_type !== undefined) {
+        localVarQueryParameter["content_feature_type"] = content_feature_type
+      }
+
+      if (learning_resource_id !== undefined) {
+        localVarQueryParameter["learning_resource_id"] = learning_resource_id
+      }
+
+      if (learning_resource_readable_id !== undefined) {
+        localVarQueryParameter["learning_resource_readable_id"] =
+          learning_resource_readable_id
+      }
+
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by !== undefined) {
+        localVarQueryParameter["offered_by"] = offered_by
       }
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
       }
 
-      if (run !== undefined) {
-        localVarQueryParameter["run"] = run
+      if (platform !== undefined) {
+        localVarQueryParameter["platform"] = platform
       }
 
-      if (run__run_id !== undefined) {
-        localVarQueryParameter["run__run_id"] = run__run_id
+      if (run_id !== undefined) {
+        localVarQueryParameter["run_id"] = run_id
+      }
+
+      if (run_readable_id !== undefined) {
+        localVarQueryParameter["run_readable_id"] = run_readable_id
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -9902,19 +10221,55 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * Show content files for a learning resource
      * @summary Learning Resource Content File List
      * @param {number} run__learning_resource
+     * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+     * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
+     * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
      * @param {number} [limit] Number of results to return per page.
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {number} [run]
-     * @param {string} [run__run_id]
+     * @param {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+     * @param {number} [run_id] The id of the learning resource run the content file belongs to
+     * @param {string} [run_readable_id] The readable id of the learning resource run the content file belongs to
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesContentfilesList(
       run__learning_resource: number,
+      content_feature_type?: string,
+      learning_resource_id?: number,
+      learning_resource_readable_id?: string,
       limit?: number,
+      offered_by?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "mitpe"
+        | "mitx"
+        | "ocw"
+        | "scc"
+        | "see"
+        | "xpro",
       offset?: number,
-      run?: number,
-      run__run_id?: string,
+      platform?:
+        | "bootcamps"
+        | "csail"
+        | "ctl"
+        | "edx"
+        | "emeritus"
+        | "globalalumni"
+        | "mitpe"
+        | "mitxonline"
+        | "ocw"
+        | "oll"
+        | "podcast"
+        | "scc"
+        | "see"
+        | "simplilearn"
+        | "susskind"
+        | "whu"
+        | "xpro",
+      run_id?: number,
+      run_readable_id?: string,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -9925,10 +10280,15 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesContentfilesList(
           run__learning_resource,
+          content_feature_type,
+          learning_resource_id,
+          learning_resource_readable_id,
           limit,
+          offered_by,
           offset,
-          run,
-          run__run_id,
+          platform,
+          run_id,
+          run_readable_id,
           options,
         )
       return createRequestFunction(
@@ -10522,10 +10882,15 @@ export const LearningResourcesApiFactory = function (
       return localVarFp
         .learningResourcesContentfilesList(
           requestParameters.run__learning_resource,
+          requestParameters.content_feature_type,
+          requestParameters.learning_resource_id,
+          requestParameters.learning_resource_readable_id,
           requestParameters.limit,
+          requestParameters.offered_by,
           requestParameters.offset,
-          requestParameters.run,
-          requestParameters.run__run_id,
+          requestParameters.platform,
+          requestParameters.run_id,
+          requestParameters.run_readable_id,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -10705,11 +11070,48 @@ export interface LearningResourcesApiLearningResourcesContentfilesListRequest {
   readonly run__learning_resource: number
 
   /**
+   * Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesList
+   */
+  readonly content_feature_type?: string
+
+  /**
+   * The id of the learning resource the content file belongs to
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesList
+   */
+  readonly learning_resource_id?: number
+
+  /**
+   * The readable id of the learning resource the content file belongs to
+   * @type {string}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesList
+   */
+  readonly learning_resource_readable_id?: string
+
+  /**
    * Number of results to return per page.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesContentfilesList
    */
   readonly limit?: number
+
+  /**
+   * The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesList
+   */
+  readonly offered_by?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "mitpe"
+    | "mitx"
+    | "ocw"
+    | "scc"
+    | "see"
+    | "xpro"
 
   /**
    * The initial index from which to return the results.
@@ -10719,18 +11121,42 @@ export interface LearningResourcesApiLearningResourcesContentfilesListRequest {
   readonly offset?: number
 
   /**
-   *
+   * The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast
+   * @type {'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro'}
+   * @memberof LearningResourcesApiLearningResourcesContentfilesList
+   */
+  readonly platform?:
+    | "bootcamps"
+    | "csail"
+    | "ctl"
+    | "edx"
+    | "emeritus"
+    | "globalalumni"
+    | "mitpe"
+    | "mitxonline"
+    | "ocw"
+    | "oll"
+    | "podcast"
+    | "scc"
+    | "see"
+    | "simplilearn"
+    | "susskind"
+    | "whu"
+    | "xpro"
+
+  /**
+   * The id of the learning resource run the content file belongs to
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesContentfilesList
    */
-  readonly run?: number
+  readonly run_id?: number
 
   /**
-   *
+   * The readable id of the learning resource run the content file belongs to
    * @type {string}
    * @memberof LearningResourcesApiLearningResourcesContentfilesList
    */
-  readonly run__run_id?: string
+  readonly run_readable_id?: string
 }
 
 /**
@@ -11359,10 +11785,15 @@ export class LearningResourcesApi extends BaseAPI {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesContentfilesList(
         requestParameters.run__learning_resource,
+        requestParameters.content_feature_type,
+        requestParameters.learning_resource_id,
+        requestParameters.learning_resource_readable_id,
         requestParameters.limit,
+        requestParameters.offered_by,
         requestParameters.offset,
-        requestParameters.run,
-        requestParameters.run__run_id,
+        requestParameters.platform,
+        requestParameters.run_id,
+        requestParameters.run_readable_id,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

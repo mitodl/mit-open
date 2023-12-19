@@ -1,7 +1,7 @@
 """Filters for learning_resources API"""
 import logging
 
-from django_filters import CharFilter, ChoiceFilter, FilterSet
+from django_filters import CharFilter, ChoiceFilter, FilterSet, NumberFilter
 
 from learning_resources.constants import (
     DEPARTMENTS,
@@ -11,7 +11,7 @@ from learning_resources.constants import (
     OfferedBy,
     PlatformType,
 )
-from learning_resources.models import LearningResource
+from learning_resources.models import ContentFile, LearningResource
 
 log = logging.getLogger(__name__)
 
@@ -106,3 +106,69 @@ class LearningResourceFilter(FilterSet):
     class Meta:
         model = LearningResource
         fields = ["professional"]
+
+
+class ContentFileFilter(FilterSet):
+    """ContentFile filter"""
+
+    run_id = NumberFilter(
+        label="The id of the learning resource run the content file belongs to",
+        field_name="run_id",
+        lookup_expr="exact",
+    )
+
+    learning_resource_id = NumberFilter(
+        label="The id of the learning resource the content file belongs to",
+        field_name="run__learning_resource_id",
+        lookup_expr="exact",
+    )
+
+    content_feature_type = CharFilter(
+        label="Content feature type for the content file. Load the "
+        "'api/v1/course_features' endpoint for a list of course features",
+        field_name="content_tags__name",
+        lookup_expr="iexact",
+    )
+
+    offered_by = ChoiceFilter(
+        label="The organization that offers a learning resource the content file "
+        "belongs to",
+        method="filter_offered_by",
+        choices=([(offeror.name, offeror.value) for offeror in OfferedBy]),
+    )
+
+    platform = ChoiceFilter(
+        label="The platform on which learning resources the content file belongs "
+        "to is offered",
+        method="filter_platform",
+        choices=([(platform.name, platform.value) for platform in PlatformType]),
+    )
+
+    run_readable_id = CharFilter(
+        label="The readable id of the learning resource run the content file "
+        "belongs to",
+        field_name="run__run_id",
+        lookup_expr="exact",
+    )
+
+    learning_resource_readable_id = CharFilter(
+        label="The readable id of the learning resource the content file belongs to",
+        field_name="run__learning_resource__readable_id",
+        lookup_expr="exact",
+    )
+
+    def filter_offered_by(self, queryset, _, value):
+        """OfferedBy Filter for content files"""
+        return queryset.filter(run__learning_resource__offered_by__code=value)
+
+    def filter_platform(self, queryset, _, value):
+        """Platform Filter for content files"""
+        return queryset.filter(run__learning_resource__platform__code=value)
+
+    def filter_learning_resource_types(self, queryset, _, value):
+        """Level Filter for learning resources"""
+        return queryset.filter(learning_resource_types__contains=[value])
+
+    class Meta:
+        model = ContentFile
+        fields = []
