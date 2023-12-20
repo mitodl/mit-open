@@ -145,6 +145,7 @@ def test_learning_path_endpoint_patch(
         topics=[original_topic],
         is_learning_path=True,
         learning_path__author=user,
+        published=True,
     )
     factories.LearningPathRelationshipFactory.create(parent=learning_resource)
 
@@ -169,7 +170,8 @@ def test_learning_path_endpoint_patch(
         assert resp.data["topics"][0]["id"] == (
             new_topic.id if update_topics else original_topic.id
         )
-    assert mock_opensearch.upsert.call_count == (1 if is_editor and is_public else 0)
+        assert mock_opensearch.upsert.call_count == (1 if is_public else 0)
+        assert mock_opensearch.deindex.call_count == (1 if not is_public else 0)
 
 
 @pytest.mark.parametrize("is_editor", [True, False])

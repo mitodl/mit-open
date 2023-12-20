@@ -434,7 +434,7 @@ class LearningPathResourceSerializer(LearningResourceBaseSerializer):
                 resource.topics.set(
                     models.LearningResourceTopic.objects.filter(id__in=topics_data)
                 )
-        update_index(resource, True)  # noqa: FBT003
+        update_index(resource, False)  # noqa: FBT003
         return resource
 
     class Meta:
