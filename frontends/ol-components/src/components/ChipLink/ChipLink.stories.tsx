@@ -15,21 +15,21 @@ type Story = StoryObj<typeof ChipLink>
 
 export const Simple: Story = {
   args: {
-    label: "Chip",
-    to: "#Link",
+    label: "Chip Link",
+    to: "#link",
   },
 }
 
 export const Secondary: Story = {
   args: {
-    label: "Secondary Chip",
+    label: "Secondary Chip Link",
     color: "secondary",
   },
 }
 
 export const Disabled: Story = {
   args: {
-    label: "Disabled Chip",
+    label: "Disabled Chip Link",
     disabled: true,
   },
 }
