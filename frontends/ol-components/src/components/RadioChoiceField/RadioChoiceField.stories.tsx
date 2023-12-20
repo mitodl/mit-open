@@ -48,22 +48,5 @@ export const Simple: Story = {
         label: "Option 3",
       },
     ],
-    // row?: boolean
-    // onChange?: RadioGroupProps["onChange"]
-    // className?: string
   },
 }
-
-// export const Secondary: Story = {
-//   args: {
-//     label: "Secondary Chip Link",
-//     color: "secondary",
-//   },
-// }
-
-// export const Disabled: Story = {
-//   args: {
-//     label: "Disabled Chip Link",
-//     disabled: true,
-//   },
-// }
