@@ -34,4 +34,4 @@ Most workspaces are shared dependencies built using typescript and tested with j
 > docker compose run --rm watch yarn workspace ol-utilities run globa:lint-fix
 ```
 
-Again, `globa:lint-fix` is defined at the root workspace, not within `ol-utilities`. This works because [yarn commands containing a colon can be run from any workspace](https://yarnpkg.com/getting-started/qa#how-to-share-scripts-between-workspaces).
+Again, `global:lint-fix` is defined at the root workspace, not within `ol-utilities`. This works because [yarn commands containing a colon can be run from any workspace](https://yarnpkg.com/getting-started/qa#how-to-share-scripts-between-workspaces).
