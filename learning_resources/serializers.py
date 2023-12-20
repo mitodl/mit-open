@@ -11,6 +11,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from learning_resources import constants, models
+from learning_resources.etl.loaders import update_index
 from open_discussions.serializers import WriteableSerializerMethodField
 
 COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
@@ -421,6 +422,7 @@ class LearningPathResourceSerializer(LearningResourceBaseSerializer):
             models.LearningPath.objects.create(
                 learning_resource=path_resource, author=request.user
             )
+        update_index(path_resource, True)  # noqa: FBT003
         return path_resource
 
     def update(self, instance, validated_data):
@@ -432,7 +434,8 @@ class LearningPathResourceSerializer(LearningResourceBaseSerializer):
                 resource.topics.set(
                     models.LearningResourceTopic.objects.filter(id__in=topics_data)
                 )
-            return resource
+        update_index(resource, False)  # noqa: FBT003
+        return resource
 
     class Meta:
         model = models.LearningResource
