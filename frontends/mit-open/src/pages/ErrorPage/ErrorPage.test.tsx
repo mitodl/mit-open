@@ -1,7 +1,7 @@
 import React from "react"
 import { waitFor } from "@testing-library/react"
 import { useQuery } from "@tanstack/react-query"
-import { renderRoutesWithProviders } from "../../test-utils"
+import { renderRoutesWithProviders, renderTestApp } from "../../test-utils"
 import type { TestAppOptions } from "../../test-utils"
 import ErrorPage from "./ErrorPage"
 import { setMockResponse, mockAxiosInstance as axios } from "api/test-utils"
@@ -50,9 +50,17 @@ test.each([{ status: 401 }, { status: 403 }])(
   },
 )
 
-test("ErrorPage shows NotFound on 404 errors", async () => {
+test("ErrorPage shows NotFound on API 404 errors", async () => {
   allowConsoleErrors()
   setup(404)
+  await waitFor(() => {
+    expect(document.title).toBe("Not Found")
+  })
+})
+
+test("ErrorPage shows NotFound on frontend routing 404 errors", async () => {
+  allowConsoleErrors()
+  renderTestApp({ url: "/some-fake-route" })
   await waitFor(() => {
     expect(document.title).toBe("Not Found")
   })
@@ -81,4 +89,25 @@ test("ErrorPage shows ForbiddenPage on restricted routes.", async () => {
   await waitFor(() => {
     expect(document.title).toBe("Not Allowed")
   })
+})
+
+test("ErrorPage shows fallback and logs unexpected errors", async () => {
+  const { consoleError } = allowConsoleErrors()
+  const ThrowError = () => {
+    throw new Error("Some Error")
+  }
+  renderRoutesWithProviders(
+    [
+      {
+        errorElement: <ErrorPage />,
+        element: <ThrowError />,
+        path: "*",
+      },
+    ],
+    { user: { is_authenticated: true } },
+  )
+  await waitFor(() => {
+    expect(document.title).toBe("Not Allowed")
+  })
+  expect(consoleError).toHaveBeenCalledWith(Error("Some Error"))
 })
