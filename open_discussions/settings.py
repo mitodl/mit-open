@@ -132,6 +132,7 @@ MIDDLEWARE = (
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "csp.middleware.CSPMiddleware",
     "authentication.middleware.BlockedIPMiddleware",
     "authentication.middleware.SocialAuthExceptionRedirectMiddleware",
     "hijack.middleware.HijackUserMiddleware",
@@ -141,6 +142,14 @@ MIDDLEWARE = (
 CORS_ALLOWED_ORIGINS = get_list_of_str("CORS_ALLOWED_ORIGINS", [])
 CORS_ALLOWED_ORIGIN_REGEXES = get_list_of_str("CORS_ALLOWED_ORIGIN_REGEXES", [])
 CORS_ALLOW_CREDENTIALS = True
+
+# CSP
+CSP_DEFAULT_SRC = ("'self'", "*")
+CSP_FRAME_ANCESTORS = ("'self'", "*")
+CSP_STYLE_SRC = ("'unsafe-inline'", "https:")
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", "*")
+CSP_SCRIPT_SRC_ATTR = ("'self'", "'unsafe-inline'", "'unsafe-eval'", "*")
+CSP_SCRIPT_SRC_ELEM = ("'self'", "'unsafe-inline'", "'unsafe-eval'", "*")
 
 # enable the nplusone profiler only in debug mode
 if DEBUG:
@@ -652,3 +661,5 @@ KEYCLOAK_REALM_NAME = get_string(
     name="KEYCLOAK_REALM_NAME",
     default="olapps",
 )
+
+X_FRAME_OPTIONS = "ALLOW-FROM http://localhost:3000/"

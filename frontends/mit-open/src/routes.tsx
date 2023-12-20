@@ -1,5 +1,6 @@
 import React from "react"
-import { RouteObject, Outlet } from "react-router"
+import { RouteObject, Outlet, LayoutRouteProps } from "react-router"
+import { useLocation } from "react-router-dom"
 import HomePage from "@/pages/HomePage/HomePage"
 import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
 import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
@@ -10,12 +11,24 @@ import ErrorPage from "@/pages/ErrorPage/ErrorPage"
 import * as urls from "@/common/urls"
 import Header from "@/page-components/Header/Header"
 import { Permissions } from "@/common/permissions"
+import UserWidget from "./pages/User/UserWidget"
+import ZoidUserWidget from "./pages/User/ZoidUserWidget"
+
+const HeaderWrapper = ({ children }: LayoutRouteProps) => {
+  const { pathname } = useLocation()
+  const widgetsPathRegex = /^(?!.*widgets\/).*$/
+
+  const isValid = widgetsPathRegex.test(pathname)
+  return isValid ? children : null
+}
 
 const routes: RouteObject[] = [
   {
     element: (
       <>
-        <Header />
+        <HeaderWrapper>
+          <Header />
+        </HeaderWrapper>
         <Outlet />
       </>
     ),
@@ -50,6 +63,14 @@ const routes: RouteObject[] = [
             element: <ArticleCreatePage />,
           },
         ],
+      },
+      {
+        path: urls.USER_WIDGET,
+        element: <UserWidget />,
+      },
+      {
+        path: urls.ZOID_USER_WIDGET,
+        element: <ZoidUserWidget />,
       },
     ],
   },

@@ -41,6 +41,7 @@ const ErrorPage = () => {
      */
     <ErrorPageTemplate title="Error">
       <h1>Something went wrong.</h1>
+      <div>{JSON.stringify(error)}</div>
     </ErrorPageTemplate>
   )
 }
