@@ -4294,4 +4294,8 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
+<<<<<<< HEAD
 content-hash = "b739687dded19b000590400ba9d5efce0d2422c2bd39d37eebae5b7a4f41bdb3"
+=======
+content-hash = "584e4443d446be51a168d720a7c255c566cf97481bc43839f0644c421a7b2c44"
+>>>>>>> 83e06cd2 (More experimenting with chunking and multiple embeds per contentfile')

@@ -7,7 +7,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("learning_resources", "0027_unique_offeror_code"),
+        ("learning_resources", "0034_alter_learningresourcerun_level"),
     ]
 
     operations = [

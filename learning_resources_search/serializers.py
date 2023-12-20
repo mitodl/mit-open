@@ -25,7 +25,6 @@ from learning_resources.serializers import (
 )
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
-    CONTENT_EMBEDDING_TYPE,
     CONTENT_FILE_TYPE,
 )
 
@@ -378,11 +377,7 @@ def serialize_content_embedding_for_update(embedding_obj):
 
     return {
         "id": embedding_obj.id,
-        "resource_relations": {
-            "name": CONTENT_EMBEDDING_TYPE,
-            "parent": embedding_obj.content_file_id,
-        },
-        "resource_type": CONTENT_EMBEDDING_TYPE,
+        "content_file": embedding_obj.content_file_id,
         "chunk": embedding_obj.text_chunk,
     }
 

@@ -7,7 +7,7 @@ import tiktoken
 
 from learning_resources.models import ContentFileEmbedding
 
-CHUNK_SIZE = 8142
+CHUNK_SIZE = 512
 CHUNK_OVERLAP = 0
 CHUNK_ADJUST = 50
 
@@ -68,7 +68,7 @@ def make_contentfile_chunks(content_file, create_embeddings=False):  # noqa: FBT
         return
     page_text_chunks = chunk_file_by_size(content_file.content)
 
-    for chunk in page_text_chunks[:1]:
+    for chunk in page_text_chunks:
         embedding = None
         if create_embeddings:
             try:

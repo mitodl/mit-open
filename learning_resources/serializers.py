@@ -11,8 +11,11 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from learning_resources import constants, models
+
 from learning_resources.constants import LearningResourceType
 from learning_resources.etl.loaders import update_index
+from learning_resources.models import ContentFileEmbedding
+
 from open_discussions.serializers import WriteableSerializerMethodField
 
 COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
@@ -507,21 +510,21 @@ class LearningResourceRelationshipSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         position = validated_data["position"]
         # to perform an update on position we atomically:
-        # 1) move everything between the old position and the new position towards the old position by 1  # noqa: E501
+        # 1) move everything between the old position and the new position towards the old position by 1
         # 2) move the item into its new position
-        # this operation gets slower the further the item is moved, but it is sufficient for now  # noqa: E501
+        # this operation gets slower the further the item is moved, but it is sufficient for now
         with transaction.atomic():
             path_items = models.LearningResourceRelationship.objects.filter(
                 parent=instance.parent,
                 relation_type=instance.relation_type,
             )
             if position > instance.position:
-                # move items between the old and new positions up, inclusive of the new position  # noqa: E501
+                # move items between the old and new positions up, inclusive of the new position
                 path_items.filter(
                     position__lte=position, position__gt=instance.position
                 ).update(position=F("position") - 1)
             else:
-                # move items between the old and new positions down, inclusive of the new position  # noqa: E501
+                # move items between the old and new positions down, inclusive of the new position
                 path_items.filter(
                     position__lt=instance.position, position__gte=position
                 ).update(position=F("position") + 1)
@@ -707,4 +710,14 @@ class UserListRelationshipSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.UserListRelationship
         extra_kwargs = {"position": {"required": False}}
+        exclude = COMMON_IGNORED_FIELDS
+
+
+class ContentFileEmbeddingSerializer(serializers.ModelSerializer):
+    """
+    Serializer for ContentFileEmbedding
+    """
+
+    class Meta:
+        model = ContentFileEmbedding
         exclude = COMMON_IGNORED_FIELDS

@@ -35,6 +35,7 @@ LEARNING_RESOURCE_TYPES = (
     PODCAST_TYPE,
     PODCAST_EPISODE_TYPE,
     LEARNING_PATH_TYPE,
+    CONTENT_EMBEDDING_TYPE,
 )
 
 
@@ -227,10 +228,21 @@ CONTENT_FILE_MAP = {
             "name": {"type": "keyword"},
         },
     },
-    "embedding": {
+}
+
+CONTENT_EMBEDDING_MAP = {
+    "id": {"type": "long"},
+    "content_file": {"type": "long"},
+    "chunk": ENGLISH_TEXT_FIELD,
+    "text_embedding": {
         "type": "knn_vector",
-        "dimension": 1536,
-        "method": {"name": "hnsw", "space_type": "cosinesimil", "engine": "nmslib"},
+        "dimension": 768,
+        "method": {
+            "engine": "lucene",
+            "space_type": "l2",
+            "name": "hnsw",
+            "parameters": {},
+        },
     },
 }
 
@@ -282,6 +294,7 @@ MAPPING = {
     PODCAST_TYPE: LEARNING_RESOURCE_MAP,
     PODCAST_EPISODE_TYPE: LEARNING_RESOURCE_MAP,
     LEARNING_PATH_TYPE: LEARNING_RESOURCE_MAP,
+    CONTENT_EMBEDDING_TYPE: CONTENT_EMBEDDING_MAP,
 }
 
 SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)

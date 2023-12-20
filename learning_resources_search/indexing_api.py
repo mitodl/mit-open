@@ -101,8 +101,8 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
                 "number_of_replicas": settings.OPENSEARCH_REPLICA_COUNT,
                 "refresh_interval": "60s",
                 "knn": True,
-                "knn.algo_param.ef_search": 100,
-                # "default_pipeline": "nlp-ingest-pipeline",
+                # "knn.algo_param.ef_search": 100,
+                "default_pipeline": "nlp-ingest-pipeline",
             },
             "analysis": {
                 "analyzer": {
@@ -377,12 +377,13 @@ def index_run_content_embeddings(run_id, index_types):
                 pk__in=ids_chunk
             )
         )
-
+        log.info("Indexing.....")
         index_items(
             documents,
             CONTENT_EMBEDDING_TYPE,
             index_types=index_types,
             routing=run.learning_resource.id,
+            timeout="120s",
         )
 
 
