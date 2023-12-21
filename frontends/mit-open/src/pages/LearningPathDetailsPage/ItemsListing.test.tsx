@@ -13,7 +13,7 @@ import {
 } from "../../test-utils"
 import ItemsListing from "./ItemsListing"
 import type { ItemsListingProps } from "./ItemsListing"
-import { ControlledPromise } from "ol-utilities/test-utils"
+import { ControlledPromise } from "ol-test-utilities"
 import invariant from "tiny-invariant"
 
 jest.mock("ol-utilities", () => {

@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker/locale/en"
-import { makePaginatedFactory, type Factory } from "ol-utilities/factories"
+import { makePaginatedFactory } from "ol-test-utilities"
+import type { Factory } from "ol-test-utilities"
 import type { Article } from "../../generated"
 
 const article: Factory<Article> = (overrides = {}) => ({

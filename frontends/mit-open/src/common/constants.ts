@@ -1,4 +1,4 @@
-import type { EmbedlyConfig } from "ol-common"
+import type { EmbedlyConfig } from "ol-utilities"
 
 const imgConfigs = {
   row: {

@@ -2,16 +2,14 @@ import React from "react"
 import { screen, render, waitFor } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import { faker } from "@faker-js/faker/locale/en"
-import { assertNotNil, PartialBy } from "ol-utilities"
+import invariant from "tiny-invariant"
 import { makeWidgetListResponse, makeWidget } from "../../factories"
 import ManageWidgetDialog from "./ManageWidgetDialog"
 import type { ManageWidgetDialogProps } from "./ManageWidgetDialog"
 import { WidgetTypes } from "../../interfaces"
 
-type TestProps = PartialBy<
-  ManageWidgetDialogProps,
-  "specs" | "onSubmit" | "onCancel" | "isOpen"
->
+type TestProps = Partial<ManageWidgetDialogProps>
+
 const setupEditingDialog = async (props?: TestProps) => {
   const { available_widgets: specs } = makeWidgetListResponse()
   const spies = { onSubmit: jest.fn(), onCancel: jest.fn() }
@@ -111,7 +109,7 @@ describe("ManageWidgetDialog (Editing)", () => {
       const widget = makeWidget(widgetType)
       const { specs } = await setupEditingDialog({ widget })
       const spec = specs.find((spec) => spec.widget_type === widgetType)
-      assertNotNil(spec)
+      invariant(spec)
       const fields = spec.form_spec
       expect(fields.length).toBeGreaterThan(0)
       fields.forEach((field) => {

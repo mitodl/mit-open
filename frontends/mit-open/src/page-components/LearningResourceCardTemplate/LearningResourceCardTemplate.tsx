@@ -13,8 +13,7 @@ import {
   getReadableResourceType,
   findBestRun,
 } from "ol-utilities"
-
-import type { EmbedlyConfig } from "ol-common"
+import type { EmbedlyConfig } from "ol-utilities"
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard<R extends LearningResource> = (resource: R) => void

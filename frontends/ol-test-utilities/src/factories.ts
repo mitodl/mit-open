@@ -1,11 +1,15 @@
 import { faker } from "@faker-js/faker/locale/en"
-import { times } from "lodash"
 import type { PartialDeep } from "type-fest"
-import type { PaginatedResult } from "./interfaces"
-import type { EmbedlyConfig } from "ol-common"
 
 export type Factory<T, U = never> = (overrides?: Partial<T>, options?: U) => T
 export type PartialFactory<T, U = T> = (overrides?: PartialDeep<T>) => U
+
+interface PaginatedResult<T> {
+  count: number
+  next: null | string
+  previous: null | string
+  results: T[]
+}
 
 export const makePaginatedFactory =
   <T>(makeResult: Factory<T>) =>
@@ -19,7 +23,9 @@ export const makePaginatedFactory =
       previous?: string | null
     } = {},
   ) => {
-    const results = times(pageSize ?? count, () => makeResult())
+    const results = Array.from({ length: pageSize ?? count }, () =>
+      makeResult(),
+    )
     return {
       results,
       count,
@@ -32,15 +38,3 @@ export const makePaginatedFactory =
  * Make a random URL with `faker`, but standardize it to what browsers use.
  */
 export const makeUrl = (): string => new URL(faker.internet.url()).toString()
-
-export const makeImgConfig: Factory<EmbedlyConfig> = (overrides) => {
-  const imgConfig = {
-    width: faker.datatype.number(),
-    height: faker.datatype.number(),
-    key: faker.datatype.uuid(),
-  }
-  return {
-    ...imgConfig,
-    ...overrides,
-  }
-}
