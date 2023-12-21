@@ -150,6 +150,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pages: write
+      id-token: write
+      actions: read
     steps:
       - name: Checkout
         uses: actions/checkout@v3
