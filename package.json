@@ -22,7 +22,8 @@
     "global:test": "cd $INIT_CWD && NODE_ENV=test jest",
     "global:typecheck": "cd $INIT_CWD && tsc --noEmit",
     "global:test-watch": "cd $INIT_CWD && NODE_ENV=test jest --watch",
-    "create-package": "yarn workspace ol-template plop package"
+    "create-package": "yarn workspace ol-template plop package",
+    "build-storybook": "yarn workspace mit-open build-storybook"
   },
   "version": "0.0.0",
   "packageManager": "yarn@3.7.0",

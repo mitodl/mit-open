@@ -153,7 +153,7 @@ jobs:
       uses: bitovi/github-actions-storybook-to-github-pages@v1.0.0
       with:
         path: frontends/mit-open/storybook-static
-        build_command: yarn --cwd frontends/mit-open/ build-storybook
+        build_command: yarn build-storybook
 
   openapi-generated-client-check:
     # This job checks that the output of openapi-generator-typescript-axios that
