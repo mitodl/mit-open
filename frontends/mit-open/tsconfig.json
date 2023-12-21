@@ -9,6 +9,11 @@
     },
     "resolveJsonModule": true
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./.storybook/**/*.ts",
+    "./.storybook/**/*.tsx"
+  ],
   "typeRoots": ["./src/typings", "./node_modules/@types/"]
 }

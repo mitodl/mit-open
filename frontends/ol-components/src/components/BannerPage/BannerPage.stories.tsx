@@ -1,16 +1,13 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { BannerPage } from "./BannerPage"
-import { ThemeProvider } from "ol-components"
 
 const meta: Meta<typeof BannerPage> = {
   title: "ol-components/BannerPage",
   render: (props) => (
-    <ThemeProvider>
-      <BannerPage {...props}>
-        <h1>Page Content</h1>
-      </BannerPage>
-    </ThemeProvider>
+    <BannerPage {...props}>
+      <h1>Page Content</h1>
+    </BannerPage>
   ),
 }
 

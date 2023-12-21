@@ -1,16 +1,13 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { BasicDialog } from "./BasicDialog"
-import { ThemeProvider } from "ol-components"
 
 const meta: Meta<typeof BasicDialog> = {
   title: "ol-components/BasicDialog",
   render: (props) => (
-    <ThemeProvider>
-      <BasicDialog {...props}>
-        <h1>Dialog Content</h1>
-      </BasicDialog>
-    </ThemeProvider>
+    <BasicDialog {...props}>
+      <h1>Dialog Content</h1>
+    </BasicDialog>
   ),
   argTypes: {
     onClose: {
