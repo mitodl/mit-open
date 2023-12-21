@@ -4199,7 +4199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-essentials@npm:^7.6.5, @storybook/addon-essentials@npm:^7.6.6":
+"@storybook/addon-essentials@npm:^7.6.6":
   version: 7.6.7
   resolution: "@storybook/addon-essentials@npm:7.6.7"
   dependencies:
@@ -4233,7 +4233,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-interactions@npm:^7.6.5, @storybook/addon-interactions@npm:^7.6.6":
+"@storybook/addon-interactions@npm:^7.6.6":
   version: 7.6.7
   resolution: "@storybook/addon-interactions@npm:7.6.7"
   dependencies:
@@ -4246,7 +4246,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-links@npm:^7.6.5, @storybook/addon-links@npm:^7.6.6":
+"@storybook/addon-links@npm:^7.6.6":
   version: 7.6.7
   resolution: "@storybook/addon-links@npm:7.6.7"
   dependencies:
@@ -4311,7 +4311,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/blocks@npm:7.6.7, @storybook/blocks@npm:^7.6.5, @storybook/blocks@npm:^7.6.6":
+"@storybook/blocks@npm:7.6.7, @storybook/blocks@npm:^7.6.6":
   version: 7.6.7
   resolution: "@storybook/blocks@npm:7.6.7"
   dependencies:
@@ -4868,7 +4868,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react-webpack5@npm:^7.6.5, @storybook/react-webpack5@npm:^7.6.6":
+"@storybook/react-webpack5@npm:^7.6.6":
   version: 7.6.7
   resolution: "@storybook/react-webpack5@npm:7.6.7"
   dependencies:
@@ -4890,7 +4890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react@npm:7.6.7, @storybook/react@npm:^7.6.5, @storybook/react@npm:^7.6.6":
+"@storybook/react@npm:7.6.7, @storybook/react@npm:^7.6.6":
   version: 7.6.7
   resolution: "@storybook/react@npm:7.6.7"
   dependencies:
@@ -4953,7 +4953,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/test@npm:^7.6.5, @storybook/test@npm:^7.6.6":
+"@storybook/test@npm:^7.6.6":
   version: 7.6.7
   resolution: "@storybook/test@npm:7.6.7"
   dependencies:
@@ -14873,14 +14873,14 @@ __metadata:
     "@mui/icons-material": ^5.14.19
     "@mui/lab": ^5.0.0-alpha.150
     "@mui/material": ^5.14.15
-    "@storybook/addon-essentials": ^7.6.5
-    "@storybook/addon-interactions": ^7.6.5
-    "@storybook/addon-links": ^7.6.5
+    "@storybook/addon-essentials": ^7.6.6
+    "@storybook/addon-interactions": ^7.6.6
+    "@storybook/addon-links": ^7.6.6
     "@storybook/addon-onboarding": ^1.0.10
-    "@storybook/blocks": ^7.6.5
-    "@storybook/react": ^7.6.5
-    "@storybook/react-webpack5": ^7.6.5
-    "@storybook/test": ^7.6.5
+    "@storybook/blocks": ^7.6.6
+    "@storybook/react": ^7.6.6
+    "@storybook/react-webpack5": ^7.6.6
+    "@storybook/test": ^7.6.6
     "@testing-library/react": ^14.1.2
     "@testing-library/user-event": ^14.5.1
     lodash: ^4.17.21
