@@ -76,16 +76,22 @@ describe("UserMenu", () => {
   test.each([
     {
       isAuthenticated: false,
-      expected: { text: "Log in", url: urls.LOGIN },
+      initialUrl: "/foo/bar?cat=meow",
+      expected: {
+        text: "Log in",
+        url: urls.login({ pathname: "/foo/bar", search: "?cat=meow" }),
+      },
     },
     {
       isAuthenticated: true,
+      initialUrl: "/foo/bar?cat=meow",
       expected: { text: "Log out", url: urls.LOGOUT },
     },
   ])(
     "Users (authenticated=$isAuthenticated) see '$expected.text' link",
-    async ({ isAuthenticated, expected }) => {
+    async ({ isAuthenticated, expected, initialUrl }) => {
       renderWithProviders(<Header />, {
+        url: initialUrl,
         user: { is_authenticated: isAuthenticated },
       })
       const menu = await findUserMenu()

@@ -7,6 +7,8 @@ import * as urls from "@/common/urls"
 import { Permissions, hasPermission } from "@/common/permissions"
 import type { User } from "@/types/settings"
 import PersonIcon from "@mui/icons-material/Person"
+import { useLocation } from "react-router"
+import type { Location } from "react-router"
 
 const StyledBadge = styled(Badge)`
   pointer-events: none;
@@ -30,13 +32,16 @@ interface AuthMenuItem extends SimpleMenuItem {
   allow: boolean
 }
 
-const getUserMenuItems = (): SimpleMenuItem[] => {
+const getUserMenuItems = (location: Location): SimpleMenuItem[] => {
   const items: AuthMenuItem[] = [
     {
       label: "Log in",
       key: "login",
       allow: !hasPermission(Permissions.Authenticated),
-      href: urls.LOGIN,
+      href: urls.login({
+        pathname: location.pathname,
+        search: location.search,
+      }),
       LinkComponent: "a",
     },
     {
@@ -66,7 +71,8 @@ const UserIcon: React.FC<{ user: User }> = ({ user }) => {
 
 const UserMenu: React.FC = () => {
   const [visible, setVisible] = useState(false)
-  const items = useMemo(getUserMenuItems, [])
+  const location = useLocation()
+  const items = useMemo(() => getUserMenuItems(location), [location])
 
   return (
     <SimpleMenu
