@@ -149,11 +149,19 @@ jobs:
       url: ${{ steps.build-publish.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-    - id: build-publish
-      uses: bitovi/github-actions-storybook-to-github-pages@v1.0.0
-      with:
-        path: frontends/mit-open/storybook-static
-        build_command: yarn build-storybook
+      - name: Checkout
+        uses: actions/checkout@v3
+      - run: yarn install
+      - run: yarn build-storybook
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: frontends/mit-open/storybook-static
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
 
   openapi-generated-client-check:
     # This job checks that the output of openapi-generator-typescript-axios that
