@@ -5591,8 +5591,9 @@ components:
           type: string
         resource_readable_id:
           type: string
-        resource_readable_num:
+        course_number:
           type: string
+          readOnly: true
         file_type:
           type: string
           nullable: true
@@ -5605,13 +5606,13 @@ components:
           type: string
       required:
       - content_feature_type
+      - course_number
       - departments
       - id
       - offered_by
       - platform
       - resource_id
       - resource_readable_id
-      - resource_readable_num
       - run_id
       - run_readable_id
       - run_slug

@@ -209,7 +209,7 @@ CONTENT_FILE_MAP = {
     "image_src": {"type": "keyword"},
     "resource_id": {"type": "long"},
     "resource_readable_id": {"type": "keyword"},
-    "resource_readable_num": {"type": "keyword"},
+    "course_number": {"type": "keyword"},
     "resource_type": {"type": "keyword"},
     "offered_by": {
         "type": "nested",

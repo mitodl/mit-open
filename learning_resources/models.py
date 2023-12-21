@@ -205,11 +205,6 @@ class LearningResource(TimestampedModel):
             )
         )
 
-    @property
-    def resource_num(self):
-        """Extracts the course/program number from the readable_id"""
-        return self.readable_id.split("+")[-1]  # pylint:disable=use-maxsplit-arg
-
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
 

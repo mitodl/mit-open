@@ -11,6 +11,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from learning_resources import constants, models
+from learning_resources.constants import LearningResourceType
 from learning_resources.etl.loaders import update_index
 from open_discussions.serializers import WriteableSerializerMethodField
 
@@ -575,9 +576,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
     resource_readable_id = serializers.CharField(
         source="run.learning_resource.readable_id"
     )
-    resource_readable_num = serializers.CharField(
-        source="run.learning_resource.resource_num"
-    )
+    course_number = serializers.SerializerMethodField()
     content_feature_type = LearningResourceContentTagField(source="content_tags")
     offered_by = LearningResourceOfferorSerializer(
         source="run.learning_resource.offered_by"
@@ -585,6 +584,15 @@ class ContentFileSerializer(serializers.ModelSerializer):
     platform = LearningResourcePlatformSerializer(
         source="run.learning_resource.platform"
     )
+
+    def get_course_number(self, instance):
+        """Extract the course number(s) from the associated course"""
+        if hasattr(instance.run.learning_resource, LearningResourceType.course.name):
+            return [
+                coursenum["value"]
+                for coursenum in instance.run.learning_resource.course.course_numbers
+            ]
+        return []
 
     class Meta:
         model = models.ContentFile
@@ -611,7 +619,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
             "image_src",
             "resource_id",
             "resource_readable_id",
-            "resource_readable_num",
+            "course_number",
             "file_type",
             "offered_by",
             "platform",

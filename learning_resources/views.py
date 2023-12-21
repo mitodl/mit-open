@@ -492,7 +492,12 @@ class ContentFileViewSet(viewsets.ReadOnlyModelViewSet):
 
     serializer_class = ContentFileSerializer
     permission_classes = (AnonymousAccessReadonlyPermission,)
-    queryset = ContentFile.objects.filter(published=True).order_by("-updated_on")
+    queryset = (
+        ContentFile.objects.select_related("run")
+        .prefetch_related("content_tags")
+        .filter(published=True)
+        .order_by("-updated_on")
+    )
     pagination_class = DefaultPagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = ContentFileFilter

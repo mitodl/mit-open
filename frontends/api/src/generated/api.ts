@@ -220,7 +220,7 @@ export interface ContentFile {
    * @type {string}
    * @memberof ContentFile
    */
-  resource_readable_num: string
+  course_number: string
   /**
    *
    * @type {string}
