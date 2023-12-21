@@ -34,4 +34,5 @@ const config = {
   },
   staticDirs: ["../../../static"],
 }
+
 export default config

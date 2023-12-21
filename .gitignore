@@ -123,3 +123,6 @@ tsconfig.tsbuildinfo
 
 # VS-Code
 .vscode
+
+# Storybook
+storybook-static/
