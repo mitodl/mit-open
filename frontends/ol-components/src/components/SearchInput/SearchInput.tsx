@@ -6,7 +6,7 @@ import OutlinedInput from "@mui/material/OutlinedInput"
 import InputAdornment from "@mui/material/InputAdornment"
 import IconButton from "@mui/material/IconButton"
 
-interface SearchSubmissionEvent {
+export interface SearchSubmissionEvent {
   target: {
     value: string
   }
