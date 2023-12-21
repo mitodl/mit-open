@@ -143,6 +143,18 @@ jobs:
         with:
           file: coverage/lcov.info
 
+  publish-storybook:
+    environment:
+      name: github-pages
+      url: ${{ steps.build-publish.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+    - id: build-publish
+      uses: bitovi/github-actions-storybook-to-github-pages@v1.0.0
+      with:
+        path: frontends/mit-open/storybook-static
+        build_command: yarn --cwd frontends/mit-open/ build-storybook
+
   openapi-generated-client-check:
     # This job checks that the output of openapi-generator-typescript-axios that
     # is checked into version control is up-to-date.
