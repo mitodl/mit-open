@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker/locale/en"
-import { Factory } from "ol-utilities/factories"
+import type { Factory } from "ol-test-utilities"
 import { times } from "lodash"
 import type {
   WidgetInstance,

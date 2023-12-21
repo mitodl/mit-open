@@ -1,6 +1,6 @@
 import React from "react"
 import { renderHook, waitFor } from "@testing-library/react"
-import { allowConsoleErrors } from "ol-utilities/test-utils"
+import { allowConsoleErrors } from "ol-test-utilities"
 import { QueryClientProvider, useQuery } from "@tanstack/react-query"
 import { createQueryClient } from "./react-query"
 

@@ -17,6 +17,7 @@
     "@types/react": "^18.2.6",
     "autoprefixer": "^10.4.14",
     "css-loader": "^6.7.1",
+    "ol-test-utilities": "workspace:*",
     "postcss-loader": "^7.0.1",
     "sass": "^1.62.1",
     "sass-loader": "^13.3.0",
@@ -33,7 +34,6 @@
   },
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
-    "@mitodl/course-search-utils": "^2.3.2",
     "@mui/icons-material": "^5.14.19",
     "@sentry/react": "^7.57.0",
     "@tanstack/react-query": "^4.36.1",
@@ -46,7 +46,6 @@
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.6.1",
     "ol-ckeditor": "workspace:*",
-    "ol-common": "workspace:*",
     "ol-components": "workspace:*",
     "ol-utilities": "workspace:*",
     "ol-widgets": "workspace:*",
