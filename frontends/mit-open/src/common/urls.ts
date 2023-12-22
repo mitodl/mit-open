@@ -18,3 +18,26 @@ export const articlesEditView = (id: number) =>
 
 export const LOGIN = "/login/ol-oidc/"
 export const LOGOUT = "/logout/"
+
+/**
+ * Returns the URL to the login page, with a `next` parameter to redirect back
+ * to the given pathname + search parameters.
+ */
+export const login = ({
+  pathname = "/",
+  search = "",
+}: {
+  pathname?: string
+  search?: string
+} = {}) => {
+  /**
+   * To include search parameters in the next URL, we need to encode them.
+   * If we pass `?next=/foo/bar?cat=meow` directly, Django receives two separate
+   * parameters: `next` and `cat`.
+   *
+   * There's no need to encode the path parameter (it might contain slashes,
+   * but those are allowed in search parameters) so let's keep it readable.
+   */
+  const next = `${pathname}${encodeURIComponent(search)}`
+  return `${LOGIN}?next=${next}`
+}
