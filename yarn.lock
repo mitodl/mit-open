@@ -3021,15 +3021,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/url-assembler@npm:^2.1.1":
-  version: 2.1.4
-  resolution: "@types/url-assembler@npm:2.1.4"
-  dependencies:
-    "@types/qs": "*"
-  checksum: cd8f5fdeecc3073c9fd848d018a27b923e13c0b2fb84fdbb2b5768176940e80180fbb3ceb0e1fd17211001ebcd70fc87eacf7c090656715db04668918b1a5d55
-  languageName: node
-  linkType: hard
-
 "@types/validator@npm:^13.7.6":
   version: 13.11.7
   resolution: "@types/validator@npm:13.11.7"
@@ -6579,13 +6570,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"extend@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "extend@npm:2.0.2"
-  checksum: b54b6f7af6c780a611791198341d393f8c3f295edb89dd27d81278d0b817e850df7d261ee0c2f092ae68562ac4e20c8ec4b31fe7cfa2ca86bedfd4c48190b40f
-  languageName: node
-  linkType: hard
-
 "extend@npm:^3.0.0, extend@npm:^3.0.2":
   version: 3.0.2
   resolution: "extend@npm:3.0.2"
@@ -10130,8 +10114,6 @@ __metadata:
     swc-loader: ^0.2.3
     tiny-invariant: ^1.3.1
     tsconfig-paths-webpack-plugin: ^4.1.0
-    url: ^0.11.0
-    url-assembler: ^2.1.1
     webpack: ^5.89.0
     webpack-bundle-analyzer: ^4.6.1
     webpack-bundle-tracker: ^1.4.0
@@ -11741,13 +11723,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"punycode@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "punycode@npm:1.4.1"
-  checksum: fa6e698cb53db45e4628559e557ddaf554103d2a96a1d62892c8f4032cd3bc8871796cae9eabc1bc700e2b6677611521ce5bb1d9a27700086039965d0cf34518
-  languageName: node
-  linkType: hard
-
 "punycode@npm:^2.1.0, punycode@npm:^2.1.1":
   version: 2.3.1
   resolution: "punycode@npm:2.3.1"
@@ -11771,7 +11746,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:^6.11.0, qs@npm:^6.11.2, qs@npm:^6.5.1":
+"qs@npm:^6.11.0":
   version: 6.11.2
   resolution: "qs@npm:6.11.2"
   dependencies:
@@ -12483,7 +12458,6 @@ __metadata:
     "@types/jest": ^29.5.2
     "@types/jest-when": ^3.5.2
     "@types/react-infinite-scroller": ^1.2.3
-    "@types/url-assembler": ^2.1.1
     "@typescript-eslint/eslint-plugin": ^6.9.1
     cross-fetch: ^4.0.0
     eslint: ^8.18.0
@@ -14419,16 +14393,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"url-assembler@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "url-assembler@npm:2.1.1"
-  dependencies:
-    extend: ^2.0.2
-    qs: ^6.5.1
-  checksum: 72bf50d7a96c17d9ce54f9e5efcd91e89cb71556fc9d78ea076862818632187d21c382e5204532734b55589a9c4d1b99ffb831088122cd62c3eadb6f9c430d9d
-  languageName: node
-  linkType: hard
-
 "url-parse@npm:^1.5.3":
   version: 1.5.10
   resolution: "url-parse@npm:1.5.10"
@@ -14436,16 +14400,6 @@ __metadata:
     querystringify: ^2.1.1
     requires-port: ^1.0.0
   checksum: fbdba6b1d83336aca2216bbdc38ba658d9cfb8fc7f665eb8b17852de638ff7d1a162c198a8e4ed66001ddbf6c9888d41e4798912c62b4fd777a31657989f7bdf
-  languageName: node
-  linkType: hard
-
-"url@npm:^0.11.0":
-  version: 0.11.3
-  resolution: "url@npm:0.11.3"
-  dependencies:
-    punycode: ^1.4.1
-    qs: ^6.11.2
-  checksum: f9e7886f46a16f96d2e42fbcc5d682c231c55ef5442c1ff66150c0f6556f6e3a97d094a84f51be15ec2432711d212eb60426659ce418f5fcadeaa3f601532c4e
   languageName: node
   linkType: hard
 
