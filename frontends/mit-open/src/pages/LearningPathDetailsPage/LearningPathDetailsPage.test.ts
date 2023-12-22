@@ -48,7 +48,9 @@ const setup = ({
       parent: path.id,
     })
   const detailsUrl = urls.learningPaths.details({ id: path.id })
-  const pathResourcesUrl = urls.learningPaths.resources({ parent_id: path.id })
+  const pathResourcesUrl = urls.learningPaths.resources({
+    learning_resource_id: path.id,
+  })
   setMockResponse.get(detailsUrl, path)
   setMockResponse.get(pathResourcesUrl, paginatedRelationships)
 

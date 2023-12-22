@@ -9,7 +9,7 @@ import { learningpathsApi } from "../../clients"
 import type {
   LearningResourcesApiLearningResourcesListRequest as LRListRequest,
   TopicsApiTopicsListRequest as TopicsListRequest,
-  LearningpathsApiLearningpathsResourcesListRequest as LPResourcesListRequest,
+  LearningpathsApiLearningpathsItemsListRequest as LPResourcesListRequest,
   LearningpathsApiLearningpathsListRequest as LPListRequest,
   LearningpathsApiLearningpathsCreateRequest as LPCreateRequest,
   LearningpathsApiLearningpathsDestroyRequest as LPDestroyRequest,
@@ -64,7 +64,7 @@ const useInfiniteLearningPathItems = (
 ) => {
   return useInfiniteQuery({
     ...learningResources.learningpaths._ctx
-      .detail(params.parent_id)
+      .detail(params.learning_resource_id)
       ._ctx.infiniteItems(params),
     getNextPageParam: (lastPage) => {
       return lastPage.next ?? undefined
@@ -127,8 +127,8 @@ const useLearningpathRelationshipMove = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ parent, id, position }: LearningpathMoveRequest) =>
-      learningpathsApi.learningpathsResourcesPartialUpdate({
-        parent_id: parent,
+      learningpathsApi.learningpathsItemsPartialUpdate({
+        learning_resource_id: parent,
         id,
         PatchedLearningPathRelationshipRequest: { position },
       }),
@@ -145,8 +145,8 @@ const useLearningpathRelationshipCreate = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (params: LearningPathRelationshipRequest) =>
-      learningpathsApi.learningpathsResourcesCreate({
-        parent_id: params.parent,
+      learningpathsApi.learningpathsItemsCreate({
+        learning_resource_id: params.parent,
         LearningPathRelationshipRequest: params,
       }),
     onSuccess: (response, _vars) => {
@@ -169,9 +169,9 @@ const useLearningpathRelationshipDestroy = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (params: MicroLearningPathRelationship) =>
-      learningpathsApi.learningpathsResourcesDestroy({
+      learningpathsApi.learningpathsItemsDestroy({
         id: params.id,
-        parent_id: params.parent,
+        learning_resource_id: params.parent,
       }),
     onSuccess: (_response, vars) => {
       queryClient.setQueryData(

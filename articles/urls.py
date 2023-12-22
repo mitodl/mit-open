@@ -1,11 +1,11 @@
 """URL configuration for staff_content"""
 
 from django.urls import include, re_path
-from rest_framework_extensions.routers import ExtendedSimpleRouter
+from rest_framework.routers import SimpleRouter
 
 from articles import views
 
-router = ExtendedSimpleRouter()
+router = SimpleRouter()
 router.register(
     r"articles",
     views.ArticleViewSet,

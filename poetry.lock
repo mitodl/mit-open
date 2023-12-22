@@ -1138,20 +1138,6 @@ conda = ["pyyaml"]
 pipenv = ["pipenv (<=2022.12.19)"]
 
 [[package]]
-name = "drf-extensions"
-version = "0.7.1"
-description = "Extensions for Django REST Framework"
-optional = false
-python-versions = "*"
-files = [
-    {file = "drf-extensions-0.7.1.tar.gz", hash = "sha256:90abfc11a2221e8daf4cd54457e41ed38cd71134678de9622e806193db027db1"},
-    {file = "drf_extensions-0.7.1-py2.py3-none-any.whl", hash = "sha256:007910437e64aa1d5ad6fc47266a4ac4280e31761e6458eb30fcac7494ac7d4e"},
-]
-
-[package.dependencies]
-djangorestframework = ">=3.9.3"
-
-[[package]]
 name = "drf-jwt"
 version = "1.19.2"
 description = "JSON Web Token based authentication for Django REST framework"
@@ -1172,6 +1158,21 @@ dev = ["tox"]
 docs = ["mkdocs (==0.13.2)"]
 lint = ["black", "flake8", "isort"]
 test = ["mock", "pytest (>=3.0)", "pytest-cov", "pytest-django", "pytest-runner", "six"]
+
+[[package]]
+name = "drf-nested-routers"
+version = "0.93.5"
+description = "Nested resources for the Django Rest Framework"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "drf-nested-routers-0.93.5.tar.gz", hash = "sha256:1407565abc7bada37c162c7e11bf214ae71625a17fdec6d9a47a17f4a3627d32"},
+    {file = "drf_nested_routers-0.93.5-py2.py3-none-any.whl", hash = "sha256:9a6813554020134a02e62f8c2934b2047717f7da06f8b801752c521e43735c63"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+djangorestframework = ">=3.14.0"
 
 [[package]]
 name = "drf-spectacular"
@@ -3813,4 +3814,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "79ee7ad77f117b4eebd1a6937b961895b4bd2a61c6185c21a1e9eba0fd6747ee"
+content-hash = "29d469eda18662d898e14626c87ce37e56de579fa3c2e08e59824f83e7d6c376"

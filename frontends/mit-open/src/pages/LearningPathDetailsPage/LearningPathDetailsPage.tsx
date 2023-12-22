@@ -23,7 +23,7 @@ type RouteParams = {
 const LearningPathDetailsPage: React.FC = () => {
   const id = Number(useParams<RouteParams>().id)
   const pathQuery = useLearningPathsDetail(id)
-  const itemsQuery = useInfiniteLearningPathItems({ parent_id: id })
+  const itemsQuery = useInfiniteLearningPathItems({ learning_resource_id: id })
   const [isSorting, toggleIsSorting] = useToggle(false)
 
   const items = useMemo(() => {

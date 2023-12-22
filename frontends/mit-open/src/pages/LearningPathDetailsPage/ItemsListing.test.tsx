@@ -143,7 +143,7 @@ describe("Sorting ItemListing", () => {
 
     const patchUrl = (id: number) =>
       urls.learningPaths.resourceDetails({
-        parent_id: parentId,
+        learning_resource_id: parentId,
         id,
       })
 

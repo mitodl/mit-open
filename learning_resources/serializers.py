@@ -485,18 +485,6 @@ class LearningResourceSerializer(serializers.Serializer):
         return serializer_cls(instance=instance, context=self.context).data
 
 
-class LearningResourceChildSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResourceRelationship children"""
-
-    def to_representation(self, instance):
-        """Serializes children as a list of LearningResource objects"""  # noqa: D401
-        return LearningResourceSerializer(instance.child).data
-
-    class Meta:
-        model = models.LearningResourceRelationship
-        fields = ("child",)
-
-
 class LearningResourceRelationshipSerializer(serializers.ModelSerializer):
     """CRUD serializer for LearningResourceRelationship"""
 

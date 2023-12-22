@@ -127,9 +127,11 @@ describe("useLearningResourceTopics", () => {
 describe("useInfiniteLearningPathItems", () => {
   it("Calls the correct API and can fetch next page", async () => {
     const parentId = faker.datatype.number()
-    const url1 = urls.learningPaths.resources({ parent_id: parentId })
+    const url1 = urls.learningPaths.resources({
+      learning_resource_id: parentId,
+    })
     const url2 = urls.learningPaths.resources({
-      parent_id: parentId,
+      learning_resource_id: parentId,
       offset: 5,
     })
     const response1 = factory.learningPathRelationships({
@@ -146,7 +148,7 @@ describe("useInfiniteLearningPathItems", () => {
     setMockResponse.get(url1, response1)
     setMockResponse.get(url2, response2)
     const useTestHook = () =>
-      useInfiniteLearningPathItems({ parent_id: parentId })
+      useInfiniteLearningPathItems({ learning_resource_id: parentId })
 
     const { wrapper } = setupReactQueryTest()
 
@@ -175,10 +177,12 @@ describe("LearningPath CRUD", () => {
     const pathUrls = {
       list: urls.learningPaths.list(),
       details: urls.learningPaths.details({ id: path.id }),
-      relationshipList: urls.learningPaths.resources({ parent_id: path.id }),
+      relationshipList: urls.learningPaths.resources({
+        learning_resource_id: path.id,
+      }),
       relationshipDetails: urls.learningPaths.resourceDetails({
         id: relationship.id,
-        parent_id: path.id,
+        learning_resource_id: path.id,
       }),
     }
     return { path, relationship, pathUrls, keys }

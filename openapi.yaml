@@ -326,6 +326,12 @@ paths:
         schema:
           type: number
         description: The id of the learning resource the content file belongs to
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: id of the parent learning resource
+        required: true
       - in: query
         name: learning_resource_readable_id
         schema:
@@ -444,6 +450,12 @@ paths:
         schema:
           type: integer
         description: A unique integer value identifying this contentfile.
+        required: true
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: id of the parent learning resource
         required: true
       tags:
       - contentfiles
@@ -787,7 +799,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CourseResource'
           description: ''
-  /api/v1/courses/{run__learning_resource}/contentfiles/:
+  /api/v1/courses/{learning_resource_id}/contentfiles/:
     get:
       operationId: courses_contentfiles_list
       description: Show content files for a learning resource
@@ -804,6 +816,12 @@ paths:
         schema:
           type: number
         description: The id of the learning resource the content file belongs to
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: id of the parent learning resource
+        required: true
       - in: query
         name: learning_resource_readable_id
         schema:
@@ -890,11 +908,6 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
-      - in: path
-        name: run__learning_resource
-        schema:
-          type: integer
-        required: true
       - in: query
         name: run_id
         schema:
@@ -916,7 +929,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedContentFileList'
           description: ''
-  /api/v1/courses/{run__learning_resource}/contentfiles/{id}/:
+  /api/v1/courses/{learning_resource_id}/contentfiles/{id}/:
     get:
       operationId: courses_contentfiles_retrieve
       description: Show content files for a learning resource
@@ -929,9 +942,10 @@ paths:
         description: A unique integer value identifying this contentfile.
         required: true
       - in: path
-        name: run__learning_resource
+        name: learning_resource_id
         schema:
           type: integer
+        description: id of the parent learning resource
         required: true
       tags:
       - courses
@@ -1989,70 +2003,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceList'
           description: ''
-  /api/v1/learning_resources/{parent_id}/items/:
-    get:
-      operationId: learning_resources_items_list
-      description: Get a list of related learning resources for a learning resource.
-      summary: Nested Learning Resource List
-      parameters:
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      - name: sortby
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
-      tags:
-      - learning_resources
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceChildList'
-          description: ''
-  /api/v1/learning_resources/{parent_id}/items/{id}/:
-    get:
-      operationId: learning_resources_items_retrieve
-      description: Get a singe related learning resource for a learning resource.
-      summary: Nested Learning Resource Retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this learning resource relationship.
-        required: true
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - learning_resources
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningResourceChild'
-          description: ''
   /api/v1/learning_resources/{id}/:
     get:
       operationId: learning_resources_retrieve
@@ -2074,7 +2024,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/LearningResource'
           description: ''
-  /api/v1/learning_resources/{run__learning_resource}/contentfiles/:
+  /api/v1/learning_resources/{learning_resource_id}/contentfiles/:
     get:
       operationId: learning_resources_contentfiles_list
       description: Show content files for a learning resource
@@ -2091,6 +2041,12 @@ paths:
         schema:
           type: number
         description: The id of the learning resource the content file belongs to
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: id of the parent learning resource
+        required: true
       - in: query
         name: learning_resource_readable_id
         schema:
@@ -2177,11 +2133,6 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
-      - in: path
-        name: run__learning_resource
-        schema:
-          type: integer
-        required: true
       - in: query
         name: run_id
         schema:
@@ -2203,7 +2154,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedContentFileList'
           description: ''
-  /api/v1/learning_resources/{run__learning_resource}/contentfiles/{id}/:
+  /api/v1/learning_resources/{learning_resource_id}/contentfiles/{id}/:
     get:
       operationId: learning_resources_contentfiles_retrieve
       description: Show content files for a learning resource
@@ -2216,9 +2167,10 @@ paths:
         description: A unique integer value identifying this contentfile.
         required: true
       - in: path
-        name: run__learning_resource
+        name: learning_resource_id
         schema:
           type: integer
+        description: id of the parent learning resource
         required: true
       tags:
       - learning_resources
@@ -2228,6 +2180,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContentFile'
+          description: ''
+  /api/v1/learning_resources/{learning_resource_id}/items/:
+    get:
+      operationId: learning_resources_items_list
+      description: Get a list of related learning resources for a learning resource.
+      summary: Nested Learning Resource List
+      parameters:
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: id of the parent learning resource
+        required: true
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: sortby
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      tags:
+      - learning_resources
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceRelationshipList'
+          description: ''
+  /api/v1/learning_resources/{learning_resource_id}/items/{id}/:
+    get:
+      operationId: learning_resources_items_retrieve
+      description: Get a singe related learning resource for a learning resource.
+      summary: Nested Learning Resource Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: id of the parent learning resource
+        required: true
+      tags:
+      - learning_resources
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceRelationship'
           description: ''
   /api/v1/learning_resources/new/:
     get:
@@ -3399,158 +3417,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/LearningPathResource'
           description: ''
-  /api/v1/learningpaths/{parent_id}/resources/:
-    get:
-      operationId: learningpaths_resources_list
-      description: Get a list of related learning resources for a learning resource.
-      summary: Nested Learning Resource List
-      parameters:
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      - name: sortby
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
-      tags:
-      - learningpaths
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedLearningPathRelationshipList'
-          description: ''
-    post:
-      operationId: learningpaths_resources_create
-      description: Viewset for LearningPath related resources
-      summary: Learning Path Resource Relationship Add
-      parameters:
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - learningpaths
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LearningPathRelationshipRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/LearningPathRelationshipRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/LearningPathRelationshipRequest'
-        required: true
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningPathRelationship'
-          description: ''
-  /api/v1/learningpaths/{parent_id}/resources/{id}/:
-    get:
-      operationId: learningpaths_resources_retrieve
-      description: Get a singe related learning resource for a learning resource.
-      summary: Nested Learning Resource Retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this learning resource relationship.
-        required: true
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - learningpaths
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningPathRelationship'
-          description: ''
-    patch:
-      operationId: learningpaths_resources_partial_update
-      description: Viewset for LearningPath related resources
-      summary: Learning Path Resource Relationship Update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this learning resource relationship.
-        required: true
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - learningpaths
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedLearningPathRelationshipRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedLearningPathRelationshipRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedLearningPathRelationshipRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningPathRelationship'
-          description: ''
-    delete:
-      operationId: learningpaths_resources_destroy
-      description: Viewset for LearningPath related resources
-      summary: Learning Path Resource Relationship Remove
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this learning resource relationship.
-        required: true
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - learningpaths
-      responses:
-        '204':
-          description: No response body
   /api/v1/learningpaths/{id}/:
     get:
       operationId: learningpaths_retrieve
@@ -3613,6 +3479,163 @@ paths:
         schema:
           type: integer
         description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - learningpaths
+      responses:
+        '204':
+          description: No response body
+  /api/v1/learningpaths/{learning_resource_id}/items/:
+    get:
+      operationId: learningpaths_items_list
+      description: Get a list of related learning resources for a learning resource.
+      summary: Nested Learning Resource List
+      parameters:
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: The learning resource id of the learning path
+        required: true
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: sortby
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      tags:
+      - learningpaths
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningPathRelationshipList'
+          description: ''
+    post:
+      operationId: learningpaths_items_create
+      description: Viewset for LearningPath related resources
+      summary: Learning Path Resource Relationship Add
+      parameters:
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: The learning resource id of the learning path
+        required: true
+      tags:
+      - learningpaths
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningPathRelationshipRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LearningPathRelationshipRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LearningPathRelationshipRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPathRelationship'
+          description: ''
+  /api/v1/learningpaths/{learning_resource_id}/items/{id}/:
+    get:
+      operationId: learningpaths_items_retrieve
+      description: Get a singe related learning resource for a learning resource.
+      summary: Nested Learning Resource Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: The learning resource id of the learning path
+        required: true
+      tags:
+      - learningpaths
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPathRelationship'
+          description: ''
+    patch:
+      operationId: learningpaths_items_partial_update
+      description: Viewset for LearningPath related resources
+      summary: Learning Path Resource Relationship Update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: The learning resource id of the learning path
+        required: true
+      tags:
+      - learningpaths
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningPathRelationshipRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningPathRelationshipRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningPathRelationshipRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPathRelationship'
+          description: ''
+    delete:
+      operationId: learningpaths_items_destroy
+      description: Viewset for LearningPath related resources
+      summary: Learning Path Resource Relationship Remove
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: The learning resource id of the learning path
         required: true
       tags:
       - learningpaths
@@ -4266,70 +4289,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedPodcastResourceList'
           description: ''
-  /api/v1/podcasts/{parent_id}/items/:
-    get:
-      operationId: podcasts_items_list
-      description: Get a list of related learning resources for a learning resource.
-      summary: Nested Learning Resource List
-      parameters:
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      - name: sortby
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
-      tags:
-      - podcasts
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceChildList'
-          description: ''
-  /api/v1/podcasts/{parent_id}/items/{id}/:
-    get:
-      operationId: podcasts_items_retrieve
-      description: Get a singe related learning resource for a learning resource.
-      summary: Nested Learning Resource Retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this learning resource relationship.
-        required: true
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - podcasts
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningResourceChild'
-          description: ''
   /api/v1/podcasts/{id}/:
     get:
       operationId: podcasts_retrieve
@@ -4350,6 +4309,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PodcastResource'
+          description: ''
+  /api/v1/podcasts/{learning_resource_id}/items/:
+    get:
+      operationId: podcasts_items_list
+      description: Get a list of related learning resources for a learning resource.
+      summary: Nested Learning Resource List
+      parameters:
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: id of the parent learning resource
+        required: true
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: sortby
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      tags:
+      - podcasts
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceRelationshipList'
+          description: ''
+  /api/v1/podcasts/{learning_resource_id}/items/{id}/:
+    get:
+      operationId: podcasts_items_retrieve
+      description: Get a singe related learning resource for a learning resource.
+      summary: Nested Learning Resource Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: id of the parent learning resource
+        required: true
+      tags:
+      - podcasts
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceRelationship'
           description: ''
   /api/v1/programs/:
     get:
@@ -5267,152 +5292,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserList'
           description: ''
-  /api/v1/userlists/{parent_id}/resources/:
-    get:
-      operationId: userlists_resources_list
-      description: Viewset for UserListRelationships
-      summary: User List Resources List
-      parameters:
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - userlists
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedUserListRelationshipList'
-          description: ''
-    post:
-      operationId: userlists_resources_create
-      description: Viewset for UserListRelationships
-      summary: User List Resource Relationship Add
-      parameters:
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - userlists
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserListRelationshipRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/UserListRelationshipRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/UserListRelationshipRequest'
-        required: true
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserListRelationship'
-          description: ''
-  /api/v1/userlists/{parent_id}/resources/{id}/:
-    get:
-      operationId: userlists_resources_retrieve
-      description: Viewset for UserListRelationships
-      summary: User List Resources Retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this user list relationship.
-        required: true
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - userlists
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserListRelationship'
-          description: ''
-    patch:
-      operationId: userlists_resources_partial_update
-      description: Viewset for UserListRelationships
-      summary: User List Resource Relationship Update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this user list relationship.
-        required: true
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - userlists
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserListRelationship'
-          description: ''
-    delete:
-      operationId: userlists_resources_destroy
-      description: Viewset for UserListRelationships
-      summary: User List Resource Relationship Remove
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this user list relationship.
-        required: true
-      - in: path
-        name: parent_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - userlists
-      responses:
-        '204':
-          description: No response body
   /api/v1/userlists/{id}/:
     get:
       operationId: userlists_retrieve
@@ -5475,6 +5354,157 @@ paths:
         schema:
           type: integer
         description: A unique integer value identifying this user list.
+        required: true
+      tags:
+      - userlists
+      responses:
+        '204':
+          description: No response body
+  /api/v1/userlists/{userlist_id}/items/:
+    get:
+      operationId: userlists_items_list
+      description: Viewset for UserListRelationships
+      summary: User List Resources List
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: path
+        name: userlist_id
+        schema:
+          type: integer
+        description: id of the parent user list
+        required: true
+      tags:
+      - userlists
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserListRelationshipList'
+          description: ''
+    post:
+      operationId: userlists_items_create
+      description: Viewset for UserListRelationships
+      summary: User List Resource Relationship Add
+      parameters:
+      - in: path
+        name: userlist_id
+        schema:
+          type: integer
+        description: id of the parent user list
+        required: true
+      tags:
+      - userlists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserListRelationshipRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserListRelationshipRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserListRelationshipRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListRelationship'
+          description: ''
+  /api/v1/userlists/{userlist_id}/items/{id}/:
+    get:
+      operationId: userlists_items_retrieve
+      description: Viewset for UserListRelationships
+      summary: User List Resources Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list relationship.
+        required: true
+      - in: path
+        name: userlist_id
+        schema:
+          type: integer
+        description: id of the parent user list
+        required: true
+      tags:
+      - userlists
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListRelationship'
+          description: ''
+    patch:
+      operationId: userlists_items_partial_update
+      description: Viewset for UserListRelationships
+      summary: User List Resource Relationship Update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list relationship.
+        required: true
+      - in: path
+        name: userlist_id
+        schema:
+          type: integer
+        description: id of the parent user list
+        required: true
+      tags:
+      - userlists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListRelationship'
+          description: ''
+    delete:
+      operationId: userlists_items_destroy
+      description: Viewset for UserListRelationships
+      summary: User List Resource Relationship Remove
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user list relationship.
+        required: true
+      - in: path
+        name: userlist_id
+        schema:
+          type: integer
+        description: id of the parent user list
         required: true
       tags:
       - userlists
@@ -6264,14 +6294,6 @@ components:
           learning_path: '#/components/schemas/LearningPathResource'
           podcast: '#/components/schemas/PodcastResource'
           podcast_episode: '#/components/schemas/PodcastEpisodeResource'
-    LearningResourceChild:
-      type: object
-      description: Serializer for LearningResourceRelationship children
-      properties:
-        child:
-          type: integer
-      required:
-      - child
     LearningResourceContentTag:
       type: object
       description: Serializer for LearningResourceContentTag
@@ -6443,6 +6465,32 @@ components:
           maxLength: 256
       required:
       - code
+    LearningResourceRelationship:
+      type: object
+      description: CRUD serializer for LearningResourceRelationship
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        resource:
+          allOf:
+          - $ref: '#/components/schemas/LearningResource'
+          readOnly: true
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        relation_type:
+          $ref: '#/components/schemas/RelationTypeEnum'
+        parent:
+          type: integer
+        child:
+          type: integer
+      required:
+      - child
+      - id
+      - parent
+      - resource
     LearningResourceRequest:
       oneOf:
       - $ref: '#/components/schemas/ProgramResourceRequest'
@@ -6821,26 +6869,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningPathResource'
-    PaginatedLearningResourceChildList:
-      type: object
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourceChild'
     PaginatedLearningResourceContentTagList:
       type: object
       properties:
@@ -6941,6 +6969,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourcePlatform'
+    PaginatedLearningResourceRelationshipList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceRelationship'
     PaginatedLearningResourceTopicList:
       type: object
       properties:
@@ -7809,6 +7857,16 @@ components:
       type: string
       enum:
       - program
+    RelationTypeEnum:
+      enum:
+      - PROGRAM_COURSES
+      - LEARNING_PATH_ITEMS
+      - PODCAST_EPISODES
+      type: string
+      description: |-
+        * `PROGRAM_COURSES` - Program Courses
+        * `LEARNING_PATH_ITEMS` - Learning Path Items
+        * `PODCAST_EPISODES` - Podcast Episodes
     ResourceTypeEnum:
       enum:
       - course

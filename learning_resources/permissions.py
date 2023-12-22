@@ -9,7 +9,6 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 from learning_resources.constants import GROUP_STAFF_LISTS_EDITORS, PrivacyLevel
 from learning_resources.models import LearningPath, UserList
 from open_discussions.permissions import is_admin_user, is_readonly
-from open_discussions.settings import DRF_NESTED_PARENT_LOOKUP_PREFIX
 
 
 def is_learning_path_editor(request: HttpRequest) -> bool:
@@ -54,9 +53,7 @@ class HasLearningPathItemPermissions(BasePermission):
     def has_permission(self, request, view):
         learning_path = get_object_or_404(
             LearningPath,
-            learning_resource_id=view.kwargs.get(
-                f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}parent_id", None
-            ),
+            learning_resource_id=view.kwargs.get("learning_resource_id", None),
         )
         can_edit = is_learning_path_editor(request) or is_admin_user(request)
         if request.method in SAFE_METHODS:
@@ -93,7 +90,7 @@ class HasUserListItemPermissions(BasePermission):
     def has_permission(self, request, view):
         user_list = get_object_or_404(
             UserList,
-            id=view.kwargs.get(f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}parent_id", None),
+            id=view.kwargs.get("userlist_id", None),
         )
         if request.method in SAFE_METHODS:
             return (

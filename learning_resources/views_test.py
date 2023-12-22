@@ -23,6 +23,7 @@ from learning_resources.factories import (
     PodcastFactory,
     ProgramFactory,
 )
+from learning_resources.models import LearningResourceRelationship
 from learning_resources.serializers import (
     ContentFileSerializer,
     LearningResourceDepartmentSerializer,
@@ -394,17 +395,19 @@ def test_get_podcast_items_endpoint(client, url):
 
     assert resp.data.get("count") == podcast.learning_resource.resources.count() - 1
 
-    for idx, episode in enumerate(
+    for idx, resource_relationship in enumerate(
         sorted(
-            podcast.learning_resource.resources.filter(published=True),
-            key=lambda episode: episode.last_modified,
+            LearningResourceRelationship.objects.filter(
+                parent_id=podcast.id, child__published=True
+            ),
+            key=lambda item: item.child.last_modified,
             reverse=True,
         )
     ):
-        assert resp.data.get("results")[idx]["id"] == episode.id
+        assert resp.data.get("results")[idx]["id"] == resource_relationship.id
         assert (
-            resp.data.get("results")[idx]["podcast_episode"]
-            == PodcastEpisodeSerializer(instance=episode.podcast_episode).data
+            resp.data.get("results")[idx]["resource"]
+            == PodcastEpisodeSerializer(instance=resource_relationship.child).data
         )
 
 
