@@ -3516,12 +3516,13 @@ requests-file = ">=1.4"
 
 [[package]]
 name = "toolz"
-version = "0.10.0"
+version = "0.12.0"
 description = "List processing tools and functional utilities"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+python-versions = ">=3.5"
 files = [
-    {file = "toolz-0.10.0.tar.gz", hash = "sha256:08fdd5ef7c96480ad11c12d472de21acd32359996f69a5259299b540feba4560"},
+    {file = "toolz-0.12.0-py3-none-any.whl", hash = "sha256:2059bd4148deb1884bb0eb770a3cde70e7f954cfbbdc2285f1f2de01fd21eb6f"},
+    {file = "toolz-0.12.0.tar.gz", hash = "sha256:88c570861c440ee3f2f6037c4654613228ff40c93a6c25e0eba70d17282c6194"},
 ]
 
 [[package]]
@@ -3811,4 +3812,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "f5cf6505d17c7764603e622d07d2f750b4151da2d78ddb1f916da85d148eed00"
+content-hash = "22b759aa292e4e596c6f55bc9a142b9133ab915897e4e0cf1ed28d7dd36ec509"
