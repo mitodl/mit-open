@@ -1229,19 +1229,17 @@ doc = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-spelling"]
 
 [[package]]
 name = "faker"
-version = "2.0.5"
+version = "21.0.0"
 description = "Faker is a Python package that generates fake data for you."
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+python-versions = ">=3.8"
 files = [
-    {file = "Faker-2.0.5-py2.py3-none-any.whl", hash = "sha256:c1d19f8c63487b4711189403f5c2e06af1dd8b5be7928f6547f5f7cddd13d917"},
-    {file = "Faker-2.0.5.tar.gz", hash = "sha256:29093e61f12745150774fd05ab499e87252a4fa51ed51e45c40179e854f87925"},
+    {file = "Faker-21.0.0-py3-none-any.whl", hash = "sha256:ff61cca42547795bee8a11319792a8fee6d0f0cd191e831f7f3050c5851fcd8a"},
+    {file = "Faker-21.0.0.tar.gz", hash = "sha256:2d8a350e952225a145307d7461881c44a1c9320e90fbe8bd903d5947f133f3ec"},
 ]
 
 [package.dependencies]
 python-dateutil = ">=2.4"
-six = ">=1.10"
-text-unidecode = "1.3"
 
 [[package]]
 name = "fancycompleter"
@@ -3452,17 +3450,6 @@ genshimagic = ["Genshi"]
 kidmagic = ["kid"]
 
 [[package]]
-name = "text-unidecode"
-version = "1.3"
-description = "The most basic Text::Unidecode port"
-optional = false
-python-versions = "*"
-files = [
-    {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},
-    {file = "text_unidecode-1.3-py2.py3-none-any.whl", hash = "sha256:1311f10e8b895935241623731c2ba64f4c455287888b18189350b67134a822e8"},
-]
-
-[[package]]
 name = "tika"
 version = "1.25"
 description = "Apache Tika Python library"
@@ -3812,4 +3799,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "5262a67d137af4ad64606e21300178ddc7f60758a693931eed2b8d1eb4aa5b06"
+content-hash = "61a6f6591bd0a3edc273c76917e5d39be65f051342ad6c3180566921ececf1ff"
