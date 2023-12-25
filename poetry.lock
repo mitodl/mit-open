@@ -3564,13 +3564,13 @@ files = [
 
 [[package]]
 name = "ulid-py"
-version = "0.0.3"
+version = "0.2.0"
 description = "Universally Unique Lexicographically Sortable Identifier"
 optional = false
 python-versions = "*"
 files = [
-    {file = "ulid-py-0.0.3.tar.gz", hash = "sha256:ec3bfbf80bc46b7cee34dfaa5549ea3f6a9854d78ccc64ef67b96398099ffedc"},
-    {file = "ulid_py-0.0.3-py2.py3-none-any.whl", hash = "sha256:0b9c686536cb5c6e72ab6843e85193a6cd48722701d79174aca2a77ef3c2f628"},
+    {file = "ulid-py-0.2.0.tar.gz", hash = "sha256:46976401cb0eee9134446c6d92899627c74945c0e46f16ca295a8c9c434507fd"},
+    {file = "ulid_py-0.2.0-py2.py3-none-any.whl", hash = "sha256:06f6de6a83c24f3b0af0528beff500b65b48c0101b208cfeba2133115788334a"},
 ]
 
 [[package]]
@@ -3812,4 +3812,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "22b759aa292e4e596c6f55bc9a142b9133ab915897e4e0cf1ed28d7dd36ec509"
+content-hash = "5262a67d137af4ad64606e21300178ddc7f60758a693931eed2b8d1eb4aa5b06"
