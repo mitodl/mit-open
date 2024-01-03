@@ -161,7 +161,7 @@ jobs:
           cache: "yarn"
       - run: yarn install
       - run: PUBLIC_URL=/mit-open yarn build-github-pages
-      - run: yarn build-storybook --output-dir ../github-pages/build/storybook
+      - run: PUBLIC_URL=/mit-open yarn build-storybook --output-dir ../github-pages/build/storybook
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
