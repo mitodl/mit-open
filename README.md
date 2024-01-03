@@ -182,3 +182,7 @@ The following environment variables must be defined using values from a Keycloak
 To login via the Keycloak client, open http://od.odl.local:8063/login/ol-oidc in your browser.
 
 Additional details can be found at https://docs.google.com/document/d/17tJ-C2EwWoSpJWZKjuhMVgsqGtyPH0IN9KakXvSKU0M/edit
+
+## GitHub Pages
+
+A static site for this repo with developer resources publishes to https://mitodl.github.io/mit-open/ during CI runs.
