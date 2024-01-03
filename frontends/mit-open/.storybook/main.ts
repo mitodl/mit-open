@@ -34,6 +34,10 @@ const config = {
     autodocs: "tag",
   },
   staticDirs: ["../../../static"],
+  env: (config: any) => ({
+    ...config,
+    PUBLIC_URL: process.env.PUBLIC_URL,
+  }),
 }
 
 export default config

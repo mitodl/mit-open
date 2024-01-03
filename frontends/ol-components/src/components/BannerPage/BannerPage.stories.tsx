@@ -2,7 +2,8 @@ import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { BannerPage } from "./BannerPage"
 
-const PUBLIC_URL = process.env.PUBLIC_URL || ""
+const PUBLIC_URL =
+  process.env.PUBLIC_URL || process.env.STORYBOOK_PUBLIC_URL || ""
 
 const meta: Meta<typeof BannerPage> = {
   title: "ol-components/BannerPage",
