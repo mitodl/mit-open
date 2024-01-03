@@ -5,6 +5,7 @@ import {
   Permissions,
   hasPermission,
 } from "@/common/permissions"
+import Header from "@/page-components/Header/Header"
 
 type RestrictedRouteProps = {
   children?: React.ReactNode
@@ -45,6 +46,7 @@ const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
     // This error should be caught by an [`errorElement`](https://reactrouter.com/en/main/route/error-element).
     throw new ForbiddenError("Not allowed.")
   }
+  return <Header />
   /**
    * Rendering an Outlet allows this to be used as a layout route grouping many
    * child routes with the same auth condition.

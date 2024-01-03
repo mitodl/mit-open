@@ -59,8 +59,20 @@ module.exports = {
               "Import breaks component hierarchy. See https://github.com/mitodl/mit-open/blob/main/docs/architecture/front-end-component-structure.md#module-boundary-and-importexport-rules",
           },
           {
+            target: "**/{components,utilities}/**",
+            from: "@/page-components/**",
+            message:
+              "Import breaks component hierarchy. See https://github.com/mitodl/mit-open/blob/main/docs/architecture/front-end-component-structure.md#module-boundary-and-importexport-rules",
+          },
+          {
             target: "**/page-components/**",
             from: "**/pages/**",
+            message:
+              "Import breaks component hierarchy. See https://github.com/mitodl/mit-open/blob/main/docs/architecture/front-end-component-structure.md#module-boundary-and-importexport-rules",
+          },
+          {
+            target: "**/ol-utilities/**",
+            from: "**/ol-components/**",
             message:
               "Import breaks component hierarchy. See https://github.com/mitodl/mit-open/blob/main/docs/architecture/front-end-component-structure.md#module-boundary-and-importexport-rules",
           },
