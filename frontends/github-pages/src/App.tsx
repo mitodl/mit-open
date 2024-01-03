@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { RouteObject, Outlet } from "react-router"
 import "./style.scss"
 
+const PUBLIC_URL = process.env.PUBLIC_URL || ""
+
 const Page = styled.div`
   margin: auto;
   max-width: 1200px;
@@ -45,7 +47,9 @@ const routes: RouteObject[] = [
               </h2>
               <Links>
                 <h3>
-                  <a href="./storybook">React Component Library</a>
+                  <a href={`${PUBLIC_URL}/storybook`}>
+                    React Component Library
+                  </a>
                 </h3>
                 MIT Open Learning's React component library, presented with{" "}
                 <a href="https://storybook.js.org/">Storybook</a>.
@@ -58,7 +62,9 @@ const routes: RouteObject[] = [
   },
 ]
 
-const router = createBrowserRouter(routes)
+const router = createBrowserRouter(routes, {
+  basename: PUBLIC_URL,
+})
 
 function App() {
   return (
