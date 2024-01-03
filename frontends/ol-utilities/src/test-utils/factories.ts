@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker/locale/en"
-import type { Factory } from "ol-utilities/factories"
-import type { EmbedlyConfig } from "ol-common"
+import type { Factory } from "ol-test-utilities"
+import type { EmbedlyConfig } from "../learning-resources/learning-resources"
 
-const makeImgConfig: Factory<EmbedlyConfig> = (overrides) => {
+export const makeImgConfig: Factory<EmbedlyConfig> = (overrides) => {
   const imgConfig = {
     width: faker.datatype.number(),
     height: faker.datatype.number(),
@@ -13,5 +13,3 @@ const makeImgConfig: Factory<EmbedlyConfig> = (overrides) => {
     ...overrides,
   }
 }
-
-export { makeImgConfig }

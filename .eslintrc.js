@@ -8,6 +8,13 @@ module.exports = {
   ],
   plugins: ["testing-library", "import"],
   ignorePatterns: ["**/build/**"],
+  settings: {
+    "import/resolver": {
+      typescript: {
+        project: "frontends/*/tsconfig.json",
+      },
+    },
+  },
   rules: {
     ...restrictedImports({
       patterns: [
@@ -33,14 +40,34 @@ module.exports = {
           "**/*.test.ts",
           "**/*.test.tsx",
           "**/src/setupJest.ts",
+          "jest-shared-setup.ts",
           "**/test-utils/**",
           "**/test-utils/**",
-          "webpack.config.js",
-          "postcss.config.js",
+          "**/webpack.config.js",
+          "**/postcss.config.js",
         ],
       },
     ],
     "import/no-duplicates": "error",
+    "import/no-restricted-paths": [
+      "error",
+      {
+        zones: [
+          {
+            target: "**/{components,utilities}/**",
+            from: "**/{pages,page-components,services}/**",
+            message:
+              "Import breaks component hierarchy. See https://github.com/mitodl/mit-open/blob/main/docs/architecture/front-end-component-structure.md#module-boundary-and-importexport-rules",
+          },
+          {
+            target: "**/page-components/**",
+            from: "**/pages/**",
+            message:
+              "Import breaks component hierarchy. See https://github.com/mitodl/mit-open/blob/main/docs/architecture/front-end-component-structure.md#module-boundary-and-importexport-rules",
+          },
+        ],
+      },
+    ],
   },
   overrides: [
     {

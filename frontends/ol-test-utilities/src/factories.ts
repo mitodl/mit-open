@@ -1,10 +1,15 @@
 import { faker } from "@faker-js/faker/locale/en"
-import { times } from "lodash"
 import type { PartialDeep } from "type-fest"
-import type { PaginatedResult } from "./interfaces"
 
 export type Factory<T, U = never> = (overrides?: Partial<T>, options?: U) => T
 export type PartialFactory<T, U = T> = (overrides?: PartialDeep<T>) => U
+
+interface PaginatedResult<T> {
+  count: number
+  next: null | string
+  previous: null | string
+  results: T[]
+}
 
 export const makePaginatedFactory =
   <T>(makeResult: Factory<T>) =>
@@ -18,7 +23,9 @@ export const makePaginatedFactory =
       previous?: string | null
     } = {},
   ) => {
-    const results = times(pageSize ?? count, () => makeResult())
+    const results = Array.from({ length: pageSize ?? count }, () =>
+      makeResult(),
+    )
     return {
       results,
       count,

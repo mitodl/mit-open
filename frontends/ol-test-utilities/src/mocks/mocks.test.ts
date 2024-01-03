@@ -1,4 +1,4 @@
-import { createMatchMediaForJsDom } from "./index"
+import { createMatchMediaForJsDom } from "./mocks"
 
 describe("createMatchMediaForJsDom", () => {
   it.each([

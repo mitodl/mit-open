@@ -1,11 +1,4 @@
-import type { EmbedlyConfig, EmbedlyConfigLegacy } from "ol-common"
-
-const deprecatedImgConfig = (config: EmbedlyConfig): EmbedlyConfigLegacy => ({
-  embedlyKey: config.key,
-  width: config.width,
-  height: config.height,
-  ocwBaseUrl: window.SETTINGS.ocw_next_base_url,
-})
+import type { EmbedlyConfig } from "ol-utilities"
 
 const imgConfigs = {
   row: {
@@ -30,4 +23,4 @@ const imgConfigs = {
   },
 } satisfies Record<string, EmbedlyConfig>
 
-export { imgConfigs, deprecatedImgConfig }
+export { imgConfigs }

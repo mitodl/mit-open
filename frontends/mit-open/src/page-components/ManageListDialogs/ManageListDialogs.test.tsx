@@ -4,7 +4,7 @@ import type {
   LearningPathResource,
   PaginatedLearningResourceTopicList,
 } from "api"
-import { allowConsoleErrors, getDescriptionFor } from "ol-utilities/test-utils"
+import { allowConsoleErrors, getDescriptionFor } from "ol-test-utilities"
 import { manageListDialogs } from "./ManageListDialogs"
 import {
   screen,

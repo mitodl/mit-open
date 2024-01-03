@@ -1,8 +1,7 @@
 import { faker } from "@faker-js/faker/locale/en"
 import { mergeWith } from "lodash"
-import type { Factory, PartialFactory } from "ol-utilities/factories"
-import { makePaginatedFactory } from "ol-utilities/factories"
-import type { PaginatedResult } from "ol-utilities"
+import type { Factory, PartialFactory } from "ol-test-utilities"
+import { makePaginatedFactory } from "ol-test-utilities"
 import type {
   CourseNumber,
   LearningResource,
@@ -20,6 +19,7 @@ import type {
   CourseResource,
   PodcastResource,
   PodcastEpisodeResource,
+  PaginatedLearningPathRelationshipList,
 } from "api"
 import { ResourceTypeEnum } from "api"
 import type { PartialDeep } from "type-fest"
@@ -282,7 +282,7 @@ const learningPathRelationships = ({
   pageSize?: number
   next?: string | null
   previous?: string | null
-}): PaginatedResult<LearningPathRelationship> => {
+}) => {
   const results: LearningPathRelationship[] = Array(pageSize ?? count)
     .fill(null)
     .map((_val, index) => {
@@ -296,7 +296,7 @@ const learningPathRelationships = ({
     next,
     previous,
     results,
-  }
+  } satisfies PaginatedLearningPathRelationshipList
 }
 
 const mergeOverrides = <T>(

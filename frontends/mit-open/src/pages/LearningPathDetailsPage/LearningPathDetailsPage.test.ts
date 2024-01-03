@@ -17,7 +17,7 @@ import {
   expectLastProps,
 } from "../../test-utils"
 import { User } from "../../types/settings"
-import { ControlledPromise } from "ol-utilities/test-utils"
+import { ControlledPromise } from "ol-test-utilities"
 import invariant from "tiny-invariant"
 
 jest.mock("./ItemsListing", () => {
