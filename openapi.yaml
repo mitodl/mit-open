@@ -5858,6 +5858,8 @@ components:
           type: string
           readOnly: true
         about:
+          type: object
+          additionalProperties: {}
           readOnly: true
           nullable: true
         public_description:
@@ -5971,6 +5973,8 @@ components:
           format: binary
           nullable: true
         about:
+          type: object
+          additionalProperties: {}
           nullable: true
       required:
       - name
@@ -7103,6 +7107,8 @@ components:
           type: string
           description: Get the banner image URL
         about:
+          type: object
+          additionalProperties: {}
           nullable: true
     PatchedLearningPathRelationshipRequest:
       type: object
