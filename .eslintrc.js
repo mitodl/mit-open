@@ -45,6 +45,7 @@ module.exports = {
           "**/test-utils/**",
           "**/webpack.config.js",
           "**/postcss.config.js",
+          "**/*.stories.ts",
           "**/*.stories.tsx",
         ],
       },
