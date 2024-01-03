@@ -160,13 +160,14 @@ jobs:
           node-version: "18.18.2"
           cache: "yarn"
       - run: yarn install
-      - run: yarn build-storybook
+      - run: yarn build-github-pages
+      - run: yarn build-storybook --output-dir ../github-pages/build/storybook
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: frontends/mit-open/storybook-static
+          path: frontends/github-pages/build
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
