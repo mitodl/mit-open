@@ -11,8 +11,8 @@
     "ol-ckeditor": "workspace:*",
     "ol-components": "workspace:*",
     "ol-utilities": "workspace:*",
-    "react-markdown": "^6.0.3",
-    "remark-gfm": "^1.0.0",
+    "react-markdown": "6.0.3",
+    "remark-gfm": "1.0.0",
     "validator": "^13.7.0",
     "yup": "^1.2.0"
   },
