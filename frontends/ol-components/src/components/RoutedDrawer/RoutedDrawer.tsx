@@ -13,6 +13,7 @@ const closeSx: React.CSSProperties = {
 
 type ChildParams<K extends string, R extends K> = Record<K, string | null> &
   Record<R, string>
+
 type RoutedDrawerProps<K extends string, R extends K> = {
   params: readonly K[]
   requiredParams: readonly R[]
@@ -20,7 +21,7 @@ type RoutedDrawerProps<K extends string, R extends K> = {
     params: ChildParams<K, R>
     closeDrawer: () => void
   }) => React.ReactNode
-} & Omit<DrawerProps, "open" | "onClose" | "children">
+} & Omit<DrawerProps, "onClose" | "children">
 /**
  * A route-controlled drawer that monitors URL search parameters and
  *  - opens the drawer when all `requiredParams` are present in the URL and

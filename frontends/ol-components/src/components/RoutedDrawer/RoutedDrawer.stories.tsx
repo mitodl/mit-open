@@ -37,13 +37,14 @@ export const Simple = () => {
       requiredParams={["a", "b"]}
       key={JSON.stringify(urlParams)}
     >
-      {() => (
+      {({ closeDrawer }) => (
         <Content>
           <h2>Drawer Content</h2>
           <button
             type="button"
             onClick={() => {
-              window.location.search = ""
+              document.location.search = ""
+              closeDrawer()
             }}
           >
             Unset URL Query Params

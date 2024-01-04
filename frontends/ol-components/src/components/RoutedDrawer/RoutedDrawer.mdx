@@ -1,0 +1,29 @@
+import { Meta } from "@storybook/blocks"
+
+import meta from "./RoutedDrawer.stories"
+
+<Meta of={meta} />
+
+# RoutedDrawer
+
+The Routed Drawer implements the [MaterialUI Drawer](https://mui.com/material-ui/react-drawer/) and monitors URL search parameters.
+
+- It opens the drawer when all `requiredParams` are present in the URL.
+
+- It closes the drawer when this condition is no longer fulfilled.
+
+- It unsets the URL params when the drawer requests to be closed, closing the drawer.
+
+- It contains a close icon button that unsets the URL params on click, closing the drawer.
+
+The drawer `children` is a render function called with the following props.
+
+- `params`: a state variable initialized with the URL search params.
+
+- `closeDrawer`: a callback to unset the URL params, closing the drawer.
+
+The goal here is twofold:
+
+1. Make route-controlled drawers easy.
+
+2. Help avoid issues where drawer content disappears before the drawer animations are finished.

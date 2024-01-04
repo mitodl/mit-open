@@ -12,8 +12,9 @@ function getAbsolutePath(value: string) {
 const config = {
   stories: [
     "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../../ol-components/src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../src/**/*.stories.tsx",
+    "../../ol-components/src/**/*.mdx",
+    "../../ol-components/src/**/*.stories.tsx",
   ],
   addons: [
     getAbsolutePath("@storybook/addon-links"),
@@ -36,7 +37,7 @@ const config = {
   staticDirs: ["../../../static"],
   env: (config: any) => ({
     ...config,
-    PUBLIC_URL: process.env.PUBLIC_URL,
+    PUBLIC_URL: process.env.PUBLIC_URL || "",
   }),
 }
 

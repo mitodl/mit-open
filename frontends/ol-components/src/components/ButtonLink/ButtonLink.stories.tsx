@@ -5,7 +5,6 @@ import { withRouter } from "storybook-addon-react-router-v6"
 
 const meta: Meta<typeof ButtonLink> = {
   title: "ol-components/ButtonLink",
-  render: (props) => <ButtonLink {...props}>Button Text</ButtonLink>,
   decorators: [withRouter],
   argTypes: {
     variant: {
@@ -21,12 +20,14 @@ export default meta
 
 type Story = StoryObj<typeof ButtonLink>
 
-export const Text: Story = {
+export const Plain: Story = {
   args: {
     to: "#link",
     variant: "text",
     disabled: false,
+    children: "Button Text",
   },
+  render: (props) => <ButtonLink {...props}>Plain</ButtonLink>,
 }
 
 export const Contained: Story = {
@@ -35,6 +36,7 @@ export const Contained: Story = {
     variant: "contained",
     disabled: false,
   },
+  render: (props) => <ButtonLink {...props}>Contained</ButtonLink>,
 }
 
 export const Outlined: Story = {
@@ -43,6 +45,7 @@ export const Outlined: Story = {
     variant: "outlined",
     disabled: false,
   },
+  render: (props) => <ButtonLink {...props}>Outlined</ButtonLink>,
 }
 
 export const Disabled: Story = {
@@ -51,4 +54,5 @@ export const Disabled: Story = {
     variant: "contained",
     disabled: true,
   },
+  render: (props) => <ButtonLink {...props}>Disabled</ButtonLink>,
 }
