@@ -182,7 +182,6 @@ def test_learning_resources_search_request_serializer():
         "level": "undergraduate",
         "course_feature": "Lecture Videos",
         "aggregations": "resource_type,platform,level",
-        "extra_field": "ignored",
     }
 
     cleaned = {
@@ -224,7 +223,6 @@ def test_content_file_search_request_serializer():
         "resource_id": "1,2,3",
         "offered_by": "xpro,ocw",
         "platform": "xpro,edx,ocw",
-        "extra_field": "ignored",
     }
 
     cleaned = {

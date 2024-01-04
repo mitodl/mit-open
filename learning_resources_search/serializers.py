@@ -4,6 +4,7 @@ import logging
 from collections import defaultdict
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from drf_spectacular.plumbing import build_choice_description_list
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
@@ -179,6 +180,13 @@ class SearchRequestSerializer(serializers.Serializer):
         child=serializers.CharField(),
         help_text="The topic name. To see a list of options go to api/v1/topics/",
     )
+
+    def validate(self, attrs):
+        unknown = set(self.initial_data) - set(self.fields)
+        if unknown:
+            error_message = "Unknown field(s): {}".format(", ".join(unknown))
+            raise ValidationError(error_message)
+        return attrs
 
 
 class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
