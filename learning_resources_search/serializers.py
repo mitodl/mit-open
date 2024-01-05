@@ -25,7 +25,6 @@ from learning_resources.serializers import (
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
-    LEARNING_RESOURCE_TYPES,
 )
 
 log = logging.getLogger()
@@ -206,7 +205,6 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
             f"The type of learning resource \
             \n\n{build_choice_description_list(resource_choices)}"
         ),
-        default=LEARNING_RESOURCE_TYPES,
     )
     professional = ArrayWrappedBoolean(
         required=False,

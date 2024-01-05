@@ -453,6 +453,9 @@ def execute_learn_search(search_params):
         dict: The opensearch response dict
     """
 
+    if not search_params.get("resource_type"):
+        search_params["resource_type"] = list(LEARNING_RESOURCE_TYPES)
+
     indexes = relevant_indexes(
         search_params.get("resource_type"), search_params.get("aggregations")
     )

@@ -191,13 +191,6 @@ def test_learning_resources_search_request_serializer():
         "limit": 1,
         "id": [1],
         "sortby": "-start_date",
-        "resource_type": [
-            "course",
-            "program",
-            "podcast",
-            "podcast_episode",
-            "learning_path",
-        ],
         "professional": [True],
         "certification": [False],
         "offered_by": ["xpro", "ocw"],
