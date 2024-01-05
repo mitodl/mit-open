@@ -114,7 +114,6 @@ INSTALLED_APPS = (
     "channels",
     "profiles",
     "mail",
-    "search",
     "widgets",
     "interactions",
     "learning_resources",  # to replace below when ready
