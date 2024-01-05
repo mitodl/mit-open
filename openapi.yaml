@@ -3056,12 +3056,6 @@ paths:
               * `learning_path` - learning path
               * `podcast` - podcast
               * `podcast_episode` - podcast episode
-          default:
-          - course
-          - program
-          - podcast
-          - podcast_episode
-          - learning_path
         description: "The type of learning resource             \n\n* `course` - course\n\
           * `program` - program\n* `learning_path` - learning path\n* `podcast` -\
           \ podcast\n* `podcast_episode` - podcast episode"
