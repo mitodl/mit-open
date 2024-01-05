@@ -1,7 +1,6 @@
 """Profile API"""
 
 import tldextract
-from django.db import transaction
 
 from profiles.models import (
     PERSONAL_SITE_TYPE,
@@ -9,7 +8,6 @@ from profiles.models import (
     Profile,
     filter_profile_props,
 )
-from search import search_index_helpers
 
 
 def ensure_profile(user, profile_data=None):
@@ -27,28 +25,7 @@ def ensure_profile(user, profile_data=None):
 
     profile, _ = Profile.objects.update_or_create(user=user, defaults=defaults)
 
-    after_profile_created_or_updated(profile)
-
     return profile
-
-
-def after_profile_created_or_updated(profile):
-    """
-    Operations that should be run after the profile has been created or updated
-
-    Args:
-        profile (profiles.models.Profile): the profile that was created or updated
-    """
-
-    def _after_profile_created_or_updated():
-        """
-        Operations that should be run after the profile create or update is committed
-        """
-        search_index_helpers.upsert_profile(profile.id)
-
-    # this will either get called when the outermost transaction commits or otherwise immediately  # noqa: E501
-    # this avoids race conditions where the async tasks may not see the record or the updated values  # noqa: E501
-    transaction.on_commit(_after_profile_created_or_updated)
 
 
 def get_site_type_from_url(url):

@@ -2,7 +2,6 @@
 
 from django.contrib.auth import get_user_model
 from django.core.management import BaseCommand
-
 from search import search_index_helpers
 
 User = get_user_model()

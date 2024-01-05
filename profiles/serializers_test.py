@@ -108,9 +108,6 @@ def test_update_user_profile(mocker, user, key, value):
     """
     Test updating a profile via the UserSerializer
     """
-    mock_after_profile_created_or_updated = mocker.patch(
-        "profiles.serializers.after_profile_created_or_updated"
-    )
     profile = user.profile
 
     serializer = UserSerializer(
@@ -138,8 +135,6 @@ def test_update_user_profile(mocker, user, key, value):
                 assert getattr(profile2, prop) == value
         else:
             assert getattr(profile2, prop) == getattr(profile, prop)
-
-    mock_after_profile_created_or_updated.assert_called_once_with(profile)
 
 
 @pytest.mark.parametrize(
@@ -177,9 +172,6 @@ def test_update_profile(mocker, user, key, value):
     """
     Test updating a profile via the ProfileSerializer
     """
-    mock_after_profile_created_or_updated = mocker.patch(
-        "profiles.serializers.after_profile_created_or_updated"
-    )
     profile = user.profile
 
     serializer = ProfileSerializer(
@@ -208,8 +200,6 @@ def test_update_profile(mocker, user, key, value):
                 assert getattr(profile2, prop) == value
         else:
             assert getattr(profile2, prop) == getattr(profile, prop)
-
-    mock_after_profile_created_or_updated.assert_called_once_with(profile)
 
 
 def test_serialize_profile_websites(user):

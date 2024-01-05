@@ -4,7 +4,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from search.connection import configure_connections
+from learning_resources_search.connection import configure_connections
 
 
 @pytest.fixture(autouse=True)

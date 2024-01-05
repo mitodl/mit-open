@@ -2,8 +2,6 @@
 from django.db import migrations, transaction
 from django.db.models import Count, Q
 
-from search.search_index_helpers import upsert_course
-
 
 def remove_dupes(apps, schema_editor):
     """
@@ -35,7 +33,6 @@ def remove_dupes(apps, schema_editor):
                             | Q(id=best_dupe.id)
                         ).exclude(id=instructor.id)
                     )
-                    upsert_course(run.object_id)
                 instructor.delete()
 
 
