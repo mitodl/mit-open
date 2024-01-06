@@ -501,7 +501,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-dev-translations@npm:^39.3.0, @ckeditor/ckeditor5-dev-translations@npm:^39.5.0":
+"@ckeditor/ckeditor5-dev-translations@npm:^39.3.0, @ckeditor/ckeditor5-dev-translations@npm:^39.5.1":
   version: 39.5.1
   resolution: "@ckeditor/ckeditor5-dev-translations@npm:39.5.1"
   dependencies:
@@ -516,10 +516,10 @@ __metadata:
   linkType: hard
 
 "@ckeditor/ckeditor5-dev-utils@npm:^39.3.0":
-  version: 39.5.0
-  resolution: "@ckeditor/ckeditor5-dev-utils@npm:39.5.0"
+  version: 39.5.1
+  resolution: "@ckeditor/ckeditor5-dev-utils@npm:39.5.1"
   dependencies:
-    "@ckeditor/ckeditor5-dev-translations": ^39.5.0
+    "@ckeditor/ckeditor5-dev-translations": ^39.5.1
     chalk: ^3.0.0
     cli-cursor: ^3.1.0
     cli-spinners: ^2.6.1
@@ -541,7 +541,7 @@ __metadata:
     style-loader: ^2.0.0
     terser-webpack-plugin: ^4.2.3
     through2: ^3.0.1
-  checksum: f1ebe937b03d602ff3cde914054c6248556a8273367320d564c43039087599864a85c21c463fb4779ec9de39a404afb4fa2102048e671cea835a42d801a9ef26
+  checksum: 8800b3a2486b8936c8257796839bda064b42fbc1d0858c73fa8d81290db7c1f80cbbf56abdb5bf66c2eea92b2b2dc3b5e402f175bac6e67a118e11272c80c111
   languageName: node
   linkType: hard
 
