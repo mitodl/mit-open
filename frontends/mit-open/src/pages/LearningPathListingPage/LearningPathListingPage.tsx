@@ -112,7 +112,7 @@ const LearningPathListingPage: React.FC = () => {
               <Grid item xs={6}>
                 <h1>Learning Paths</h1>
               </Grid>
-              <Grid item xs={6} className="ic-centered-right">
+              <Grid item xs={6} justifyContent="flex-end">
                 {canEdit ? (
                   <Button variant="contained" onClick={handleCreate}>
                     Create new list

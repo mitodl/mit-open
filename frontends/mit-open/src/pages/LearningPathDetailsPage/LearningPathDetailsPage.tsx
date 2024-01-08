@@ -75,13 +75,7 @@ const LearningPathDetailsPage: React.FC = () => {
                     ? `${count} ${pluralize("item", count)}`
                     : null}
                 </Grid>
-                <Grid
-                  item
-                  xs={6}
-                  container
-                  alignItems="center"
-                  className="ic-centered-right"
-                >
+                <Grid item xs={6} container justifyContent="flex-end">
                   {canEdit ? (
                     <Button
                       color="secondary"
