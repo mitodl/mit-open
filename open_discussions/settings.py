@@ -33,7 +33,7 @@ from open_discussions.settings_course_etl import *  # noqa: F403
 from open_discussions.settings_pluggy import *  # noqa: F403
 from open_discussions.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.223.0"
+VERSION = "0.0.0"
 
 log = logging.getLogger()
 
