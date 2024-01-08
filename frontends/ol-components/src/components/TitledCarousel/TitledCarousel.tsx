@@ -3,13 +3,13 @@ import Carousel from "nuka-carousel"
 import { clamp } from "lodash"
 import type { CarouselProps } from "nuka-carousel"
 import styled from "@emotion/styled"
+import { theme } from "../ThemeProvider/ThemeProvider"
 
 type TitledCarouselProps = {
   children: React.ReactNode
   title?: React.ReactNode
   as?: ElementType
   className?: string
-  carouselClassName?: string
   headerClassName?: string
   pageSize: number
   /**
@@ -48,13 +48,52 @@ const ButtonsContainer = styled.div`
   align-items: center;
 `
 
+const CAROUSEL_SPACING = 24
+
+const StyledCarousel = styled(Carousel)({
+  paddingTop: theme.custom.shadowOverflowTop,
+  paddingBottom: theme.custom.shadowOverflowBottom,
+
+  /*
+    We want the carousel cards to be:
+      1. spaced
+      2. cast a shadow when hovered
+      3. left-aligned (left edge of left-most card aligned with rest of page content)
+
+    The card container has `overflow: hidden` to prevent seeing the offscreen
+    cards. Consequently, if the leftmost card is at the left edge of the carousel
+    container, then its shadow gets cut off and looks weird.
+
+    So instead: keep a margin on the left-most card, but translate the whole
+    carousel leftwards by the same margin. This keeps stuff spaced and makes the
+    shadows look nice.
+
+    Caveat: This is not a good solution if there is content within $carouselSpacing
+    of the carousel's left edge. But...there's not.
+    */
+  transform: `translateX(-${CAROUSEL_SPACING}px * 0.5)`,
+
+  /*
+    We also want the carousel contents (cards) to appear as if they are full
+    width. By default, the width is 100% and since there's cell-spacing, the
+    right-most card does not line up with the right-hand margin, it's short by
+    half the spacing.
+
+    But since we also translated the contents leftwards (see above) we're actually
+    off by a full cellSpacing.
+
+    This needs to be !important because Nuke Carousel applies width: 100% as an
+    inline style.
+    */
+  width: `calc(100% + #{${CAROUSEL_SPACING}px}) !important`,
+})
+
 const defaultAnimationDuration = 800
 
 const TitledCarousel: React.FC<TitledCarouselProps> = ({
   children,
   title,
   className,
-  carouselClassName,
   headerClassName,
   pageSize,
   cellSpacing,
@@ -110,9 +149,8 @@ const TitledCarousel: React.FC<TitledCarouselProps> = ({
           </ButtonsContainer>
         )}
       </HeaderContainer>
-      <Carousel
+      <StyledCarousel
         slideIndex={index}
-        className={carouselClassName}
         slidesToShow={pageSize}
         afterSlide={syncIndexFromDrag}
         cellSpacing={cellSpacing}
@@ -120,7 +158,7 @@ const TitledCarousel: React.FC<TitledCarouselProps> = ({
         speed={animationDuration}
       >
         {children}
-      </Carousel>
+      </StyledCarousel>
     </ContainerComponent>
   )
 }
