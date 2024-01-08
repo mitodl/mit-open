@@ -99,6 +99,7 @@ services:
       NODE_ENV: ${NODE_ENV:-development}
       CONTAINER_NAME: "watch"
       WEBPACK_PORT_MITOPEN: 8062
+      HIDE_DEV_TOOLS: ${HIDE_DEV_TOOLS}
     env_file: .env
     volumes:
       - .:/src

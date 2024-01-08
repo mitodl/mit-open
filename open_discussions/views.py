@@ -41,7 +41,7 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
     return render(request, "index.html", context={"js_settings": js_settings})
 
 
-def widget(request, **kwargs):  # noqa: ARG001
+def zoid_widget(request, **kwargs):  # noqa: ARG001
     """Render a barebones window for embedding a widget"""
 
     user = request.user
@@ -65,7 +65,7 @@ def widget(request, **kwargs):  # noqa: ARG001
         "release_version": settings.VERSION,
     }
 
-    return render(request, "widget.html", context={"js_settings": js_settings})
+    return render(request, "zoid_widget.html", context={"js_settings": js_settings})
 
 
 def handle_400(
