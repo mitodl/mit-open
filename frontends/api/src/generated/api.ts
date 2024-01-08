@@ -584,10 +584,10 @@ export interface FieldChannel {
   title: string
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {any}
    * @memberof FieldChannel
    */
-  about: { [key: string]: any } | null
+  about: any | null
   /**
    *
    * @type {string}
@@ -729,10 +729,10 @@ export interface FieldChannelCreateRequest {
   banner?: File | null
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {any}
    * @memberof FieldChannelCreateRequest
    */
-  about?: { [key: string]: any } | null
+  about?: any | null
 }
 /**
  * Learning path featured in this field.
@@ -2384,10 +2384,10 @@ export interface PatchedFieldChannelWriteRequest {
   banner?: string
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {any}
    * @memberof PatchedFieldChannelWriteRequest
    */
-  about?: { [key: string]: any } | null
+  about?: any | null
 }
 /**
  * Specialized serializer for a LearningPath relationship
