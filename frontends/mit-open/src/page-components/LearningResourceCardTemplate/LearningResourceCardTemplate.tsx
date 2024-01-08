@@ -159,7 +159,9 @@ const StyledCard = styled(Card)`
   }
 `
 
-const StyledCardContent = styled(CardContent)<{
+const StyledCardContent = styled(CardContent, {
+  shouldForwardProp: (prop) => prop !== "sortable",
+})<{
   variant: CardVariant
   sortable: boolean
 }>`
