@@ -12,31 +12,6 @@ $color: theme.$color-primary;
     background-color: theme.$color-background;
   }
 
-  .MuiButtonBase-root {
-    text-transform: none;
-
-    &.primary {
-      color: $color;
-
-      &.bordered {
-        border: 1pt solid $color;
-      }
-
-      &.filled {
-        background-color: $color;
-        color: white;
-
-        &:hover {
-          background-color: color.adjust($color, $lightness: -10%);
-        }
-
-        &:active {
-          background-color: color.adjust($color, $saturation: -20%);
-        }
-      }
-    }
-  }
-
   .MuiCardContent-root {
     padding-bottom: 16px;
 
@@ -62,11 +37,5 @@ $color: theme.$color-primary;
     &:hover {
       box-shadow: theme.$shadow;
     }
-  }
-}
-
-body {
-  .MuiOutlinedInput-notchedOutline {
-    border-color: theme.$input-border-grey;
   }
 }
