@@ -56,7 +56,7 @@ const FormControls = styled(Grid)`
     margin-right: 0.5rem;
   }
 
-  > *:not(:first-child) {
+  > *:not(:first-of-type) {
     margin-left: 0.5rem;
   }
 `

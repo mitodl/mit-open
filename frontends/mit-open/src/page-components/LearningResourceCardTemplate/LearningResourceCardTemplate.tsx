@@ -138,7 +138,7 @@ const StyledCard = styled(Card)`
       margin-top: ${SPACER / 2}rem;
       margin-bottom: ${SPACER / 2}rem;
 
-      &:first-child {
+      &:first-of-type {
         margin-top: 0;
       }
 
