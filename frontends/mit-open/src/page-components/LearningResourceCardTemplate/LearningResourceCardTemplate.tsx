@@ -3,7 +3,7 @@ import Dotdotdot from "react-dotdotdot"
 import invariant from "tiny-invariant"
 import classNames from "classnames"
 import { ResourceTypeEnum, type LearningResource } from "api"
-import { Card, CardContent, Chip, CardMedia } from "ol-components"
+import { Card, CardContent, Chip, CardMedia, styled } from "ol-components"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import {
@@ -39,26 +39,6 @@ type LearningResourceCardTemplateProps<
   footerActionSlot?: React.ReactNode
 }
 
-const CertificateIcon = () => (
-  <img
-    className="ol-lrc-cert"
-    alt="Receive a certificate upon completion"
-    src="/static/images/certificate_icon_infinite.png"
-  />
-)
-
-const CardBody: React.FC<
-  Pick<LearningResourceCardTemplateProps, "resource">
-> = ({ resource }) => {
-  const offerer = resource.offered_by?.name ?? null
-  return offerer ? (
-    <div>
-      <span className="ol-lrc-offered-by">Offered by &ndash;</span>
-      {offerer}
-    </div>
-  ) : null
-}
-
 const ResourceFooterDetails: React.FC<
   Pick<LearningResourceCardTemplateProps, "resource">
 > = ({ resource }) => {
@@ -88,6 +68,19 @@ const ResourceFooterDetails: React.FC<
   )
 }
 
+const CardMediaImage = styled(CardMedia)<{
+  variant: CardVariant
+  component: string
+  alt: string
+}>`
+  ${({ variant }) =>
+    variant === "row"
+      ? "margin-right: 16px;"
+      : variant === "row-reverse"
+        ? "margin-left: 16px;"
+        : ""}
+`
+
 type LRCImageProps = Pick<
   LearningResourceCardTemplateProps,
   "resource" | "imgConfig" | "suppressImage" | "variant"
@@ -103,10 +96,11 @@ const LRCImage: React.FC<LRCImageProps> = ({
     variant === "column"
       ? { height: imgConfig.height }
       : { width: imgConfig.width, height: imgConfig.height }
+
   return (
-    <CardMedia
+    <CardMediaImage
       component="img"
-      className="ol-lrc-image"
+      variant={variant}
       sx={dims}
       src={resourceThumbnailSrc(resource.image ?? null, imgConfig)}
       alt=""
@@ -114,12 +108,148 @@ const LRCImage: React.FC<LRCImageProps> = ({
   )
 }
 
-const variantClasses: Record<CardVariant, string> = {
-  column: "ol-lrc-col",
-  row: "ol-lrc-row",
-  "row-reverse": "ol-lrc-row-reverse",
+const LIGHT_TEXT_COLOR = "#8c8c8c"
+const SPACER = 0.75
+const SMALL_FONT_SIZE = "0.75em"
+
+const StyledCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+
+  // Ensure the resource image borders match card borders
+  .MuiCardMedia-root,
+  > .MuiCardContent-root {
+    border-radius: inherit;
+  }
+
+  .ol-lrc-details {
+    /*
+    Make content flexbox so that we can control which child fills remaining space.
+    */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    > * {
+      /*
+      Flexbox doesn't have collapsing margins, so we need to avoid double spacing.
+      The column-gap property would be a nicer solution, but it doesn't have the
+      best browser support yet.
+      */
+      margin-top: ${SPACER / 2}rem;
+      margin-bottom: ${SPACER / 2}rem;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .ol-lrc-chip.MuiChip-root {
+    height: 2.5 * ${SMALL_FONT_SIZE};
+    font-size: ${SMALL_FONT_SIZE};
+
+    .MuiSvgIcon-root {
+      height: 1.25 * ${SMALL_FONT_SIZE};
+      width: 1.25 * ${SMALL_FONT_SIZE};
+    }
+  }
+`
+
+const StyledCardContent = styled(CardContent)<{
+  variant: CardVariant
+  sortable: boolean
+}>`
+  display: flex;
+  flex-direction: ${({ variant }) => variant};
+  ${({ variant }) => (variant === "column" ? "flex: 1;" : "")}
+  ${({ sortable }) => (sortable ? "padding-left: 4px;" : "")}
+`
+
+const OfferedByText = styled.span`
+  color: ${LIGHT_TEXT_COLOR};
+  padding-right: 0.25em;
+`
+
+const CardBody: React.FC<
+  Pick<LearningResourceCardTemplateProps, "resource">
+> = ({ resource }) => {
+  const offerer = resource.offered_by?.name ?? null
+  return offerer ? (
+    <div>
+      <OfferedByText>Offered by &ndash;</OfferedByText>
+      {offerer}
+    </div>
+  ) : null
 }
 
+/*
+  Last child of ol-lrc-content will take up any extra space (flex: 1) but
+  with its contents at the bottom of its box.
+  The default is stretch, we we do not want.
+*/
+const FillSpaceContentEnd = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+`
+
+const FooterRow = styled.div`
+  min-height: 2.5 * ${SMALL_FONT_SIZE}; // ensure consistent spacing even if no date
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`
+
+const TypeRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 1.5em; // ensure consistent height even if no certificate
+`
+
+const EllipsisTitle = styled(Dotdotdot)`
+  font-weight: bold !default;
+  margin: 0;
+`
+
+const TitleButton = styled.button`
+  border: none;
+  background-color: white;
+  color: inherit;
+  display: block;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`
+
+const DragHandle = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 40px;
+  align-self: stretch;
+  color: ${LIGHT_TEXT_COLOR};
+  border-right: 1px solid ${LIGHT_TEXT_COLOR};
+  margin-right: 16px;
+`
+
+const CertificateIcon = styled.img`
+  height: 1.5em;
+`
 /**
  * A card display for Learning Resources. Includes a title, image, and various
  * metadata.
@@ -136,7 +266,7 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
   suppressImage = false,
   onActivate,
   footerActionSlot,
-  sortable,
+  sortable = false,
 }: LearningResourceCardTemplateProps<R>) => {
   const handleActivate = useCallback(
     () => onActivate?.(resource),
@@ -149,7 +279,7 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
   )
 
   return (
-    <Card className={classNames(className, "ol-lrc-root")}>
+    <StyledCard className={className}>
       {variant === "column" ? (
         <LRCImage
           variant={variant}
@@ -158,11 +288,7 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
           imgConfig={imgConfig}
         />
       ) : null}
-      <CardContent
-        className={classNames("ol-lrc-content", variantClasses[variant], {
-          "ol-lrc-sortable": sortable,
-        })}
-      >
+      <StyledCardContent variant={variant} sortable={sortable}>
         {variant !== "column" ? (
           <LRCImage
             variant={variant}
@@ -172,44 +298,47 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
           />
         ) : null}
         <div className="ol-lrc-details">
-          <div className="ol-lrc-type-row">
-            <span className="ol-lrc-type">
-              {getReadableResourceType(resource)}
-            </span>
-            {resource.certification && <CertificateIcon />}
-          </div>
+          <TypeRow>
+            <span>{getReadableResourceType(resource)}</span>
+            {resource.certification && (
+              <CertificateIcon
+                alt="Receive a certificate upon completion"
+                src="/static/images/certificate_icon_infinite.png"
+              />
+            )}
+          </TypeRow>
           {onActivate ? (
-            <button className="clickable-title" onClick={handleActivate}>
-              <Dotdotdot className="ol-lrc-title" tagName="h3" clamp={3}>
+            <TitleButton onClick={handleActivate}>
+              <EllipsisTitle tagName="h3" clamp={3}>
                 {resource.title}
-              </Dotdotdot>
-            </button>
+              </EllipsisTitle>
+            </TitleButton>
           ) : (
-            <Dotdotdot className="ol-lrc-title" tagName="h3" clamp={3}>
+            <EllipsisTitle tagName="h3" clamp={3}>
               {resource.title}
-            </Dotdotdot>
+            </EllipsisTitle>
           )}
           {sortable ? null : (
             <>
               <CardBody resource={resource} />
-              <div className="ol-lrc-fill-space-content-end">
-                <div className="ol-lrc-footer-row">
+              <FillSpaceContentEnd>
+                <FooterRow>
                   <div>
                     <ResourceFooterDetails resource={resource} />
                   </div>
                   {footerActionSlot}
-                </div>
-              </div>
+                </FooterRow>
+              </FillSpaceContentEnd>
             </>
           )}
         </div>
         {sortable ? (
-          <div className="ol-lrc-drag-handle">
+          <DragHandle>
             <DragIndicatorIcon fontSize="inherit" />
-          </div>
+          </DragHandle>
         ) : null}
-      </CardContent>
-    </Card>
+      </StyledCardContent>
+    </StyledCard>
   )
 }
 

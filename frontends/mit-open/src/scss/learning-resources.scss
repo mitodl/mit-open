@@ -1,9 +1,5 @@
 @use "theme";
 @use "ol-utilities/assets/breakpoint";
-@use "../page-components/LearningResourceCardTemplate/learning-resource-card-template"
-  with (
-  $light-text: theme.$font-color-light
-);
 
 $card-list-spacer: 1.5em;
 
