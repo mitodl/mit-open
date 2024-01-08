@@ -1,17 +1,8 @@
 @use "theme";
 
 .learningpaths-page {
-  .list-header {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
   .empty-message {
     font-style: italic;
-  }
-
-  .sorting-disabled {
-    opacity: 0.5;
   }
 }
 

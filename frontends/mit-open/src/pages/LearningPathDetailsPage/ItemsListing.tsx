@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from "react"
-import classNames from "classnames"
 import type { LearningPathRelationship } from "api"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import {
@@ -11,6 +10,7 @@ import {
 } from "ol-utilities"
 import { LoadingSpinner } from "ol-components"
 import { useLearningpathRelationshipMove } from "api/hooks/learningResources"
+import CardRowList from "@/components/CardRowList/CardRowList"
 
 type ItemsListingProps = {
   items?: LearningPathRelationship[]
@@ -24,7 +24,7 @@ const ItemsListingViewOnly: React.FC<{
   items: NonNullable<ItemsListingProps["items"]>
 }> = ({ items }) => {
   return (
-    <ul className="ic-card-row-list">
+    <CardRowList>
       {items.map((item) => {
         return (
           <li key={item.id}>
@@ -35,7 +35,7 @@ const ItemsListingViewOnly: React.FC<{
           </li>
         )
       })}
-    </ul>
+    </CardRowList>
   )
 }
 
@@ -84,11 +84,7 @@ const ItemsListingSortable: React.FC<{
   )
   const disabled = isRefetching || move.isLoading
   return (
-    <ul
-      className={classNames("ic-card-row-list", {
-        "sorting-disabled": disabled,
-      })}
-    >
+    <CardRowList disabled={disabled}>
       <SortableList
         itemIds={sorted.map((item) => item.id)}
         onSortEnd={onSortEnd}
@@ -119,7 +115,7 @@ const ItemsListingSortable: React.FC<{
           )
         })}
       </SortableList>
-    </ul>
+    </CardRowList>
   )
 }
 
