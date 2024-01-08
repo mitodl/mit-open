@@ -93,6 +93,21 @@ def test_learn_search_with_invalid_params(
     )
 
 
+def test_learn_search_with_extra_params(mocker, client, learning_resources_search_view):
+    """Return an error if there are extra parameters"""
+    search_mock = mocker.patch(
+        "learning_resources_search.views.execute_learn_search",
+        autospec=True,
+        return_value=FAKE_SEARCH_RESPONSE,
+    )
+    params = {"monkey": 22}
+    resp = client.get(learning_resources_search_view.url, params)
+    search_mock.assert_not_called()
+    assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
+        {"non_field_errors": ["Unknown field(s): monkey"]}
+    )
+
+
 def test_content_file_search(mocker, client, content_file_search_view):
     """The query params should be passed from the front end to execute_learn_search to run the search"""
     search_mock = mocker.patch(
@@ -122,4 +137,21 @@ def test_content_file_search_with_invalid_params(
     search_mock.assert_not_called()
     assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
         {"aggregations": ['"invalid" is not a valid choice.']}
+    )
+
+
+def test_content_file_search_with_extra_params(
+    mocker, client, content_file_search_view
+):
+    """Return an error if there are extra parameters"""
+    search_mock = mocker.patch(
+        "learning_resources_search.views.execute_learn_search",
+        autospec=True,
+        return_value=FAKE_SEARCH_RESPONSE,
+    )
+    params = {"monkey": 22}
+    resp = client.get(content_file_search_view.url, params)
+    search_mock.assert_not_called()
+    assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
+        {"non_field_errors": ["Unknown field(s): monkey"]}
     )
