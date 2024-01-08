@@ -44,15 +44,15 @@ const learningPaths = {
   list: (params?: Params<LearningpathsApi, "learningpathsList">) =>
     `/api/v1/learningpaths/${query(params)}`,
   resources: ({
-    parent_id: parentId,
+    learning_resource_id: parentId,
     ...others
-  }: Params<LearningpathsApi, "learningpathsResourcesList">) =>
-    `/api/v1/learningpaths/${parentId}/resources/${query(others)}`,
+  }: Params<LearningpathsApi, "learningpathsItemsList">) =>
+    `/api/v1/learningpaths/${parentId}/items/${query(others)}`,
   resourceDetails: ({
-    parent_id: parentId,
+    learning_resource_id: parentId,
     id,
-  }: Params<LearningpathsApi, "learningpathsResourcesPartialUpdate">) =>
-    `/api/v1/learningpaths/${parentId}/resources/${id}/`,
+  }: Params<LearningpathsApi, "learningpathsItemsPartialUpdate">) =>
+    `/api/v1/learningpaths/${parentId}/items/${id}/`,
   details: (params: Params<LearningpathsApi, "learningpathsRetrieve">) =>
     `/api/v1/learningpaths/${params.id}/`,
 }

@@ -12,7 +12,8 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import views, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
@@ -20,7 +21,7 @@ from rest_framework.generics import GenericAPIView, get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework_extensions.mixins import NestedViewSetMixin
+from rest_framework_nested.viewsets import NestedViewSetMixin
 
 from authentication.decorators import blocked_ip_exempt
 from learning_resources import permissions
@@ -55,11 +56,11 @@ from learning_resources.serializers import (
     CourseResourceSerializer,
     LearningPathRelationshipSerializer,
     LearningPathResourceSerializer,
-    LearningResourceChildSerializer,
     LearningResourceContentTagSerializer,
     LearningResourceDepartmentSerializer,
     LearningResourceOfferorSerializer,
     LearningResourcePlatformSerializer,
+    LearningResourceRelationshipSerializer,
     LearningResourceSerializer,
     LearningResourceTopicSerializer,
     PodcastEpisodeResourceSerializer,
@@ -117,6 +118,7 @@ class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = DefaultPagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = LearningResourceFilter
+    lookup_field = "id"
 
     def _get_base_queryset(self, resource_type: str | None = None) -> QuerySet:
         """
@@ -250,8 +252,8 @@ class CourseViewSet(
     Viewset for Courses
     """
 
+    lookup_url_kwarg = "id"
     resource_type_name_plural = "Courses"
-
     serializer_class = CourseResourceSerializer
 
     def get_queryset(self) -> QuerySet:
@@ -373,6 +375,7 @@ class LearningPathViewSet(BaseLearningResourceViewSet, viewsets.ModelViewSet):
     serializer_class = LearningPathResourceSerializer
     permission_classes = (permissions.HasLearningPathPermissions,)
     http_method_names = VALID_HTTP_METHODS
+    lookup_url_kwarg = "id"
 
     def get_queryset(self):
         """
@@ -392,16 +395,6 @@ class LearningPathViewSet(BaseLearningResourceViewSet, viewsets.ModelViewSet):
         resource_delete_actions(instance)
 
 
-class NestedParentMixin(NestedViewSetMixin):
-    """
-    Mixin for nested viewsets that have a parent
-    """
-
-    def get_parent_id(self, id_field="parent_id"):
-        """Get the parent id for the nested view request"""
-        return self.get_parents_query_dict()[id_field]
-
-
 @extend_schema_view(
     list=extend_schema(
         summary="Nested Learning Resource List",
@@ -412,14 +405,25 @@ class NestedParentMixin(NestedViewSetMixin):
         description="Get a singe related learning resource for a learning resource.",
     ),
 )
-class ResourceListItemsViewSet(NestedParentMixin, viewsets.ReadOnlyModelViewSet):
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name="learning_resource_id",
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description="id of the parent learning resource",
+        )
+    ]
+)
+class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet):
     """
     Viewset for nested learning resources.
 
     """
 
+    parent_lookup_kwargs = {"learning_resource_id": "parent_id"}
     permission_classes = (AnonymousAccessReadonlyPermission,)
-    serializer_class = LearningResourceChildSerializer
+    serializer_class = LearningResourceRelationshipSerializer
     pagination_class = DefaultPagination
     queryset = (
         LearningResourceRelationship.objects.select_related("child")
@@ -438,6 +442,16 @@ class ResourceListItemsViewSet(NestedParentMixin, viewsets.ReadOnlyModelViewSet)
     destroy=extend_schema(summary="Learning Path Resource Relationship Remove"),
     partial_update=extend_schema(summary="Learning Path Resource Relationship Update"),
 )
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name="learning_resource_id",
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description="The learning resource id of the learning path",
+        )
+    ]
+)
 class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
     """
     Viewset for LearningPath related resources
@@ -448,11 +462,11 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
     http_method_names = VALID_HTTP_METHODS
 
     def create(self, request, *args, **kwargs):
-        request.data["parent"] = self.get_parent_id()
+        request.data["parent"] = request.data.get("parent_id")
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        request.data["parent"] = self.get_parent_id()
+        request.data["parent"] = request.data.get("parent_id")
         return super().update(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
@@ -485,6 +499,16 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     list=extend_schema(summary="List"),
     retrieve=extend_schema(summary="Retrieve"),
 )
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name="learning_resource_id",
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description="id of the parent learning resource",
+        )
+    ]
+)
 class ContentFileViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Viewset for ContentFiles
@@ -516,11 +540,7 @@ class LearningResourceContentFilesViewSet(NestedViewSetMixin, ContentFileViewSet
     Show content files for a learning resource
     """
 
-    filterset_fields = ["run", "run__run_id"]
-
-    def get_parent_id(self):
-        """Get the parent learning resource id for the nested view request"""
-        return self.get_parents_query_dict()["run__learning_resource"]
+    parent_lookup_kwargs = {"learning_resource_id": "run__learning_resource"}
 
 
 @extend_schema_view(
@@ -530,7 +550,7 @@ class LearningResourceContentFilesViewSet(NestedViewSetMixin, ContentFileViewSet
     destroy=extend_schema(summary="Destroy"),
     partial_update=extend_schema(summary="Update"),
 )
-class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
+class UserListViewSet(viewsets.ModelViewSet):
     """
     Viewset for UserLists
     """
@@ -539,6 +559,7 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
     pagination_class = DefaultPagination
     permission_classes = (HasUserListPermissions,)
     http_method_names = VALID_HTTP_METHODS
+    lookup_url_kwarg = "id"
 
     def get_queryset(self):
         """Return a queryset for this user"""
@@ -558,12 +579,12 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    def retrieve(self, request, pk=None, **kwargs):  # noqa: ARG002
+    def retrieve(self, request, id=None, **kwargs):  # noqa: A002,ARG002
         queryset = self.get_queryset().filter(
             Q(author_id=self.request.user.id)
             | Q(privacy_level=PrivacyLevel.unlisted.value)
         )
-        userlist = get_object_or_404(queryset, pk=pk)
+        userlist = get_object_or_404(queryset, pk=id)
         serializer = self.get_serializer(userlist)
         return Response(serializer.data)
 
@@ -578,7 +599,17 @@ class UserListViewSet(NestedParentMixin, viewsets.ModelViewSet):
     destroy=extend_schema(summary="User List Resource Relationship Remove"),
     partial_update=extend_schema(summary="User List Resource Relationship Update"),
 )
-class UserListItemViewSet(NestedParentMixin, viewsets.ModelViewSet):
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name="userlist_id",
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description="id of the parent user list",
+        )
+    ]
+)
+class UserListItemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     """
     Viewset for UserListRelationships
     """
@@ -590,15 +621,16 @@ class UserListItemViewSet(NestedParentMixin, viewsets.ModelViewSet):
     pagination_class = DefaultPagination
     permission_classes = (HasUserListItemPermissions,)
     http_method_names = VALID_HTTP_METHODS
+    parent_lookup_kwargs = {"userlist_id": "parent"}
 
     def create(self, request, *args, **kwargs):
-        user_list_id = self.get_parent_id()
+        user_list_id = kwargs.get("userlist_id")
         request.data["parent"] = user_list_id
 
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        user_list_id = self.get_parent_id()
+        user_list_id = kwargs.get("userlist_id")
         request.data["parent"] = user_list_id
         return super().update(request, *args, **kwargs)
 

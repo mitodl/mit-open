@@ -109,7 +109,9 @@ describe("AddToListDialog", () => {
     const { resource, lists } = setup()
     const list = faker.helpers.arrayElement(lists)
 
-    const addToListUrl = urls.learningPaths.resources({ parent_id: list.id })
+    const addToListUrl = urls.learningPaths.resources({
+      learning_resource_id: list.id,
+    })
     const newRelationship = addToList(resource, list)
     setMockResponse.post(addToListUrl, newRelationship)
     setMockResponse.get(
@@ -141,7 +143,7 @@ describe("AddToListDialog", () => {
 
     const removalUrl = urls.learningPaths.resourceDetails({
       id: relationship.id,
-      parent_id: relationship.parent,
+      learning_resource_id: relationship.parent,
     })
     setMockResponse.delete(removalUrl)
     setMockResponse.get(

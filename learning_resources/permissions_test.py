@@ -74,7 +74,7 @@ def test_learningpathitems_permissions_404(mocker, user):
     """
     request = mocker.MagicMock(method="GET", user=user)
 
-    view = mocker.MagicMock(kwargs={"parent_id": 99999})
+    view = mocker.MagicMock(kwargs={"learning_resource_id": 99999})
     with pytest.raises(Http404):
         HasLearningPathItemPermissions().has_permission(request, view)
 
@@ -95,7 +95,9 @@ def test_learningpathitems_permissions(mocker, user, is_safe, is_public, is_edit
     )
     request = mocker.MagicMock(method="GET" if is_safe else "POST", user=user)
 
-    view = mocker.MagicMock(kwargs={"parent_id": learningpath.learning_resource.id})
+    view = mocker.MagicMock(
+        kwargs={"learning_resource_id": learningpath.learning_resource.id}
+    )
     assert HasLearningPathItemPermissions().has_permission(request, view) is (
         is_editor or (is_safe and is_public)
     )
@@ -122,7 +124,9 @@ def test_learningpathitems_object_permissions(
         method="GET" if is_safe else "POST",
         user=user,
     )
-    view = mocker.MagicMock(kwargs={"parent_id": learningpath.learning_resource.id})
+    view = mocker.MagicMock(
+        kwargs={"learning_resource_id": learningpath.learning_resource.id}
+    )
     assert HasLearningPathItemPermissions().has_object_permission(
         request, view, learningpath_item
     ) is (is_editor or (is_safe and is_public))
@@ -183,7 +187,7 @@ def test_userlistitems_permissions(mocker, user, is_safe, is_author, privacy_lev
     )
     request = mocker.MagicMock(method="GET" if is_safe else "POST", user=user)
 
-    view = mocker.MagicMock(kwargs={"parent_id": userlist.id})
+    view = mocker.MagicMock(kwargs={"userlist_id": userlist.id})
     assert HasUserListItemPermissions().has_permission(request, view) is (
         is_author or (is_safe and privacy_level == PrivacyLevel.unlisted.value)
     )
@@ -205,7 +209,7 @@ def test_userlistitems_object_permissions(
     userlist_item = UserListRelationshipFactory.create(parent=userlist)
 
     request = mocker.MagicMock(method="GET" if is_safe else "POST", user=user)
-    view = mocker.MagicMock(kwargs={"parent_id": userlist.id})
+    view = mocker.MagicMock(kwargs={"userlist_id": userlist.id})
     assert HasUserListItemPermissions().has_object_permission(
         request, view, userlist_item
     ) is (is_author or (is_safe and privacy_level == PrivacyLevel.unlisted.value))

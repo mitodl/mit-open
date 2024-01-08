@@ -1160,19 +1160,6 @@ export type LearningResource =
   | ({ resource_type: "program" } & ProgramResource)
 
 /**
- * Serializer for LearningResourceRelationship children
- * @export
- * @interface LearningResourceChild
- */
-export interface LearningResourceChild {
-  /**
-   *
-   * @type {number}
-   * @memberof LearningResourceChild
-   */
-  child: number
-}
-/**
  * Serializer for LearningResourceContentTag
  * @export
  * @interface LearningResourceContentTag
@@ -1417,6 +1404,50 @@ export interface LearningResourcePlatformRequest {
    */
   name?: string
 }
+/**
+ * CRUD serializer for LearningResourceRelationship
+ * @export
+ * @interface LearningResourceRelationship
+ */
+export interface LearningResourceRelationship {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceRelationship
+   */
+  id: number
+  /**
+   *
+   * @type {LearningResource}
+   * @memberof LearningResourceRelationship
+   */
+  resource: LearningResource
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceRelationship
+   */
+  position?: number
+  /**
+   *
+   * @type {RelationTypeEnum}
+   * @memberof LearningResourceRelationship
+   */
+  relation_type?: RelationTypeEnum
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceRelationship
+   */
+  parent: number
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceRelationship
+   */
+  child: number
+}
+
 /**
  * @type LearningResourceRequest
  * @export
@@ -1946,37 +1977,6 @@ export interface PaginatedLearningPathResourceList {
 /**
  *
  * @export
- * @interface PaginatedLearningResourceChildList
- */
-export interface PaginatedLearningResourceChildList {
-  /**
-   *
-   * @type {number}
-   * @memberof PaginatedLearningResourceChildList
-   */
-  count?: number
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedLearningResourceChildList
-   */
-  next?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedLearningResourceChildList
-   */
-  previous?: string | null
-  /**
-   *
-   * @type {Array<LearningResourceChild>}
-   * @memberof PaginatedLearningResourceChildList
-   */
-  results?: Array<LearningResourceChild>
-}
-/**
- *
- * @export
  * @interface PaginatedLearningResourceContentTagList
  */
 export interface PaginatedLearningResourceContentTagList {
@@ -2128,6 +2128,37 @@ export interface PaginatedLearningResourcePlatformList {
    * @memberof PaginatedLearningResourcePlatformList
    */
   results?: Array<LearningResourcePlatform>
+}
+/**
+ *
+ * @export
+ * @interface PaginatedLearningResourceRelationshipList
+ */
+export interface PaginatedLearningResourceRelationshipList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedLearningResourceRelationshipList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceRelationshipList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceRelationshipList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<LearningResourceRelationship>}
+   * @memberof PaginatedLearningResourceRelationshipList
+   */
+  results?: Array<LearningResourceRelationship>
 }
 /**
  *
@@ -3348,6 +3379,21 @@ export const ProgramResourceResourceTypeEnum = {
 
 export type ProgramResourceResourceTypeEnum =
   (typeof ProgramResourceResourceTypeEnum)[keyof typeof ProgramResourceResourceTypeEnum]
+
+/**
+ * * `PROGRAM_COURSES` - Program Courses * `LEARNING_PATH_ITEMS` - Learning Path Items * `PODCAST_EPISODES` - Podcast Episodes
+ * @export
+ * @enum {string}
+ */
+
+export const RelationTypeEnum = {
+  ProgramCourses: "PROGRAM_COURSES",
+  LearningPathItems: "LEARNING_PATH_ITEMS",
+  PodcastEpisodes: "PODCAST_EPISODES",
+} as const
+
+export type RelationTypeEnum =
+  (typeof RelationTypeEnum)[keyof typeof RelationTypeEnum]
 
 /**
  * * `course` - course * `program` - program * `learning_path` - learning_path * `podcast` - podcast * `podcast_episode` - podcast_episode
@@ -4705,6 +4751,7 @@ export const ContentfilesApiAxiosParamCreator = function (
     /**
      * Viewset for ContentFiles
      * @summary List
+     * @param {number} learning_resource_id2 id of the parent learning resource
      * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
      * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
@@ -4718,6 +4765,7 @@ export const ContentfilesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     contentfilesList: async (
+      learning_resource_id2: number,
       content_feature_type?: string,
       learning_resource_id?: number,
       learning_resource_readable_id?: string,
@@ -4729,7 +4777,16 @@ export const ContentfilesApiAxiosParamCreator = function (
       run_readable_id?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v1/contentfiles/`
+      // verify required parameter 'learning_resource_id2' is not null or undefined
+      assertParamExists(
+        "contentfilesList",
+        "learning_resource_id2",
+        learning_resource_id2,
+      )
+      const localVarPath = `/api/v1/contentfiles/`.replace(
+        `{${"learning_resource_id"}}`,
+        encodeURIComponent(String(learning_resource_id2)),
+      )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -4800,19 +4857,29 @@ export const ContentfilesApiAxiosParamCreator = function (
      * Viewset for ContentFiles
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     contentfilesRetrieve: async (
       id: number,
+      learning_resource_id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("contentfilesRetrieve", "id", id)
-      const localVarPath = `/api/v1/contentfiles/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
+      // verify required parameter 'learning_resource_id' is not null or undefined
+      assertParamExists(
+        "contentfilesRetrieve",
+        "learning_resource_id",
+        learning_resource_id,
       )
+      const localVarPath = `/api/v1/contentfiles/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -4856,6 +4923,7 @@ export const ContentfilesApiFp = function (configuration?: Configuration) {
     /**
      * Viewset for ContentFiles
      * @summary List
+     * @param {number} learning_resource_id2 id of the parent learning resource
      * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
      * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
@@ -4869,6 +4937,7 @@ export const ContentfilesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async contentfilesList(
+      learning_resource_id2: number,
       content_feature_type?: string,
       learning_resource_id?: number,
       learning_resource_readable_id?: string,
@@ -4887,6 +4956,7 @@ export const ContentfilesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.contentfilesList(
+          learning_resource_id2,
           content_feature_type,
           learning_resource_id,
           learning_resource_readable_id,
@@ -4913,17 +4983,23 @@ export const ContentfilesApiFp = function (configuration?: Configuration) {
      * Viewset for ContentFiles
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async contentfilesRetrieve(
       id: number,
+      learning_resource_id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ContentFile>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.contentfilesRetrieve(id, options)
+        await localVarAxiosParamCreator.contentfilesRetrieve(
+          id,
+          learning_resource_id,
+          options,
+        )
       const index = configuration?.serverIndex ?? 0
       const operationBasePath =
         operationServerMap["ContentfilesApi.contentfilesRetrieve"]?.[index]?.url
@@ -4957,11 +5033,12 @@ export const ContentfilesApiFactory = function (
      * @throws {RequiredError}
      */
     contentfilesList(
-      requestParameters: ContentfilesApiContentfilesListRequest = {},
+      requestParameters: ContentfilesApiContentfilesListRequest,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<PaginatedContentFileList> {
       return localVarFp
         .contentfilesList(
+          requestParameters.learning_resource_id2,
           requestParameters.content_feature_type,
           requestParameters.learning_resource_id,
           requestParameters.learning_resource_readable_id,
@@ -4987,7 +5064,11 @@ export const ContentfilesApiFactory = function (
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<ContentFile> {
       return localVarFp
-        .contentfilesRetrieve(requestParameters.id, options)
+        .contentfilesRetrieve(
+          requestParameters.id,
+          requestParameters.learning_resource_id,
+          options,
+        )
         .then((request) => request(axios, basePath))
     },
   }
@@ -4999,6 +5080,13 @@ export const ContentfilesApiFactory = function (
  * @interface ContentfilesApiContentfilesListRequest
  */
 export interface ContentfilesApiContentfilesListRequest {
+  /**
+   * id of the parent learning resource
+   * @type {number}
+   * @memberof ContentfilesApiContentfilesList
+   */
+  readonly learning_resource_id2: number
+
   /**
    * Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
    * @type {string}
@@ -5075,6 +5163,13 @@ export interface ContentfilesApiContentfilesRetrieveRequest {
    * @memberof ContentfilesApiContentfilesRetrieve
    */
   readonly id: number
+
+  /**
+   * id of the parent learning resource
+   * @type {number}
+   * @memberof ContentfilesApiContentfilesRetrieve
+   */
+  readonly learning_resource_id: number
 }
 
 /**
@@ -5093,11 +5188,12 @@ export class ContentfilesApi extends BaseAPI {
    * @memberof ContentfilesApi
    */
   public contentfilesList(
-    requestParameters: ContentfilesApiContentfilesListRequest = {},
+    requestParameters: ContentfilesApiContentfilesListRequest,
     options?: RawAxiosRequestConfig,
   ) {
     return ContentfilesApiFp(this.configuration)
       .contentfilesList(
+        requestParameters.learning_resource_id2,
         requestParameters.content_feature_type,
         requestParameters.learning_resource_id,
         requestParameters.learning_resource_readable_id,
@@ -5125,7 +5221,11 @@ export class ContentfilesApi extends BaseAPI {
     options?: RawAxiosRequestConfig,
   ) {
     return ContentfilesApiFp(this.configuration)
-      .contentfilesRetrieve(requestParameters.id, options)
+      .contentfilesRetrieve(
+        requestParameters.id,
+        requestParameters.learning_resource_id,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -5495,7 +5595,7 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Show content files for a learning resource
      * @summary Learning Resource Content File List
-     * @param {number} run__learning_resource
+     * @param {number} learning_resource_id2 id of the parent learning resource
      * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
      * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
@@ -5509,7 +5609,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     coursesContentfilesList: async (
-      run__learning_resource: number,
+      learning_resource_id2: number,
       content_feature_type?: string,
       learning_resource_id?: number,
       learning_resource_readable_id?: string,
@@ -5521,16 +5621,16 @@ export const CoursesApiAxiosParamCreator = function (
       run_readable_id?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'run__learning_resource' is not null or undefined
+      // verify required parameter 'learning_resource_id2' is not null or undefined
       assertParamExists(
         "coursesContentfilesList",
-        "run__learning_resource",
-        run__learning_resource,
+        "learning_resource_id2",
+        learning_resource_id2,
       )
       const localVarPath =
-        `/api/v1/courses/{run__learning_resource}/contentfiles/`.replace(
-          `{${"run__learning_resource"}}`,
-          encodeURIComponent(String(run__learning_resource)),
+        `/api/v1/courses/{learning_resource_id}/contentfiles/`.replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id2)),
         )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -5602,29 +5702,29 @@ export const CoursesApiAxiosParamCreator = function (
      * Show content files for a learning resource
      * @summary Learning Resource Content File Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
-     * @param {number} run__learning_resource
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     coursesContentfilesRetrieve: async (
       id: number,
-      run__learning_resource: number,
+      learning_resource_id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("coursesContentfilesRetrieve", "id", id)
-      // verify required parameter 'run__learning_resource' is not null or undefined
+      // verify required parameter 'learning_resource_id' is not null or undefined
       assertParamExists(
         "coursesContentfilesRetrieve",
-        "run__learning_resource",
-        run__learning_resource,
+        "learning_resource_id",
+        learning_resource_id,
       )
       const localVarPath =
-        `/api/v1/courses/{run__learning_resource}/contentfiles/{id}/`
+        `/api/v1/courses/{learning_resource_id}/contentfiles/{id}/`
           .replace(`{${"id"}}`, encodeURIComponent(String(id)))
           .replace(
-            `{${"run__learning_resource"}}`,
-            encodeURIComponent(String(run__learning_resource)),
+            `{${"learning_resource_id"}}`,
+            encodeURIComponent(String(learning_resource_id)),
           )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -6029,7 +6129,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Show content files for a learning resource
      * @summary Learning Resource Content File List
-     * @param {number} run__learning_resource
+     * @param {number} learning_resource_id2 id of the parent learning resource
      * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
      * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
@@ -6043,7 +6143,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async coursesContentfilesList(
-      run__learning_resource: number,
+      learning_resource_id2: number,
       content_feature_type?: string,
       learning_resource_id?: number,
       learning_resource_readable_id?: string,
@@ -6062,7 +6162,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.coursesContentfilesList(
-          run__learning_resource,
+          learning_resource_id2,
           content_feature_type,
           learning_resource_id,
           learning_resource_readable_id,
@@ -6089,13 +6189,13 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * Show content files for a learning resource
      * @summary Learning Resource Content File Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
-     * @param {number} run__learning_resource
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async coursesContentfilesRetrieve(
       id: number,
-      run__learning_resource: number,
+      learning_resource_id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ContentFile>
@@ -6103,7 +6203,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.coursesContentfilesRetrieve(
           id,
-          run__learning_resource,
+          learning_resource_id,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -6357,7 +6457,7 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedContentFileList> {
       return localVarFp
         .coursesContentfilesList(
-          requestParameters.run__learning_resource,
+          requestParameters.learning_resource_id2,
           requestParameters.content_feature_type,
           requestParameters.learning_resource_id,
           requestParameters.learning_resource_readable_id,
@@ -6385,7 +6485,7 @@ export const CoursesApiFactory = function (
       return localVarFp
         .coursesContentfilesRetrieve(
           requestParameters.id,
-          requestParameters.run__learning_resource,
+          requestParameters.learning_resource_id,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -6499,11 +6599,11 @@ export const CoursesApiFactory = function (
  */
 export interface CoursesApiCoursesContentfilesListRequest {
   /**
-   *
+   * id of the parent learning resource
    * @type {number}
    * @memberof CoursesApiCoursesContentfilesList
    */
-  readonly run__learning_resource: number
+  readonly learning_resource_id2: number
 
   /**
    * Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
@@ -6583,11 +6683,11 @@ export interface CoursesApiCoursesContentfilesRetrieveRequest {
   readonly id: number
 
   /**
-   *
+   * id of the parent learning resource
    * @type {number}
    * @memberof CoursesApiCoursesContentfilesRetrieve
    */
-  readonly run__learning_resource: number
+  readonly learning_resource_id: number
 }
 
 /**
@@ -6877,7 +6977,7 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesContentfilesList(
-        requestParameters.run__learning_resource,
+        requestParameters.learning_resource_id2,
         requestParameters.content_feature_type,
         requestParameters.learning_resource_id,
         requestParameters.learning_resource_readable_id,
@@ -6907,7 +7007,7 @@ export class CoursesApi extends BaseAPI {
     return CoursesApiFp(this.configuration)
       .coursesContentfilesRetrieve(
         requestParameters.id,
-        requestParameters.run__learning_resource,
+        requestParameters.learning_resource_id,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -8893,7 +8993,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Show content files for a learning resource
      * @summary Learning Resource Content File List
-     * @param {number} run__learning_resource
+     * @param {number} learning_resource_id2 id of the parent learning resource
      * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
      * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
@@ -8907,7 +9007,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesContentfilesList: async (
-      run__learning_resource: number,
+      learning_resource_id2: number,
       content_feature_type?: string,
       learning_resource_id?: number,
       learning_resource_readable_id?: string,
@@ -8919,16 +9019,16 @@ export const LearningResourcesApiAxiosParamCreator = function (
       run_readable_id?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'run__learning_resource' is not null or undefined
+      // verify required parameter 'learning_resource_id2' is not null or undefined
       assertParamExists(
         "learningResourcesContentfilesList",
-        "run__learning_resource",
-        run__learning_resource,
+        "learning_resource_id2",
+        learning_resource_id2,
       )
       const localVarPath =
-        `/api/v1/learning_resources/{run__learning_resource}/contentfiles/`.replace(
-          `{${"run__learning_resource"}}`,
-          encodeURIComponent(String(run__learning_resource)),
+        `/api/v1/learning_resources/{learning_resource_id}/contentfiles/`.replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id2)),
         )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -9000,29 +9100,29 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * Show content files for a learning resource
      * @summary Learning Resource Content File Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
-     * @param {number} run__learning_resource
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesContentfilesRetrieve: async (
       id: number,
-      run__learning_resource: number,
+      learning_resource_id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningResourcesContentfilesRetrieve", "id", id)
-      // verify required parameter 'run__learning_resource' is not null or undefined
+      // verify required parameter 'learning_resource_id' is not null or undefined
       assertParamExists(
         "learningResourcesContentfilesRetrieve",
-        "run__learning_resource",
-        run__learning_resource,
+        "learning_resource_id",
+        learning_resource_id,
       )
       const localVarPath =
-        `/api/v1/learning_resources/{run__learning_resource}/contentfiles/{id}/`
+        `/api/v1/learning_resources/{learning_resource_id}/contentfiles/{id}/`
           .replace(`{${"id"}}`, encodeURIComponent(String(id)))
           .replace(
-            `{${"run__learning_resource"}}`,
-            encodeURIComponent(String(run__learning_resource)),
+            `{${"learning_resource_id"}}`,
+            encodeURIComponent(String(learning_resource_id)),
           )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -9056,7 +9156,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a list of related learning resources for a learning resource.
      * @summary Nested Learning Resource List
-     * @param {number} parent_id
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [sortby] Which field to use when ordering the results.
@@ -9064,18 +9164,22 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesItemsList: async (
-      parent_id: number,
+      learning_resource_id: number,
       limit?: number,
       offset?: number,
       sortby?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("learningResourcesItemsList", "parent_id", parent_id)
+      // verify required parameter 'learning_resource_id' is not null or undefined
+      assertParamExists(
+        "learningResourcesItemsList",
+        "learning_resource_id",
+        learning_resource_id,
+      )
       const localVarPath =
-        `/api/v1/learning_resources/{parent_id}/items/`.replace(
-          `{${"parent_id"}}`,
-          encodeURIComponent(String(parent_id)),
+        `/api/v1/learning_resources/{learning_resource_id}/items/`.replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id)),
         )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -9122,26 +9226,30 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * Get a singe related learning resource for a learning resource.
      * @summary Nested Learning Resource Retrieve
      * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesItemsRetrieve: async (
       id: number,
-      parent_id: number,
+      learning_resource_id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("learningResourcesItemsRetrieve", "id", id)
-      // verify required parameter 'parent_id' is not null or undefined
+      // verify required parameter 'learning_resource_id' is not null or undefined
       assertParamExists(
         "learningResourcesItemsRetrieve",
-        "parent_id",
-        parent_id,
+        "learning_resource_id",
+        learning_resource_id,
       )
-      const localVarPath = `/api/v1/learning_resources/{parent_id}/items/{id}/`
-        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
+      const localVarPath =
+        `/api/v1/learning_resources/{learning_resource_id}/items/{id}/`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+          .replace(
+            `{${"learning_resource_id"}}`,
+            encodeURIComponent(String(learning_resource_id)),
+          )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -9546,7 +9654,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Show content files for a learning resource
      * @summary Learning Resource Content File List
-     * @param {number} run__learning_resource
+     * @param {number} learning_resource_id2 id of the parent learning resource
      * @param {string} [content_feature_type] Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
      * @param {number} [learning_resource_id] The id of the learning resource the content file belongs to
      * @param {string} [learning_resource_readable_id] The readable id of the learning resource the content file belongs to
@@ -9560,7 +9668,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesContentfilesList(
-      run__learning_resource: number,
+      learning_resource_id2: number,
       content_feature_type?: string,
       learning_resource_id?: number,
       learning_resource_readable_id?: string,
@@ -9579,7 +9687,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesContentfilesList(
-          run__learning_resource,
+          learning_resource_id2,
           content_feature_type,
           learning_resource_id,
           learning_resource_readable_id,
@@ -9608,13 +9716,13 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * Show content files for a learning resource
      * @summary Learning Resource Content File Retrieve
      * @param {number} id A unique integer value identifying this contentfile.
-     * @param {number} run__learning_resource
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesContentfilesRetrieve(
       id: number,
-      run__learning_resource: number,
+      learning_resource_id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ContentFile>
@@ -9622,7 +9730,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesContentfilesRetrieve(
           id,
-          run__learning_resource,
+          learning_resource_id,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -9641,7 +9749,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a list of related learning resources for a learning resource.
      * @summary Nested Learning Resource List
-     * @param {number} parent_id
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [sortby] Which field to use when ordering the results.
@@ -9649,7 +9757,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesItemsList(
-      parent_id: number,
+      learning_resource_id: number,
       limit?: number,
       offset?: number,
       sortby?: string,
@@ -9658,11 +9766,11 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<PaginatedLearningResourceChildList>
+      ) => AxiosPromise<PaginatedLearningResourceRelationshipList>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesItemsList(
-          parent_id,
+          learning_resource_id,
           limit,
           offset,
           sortby,
@@ -9685,24 +9793,24 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * Get a singe related learning resource for a learning resource.
      * @summary Nested Learning Resource Retrieve
      * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesItemsRetrieve(
       id: number,
-      parent_id: number,
+      learning_resource_id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<LearningResourceChild>
+      ) => AxiosPromise<LearningResourceRelationship>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesItemsRetrieve(
           id,
-          parent_id,
+          learning_resource_id,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -9968,7 +10076,7 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedContentFileList> {
       return localVarFp
         .learningResourcesContentfilesList(
-          requestParameters.run__learning_resource,
+          requestParameters.learning_resource_id2,
           requestParameters.content_feature_type,
           requestParameters.learning_resource_id,
           requestParameters.learning_resource_readable_id,
@@ -9996,7 +10104,7 @@ export const LearningResourcesApiFactory = function (
       return localVarFp
         .learningResourcesContentfilesRetrieve(
           requestParameters.id,
-          requestParameters.run__learning_resource,
+          requestParameters.learning_resource_id,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -10011,10 +10119,10 @@ export const LearningResourcesApiFactory = function (
     learningResourcesItemsList(
       requestParameters: LearningResourcesApiLearningResourcesItemsListRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedLearningResourceChildList> {
+    ): AxiosPromise<PaginatedLearningResourceRelationshipList> {
       return localVarFp
         .learningResourcesItemsList(
-          requestParameters.parent_id,
+          requestParameters.learning_resource_id,
           requestParameters.limit,
           requestParameters.offset,
           requestParameters.sortby,
@@ -10032,11 +10140,11 @@ export const LearningResourcesApiFactory = function (
     learningResourcesItemsRetrieve(
       requestParameters: LearningResourcesApiLearningResourcesItemsRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<LearningResourceChild> {
+    ): AxiosPromise<LearningResourceRelationship> {
       return localVarFp
         .learningResourcesItemsRetrieve(
           requestParameters.id,
-          requestParameters.parent_id,
+          requestParameters.learning_resource_id,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -10150,11 +10258,11 @@ export const LearningResourcesApiFactory = function (
  */
 export interface LearningResourcesApiLearningResourcesContentfilesListRequest {
   /**
-   *
+   * id of the parent learning resource
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesContentfilesList
    */
-  readonly run__learning_resource: number
+  readonly learning_resource_id2: number
 
   /**
    * Content feature type for the content file. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
@@ -10234,11 +10342,11 @@ export interface LearningResourcesApiLearningResourcesContentfilesRetrieveReques
   readonly id: number
 
   /**
-   *
+   * id of the parent learning resource
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesContentfilesRetrieve
    */
-  readonly run__learning_resource: number
+  readonly learning_resource_id: number
 }
 
 /**
@@ -10248,11 +10356,11 @@ export interface LearningResourcesApiLearningResourcesContentfilesRetrieveReques
  */
 export interface LearningResourcesApiLearningResourcesItemsListRequest {
   /**
-   *
+   * id of the parent learning resource
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesItemsList
    */
-  readonly parent_id: number
+  readonly learning_resource_id: number
 
   /**
    * Number of results to return per page.
@@ -10290,11 +10398,11 @@ export interface LearningResourcesApiLearningResourcesItemsRetrieveRequest {
   readonly id: number
 
   /**
-   *
+   * id of the parent learning resource
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesItemsRetrieve
    */
-  readonly parent_id: number
+  readonly learning_resource_id: number
 }
 
 /**
@@ -10584,7 +10692,7 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesContentfilesList(
-        requestParameters.run__learning_resource,
+        requestParameters.learning_resource_id2,
         requestParameters.content_feature_type,
         requestParameters.learning_resource_id,
         requestParameters.learning_resource_readable_id,
@@ -10614,7 +10722,7 @@ export class LearningResourcesApi extends BaseAPI {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesContentfilesRetrieve(
         requestParameters.id,
-        requestParameters.run__learning_resource,
+        requestParameters.learning_resource_id,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -10634,7 +10742,7 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesItemsList(
-        requestParameters.parent_id,
+        requestParameters.learning_resource_id,
         requestParameters.limit,
         requestParameters.offset,
         requestParameters.sortby,
@@ -10658,7 +10766,7 @@ export class LearningResourcesApi extends BaseAPI {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesItemsRetrieve(
         requestParameters.id,
-        requestParameters.parent_id,
+        requestParameters.learning_resource_id,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -11881,6 +11989,321 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
+     * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Add
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {LearningPathRelationshipRequest} LearningPathRelationshipRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsCreate: async (
+      learning_resource_id: number,
+      LearningPathRelationshipRequest: LearningPathRelationshipRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'learning_resource_id' is not null or undefined
+      assertParamExists(
+        "learningpathsItemsCreate",
+        "learning_resource_id",
+        learning_resource_id,
+      )
+      // verify required parameter 'LearningPathRelationshipRequest' is not null or undefined
+      assertParamExists(
+        "learningpathsItemsCreate",
+        "LearningPathRelationshipRequest",
+        LearningPathRelationshipRequest,
+      )
+      const localVarPath =
+        `/api/v1/learningpaths/{learning_resource_id}/items/`.replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        LearningPathRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Remove
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsDestroy: async (
+      id: number,
+      learning_resource_id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsItemsDestroy", "id", id)
+      // verify required parameter 'learning_resource_id' is not null or undefined
+      assertParamExists(
+        "learningpathsItemsDestroy",
+        "learning_resource_id",
+        learning_resource_id,
+      )
+      const localVarPath =
+        `/api/v1/learningpaths/{learning_resource_id}/items/{id}/`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+          .replace(
+            `{${"learning_resource_id"}}`,
+            encodeURIComponent(String(learning_resource_id)),
+          )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [sortby] Which field to use when ordering the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsList: async (
+      learning_resource_id: number,
+      limit?: number,
+      offset?: number,
+      sortby?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'learning_resource_id' is not null or undefined
+      assertParamExists(
+        "learningpathsItemsList",
+        "learning_resource_id",
+        learning_resource_id,
+      )
+      const localVarPath =
+        `/api/v1/learningpaths/{learning_resource_id}/items/`.replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Update
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsPartialUpdate: async (
+      id: number,
+      learning_resource_id: number,
+      PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsItemsPartialUpdate", "id", id)
+      // verify required parameter 'learning_resource_id' is not null or undefined
+      assertParamExists(
+        "learningpathsItemsPartialUpdate",
+        "learning_resource_id",
+        learning_resource_id,
+      )
+      const localVarPath =
+        `/api/v1/learningpaths/{learning_resource_id}/items/{id}/`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+          .replace(
+            `{${"learning_resource_id"}}`,
+            encodeURIComponent(String(learning_resource_id)),
+          )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedLearningPathRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsRetrieve: async (
+      id: number,
+      learning_resource_id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningpathsItemsRetrieve", "id", id)
+      // verify required parameter 'learning_resource_id' is not null or undefined
+      assertParamExists(
+        "learningpathsItemsRetrieve",
+        "learning_resource_id",
+        learning_resource_id,
+      )
+      const localVarPath =
+        `/api/v1/learningpaths/{learning_resource_id}/items/{id}/`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+          .replace(
+            `{${"learning_resource_id"}}`,
+            encodeURIComponent(String(learning_resource_id)),
+          )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Get a paginated list of learning paths
      * @summary List
      * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
@@ -12041,297 +12464,6 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Add
-     * @param {number} parent_id
-     * @param {LearningPathRelationshipRequest} LearningPathRelationshipRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesCreate: async (
-      parent_id: number,
-      LearningPathRelationshipRequest: LearningPathRelationshipRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("learningpathsResourcesCreate", "parent_id", parent_id)
-      // verify required parameter 'LearningPathRelationshipRequest' is not null or undefined
-      assertParamExists(
-        "learningpathsResourcesCreate",
-        "LearningPathRelationshipRequest",
-        LearningPathRelationshipRequest,
-      )
-      const localVarPath =
-        `/api/v1/learningpaths/{parent_id}/resources/`.replace(
-          `{${"parent_id"}}`,
-          encodeURIComponent(String(parent_id)),
-        )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "POST",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        LearningPathRelationshipRequest,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Remove
-     * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesDestroy: async (
-      id: number,
-      parent_id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("learningpathsResourcesDestroy", "id", id)
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("learningpathsResourcesDestroy", "parent_id", parent_id)
-      const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
-        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "DELETE",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Get a list of related learning resources for a learning resource.
-     * @summary Nested Learning Resource List
-     * @param {number} parent_id
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [sortby] Which field to use when ordering the results.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesList: async (
-      parent_id: number,
-      limit?: number,
-      offset?: number,
-      sortby?: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("learningpathsResourcesList", "parent_id", parent_id)
-      const localVarPath =
-        `/api/v1/learningpaths/{parent_id}/resources/`.replace(
-          `{${"parent_id"}}`,
-          encodeURIComponent(String(parent_id)),
-        )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      if (limit !== undefined) {
-        localVarQueryParameter["limit"] = limit
-      }
-
-      if (offset !== undefined) {
-        localVarQueryParameter["offset"] = offset
-      }
-
-      if (sortby !== undefined) {
-        localVarQueryParameter["sortby"] = sortby
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Update
-     * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
-     * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesPartialUpdate: async (
-      id: number,
-      parent_id: number,
-      PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("learningpathsResourcesPartialUpdate", "id", id)
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists(
-        "learningpathsResourcesPartialUpdate",
-        "parent_id",
-        parent_id,
-      )
-      const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
-        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "PATCH",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        PatchedLearningPathRelationshipRequest,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Get a singe related learning resource for a learning resource.
-     * @summary Nested Learning Resource Retrieve
-     * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesRetrieve: async (
-      id: number,
-      parent_id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("learningpathsResourcesRetrieve", "id", id)
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists(
-        "learningpathsResourcesRetrieve",
-        "parent_id",
-        parent_id,
-      )
-      const localVarPath = `/api/v1/learningpaths/{parent_id}/resources/{id}/`
-        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
      * Retrive a single learning path
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
@@ -12448,6 +12580,195 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
+     * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Add
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {LearningPathRelationshipRequest} LearningPathRelationshipRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsItemsCreate(
+      learning_resource_id: number,
+      LearningPathRelationshipRequest: LearningPathRelationshipRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningPathRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsItemsCreate(
+          learning_resource_id,
+          LearningPathRelationshipRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["LearningpathsApi.learningpathsItemsCreate"]?.[index]
+          ?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Remove
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsItemsDestroy(
+      id: number,
+      learning_resource_id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsItemsDestroy(
+          id,
+          learning_resource_id,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["LearningpathsApi.learningpathsItemsDestroy"]?.[
+          index
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [sortby] Which field to use when ordering the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsItemsList(
+      learning_resource_id: number,
+      limit?: number,
+      offset?: number,
+      sortby?: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningPathRelationshipList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsItemsList(
+          learning_resource_id,
+          limit,
+          offset,
+          sortby,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["LearningpathsApi.learningpathsItemsList"]?.[index]
+          ?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Update
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsItemsPartialUpdate(
+      id: number,
+      learning_resource_id: number,
+      PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningPathRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsItemsPartialUpdate(
+          id,
+          learning_resource_id,
+          PatchedLearningPathRelationshipRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningpathsApi.learningpathsItemsPartialUpdate"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
+     * @param {number} id A unique integer value identifying this learning resource relationship.
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsItemsRetrieve(
+      id: number,
+      learning_resource_id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningPathRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsItemsRetrieve(
+          id,
+          learning_resource_id,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["LearningpathsApi.learningpathsItemsRetrieve"]?.[
+          index
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
      * Get a paginated list of learning paths
      * @summary List
      * @param {string} [course_feature] Content feature for the resources. Load the \&#39;api/v1/course_features\&#39; endpoint for a list of course features
@@ -12547,197 +12868,6 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Add
-     * @param {number} parent_id
-     * @param {LearningPathRelationshipRequest} LearningPathRelationshipRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningpathsResourcesCreate(
-      parent_id: number,
-      LearningPathRelationshipRequest: LearningPathRelationshipRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<LearningPathRelationship>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningpathsResourcesCreate(
-          parent_id,
-          LearningPathRelationshipRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["LearningpathsApi.learningpathsResourcesCreate"]?.[
-          index
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Remove
-     * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningpathsResourcesDestroy(
-      id: number,
-      parent_id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningpathsResourcesDestroy(
-          id,
-          parent_id,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["LearningpathsApi.learningpathsResourcesDestroy"]?.[
-          index
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Get a list of related learning resources for a learning resource.
-     * @summary Nested Learning Resource List
-     * @param {number} parent_id
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {string} [sortby] Which field to use when ordering the results.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningpathsResourcesList(
-      parent_id: number,
-      limit?: number,
-      offset?: number,
-      sortby?: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<PaginatedLearningPathRelationshipList>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningpathsResourcesList(
-          parent_id,
-          limit,
-          offset,
-          sortby,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["LearningpathsApi.learningpathsResourcesList"]?.[
-          index
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Update
-     * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
-     * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningpathsResourcesPartialUpdate(
-      id: number,
-      parent_id: number,
-      PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<LearningPathRelationship>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningpathsResourcesPartialUpdate(
-          id,
-          parent_id,
-          PatchedLearningPathRelationshipRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap[
-          "LearningpathsApi.learningpathsResourcesPartialUpdate"
-        ]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Get a singe related learning resource for a learning resource.
-     * @summary Nested Learning Resource Retrieve
-     * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningpathsResourcesRetrieve(
-      id: number,
-      parent_id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<LearningPathRelationship>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningpathsResourcesRetrieve(
-          id,
-          parent_id,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["LearningpathsApi.learningpathsResourcesRetrieve"]?.[
-          index
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
      * Retrive a single learning path
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this learning resource.
@@ -12815,6 +12945,104 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Add
+     * @param {LearningpathsApiLearningpathsItemsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsCreate(
+      requestParameters: LearningpathsApiLearningpathsItemsCreateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<LearningPathRelationship> {
+      return localVarFp
+        .learningpathsItemsCreate(
+          requestParameters.learning_resource_id,
+          requestParameters.LearningPathRelationshipRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Remove
+     * @param {LearningpathsApiLearningpathsItemsDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsDestroy(
+      requestParameters: LearningpathsApiLearningpathsItemsDestroyRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .learningpathsItemsDestroy(
+          requestParameters.id,
+          requestParameters.learning_resource_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get a list of related learning resources for a learning resource.
+     * @summary Nested Learning Resource List
+     * @param {LearningpathsApiLearningpathsItemsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsList(
+      requestParameters: LearningpathsApiLearningpathsItemsListRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningPathRelationshipList> {
+      return localVarFp
+        .learningpathsItemsList(
+          requestParameters.learning_resource_id,
+          requestParameters.limit,
+          requestParameters.offset,
+          requestParameters.sortby,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for LearningPath related resources
+     * @summary Learning Path Resource Relationship Update
+     * @param {LearningpathsApiLearningpathsItemsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsPartialUpdate(
+      requestParameters: LearningpathsApiLearningpathsItemsPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<LearningPathRelationship> {
+      return localVarFp
+        .learningpathsItemsPartialUpdate(
+          requestParameters.id,
+          requestParameters.learning_resource_id,
+          requestParameters.PatchedLearningPathRelationshipRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get a singe related learning resource for a learning resource.
+     * @summary Nested Learning Resource Retrieve
+     * @param {LearningpathsApiLearningpathsItemsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsRetrieve(
+      requestParameters: LearningpathsApiLearningpathsItemsRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<LearningPathRelationship> {
+      return localVarFp
+        .learningpathsItemsRetrieve(
+          requestParameters.id,
+          requestParameters.learning_resource_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Get a paginated list of learning paths
      * @summary List
      * @param {LearningpathsApiLearningpathsListRequest} requestParameters Request parameters.
@@ -12857,104 +13085,6 @@ export const LearningpathsApiFactory = function (
         .learningpathsPartialUpdate(
           requestParameters.id,
           requestParameters.PatchedLearningPathResourceRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Add
-     * @param {LearningpathsApiLearningpathsResourcesCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesCreate(
-      requestParameters: LearningpathsApiLearningpathsResourcesCreateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<LearningPathRelationship> {
-      return localVarFp
-        .learningpathsResourcesCreate(
-          requestParameters.parent_id,
-          requestParameters.LearningPathRelationshipRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Remove
-     * @param {LearningpathsApiLearningpathsResourcesDestroyRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesDestroy(
-      requestParameters: LearningpathsApiLearningpathsResourcesDestroyRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .learningpathsResourcesDestroy(
-          requestParameters.id,
-          requestParameters.parent_id,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Get a list of related learning resources for a learning resource.
-     * @summary Nested Learning Resource List
-     * @param {LearningpathsApiLearningpathsResourcesListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesList(
-      requestParameters: LearningpathsApiLearningpathsResourcesListRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedLearningPathRelationshipList> {
-      return localVarFp
-        .learningpathsResourcesList(
-          requestParameters.parent_id,
-          requestParameters.limit,
-          requestParameters.offset,
-          requestParameters.sortby,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Viewset for LearningPath related resources
-     * @summary Learning Path Resource Relationship Update
-     * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesPartialUpdate(
-      requestParameters: LearningpathsApiLearningpathsResourcesPartialUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<LearningPathRelationship> {
-      return localVarFp
-        .learningpathsResourcesPartialUpdate(
-          requestParameters.id,
-          requestParameters.parent_id,
-          requestParameters.PatchedLearningPathRelationshipRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Get a singe related learning resource for a learning resource.
-     * @summary Nested Learning Resource Retrieve
-     * @param {LearningpathsApiLearningpathsResourcesRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningpathsResourcesRetrieve(
-      requestParameters: LearningpathsApiLearningpathsResourcesRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<LearningPathRelationship> {
-      return localVarFp
-        .learningpathsResourcesRetrieve(
-          requestParameters.id,
-          requestParameters.parent_id,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -13003,6 +13133,132 @@ export interface LearningpathsApiLearningpathsDestroyRequest {
    * @memberof LearningpathsApiLearningpathsDestroy
    */
   readonly id: number
+}
+
+/**
+ * Request parameters for learningpathsItemsCreate operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsItemsCreateRequest
+ */
+export interface LearningpathsApiLearningpathsItemsCreateRequest {
+  /**
+   * The learning resource id of the learning path
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsCreate
+   */
+  readonly learning_resource_id: number
+
+  /**
+   *
+   * @type {LearningPathRelationshipRequest}
+   * @memberof LearningpathsApiLearningpathsItemsCreate
+   */
+  readonly LearningPathRelationshipRequest: LearningPathRelationshipRequest
+}
+
+/**
+ * Request parameters for learningpathsItemsDestroy operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsItemsDestroyRequest
+ */
+export interface LearningpathsApiLearningpathsItemsDestroyRequest {
+  /**
+   * A unique integer value identifying this learning resource relationship.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsDestroy
+   */
+  readonly id: number
+
+  /**
+   * The learning resource id of the learning path
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsDestroy
+   */
+  readonly learning_resource_id: number
+}
+
+/**
+ * Request parameters for learningpathsItemsList operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsItemsListRequest
+ */
+export interface LearningpathsApiLearningpathsItemsListRequest {
+  /**
+   * The learning resource id of the learning path
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsList
+   */
+  readonly learning_resource_id: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsList
+   */
+  readonly offset?: number
+
+  /**
+   * Which field to use when ordering the results.
+   * @type {string}
+   * @memberof LearningpathsApiLearningpathsItemsList
+   */
+  readonly sortby?: string
+}
+
+/**
+ * Request parameters for learningpathsItemsPartialUpdate operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsItemsPartialUpdateRequest
+ */
+export interface LearningpathsApiLearningpathsItemsPartialUpdateRequest {
+  /**
+   * A unique integer value identifying this learning resource relationship.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   * The learning resource id of the learning path
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsPartialUpdate
+   */
+  readonly learning_resource_id: number
+
+  /**
+   *
+   * @type {PatchedLearningPathRelationshipRequest}
+   * @memberof LearningpathsApiLearningpathsItemsPartialUpdate
+   */
+  readonly PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest
+}
+
+/**
+ * Request parameters for learningpathsItemsRetrieve operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsItemsRetrieveRequest
+ */
+export interface LearningpathsApiLearningpathsItemsRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource relationship.
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsRetrieve
+   */
+  readonly id: number
+
+  /**
+   * The learning resource id of the learning path
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsRetrieve
+   */
+  readonly learning_resource_id: number
 }
 
 /**
@@ -13111,132 +13367,6 @@ export interface LearningpathsApiLearningpathsPartialUpdateRequest {
 }
 
 /**
- * Request parameters for learningpathsResourcesCreate operation in LearningpathsApi.
- * @export
- * @interface LearningpathsApiLearningpathsResourcesCreateRequest
- */
-export interface LearningpathsApiLearningpathsResourcesCreateRequest {
-  /**
-   *
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesCreate
-   */
-  readonly parent_id: number
-
-  /**
-   *
-   * @type {LearningPathRelationshipRequest}
-   * @memberof LearningpathsApiLearningpathsResourcesCreate
-   */
-  readonly LearningPathRelationshipRequest: LearningPathRelationshipRequest
-}
-
-/**
- * Request parameters for learningpathsResourcesDestroy operation in LearningpathsApi.
- * @export
- * @interface LearningpathsApiLearningpathsResourcesDestroyRequest
- */
-export interface LearningpathsApiLearningpathsResourcesDestroyRequest {
-  /**
-   * A unique integer value identifying this learning resource relationship.
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesDestroy
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesDestroy
-   */
-  readonly parent_id: number
-}
-
-/**
- * Request parameters for learningpathsResourcesList operation in LearningpathsApi.
- * @export
- * @interface LearningpathsApiLearningpathsResourcesListRequest
- */
-export interface LearningpathsApiLearningpathsResourcesListRequest {
-  /**
-   *
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesList
-   */
-  readonly parent_id: number
-
-  /**
-   * Number of results to return per page.
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesList
-   */
-  readonly limit?: number
-
-  /**
-   * The initial index from which to return the results.
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesList
-   */
-  readonly offset?: number
-
-  /**
-   * Which field to use when ordering the results.
-   * @type {string}
-   * @memberof LearningpathsApiLearningpathsResourcesList
-   */
-  readonly sortby?: string
-}
-
-/**
- * Request parameters for learningpathsResourcesPartialUpdate operation in LearningpathsApi.
- * @export
- * @interface LearningpathsApiLearningpathsResourcesPartialUpdateRequest
- */
-export interface LearningpathsApiLearningpathsResourcesPartialUpdateRequest {
-  /**
-   * A unique integer value identifying this learning resource relationship.
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesPartialUpdate
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesPartialUpdate
-   */
-  readonly parent_id: number
-
-  /**
-   *
-   * @type {PatchedLearningPathRelationshipRequest}
-   * @memberof LearningpathsApiLearningpathsResourcesPartialUpdate
-   */
-  readonly PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest
-}
-
-/**
- * Request parameters for learningpathsResourcesRetrieve operation in LearningpathsApi.
- * @export
- * @interface LearningpathsApiLearningpathsResourcesRetrieveRequest
- */
-export interface LearningpathsApiLearningpathsResourcesRetrieveRequest {
-  /**
-   * A unique integer value identifying this learning resource relationship.
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesRetrieve
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {number}
-   * @memberof LearningpathsApiLearningpathsResourcesRetrieve
-   */
-  readonly parent_id: number
-}
-
-/**
  * Request parameters for learningpathsRetrieve operation in LearningpathsApi.
  * @export
  * @interface LearningpathsApiLearningpathsRetrieveRequest
@@ -13295,6 +13425,114 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
+   * Viewset for LearningPath related resources
+   * @summary Learning Path Resource Relationship Add
+   * @param {LearningpathsApiLearningpathsItemsCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsItemsCreate(
+    requestParameters: LearningpathsApiLearningpathsItemsCreateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsItemsCreate(
+        requestParameters.learning_resource_id,
+        requestParameters.LearningPathRelationshipRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPath related resources
+   * @summary Learning Path Resource Relationship Remove
+   * @param {LearningpathsApiLearningpathsItemsDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsItemsDestroy(
+    requestParameters: LearningpathsApiLearningpathsItemsDestroyRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsItemsDestroy(
+        requestParameters.id,
+        requestParameters.learning_resource_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a list of related learning resources for a learning resource.
+   * @summary Nested Learning Resource List
+   * @param {LearningpathsApiLearningpathsItemsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsItemsList(
+    requestParameters: LearningpathsApiLearningpathsItemsListRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsItemsList(
+        requestParameters.learning_resource_id,
+        requestParameters.limit,
+        requestParameters.offset,
+        requestParameters.sortby,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for LearningPath related resources
+   * @summary Learning Path Resource Relationship Update
+   * @param {LearningpathsApiLearningpathsItemsPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsItemsPartialUpdate(
+    requestParameters: LearningpathsApiLearningpathsItemsPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsItemsPartialUpdate(
+        requestParameters.id,
+        requestParameters.learning_resource_id,
+        requestParameters.PatchedLearningPathRelationshipRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get a singe related learning resource for a learning resource.
+   * @summary Nested Learning Resource Retrieve
+   * @param {LearningpathsApiLearningpathsItemsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsItemsRetrieve(
+    requestParameters: LearningpathsApiLearningpathsItemsRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsItemsRetrieve(
+        requestParameters.id,
+        requestParameters.learning_resource_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
    * Get a paginated list of learning paths
    * @summary List
    * @param {LearningpathsApiLearningpathsListRequest} requestParameters Request parameters.
@@ -13340,114 +13578,6 @@ export class LearningpathsApi extends BaseAPI {
       .learningpathsPartialUpdate(
         requestParameters.id,
         requestParameters.PatchedLearningPathResourceRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for LearningPath related resources
-   * @summary Learning Path Resource Relationship Add
-   * @param {LearningpathsApiLearningpathsResourcesCreateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningpathsApi
-   */
-  public learningpathsResourcesCreate(
-    requestParameters: LearningpathsApiLearningpathsResourcesCreateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return LearningpathsApiFp(this.configuration)
-      .learningpathsResourcesCreate(
-        requestParameters.parent_id,
-        requestParameters.LearningPathRelationshipRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for LearningPath related resources
-   * @summary Learning Path Resource Relationship Remove
-   * @param {LearningpathsApiLearningpathsResourcesDestroyRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningpathsApi
-   */
-  public learningpathsResourcesDestroy(
-    requestParameters: LearningpathsApiLearningpathsResourcesDestroyRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return LearningpathsApiFp(this.configuration)
-      .learningpathsResourcesDestroy(
-        requestParameters.id,
-        requestParameters.parent_id,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Get a list of related learning resources for a learning resource.
-   * @summary Nested Learning Resource List
-   * @param {LearningpathsApiLearningpathsResourcesListRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningpathsApi
-   */
-  public learningpathsResourcesList(
-    requestParameters: LearningpathsApiLearningpathsResourcesListRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return LearningpathsApiFp(this.configuration)
-      .learningpathsResourcesList(
-        requestParameters.parent_id,
-        requestParameters.limit,
-        requestParameters.offset,
-        requestParameters.sortby,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for LearningPath related resources
-   * @summary Learning Path Resource Relationship Update
-   * @param {LearningpathsApiLearningpathsResourcesPartialUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningpathsApi
-   */
-  public learningpathsResourcesPartialUpdate(
-    requestParameters: LearningpathsApiLearningpathsResourcesPartialUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return LearningpathsApiFp(this.configuration)
-      .learningpathsResourcesPartialUpdate(
-        requestParameters.id,
-        requestParameters.parent_id,
-        requestParameters.PatchedLearningPathRelationshipRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Get a singe related learning resource for a learning resource.
-   * @summary Nested Learning Resource Retrieve
-   * @param {LearningpathsApiLearningpathsResourcesRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningpathsApi
-   */
-  public learningpathsResourcesRetrieve(
-    requestParameters: LearningpathsApiLearningpathsResourcesRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return LearningpathsApiFp(this.configuration)
-      .learningpathsResourcesRetrieve(
-        requestParameters.id,
-        requestParameters.parent_id,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -14831,7 +14961,7 @@ export const PodcastsApiAxiosParamCreator = function (
     /**
      * Get a list of related learning resources for a learning resource.
      * @summary Nested Learning Resource List
-     * @param {number} parent_id
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [sortby] Which field to use when ordering the results.
@@ -14839,18 +14969,23 @@ export const PodcastsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     podcastsItemsList: async (
-      parent_id: number,
+      learning_resource_id: number,
       limit?: number,
       offset?: number,
       sortby?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("podcastsItemsList", "parent_id", parent_id)
-      const localVarPath = `/api/v1/podcasts/{parent_id}/items/`.replace(
-        `{${"parent_id"}}`,
-        encodeURIComponent(String(parent_id)),
+      // verify required parameter 'learning_resource_id' is not null or undefined
+      assertParamExists(
+        "podcastsItemsList",
+        "learning_resource_id",
+        learning_resource_id,
       )
+      const localVarPath =
+        `/api/v1/podcasts/{learning_resource_id}/items/`.replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -14896,22 +15031,29 @@ export const PodcastsApiAxiosParamCreator = function (
      * Get a singe related learning resource for a learning resource.
      * @summary Nested Learning Resource Retrieve
      * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     podcastsItemsRetrieve: async (
       id: number,
-      parent_id: number,
+      learning_resource_id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("podcastsItemsRetrieve", "id", id)
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("podcastsItemsRetrieve", "parent_id", parent_id)
-      const localVarPath = `/api/v1/podcasts/{parent_id}/items/{id}/`
+      // verify required parameter 'learning_resource_id' is not null or undefined
+      assertParamExists(
+        "podcastsItemsRetrieve",
+        "learning_resource_id",
+        learning_resource_id,
+      )
+      const localVarPath = `/api/v1/podcasts/{learning_resource_id}/items/{id}/`
         .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
+        .replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -15105,7 +15247,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
     /**
      * Get a list of related learning resources for a learning resource.
      * @summary Nested Learning Resource List
-     * @param {number} parent_id
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {string} [sortby] Which field to use when ordering the results.
@@ -15113,7 +15255,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async podcastsItemsList(
-      parent_id: number,
+      learning_resource_id: number,
       limit?: number,
       offset?: number,
       sortby?: string,
@@ -15122,11 +15264,11 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<PaginatedLearningResourceChildList>
+      ) => AxiosPromise<PaginatedLearningResourceRelationshipList>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.podcastsItemsList(
-          parent_id,
+          learning_resource_id,
           limit,
           offset,
           sortby,
@@ -15147,24 +15289,24 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * Get a singe related learning resource for a learning resource.
      * @summary Nested Learning Resource Retrieve
      * @param {number} id A unique integer value identifying this learning resource relationship.
-     * @param {number} parent_id
+     * @param {number} learning_resource_id id of the parent learning resource
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async podcastsItemsRetrieve(
       id: number,
-      parent_id: number,
+      learning_resource_id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<LearningResourceChild>
+      ) => AxiosPromise<LearningResourceRelationship>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.podcastsItemsRetrieve(
           id,
-          parent_id,
+          learning_resource_id,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -15292,10 +15434,10 @@ export const PodcastsApiFactory = function (
     podcastsItemsList(
       requestParameters: PodcastsApiPodcastsItemsListRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedLearningResourceChildList> {
+    ): AxiosPromise<PaginatedLearningResourceRelationshipList> {
       return localVarFp
         .podcastsItemsList(
-          requestParameters.parent_id,
+          requestParameters.learning_resource_id,
           requestParameters.limit,
           requestParameters.offset,
           requestParameters.sortby,
@@ -15313,11 +15455,11 @@ export const PodcastsApiFactory = function (
     podcastsItemsRetrieve(
       requestParameters: PodcastsApiPodcastsItemsRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<LearningResourceChild> {
+    ): AxiosPromise<LearningResourceRelationship> {
       return localVarFp
         .podcastsItemsRetrieve(
           requestParameters.id,
-          requestParameters.parent_id,
+          requestParameters.learning_resource_id,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -15375,11 +15517,11 @@ export const PodcastsApiFactory = function (
  */
 export interface PodcastsApiPodcastsItemsListRequest {
   /**
-   *
+   * id of the parent learning resource
    * @type {number}
    * @memberof PodcastsApiPodcastsItemsList
    */
-  readonly parent_id: number
+  readonly learning_resource_id: number
 
   /**
    * Number of results to return per page.
@@ -15417,11 +15559,11 @@ export interface PodcastsApiPodcastsItemsRetrieveRequest {
   readonly id: number
 
   /**
-   *
+   * id of the parent learning resource
    * @type {number}
    * @memberof PodcastsApiPodcastsItemsRetrieve
    */
-  readonly parent_id: number
+  readonly learning_resource_id: number
 }
 
 /**
@@ -15543,7 +15685,7 @@ export class PodcastsApi extends BaseAPI {
   ) {
     return PodcastsApiFp(this.configuration)
       .podcastsItemsList(
-        requestParameters.parent_id,
+        requestParameters.learning_resource_id,
         requestParameters.limit,
         requestParameters.offset,
         requestParameters.sortby,
@@ -15567,7 +15709,7 @@ export class PodcastsApi extends BaseAPI {
     return PodcastsApiFp(this.configuration)
       .podcastsItemsRetrieve(
         requestParameters.id,
-        requestParameters.parent_id,
+        requestParameters.learning_resource_id,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -17637,6 +17779,285 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
+     * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Add
+     * @param {number} userlist_id id of the parent user list
+     * @param {UserListRelationshipRequest} UserListRelationshipRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsCreate: async (
+      userlist_id: number,
+      UserListRelationshipRequest: UserListRelationshipRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'userlist_id' is not null or undefined
+      assertParamExists("userlistsItemsCreate", "userlist_id", userlist_id)
+      // verify required parameter 'UserListRelationshipRequest' is not null or undefined
+      assertParamExists(
+        "userlistsItemsCreate",
+        "UserListRelationshipRequest",
+        UserListRelationshipRequest,
+      )
+      const localVarPath = `/api/v1/userlists/{userlist_id}/items/`.replace(
+        `{${"userlist_id"}}`,
+        encodeURIComponent(String(userlist_id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        UserListRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Remove
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} userlist_id id of the parent user list
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsDestroy: async (
+      id: number,
+      userlist_id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsItemsDestroy", "id", id)
+      // verify required parameter 'userlist_id' is not null or undefined
+      assertParamExists("userlistsItemsDestroy", "userlist_id", userlist_id)
+      const localVarPath = `/api/v1/userlists/{userlist_id}/items/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"userlist_id"}}`, encodeURIComponent(String(userlist_id)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resources List
+     * @param {number} userlist_id id of the parent user list
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsList: async (
+      userlist_id: number,
+      limit?: number,
+      offset?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'userlist_id' is not null or undefined
+      assertParamExists("userlistsItemsList", "userlist_id", userlist_id)
+      const localVarPath = `/api/v1/userlists/{userlist_id}/items/`.replace(
+        `{${"userlist_id"}}`,
+        encodeURIComponent(String(userlist_id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Update
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} userlist_id id of the parent user list
+     * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsPartialUpdate: async (
+      id: number,
+      userlist_id: number,
+      PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsItemsPartialUpdate", "id", id)
+      // verify required parameter 'userlist_id' is not null or undefined
+      assertParamExists(
+        "userlistsItemsPartialUpdate",
+        "userlist_id",
+        userlist_id,
+      )
+      const localVarPath = `/api/v1/userlists/{userlist_id}/items/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"userlist_id"}}`, encodeURIComponent(String(userlist_id)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedUserListRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resources Retrieve
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} userlist_id id of the parent user list
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsRetrieve: async (
+      id: number,
+      userlist_id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("userlistsItemsRetrieve", "id", id)
+      // verify required parameter 'userlist_id' is not null or undefined
+      assertParamExists("userlistsItemsRetrieve", "userlist_id", userlist_id)
+      const localVarPath = `/api/v1/userlists/{userlist_id}/items/{id}/`
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+        .replace(`{${"userlist_id"}}`, encodeURIComponent(String(userlist_id)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Viewset for UserLists
      * @summary List
      * @param {number} [limit] Number of results to return per page.
@@ -17736,285 +18157,6 @@ export const UserlistsApiAxiosParamCreator = function (
         localVarRequestOptions,
         configuration,
       )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Add
-     * @param {number} parent_id
-     * @param {UserListRelationshipRequest} UserListRelationshipRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesCreate: async (
-      parent_id: number,
-      UserListRelationshipRequest: UserListRelationshipRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("userlistsResourcesCreate", "parent_id", parent_id)
-      // verify required parameter 'UserListRelationshipRequest' is not null or undefined
-      assertParamExists(
-        "userlistsResourcesCreate",
-        "UserListRelationshipRequest",
-        UserListRelationshipRequest,
-      )
-      const localVarPath = `/api/v1/userlists/{parent_id}/resources/`.replace(
-        `{${"parent_id"}}`,
-        encodeURIComponent(String(parent_id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "POST",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        UserListRelationshipRequest,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Remove
-     * @param {number} id A unique integer value identifying this user list relationship.
-     * @param {number} parent_id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesDestroy: async (
-      id: number,
-      parent_id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("userlistsResourcesDestroy", "id", id)
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("userlistsResourcesDestroy", "parent_id", parent_id)
-      const localVarPath = `/api/v1/userlists/{parent_id}/resources/{id}/`
-        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "DELETE",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resources List
-     * @param {number} parent_id
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesList: async (
-      parent_id: number,
-      limit?: number,
-      offset?: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("userlistsResourcesList", "parent_id", parent_id)
-      const localVarPath = `/api/v1/userlists/{parent_id}/resources/`.replace(
-        `{${"parent_id"}}`,
-        encodeURIComponent(String(parent_id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      if (limit !== undefined) {
-        localVarQueryParameter["limit"] = limit
-      }
-
-      if (offset !== undefined) {
-        localVarQueryParameter["offset"] = offset
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Update
-     * @param {number} id A unique integer value identifying this user list relationship.
-     * @param {number} parent_id
-     * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesPartialUpdate: async (
-      id: number,
-      parent_id: number,
-      PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("userlistsResourcesPartialUpdate", "id", id)
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists(
-        "userlistsResourcesPartialUpdate",
-        "parent_id",
-        parent_id,
-      )
-      const localVarPath = `/api/v1/userlists/{parent_id}/resources/{id}/`
-        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "PATCH",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        PatchedUserListRelationshipRequest,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resources Retrieve
-     * @param {number} id A unique integer value identifying this user list relationship.
-     * @param {number} parent_id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesRetrieve: async (
-      id: number,
-      parent_id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("userlistsResourcesRetrieve", "id", id)
-      // verify required parameter 'parent_id' is not null or undefined
-      assertParamExists("userlistsResourcesRetrieve", "parent_id", parent_id)
-      const localVarPath = `/api/v1/userlists/{parent_id}/resources/{id}/`
-        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(`{${"parent_id"}}`, encodeURIComponent(String(parent_id)))
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
       return {
         url: toPathString(localVarUrlObj),
@@ -18132,6 +18274,185 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
+     * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Add
+     * @param {number} userlist_id id of the parent user list
+     * @param {UserListRelationshipRequest} UserListRelationshipRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsItemsCreate(
+      userlist_id: number,
+      UserListRelationshipRequest: UserListRelationshipRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserListRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsItemsCreate(
+          userlist_id,
+          UserListRelationshipRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UserlistsApi.userlistsItemsCreate"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Remove
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} userlist_id id of the parent user list
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsItemsDestroy(
+      id: number,
+      userlist_id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsItemsDestroy(
+          id,
+          userlist_id,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UserlistsApi.userlistsItemsDestroy"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resources List
+     * @param {number} userlist_id id of the parent user list
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsItemsList(
+      userlist_id: number,
+      limit?: number,
+      offset?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedUserListRelationshipList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsItemsList(
+          userlist_id,
+          limit,
+          offset,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UserlistsApi.userlistsItemsList"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Update
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} userlist_id id of the parent user list
+     * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsItemsPartialUpdate(
+      id: number,
+      userlist_id: number,
+      PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserListRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsItemsPartialUpdate(
+          id,
+          userlist_id,
+          PatchedUserListRelationshipRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UserlistsApi.userlistsItemsPartialUpdate"]?.[index]
+          ?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resources Retrieve
+     * @param {number} id A unique integer value identifying this user list relationship.
+     * @param {number} userlist_id id of the parent user list
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsItemsRetrieve(
+      id: number,
+      userlist_id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserListRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsItemsRetrieve(
+          id,
+          userlist_id,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UserlistsApi.userlistsItemsRetrieve"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
      * Viewset for UserLists
      * @summary List
      * @param {number} [limit] Number of results to return per page.
@@ -18189,189 +18510,6 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
       const index = configuration?.serverIndex ?? 0
       const operationBasePath =
         operationServerMap["UserlistsApi.userlistsPartialUpdate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Add
-     * @param {number} parent_id
-     * @param {UserListRelationshipRequest} UserListRelationshipRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async userlistsResourcesCreate(
-      parent_id: number,
-      UserListRelationshipRequest: UserListRelationshipRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<UserListRelationship>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.userlistsResourcesCreate(
-          parent_id,
-          UserListRelationshipRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UserlistsApi.userlistsResourcesCreate"]?.[index]
-          ?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Remove
-     * @param {number} id A unique integer value identifying this user list relationship.
-     * @param {number} parent_id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async userlistsResourcesDestroy(
-      id: number,
-      parent_id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.userlistsResourcesDestroy(
-          id,
-          parent_id,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UserlistsApi.userlistsResourcesDestroy"]?.[index]
-          ?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resources List
-     * @param {number} parent_id
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async userlistsResourcesList(
-      parent_id: number,
-      limit?: number,
-      offset?: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<PaginatedUserListRelationshipList>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.userlistsResourcesList(
-          parent_id,
-          limit,
-          offset,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UserlistsApi.userlistsResourcesList"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Update
-     * @param {number} id A unique integer value identifying this user list relationship.
-     * @param {number} parent_id
-     * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async userlistsResourcesPartialUpdate(
-      id: number,
-      parent_id: number,
-      PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<UserListRelationship>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.userlistsResourcesPartialUpdate(
-          id,
-          parent_id,
-          PatchedUserListRelationshipRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UserlistsApi.userlistsResourcesPartialUpdate"]?.[
-          index
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resources Retrieve
-     * @param {number} id A unique integer value identifying this user list relationship.
-     * @param {number} parent_id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async userlistsResourcesRetrieve(
-      id: number,
-      parent_id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<UserListRelationship>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.userlistsResourcesRetrieve(
-          id,
-          parent_id,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UserlistsApi.userlistsResourcesRetrieve"]?.[index]
-          ?.url
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -18451,6 +18589,103 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Add
+     * @param {UserlistsApiUserlistsItemsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsCreate(
+      requestParameters: UserlistsApiUserlistsItemsCreateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<UserListRelationship> {
+      return localVarFp
+        .userlistsItemsCreate(
+          requestParameters.userlist_id,
+          requestParameters.UserListRelationshipRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Remove
+     * @param {UserlistsApiUserlistsItemsDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsDestroy(
+      requestParameters: UserlistsApiUserlistsItemsDestroyRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .userlistsItemsDestroy(
+          requestParameters.id,
+          requestParameters.userlist_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resources List
+     * @param {UserlistsApiUserlistsItemsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsList(
+      requestParameters: UserlistsApiUserlistsItemsListRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaginatedUserListRelationshipList> {
+      return localVarFp
+        .userlistsItemsList(
+          requestParameters.userlist_id,
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resource Relationship Update
+     * @param {UserlistsApiUserlistsItemsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsPartialUpdate(
+      requestParameters: UserlistsApiUserlistsItemsPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<UserListRelationship> {
+      return localVarFp
+        .userlistsItemsPartialUpdate(
+          requestParameters.id,
+          requestParameters.userlist_id,
+          requestParameters.PatchedUserListRelationshipRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Viewset for UserListRelationships
+     * @summary User List Resources Retrieve
+     * @param {UserlistsApiUserlistsItemsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsRetrieve(
+      requestParameters: UserlistsApiUserlistsItemsRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<UserListRelationship> {
+      return localVarFp
+        .userlistsItemsRetrieve(
+          requestParameters.id,
+          requestParameters.userlist_id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Viewset for UserLists
      * @summary List
      * @param {UserlistsApiUserlistsListRequest} requestParameters Request parameters.
@@ -18484,103 +18719,6 @@ export const UserlistsApiFactory = function (
         .userlistsPartialUpdate(
           requestParameters.id,
           requestParameters.PatchedUserListRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Add
-     * @param {UserlistsApiUserlistsResourcesCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesCreate(
-      requestParameters: UserlistsApiUserlistsResourcesCreateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<UserListRelationship> {
-      return localVarFp
-        .userlistsResourcesCreate(
-          requestParameters.parent_id,
-          requestParameters.UserListRelationshipRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Remove
-     * @param {UserlistsApiUserlistsResourcesDestroyRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesDestroy(
-      requestParameters: UserlistsApiUserlistsResourcesDestroyRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .userlistsResourcesDestroy(
-          requestParameters.id,
-          requestParameters.parent_id,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resources List
-     * @param {UserlistsApiUserlistsResourcesListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesList(
-      requestParameters: UserlistsApiUserlistsResourcesListRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedUserListRelationshipList> {
-      return localVarFp
-        .userlistsResourcesList(
-          requestParameters.parent_id,
-          requestParameters.limit,
-          requestParameters.offset,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resource Relationship Update
-     * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesPartialUpdate(
-      requestParameters: UserlistsApiUserlistsResourcesPartialUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<UserListRelationship> {
-      return localVarFp
-        .userlistsResourcesPartialUpdate(
-          requestParameters.id,
-          requestParameters.parent_id,
-          requestParameters.PatchedUserListRelationshipRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Viewset for UserListRelationships
-     * @summary User List Resources Retrieve
-     * @param {UserlistsApiUserlistsResourcesRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    userlistsResourcesRetrieve(
-      requestParameters: UserlistsApiUserlistsResourcesRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<UserListRelationship> {
-      return localVarFp
-        .userlistsResourcesRetrieve(
-          requestParameters.id,
-          requestParameters.parent_id,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -18632,6 +18770,125 @@ export interface UserlistsApiUserlistsDestroyRequest {
 }
 
 /**
+ * Request parameters for userlistsItemsCreate operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsItemsCreateRequest
+ */
+export interface UserlistsApiUserlistsItemsCreateRequest {
+  /**
+   * id of the parent user list
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsCreate
+   */
+  readonly userlist_id: number
+
+  /**
+   *
+   * @type {UserListRelationshipRequest}
+   * @memberof UserlistsApiUserlistsItemsCreate
+   */
+  readonly UserListRelationshipRequest: UserListRelationshipRequest
+}
+
+/**
+ * Request parameters for userlistsItemsDestroy operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsItemsDestroyRequest
+ */
+export interface UserlistsApiUserlistsItemsDestroyRequest {
+  /**
+   * A unique integer value identifying this user list relationship.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsDestroy
+   */
+  readonly id: number
+
+  /**
+   * id of the parent user list
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsDestroy
+   */
+  readonly userlist_id: number
+}
+
+/**
+ * Request parameters for userlistsItemsList operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsItemsListRequest
+ */
+export interface UserlistsApiUserlistsItemsListRequest {
+  /**
+   * id of the parent user list
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsList
+   */
+  readonly userlist_id: number
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for userlistsItemsPartialUpdate operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsItemsPartialUpdateRequest
+ */
+export interface UserlistsApiUserlistsItemsPartialUpdateRequest {
+  /**
+   * A unique integer value identifying this user list relationship.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   * id of the parent user list
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsPartialUpdate
+   */
+  readonly userlist_id: number
+
+  /**
+   *
+   * @type {PatchedUserListRelationshipRequest}
+   * @memberof UserlistsApiUserlistsItemsPartialUpdate
+   */
+  readonly PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest
+}
+
+/**
+ * Request parameters for userlistsItemsRetrieve operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsItemsRetrieveRequest
+ */
+export interface UserlistsApiUserlistsItemsRetrieveRequest {
+  /**
+   * A unique integer value identifying this user list relationship.
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsRetrieve
+   */
+  readonly id: number
+
+  /**
+   * id of the parent user list
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsRetrieve
+   */
+  readonly userlist_id: number
+}
+
+/**
  * Request parameters for userlistsList operation in UserlistsApi.
  * @export
  * @interface UserlistsApiUserlistsListRequest
@@ -18671,125 +18928,6 @@ export interface UserlistsApiUserlistsPartialUpdateRequest {
    * @memberof UserlistsApiUserlistsPartialUpdate
    */
   readonly PatchedUserListRequest?: PatchedUserListRequest
-}
-
-/**
- * Request parameters for userlistsResourcesCreate operation in UserlistsApi.
- * @export
- * @interface UserlistsApiUserlistsResourcesCreateRequest
- */
-export interface UserlistsApiUserlistsResourcesCreateRequest {
-  /**
-   *
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesCreate
-   */
-  readonly parent_id: number
-
-  /**
-   *
-   * @type {UserListRelationshipRequest}
-   * @memberof UserlistsApiUserlistsResourcesCreate
-   */
-  readonly UserListRelationshipRequest: UserListRelationshipRequest
-}
-
-/**
- * Request parameters for userlistsResourcesDestroy operation in UserlistsApi.
- * @export
- * @interface UserlistsApiUserlistsResourcesDestroyRequest
- */
-export interface UserlistsApiUserlistsResourcesDestroyRequest {
-  /**
-   * A unique integer value identifying this user list relationship.
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesDestroy
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesDestroy
-   */
-  readonly parent_id: number
-}
-
-/**
- * Request parameters for userlistsResourcesList operation in UserlistsApi.
- * @export
- * @interface UserlistsApiUserlistsResourcesListRequest
- */
-export interface UserlistsApiUserlistsResourcesListRequest {
-  /**
-   *
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesList
-   */
-  readonly parent_id: number
-
-  /**
-   * Number of results to return per page.
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesList
-   */
-  readonly limit?: number
-
-  /**
-   * The initial index from which to return the results.
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesList
-   */
-  readonly offset?: number
-}
-
-/**
- * Request parameters for userlistsResourcesPartialUpdate operation in UserlistsApi.
- * @export
- * @interface UserlistsApiUserlistsResourcesPartialUpdateRequest
- */
-export interface UserlistsApiUserlistsResourcesPartialUpdateRequest {
-  /**
-   * A unique integer value identifying this user list relationship.
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesPartialUpdate
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesPartialUpdate
-   */
-  readonly parent_id: number
-
-  /**
-   *
-   * @type {PatchedUserListRelationshipRequest}
-   * @memberof UserlistsApiUserlistsResourcesPartialUpdate
-   */
-  readonly PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest
-}
-
-/**
- * Request parameters for userlistsResourcesRetrieve operation in UserlistsApi.
- * @export
- * @interface UserlistsApiUserlistsResourcesRetrieveRequest
- */
-export interface UserlistsApiUserlistsResourcesRetrieveRequest {
-  /**
-   * A unique integer value identifying this user list relationship.
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesRetrieve
-   */
-  readonly id: number
-
-  /**
-   *
-   * @type {number}
-   * @memberof UserlistsApiUserlistsResourcesRetrieve
-   */
-  readonly parent_id: number
 }
 
 /**
@@ -18848,6 +18986,113 @@ export class UserlistsApi extends BaseAPI {
   }
 
   /**
+   * Viewset for UserListRelationships
+   * @summary User List Resource Relationship Add
+   * @param {UserlistsApiUserlistsItemsCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsItemsCreate(
+    requestParameters: UserlistsApiUserlistsItemsCreateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsItemsCreate(
+        requestParameters.userlist_id,
+        requestParameters.UserListRelationshipRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserListRelationships
+   * @summary User List Resource Relationship Remove
+   * @param {UserlistsApiUserlistsItemsDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsItemsDestroy(
+    requestParameters: UserlistsApiUserlistsItemsDestroyRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsItemsDestroy(
+        requestParameters.id,
+        requestParameters.userlist_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserListRelationships
+   * @summary User List Resources List
+   * @param {UserlistsApiUserlistsItemsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsItemsList(
+    requestParameters: UserlistsApiUserlistsItemsListRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsItemsList(
+        requestParameters.userlist_id,
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserListRelationships
+   * @summary User List Resource Relationship Update
+   * @param {UserlistsApiUserlistsItemsPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsItemsPartialUpdate(
+    requestParameters: UserlistsApiUserlistsItemsPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsItemsPartialUpdate(
+        requestParameters.id,
+        requestParameters.userlist_id,
+        requestParameters.PatchedUserListRelationshipRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Viewset for UserListRelationships
+   * @summary User List Resources Retrieve
+   * @param {UserlistsApiUserlistsItemsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsItemsRetrieve(
+    requestParameters: UserlistsApiUserlistsItemsRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsItemsRetrieve(
+        requestParameters.id,
+        requestParameters.userlist_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
    * Viewset for UserLists
    * @summary List
    * @param {UserlistsApiUserlistsListRequest} requestParameters Request parameters.
@@ -18880,113 +19125,6 @@ export class UserlistsApi extends BaseAPI {
       .userlistsPartialUpdate(
         requestParameters.id,
         requestParameters.PatchedUserListRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for UserListRelationships
-   * @summary User List Resource Relationship Add
-   * @param {UserlistsApiUserlistsResourcesCreateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UserlistsApi
-   */
-  public userlistsResourcesCreate(
-    requestParameters: UserlistsApiUserlistsResourcesCreateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return UserlistsApiFp(this.configuration)
-      .userlistsResourcesCreate(
-        requestParameters.parent_id,
-        requestParameters.UserListRelationshipRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for UserListRelationships
-   * @summary User List Resource Relationship Remove
-   * @param {UserlistsApiUserlistsResourcesDestroyRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UserlistsApi
-   */
-  public userlistsResourcesDestroy(
-    requestParameters: UserlistsApiUserlistsResourcesDestroyRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return UserlistsApiFp(this.configuration)
-      .userlistsResourcesDestroy(
-        requestParameters.id,
-        requestParameters.parent_id,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for UserListRelationships
-   * @summary User List Resources List
-   * @param {UserlistsApiUserlistsResourcesListRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UserlistsApi
-   */
-  public userlistsResourcesList(
-    requestParameters: UserlistsApiUserlistsResourcesListRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return UserlistsApiFp(this.configuration)
-      .userlistsResourcesList(
-        requestParameters.parent_id,
-        requestParameters.limit,
-        requestParameters.offset,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for UserListRelationships
-   * @summary User List Resource Relationship Update
-   * @param {UserlistsApiUserlistsResourcesPartialUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UserlistsApi
-   */
-  public userlistsResourcesPartialUpdate(
-    requestParameters: UserlistsApiUserlistsResourcesPartialUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return UserlistsApiFp(this.configuration)
-      .userlistsResourcesPartialUpdate(
-        requestParameters.id,
-        requestParameters.parent_id,
-        requestParameters.PatchedUserListRelationshipRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Viewset for UserListRelationships
-   * @summary User List Resources Retrieve
-   * @param {UserlistsApiUserlistsResourcesRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UserlistsApi
-   */
-  public userlistsResourcesRetrieve(
-    requestParameters: UserlistsApiUserlistsResourcesRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return UserlistsApiFp(this.configuration)
-      .userlistsResourcesRetrieve(
-        requestParameters.id,
-        requestParameters.parent_id,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

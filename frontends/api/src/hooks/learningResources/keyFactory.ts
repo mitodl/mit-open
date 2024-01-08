@@ -8,7 +8,7 @@ import axiosInstance from "../../axios"
 import type {
   LearningResourcesApiLearningResourcesListRequest as LRListRequest,
   TopicsApiTopicsListRequest as TopicsListRequest,
-  LearningpathsApiLearningpathsResourcesListRequest as LPResourcesListRequest,
+  LearningpathsApiLearningpathsItemsListRequest as LPResourcesListRequest,
   LearningpathsApiLearningpathsListRequest as LPListRequest,
   PaginatedLearningResourceList,
   LearningResource,
@@ -55,7 +55,7 @@ const learningResources = createQueryKeys("learningResources", {
                     method: "get",
                     url: pageParam,
                   })
-                : learningpathsApi.learningpathsResourcesList(itemsP)
+                : learningpathsApi.learningpathsItemsList(itemsP)
               return request.then((res) => res.data)
             },
           }),
