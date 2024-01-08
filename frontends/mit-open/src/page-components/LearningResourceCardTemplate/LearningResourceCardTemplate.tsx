@@ -1,7 +1,6 @@
 import React, { useCallback } from "react"
 import Dotdotdot from "react-dotdotdot"
 import invariant from "tiny-invariant"
-import classNames from "classnames"
 import { ResourceTypeEnum, type LearningResource } from "api"
 import { Card, CardContent, Chip, CardMedia, styled } from "ol-components"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"

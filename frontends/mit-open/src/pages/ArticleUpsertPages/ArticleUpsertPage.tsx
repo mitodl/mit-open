@@ -1,6 +1,6 @@
 import React from "react"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import { Container, BannerPage, styled } from "ol-components"
+import { Container, BannerPage } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
 type ArticleUpsertPageProps = {
