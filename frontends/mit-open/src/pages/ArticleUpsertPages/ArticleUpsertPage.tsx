@@ -1,6 +1,6 @@
 import React from "react"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import { Container, BannerPage } from "ol-components"
+import { Container, BannerPage, styled } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
 type ArticleUpsertPageProps = {
@@ -13,11 +13,7 @@ const ArticleUpsertPage: React.FC<ArticleUpsertPageProps> = ({
   title,
 }) => {
   return (
-    <BannerPage
-      src="/static/images/course_search_banner.png"
-      alt=""
-      className="articles-editing-page"
-    >
+    <BannerPage src="/static/images/course_search_banner.png">
       <MetaTags>
         <title>{title}</title>
       </MetaTags>

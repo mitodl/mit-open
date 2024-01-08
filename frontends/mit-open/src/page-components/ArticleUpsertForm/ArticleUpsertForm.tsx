@@ -14,6 +14,7 @@ import {
   Grid,
   TextField,
   BasicDialog,
+  styled,
 } from "ol-components"
 import * as Yup from "yup"
 import { useFormik } from "formik"
@@ -28,6 +29,37 @@ const postSchema = Yup.object().shape({
 })
 
 type FormValues = Yup.InferType<typeof postSchema>
+
+const TitleField = styled(TextField)`
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+
+  input {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 0.5rem;
+    background-color: white;
+  }
+`
+
+const FormFooter = styled(Grid)`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`
+
+const FormControls = styled(Grid)`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  > *:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+
+  > *:not(:first-child) {
+    margin-left: 0.5rem;
+  }
+`
 
 type ArticleFormProps = {
   id?: Article["id"]
@@ -82,13 +114,12 @@ const ArticleUpsertForm = ({
   return (
     <form onSubmit={formik.handleSubmit}>
       <FormControl fullWidth sx={{ position: "relative" }}>
-        <TextField
+        <TitleField
           name="title"
           label="Title"
           variant="outlined"
           value={formik.values.title}
           onChange={formik.handleChange}
-          className="title-field"
           error={!!formik.errors.title}
           helperText={formik.errors.title}
         />
@@ -109,7 +140,7 @@ const ArticleUpsertForm = ({
         ) : null}
       </FormControl>
 
-      <Grid container className="form-footer">
+      <FormFooter container>
         <Grid item xs={6}>
           {id ? (
             <Button
@@ -121,7 +152,7 @@ const ArticleUpsertForm = ({
             </Button>
           ) : null}
         </Grid>
-        <Grid item xs={6} className="form-submission-controls">
+        <FormControls item xs={6}>
           <Button variant="outlined" onClick={onCancel}>
             Cancel
           </Button>
@@ -134,8 +165,8 @@ const ArticleUpsertForm = ({
           >
             Save
           </Button>
-        </Grid>
-      </Grid>
+        </FormControls>
+      </FormFooter>
       <BasicDialog
         open={confirmationOpen}
         onClose={toggleConfirmationOpen.off}
