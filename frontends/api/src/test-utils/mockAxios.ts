@@ -59,6 +59,7 @@ const mockAxiosInstance = {
       return makeRequest(method.toLowerCase(), url, deserialized)
     },
   ),
+  defaults: {}, // OpenAPI Generator accesses this, so it needs to exist
 }
 
 /**
