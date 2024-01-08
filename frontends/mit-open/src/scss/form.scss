@@ -1,22 +1,10 @@
 @use "theme";
 
 $font-color: theme.$font-color-default;
-$font-color-light: theme.$font-color-light;
 $radius: theme.$std-border-radius;
-$border-color: theme.$input-border-grey;
 
 form,
 .form {
-  .form-item {
-    margin: 0 0 28px;
-    color: $font-color;
-
-    .label,
-    .input {
-      display: block;
-    }
-  }
-
   select {
     background: #f8f8f8;
     border: 1px solid #bbb;
@@ -29,127 +17,11 @@ form,
     padding: 8px 20px;
     width: 100%;
   }
-
-  .divider {
-    padding-top: 10px;
-  }
 }
 
 form .form-row,
 .form-header .form-row {
   margin: 10px 10px 24px 0;
-}
-
-.validation-message {
-  margin-top: 6px;
-  background-color: theme.$validation-bg;
-  color: theme.$validation-text;
-  font-size: 14px;
-  padding: 5px;
-}
-
-.form-field {
-  color: $font-color;
-}
-
-.field-label {
-  color: theme.$color-gray-4;
-}
-
-.field-detail {
-  color: theme.$color-gray-4;
-  font-size: theme.$font-size-small;
-}
-
-textarea,
-input[type="text"] {
-  &.form-field {
-    padding: 12px 10px;
-    background-color: #fff;
-    resize: auto;
-    font-family: inherit;
-  }
-}
-
-input[type="email"],
-input[type="url"],
-input[type="password"] {
-  &.form-field {
-    padding: 10px;
-  }
-}
-
-input[type="email"],
-input[type="text"],
-input[type="url"],
-input[type="password"] {
-  &.form-field {
-    width: 100%;
-    font-size: 15px;
-    border-radius: $radius;
-    border: 1px solid $border-color;
-    transition: width 0.4s ease-in-out;
-    box-sizing: border-box;
-
-    &:disabled {
-      background: #f7f7f7;
-      border-color: #ccc;
-    }
-  }
-}
-
-input[type="checkbox"],
-input[type="radio"] {
-  &.form-field {
-    box-sizing: border-box;
-    font-size: 16px;
-  }
-}
-
-input::placeholder,
-textarea::placeholder {
-  &.form-field {
-    color: #bbb;
-  }
-}
-
-textarea.form-field {
-  height: 110px;
-}
-
-label.form-label {
-  display: block;
-  margin: 0 0 6px;
-  font-family: roboto, helvetica, arial, sans-serif;
-  font-weight: 400;
-  font-size: 15px;
-  color: #777;
-
-  .highlight {
-    color: #000;
-  }
-}
-
-label {
-  .header-padded {
-    margin: 10px;
-  }
-}
-
-label.radiolabel {
-  display: inline-block;
-  margin: 0 15px 6px 0;
-  font-family: roboto, helvetica, arial, sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-}
-
-.actions {
-  margin-top: 20px;
-}
-
-.ml-auto {
-  margin-left: auto !important;
 }
 
 .MuiDialogContent-root {
