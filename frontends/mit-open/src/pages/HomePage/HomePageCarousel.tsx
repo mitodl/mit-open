@@ -69,12 +69,7 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
       showNavigationButtons={showNavigationButtons}
     >
       {query.data?.results?.map((resource) => (
-        <CarouselCard
-          key={resource.id}
-          className="ic-resource-card"
-          resource={resource}
-          variant="column"
-        />
+        <CarouselCard key={resource.id} resource={resource} variant="column" />
       ))}
     </TitledCarousel>
   )

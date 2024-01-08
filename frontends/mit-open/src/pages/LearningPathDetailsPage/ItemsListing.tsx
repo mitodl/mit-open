@@ -8,9 +8,13 @@ import {
   arrayMove,
   OnSortEnd,
 } from "ol-utilities"
-import { LoadingSpinner } from "ol-components"
+import { LoadingSpinner, styled } from "ol-components"
 import { useLearningpathRelationshipMove } from "api/hooks/learningResources"
 import CardRowList from "@/components/CardRowList/CardRowList"
+
+const EmptyMessage = styled.p({
+  fontStyle: "italic",
+})
 
 type ItemsListingProps = {
   items?: LearningPathRelationship[]
@@ -57,7 +61,6 @@ const ItemsListingSortable: React.FC<{
     const item = active.data.current as LearningPathRelationship
     return (
       <LearningResourceCard
-        className="ic-dragging"
         sortable
         suppressImage
         variant="row-reverse"
@@ -130,7 +133,7 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
     <>
       {isLoading && <LoadingSpinner loading />}
       {items.length === 0 ? (
-        <p className="empty-message">{emptyMessage}</p>
+        <EmptyMessage>{emptyMessage}</EmptyMessage>
       ) : sortable ? (
         <ItemsListingSortable items={items} isRefetching={isRefetching} />
       ) : (

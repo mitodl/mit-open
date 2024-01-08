@@ -1,9 +1,0 @@
-@use "ol-utilities/assets/breakpoint";
-
-.ic-resource-card {
-  @include breakpoint.down(sm) {
-    .ol-lrc-image {
-      display: none;
-    }
-  }
-}

@@ -8,6 +8,7 @@ import {
   ListItemButton,
   ListItemText,
   LoadingSpinner,
+  styled,
 } from "ol-components"
 
 import LockOpenIcon from "@mui/icons-material/LockOpen"
@@ -97,6 +98,36 @@ const useToggleItemInList = (resource?: LearningResource) => {
   return { handleToggle, isChecked, isAdding, isRemoving }
 }
 
+const StyledBasicDialog = styled(BasicDialog)`
+  .MuiDialog-paper {
+    width: 325px;
+  }
+
+  .MuiDialogContent-root {
+    padding: 0;
+  }
+`
+
+const Description = styled.div({
+  marginLeft: 20,
+  marginRight: 20,
+})
+
+const ResourceTitle = styled.span({
+  fontStyle: "italic",
+})
+
+const Listing = styled(List)`
+  & .MuiListItem-root:not(.add-to-list-new) {
+    padding: 0;
+  }
+
+  .MuiListItemButton-root:not(.add-to-list-new) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`
+
 type PrivacyChipProps = { isPublic?: boolean }
 const PrivacyChip: React.FC<PrivacyChipProps> = ({ isPublic = false }) => {
   const icon = isPublic ? <LockOpenIcon /> : <LockIcon />
@@ -119,19 +150,17 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
   const lists = listsQuery.data?.results ?? []
 
   return (
-    <BasicDialog
-      className="add-to-list-dialog"
+    <StyledBasicDialog
       title="Add to Learning List"
       showFooter={false}
       {...NiceModal.muiDialogV5(modal)}
     >
       {isReady ? (
         <>
-          <div className="add-to-list-description">
-            Adding{" "}
-            <span className="resource-title-inline">{resource.title}</span>
-          </div>
-          <List className="add-to-list-listing">
+          <Description>
+            Adding <ResourceTitle>{resource.title}</ResourceTitle>
+          </Description>
+          <Listing>
             {lists.map((list) => {
               const adding = isAdding(list)
               const removing = isRemoving(list)
@@ -164,12 +193,12 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
                 <ListItemText primary="Create a new list" />
               </ListItemButton>
             </ListItem>
-          </List>
+          </Listing>
         </>
       ) : (
         <LoadingSpinner loading={!isReady} />
       )}
-    </BasicDialog>
+    </StyledBasicDialog>
   )
 }
 
