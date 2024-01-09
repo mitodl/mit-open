@@ -1,4 +1,4 @@
-export default {
+const config = {
   webpack: {
     configure: (webpackConfig: any) => {
       webpackConfig.module.rules.push({
@@ -15,3 +15,5 @@ export default {
     },
   },
 }
+
+export default config

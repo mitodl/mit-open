@@ -17,14 +17,24 @@ const LinkBehavior = React.forwardRef<
   return <RouterLink ref={ref} to={href} {...other} />
 })
 
-interface SimpleMenuItem {
+interface SimpleMenuItemBase {
   key: string
   label: React.ReactNode
   icon?: React.ReactNode
-  onClick?: () => void
-  href?: string
   LinkComponent?: React.ElementType
 }
+
+interface SimpleMenuItemOnClick extends SimpleMenuItemBase {
+  onClick: () => void
+  href?: string
+}
+
+interface SimpleMenuItemHref extends SimpleMenuItemBase {
+  onClick?: () => void
+  href: string
+}
+
+type SimpleMenuItem = SimpleMenuItemOnClick | SimpleMenuItemHref
 
 type SimpleMenuProps = {
   items: SimpleMenuItem[]
