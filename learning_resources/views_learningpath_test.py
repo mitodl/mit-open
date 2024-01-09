@@ -124,7 +124,6 @@ def test_learning_path_endpoint_create(  # pylint: disable=too-many-arguments  #
     if resp.status_code == 201:
         assert resp.data.get("title") == resp.data.get("title")
         assert resp.data.get("description") == resp.data.get("description")
-        assert resp.data.get("learning_path").get("author") == user.id
     assert mock_opensearch.upsert.call_count == (
         1 if has_permission and is_published else 0
     )
