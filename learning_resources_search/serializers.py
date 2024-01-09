@@ -379,6 +379,7 @@ def serialize_content_embedding_for_update(embedding_obj):
         "id": embedding_obj.id,
         "content_file": embedding_obj.content_file_id,
         "chunk": embedding_obj.text_chunk,
+        "openai_embedding": embedding_obj.embedding,
     }
 
 

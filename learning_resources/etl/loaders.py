@@ -33,6 +33,7 @@ from learning_resources.models import (
     PodcastEpisode,
     Program,
 )
+from learning_resources.semantic_api import make_contentfile_chunks
 from learning_resources.utils import (
     load_course_blocklist,
     load_course_duplicates,
@@ -495,6 +496,8 @@ def load_content_file(
         content_file, _ = ContentFile.objects.update_or_create(
             run=course_run, key=content_file_data.get("key"), defaults=content_file_data
         )
+        if content_file.content:
+            make_contentfile_chunks(content_file)
         load_content_tags(content_file, content_file_tags)
         return content_file.id  # noqa: TRY300
     except:  # noqa: E722

@@ -69,6 +69,8 @@ def make_contentfile_chunks(content_file, create_embeddings=False):  # noqa: FBT
     page_text_chunks = chunk_file_by_size(content_file.content)
 
     for chunk in page_text_chunks:
+        if not chunk:
+            continue
         embedding = None
         if create_embeddings:
             try:

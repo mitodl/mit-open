@@ -234,7 +234,7 @@ CONTENT_EMBEDDING_MAP = {
     "id": {"type": "long"},
     "content_file": {"type": "long"},
     "chunk": ENGLISH_TEXT_FIELD,
-    "text_embedding": {
+    "chunk_embedding": {
         "type": "knn_vector",
         "dimension": 768,
         "method": {
@@ -244,6 +244,12 @@ CONTENT_EMBEDDING_MAP = {
             "parameters": {},
         },
     },
+    "openai_embedding": {
+        "type": "knn_vector",
+        "dimension": 1536,
+        "method": {"name": "hnsw", "space_type": "cosinesimil", "engine": "nmslib"},
+    },
+    "sparse_embedding": {"type": "rank_features"},
 }
 
 

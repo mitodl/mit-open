@@ -102,8 +102,9 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
                 "refresh_interval": "60s",
                 "knn": True,
                 # "knn.algo_param.ef_search": 100,
-                "default_pipeline": "nlp-ingest-pipeline",
             },
+            # "default_pipeline": "nlp-ingest-pipeline",
+            "default_pipeline": "neural-sparse-pipeline",
             "analysis": {
                 "analyzer": {
                     "folding": {
