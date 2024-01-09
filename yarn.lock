@@ -77,7 +77,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.11.1, @babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.16.0, @babel/core@npm:^7.18.9, @babel/core@npm:^7.23.0, @babel/core@npm:^7.23.2, @babel/core@npm:^7.23.7, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.11.1, @babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.16.0, @babel/core@npm:^7.18.9, @babel/core@npm:^7.23.0, @babel/core@npm:^7.23.2, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
   version: 7.23.7
   resolution: "@babel/core@npm:7.23.7"
   dependencies:
@@ -10152,13 +10152,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cra-template-typescript@npm:1.2.0":
-  version: 1.2.0
-  resolution: "cra-template-typescript@npm:1.2.0"
-  checksum: ab10999bf9ebb71c83e4c958a57e49614b4715fe410c87b581217817c3a5e28a900130ee09e2ff95968930e8da1c0fc71d63095a5af9388df692d6cde8fc4325
-  languageName: node
-  linkType: hard
-
 "create-jest@npm:^29.7.0":
   version: 29.7.0
   resolution: "create-jest@npm:29.7.0"
@@ -13292,15 +13285,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "github-pages@workspace:frontends/github-pages"
   dependencies:
-    "@babel/core": ^7.23.7
     "@craco/craco": ^7.1.0
-    cra-template-typescript: 1.2.0
     react: ^18.2.0
     react-dom: ^18.2.0
     react-scripts: 5.0.1
-    sass: ^1.69.7
-    source-map-loader: ^4.0.2
-    style-loader: ^3.3.3
     swc-loader: ^0.2.3
   languageName: unknown
   linkType: soft
@@ -22646,18 +22634,6 @@ __metadata:
   peerDependencies:
     webpack: ^5.0.0
   checksum: d5a4e2ab190c93ae5cba68c247fbaa9fd560333c91060602b634c399a8a4b3205b8c07714c3bcdb0a11c6cc5476c06256bd8e824e71fbbb7981e8fad5cba4a00
-  languageName: node
-  linkType: hard
-
-"source-map-loader@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "source-map-loader@npm:4.0.2"
-  dependencies:
-    iconv-lite: ^0.6.3
-    source-map-js: ^1.0.2
-  peerDependencies:
-    webpack: ^5.72.1
-  checksum: a7d890b2c553709c002f918d1685191884a24de050beab5809b9fac1cbc10fa0efab33ac5ebde43a6eb513b0f6be785e93dd385ea534bbe469c4410a10d8f604
   languageName: node
   linkType: hard
 

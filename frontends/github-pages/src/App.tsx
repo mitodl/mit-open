@@ -3,7 +3,7 @@ import Header from "./Header"
 import { Grid, ThemeProvider, styled } from "ol-components"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { RouteObject, Outlet } from "react-router"
-import "./style.scss"
+import "./style.css"
 
 const PUBLIC_URL = process.env.PUBLIC_URL || ""
 

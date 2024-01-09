@@ -3,15 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "cra-template-typescript": "1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "sass": "^1.69.7"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "craco start",
-    "build-legacy": "react-scripts build",
     "build": "craco build"
   },
   "eslintConfig": {
@@ -33,10 +30,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.23.7",
     "@craco/craco": "^7.1.0",
-    "source-map-loader": "^4.0.2",
-    "style-loader": "^3.3.3",
     "swc-loader": "^0.2.3"
   }
 }
