@@ -46,9 +46,5 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "storybook-addon-react-router-v6": "^2.0.10"
-  },
-  "scripts": {
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
   }
 }
