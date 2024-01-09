@@ -821,12 +821,6 @@ export interface LearningPath {
    * @memberof LearningPath
    */
   item_count: number
-  /**
-   *
-   * @type {number}
-   * @memberof LearningPath
-   */
-  author: number
 }
 /**
  * Serializer for a minimal preview of Learning Paths
@@ -914,19 +908,6 @@ export interface LearningPathRelationshipRequest {
    * @memberof LearningPathRelationshipRequest
    */
   child: number
-}
-/**
- * Serializer for the LearningPath model
- * @export
- * @interface LearningPathRequest
- */
-export interface LearningPathRequest {
-  /**
-   *
-   * @type {number}
-   * @memberof LearningPathRequest
-   */
-  author: number
 }
 /**
  * CRUD serializer for LearningPath resources
