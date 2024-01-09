@@ -235,7 +235,6 @@ const learningPath: LearningResourceFactory<LearningPathResource> = (
       learning_path: {
         id: faker.helpers.unique(faker.datatype.number),
         item_count: faker.datatype.number({ min: 1, max: 30 }),
-        author: faker.datatype.number(),
       },
       learning_path_parents: [],
     },
