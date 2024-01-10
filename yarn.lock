@@ -4854,7 +4854,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-actions@npm:7.6.7":
+"@storybook/addon-actions@npm:7.6.7, @storybook/addon-actions@npm:^7.6.7":
   version: 7.6.7
   resolution: "@storybook/addon-actions@npm:7.6.7"
   dependencies:
@@ -18049,6 +18049,7 @@ __metadata:
     "@mui/icons-material": ^5.14.19
     "@mui/lab": ^5.0.0-alpha.150
     "@mui/material": ^5.14.15
+    "@storybook/addon-actions": ^7.6.7
     "@storybook/addon-essentials": ^7.6.6
     "@storybook/addon-interactions": ^7.6.6
     "@storybook/addon-links": ^7.6.6
