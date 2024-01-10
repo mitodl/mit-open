@@ -7,8 +7,9 @@ import {
   RenderActive,
   arrayMove,
   OnSortEnd,
-} from "ol-utilities"
-import { LoadingSpinner, styled } from "ol-components"
+  LoadingSpinner,
+  styled,
+} from "ol-components"
 import { useLearningpathRelationshipMove } from "api/hooks/learningResources"
 import CardRowList from "@/components/CardRowList/CardRowList"
 

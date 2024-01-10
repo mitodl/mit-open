@@ -9,7 +9,8 @@ import { makeWidgetListResponse, makeWidget } from "../../factories"
 import WidgetsListEditable from "./WidgetsListEditable"
 import { btnLabel } from "../Widget"
 import { WidgetTypes } from "../../interfaces"
-import { assertInstanceOf, SortableList, SortEndEvent } from "ol-utilities"
+import { assertInstanceOf } from "ol-utilities"
+import { SortableList, SortEndEvent } from "ol-components"
 import invariant from "tiny-invariant"
 
 jest.mock("ol-utilities", () => {
