@@ -1,22 +1,10 @@
 import React, { useState } from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { RadioChoiceField, RadioChoiceFieldProps } from "./RadioChoiceField"
-
-function StateWrapper(props: RadioChoiceFieldProps) {
-  const [value, setValue] = useState(props.value)
-  const onChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    value: string,
-  ) => {
-    props.onChange?.(event, value)
-    setValue(value)
-  }
-  return <RadioChoiceField {...props} value={value} onChange={onChange} />
-}
+import { useArgs } from "@storybook/preview-api"
+import { RadioChoiceField, BooleanRadioChoiceField } from "./RadioChoiceField"
 
 const meta: Meta<typeof RadioChoiceField> = {
   title: "ol-components/RadioChoiceField",
-  component: StateWrapper,
   argTypes: {
     onChange: {
       action: "changed",
@@ -32,7 +20,6 @@ export const Simple: Story = {
   args: {
     label: "Radio choice field label",
     value: "option-1",
-    defaultValue: "option-1",
     name: "Radio choice field name",
     choices: [
       {
@@ -48,5 +35,52 @@ export const Simple: Story = {
         label: "Option 3",
       },
     ],
+  },
+  argTypes: {
+    value: {
+      options: ["option-1", "option-2", "option-3"],
+      defaultValue: "option-1",
+      control: {
+        type: "select",
+      },
+    },
+  },
+  render: function Render(args) {
+    const [_args, setArgs] = useArgs()
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { currentTarget } = event
+      args.onChange?.(event, currentTarget.value)
+      setArgs({ value: currentTarget.value })
+    }
+    return <RadioChoiceField {...args} onChange={onChange} />
+  },
+}
+
+type BooleanStory = StoryObj<typeof BooleanRadioChoiceField>
+
+export const Boolean: BooleanStory = {
+  args: {
+    label: "Boolean radio choice field label",
+    value: true,
+    name: "Radio choice field name",
+    choices: [
+      {
+        value: true,
+        label: "True",
+      },
+      {
+        value: false,
+        label: "False",
+      },
+    ],
+  },
+  render: function Render(args) {
+    const [_args, setArgs] = useArgs()
+    const onChange = (event: { name: string; value: boolean }) => {
+      const { value } = event
+      args.onChange?.({ name: value.toString(), value })
+      setArgs({ value })
+    }
+    return <BooleanRadioChoiceField {...args} onChange={onChange} />
   },
 }
