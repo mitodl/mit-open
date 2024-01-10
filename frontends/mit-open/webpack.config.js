@@ -41,7 +41,6 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
     devtool: "source-map",
     entry: {
       root: "./src/App",
-      style: "./src/common/style",
     },
     output: {
       path: path.resolve(__dirname, "build"),
