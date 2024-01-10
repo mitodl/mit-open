@@ -24,12 +24,12 @@ interface SimpleMenuItemBase {
   LinkComponent?: React.ElementType
 }
 
-interface SimpleMenuItemOnClick extends SimpleMenuItemBase {
+type SimpleMenuItemOnClick = SimpleMenuItemBase & {
   onClick: () => void
   href?: string
 }
 
-interface SimpleMenuItemHref extends SimpleMenuItemBase {
+type SimpleMenuItemHref = SimpleMenuItemBase & {
   onClick?: () => void
   href: string
 }
