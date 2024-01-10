@@ -24,8 +24,8 @@ const getPublicPath = (isProduction) => {
   return `http://${hostname}:${port}/`
 }
 
-const validateEnv = (isPorduction) => {
-  if (isPorduction) return
+const validateEnv = (isProduction) => {
+  if (isProduction) return
   if (!process.env.WEBPACK_PORT_MITOPEN) {
     throw new Error("WEBPACK_PORT_MITOPEN should be defined")
   }
@@ -78,7 +78,6 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
                 : "style-loader",
             },
             "css-loader",
-            "postcss-loader",
             "sass-loader",
           ],
         },
