@@ -5519,7 +5519,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/preview-api@npm:7.6.7":
+"@storybook/preview-api@npm:7.6.7, @storybook/preview-api@npm:^7.6.7":
   version: 7.6.7
   resolution: "@storybook/preview-api@npm:7.6.7"
   dependencies:
@@ -18054,6 +18054,7 @@ __metadata:
     "@storybook/addon-interactions": ^7.6.6
     "@storybook/addon-links": ^7.6.6
     "@storybook/blocks": ^7.6.6
+    "@storybook/preview-api": ^7.6.7
     "@storybook/react": ^7.6.6
     "@storybook/react-webpack5": ^7.6.6
     "@storybook/test": ^7.6.6
