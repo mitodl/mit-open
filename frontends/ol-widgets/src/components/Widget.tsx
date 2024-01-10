@@ -15,6 +15,7 @@ import type {
 import { WidgetTypes } from "../interfaces"
 import RichTextWdigetContent from "./RichTextWidgetContent"
 import EmbeddedUrlWidgetContent from "./EmbeddedUrlWidgetContent"
+import Styles from "./Styles"
 
 /**
  * Button labels for Widgets.
@@ -170,6 +171,7 @@ type WidgetProps = Pick<
 const Widget: React.FC<WidgetProps> = (props) => {
   return (
     <WidgetTemplate {...props}>
+      <Styles />
       <WidgetContent
         className={classNames("ol-widget-content", props.contentClassName)}
         widget={props.widget}
