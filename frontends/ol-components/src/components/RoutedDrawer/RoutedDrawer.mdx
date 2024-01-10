@@ -1,6 +1,6 @@
-import { Meta } from "@storybook/blocks"
+import { Meta, Canvas } from "@storybook/blocks"
 
-import meta from "./RoutedDrawer.stories"
+import meta, { Simple } from "./RoutedDrawer.stories"
 
 <Meta of={meta} />
 
@@ -27,3 +27,5 @@ The goal here is twofold:
 1. Make route-controlled drawers easy.
 
 2. Help avoid issues where drawer content disappears before the drawer animations are finished.
+
+<Canvas of={Simple} />
