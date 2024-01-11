@@ -3,6 +3,13 @@ const {
   CKEditorTranslationsPlugin,
 } = require("@ckeditor/ckeditor5-dev-translations")
 
+/* TODO
+  Is this config used, ie. do we ever prebuild ol-ckeditor?
+  Currently this is built from source from the mit-open entrypoint.
+  The loaders "style-loader", "css-loader" and "postcss-loader" are not installed
+  as dependencies of this workspace (and are also removed from frontends/mit-open).
+*/
+
 const ckeditorRules = [
   {
     test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
