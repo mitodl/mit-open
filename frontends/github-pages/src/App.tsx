@@ -7,8 +7,6 @@ import "./style.css"
 
 const PUBLIC_URL = process.env.PUBLIC_URL || ""
 
-const PUBLIC_URL = process.env.PUBLIC_URL || ""
-
 const Page = styled.div`
   margin: auto;
   max-width: 1200px;
