@@ -40,13 +40,6 @@ from course_catalog.models import (
     Video,
 )
 from open_discussions.serializers import WriteableSerializerMethodField
-from open_discussions.settings import DRF_NESTED_PARENT_LOOKUP_PREFIX
-from search.search_index_helpers import (
-    deindex_staff_list,
-    deindex_user_list,
-    upsert_staff_list,
-    upsert_user_list,
-)
 
 COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
 
@@ -525,21 +518,6 @@ class UserListItemSerializer(
     Serializer for UserListItem model, includes content_data
     """
 
-    def update_index(self, user_list):
-        """
-        If this serializer was instantiated from the UserListItemView, then update the search index
-
-        Args:
-            user_list (UserList): the UserList object to update in the search index.
-
-        """  # noqa: E501
-        view = self.context.get("view", None)
-        if view is not None and view.kwargs.get(
-            f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}user_list_id", None
-        ):
-            # this was sent via userlistitems API, so update the search index
-            upsert_user_list(user_list.id)
-
     def create(self, validated_data):
         user_list = validated_data["user_list"]
         items = UserListItem.objects.filter(user_list=user_list)
@@ -554,7 +532,6 @@ class UserListItemSerializer(
             object_id=validated_data["object_id"],
             defaults={"position": position},
         )
-        self.update_index(item.user_list)
         return item
 
     def update(self, instance, validated_data):
@@ -578,7 +555,6 @@ class UserListItemSerializer(
             instance.position = position
             instance.save()
 
-        self.update_index(instance.user_list)
         return instance
 
     class Meta:
@@ -705,10 +681,6 @@ class UserListSerializer(
                 userlist = super().update(instance, validated_data)
                 if topics_data is not None:
                     userlist.topics.set(CourseTopic.objects.filter(id__in=topics_data))
-                if instance.items.exists():
-                    upsert_user_list(userlist.id)
-                else:
-                    deindex_user_list(userlist)
                 return userlist
         return None
 
@@ -764,13 +736,6 @@ class StaffListSerializer(
                 stafflist = super().update(instance, validated_data)
                 if topics_data is not None:
                     stafflist.topics.set(CourseTopic.objects.filter(id__in=topics_data))
-                if (
-                    instance.items.exists()
-                    and instance.privacy_level == PrivacyLevel.public.value
-                ):
-                    upsert_staff_list(stafflist.id)
-                else:
-                    deindex_staff_list(stafflist)
                 return stafflist
         return None
 
@@ -784,21 +749,6 @@ class StaffListItemSerializer(BaseListItemSerializer, serializers.ModelSerialize
     """
     Serializer for StaffListItem model, includes content_data
     """
-
-    def update_index(self, staff_list):
-        """
-        If this serializer was instantiated from the StaffListItemView, then update the search index
-
-        Args:
-            staff_list (StaffList): the StaffList object to update in the search index.
-
-        """  # noqa: E501
-        view = self.context.get("view", None)
-        if view is not None and view.kwargs.get(
-            f"{DRF_NESTED_PARENT_LOOKUP_PREFIX}staff_list_id", None
-        ):
-            # this was sent via stafflistitems API, so update the search index
-            upsert_staff_list(staff_list.id)
 
     def create(self, validated_data):
         staff_list = validated_data["staff_list"]
@@ -814,7 +764,6 @@ class StaffListItemSerializer(BaseListItemSerializer, serializers.ModelSerialize
             object_id=validated_data["object_id"],
             defaults={"position": position},
         )
-        self.update_index(item.staff_list)
         return item
 
     def update(self, instance, validated_data):
@@ -837,7 +786,6 @@ class StaffListItemSerializer(BaseListItemSerializer, serializers.ModelSerialize
             # now move the item into place
             instance.position = position
             instance.save()
-            self.update_index(instance.staff_list)
 
         return instance
 

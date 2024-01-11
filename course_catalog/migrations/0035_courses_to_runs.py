@@ -3,8 +3,6 @@
 import django.db.models.deletion
 from django.db import migrations, models
 
-from search.search_index_helpers import deindex_course
-
 
 def delete_resources(apps, schema_editor):
     """
@@ -17,7 +15,6 @@ def delete_resources(apps, schema_editor):
     CourseRun.objects.all().delete()
     for course in Course.objects.all():
         course.delete()
-        deindex_course(course)
     for bootcamp in Bootcamp.objects.all():
         bootcamp.delete()
 

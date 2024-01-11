@@ -86,12 +86,6 @@ def mocked_celery(mocker):
 
 
 @pytest.fixture()
-def mock_search_tasks(mocker):
-    """Patch search tasks so they no-op"""
-    return mocker.patch("search.search_index_helpers")
-
-
-@pytest.fixture()
 def indexing_user(settings):
     """Sets and returns the indexing user"""  # noqa: D401
     user = UserFactory.create()

@@ -8,7 +8,7 @@ from rest_framework import status
 from widgets.factories import WidgetInstanceFactory, WidgetListFactory
 from widgets.models import WidgetInstance
 
-pytestmark = [pytest.mark.usefixtures("mock_search_tasks"), pytest.mark.django_db]
+pytestmark = [pytest.mark.django_db]
 
 EXPECTED_AVAILABLE_WIDGETS = [
     {
