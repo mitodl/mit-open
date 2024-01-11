@@ -6042,10 +6042,7 @@ components:
           type: integer
           description: Return the number of items in the list
           readOnly: true
-        author:
-          type: integer
       required:
-      - author
       - id
       - item_count
     LearningPathPreview:
@@ -6105,14 +6102,6 @@ components:
       required:
       - child
       - parent
-    LearningPathRequest:
-      type: object
-      description: Serializer for the LearningPath model
-      properties:
-        author:
-          type: integer
-      required:
-      - author
     LearningPathResource:
       type: object
       description: CRUD serializer for LearningPath resources

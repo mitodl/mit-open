@@ -207,7 +207,7 @@ class LearningPathSerializer(serializers.ModelSerializer, ResourceListMixin):
 
     class Meta:
         model = models.LearningPath
-        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
+        exclude = ("learning_resource", "author", *COMMON_IGNORED_FIELDS)
 
 
 class PodcastEpisodeSerializer(serializers.ModelSerializer):

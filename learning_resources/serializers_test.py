@@ -77,7 +77,6 @@ def test_serialize_learning_path_to_json():
     assert_json_equal(
         serializer.data,
         {
-            "author": learning_path.author_id,
             "id": learning_path.id,
             "item_count": learning_path.learning_resource.children.count(),
         },
