@@ -45,7 +45,6 @@ const StyledFormDialog = styled(FormDialog)`
     }
   }
 `
-console.log("StyledFormDialog", StyledFormDialog)
 
 const learningPathFormSchema = Yup.object().shape({
   published: Yup.boolean()

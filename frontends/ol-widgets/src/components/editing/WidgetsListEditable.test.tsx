@@ -13,8 +13,8 @@ import { assertInstanceOf } from "ol-utilities"
 import { SortableList, SortEndEvent } from "ol-components"
 import invariant from "tiny-invariant"
 
-jest.mock("ol-utilities", () => {
-  const actual = jest.requireActual("ol-utilities")
+jest.mock("ol-components", () => {
+  const actual = jest.requireActual("ol-components")
   return {
     __esModule: true,
     ...actual,
