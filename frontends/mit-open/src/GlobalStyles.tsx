@@ -32,15 +32,15 @@ const pageCss = css`
   }
 
   h1 {
-    font-size: ${theme.custom.fontSizeH1};
+    font-size: ${theme.custom.fontSizeH1}px;
   }
 
   h2 {
-    font-size: ${theme.custom.fontSizeH2};
+    font-size: ${theme.custom.fontSizeH2}px;
   }
 
   h4 {
-    font-size: ${theme.custom.fontSizeH4};
+    font-size: ${theme.custom.fontSizeH4}px;
   }
 `
 
@@ -85,6 +85,10 @@ const muiCss = css`
 
     .MuiChip-root.MuiChip-filled {
       background-color: ${theme.custom.colorBackground};
+    }
+
+    .MuiButtonBase-root {
+      text-transform: none;
     }
 
     .MuiCardContent-root {
