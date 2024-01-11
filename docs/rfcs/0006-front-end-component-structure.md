@@ -13,7 +13,7 @@ has_toc: true
 
 ## Goals
 
-We are exploring options for the component structure for the MIT Open application front end at https://github.com/mitodl/mit-open/tree/main/frontends. This includes the dependency tree, modularization and file structure for React components and the assets they import. React itself is a library, not a framework, in the sense that it imposes no rules for how an application is structurally laid out.
+We are exploring options for the component structure for the MIT Open application front end at [main/frontends](../../frontends). This includes the dependency tree, modularization and file structure for React components and the assets they import. React itself is a library, not a framework, in the sense that it imposes no rules for how an application is structurally laid out.
 
 In settling on a component architecture, these considerations should be taken into account:
 
@@ -97,7 +97,7 @@ The component hierarchy is flat and wide and avoids deeply nested or interwoven 
 
 - `utilities` are non React components and utility code for use across the project.
 
-- If a class of components has special build tasks, exclusive dependency sets it will need its own package.json and therefore qualifies for being an` ol-` workspace. For example, a useful means to present and browse components would be for the components catalog to produce a static HTML site during build ([Storybook](https://storybook.js.org/) or similar). These should therefore live in ol-components (though the utility of workspaces needs discussion).
+- If a class of components has special build tasks, exclusive dependency sets it will need its own package.json and therefore qualifies for being an `ol-` workspace. For example, a useful means to present and browse components would be for the components catalog to produce a static HTML site during build ([Storybook](https://storybook.js.org/) or similar). These should therefore live in ol-components (though the utility of workspaces needs discussion).
 
 #### Module boundary and import/export rules
 

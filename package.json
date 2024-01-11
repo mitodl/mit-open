@@ -8,7 +8,7 @@
     "foreach": "yarn workspaces foreach -pvi --exclude=root run",
     "start-dev": "yarn workspaces foreach -pvi run start-dev",
     "build": "yarn workspaces foreach run build",
-    "lint-check": "eslint --ignore-path .gitignore . --ext .js,.jsx,.ts,.tsx",
+    "lint-check": "eslint --ignore-path .gitignore . --ext .js,.jsx,.ts,.tsx,.mdx",
     "lint-fix": "yarn lint-check --fix",
     "fmt-check": "prettier --check .",
     "fmt-fix": "prettier --write .",
@@ -22,7 +22,10 @@
     "global:test": "cd $INIT_CWD && NODE_ENV=test jest",
     "global:typecheck": "cd $INIT_CWD && tsc --noEmit",
     "global:test-watch": "cd $INIT_CWD && NODE_ENV=test jest --watch",
-    "create-package": "yarn workspace ol-template plop package"
+    "create-package": "yarn workspace ol-template plop package",
+    "build-github-pages": "yarn workspace github-pages build",
+    "storybook": "yarn workspace mit-open storybook",
+    "build-storybook": "yarn workspace mit-open build-storybook"
   },
   "version": "0.0.0",
   "packageManager": "yarn@3.7.0",
@@ -44,6 +47,7 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-jest": "^27.1.1",
+    "eslint-plugin-mdx": "^2.3.1",
     "eslint-plugin-mocha": "^10.0.5",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",

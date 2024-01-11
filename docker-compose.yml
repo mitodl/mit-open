@@ -94,6 +94,7 @@ services:
     ports:
       - "8052:8052"
       - "8062:8062"
+      - "6006:6006"
     environment:
       DOCKER_HOST: ${DOCKER_HOST:-missing}
       NODE_ENV: ${NODE_ENV:-development}

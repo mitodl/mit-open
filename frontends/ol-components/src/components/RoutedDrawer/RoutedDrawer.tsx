@@ -13,6 +13,7 @@ const closeSx: React.CSSProperties = {
 
 type ChildParams<K extends string, R extends K> = Record<K, string | null> &
   Record<R, string>
+
 type RoutedDrawerProps<K extends string, R extends K> = {
   params: readonly K[]
   requiredParams: readonly R[]
@@ -21,32 +22,21 @@ type RoutedDrawerProps<K extends string, R extends K> = {
     closeDrawer: () => void
   }) => React.ReactNode
 } & Omit<DrawerProps, "open" | "onClose" | "children">
-/**
- * A route-controlled drawer that monitors URL search parameters and
- *  - opens the drawer when all `requiredParams` are present in the URL and
- *    closes the drawer when this condition is no longer fulfilled.
- *  - closes the drawer when manually dismissed, and removes all `params` from
- *    the URL
- *
- * The drawer content is a render function called with the URL parameters as
- * props.
- *
- * The goal here is twofold:
- *  1. Make route-controlled drawers easy
- *  2. Help avoid issues where drawer content disappears before the drawer
- *     animations are finished.
- */
+
 const RoutedDrawer = <K extends string, R extends K>(
   props: RoutedDrawerProps<K, R>,
 ) => {
   const { params, requiredParams, children, ...others } = props
   const [searchParams, setSearchParams] = useSearchParams()
+
   const looseChildParams = useMemo(() => {
     return Object.fromEntries(
       params.map((name) => [name, searchParams.get(name)] as const),
     ) as Record<K, string | null>
   }, [searchParams, params])
+
   const [childParams, setChildParams] = useState<ChildParams<K, R> | null>()
+
   const requiredArePresent = requiredParams.every(
     (name) => looseChildParams[name] !== null,
   )

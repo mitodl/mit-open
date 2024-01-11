@@ -15,6 +15,7 @@ const TestDrawerContents = ({ closeDrawer }: { closeDrawer: () => void }) => (
 )
 const assertDrawerIsOpen = () =>
   screen.getByRole("heading", { name: "DrawerContent" })
+
 const assertDrawerIsClosed = () => {
   expect(screen.queryByRole("heading", { name: "DrawerContent" })).toBe(null)
 }

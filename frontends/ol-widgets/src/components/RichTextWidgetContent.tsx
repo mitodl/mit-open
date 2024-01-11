@@ -6,13 +6,14 @@ import type { RichTextWidgetInstance } from "../interfaces"
 
 const REMARK_PLUGINS = [remarkGfm]
 
-const RichTextWdigetContent: React.FC<{
+const RichTextWidgetContent: React.FC<{
   className?: string
   widget: Omit<RichTextWidgetInstance, "id">
 }> = ({ widget, className }) => {
   return (
     <ReactMarkdown
       className={classNames("ol-markdown", className)}
+      // @ts-expect-error Seeing this https://github.com/remarkjs/react-markdown/issues/627 despite fixing react-markdown and remark-gfm versions
       remarkPlugins={REMARK_PLUGINS}
     >
       {widget.configuration.source}
@@ -20,4 +21,4 @@ const RichTextWdigetContent: React.FC<{
   )
 }
 
-export default RichTextWdigetContent
+export default RichTextWidgetContent

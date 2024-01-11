@@ -43,7 +43,7 @@ The component hierarchy is flat and wide and avoids deeply nested or interwoven 
 
 - `utilities` are non React components and utility code for use across the project.
 
-- If a class of components has special build tasks, exclusive dependency sets it will need its own package.json and therefore qualifies for being an` ol-` workspace. For example, a useful means to present and browse components would be for the components catalog to produce a static HTML site during build ([Storybook](https://storybook.js.org/) or similar). These should therefore live in ol-components (though the utility of workspaces needs discussion).
+- If a class of components has special build tasks, exclusive dependency sets it will need its own package.json and therefore qualifies for being an `ol-` workspace. For example, a useful means to present and browse components would be for the components catalog to produce a static HTML site during build ([Storybook](https://storybook.js.org/) or similar). These should therefore live in ol-components (though the utility of workspaces needs discussion).
 
 ## Module boundary and import/export rules
 

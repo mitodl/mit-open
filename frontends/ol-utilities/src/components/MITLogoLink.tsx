@@ -1,6 +1,7 @@
 import React from "react"
 
-const MIT_LOGO_URL = "/static/images/mit-logo-transparent.svg"
+const PUBLIC_URL = process.env.PUBLIC_URL || ""
+const MIT_LOGO_URL = `${PUBLIC_URL}/static/images/mit-logo-transparent.svg`
 
 interface Props {
   className?: string

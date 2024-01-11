@@ -123,3 +123,9 @@ tsconfig.tsbuildinfo
 
 # VS-Code
 .vscode
+
+# GitHub Pages static site
+github-pages/public
+
+# Storybook
+storybook-static/

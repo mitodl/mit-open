@@ -28,7 +28,7 @@ const badgeAnchorOrigin: BadgeProps["anchorOrigin"] = {
   horizontal: "right",
 }
 
-interface AuthMenuItem extends SimpleMenuItem {
+type AuthMenuItem = SimpleMenuItem & {
   allow: boolean
 }
 
