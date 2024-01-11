@@ -67,7 +67,7 @@ const formCss = css`
   }
 
   .MuiDialogContent-root {
-    .MuiFormControl-root:first-child {
+    .MuiFormControl-root:first-of-type {
       margin-top: 0;
     }
 
@@ -94,7 +94,7 @@ const muiCss = css`
         padding-bottom: 16px; // MUI puts extra padding on the last child by default. We don't want it.
       }
 
-      > *:first-child {
+      > *:first-of-type {
         margin-top: 0; // No extra space for the first child, beyond the card content's padding.
       }
     }
