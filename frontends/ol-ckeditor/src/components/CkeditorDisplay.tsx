@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from "react"
 import classNames from "classnames"
-import "../../assets/vendor/ckeditor_content_styles.scss"
 import { embedlyCardHtml, ensureEmbedlyPlatform } from "ol-utilities"
+import Styles from "./Styles"
 
 const parser = new DOMParser()
 interface Replacer {
@@ -68,12 +68,15 @@ const CkeditorDisplay: React.FC<{
     [dangerouslySetInnerHTML],
   )
   return (
-    <div
-      className={classNames("ck-content", className)}
-      dangerouslySetInnerHTML={{
-        __html: html,
-      }}
-    />
+    <>
+      <Styles />
+      <div
+        className={classNames("ck-content", className)}
+        dangerouslySetInnerHTML={{
+          __html: html,
+        }}
+      />
+    </>
   )
 }
 
