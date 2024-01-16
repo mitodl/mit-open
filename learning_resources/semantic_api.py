@@ -9,7 +9,7 @@ from learning_resources.models import ContentFileEmbedding
 
 CHUNK_SIZE = 512
 CHUNK_OVERLAP = 0
-CHUNK_ADJUST = 50
+CHUNK_ADJUST = 0
 
 log = logging.getLogger(__name__)
 
@@ -83,5 +83,5 @@ def make_contentfile_chunks(content_file, create_embeddings=False):  # noqa: FBT
                     log.exception("Error creating embedding")
                     return
         ContentFileEmbedding.objects.create(
-            content_file=content_file, text_chunk=chunk, embedding=embedding
+            content_file=content_file, text_chunk=chunk, openai_embedding=embedding
         )

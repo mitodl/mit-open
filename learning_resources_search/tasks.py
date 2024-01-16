@@ -13,6 +13,7 @@ from opensearchpy.exceptions import NotFoundError, RequestError
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
 from learning_resources.models import (
     ContentFile,
+    Course,
     LearningResource,
 )
 from learning_resources.utils import load_course_blocklist
@@ -29,6 +30,7 @@ from learning_resources_search.constants import (
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
+from learning_resources_search.indexing_api import enable_semantic_search
 from learning_resources_search.serializers import (
     serialize_content_file_for_update,
     serialize_learning_resource_for_update,
@@ -165,8 +167,8 @@ def index_run_content_files(run_id, index_types=IndexestoUpdate.all_indexes.valu
     """
     try:
         with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
-            api.index_run_content_files(run_id, index_types=index_types)
-            api.deindex_run_content_files(run_id, unpublished_only=True)
+            # api.index_run_content_files(run_id, index_types=index_types)
+            # api.deindex_run_content_files(run_id, unpublished_only=True)
             api.index_run_content_embeddings(run_id, index_types=index_types)
             api.deindex_run_content_embeddings(run_id, unpublished_only=True)
     except (RetryError, Ignore):
@@ -226,70 +228,69 @@ def start_recreate_index(self, indexes):
         new_backing_indices = {
             obj_type: api.create_backing_index(obj_type) for obj_type in indexes
         }
-
+        enable_semantic_search()
         # Do the indexing on the temp index
         log.info("starting to index %s objects...", ", ".join(indexes))
 
         index_tasks = []
 
-        # if COURSE_TYPE in indexes:
-        #     blocklisted_ids = load_course_blocklist()
-        #     index_tasks = (
-        #         index_tasks
-        #         + [
-        #             index_learning_resources.si(
-        #                 ids,
-        #                 COURSE_TYPE,
-        #                 index_types=IndexestoUpdate.reindexing_index.value,
-        #             )
-        #             for ids in chunks(
-        #                 Course.objects.filter(learning_resource__published=True)
-        #                 .exclude(learning_resource__readable_id=blocklisted_ids)
-        #                 .order_by("learning_resource_id")
-        #                 .values_list("learning_resource_id", flat=True),
-        #                 chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
-        #             )
-        #         ]
-        #         + [
-        #             index_course_content_files.si(
-        #                 ids, index_types=IndexestoUpdate.reindexing_index.value
-        #             )
-        #             for ids in chunks(
-        #                 Course.objects.filter(learning_resource__published=True)
-        #                 .filter(
-        #                     learning_resource__etl_source__in=RESOURCE_FILE_ETL_SOURCES
-        #                 )
-        #                 .exclude(learning_resource__readable_id=blocklisted_ids)
-        #                 .order_by("learning_resource_id")
-        #                 .values_list("learning_resource_id", flat=True),
-        #                 chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
-        #             )
-        #         ]
-        #     )
-        #
-        # for resource_type in [
-        #     PROGRAM_TYPE,
-        #     PODCAST_TYPE,
-        #     PODCAST_EPISODE_TYPE,
-        #     LEARNING_PATH_TYPE,
-        # ]:
-        #     if resource_type in indexes:
-        #         index_tasks = index_tasks + [
-        #             index_learning_resources.si(
-        #                 ids,
-        #                 resource_type,
-        #                 index_types=IndexestoUpdate.reindexing_index.value,
-        #             )
-        #             for ids in chunks(
-        #                 LearningResource.objects.filter(
-        #                     published=True, resource_type=resource_type
-        #                 )
-        #                 .order_by("id")
-        #                 .values_list("id", flat=True),
-        #                 chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
-        #             )
-        #         ]
+        if COURSE_TYPE in indexes:
+            blocklisted_ids = load_course_blocklist()
+            index_tasks = (
+                index_tasks
+                + [
+                    index_learning_resources.si(
+                        ids,
+                        COURSE_TYPE,
+                        index_types=IndexestoUpdate.reindexing_index.value,
+                    )
+                    for ids in chunks(
+                        Course.objects.filter(learning_resource__published=True)
+                        .exclude(learning_resource__readable_id=blocklisted_ids)
+                        .order_by("learning_resource_id")
+                        .values_list("learning_resource_id", flat=True),
+                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                    )
+                ]
+                + [
+                    index_course_content_files.si(
+                        ids, index_types=IndexestoUpdate.reindexing_index.value
+                    )
+                    for ids in chunks(
+                        Course.objects.filter(learning_resource__published=True)
+                        .filter(
+                            learning_resource__etl_source__in=RESOURCE_FILE_ETL_SOURCES
+                        )
+                        .exclude(learning_resource__readable_id=blocklisted_ids)
+                        .order_by("learning_resource_id")
+                        .values_list("learning_resource_id", flat=True),
+                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                    )
+                ]
+            )
 
+        for resource_type in [
+            PROGRAM_TYPE,
+            PODCAST_TYPE,
+            PODCAST_EPISODE_TYPE,
+            LEARNING_PATH_TYPE,
+        ]:
+            if resource_type in indexes:
+                index_tasks = index_tasks + [
+                    index_learning_resources.si(
+                        ids,
+                        resource_type,
+                        index_types=IndexestoUpdate.reindexing_index.value,
+                    )
+                    for ids in chunks(
+                        LearningResource.objects.filter(
+                            published=True, resource_type=resource_type
+                        )
+                        .order_by("id")
+                        .values_list("id", flat=True),
+                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                    )
+                ]
 
         index_tasks = celery.group(index_tasks)
     except:  # noqa: E722

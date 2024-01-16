@@ -359,7 +359,6 @@ class SearchResponseSerializer(serializers.Serializer):
 
 def serialize_content_file_for_update(content_file_obj):
     """Serialize a content file for API request"""
-    cf_embedding = content_file_obj.embeddings.first()
     return {
         "resource_relations": {
             "name": CONTENT_FILE_TYPE,
@@ -367,8 +366,7 @@ def serialize_content_file_for_update(content_file_obj):
         },
         "resource_type": CONTENT_FILE_TYPE,
         **ContentFileSerializer(content_file_obj).data,
-        "content": content_file_obj.content[:4000] if content_file_obj.content else "",
-        "embedding": cf_embedding.embedding if cf_embedding else None,
+        "content": content_file_obj.content or "-",
     }
 
 
@@ -379,7 +377,7 @@ def serialize_content_embedding_for_update(embedding_obj):
         "id": embedding_obj.id,
         "content_file": embedding_obj.content_file_id,
         "chunk": embedding_obj.text_chunk,
-        "openai_embedding": embedding_obj.embedding,
+        "openai_embedding": embedding_obj.openai_embedding,
     }
 
 

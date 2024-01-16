@@ -206,6 +206,7 @@ CONTENT_FILE_MAP = {
     "content_type": {"type": "keyword"},
     "content_feature_type": {"type": "keyword"},
     "content": ENGLISH_TEXT_FIELD,
+    "content_sparse_embedding": {"type": "rank_features"},
     "content_title": ENGLISH_TEXT_FIELD,
     "content_author": ENGLISH_TEXT_FIELD,
     "content_language": {"type": "keyword"},

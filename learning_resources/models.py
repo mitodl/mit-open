@@ -388,7 +388,8 @@ class ContentFileEmbedding(TimestampedModel):
         ContentFile, related_name="embeddings", on_delete=models.CASCADE
     )
     text_chunk = models.TextField()
-    embedding = ArrayField(models.FloatField(), null=True, blank=True)
+    text_embedding = ArrayField(models.FloatField(), null=True, blank=True)
+    openai_embedding = ArrayField(models.FloatField(), null=True, blank=True)
 
 
 class UserList(TimestampedModel):

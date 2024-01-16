@@ -4,6 +4,7 @@ Functions and constants for OpenSearch indexing
 
 import json
 import logging
+import time
 from math import ceil
 
 from django.conf import settings
@@ -33,6 +34,7 @@ from learning_resources_search.constants import (
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError
+from learning_resources_search.models import ModelGroup, SemanticModel
 from learning_resources_search.serializers import (
     serialize_bulk_learning_resources,
     serialize_bulk_learning_resources_for_deletion,
@@ -103,8 +105,8 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
                 "knn": True,
                 # "knn.algo_param.ef_search": 100,
             },
-            # "default_pipeline": "nlp-ingest-pipeline",
-            "default_pipeline": "neural-sparse-pipeline",
+            "default_pipeline": "nlp-ingest-pipeline",
+            # "default_pipeline": "neural-sparse-pipeline",
             "analysis": {
                 "analyzer": {
                     "folding": {
@@ -384,7 +386,7 @@ def index_run_content_embeddings(run_id, index_types):
             CONTENT_EMBEDDING_TYPE,
             index_types=index_types,
             routing=run.learning_resource.id,
-            timeout="120s",
+            timeout=120,
         )
 
 
@@ -531,3 +533,187 @@ def delete_orphaned_indices():
         if not keys:
             log.info("Deleting index %s", index)
             conn.indices.delete(index)
+
+
+def activate_ml_models():
+    """
+    Activate the ML models iun Opensearch
+    """
+    body = {
+        "persistent": {
+            "plugins": {
+                "ml_commons": {
+                    "only_run_on_ml_node": "false",
+                    "model_access_control_enabled": "true",
+                    "native_memory_threshold": "99",
+                }
+            }
+        }
+    }
+    conn = get_conn()
+    return conn.http.put("/_cluster/settings", body=body)
+
+
+def query_model_groups(name=settings.OPENSEARCH_MODEL_GROUP_NAME, upsert=False):  # noqa: FBT002
+    """
+    Search for a model group
+
+    Returns:
+        dict: A dictionary of model groups
+    """
+    conn = get_conn()
+    body = {"query": {"term": {"name": name}}} if name else {}
+    try:
+        response = conn.http.post("/_plugins/_ml/model_groups/_search", body=body)
+        groups = response.get("hits", {}).get("hits", [])
+
+        if upsert and groups:
+            ModelGroup.objects.update_or_create(
+                name=name, defaults={"group_id": groups[0]["_id"]}
+            )
+        return groups  # noqa:TRY300
+    except NotFoundError:
+        return None
+
+
+def create_model_group(name=settings.OPENSEARCH_MODEL_GROUP_NAME, description=""):
+    """
+    Search for a model group
+
+    Returns:
+        dict: A dictionary of model groups
+    """
+    conn = get_conn()
+    body = {"name": name, "description": description}
+    response = conn.http.post("/_plugins/_ml/model_groups/_register", body=body)
+    model_group, created = ModelGroup.objects.update_or_create(
+        name=name,
+        defaults={
+            "group_id": response.get("model_group_id"),
+            "description": description,
+        },
+    )
+    return model_group.group_id
+
+
+def query_model(model_id):
+    """
+    Search for a model
+
+    Returns:
+        list: A list of model search results
+    """
+    conn = get_conn()
+    body = {"query": {"term": {"model_id": model_id}}}
+    try:
+        response = conn.http.post("/_plugins/_ml/models/_search", body=body)
+        return response.get("hits", {}).get("hits", [])
+
+    except NotFoundError:
+        return []
+
+
+def register_model(
+    name=settings.OPENSEARCH_SEMANTIC_MODEL_NAME,
+    version=settings.OPENSEARCH_SEMANTIC_MODEL_VERSION,
+    model_group=settings.OPENSEARCH_MODEL_GROUP_NAME,
+    model_format="TORCH_SCRIPT",
+):
+    """
+    Register a model
+
+    Returns:
+        dict: A dictionary of model groups
+    """
+    conn = get_conn()
+    body = {
+        "name": name,
+        "model_group_id": ModelGroup.objects.get(name=model_group).group_id,
+        "version": version,
+        "model_format": model_format,
+    }
+    response = conn.http.post("/_plugins/_ml/models/_register", body=body)
+    task_id = response.get("task_id")
+    if not task_id:
+        raise Exception("No task_id returned", response)  # noqa: TRY002, TRY003, EM101
+    model_id = None
+    while not model_id:
+        time.sleep(5)
+        response = conn.http.get(f"/_plugins/_ml/tasks/{task_id}")
+        if response.get("error"):
+            raise Exception(  # noqa: TRY002, TRY003
+                "Error registering model",  # noqa: EM101
+                response,
+            )
+        model_id = response.get("model_id")
+        if model_id:
+            SemanticModel.objects.update_or_create(
+                name=name,
+                defaults={
+                    "model_id": model_id,
+                    "version": version,
+                    "group": ModelGroup.objects.get(name=model_group),
+                },
+            )
+    return model_id
+
+
+def deploy_model(model_id=None):
+    """
+    Deploy a model to OpenSearch
+
+    Returns:
+        dict: A dictionary of model groups
+    """
+    if not model_id:
+        model_id = SemanticModel.objects.get(
+            name=settings.OPENSEARCH_SEMANTIC_MODEL_NAME
+        ).model_id
+    conn = get_conn()
+    response = conn.http.post(f"/_plugins/_ml/models/{model_id}/_deploy")
+    task_id = response.get("task_id")
+    if not task_id:
+        raise Exception("No task_id returned", response)  # noqa: TRY002, TRY003, EM101
+    deployed = False
+    while not deployed:
+        time.sleep(5)
+        response = conn.http.get(f"/_plugins/_ml/tasks/{task_id}")
+        if response.get("error"):
+            raise Exception("Error deploying model", response)  # noqa: TRY002, TRY003, EM101
+        deployed = response.get("state", "") == "COMPLETED"
+        if deployed:
+            return True
+    return False
+
+
+def deploy_pipeline(name=settings.OPENSEARCH_SEMANTIC_PIPELINE):
+    body = {
+        "description": "A text embedding pipeline for ContentFiles",
+        "processors": [
+            {
+                "text_embedding": {
+                    "model_id": SemanticModel.objects.get(
+                        name=settings.OPENSEARCH_SEMANTIC_MODEL_NAME
+                    ).model_id,
+                    "field_map": {"chunk": "chunk_embedding"},
+                }
+            }
+        ],
+    }
+    conn = get_conn()
+    return conn.http.put(f"/_ingest/pipeline/{name}", body=body)
+
+
+def enable_semantic_search():
+    """
+    Enable semantic search in OpenSearch
+    """
+    activate_ml_models()
+    model_groups = query_model_groups(upsert=True)
+    if not model_groups:
+        create_model_group()
+    semantic_model = SemanticModel.objects.first()
+    if not semantic_model or len(query_model(semantic_model.model_id)) < 1:
+        register_model()
+    deploy_model()
+    deploy_pipeline()
