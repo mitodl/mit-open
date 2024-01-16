@@ -1,11 +1,6 @@
 """Urls for channels"""
 
 from django.urls import include, re_path
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-    SpectacularSwaggerView,
-)
 from rest_framework.routers import SimpleRouter
 from rest_framework_nested.routers import NestedSimpleRouter
 
@@ -98,17 +93,6 @@ urlpatterns = [
     re_path(r"^api/v1/", include(nested_learning_path_router.urls)),
     re_path(r"^api/v1/", include(nested_podcast_router.urls)),
     re_path(r"^api/v1/", include(nested_userlist_router.urls)),
-    re_path(r"api/v1/schema/$", SpectacularAPIView.as_view(), name="schema"),
-    re_path(
-        "api/v1/schema/swagger-ui/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui",
-    ),
-    re_path(
-        "api/v1/schema/redoc/",
-        SpectacularRedocView.as_view(url_name="schema"),
-        name="redoc",
-    ),
     re_path(r"^podcasts/rss_feed", views.podcast_rss_feed, name="podcast-rss-feed"),
     re_path(
         r"^api/v1/ocw_next_webhook/$",

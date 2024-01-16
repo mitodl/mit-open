@@ -3,4 +3,4 @@ factory_data/* merge=binary linguist-generated=true
 yarn.lock merge=binary linguist-generated=true
 frontends/api/src/generated/* merge=binary linguist-generated=true
 # Do not mark as generated; we want to see diffs in PRs
-openapi.yaml merge=binary
+./openapi/openapi_spec.yaml merge=binary

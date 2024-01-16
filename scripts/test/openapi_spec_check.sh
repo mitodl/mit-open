@@ -2,10 +2,10 @@
 TMPFILE=$(mktemp)
 
 ./manage.py spectacular \
-	--urlconf=open_discussions.urls_spectacular \
+	--urlconf=openapi.urls_spectacular \
 	--file $TMPFILE
 
-diff $TMPFILE ./openapi.yaml
+diff $TMPFILE ./openapi/openapi_spec.yaml
 
 if [ $? -eq 0 ]; then
 	echo "OpenAPI spec is up to date!"
