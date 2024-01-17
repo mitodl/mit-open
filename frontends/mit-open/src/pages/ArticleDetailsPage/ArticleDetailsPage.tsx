@@ -11,7 +11,7 @@ import {
 import { useArticleDetail } from "api/hooks/articles"
 import { useParams } from "react-router"
 import { articlesEditView } from "@/common/urls"
-import { CkeditorDisplay } from "ol-ckeditor"
+import { CkeditorDisplay } from "ol-ckeditor-2"
 
 type RouteParams = {
   id: string

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react"
 import { WidgetEditingFieldProps } from "./interfaces"
-import { CkeditorMarkdownLazy } from "ol-ckeditor"
+import { CkeditorMarkdownLazy } from "ol-ckeditor-2"
 
 const WIDGET_CKEDITOR_BODY_CLASS = "ol-widget-ckeditor"
 

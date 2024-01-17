@@ -1,35 +1,61 @@
 {
   "name": "ol-ckeditor-2",
+  "packageManager": "yarn@3.7.0",
   "version": "0.1.0",
-  "private": true,
+  "main": "dist/index.js",
   "dependencies": {
-    "cra-template": "1.2.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
+    "@ckeditor/ckeditor5-adapter-ckfinder": "^41.0.0",
+    "@ckeditor/ckeditor5-autoformat": "^41.0.0",
+    "@ckeditor/ckeditor5-basic-styles": "^41.0.0",
+    "@ckeditor/ckeditor5-block-quote": "^41.0.0",
+    "@ckeditor/ckeditor5-cloud-services": "^41.0.0",
+    "@ckeditor/ckeditor5-core": "^41.0.0",
+    "@ckeditor/ckeditor5-dev-translations": "^39.5.1",
+    "@ckeditor/ckeditor5-dev-utils": "^39.5.1",
+    "@ckeditor/ckeditor5-easy-image": "^41.0.0",
+    "@ckeditor/ckeditor5-editor-classic": "^41.0.0",
+    "@ckeditor/ckeditor5-essentials": "^41.0.0",
+    "@ckeditor/ckeditor5-heading": "^41.0.0",
+    "@ckeditor/ckeditor5-image": "^41.0.0",
+    "@ckeditor/ckeditor5-link": "^41.0.0",
+    "@ckeditor/ckeditor5-list": "^41.0.0",
+    "@ckeditor/ckeditor5-markdown-gfm": "^41.0.0",
+    "@ckeditor/ckeditor5-media-embed": "^41.0.0",
+    "@ckeditor/ckeditor5-paragraph": "^41.0.0",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
+    "@ckeditor/ckeditor5-theme-lark": "^41.0.0",
+    "@ckeditor/ckeditor5-ui": "^41.0.0",
+    "axios": "^1.6.3",
+    "classnames": "^2.3.2",
+    "ol-components": "workspace:*",
+    "ol-utilities": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.48",
+    "autoprefixer": "^10.4.14",
+    "css-loader": "^6.7.1",
+    "mini-css-extract-plugin": "^2.6.1",
+    "ol-test-utilities": "workspace:*",
+    "postcss-loader": "^7.0.1",
+    "sass": "^1.69.7",
+    "sass-loader": "^13.3.0",
+    "storybook": "^7.6.6",
+    "style-loader": "^3.3.3",
+    "swc-loader": "^0.2.3",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "webpack": "^5.89.0",
+    "webpack-bundle-analyzer": "^4.6.1",
+    "webpack-bundle-tracker": "^1.4.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-middleware": "^5.3.1",
+    "webpack-dev-server": "^4.9.2",
+    "webpack-hot-middleware": "^2.25.1"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "start-dev": "webpack serve",
+    "build": "webpack --config webpack.config.js --bail"
   }
 }

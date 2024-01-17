@@ -1,4 +1,4 @@
-import { setupMockEditors } from "ol-ckeditor/test_utils"
+import { setupMockEditors } from "ol-ckeditor-2/test_utils"
 
 setupMockEditors()
 

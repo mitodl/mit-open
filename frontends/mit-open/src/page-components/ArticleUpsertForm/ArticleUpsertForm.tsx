@@ -1,6 +1,6 @@
 import React, { useCallback } from "react"
 import { useToggle } from "ol-utilities"
-import { CkeditorArticleLazy } from "ol-ckeditor"
+import { CkeditorArticleLazy } from "ol-ckeditor-2"
 import {
   useArticleDetail,
   useArticlePartialUpdate,

@@ -4,7 +4,6 @@ const webpack = require("webpack")
 const BundleTracker = require("webpack-bundle-tracker")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
-const { withCKEditor } = require("ol-ckeditor/webpack-utils")
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 
 const STATS_FILEPATH = path.resolve(
@@ -66,7 +65,7 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
         {
           test: /\.tsx?$/,
           use: "swc-loader",
-          exclude: /node_modules/,
+          exclude: [/node_modules/, /ol-ckeditor-2/],
         },
       ],
     },
@@ -134,7 +133,7 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       port: process.env.WEBPACK_PORT_MITOPEN,
     },
   }
-  return withCKEditor(config)
+  return config
 }
 
 module.exports = (_env, argv) => {
