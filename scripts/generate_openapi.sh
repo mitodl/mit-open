@@ -6,14 +6,14 @@ if [ -z "$(which docker)" ]; then
 	exit 1
 fi
 
-SPEC_FILE="./openapi/openapi_spec.yaml"
+SPEC_FILE="./openapi/v1/openapi_spec.yaml"
 
 ##################################################
 # Generate OpenAPI Schema
 ##################################################
 docker compose run --no-deps --rm web \
 	./manage.py spectacular \
-	--urlconf openapi.urls_spectacular \
+	--urlconf openapi.v1.urls_spectacular \
 	--file ${SPEC_FILE} \
 	--validate
 

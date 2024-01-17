@@ -176,7 +176,7 @@ jobs:
     # This job checks that the output of openapi-generator-typescript-axios that
     # is checked into version control is up-to-date.
     env:
-      OPENAPI_SCHEMA: ./openapi/openapi_spec.yaml
+      OPENAPI_SCHEMA: ./openapi/v1/openapi_spec.yaml
       GENERATOR_IGNORE_FILE: ./frontends/api/.openapi-generator-ignore
       GENERATOR_OUTPUT_DIR_CI: ./frontends/api/tmp/generated
       GENERATOR_OUTPUT_DIR_VC: ./frontends/api/src/generated
