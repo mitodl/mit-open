@@ -9535,6 +9535,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cra-template@npm:1.2.0":
+  version: 1.2.0
+  resolution: "cra-template@npm:1.2.0"
+  checksum: 50f11eb15fc16ce968260cec219fb382e369d61b6b6aa4bb66890e7d4341e71cfbd450d7acd6dcfeab98cb14d6ad6efa4be0a9b5675898c1ffca128976c191e5
+  languageName: node
+  linkType: hard
+
 "create-jest@npm:^29.7.0":
   version: 29.7.0
   resolution: "create-jest@npm:29.7.0"
@@ -17797,6 +17804,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ol-ckeditor-2@workspace:frontends/ol-ckeditor-2":
+  version: 0.0.0-use.local
+  resolution: "ol-ckeditor-2@workspace:frontends/ol-ckeditor-2"
+  dependencies:
+    cra-template: 1.2.0
+    react: 18.2.0
+    react-dom: 18.2.0
+    react-scripts: 5.0.1
+  languageName: unknown
+  linkType: soft
+
 "ol-ckeditor@workspace:*, ol-ckeditor@workspace:frontends/ol-ckeditor":
   version: 0.0.0-use.local
   resolution: "ol-ckeditor@workspace:frontends/ol-ckeditor"
@@ -20043,7 +20061,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.2.0":
+"react-dom@npm:18.2.0, react-dom@npm:^18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
   dependencies:
@@ -20393,7 +20411,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.2.0":
+"react@npm:18.2.0, react@npm:^18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
