@@ -21,6 +21,7 @@ const PageTitle = styled.h1`
 
 const Links = styled.div`
   margin-top: 4rem;
+
   a {
     text-decoration: underline;
   }

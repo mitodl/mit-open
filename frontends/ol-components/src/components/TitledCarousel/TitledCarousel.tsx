@@ -55,10 +55,10 @@ const StyledCarousel = styled(Carousel)({
   paddingBottom: theme.custom.shadowOverflowBottom,
 
   /*
-    We want the carousel cards to be:
-      1. spaced
+    We want the carousel cards to:
+      1. be spaced
       2. cast a shadow when hovered
-      3. left-aligned (left edge of left-most card aligned with rest of page content)
+      3. be left-aligned (left edge of left-most card aligned with rest of page content)
 
     The card container has `overflow: hidden` to prevent seeing the offscreen
     cards. Consequently, if the leftmost card is at the left edge of the carousel
