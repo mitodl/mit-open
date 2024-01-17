@@ -46,7 +46,6 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("learning_resources.urls")),
     re_path(r"", include("articles.urls")),
     re_path(r"", include("livestream.urls")),
-    re_path(r"", include("interactions.urls")),
     # React App
     re_path(r"^$", index, name="open_discussions-index"),
     re_path(r"^infinite/", index),

@@ -115,11 +115,9 @@ INSTALLED_APPS = (
     "profiles",
     "mail",
     "widgets",
-    "interactions",
-    "learning_resources",  # to replace below when ready
-    "openapi",
-    "course_catalog",
+    "learning_resources",
     "learning_resources_search",
+    "openapi",
     "articles",
 )
 
