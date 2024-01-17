@@ -48,17 +48,8 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("livestream.urls")),
     # React App
     re_path(r"^$", index, name="open_discussions-index"),
-    re_path(r"^infinite/", index),
-    re_path(r"^settings/(?P<token>[^/]+)/$", index, name="settings-anon"),
-    re_path(r"^profile/(?P<username>[A-Za-z0-9_]+)/", index, name="profile"),
-    re_path(r"^signup/", index, name="signup"),
     re_path(r"^privacy-statement/", index, name="privacy-statement"),
     re_path(r"^search/", index, name="site-search"),
-    re_path(r"^courses/", index, name="courses"),
-    re_path(r"^learn/", index, name="learn"),
-    re_path(r"^fields/", index, name="fields"),
-    re_path(r"^podcasts/", index, name="podcasts"),
-    re_path(r"^terms-and-conditions/", index, name="terms-and-conditions"),
     re_path(r"^learningpaths/", index, name="learningpaths"),
     re_path(r"^articles/", index, name="articles"),
     # Hijack
