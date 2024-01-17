@@ -37,7 +37,6 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("social_django.urls", namespace="social")),
     re_path(r"", include("channels.urls")),
     re_path(r"", include("profiles.urls")),
-    re_path(r"", include("mail.urls")),
     re_path(r"", include("embedly.urls")),
     re_path(r"", include("learning_resources_search.urls")),
     re_path(r"", include("ckeditor.urls")),
