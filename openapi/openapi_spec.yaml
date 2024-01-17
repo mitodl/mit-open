@@ -1,129 +1,9 @@
 openapi: 3.0.3
 info:
   title: MIT Open API
-  version: 0.0.1
+  version: 0.0.1 (v1)
   description: MIT public API
 paths:
-  /api/v1/articles/:
-    get:
-      operationId: articles_list
-      description: Get a paginated list of articles
-      summary: List
-      parameters:
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      tags:
-      - articles
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedArticleList'
-          description: ''
-    post:
-      operationId: articles_create
-      description: Create a new article
-      summary: Create
-      tags:
-      - articles
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ArticleRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/ArticleRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/ArticleRequest'
-        required: true
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Article'
-          description: ''
-  /api/v1/articles/{id}/:
-    get:
-      operationId: articles_retrieve
-      description: Retrieve a single article
-      summary: Retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this article.
-        required: true
-      tags:
-      - articles
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Article'
-          description: ''
-    patch:
-      operationId: articles_partial_update
-      description: Update an article
-      summary: Update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this article.
-        required: true
-      tags:
-      - articles
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedArticleRequest'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedArticleRequest'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedArticleRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Article'
-          description: ''
-    delete:
-      operationId: articles_destroy
-      description: Delete an article
-      summary: Destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this article.
-        required: true
-      tags:
-      - articles
-      responses:
-        '204':
-          description: No response body
   /api/v1/content_file_search/:
     get:
       operationId: content_file_search_retrieve
@@ -5513,35 +5393,6 @@ paths:
           description: No response body
 components:
   schemas:
-    Article:
-      type: object
-      description: Serializer for LearningResourceInstructor model
-      properties:
-        html:
-          type: string
-        id:
-          type: integer
-          readOnly: true
-        title:
-          type: string
-          maxLength: 255
-      required:
-      - html
-      - id
-      - title
-    ArticleRequest:
-      type: object
-      description: Serializer for LearningResourceInstructor model
-      properties:
-        html:
-          type: string
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-      required:
-      - html
-      - title
     ContentFile:
       type: object
       description: Serializer class for course run ContentFiles
@@ -6738,26 +6589,6 @@ components:
       - child
       - id
       - parent
-    PaginatedArticleList:
-      type: object
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Article'
     PaginatedContentFileList:
       type: object
       properties:
@@ -7098,16 +6929,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UserListRelationship'
-    PatchedArticleRequest:
-      type: object
-      description: Serializer for LearningResourceInstructor model
-      properties:
-        html:
-          type: string
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
     PatchedFieldChannelWriteRequest:
       type: object
       description: Similar to FieldChannelCreateSerializer, with read-only name

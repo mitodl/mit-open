@@ -13,5 +13,5 @@ router.register(
 )
 
 urlpatterns = [
-    re_path(r"^api/v1/", include(router.urls)),
+    re_path(r"^api/v0/", include((router.urls, "articles"), namespace="v0")),
 ]

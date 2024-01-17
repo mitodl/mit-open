@@ -15,7 +15,8 @@ docker compose run --no-deps --rm web \
 	./manage.py spectacular \
 	--urlconf openapi.urls_spectacular \
 	--file ${SPEC_FILE} \
-	--validate
+	--validate \
+	--api-version="v1"
 
 ##################################################
 # Generate API Client
