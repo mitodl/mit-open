@@ -8448,15 +8448,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap@npm:^5.2.3":
-  version: 5.3.2
-  resolution: "bootstrap@npm:5.3.2"
-  peerDependencies:
-    "@popperjs/core": ^2.11.8
-  checksum: d5580b253d121ffc137388d41da58dce8d15f1ccd574e12f28d4a08e7649ca15e95db645b2b677cb8025bccd446bff04138fc0fe64f8cba0ccc5dc004a8644cf
-  languageName: node
-  linkType: hard
-
 "bplist-parser@npm:^0.2.0":
   version: 0.2.0
   resolution: "bplist-parser@npm:0.2.0"
@@ -17208,7 +17199,6 @@ __metadata:
     "@types/react": ^18.2.6
     api: "workspace:*"
     axios: ^1.6.3
-    bootstrap: ^5.2.3
     classnames: ^2.3.2
     formik: ^2.4.5
     lodash: ^4.17.21
@@ -19444,6 +19434,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"postcss-styled-syntax@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "postcss-styled-syntax@npm:0.6.4"
+  dependencies:
+    typescript: ^5.3.3
+  peerDependencies:
+    postcss: ^8.4.21
+  checksum: efb176d5e8e840e76600a9138203541e083dcd2f57b7aaba5e8a888f3928c0e33e4eb63ddac781ce57611462dd12b70384a94fc4cb9a3088a77fae78d8bfa397
+  languageName: node
+  linkType: hard
+
 "postcss-svgo@npm:^5.1.0":
   version: 5.1.0
   resolution: "postcss-svgo@npm:5.1.0"
@@ -21083,6 +21084,7 @@ __metadata:
     jest-fail-on-console: ^2.4.2
     jest-watch-typeahead: ^2.2.2
     jest-when: ^3.6.0
+    postcss-styled-syntax: ^0.6.4
     prettier: ^3.0.3
     prettier-plugin-django-alpine: ^1.2.6
     stylelint: ^15.2.0
@@ -23333,7 +23335,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.1.6":
+"typescript@npm:^5.1.6, typescript@npm:^5.3.3":
   version: 5.3.3
   resolution: "typescript@npm:5.3.3"
   bin:
@@ -23343,7 +23345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.1.6#~builtin<compat/typescript>":
+"typescript@patch:typescript@^5.1.6#~builtin<compat/typescript>, typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
   version: 5.3.3
   resolution: "typescript@patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=e012d7"
   bin:
