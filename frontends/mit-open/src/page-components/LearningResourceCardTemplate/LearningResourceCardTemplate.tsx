@@ -43,24 +43,18 @@ const SPACER = 0.75
 const SMALL_FONT_SIZE = 0.75
 
 const CalendarChip = styled(Chip)({
-  height: `${2.5 * SMALL_FONT_SIZE}rem`,
-  fontSize: `${SMALL_FONT_SIZE}rem`,
+  height: `${2.5 * SMALL_FONT_SIZE}em`,
+  fontSize: `${SMALL_FONT_SIZE}em`,
 
   ".MuiSvgIcon-root": {
-    height: `${1.25 * SMALL_FONT_SIZE}rem`,
-    width: `${1.25 * SMALL_FONT_SIZE}rem`,
+    height: `${1.25 * SMALL_FONT_SIZE}em`,
+    width: `${1.25 * SMALL_FONT_SIZE}em`,
   },
 })
 
 const ResourceFooterDetails: React.FC<
   Pick<LearningResourceCardTemplateProps, "resource">
 > = ({ resource }) => {
-  const bestRun = findBestRun(resource.runs ?? [])
-  const startDate = bestRun?.start_date
-  const formattedDate = startDate
-    ? formatDate(startDate, "MMMM DD, YYYY")
-    : null
-
   if (resource.resource_type === ResourceTypeEnum.LearningPath) {
     const count = resource.learning_path.item_count
     return (
@@ -70,7 +64,12 @@ const ResourceFooterDetails: React.FC<
     )
   }
 
-  // if (!startDate) return null
+  const bestRun = findBestRun(resource.runs ?? [])
+  const startDate = bestRun?.start_date
+
+  if (!startDate) return null
+
+  const formattedDate = formatDate(startDate, "MMMM DD, YYYY")
 
   return <CalendarChip avatar={<CalendarTodayIcon />} label={formattedDate} />
 }
