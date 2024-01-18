@@ -1,6 +1,5 @@
 """
 Django settings specific to DRF Spectacular
-to offload from the main settings.py
 """
 
 open_spectacular_settings = {
@@ -8,7 +7,7 @@ open_spectacular_settings = {
     "DESCRIPTION": "MIT public API",
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
-    "SERVE_URLCONF": "open_discussions.urls_spectacular",
+    "SERVE_URLCONF": "openapi.v1.urls_spectacular",
     "ENUM_GENERATE_CHOICE_DESCRIPTION": True,
     "COMPONENT_SPLIT_REQUEST": True,
     "AUTHENTICATION_WHITELIST": [],

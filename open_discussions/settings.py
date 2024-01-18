@@ -31,7 +31,7 @@ from open_discussions.sentry import init_sentry
 from open_discussions.settings_celery import *  # noqa: F403
 from open_discussions.settings_course_etl import *  # noqa: F403
 from open_discussions.settings_pluggy import *  # noqa: F403
-from open_discussions.settings_spectacular import open_spectacular_settings
+from openapi.settings_spectacular import open_spectacular_settings
 
 VERSION = "0.1.0"
 
@@ -117,6 +117,7 @@ INSTALLED_APPS = (
     "widgets",
     "interactions",
     "learning_resources",  # to replace below when ready
+    "openapi",
     "course_catalog",
     "learning_resources_search",
     "articles",

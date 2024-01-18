@@ -1,4 +1,4 @@
 build
 **/build/
-openapi.yaml
+openapi/*/openapi_spec.yaml
 .yarn/
