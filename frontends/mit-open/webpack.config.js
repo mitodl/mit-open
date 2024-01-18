@@ -68,6 +68,11 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
           use: "swc-loader",
           exclude: /node_modules/,
         },
+        {
+          test: /\.css$/i,
+          exclude: /@ckeditor/,
+          use: ["style-loader", "css-loader"],
+        },
       ],
     },
     plugins: [
