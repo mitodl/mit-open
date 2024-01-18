@@ -33,7 +33,7 @@ const widgetCss = css`
 
   .ol-widget-actions {
     &.MuiCardActions-root {
-      // mui puts margins by default, so we need to be extra selective
+      /* mui puts margins by default, so we need to be extra selective */
       button:last-child {
         margin-left: auto;
       }

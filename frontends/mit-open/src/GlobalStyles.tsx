@@ -95,11 +95,11 @@ const muiCss = css`
       padding-bottom: 16px;
 
       &:last-child {
-        padding-bottom: 16px; // MUI puts extra padding on the last child by default. We don't want it.
+        padding-bottom: 16px; /* MUI puts extra padding on the last child by default. We don't want it. */
       }
 
       > *:first-of-type {
-        margin-top: 0; // No extra space for the first child, beyond the card content's padding.
+        margin-top: 0; /* No extra space for the first child, beyond the card content's padding. */
       }
     }
 
