@@ -122,8 +122,8 @@ jobs:
       - name: Lints
         run: yarn run lint-check
 
-      - name: Scss lint
-        run: yarn run scss-lint
+      - name: Style lint
+        run: yarn run style-lint
 
       - name: Typecheck
         run: yarn run typecheck
