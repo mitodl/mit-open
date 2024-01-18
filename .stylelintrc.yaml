@@ -1,3 +1,5 @@
+extends:
+  - stylelint-config-standard
 rules:
   selector-class-pattern:
     - (^ck.*)|((^Mui[A-Z-])|^([a-z][a-z0-9]*)((-|__?)[a-z0-9]+)*$) # CKEditor, MUI or kebab-case
