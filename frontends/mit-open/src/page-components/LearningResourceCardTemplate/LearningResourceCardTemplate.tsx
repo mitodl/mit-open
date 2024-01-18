@@ -38,6 +38,20 @@ type LearningResourceCardTemplateProps<
   footerActionSlot?: React.ReactNode
 }
 
+const LIGHT_TEXT_COLOR = "#8c8c8c"
+const SPACER = 0.75
+const SMALL_FONT_SIZE = 0.75
+
+const CalendarChip = styled(Chip)({
+  height: `${2.5 * SMALL_FONT_SIZE}rem`,
+  fontSize: `${SMALL_FONT_SIZE}rem`,
+
+  ".MuiSvgIcon-root": {
+    height: `${1.25 * SMALL_FONT_SIZE}rem`,
+    width: `${1.25 * SMALL_FONT_SIZE}rem`,
+  },
+})
+
 const ResourceFooterDetails: React.FC<
   Pick<LearningResourceCardTemplateProps, "resource">
 > = ({ resource }) => {
@@ -56,15 +70,9 @@ const ResourceFooterDetails: React.FC<
     )
   }
 
-  if (!startDate) return null
+  // if (!startDate) return null
 
-  return (
-    <Chip
-      className="ol-lrc-chip"
-      avatar={<CalendarTodayIcon />}
-      label={formattedDate}
-    />
-  )
+  return <CalendarChip avatar={<CalendarTodayIcon />} label={formattedDate} />
 }
 
 const CardMediaImage = styled(CardMedia)<{
@@ -107,54 +115,38 @@ const LRCImage: React.FC<LRCImageProps> = ({
   )
 }
 
-const LIGHT_TEXT_COLOR = "#8c8c8c"
-const SPACER = 0.75
-const SMALL_FONT_SIZE = "0.75em"
-
 const StyledCard = styled(Card)`
   display: flex;
   flex-direction: column;
 
-  // Ensure the resource image borders match card borders
+  /* Ensure the resource image borders match card borders */
   .MuiCardMedia-root,
   > .MuiCardContent-root {
     border-radius: inherit;
   }
+`
 
-  .ol-lrc-details {
+const Details = styled.div`
+  /* Make content flexbox so that we can control which child fills remaining space. */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  > * {
     /*
-    Make content flexbox so that we can control which child fills remaining space.
+    Flexbox doesn't have collapsing margins, so we need to avoid double spacing.
+    The column-gap property would be a nicer solution, but it doesn't have the
+    best browser support yet.
     */
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    margin-top: ${SPACER / 2}rem;
+    margin-bottom: ${SPACER / 2}rem;
 
-    > * {
-      /*
-      Flexbox doesn't have collapsing margins, so we need to avoid double spacing.
-      The column-gap property would be a nicer solution, but it doesn't have the
-      best browser support yet.
-      */
-      margin-top: ${SPACER / 2}rem;
-      margin-bottom: ${SPACER / 2}rem;
-
-      &:first-of-type {
-        margin-top: 0;
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
+    &:first-of-type {
+      margin-top: 0;
     }
-  }
 
-  .ol-lrc-chip.MuiChip-root {
-    height: 2.5 * ${SMALL_FONT_SIZE};
-    font-size: ${SMALL_FONT_SIZE};
-
-    .MuiSvgIcon-root {
-      height: 1.25 * ${SMALL_FONT_SIZE};
-      width: 1.25 * ${SMALL_FONT_SIZE};
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 `
@@ -202,7 +194,7 @@ const FillSpaceContentEnd = styled.div`
 `
 
 const FooterRow = styled.div`
-  min-height: 2.5 * ${SMALL_FONT_SIZE}; // ensure consistent spacing even if no date
+  min-height: 2.5 * ${SMALL_FONT_SIZE}; /* ensure consistent spacing even if no date */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -215,13 +207,13 @@ const TypeRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  min-height: 1.5em; // ensure consistent height even if no certificate
+  min-height: 1.5em; /* ensure consistent height even if no certificate */
 `
 
-const EllipsisTitle = styled(Dotdotdot)`
-  font-weight: bold !default;
-  margin: 0;
-`
+const EllipsisTitle = styled(Dotdotdot)({
+  fontWeight: "bold",
+  margin: 0,
+})
 
 const TitleButton = styled.button`
   border: none;
@@ -298,7 +290,7 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
             imgConfig={imgConfig}
           />
         ) : null}
-        <div className="ol-lrc-details">
+        <Details>
           <TypeRow>
             <span>{getReadableResourceType(resource)}</span>
             {resource.certification && (
@@ -332,7 +324,7 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
               </FillSpaceContentEnd>
             </>
           )}
-        </div>
+        </Details>
         {sortable ? (
           <DragHandle>
             <DragIndicatorIcon fontSize="inherit" />
