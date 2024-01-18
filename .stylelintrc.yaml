@@ -4,6 +4,8 @@ rules:
   selector-class-pattern:
     - (^ck.*)|((^Mui[A-Z-])|^([a-z][a-z0-9]*)((-|__?)[a-z0-9]+)*$) # CKEditor, MUI or kebab-case
     - message: "Expected class selector to be kebab-case"
+ignoreFiles:
+  - "**/*.vendor.css"
 overrides:
   - files:
       - "**/*.scss"
