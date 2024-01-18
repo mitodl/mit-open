@@ -116,14 +116,14 @@ jobs:
       - name: Dependencies are consistent
         run: yarn syncpack list-mismatches
 
+      - name: Style lint
+        run: yarn run style-lint
+
       - name: Webpack build
         run: yarn run build
 
       - name: Lints
         run: yarn run lint-check
-
-      - name: Style lint
-        run: yarn run style-lint
 
       - name: Typecheck
         run: yarn run typecheck
