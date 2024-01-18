@@ -86,10 +86,10 @@ repos:
         require_serial: false
       - id: style-lint
         name: style-lint
-        description: "Lint SCSS files"
+        description: "Lint CSS"
         entry: npx stylelint --allow-empty-input --fix
         language: node
-        types: [scss]
+        types: [scss, jsx, ts, tsx]
         args: []
         exclude: node_modules/
         require_serial: false
