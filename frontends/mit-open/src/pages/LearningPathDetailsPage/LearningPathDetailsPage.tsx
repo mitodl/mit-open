@@ -49,7 +49,7 @@ const LearningPathDetailsPage: React.FC = () => {
         <GridContainer>
           <GridColumn variant="single-full">
             {pathQuery.data && (
-              <Grid container className="ic-list-header">
+              <Grid container>
                 <Grid item xs={12}>
                   <h1>{pathQuery.data.title}</h1>
                   {description && <p>{description}</p>}
@@ -79,8 +79,9 @@ const LearningPathDetailsPage: React.FC = () => {
                   item
                   xs={6}
                   container
+                  justifyContent="flex-end"
                   alignItems="center"
-                  className="ic-centered-right"
+                  display="flex"
                 >
                   {canEdit ? (
                     <Button

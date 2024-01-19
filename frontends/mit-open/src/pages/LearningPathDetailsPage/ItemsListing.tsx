@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from "react"
-import classNames from "classnames"
 import type { LearningPathRelationship } from "api"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import {
@@ -8,9 +7,15 @@ import {
   RenderActive,
   arrayMove,
   OnSortEnd,
-} from "ol-utilities"
-import { LoadingSpinner } from "ol-components"
+  LoadingSpinner,
+  styled,
+} from "ol-components"
 import { useLearningpathRelationshipMove } from "api/hooks/learningResources"
+import CardRowList from "@/components/CardRowList/CardRowList"
+
+const EmptyMessage = styled.p({
+  fontStyle: "italic",
+})
 
 type ItemsListingProps = {
   items?: LearningPathRelationship[]
@@ -24,7 +29,7 @@ const ItemsListingViewOnly: React.FC<{
   items: NonNullable<ItemsListingProps["items"]>
 }> = ({ items }) => {
   return (
-    <ul className="ic-card-row-list">
+    <CardRowList>
       {items.map((item) => {
         return (
           <li key={item.id}>
@@ -35,7 +40,7 @@ const ItemsListingViewOnly: React.FC<{
           </li>
         )
       })}
-    </ul>
+    </CardRowList>
   )
 }
 
@@ -57,7 +62,6 @@ const ItemsListingSortable: React.FC<{
     const item = active.data.current as LearningPathRelationship
     return (
       <LearningResourceCard
-        className="ic-dragging"
         sortable
         suppressImage
         variant="row-reverse"
@@ -84,11 +88,7 @@ const ItemsListingSortable: React.FC<{
   )
   const disabled = isRefetching || move.isLoading
   return (
-    <ul
-      className={classNames("ic-card-row-list", {
-        "sorting-disabled": disabled,
-      })}
-    >
+    <CardRowList disabled={disabled}>
       <SortableList
         itemIds={sorted.map((item) => item.id)}
         onSortEnd={onSortEnd}
@@ -119,7 +119,7 @@ const ItemsListingSortable: React.FC<{
           )
         })}
       </SortableList>
-    </ul>
+    </CardRowList>
   )
 }
 
@@ -134,7 +134,7 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
     <>
       {isLoading && <LoadingSpinner loading />}
       {items.length === 0 ? (
-        <p className="empty-message">{emptyMessage}</p>
+        <EmptyMessage>{emptyMessage}</EmptyMessage>
       ) : sortable ? (
         <ItemsListingSortable items={items} isRefetching={isRefetching} />
       ) : (

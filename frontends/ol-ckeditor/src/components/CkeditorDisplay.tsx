@@ -1,6 +1,5 @@
 import React, { useMemo, useEffect } from "react"
 import classNames from "classnames"
-import "../../assets/vendor/ckeditor_content_styles.scss"
 import { embedlyCardHtml, ensureEmbedlyPlatform } from "ol-utilities"
 
 const parser = new DOMParser()

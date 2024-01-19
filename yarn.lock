@@ -7980,7 +7980,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^10.4.12, autoprefixer@npm:^10.4.13, autoprefixer@npm:^10.4.14":
+"autoprefixer@npm:^10.4.12, autoprefixer@npm:^10.4.13":
   version: 10.4.16
   resolution: "autoprefixer@npm:10.4.16"
   dependencies:
@@ -8448,15 +8448,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap@npm:^5.2.3":
-  version: 5.3.2
-  resolution: "bootstrap@npm:5.3.2"
-  peerDependencies:
-    "@popperjs/core": ^2.11.8
-  checksum: d5580b253d121ffc137388d41da58dce8d15f1ccd574e12f28d4a08e7649ca15e95db645b2b677cb8025bccd446bff04138fc0fe64f8cba0ccc5dc004a8644cf
-  languageName: node
-  linkType: hard
-
 "bplist-parser@npm:^0.2.0":
   version: 0.2.0
   resolution: "bplist-parser@npm:0.2.0"
@@ -8907,7 +8898,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.4.2, chokidar@npm:^3.5.3":
+"chokidar@npm:^3.4.2, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -9518,7 +9509,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cosmiconfig@npm:^8.2.0, cosmiconfig@npm:^8.3.5":
+"cosmiconfig@npm:^8.2.0":
   version: 8.3.6
   resolution: "cosmiconfig@npm:8.3.6"
   dependencies:
@@ -9663,6 +9654,24 @@ __metadata:
   peerDependencies:
     webpack: ^5.0.0
   checksum: 7c1784247bdbe76dc5c55fb1ac84f1d4177a74c47259942c9cfdb7a8e6baef11967a0bc85ac285f26bd26d5059decb848af8154a03fdb4f4894f41212f45eef3
+  languageName: node
+  linkType: hard
+
+"css-loader@npm:^6.9.0":
+  version: 6.9.0
+  resolution: "css-loader@npm:6.9.0"
+  dependencies:
+    icss-utils: ^5.1.0
+    postcss: ^8.4.31
+    postcss-modules-extract-imports: ^3.0.0
+    postcss-modules-local-by-default: ^4.0.3
+    postcss-modules-scope: ^3.1.0
+    postcss-modules-values: ^4.0.0
+    postcss-value-parser: ^4.2.0
+    semver: ^7.5.4
+  peerDependencies:
+    webpack: ^5.0.0
+  checksum: 71f20ee5eb5a4a9373ab41a5c17df411cb4f6f2de037297a2b0c2150681578f4979f319f4307a61e23c231dd6546e657ae95cba5a0698ad13ca43f91d4d2a0bc
   languageName: node
   linkType: hard
 
@@ -13324,13 +13333,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immutable@npm:^4.0.0":
-  version: 4.3.4
-  resolution: "immutable@npm:4.3.4"
-  checksum: de3edd964c394bab83432429d3fb0b4816b42f56050f2ca913ba520bd3068ec3e504230d0800332d3abc478616e8f55d3787424a90d0952e6aba864524f1afc3
-  languageName: node
-  linkType: hard
-
 "import-fresh@npm:^3.1.0, import-fresh@npm:^3.2.1, import-fresh@npm:^3.3.0":
   version: 3.3.0
   resolution: "import-fresh@npm:3.3.0"
@@ -15307,7 +15309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jiti@npm:^1.19.1, jiti@npm:^1.20.0":
+"jiti@npm:^1.19.1":
   version: 1.21.0
   resolution: "jiti@npm:1.21.0"
   bin:
@@ -17214,11 +17216,9 @@ __metadata:
     "@types/lodash": ^4.14.182
     "@types/react": ^18.2.6
     api: "workspace:*"
-    autoprefixer: ^10.4.14
     axios: ^1.6.3
-    bootstrap: ^5.2.3
     classnames: ^2.3.2
-    css-loader: ^6.7.1
+    css-loader: ^6.9.0
     formik: ^2.4.5
     lodash: ^4.17.21
     mini-css-extract-plugin: ^2.6.1
@@ -17227,7 +17227,6 @@ __metadata:
     ol-test-utilities: "workspace:*"
     ol-utilities: "workspace:*"
     ol-widgets: "workspace:*"
-    postcss-loader: ^7.0.1
     react: ^18.2.0
     react-dom: ^18.2.0
     react-dotdotdot: ^1.3.1
@@ -17235,10 +17234,7 @@ __metadata:
     react-infinite-scroller: ^1.2.6
     react-router: ^6.19.0
     react-router-dom: ^6.19.0
-    sass: ^1.69.7
-    sass-loader: ^13.3.0
     storybook: ^7.6.6
-    style-loader: ^3.3.3
     swc-loader: ^0.2.3
     tiny-invariant: ^1.3.1
     tsconfig-paths-webpack-plugin: ^4.1.0
@@ -18955,20 +18951,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-loader@npm:^7.0.1":
-  version: 7.3.4
-  resolution: "postcss-loader@npm:7.3.4"
-  dependencies:
-    cosmiconfig: ^8.3.5
-    jiti: ^1.20.0
-    semver: ^7.5.4
-  peerDependencies:
-    postcss: ^7.0.0 || ^8.0.1
-    webpack: ^5.0.0
-  checksum: f109eb266580eb296441a1ae057f93629b9b79ad962bdd3fc134417180431606a5419b6f5848c31e6d92c818e71fe96e4335a85cc5332c2f7b14e2869951e5b3
-  languageName: node
-  linkType: hard
-
 "postcss-logical@npm:^5.0.4":
   version: 5.0.4
   resolution: "postcss-logical@npm:5.0.4"
@@ -19104,7 +19086,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-modules-scope@npm:^3.0.0":
+"postcss-modules-scope@npm:^3.0.0, postcss-modules-scope@npm:^3.1.0":
   version: 3.1.0
   resolution: "postcss-modules-scope@npm:3.1.0"
   dependencies:
@@ -19471,6 +19453,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"postcss-styled-syntax@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "postcss-styled-syntax@npm:0.6.4"
+  dependencies:
+    typescript: ^5.3.3
+  peerDependencies:
+    postcss: ^8.4.21
+  checksum: efb176d5e8e840e76600a9138203541e083dcd2f57b7aaba5e8a888f3928c0e33e4eb63ddac781ce57611462dd12b70384a94fc4cb9a3088a77fae78d8bfa397
+  languageName: node
+  linkType: hard
+
 "postcss-svgo@npm:^5.1.0":
   version: 5.1.0
   resolution: "postcss-svgo@npm:5.1.0"
@@ -19522,7 +19515,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.3.5, postcss@npm:^8.4.23, postcss@npm:^8.4.4":
+"postcss@npm:^8.3.5, postcss@npm:^8.4.23, postcss@npm:^8.4.31, postcss@npm:^8.4.4":
   version: 8.4.33
   resolution: "postcss@npm:8.4.33"
   dependencies:
@@ -21110,6 +21103,7 @@ __metadata:
     jest-fail-on-console: ^2.4.2
     jest-watch-typeahead: ^2.2.2
     jest-when: ^3.6.0
+    postcss-styled-syntax: ^0.6.4
     prettier: ^3.0.3
     prettier-plugin-django-alpine: ^1.2.6
     stylelint: ^15.2.0
@@ -21229,43 +21223,6 @@ __metadata:
     sass-embedded:
       optional: true
   checksum: 5d73a428588150f704016aa27397941bb9246cecd2ee083b573e95d969fc080ac6a16f2fe1cc64aca08f6e70da6f3c586ee68f0efc9f527fecc360e5f1c299ec
-  languageName: node
-  linkType: hard
-
-"sass-loader@npm:^13.3.0":
-  version: 13.3.3
-  resolution: "sass-loader@npm:13.3.3"
-  dependencies:
-    neo-async: ^2.6.2
-  peerDependencies:
-    fibers: ">= 3.1.0"
-    node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
-    sass: ^1.3.0
-    sass-embedded: "*"
-    webpack: ^5.0.0
-  peerDependenciesMeta:
-    fibers:
-      optional: true
-    node-sass:
-      optional: true
-    sass:
-      optional: true
-    sass-embedded:
-      optional: true
-  checksum: 32bdb99afc07de06291091c847ec5a21eca1a4136a58a5a57f965a70e53d40d4f88625b828915ffb205baa866eef16a7c2c3a4db416b74ec6fe0bb00a04b7609
-  languageName: node
-  linkType: hard
-
-"sass@npm:^1.69.7":
-  version: 1.69.7
-  resolution: "sass@npm:1.69.7"
-  dependencies:
-    chokidar: ">=3.0.0 <4.0.0"
-    immutable: ^4.0.0
-    source-map-js: ">=0.6.2 <2.0.0"
-  bin:
-    sass: sass.js
-  checksum: c67cd32b69fb26a50e4535353e4145de8cbc8187db07c467cc335157fd56d03cae98754f86efe43b880b29f20c0a168ab972c7f74ebfe234e2bd2dfb868890cb
   languageName: node
   linkType: hard
 
@@ -21718,7 +21675,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-js@npm:>=0.6.2 <2.0.0, source-map-js@npm:^1.0.1, source-map-js@npm:^1.0.2":
+"source-map-js@npm:^1.0.1, source-map-js@npm:^1.0.2":
   version: 1.0.2
   resolution: "source-map-js@npm:1.0.2"
   checksum: c049a7fc4deb9a7e9b481ae3d424cc793cb4845daa690bc5a05d428bf41bf231ced49b4cf0c9e77f9d42fdb3d20d6187619fc586605f5eabe995a316da8d377c
@@ -22239,7 +22196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"style-loader@npm:^3.3.1, style-loader@npm:^3.3.3":
+"style-loader@npm:^3.3.1":
   version: 3.3.3
   resolution: "style-loader@npm:3.3.3"
   peerDependencies:
@@ -23397,7 +23354,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.1.6":
+"typescript@npm:^5.1.6, typescript@npm:^5.3.3":
   version: 5.3.3
   resolution: "typescript@npm:5.3.3"
   bin:
@@ -23407,7 +23364,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.1.6#~builtin<compat/typescript>":
+"typescript@patch:typescript@^5.1.6#~builtin<compat/typescript>, typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
   version: 5.3.3
   resolution: "typescript@patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=e012d7"
   bin:

@@ -1,6 +1,6 @@
 import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
-import { SortableList, SortableItem } from "ol-utilities"
+import { SortableList, SortableItem } from "ol-components"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import { factories, urls, makeRequest } from "api/test-utils"
 import {
@@ -16,8 +16,8 @@ import type { ItemsListingProps } from "./ItemsListing"
 import { ControlledPromise } from "ol-test-utilities"
 import invariant from "tiny-invariant"
 
-jest.mock("ol-utilities", () => {
-  const actual = jest.requireActual("ol-utilities")
+jest.mock("ol-components", () => {
+  const actual = jest.requireActual("ol-components")
   return {
     __esModule: true,
     ...actual,

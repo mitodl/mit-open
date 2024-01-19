@@ -6,7 +6,7 @@ ci:
     - prettier-django
     # Because these are local hooks it seems like they won't easily run in pre-commit CI
     - eslint
-    - scss-lint
+    - style-lint
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -84,12 +84,12 @@ repos:
         args: []
         exclude: "(node_modules/|.yarn/)"
         require_serial: false
-      - id: scss-lint
-        name: scss-lint
-        description: "Lint SCSS files"
+      - id: style-lint
+        name: style-lint
+        description: "Lint CSS"
         entry: npx stylelint --allow-empty-input --fix
         language: node
-        types: [scss]
+        types: [scss, jsx, ts, tsx]
         args: []
         exclude: node_modules/
         require_serial: false

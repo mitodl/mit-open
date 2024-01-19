@@ -24,8 +24,8 @@ const getPublicPath = (isProduction) => {
   return `http://${hostname}:${port}/`
 }
 
-const validateEnv = (isPorduction) => {
-  if (isPorduction) return
+const validateEnv = (isProduction) => {
+  if (isProduction) return
   if (!process.env.WEBPACK_PORT_MITOPEN) {
     throw new Error("WEBPACK_PORT_MITOPEN should be defined")
   }
@@ -41,7 +41,6 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
     devtool: "source-map",
     entry: {
       root: "./src/App",
-      style: "./src/common/style",
     },
     output: {
       path: path.resolve(__dirname, "build"),
@@ -70,18 +69,9 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
           exclude: /node_modules/,
         },
         {
-          test: /\.css$|\.scss$/,
+          test: /\.css$/i,
           exclude: /@ckeditor/,
-          use: [
-            {
-              loader: isProduction
-                ? MiniCssExtractPlugin.loader
-                : "style-loader",
-            },
-            "css-loader",
-            "postcss-loader",
-            "sass-loader",
-          ],
+          use: ["style-loader", "css-loader"],
         },
       ],
     },

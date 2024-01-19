@@ -13,11 +13,7 @@ const ArticleUpsertPage: React.FC<ArticleUpsertPageProps> = ({
   title,
 }) => {
   return (
-    <BannerPage
-      src="/static/images/course_search_banner.png"
-      alt=""
-      className="articles-editing-page"
-    >
+    <BannerPage src="/static/images/course_search_banner.png">
       <MetaTags>
         <title>{title}</title>
       </MetaTags>

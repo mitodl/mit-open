@@ -23,6 +23,18 @@ import {
 import type { SortableData } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { CancelDropArguments } from "@dnd-kit/core/dist/components/DndContext/DndContext"
+import styled from "@emotion/styled"
+
+const DragStyles = styled.div`
+  .ol-draggable {
+    cursor: grab;
+  }
+
+  .ol-dragging,
+  .ol-dragging * {
+    cursor: grabbing;
+  }
+`
 
 type SortableItemProps<I extends UniqueIdentifier = UniqueIdentifier> = {
   id: I
@@ -67,7 +79,7 @@ const SortableItem = <I extends UniqueIdentifier = UniqueIdentifier>(
 
   return (
     <Component ref={setNodeRef} style={style} {...attributes}>
-      {props.children && props.children(handleProps)}
+      <DragStyles>{props.children && props.children(handleProps)}</DragStyles>
     </Component>
   )
 }
@@ -228,7 +240,7 @@ const SortableList = <I extends UniqueIdentifier = UniqueIdentifier>({
 }
 
 export default SortableList
-export { SortableItem, arrayMove }
+export { SortableList, SortableItem, arrayMove }
 export type {
   RenderActive,
   SortEndEvent,

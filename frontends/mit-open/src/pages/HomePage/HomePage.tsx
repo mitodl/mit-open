@@ -83,7 +83,6 @@ const PageTitle = styled.h1`
 const StyledSearchInput = styled(SearchInput)`
   margin-top: 1.75rem;
   margin-bottom: 1.75rem;
-
   background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
 
   &.MuiInputBase-root {

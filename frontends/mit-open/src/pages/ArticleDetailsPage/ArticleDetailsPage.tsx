@@ -36,9 +36,15 @@ const ArticlesDetailPage: React.FC = () => {
             {article.data ? (
               <>
                 <Grid item xs={9}>
-                  <h3 className="post-title">{article.data?.title}</h3>
+                  <h3>{article.data?.title}</h3>
                 </Grid>
-                <Grid item xs={3} className="ic-centered-right">
+                <Grid
+                  item
+                  xs={3}
+                  justifyContent="flex-end"
+                  alignItems="center"
+                  display="flex"
+                >
                   <ButtonLink variant="outlined" to={articlesEditView(id)}>
                     Edit
                   </ButtonLink>

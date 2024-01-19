@@ -8,6 +8,7 @@ import {
   LoadingSpinner,
   BannerPage,
   Container,
+  styled,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
@@ -24,8 +25,13 @@ import LearningResourceCardTemplate from "@/page-components/LearningResourceCard
 
 import { imgConfigs } from "@/common/constants"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-
+import CardRowList from "@/components/CardRowList/CardRowList"
 import * as urls from "@/common/urls"
+
+const ListHeaderGrid = styled(Grid)`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`
 
 type EditListMenuProps = {
   resource: LearningPathResource
@@ -108,22 +114,27 @@ const LearningPathListingPage: React.FC = () => {
       <Container maxWidth="sm">
         <GridContainer>
           <GridColumn variant="single-full">
-            <Grid container className="list-header">
-              <Grid item xs={6}>
+            <ListHeaderGrid container justifyContent="space-between">
+              <Grid item>
                 <h1>Learning Paths</h1>
               </Grid>
-              <Grid item xs={6} className="ic-centered-right">
+              <Grid
+                item
+                justifyContent="flex-end"
+                alignItems="center"
+                display="flex"
+              >
                 {canEdit ? (
                   <Button variant="contained" onClick={handleCreate}>
                     Create new list
                   </Button>
                 ) : null}
               </Grid>
-            </Grid>
+            </ListHeaderGrid>
             <section>
               <LoadingSpinner loading={listingQuery.isLoading} />
               {listingQuery.data && (
-                <ul className="ic-card-row-list">
+                <CardRowList>
                   {listingQuery.data.results?.map((list) => {
                     return (
                       <li key={list.id}>
@@ -135,7 +146,7 @@ const LearningPathListingPage: React.FC = () => {
                       </li>
                     )
                   })}
-                </ul>
+                </CardRowList>
               )}
             </section>
           </GridColumn>

@@ -8,6 +8,7 @@ import {
   BooleanRadioChoiceField,
   FormDialog,
   BasicDialog,
+  styled,
 } from "ol-components"
 import * as Yup from "yup"
 import type { LearningPathResource } from "api"
@@ -18,6 +19,32 @@ import {
   useLearningpathDestroy,
   useLearningResourceTopics,
 } from "api/hooks/learningResources"
+
+/*
+  TODO Refactor to avoid passing classnames to nested components
+  We should at minimum be able to target child components within the css
+  or access and pass the generated classname dynamically, see
+  https://emotion.sh/docs/styled#targeting-another-emotion-component
+*/
+const StyledFormDialog = styled(FormDialog)`
+  .manage-list-form {
+    .radio-option {
+      .MuiFormControlLabel-label {
+        width: 150px;
+      }
+
+      .option-header {
+        font-weight: bold;
+        font-size: theme.$font-normal;
+        display: block;
+      }
+
+      .option-detail {
+        font-size: theme.$font-sm;
+      }
+    }
+  }
+`
 
 const learningPathFormSchema = Yup.object().shape({
   published: Yup.boolean()
@@ -97,7 +124,7 @@ const UpsertListDialog = NiceModal.create(
     const topics = topicsQuery.data?.results ?? []
 
     return (
-      <FormDialog
+      <StyledFormDialog
         {...NiceModal.muiDialogV5(modal)}
         title={title}
         fullWidth
@@ -177,7 +204,7 @@ const UpsertListDialog = NiceModal.create(
           row
           onChange={(e) => formik.setFieldValue(e.name, e.value)}
         />
-      </FormDialog>
+      </StyledFormDialog>
     )
   },
 )

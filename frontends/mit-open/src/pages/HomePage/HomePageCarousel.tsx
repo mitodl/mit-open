@@ -17,13 +17,21 @@ interface HomePageCarouselProps {
   title: React.ReactNode
 }
 
-const CarouselButton = styled(Button)`
-  padding: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-right: 0.5em;
-  margin-left: 0.5em;
-`
+const CAROUSEL_SPACING = 24
+
+const CarouselCard = styled(LearningResourceCard)({
+  height: "100%",
+  marginLeft: CAROUSEL_SPACING * 0.5,
+  marginRight: CAROUSEL_SPACING * 0.5,
+})
+
+const CarouselButton = styled(Button)({
+  padding: 10,
+  paddingLeft: 15,
+  paddingRight: 15,
+  marginRight: "0.5em",
+  marginLeft: "0.5em",
+})
 
 const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
   query,
@@ -39,7 +47,6 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
       title={title}
       as="section"
       pageSize={pageSize}
-      carouselClassName="ic-carousel"
       cellSpacing={0} // we'll handle it with css
       previous={
         <CarouselButton
@@ -62,12 +69,7 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
       showNavigationButtons={showNavigationButtons}
     >
       {query.data?.results?.map((resource) => (
-        <LearningResourceCard
-          key={resource.id}
-          className="ic-resource-card ic-carousel-card"
-          resource={resource}
-          variant="column"
-        />
+        <CarouselCard key={resource.id} resource={resource} variant="column" />
       ))}
     </TitledCarousel>
   )
