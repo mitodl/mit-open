@@ -49,6 +49,8 @@ module.exports = {
           "**/*.stories.ts",
           "**/*.stories.tsx",
           "**/*.mdx",
+          "playwright.config.ts",
+          "tests/*.spec.ts",
         ],
       },
     ],
