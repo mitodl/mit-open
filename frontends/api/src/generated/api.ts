@@ -3413,10 +3413,50 @@ export interface SearchResponse {
   results: Array<LearningResource>
   /**
    *
-   * @type {any}
+   * @type {SearchResponseMetadata}
    * @memberof SearchResponse
    */
-  metadata: any
+  metadata: SearchResponseMetadata
+}
+/**
+ *
+ * @export
+ * @interface SearchResponseMetadata
+ */
+export interface SearchResponseMetadata {
+  /**
+   *
+   * @type {{ [key: string]: Array<SearchResponseMetadataAggregationsValueInner>; }}
+   * @memberof SearchResponseMetadata
+   */
+  aggregations: {
+    [key: string]: Array<SearchResponseMetadataAggregationsValueInner>
+  }
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof SearchResponseMetadata
+   */
+  suggestions: Array<string>
+}
+/**
+ *
+ * @export
+ * @interface SearchResponseMetadataAggregationsValueInner
+ */
+export interface SearchResponseMetadataAggregationsValueInner {
+  /**
+   *
+   * @type {string}
+   * @memberof SearchResponseMetadataAggregationsValueInner
+   */
+  key: string
+  /**
+   *
+   * @type {number}
+   * @memberof SearchResponseMetadataAggregationsValueInner
+   */
+  doc_count: number
 }
 /**
  * Serializer for Subfields
