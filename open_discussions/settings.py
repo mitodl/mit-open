@@ -113,13 +113,10 @@ INSTALLED_APPS = (
     "authentication",
     "channels",
     "profiles",
-    "mail",
     "widgets",
-    "interactions",
-    "learning_resources",  # to replace below when ready
-    "openapi",
-    "course_catalog",
+    "learning_resources",
     "learning_resources_search",
+    "openapi",
     "articles",
 )
 
@@ -617,10 +614,6 @@ ANONYMOUS_USER_NAME = None
 
 # Widgets
 WIDGETS_RSS_CACHE_TTL = get_int("WIDGETS_RSS_CACHE_TTL", 15 * 60)
-
-# livestream API credentials
-LIVESTREAM_SECRET_KEY = get_string("LIVESTREAM_SECRET_KEY", None)
-LIVESTREAM_ACCOUNT_ID = get_string("LIVESTREAM_ACCOUNT_ID", None)
 
 # x509 filenames
 MIT_WS_CERTIFICATE_FILE = os.path.join(STATIC_ROOT, "mit_x509.cert")  # noqa: PTH118
