@@ -93,15 +93,15 @@ v1_urls = [
     *nested_learning_path_router.urls,
     *nested_podcast_router.urls,
     *nested_userlist_router.urls,
-]
-
-
-urlpatterns = [
-    re_path(r"^api/v1/", include((v1_urls, "learning_resources"), namespace="v1")),
-    path("podcasts/rss_feed", views.podcast_rss_feed, name="podcast-rss-feed"),
     path(
         "api/v1/ocw_next_webhook/",
         WebhookOCWView.as_view(),
         name="ocw-next-webhook",
     ),
+]
+
+app_name = "lr"
+urlpatterns = [
+    re_path(r"^api/v1/", include((v1_urls, "v1"))),
+    path("podcasts/rss_feed", views.podcast_rss_feed, name="podcast-rss-feed"),
 ]

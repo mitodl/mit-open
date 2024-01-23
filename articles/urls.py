@@ -12,6 +12,7 @@ v0_router.register(
     basename="articles",
 )
 
+app_name = "articles"
 urlpatterns = [
-    re_path(r"^api/v1/", include((v0_router.urls, "v1:articles"))),
+    re_path(r"^api/v1/", include((v0_router.urls, "v1"))),
 ]

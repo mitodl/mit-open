@@ -599,6 +599,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
+    "ALLOWED_VERSIONS": ["v0", "v1"],
     "ORDERING_PARAM": "sortby",
 }
 

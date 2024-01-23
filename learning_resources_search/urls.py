@@ -20,6 +20,7 @@ v1_urls = [
     ),
 ]
 
+app_name = "lr_search"
 urlpatterns = [
-    re_path(r"^api/v1/", include((v1_urls, "v1:search"))),
+    re_path(r"^api/v1/", include((v1_urls, "v1"))),
 ]
