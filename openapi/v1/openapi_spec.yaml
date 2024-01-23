@@ -7882,11 +7882,29 @@ components:
             $ref: '#/components/schemas/LearningResource'
           readOnly: true
         metadata:
-          example:
+          type: object
+          properties:
             aggregations:
-            - {}
-            suggest:
-            - string
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                    doc_count:
+                      type: integer
+                  required:
+                  - doc_count
+                  - key
+            suggestions:
+              type: array
+              items:
+                type: string
+          required:
+          - aggregations
+          - suggestions
           readOnly: true
       required:
       - count

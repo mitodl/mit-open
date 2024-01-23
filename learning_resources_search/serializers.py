@@ -2,6 +2,7 @@
 
 import logging
 from collections import defaultdict
+from typing import TypedDict
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -287,16 +288,41 @@ class ContentFileSearchRequestSerializer(SearchRequestSerializer):
     )
 
 
+class AggregationValue(TypedDict):
+    key: str
+    doc_count: int
+
+
 def _transform_aggregations(aggregations):
-    formatted_aggregations = {}
-    for key, value in aggregations.items():
-        if value.get("buckets"):
-            formatted_aggregations[key] = value.get("buckets")
-        elif value.get(key, {}).get("buckets"):
-            formatted_aggregations[key] = value.get(key, {}).get("buckets")
-        else:
-            formatted_aggregations[key] = value.get(key, {}).get(key, {}).get("buckets")
-    return formatted_aggregations
+    def get_buckets(key, aggregation):
+        if "buckets" in aggregation:
+            return aggregation["buckets"]
+        if key in aggregation:
+            return get_buckets(key, aggregation[key])
+        return []
+
+    def format_bucket(bucket):
+        """
+        We want to ensure the key is a string.
+
+        For example, for boolean indexes, the OpenSearch bucket values are of
+        form
+            {
+                "key": 0 | 1,
+                "key_as_string": "false" | "true",
+                "doc_count": int
+            }
+        Here, we return "false" or "true" as the key.
+        """
+        copy = {**bucket}
+        if "key_as_string" in bucket:
+            copy["key"] = copy.pop("key_as_string")
+        return copy
+
+    return {
+        key: [format_bucket(b) for b in get_buckets(key, agg)]
+        for key, agg in aggregations.items()
+    }
 
 
 def _transform_search_results_suggest(search_result):
@@ -336,6 +362,11 @@ def _transform_search_results_suggest(search_result):
         return []
 
 
+class SearchResponseMetadata(TypedDict):
+    aggregations: dict[str, list[AggregationValue]]
+    suggestions: list[str]
+
+
 class SearchResponseSerializer(serializers.Serializer):
     count = serializers.SerializerMethodField()
     results = serializers.SerializerMethodField()
@@ -349,8 +380,7 @@ class SearchResponseSerializer(serializers.Serializer):
         hits = instance.get("hits", {}).get("hits", [])
         return (hit.get("_source") for hit in hits)
 
-    @extend_schema_field({"example": {"aggregations": [{}], "suggest": ["string"]}})
-    def get_metadata(self, instance):
+    def get_metadata(self, instance) -> SearchResponseMetadata:
         return {
             "aggregations": _transform_aggregations(instance.get("aggregations", {})),
             "suggest": _transform_search_results_suggest(instance),

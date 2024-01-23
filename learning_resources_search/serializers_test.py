@@ -273,240 +273,451 @@ def test_learning_resources_search_request_serializer_invalid(parameter, value):
     ]
 
 
-def test_learning_resources_search_response_serializer(settings):
-    settings.OPENSEARCH_MAX_SUGGEST_HITS = 10
-
-    raw_data = {
-        "took": 8,
-        "timed_out": False,
-        "_shards": {"total": 2, "successful": 2, "skipped": 0, "failed": 0},
-        "hits": {
-            "total": {"value": 9, "relation": "eq"},
-            "max_score": 6.654978,
-            "hits": [
-                {
-                    "_index": (
-                        "discussions_local_course_6561cf5547d74a3aad746efb5f40a26d"
-                    ),
-                    "_type": "_doc",
-                    "_id": "co_globalalumni_Y291cnNlLXYxOnhQUk8rTUNQTytSMQ",
-                    "_score": 6.654978,
-                    "_source": {
-                        "id": 5147,
-                        "topics": [
-                            {"id": 5, "name": "Management"},
-                            {"id": 6, "name": "Innovation"},
-                        ],
-                        "offered_by": "xPRO",
-                        "course_feature": [],
-                        "department": None,
-                        "professional": True,
-                        "certification": "Certificates",
-                        "prices": [2250.0],
-                        "learning_path": None,
-                        "podcast": None,
-                        "podcast_episode": None,
-                        "runs": [
-                            {
-                                "id": 633,
-                                "instructors": [],
-                                "image": None,
-                                "run_id": "course-v1:xPRO+MCPO+R1",
-                                "title": (
-                                    "Project Management: Leading Organizations to"
-                                    " Success"
-                                ),
-                                "description": None,
-                                "full_description": None,
-                                "last_modified": None,
-                                "published": True,
-                                "languages": None,
-                                "url": None,
-                                "level": None,
-                                "slug": None,
-                                "availability": None,
-                                "semester": None,
-                                "year": None,
-                                "start_date": "2023-09-26T06:00:00Z",
-                                "end_date": None,
-                                "enrollment_start": None,
-                                "enrollment_end": None,
-                                "prices": ["2250.00"],
-                                "checksum": None,
-                            }
-                        ],
-                        "course": {
-                            "course_numbers": [
-                                {
-                                    "value": "1.001",
-                                    "department": {
-                                        "department_id": "1",
-                                        "name": DEPARTMENTS["1"],
-                                    },
-                                    "listing_type": "Primary",
-                                }
-                            ]
-                        },
-                        "image": {
-                            "id": 16,
-                            "url": "https://xpro-app-production.s3.amazonaws.com/original_images/MCPO-800x500.jpg",
+response_test_raw_data_1 = {
+    "took": 8,
+    "timed_out": False,
+    "_shards": {"total": 2, "successful": 2, "skipped": 0, "failed": 0},
+    "hits": {
+        "total": {"value": 9, "relation": "eq"},
+        "max_score": 6.654978,
+        "hits": [
+            {
+                "_index": ("discussions_local_course_6561cf5547d74a3aad746efb5f40a26d"),
+                "_type": "_doc",
+                "_id": "co_globalalumni_Y291cnNlLXYxOnhQUk8rTUNQTytSMQ",
+                "_score": 6.654978,
+                "_source": {
+                    "id": 5147,
+                    "topics": [
+                        {"id": 5, "name": "Management"},
+                        {"id": 6, "name": "Innovation"},
+                    ],
+                    "offered_by": "xPRO",
+                    "course_feature": [],
+                    "department": None,
+                    "professional": True,
+                    "certification": "Certificates",
+                    "prices": [2250.0],
+                    "learning_path": None,
+                    "podcast": None,
+                    "podcast_episode": None,
+                    "runs": [
+                        {
+                            "id": 633,
+                            "instructors": [],
+                            "image": None,
+                            "run_id": "course-v1:xPRO+MCPO+R1",
+                            "title": (
+                                "Project Management: Leading Organizations to"
+                                " Success"
+                            ),
                             "description": None,
-                            "alt": None,
-                        },
-                        "learning_path_parents": [],
-                        "user_list_parents": [],
-                        "program": None,
-                        "readable_id": "course-v1:xPRO+MCPO+R1",
-                        "title": (
-                            "Managing Complex Projects and Organizations for Success"
-                        ),
-                        "description": "",
-                        "full_description": None,
-                        "last_modified": None,
-                        "published": True,
-                        "languages": None,
-                        "url": "http://xpro.mit.edu/courses/course-v1:xPRO+MCPO+R1/",
-                        "resource_type": "course",
-                        "platform": "globalalumni",
+                            "full_description": None,
+                            "last_modified": None,
+                            "published": True,
+                            "languages": None,
+                            "url": None,
+                            "level": None,
+                            "slug": None,
+                            "availability": None,
+                            "semester": None,
+                            "year": None,
+                            "start_date": "2023-09-26T06:00:00Z",
+                            "end_date": None,
+                            "enrollment_start": None,
+                            "enrollment_end": None,
+                            "prices": ["2250.00"],
+                            "checksum": None,
+                        }
+                    ],
+                    "course": {
+                        "course_numbers": [
+                            {
+                                "value": "1.001",
+                                "department": {
+                                    "department_id": "1",
+                                    "name": DEPARTMENTS["1"],
+                                },
+                                "listing_type": "Primary",
+                            }
+                        ]
                     },
-                }
-            ],
-        },
-        "aggregations": {
+                    "image": {
+                        "id": 16,
+                        "url": "https://xpro-app-production.s3.amazonaws.com/original_images/MCPO-800x500.jpg",
+                        "description": None,
+                        "alt": None,
+                    },
+                    "learning_path_parents": [],
+                    "user_list_parents": [],
+                    "program": None,
+                    "readable_id": "course-v1:xPRO+MCPO+R1",
+                    "title": (
+                        "Managing Complex Projects and Organizations for Success"
+                    ),
+                    "description": "",
+                    "full_description": None,
+                    "last_modified": None,
+                    "published": True,
+                    "languages": None,
+                    "url": "http://xpro.mit.edu/courses/course-v1:xPRO+MCPO+R1/",
+                    "resource_type": "course",
+                    "platform": "globalalumni",
+                },
+            }
+        ],
+    },
+    "aggregations": {
+        "level": {
+            "doc_count": 9,
             "level": {
-                "doc_count": 9,
+                "doc_count": 20,
                 "level": {
-                    "doc_count": 20,
-                    "level": {
-                        "doc_count_error_upper_bound": 0,
-                        "sum_other_doc_count": 0,
-                        "buckets": [],
-                    },
+                    "doc_count_error_upper_bound": 0,
+                    "sum_other_doc_count": 0,
+                    "buckets": [],
                 },
             },
+        },
+        "offered_by": {
+            "doc_count": 9,
             "offered_by": {
-                "doc_count": 9,
+                "doc_count_error_upper_bound": 0,
+                "sum_other_doc_count": 0,
+                "buckets": [{"key": "xPRO", "doc_count": 9}],
+            },
+        },
+    },
+    "suggest": {
+        "description.trigram": [
+            {
+                "text": "manage",
+                "offset": 0,
+                "length": 6,
+                "options": [
+                    {"text": "manage", "score": 0.05196008, "collate_match": True},
+                    {
+                        "text": "managers",
+                        "score": 0.02764452,
+                        "collate_match": True,
+                    },
+                ],
+            }
+        ],
+        "title.trigram": [
+            {
+                "text": "manage",
+                "offset": 0,
+                "length": 6,
+                "options": [
+                    {"text": "manage", "score": 0.073289275, "collate_match": False}
+                ],
+            }
+        ],
+    },
+}
+response_test_response_1 = {
+    "count": 9,
+    "results": [
+        {
+            "id": 5147,
+            "topics": [
+                {"id": 5, "name": "Management"},
+                {"id": 6, "name": "Innovation"},
+            ],
+            "offered_by": "xPRO",
+            "course_feature": [],
+            "department": None,
+            "professional": True,
+            "certification": "Certificates",
+            "prices": [2250.0],
+            "learning_path": None,
+            "podcast": None,
+            "podcast_episode": None,
+            "runs": [
+                {
+                    "id": 633,
+                    "instructors": [],
+                    "image": None,
+                    "run_id": "course-v1:xPRO+MCPO+R1",
+                    "title": "Project Management: Leading Organizations to Success",
+                    "description": None,
+                    "full_description": None,
+                    "last_modified": None,
+                    "published": True,
+                    "languages": None,
+                    "url": None,
+                    "level": None,
+                    "slug": None,
+                    "availability": None,
+                    "semester": None,
+                    "year": None,
+                    "start_date": "2023-09-26T06:00:00Z",
+                    "end_date": None,
+                    "enrollment_start": None,
+                    "enrollment_end": None,
+                    "prices": ["2250.00"],
+                    "checksum": None,
+                }
+            ],
+            "course": {
+                "course_numbers": [
+                    {
+                        "value": "1.001",
+                        "department": {
+                            "department_id": "1",
+                            "name": DEPARTMENTS["1"],
+                        },
+                        "listing_type": "Primary",
+                    }
+                ]
+            },
+            "image": {
+                "id": 16,
+                "url": "https://xpro-app-production.s3.amazonaws.com/original_images/MCPO-800x500.jpg",
+                "description": None,
+                "alt": None,
+            },
+            "learning_path_parents": [],
+            "user_list_parents": [],
+            "program": None,
+            "readable_id": "course-v1:xPRO+MCPO+R1",
+            "title": "Managing Complex Projects and Organizations for Success",
+            "description": "",
+            "full_description": None,
+            "last_modified": None,
+            "published": True,
+            "languages": None,
+            "url": "http://xpro.mit.edu/courses/course-v1:xPRO+MCPO+R1/",
+            "resource_type": "course",
+            "platform": "globalalumni",
+        }
+    ],
+    "metadata": {
+        "aggregations": {
+            "level": [],
+            "offered_by": [{"key": "xPRO", "doc_count": 9}],
+        },
+        "suggest": ["manage"],
+    },
+}
+response_test_raw_data_2 = {
+    "took": 13,
+    "timed_out": False,
+    "_shards": {"total": 2, "successful": 2, "skipped": 0, "failed": 0},
+    "hits": {
+        "total": {"value": 1, "relation": "eq"},
+        "max_score": 9.133309,
+        "hits": [
+            {
+                "_index": "discussions_local_podcast_a558057c44b64f3098895d994051d5ec",
+                "_id": "7363",
+                "_score": 9.133309,
+                "_source": {
+                    "image": {
+                        "alt": None,
+                        "description": None,
+                        "id": 575,
+                        "url": "https://i1.sndcdn.com/avatars-000316043422-ishfjv-original.jpg",
+                    },
+                    "languages": None,
+                    "learning_path_parents": [],
+                    "topics": [
+                        {"name": "Science", "id": 3},
+                        {"name": "Biology", "id": 5},
+                    ],
+                    "readable_id": "broadignite-podcastd78a4cb92091316f984b0619fd1dadee",
+                    "resource_type": "podcast",
+                    "description": "Our podcast features researchers supported by BroadIgnite, a program that connects rising philanthropists with emerging scientific talent at the Broad Institute of MIT and Harvard.",
+                    "offered_by": None,
+                    "published": True,
+                    "title": "BroadIgnite Podcast",
+                    "platform": {"code": "podcast", "name": "Podcast"},
+                    "url": "https://soundcloud.com/broadignitepodcast",
+                    "professional": False,
+                    "certification": False,
+                    "full_description": "Our podcast features researchers supported by BroadIgnite, a program that connects rising philanthropists with emerging scientific talent at the Broad Institute of MIT and Harvard.",
+                    "podcast": {
+                        "apple_podcasts_url": "https://podcasts.apple.com/us/podcast/broadignite-podcast/id1210148292",
+                        "episode_count": 9,
+                        "google_podcasts_url": "https://podcasts.google.com/feed/aHR0cDovL2ZlZWRzLnNvdW5kY2xvdWQuY29tL3VzZXJzL3NvdW5kY2xvdWQ6dXNlcnM6MjQxNzY2MTMyL3NvdW5kcy5yc3M",
+                        "rss_url": "http://feeds.soundcloud.com/users/soundcloud:users:241766132/sounds.rss",
+                        "id": 86,
+                    },
+                    "id": 7363,
+                    "departments": [],
+                    "prices": 0,
+                    "last_modified": None,
+                    "runs": [],
+                    "course_feature": [],
+                    "user_list_parents": [],
+                },
+            }
+        ],
+    },
+    "aggregations": {
+        "level": {
+            "doc_count": 1,
+            "level": {
+                "doc_count": 0,
+                "level": {
+                    "doc_count_error_upper_bound": 0,
+                    "sum_other_doc_count": 0,
+                    "buckets": [],
+                },
+            },
+        },
+        "topic": {
+            "doc_count": 1,
+            "topic": {
+                "doc_count": 2,
+                "topic": {
+                    "doc_count_error_upper_bound": 0,
+                    "sum_other_doc_count": 0,
+                    "buckets": [
+                        {"key": "Biology", "doc_count": 1},
+                        {"key": "Science", "doc_count": 1},
+                    ],
+                },
+            },
+        },
+        "offered_by": {
+            "doc_count": 1,
+            "offered_by": {
+                "doc_count": 0,
                 "offered_by": {
                     "doc_count_error_upper_bound": 0,
                     "sum_other_doc_count": 0,
-                    "buckets": [{"key": "xPRO", "doc_count": 9}],
+                    "buckets": [],
                 },
             },
         },
-        "suggest": {
-            "description.trigram": [
-                {
-                    "text": "manage",
-                    "offset": 0,
-                    "length": 6,
-                    "options": [
-                        {"text": "manage", "score": 0.05196008, "collate_match": True},
-                        {
-                            "text": "managers",
-                            "score": 0.02764452,
-                            "collate_match": True,
-                        },
-                    ],
-                }
-            ],
-            "title.trigram": [
-                {
-                    "text": "manage",
-                    "offset": 0,
-                    "length": 6,
-                    "options": [
-                        {"text": "manage", "score": 0.073289275, "collate_match": False}
-                    ],
-                }
-            ],
+        "platform": {
+            "doc_count": 1,
+            "platform": {
+                "doc_count": 1,
+                "platform": {
+                    "doc_count_error_upper_bound": 0,
+                    "sum_other_doc_count": 0,
+                    "buckets": [{"key": "podcast", "doc_count": 1}],
+                },
+            },
         },
-    }
-    response = {
-        "count": 9,
-        "results": [
+        "course_feature": {
+            "doc_count": 1,
+            "course_feature": {
+                "doc_count_error_upper_bound": 0,
+                "sum_other_doc_count": 0,
+                "buckets": [],
+            },
+        },
+        "professional": {
+            "doc_count": 1,
+            "professional": {
+                "doc_count_error_upper_bound": 0,
+                "sum_other_doc_count": 0,
+                "buckets": [{"key": 0, "key_as_string": "false", "doc_count": 1}],
+            },
+        },
+        "certification": {
+            "doc_count": 1,
+            "certification": {
+                "doc_count_error_upper_bound": 0,
+                "sum_other_doc_count": 0,
+                "buckets": [{"key": 0, "key_as_string": "false", "doc_count": 1}],
+            },
+        },
+    },
+    "suggest": {
+        "description.trigram": [
             {
-                "id": 5147,
-                "topics": [
-                    {"id": 5, "name": "Management"},
-                    {"id": 6, "name": "Innovation"},
+                "text": "BroadIgnite",
+                "offset": 0,
+                "length": 11,
+                "options": [
+                    {"text": "broadignite", "score": 0.039678775, "collate_match": True}
                 ],
-                "offered_by": "xPRO",
-                "course_feature": [],
-                "department": None,
-                "professional": True,
-                "certification": "Certificates",
-                "prices": [2250.0],
-                "learning_path": None,
-                "podcast": None,
-                "podcast_episode": None,
-                "runs": [
-                    {
-                        "id": 633,
-                        "instructors": [],
-                        "image": None,
-                        "run_id": "course-v1:xPRO+MCPO+R1",
-                        "title": "Project Management: Leading Organizations to Success",
-                        "description": None,
-                        "full_description": None,
-                        "last_modified": None,
-                        "published": True,
-                        "languages": None,
-                        "url": None,
-                        "level": None,
-                        "slug": None,
-                        "availability": None,
-                        "semester": None,
-                        "year": None,
-                        "start_date": "2023-09-26T06:00:00Z",
-                        "end_date": None,
-                        "enrollment_start": None,
-                        "enrollment_end": None,
-                        "prices": ["2250.00"],
-                        "checksum": None,
-                    }
-                ],
-                "course": {
-                    "course_numbers": [
-                        {
-                            "value": "1.001",
-                            "department": {
-                                "department_id": "1",
-                                "name": DEPARTMENTS["1"],
-                            },
-                            "listing_type": "Primary",
-                        }
-                    ]
-                },
-                "image": {
-                    "id": 16,
-                    "url": "https://xpro-app-production.s3.amazonaws.com/original_images/MCPO-800x500.jpg",
-                    "description": None,
-                    "alt": None,
-                },
-                "learning_path_parents": [],
-                "user_list_parents": [],
-                "program": None,
-                "readable_id": "course-v1:xPRO+MCPO+R1",
-                "title": "Managing Complex Projects and Organizations for Success",
-                "description": "",
-                "full_description": None,
-                "last_modified": None,
-                "published": True,
-                "languages": None,
-                "url": "http://xpro.mit.edu/courses/course-v1:xPRO+MCPO+R1/",
-                "resource_type": "course",
-                "platform": "globalalumni",
             }
         ],
-        "metadata": {
-            "aggregations": {
-                "level": [],
-                "offered_by": [{"key": "xPRO", "doc_count": 9}],
+        "title.trigram": [
+            {
+                "text": "BroadIgnite",
+                "offset": 0,
+                "length": 11,
+                "options": [
+                    {"text": "broadignite", "score": 0.12272326, "collate_match": True}
+                ],
+            }
+        ],
+    },
+}
+response_test_response_2 = {
+    "count": 1,
+    "results": [
+        {
+            "image": {
+                "alt": None,
+                "description": None,
+                "id": 575,
+                "url": "https://i1.sndcdn.com/avatars-000316043422-ishfjv-original.jpg",
             },
-            "suggest": ["manage"],
+            "languages": None,
+            "learning_path_parents": [],
+            "topics": [{"name": "Science", "id": 3}, {"name": "Biology", "id": 5}],
+            "readable_id": "broadignite-podcastd78a4cb92091316f984b0619fd1dadee",
+            "resource_type": "podcast",
+            "description": "Our podcast features researchers supported by BroadIgnite, a program that connects rising philanthropists with emerging scientific talent at the Broad Institute of MIT and Harvard.",
+            "offered_by": None,
+            "published": True,
+            "title": "BroadIgnite Podcast",
+            "platform": {"code": "podcast", "name": "Podcast"},
+            "url": "https://soundcloud.com/broadignitepodcast",
+            "professional": False,
+            "certification": False,
+            "full_description": "Our podcast features researchers supported by BroadIgnite, a program that connects rising philanthropists with emerging scientific talent at the Broad Institute of MIT and Harvard.",
+            "podcast": {
+                "apple_podcasts_url": "https://podcasts.apple.com/us/podcast/broadignite-podcast/id1210148292",
+                "episode_count": 9,
+                "google_podcasts_url": "https://podcasts.google.com/feed/aHR0cDovL2ZlZWRzLnNvdW5kY2xvdWQuY29tL3VzZXJzL3NvdW5kY2xvdWQ6dXNlcnM6MjQxNzY2MTMyL3NvdW5kcy5yc3M",
+                "rss_url": "http://feeds.soundcloud.com/users/soundcloud:users:241766132/sounds.rss",
+                "id": 86,
+            },
+            "id": 7363,
+            "departments": [],
+            "prices": 0,
+            "last_modified": None,
+            "runs": [],
+            "course_feature": [],
+            "user_list_parents": [],
+        }
+    ],
+    "metadata": {
+        "aggregations": {
+            "level": [],
+            "topic": [
+                {"key": "Biology", "doc_count": 1},
+                {"key": "Science", "doc_count": 1},
+            ],
+            "offered_by": [],
+            "platform": [{"key": "podcast", "doc_count": 1}],
+            "course_feature": [],
+            "professional": [{"key": "false", "doc_count": 1}],
+            "certification": [{"key": "false", "doc_count": 1}],
         },
-    }
+        "suggest": ["broadignite"],
+    },
+}
 
+
+@pytest.mark.parametrize(
+    ("raw_data", "response"),
+    [
+        (response_test_raw_data_1, response_test_response_1),
+        (response_test_raw_data_2, response_test_response_2),
+    ],
+)
+def test_learning_resources_search_response_serializer(settings, raw_data, response):
+    settings.OPENSEARCH_MAX_SUGGEST_HITS = 10
     assert JSONRenderer().render(
         SearchResponseSerializer(raw_data).data
     ) == JSONRenderer().render(response)
