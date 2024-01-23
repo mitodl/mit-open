@@ -9,22 +9,35 @@ from pathlib import Path
 import pytest
 import pytz
 
+from learning_resources import utils
 from learning_resources.constants import (
     CONTENT_TYPE_FILE,
     CONTENT_TYPE_PDF,
     CONTENT_TYPE_VIDEO,
 )
 from learning_resources.etl.utils import get_content_type
+from learning_resources.factories import CourseFactory, LearningResourceRunFactory
 from learning_resources.models import LearningResourcePlatform
-from learning_resources.utils import (
-    get_ocw_topics,
-    load_course_blocklist,
-    load_course_duplicates,
-    parse_instructors,
-    safe_load_json,
-    semester_year_to_date,
-    upsert_platform_data,
-)
+
+pytestmark = pytest.mark.django_db
+
+
+@pytest.fixture()
+def mock_plugin_manager(mocker):
+    """Fixture for mocking the plugin manager"""
+    return mocker.patch("learning_resources.utils.get_plugin_manager").return_value
+
+
+@pytest.fixture()
+def fixture_resource(mocker):
+    """Fixture for returning a learning resource"""
+    return CourseFactory.create().learning_resource
+
+
+@pytest.fixture()
+def fixture_resource_run(mocker):
+    """Fixture for returning a learning resource"""
+    return LearningResourceRunFactory.create()
 
 
 @pytest.fixture(name="test_instructors_data")
@@ -58,9 +71,9 @@ def test_semester_year_to_date(semester, year, ending, expected):
     Test that a correct rough date is returned for semester and year
     """
     if expected is None:
-        assert semester_year_to_date(semester, year, ending=ending) is None
+        assert utils.semester_year_to_date(semester, year, ending=ending) is None
     else:
-        assert semester_year_to_date(
+        assert utils.semester_year_to_date(
             semester, year, ending=ending
         ) == datetime.strptime(expected, "%Y-%m-%d").replace(tzinfo=pytz.UTC)
 
@@ -75,7 +88,7 @@ def test_load_blocklist(url, settings, mocker):
         autospec=True,
         return_value=mocker.Mock(iter_lines=mocker.Mock(return_value=file_content)),
     )
-    blocklist = load_course_blocklist()
+    blocklist = utils.load_course_blocklist()
     if url is None:
         mock_request.assert_not_called()
         assert blocklist == []
@@ -102,7 +115,7 @@ mitx:
     mock_request = mocker.patch(
         "requests.get", autospec=True, return_value=mocker.Mock(text=file_content)
     )
-    duplicates = load_course_duplicates(etl_source)
+    duplicates = utils.load_course_duplicates(etl_source)
     if url is None:
         mock_request.assert_not_called()
         assert duplicates == []
@@ -122,7 +135,7 @@ mitx:
 def test_safe_load_bad_json(mocker):
     """Test that safe_load_json returns an empty dict for invalid JSON"""
     mock_logger = mocker.patch("learning_resources.utils.log.exception")
-    assert safe_load_json("badjson", "key") == {}
+    assert utils.safe_load_json("badjson", "key") == {}
     mock_logger.assert_called_with("%s has a corrupted JSON", "key")
 
 
@@ -131,7 +144,7 @@ def test_parse_instructors(test_instructors_data):
     Verify that instructors assignment is working as expected
     """
     for instructor in test_instructors_data:
-        parsed_instructors = parse_instructors([instructor["data"]])
+        parsed_instructors = utils.parse_instructors([instructor["data"]])
         parsed_instructor = parsed_instructors[0]
         assert parsed_instructor.get("first_name") == instructor["result"]["first_name"]
         assert parsed_instructor.get("last_name") == instructor["result"]["last_name"]
@@ -153,7 +166,7 @@ def test_get_ocw_topics():
         },
     ]
 
-    assert sorted(get_ocw_topics(collection)) == [
+    assert sorted(utils.get_ocw_topics(collection)) == [
         "Dynamics and Control",
         "Electrical Engineering",
         "Engineering",
@@ -187,6 +200,66 @@ def test_platform_data():
     assert LearningResourcePlatform.objects.filter(code="bad").count() == 1
     with Path.open(Path(__file__).parent / "fixtures" / "platforms.json") as inf:
         expected_count = len(json.load(inf))
-    codes = upsert_platform_data()
+    codes = utils.upsert_platform_data()
     assert LearningResourcePlatform.objects.count() == expected_count == len(codes)
     assert LearningResourcePlatform.objects.filter(code="bad").count() == 0
+
+
+def test_resource_upserted_actions(mock_plugin_manager, fixture_resource):
+    """
+    resource_upserted_actions function should trigger plugin hook's resource_upserted function
+    """
+    utils.resource_upserted_actions(fixture_resource)
+    mock_plugin_manager.hook.resource_upserted.assert_called_once_with(
+        resource=fixture_resource
+    )
+
+
+def test_resource_unpublished_actions(mock_plugin_manager, fixture_resource):
+    """
+    resource_unpublished_actions function should trigger plugin hook's resource_unpublished function
+    """
+    utils.resource_unpublished_actions(fixture_resource)
+    mock_plugin_manager.hook.resource_unpublished.assert_called_once_with(
+        resource=fixture_resource
+    )
+
+
+def resource_delete_actions(mock_plugin_manager, fixture_resource):
+    """
+    resource_delete_actions function should trigger plugin hook's resource_deleted function
+    """
+    utils.resource_delete_actions(fixture_resource)
+    mock_plugin_manager.hook.resource_deleted.assert_called_once_with(
+        resource=fixture_resource
+    )
+
+
+def resource_run_upserted_actions(mock_plugin_manager, fixture_resource_run):
+    """
+    resource_run_upserted_actions function should trigger plugin hook's resource_run_upserted function
+    """
+    utils.resource_run_upserted_actions(fixture_resource_run)
+    mock_plugin_manager.hook.resource_run_upserted.assert_called_once_with(
+        run=fixture_resource_run
+    )
+
+
+def resource_run_unpublished_actions(mock_plugin_manager, fixture_resource_run):
+    """
+    resource_run_unpublished_actions function should trigger plugin hook's resource_run_unpublished function
+    """
+    utils.resource_run_unpublished_actions(fixture_resource_run)
+    mock_plugin_manager.hook.resource_run_unpublished.assert_called_once_with(
+        run=fixture_resource_run
+    )
+
+
+def resource_run_delete_actions(mock_plugin_manager, fixture_resource_run):
+    """
+    resource_run_delete_actions function should trigger plugin hook's resource_run_deleted function
+    """
+    utils.resource_run_delete_actions(fixture_resource_run)
+    mock_plugin_manager.hook.resource_run_deleted.assert_called_once_with(
+        run=fixture_resource_run
+    )
