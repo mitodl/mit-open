@@ -30,7 +30,7 @@ class TimestampedModel(Model):
     """
 
     objects = TimestampedModelQuerySet.as_manager()
-    created_on = DateTimeField(auto_now_add=True)  # UTC  # noqa: DJ012
+    created_on = DateTimeField(auto_now_add=True, db_index=True)  # UTC  # noqa: DJ012
     updated_on = DateTimeField(auto_now=True)  # UTC
 
     class Meta:
