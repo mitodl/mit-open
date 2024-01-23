@@ -30,13 +30,13 @@ def mock_plugin_manager(mocker):
 
 @pytest.fixture()
 def fixture_resource(mocker):
-    """Fixture for returning a learning resource"""
+    """Fixture for returning a learning resource of resource_type course"""
     return CourseFactory.create().learning_resource
 
 
 @pytest.fixture()
 def fixture_resource_run(mocker):
-    """Fixture for returning a learning resource"""
+    """Fixture for returning a learning resource run"""
     return LearningResourceRunFactory.create()
 
 
