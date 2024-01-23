@@ -225,17 +225,17 @@ def test_resource_unpublished_actions(mock_plugin_manager, fixture_resource):
     )
 
 
-def resource_delete_actions(mock_plugin_manager, fixture_resource):
+def test_resource_delete_actions(mock_plugin_manager, fixture_resource):
     """
     resource_delete_actions function should trigger plugin hook's resource_deleted function
     """
     utils.resource_delete_actions(fixture_resource)
-    mock_plugin_manager.hook.resource_deleted.assert_called_once_with(
+    mock_plugin_manager.hook.resource_delete.assert_called_once_with(
         resource=fixture_resource
     )
 
 
-def resource_run_upserted_actions(mock_plugin_manager, fixture_resource_run):
+def test_resource_run_upserted_actions(mock_plugin_manager, fixture_resource_run):
     """
     resource_run_upserted_actions function should trigger plugin hook's resource_run_upserted function
     """
@@ -245,7 +245,7 @@ def resource_run_upserted_actions(mock_plugin_manager, fixture_resource_run):
     )
 
 
-def resource_run_unpublished_actions(mock_plugin_manager, fixture_resource_run):
+def test_resource_run_unpublished_actions(mock_plugin_manager, fixture_resource_run):
     """
     resource_run_unpublished_actions function should trigger plugin hook's resource_run_unpublished function
     """
@@ -255,11 +255,11 @@ def resource_run_unpublished_actions(mock_plugin_manager, fixture_resource_run):
     )
 
 
-def resource_run_delete_actions(mock_plugin_manager, fixture_resource_run):
+def test_resource_run_delete_actions(mock_plugin_manager, fixture_resource_run):
     """
     resource_run_delete_actions function should trigger plugin hook's resource_run_deleted function
     """
     utils.resource_run_delete_actions(fixture_resource_run)
-    mock_plugin_manager.hook.resource_run_deleted.assert_called_once_with(
+    mock_plugin_manager.hook.resource_run_delete.assert_called_once_with(
         run=fixture_resource_run
     )
