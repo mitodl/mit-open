@@ -40,8 +40,8 @@ pytestmark = [pytest.mark.django_db]
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ["lr_courses_api-list", ""],  # noqa: PT007
-        ["learning_resources_api-list", "resource_type=course"],  # noqa: PT007
+        ["lr:v1:courses_api-list", ""],  # noqa: PT007
+        ["lr:v1:learning_resources_api-list", "resource_type=course"],  # noqa: PT007
     ],
 )
 def test_list_course_endpoint(client, url, params):
@@ -59,7 +59,7 @@ def test_list_course_endpoint(client, url, params):
 
 
 @pytest.mark.parametrize(
-    "url", ["lr_courses_api-detail", "learning_resources_api-detail"]
+    "url", ["lr:v1:courses_api-detail", "lr:v1:learning_resources_api-detail"]
 )
 def test_get_course_detail_endpoint(client, url):
     """Test course detail endpoint"""
@@ -72,7 +72,10 @@ def test_get_course_detail_endpoint(client, url):
 
 @pytest.mark.parametrize(
     "url",
-    ["lr_learning_resource_content_files_api-list", "lr_course_content_files_api-list"],
+    [
+        "lr:v1:learning_resource_content_files_api-list",
+        "lr:v1:course_content_files_api-list",
+    ],
 )
 def test_get_course_content_files_endpoint(client, url):
     """Test course detail contentfiles endpoint"""
@@ -95,7 +98,10 @@ def test_get_course_content_files_endpoint(client, url):
 
 @pytest.mark.parametrize(
     "url",
-    ["lr_learning_resource_content_files_api-list", "lr_course_content_files_api-list"],
+    [
+        "lr:v1:learning_resource_content_files_api-list",
+        "lr:v1:course_content_files_api-list",
+    ],
 )
 def test_get_course_content_files_filtered(client, url):
     """Test course detail contentfiles endpoint"""
@@ -117,8 +123,8 @@ def test_get_course_content_files_filtered(client, url):
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ["lr_courses_api-list", ""],  # noqa: PT007
-        ["learning_resources_api-list", "resource_type=course"],  # noqa: PT007
+        ["lr:v1:courses_api-list", ""],  # noqa: PT007
+        ["lr:v1:learning_resources_api-list", "resource_type=course"],  # noqa: PT007
     ],
 )
 def test_new_courses_endpoint(client, url, params):
@@ -138,8 +144,8 @@ def test_new_courses_endpoint(client, url, params):
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ["lr_courses_api-list", ""],  # noqa: PT007
-        ["learning_resources_api-list", "resource_type=course"],  # noqa: PT007
+        ["lr:v1:courses_api-list", ""],  # noqa: PT007
+        ["lr:v1:learning_resources_api-list", "resource_type=course"],  # noqa: PT007
     ],
 )
 def test_upcoming_courses_endpoint(client, url, params):
@@ -158,8 +164,8 @@ def test_upcoming_courses_endpoint(client, url, params):
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ["lr_programs_api-list", ""],  # noqa: PT007
-        ["learning_resources_api-list", "resource_type=program"],  # noqa: PT007
+        ["lr:v1:programs_api-list", ""],  # noqa: PT007
+        ["lr:v1:learning_resources_api-list", "resource_type=program"],  # noqa: PT007
     ],
 )
 def test_program_endpoint(client, url, params):
@@ -172,7 +178,7 @@ def test_program_endpoint(client, url, params):
 
 
 @pytest.mark.parametrize(
-    "url", ["lr_programs_api-detail", "learning_resources_api-detail"]
+    "url", ["lr:v1:programs_api-detail", "lr:v1:learning_resources_api-detail"]
 )
 def test_program_detail_endpoint(client, url):
     """Test program endpoint"""
@@ -212,7 +218,7 @@ def test_list_resources_endpoint(client):
     # this should be filtered out
     CourseFactory.create(is_unpublished=True)
 
-    resp = client.get(reverse("learning_resources_api-list"))
+    resp = client.get(reverse("lr:v1:learning_resources_api-list"))
     assert resp.data.get("count") == len(set(resource_ids))
     for result in resp.data["results"]:
         assert result["id"] in resource_ids
@@ -246,7 +252,7 @@ def test_list_content_files_list_endpoint(client):
     # this should be filtered out
     ContentFileFactory.create_batch(5, published=False)
 
-    resp = client.get(f"{reverse('lr_contentfiles_api-list')}")
+    resp = client.get(f"{reverse('lr:v1:contentfiles_api-list')}")
     assert resp.data.get("count") == 2
     for result in resp.data.get("results"):
         assert result["id"] in content_file_ids
@@ -260,15 +266,15 @@ def test_list_content_files_list_filtered(client):
     ContentFileFactory.create_batch(3, run=course_2.learning_resource.runs.first())
 
     resp = client.get(
-        f"{reverse('lr_contentfiles_api-list')}?run_id={course_1.learning_resource.runs.first().id}"
+        f"{reverse('lr:v1:contentfiles_api-list')}?run_id={course_1.learning_resource.runs.first().id}"
     )
     assert resp.data.get("count") == 2
     resp = client.get(
-        f"{reverse('lr_contentfiles_api-list')}?learning_resource_id={course_2.learning_resource.id}"
+        f"{reverse('lr:v1:contentfiles_api-list')}?learning_resource_id={course_2.learning_resource.id}"
     )
     assert resp.data.get("count") == 3
     resp = client.get(
-        f"{reverse('lr_contentfiles_api-list')}?learning_resource_id=1001001"
+        f"{reverse('lr:v1:contentfiles_api-list')}?learning_resource_id=1001001"
     )
     assert resp.data.get("count") == 0
 
@@ -277,7 +283,7 @@ def test_get_contentfiles_detail_endpoint(client):
     """Test ContentFile detail endpoint"""
     content_file = ContentFileFactory.create()
 
-    resp = client.get(reverse("lr_contentfiles_api-detail", args=[content_file.id]))
+    resp = client.get(reverse("lr:v1:contentfiles_api-detail", args=[content_file.id]))
 
     assert resp.data == ContentFileSerializer(instance=content_file).data
 
@@ -285,8 +291,8 @@ def test_get_contentfiles_detail_endpoint(client):
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ("lr_podcasts_api-list", ""),
-        ("learning_resources_api-list", "resource_type=podcast"),
+        ("lr:v1:podcasts_api-list", ""),
+        ("lr:v1:learning_resources_api-list", "resource_type=podcast"),
     ],
 )
 def test_list_podcast_endpoint(client, url, params):
@@ -309,7 +315,7 @@ def test_list_podcast_endpoint(client, url, params):
 
 
 @pytest.mark.parametrize(
-    "url", ["lr_podcasts_api-detail", "learning_resources_api-detail"]
+    "url", ["lr:v1:podcasts_api-detail", "lr:v1:learning_resources_api-detail"]
 )
 def test_get_podcast_detail_endpoint(client, url):
     """Test podcast detail endpoint"""
@@ -324,9 +330,9 @@ def test_get_podcast_detail_endpoint(client, url):
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ("lr_podcast_episodes_api-list", "sortby=-last_modified"),
+        ("lr:v1:podcast_episodes_api-list", "sortby=-last_modified"),
         (
-            "learning_resources_api-list",
+            "lr:v1:learning_resources_api-list",
             "resource_type=podcast_episode&sortby=-last_modified",
         ),
     ],
@@ -361,7 +367,7 @@ def test_list_podcast_episode_endpoint(client, url, params):
 
 
 @pytest.mark.parametrize(
-    "url", ["lr_podcast_episodes_api-detail", "learning_resources_api-detail"]
+    "url", ["lr:v1:podcast_episodes_api-detail", "lr:v1:learning_resources_api-detail"]
 )
 def test_get_podcast_episode_detail_endpoint(client, url):
     """Test podcast episode detail endpoint"""
@@ -377,7 +383,7 @@ def test_get_podcast_episode_detail_endpoint(client, url):
 
 
 @pytest.mark.parametrize(
-    "url", ["lr_learning_resource_items_api-list", "lr_podcast_items_api-list"]
+    "url", ["lr:v1:learning_resource_items_api-list", "lr:v1:podcast_items_api-list"]
 )
 def test_get_podcast_items_endpoint(client, url):
     """Test podcast items endpoint"""
@@ -432,7 +438,7 @@ def test_ocw_webhook_endpoint(client, mocker, settings, data):
         "learning_resources.views.get_ocw_courses.delay", autospec=True
     )
     response = client.post(
-        reverse("ocw-next-webhook"), data=data, headers={"Content-Type": "text/plain"}
+        reverse("lr:v1:ocw-next-webhook"), data=data, headers={"Content-Type": "text/plain"}
     )
 
     prefix = data.get("prefix")
@@ -498,7 +504,7 @@ def test_ocw_webhook_endpoint_unpublished(client, mocker, settings, data, run_ex
             ).learning_resource,
         )
     response = client.post(
-        reverse("ocw-next-webhook"),
+        reverse("lr:v1:ocw-next-webhook"),
         data={"webhook_key": "fake_key", **data},
         headers={"Content-Type": "text/plain"},
     )
@@ -529,7 +535,7 @@ def test_ocw_webhook_endpoint_bad_key(settings, client):
     settings.OCW_WEBHOOK_KEY = "fake_key"
     with pytest.raises(WebhookException):
         client.post(
-            reverse("ocw-next-webhook"),
+            reverse("lr:v1:ocw-next-webhook"),
             data={"webhook_key": "bad_key", "prefix": "prefix", "version": "live"},
             headers={"Content-Type": "text/plain"},
         )
@@ -542,7 +548,7 @@ def test_topics_list_endpoint(client):
         key=lambda topic: topic.name,
     )
 
-    resp = client.get(reverse("lr_topics_api-list"))
+    resp = client.get(reverse("lr:v1:topics_api-list"))
     assert resp.data.get("count") == 3
     for i in range(3):
         assert (
@@ -554,7 +560,7 @@ def test_topics_list_endpoint(client):
 def test_topics_detail_endpoint(client):
     """Test topics detail endpoint"""
     topic = LearningResourceTopicFactory.create()
-    resp = client.get(reverse("lr_topics_api-detail", args=[topic.pk]))
+    resp = client.get(reverse("lr:v1:topics_api-detail", args=[topic.pk]))
     assert resp.data == LearningResourceTopicSerializer(instance=topic).data
 
 
@@ -565,7 +571,7 @@ def test_departments_list_endpoint(client):
         key=lambda department: department.department_id,
     )
 
-    resp = client.get(reverse("lr_departments_api-list"))
+    resp = client.get(reverse("lr:v1:departments_api-list"))
     assert resp.data.get("count") == 3
     for i in range(3):
         assert (
@@ -581,7 +587,7 @@ def test_departments_detail_endpoint(client):
     )
 
     for dept_id in ("abc", "aBc", "ABC"):
-        resp = client.get(reverse("lr_departments_api-detail", args=[dept_id]))
+        resp = client.get(reverse("lr:v1:departments_api-detail", args=[dept_id]))
         assert (
             resp.data == LearningResourceDepartmentSerializer(instance=department).data
         )
@@ -597,7 +603,7 @@ def test_platforms_list_endpoint(client):
         key=lambda platform: platform.code,
     )
 
-    resp = client.get(reverse("lr_platforms_api-list"))
+    resp = client.get(reverse("lr:v1:platforms_api-list"))
     assert resp.data.get("count") == len(platforms)
     for i in range(3):
         assert (
@@ -610,7 +616,7 @@ def test_platforms_detail_endpoint(client):
     """Test platforms detail endpoint"""
     platform = LearningResourcePlatformFactory.create()
 
-    resp = client.get(reverse("lr_platforms_api-detail", args=[platform.pk]))
+    resp = client.get(reverse("lr:v1:platforms_api-detail", args=[platform.pk]))
     assert resp.data == LearningResourcePlatformSerializer(instance=platform).data
 
 
@@ -624,7 +630,7 @@ def test_offerors_list_endpoint(client):
         key=lambda offeror: offeror.code,
     )
 
-    resp = client.get(reverse("lr_offerors_api-list"))
+    resp = client.get(reverse("lr:v1:offerors_api-list"))
     assert resp.data.get("count") == len(offerors)
     for i in range(3):
         assert (
@@ -637,5 +643,5 @@ def test_offerors_detail_endpoint(client):
     """Test offerors detail endpoint"""
     offeror = LearningResourceOfferorFactory.create()
 
-    resp = client.get(reverse("lr_offerors_api-detail", args=[offeror.code]))
+    resp = client.get(reverse("lr:v1:offerors_api-detail", args=[offeror.code]))
     assert resp.data == LearningResourceOfferorSerializer(instance=offeror).data

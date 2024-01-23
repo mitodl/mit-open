@@ -27,13 +27,13 @@ FAKE_SEARCH_RESPONSE = {
 @pytest.fixture()
 def learning_resources_search_view():
     """Fixture with relevant properties for testing the search view"""
-    return SimpleNamespace(url=reverse("learning_resources_search"))
+    return SimpleNamespace(url=reverse("lr_search:v1:learning_resources_search"))
 
 
 @pytest.fixture()
 def content_file_search_view():
     """Fixture with relevant properties for testing the search view"""
-    return SimpleNamespace(url=reverse("content_file_search"))
+    return SimpleNamespace(url=reverse("lr_search:v1:content_file_search"))
 
 
 @pytest.mark.parametrize(

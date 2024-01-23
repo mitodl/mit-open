@@ -56,16 +56,16 @@ def test_learning_path_endpoint_get(client, user, is_public, is_editor, has_imag
         image_url = first_resource_child.image.url
 
     # Anonymous users should get public results
-    resp = client.get(reverse("lr_learningpaths_api-list"))
+    resp = client.get(reverse("lr:v1:learningpaths_api-list"))
     assert resp.data.get("count") == (2 if is_public else 0)
 
     # Logged in user should get public lists or all lists if editor
     client.force_login(user)
-    resp = client.get(reverse("lr_learningpaths_api-list"))
+    resp = client.get(reverse("lr:v1:learningpaths_api-list"))
     assert resp.data["count"] == (2 if is_public or is_editor else 0)
 
     resp = client.get(
-        reverse("lr_learningpaths_api-detail", args=[learning_path_res.id])
+        reverse("lr:v1:learningpaths_api-detail", args=[learning_path_res.id])
     )
     assert resp.status_code == (404 if not (is_public or is_editor) else 200)
     if resp.status_code == 200:
@@ -82,7 +82,7 @@ def test_learning_path_endpoint_get(client, user, is_public, is_editor, has_imag
     # Logged in user should see other person's public list
     resp = client.get(
         reverse(
-            "lr_learningpaths_api-detail",
+            "lr:v1:learningpaths_api-detail",
             args=[another_learning_path_res.id],
         )
     )
@@ -119,7 +119,9 @@ def test_learning_path_endpoint_create(  # pylint: disable=too-many-arguments  #
     }
 
     has_permission = not is_anonymous and (is_staff or is_super or is_editor)
-    resp = client.post(reverse("lr_learningpaths_api-list"), data=data, format="json")
+    resp = client.post(
+        reverse("lr:v1:learningpaths_api-list"), data=data, format="json"
+    )
     assert resp.status_code == (201 if has_permission else 403)
     if resp.status_code == 201:
         assert resp.data.get("title") == resp.data.get("title")
@@ -159,7 +161,7 @@ def test_learning_path_endpoint_patch(
         data["topics"] = [new_topic.id]
 
     resp = client.patch(
-        reverse("lr_learningpaths_api-detail", args=[learning_resource.id]),
+        reverse("lr:v1:learningpaths_api-detail", args=[learning_resource.id]),
         data=data,
         format="json",
     )
@@ -188,7 +190,8 @@ def test_learning_path_items_endpoint_create_item(client, user, is_editor):
 
     resp = client.post(
         reverse(
-            "lr_learningpathitems_api-list", args=[learning_path.learning_resource.id]
+            "lr:v1:learningpathitems_api-list",
+            args=[learning_path.learning_resource.id],
         ),
         data=data,
         format="json",
@@ -216,7 +219,8 @@ def test_learning_path_items_endpoint_create_item_bad_data(client, user):
 
     resp = client.post(
         reverse(
-            "lr_learningpathitems_api-list", args=[learning_path.learning_resource.id]
+            "lr:v1:learningpathitems_api-list",
+            args=[learning_path.learning_resource.id],
         ),
         data=data,
         format="json",
@@ -254,7 +258,7 @@ def test_learning_path_items_endpoint_update_item_position(
 
     resp = client.patch(
         reverse(
-            "lr_learningpathitems_api-detail",
+            "lr:v1:learningpathitems_api-detail",
             args=[learning_path.learning_resource.id, list_item_2.id],
         ),
         data=data,
@@ -288,7 +292,7 @@ def test_learning_path_items_endpoint_update_items_wrong_list(client, user):
 
     resp = client.patch(
         reverse(
-            "lr_learningpathitems_api-detail",
+            "lr:v1:learningpathitems_api-detail",
             args=[learning_path.learning_resource.id, list_item_incorrect.id],
         ),
         data=data,
@@ -317,7 +321,7 @@ def test_learning_path_items_endpoint_delete_items(client, user, is_editor, num_
 
     resp = client.delete(
         reverse(
-            "lr_learningpathitems_api-detail",
+            "lr:v1:learningpathitems_api-detail",
             args=[learning_path.learning_resource.id, list_items[0].id],
         ),
         format="json",
@@ -340,7 +344,7 @@ def test_learning_path_endpoint_delete(mock_opensearch, client, user, is_editor)
 
     resp = client.delete(
         reverse(
-            "lr_learningpaths_api-detail", args=[learning_path.learning_resource.id]
+            "lr:v1:learningpaths_api-detail", args=[learning_path.learning_resource.id]
         )
     )
     assert resp.status_code == (204 if is_editor else 403)
@@ -369,7 +373,7 @@ def test_get_resource_learning_paths(user_client, user, is_editor):
         key=lambda item: item.position,
     )
     resp = user_client.get(
-        reverse("lr_courses_api-detail", args=[course.learning_resource.id])
+        reverse("lr:v1:courses_api-detail", args=[course.learning_resource.id])
     )
 
     expected = (
