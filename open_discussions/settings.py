@@ -598,6 +598,7 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.MultiPartRenderer",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
     "ORDERING_PARAM": "sortby",
 }
 

@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: MIT Open API
-  version: 0.0.1
+  version: 0.0.1 (v1)
   description: MIT public API
 paths:
   /api/v1/articles/:

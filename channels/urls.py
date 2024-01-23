@@ -9,19 +9,23 @@ from channels.views import (
     FieldModeratorListView,
 )
 
-router = DefaultRouter()
-router.register(r"fields", FieldChannelViewSet, basename="field_channels_api")
+v0_router = DefaultRouter()
+v0_router.register(r"fields", FieldChannelViewSet, basename="field_channels_api")
 
-urlpatterns = [
+v0_urls = [
     re_path(
-        r"^api/v1/fields/(?P<field_name>[A-Za-z0-9_]+)/moderators/$",
+        r"^fields/(?P<field_name>[A-Za-z0-9_]+)/moderators/$",
         FieldModeratorListView.as_view(),
         name="field_moderators_api-list",
     ),
     re_path(
-        r"^api/v1/fields/(?P<field_name>[A-Za-z0-9_]+)/moderators/(?P<moderator_name>[A-Za-z0-9_]+)/$",
+        r"^fields/(?P<field_name>[A-Za-z0-9_]+)/moderators/(?P<moderator_name>[A-Za-z0-9_]+)/$",
         FieldModeratorDetailView.as_view(),
         name="field_moderators_api-detail",
     ),
-    re_path(r"^api/v1/", include(router.urls)),
+    *v0_router.urls,
+]
+
+urlpatterns = [
+    re_path(r"^api/v1/", include((v0_urls, "v1:channels"))),
 ]

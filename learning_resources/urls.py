@@ -1,6 +1,6 @@
 """Urls for channels"""
 
-from django.urls import include, re_path
+from django.urls import include, path, re_path
 from rest_framework.routers import SimpleRouter
 from rest_framework_nested.routers import NestedSimpleRouter
 
@@ -86,16 +86,21 @@ router.register(
 router.register(r"platforms", views.PlatformViewSet, basename="lr_platforms_api")
 router.register(r"offerors", views.OfferedByViewSet, basename="lr_offerors_api")
 
+v1_urls = [
+    *router.urls,
+    *nested_learning_resources_router.urls,
+    *nested_courses_router.urls,
+    *nested_learning_path_router.urls,
+    *nested_podcast_router.urls,
+    *nested_userlist_router.urls,
+]
+
+
 urlpatterns = [
-    re_path(r"^api/v1/", include(router.urls)),
-    re_path(r"^api/v1/", include(nested_learning_resources_router.urls)),
-    re_path(r"^api/v1/", include(nested_courses_router.urls)),
-    re_path(r"^api/v1/", include(nested_learning_path_router.urls)),
-    re_path(r"^api/v1/", include(nested_podcast_router.urls)),
-    re_path(r"^api/v1/", include(nested_userlist_router.urls)),
-    re_path(r"^podcasts/rss_feed", views.podcast_rss_feed, name="podcast-rss-feed"),
-    re_path(
-        r"^api/v1/ocw_next_webhook/$",
+    re_path(r"^api/v1/", include((v1_urls, "learning_resources"), namespace="v1")),
+    path("podcasts/rss_feed", views.podcast_rss_feed, name="podcast-rss-feed"),
+    path(
+        "api/v1/ocw_next_webhook/",
         WebhookOCWView.as_view(),
         name="ocw-next-webhook",
     ),

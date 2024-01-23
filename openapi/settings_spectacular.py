@@ -11,4 +11,5 @@ open_spectacular_settings = {
     "ENUM_GENERATE_CHOICE_DESCRIPTION": True,
     "COMPONENT_SPLIT_REQUEST": True,
     "AUTHENTICATION_WHITELIST": [],
+    "SCHEMA_PATH_PREFIX": "/api/v[0-9]",
 }
