@@ -6,18 +6,11 @@ if [ -z "$(which docker)" ]; then
 	exit 1
 fi
 
-SPEC_DIR="./openapi/specs/"
-SPEC_FILE="./openapi/specs/v1.yaml"
-
 ##################################################
 # Generate OpenAPI Schema
 ##################################################
 docker compose run --no-deps --rm web \
-	./manage.py spectacular \
-	--urlconf open_discussions.urls \
-	--file ${SPEC_FILE} \
-	--validate \
-	--api-version 'v1'
+	./manage.py generate_openapi_spec
 
 ##################################################
 # Generate API Client
@@ -30,5 +23,5 @@ docker run --rm -v "${PWD}:/local" -w /local openapitools/openapi-generator-cli:
 
 # We expect pre-commit to exit with a non-zero status since it is reformatting
 # the generated code.
-git ls-files frontends/api/src/generated | xargs pre-commit run --files ${SPEC_DIR}/* ||
+git ls-files frontends/api/src/generated | xargs pre-commit run --files ||
 	echo "OpenAPI generation complete."
