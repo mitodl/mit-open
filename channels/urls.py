@@ -28,5 +28,5 @@ v0_urls = [
 
 app_name = "channels"
 urlpatterns = [
-    re_path(r"^api/v1/", include((v0_urls, "v1"))),
+    re_path(r"^api/v0/", include((v0_urls, "v0"))),
 ]
