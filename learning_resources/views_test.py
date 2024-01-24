@@ -459,7 +459,7 @@ def test_ocw_next_webhook_endpoint(client, mocker, settings, data):
         else:
             assert (
                 response.data["message"]
-                == f"Could not determine appropriate action based on webhook content: {data}"
+                == f"Could not determine appropriate action from request: {data}"
             )
             assert response.status_code == 400
 

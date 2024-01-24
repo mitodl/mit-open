@@ -79,6 +79,7 @@ from open_discussions.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
 )
+from open_discussions.utils import chunks
 
 log = logging.getLogger(__name__)
 
@@ -697,7 +698,13 @@ class WebhookOCWView(views.APIView):
                     if isinstance(prefixes, list)
                     else [prefix.strip() for prefix in prefixes.split(",")]
                 )
-                get_ocw_courses.delay(url_paths=prefixes, force_overwrite=False)
+                for url_paths in chunks(
+                    prefixes, chunk_size=settings.OCW_ITERATOR_CHUNK_SIZE
+                ):
+                    get_ocw_courses.delay(
+                        url_paths=url_paths,
+                        force_overwrite=False,
+                    )
                 message = f"OCW courses queued for indexing: {prefixes}"
             elif site_uid is not None and unpublished is True:
                 # Remove the course from the search index
