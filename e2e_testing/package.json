@@ -1,0 +1,13 @@
+{
+  "name": "e2e_testing",
+  "packageManager": "yarn@3.7.0",
+  "scripts": {
+    "test": "cypress run",
+    "start": "cypress open"
+  },
+  "devDependencies": {
+    "@testing-library/cypress": "^10.0.1",
+    "cypress": "^13.6.3",
+    "typescript": "^5.3.3"
+  }
+}

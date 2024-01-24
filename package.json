@@ -2,7 +2,8 @@
   "name": "root",
   "private": true,
   "workspaces": [
-    "frontends/*"
+    "frontends/*",
+    "e2e_testing"
   ],
   "scripts": {
     "foreach": "yarn workspaces foreach -pvi --exclude=root run",

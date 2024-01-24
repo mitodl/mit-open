@@ -49,6 +49,8 @@ module.exports = {
           "**/*.stories.ts",
           "**/*.stories.tsx",
           "**/*.mdx",
+          "**/cypress.config.ts",
+          "**/cypress/**",
         ],
       },
     ],
@@ -81,6 +83,13 @@ module.exports = {
       ],
       rules: {
         ...restrictedImports(),
+      },
+    },
+    {
+      files: ["**/cypress/**/*.spec.cy.ts"],
+      rules: {
+        "testing-library/await-async-query": 0,
+        "testing-library/prefer-screen-queries": 0,
       },
     },
   ],
