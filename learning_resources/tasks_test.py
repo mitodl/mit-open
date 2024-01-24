@@ -204,7 +204,9 @@ def test_get_podcast_data(mocker):
 
 
 @mock_s3
-@pytest.mark.parametrize("force_overwrite", [True, False])
+@pytest.mark.parametrize(
+    ("force_overwrite", "skip_content_files"), [(True, False), (False, True)]
+)
 @pytest.mark.parametrize(
     "url_substring",
     [
@@ -213,7 +215,9 @@ def test_get_podcast_data(mocker):
         "not-a-match",
     ],
 )
-def test_get_ocw_data(settings, mocker, mocked_celery, force_overwrite, url_substring):
+def test_get_ocw_data(  # noqa: PLR0913
+    settings, mocker, mocked_celery, force_overwrite, skip_content_files, url_substring
+):
     """Test get_ocw_data task"""
     setup_s3_ocw(settings)
     get_ocw_courses_mock = mocker.patch(
@@ -227,7 +231,9 @@ def test_get_ocw_data(settings, mocker, mocked_celery, force_overwrite, url_subs
 
     with error_expectation:
         tasks.get_ocw_data.delay(
-            force_overwrite=force_overwrite, course_url_substring=url_substring
+            force_overwrite=force_overwrite,
+            course_url_substring=url_substring,
+            skip_content_files=skip_content_files,
         )
 
     if url_substring == "not-a-match":
@@ -237,6 +243,7 @@ def test_get_ocw_data(settings, mocker, mocked_celery, force_overwrite, url_subs
         get_ocw_courses_mock.si.assert_called_once_with(
             url_paths=[OCW_TEST_PREFIX],
             force_overwrite=force_overwrite,
+            skip_content_files=skip_content_files,
             utc_start_timestamp=None,
         )
 
@@ -263,6 +270,7 @@ def test_get_ocw_courses(settings, mocker, mocked_celery, timestamp, overwrite):
     tasks.get_ocw_courses.delay(
         url_paths=[OCW_TEST_PREFIX],
         force_overwrite=overwrite,
+        skip_content_files=False,
         utc_start_timestamp=timestamp,
     )
 

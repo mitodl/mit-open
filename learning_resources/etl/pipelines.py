@@ -110,6 +110,7 @@ def ocw_courses_etl(
         url_paths (list of str): The course url paths to process
         force_overwrite (bool): force incoming course data to overwrite existing data
         start_timestamp (datetime or None): backpopulate start time
+        skip_content_files (bool): skip loading content files
     """
     s3_resource = boto3.resource(
         "s3",
