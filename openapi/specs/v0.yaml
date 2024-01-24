@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info:
+  title: MIT Open API
+  version: 0.0.1 (v0)
+  description: MIT public API
+paths:
+  /api/v1/ckeditor/:
+    get:
+      operationId: ckeditor_retrieve
+      description: Get the JWT to authenticate for CKEditor
+      tags:
+        - ckeditor
+      responses:
+        "200":
+          description: No response body
+components: {}

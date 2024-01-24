@@ -1,6 +1,6 @@
 generatorName: typescript-axios
 outputDir: frontends/api/src/generated
-inputSpec: openapi/v1/openapi_spec.yaml
+inputSpec: openapi/specs/v1.yaml
 ignoreFileOverride: frontends/api/.openapi-generator-ignore
 additionalProperties:
   paramNaming: original

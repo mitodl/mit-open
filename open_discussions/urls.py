@@ -41,7 +41,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("learning_resources_search.urls")),
     re_path(r"", include("ckeditor.urls")),
     re_path(r"", include("widgets.urls")),
-    re_path(r"", include("openapi.v1.urls")),
+    re_path(r"", include("openapi.urls")),
     re_path(r"", include("learning_resources.urls")),
     re_path(r"", include("articles.urls")),
     re_path(r"", include("livestream.urls")),

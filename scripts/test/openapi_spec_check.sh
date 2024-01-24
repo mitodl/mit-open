@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-TMPFILE=$(mktemp)
+TMPDIR="$(mktemp -d)"
+SPECS_DIR=./openapi/specs/
 
-./manage.py spectacular \
-	--urlconf=openapi.v1.urls_spectacular \
-	--file $TMPFILE
+./manage.py generate_openapi_spec \
+	--directory=$TMPDIR
 
-diff $TMPFILE ./openapi/v1/openapi_spec.yaml
+diff $TMPDIR $SPECS_DIR
 
 if [ $? -eq 0 ]; then
 	echo "OpenAPI spec is up to date!"
