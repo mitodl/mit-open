@@ -425,7 +425,7 @@ def test_get_podcast_items_endpoint(client, url):
         {"webhook_key": "fake_key", "version": "live"},
     ],
 )
-def test_ocw_next_webhook_endpoint(client, mocker, settings, data):
+def test_ocw_webhook_endpoint(client, mocker, settings, data):
     """Test that the OCW webhook endpoint schedules a get_ocw_courses task"""
     settings.OCW_WEBHOOK_KEY = "fake_key"
     mock_get_ocw = mocker.patch(
@@ -482,9 +482,7 @@ def test_ocw_next_webhook_endpoint(client, mocker, settings, data):
     ],
 )
 @pytest.mark.parametrize("run_exists", [True, False])
-def test_ocw_next_webhook_endpoint_unpublished(
-    client, mocker, settings, data, run_exists
-):
+def test_ocw_webhook_endpoint_unpublished(client, mocker, settings, data, run_exists):
     """Test that the OCW webhook endpoint removes an unpublished task from the search index"""
     settings.OCW_WEBHOOK_KEY = "fake_key"
     mock_delete_course = mocker.patch(
@@ -526,7 +524,7 @@ def test_ocw_next_webhook_endpoint_unpublished(
         mock_delete_course.assert_not_called()
 
 
-def test_ocw_next_webhook_endpoint_bad_key(settings, client):
+def test_ocw_webhook_endpoint_bad_key(settings, client):
     """Test that a webhook exception is raised if a bad key is sent"""
     settings.OCW_WEBHOOK_KEY = "fake_key"
     with pytest.raises(WebhookException):
