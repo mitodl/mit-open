@@ -1,5 +1,5 @@
 """Management command for populating ocw course data"""
-
+from django.conf import settings
 from django.core.management import BaseCommand
 
 from learning_resources.etl.constants import ETLSource
@@ -34,11 +34,20 @@ class Command(BaseCommand):
             required=False,
             help="If set,backpopulate only the course with this ocw-studio name",
         )
+        parser.add_argument(
+            "--skip-contentfiles",
+            dest="skip_content_files",
+            action="store_true",
+            help="Skip loading content files",
+        )
         super().add_arguments(parser)
 
     def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate OCW courses"""
         course_name = options.get("course_name")
+        skip_content_files = (
+            options.get("skip_content_files") or settings.OCW_SKIP_CONTENT_FILES
+        )
 
         if options["delete"]:
             ocw_resources = LearningResource.objects.filter(
@@ -59,14 +68,17 @@ class Command(BaseCommand):
                 force_overwrite=options["force_overwrite"],
                 course_url_substring=course_name,
                 utc_start_timestamp=start.strftime(ISOFORMAT),
+                skip_content_files=skip_content_files,
             )
 
             self.stdout.write(
                 "Started task {task} to get ocw next course data "
-                "w/force_overwrite={overwrite}, course_name={course_name}".format(
+                "w/force_overwrite={overwrite}, course_name={course_name}, "
+                "skip_content_files={skip_content_files}".format(
                     task=task,
                     overwrite=options["force_overwrite"],
                     course_name=course_name,
+                    skip_content_files=skip_content_files,
                 )
             )
             self.stdout.write("Waiting on task...")

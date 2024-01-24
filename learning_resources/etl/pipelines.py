@@ -101,6 +101,7 @@ def ocw_courses_etl(
     url_paths: list[str],
     force_overwrite: bool,
     start_timestamp: datetime | None = None,
+    skip_content_files: bool = settings.OCW_SKIP_CONTENT_FILES,
 ):
     """
     Sync OCW courses to the database
@@ -127,7 +128,7 @@ def ocw_courses_etl(
             if data:
                 ocw_course_data = ocw.transform_course(data)
                 course_resource = loaders.load_course(ocw_course_data, [], [])
-                if course_resource:
+                if course_resource and not skip_content_files:
                     loaders.load_content_files(
                         course_resource.runs.filter(published=True).first(),
                         ocw.transform_content_files(
