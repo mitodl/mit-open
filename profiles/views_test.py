@@ -320,5 +320,3 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
                 "placename": profile.location.get("value", ""),
             },
         }
-
-

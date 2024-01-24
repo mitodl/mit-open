@@ -34,9 +34,7 @@ class UserViewSet(viewsets.ModelViewSet):
     lookup_field = "username"
 
 
-class CurrentUserRetrieveViewSet(
-    mixins.RetrieveModelMixin, viewsets.GenericViewSet
-):
+class CurrentUserRetrieveViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """User retrieve and update viewsets for the current user"""
 
     serializer_class = UserSerializer
