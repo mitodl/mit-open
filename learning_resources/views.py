@@ -655,7 +655,7 @@ def podcast_rss_feed(request):  # noqa: ARG001
 
 
 @method_decorator(blocked_ip_exempt, name="dispatch")
-class WebhookOCWNextView(views.APIView):
+class WebhookOCWView(views.APIView):
     """
     Handle webhooks coming from the OCW Next bucket
     """
@@ -684,13 +684,21 @@ class WebhookOCWNextView(views.APIView):
 
         version = content.get("version")
         prefix = content.get("prefix")
+        prefixes = content.get("prefixes", [prefix] if prefix else None)
         site_uid = content.get("site_uid")
         unpublished = content.get("unpublished", False)
+        status = 200
 
         if version == "live":
-            if prefix is not None:
-                # Index the course
-                get_ocw_courses.delay(url_paths=[prefix], force_overwrite=False)
+            if prefixes is not None:
+                # Index the course(s)
+                prefixes = (
+                    prefixes
+                    if isinstance(prefixes, list)
+                    else [prefix.strip() for prefix in prefixes.split(",")]
+                )
+                get_ocw_courses.delay(url_paths=prefixes, force_overwrite=False)
+                message = f"OCW courses queued for indexing: {prefixes}"
             elif site_uid is not None and unpublished is True:
                 # Remove the course from the search index
                 run = LearningResourceRun.objects.filter(
@@ -702,8 +710,20 @@ class WebhookOCWNextView(views.APIView):
                     resource.published = False
                     resource.save()
                     resource_unpublished_actions(resource)
+                    message = f"OCW course {site_uid} queued for unpublishing"
+                else:
+                    message = (
+                        f"OCW course {site_uid} not found, so nothing to unpublish"
+                    )
+            else:
+                message = (
+                    f"Could not determine appropriate action from request: {content}"
+                )
+                status = 400
 
-        return Response({})
+        else:
+            message = "Not a live version, ignoring"
+        return Response(data={"message": message}, status=status)
 
 
 @extend_schema_view(
