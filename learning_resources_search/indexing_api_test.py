@@ -423,6 +423,8 @@ def test_deindex_run_content_files(mocker):
     assert ContentFile.objects.count() == 3
     deindex_run_content_files(run.id, unpublished_only=False)
     mock_deindex.assert_called_once()
+    run.refresh_from_db()
+    assert ContentFile.objects.count() == 0
 
 
 def test_index_content_files(mocker):

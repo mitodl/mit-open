@@ -1,4 +1,4 @@
-"""Models for mail app"""
+"""Models for authentication app"""
 
 from ipaddress import ip_address
 

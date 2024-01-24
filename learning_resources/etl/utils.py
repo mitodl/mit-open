@@ -134,8 +134,12 @@ def extract_text_metadata(data, *, other_headers=None):
     headers = {**other_headers} if other_headers else {}
     if settings.TIKA_ACCESS_TOKEN:
         headers["X-Access-Token"] = settings.TIKA_ACCESS_TOKEN
-    request_options = {"headers": headers} if headers else {}
-    request_options["timeout"] = settings.TIKA_TIMEOUT
+
+    request_options = {
+        "timeout": settings.TIKA_TIMEOUT,
+        "verify": True,
+        "headers": headers,
+    }
 
     return tika_parser.from_buffer(data, requestOptions=request_options)
 

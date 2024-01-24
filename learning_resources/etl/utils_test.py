@@ -75,14 +75,13 @@ def test_extract_text_metadata(mocker, data, token, settings, headers):
     response = utils.extract_text_metadata(data, other_headers=headers)
 
     expected_headers = {}
-    expected_options = {"timeout": 120}
+    expected_options = {"timeout": 120, "verify": True}
 
     if token:
         expected_headers["X-Access-Token"] = token
     if headers:
         expected_headers = {**expected_headers, **headers}
-    if expected_headers:
-        expected_options["headers"] = expected_headers
+    expected_options["headers"] = expected_headers
 
     if data:
         assert response == mock_response

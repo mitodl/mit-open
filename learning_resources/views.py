@@ -520,7 +520,7 @@ class ContentFileViewSet(viewsets.ReadOnlyModelViewSet):
         ContentFile.objects.select_related("run")
         .prefetch_related("content_tags")
         .filter(published=True)
-        .order_by("-updated_on")
+        .order_by("-created_on")
     )
     pagination_class = DefaultPagination
     filter_backends = [DjangoFilterBackend]

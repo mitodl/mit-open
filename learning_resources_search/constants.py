@@ -80,7 +80,7 @@ ENGLISH_TEXT_FIELD_WITH_SUGGEST = {
 LEARNING_RESOURCE_MAP = {
     "resource_relations": {"type": "join", "relations": {"resource": "content_file"}},
     "id": {"type": "long"},
-    "certification": {"type": "keyword"},
+    "certification": {"type": "boolean"},
     "readable_id": {"type": "keyword"},
     "title": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
     "description": ENGLISH_TEXT_FIELD_WITH_SUGGEST,

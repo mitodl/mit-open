@@ -337,6 +337,10 @@ def deindex_run_content_files(run_id, unpublished_only):
         index_types=IndexestoUpdate.all_indexes.value,
         routing=run.learning_resource_id,
     )
+    # Delete the content files now that they are deindexed
+    ContentFile.objects.filter(
+        pk__in=content_files.values_list("id", flat=True)
+    ).delete()
 
 
 def deindex_document(doc_id, object_type, **kwargs):

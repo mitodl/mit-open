@@ -358,7 +358,7 @@ def resource_run_unpublished_actions(run: LearningResourceRun):
     """
     pm = get_plugin_manager()
     hook = pm.hook
-    hook.resource_unpublished(run=run)
+    hook.resource_run_unpublished(run=run)
 
 
 def resource_run_delete_actions(run: LearningResourceRun):
