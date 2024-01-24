@@ -7,6 +7,7 @@ from os.path import basename, splitext
 import pytest
 from django.contrib.auth.models import User
 from django.urls import reverse
+from rest_framework import status
 
 from profiles.utils import DEFAULT_PROFILE_IMAGE, make_temp_image_file
 
@@ -287,3 +288,35 @@ def test_initials_avatar_fake_user(client):
     response = client.get(url, follow=True)
     last_url, _ = response.redirect_chain[-1]
     assert last_url.endswith(DEFAULT_PROFILE_IMAGE)
+
+
+@pytest.mark.parametrize("is_anonymous", [True, False])
+def test_get_user_by_me(mocker, client, user, is_anonymous):
+    """Test that user can request their own user by the 'me' alias"""
+    if not is_anonymous:
+        client.force_login(user)
+    resp = client.get(reverse("users_api-me"))
+
+    if is_anonymous:
+        assert resp.status_code == status.HTTP_403_FORBIDDEN
+    else:
+        profile = user.profile
+        assert resp.json() == {
+            "id": user.id,
+            "username": user.username,
+            "profile": {
+                "name": profile.name,
+                "image": profile.image,
+                "image_small": profile.image_small,
+                "image_medium": profile.image_medium,
+                "image_file": f"http://testserver{profile.image_file.url}",
+                "image_small_file": f"http://testserver{profile.image_small_file.url}",
+                "image_medium_file": f"http://testserver{profile.image_medium_file.url}",
+                "profile_image_small": profile.image_small_file.url,
+                "profile_image_medium": profile.image_medium_file.url,
+                "bio": profile.bio,
+                "headline": profile.headline,
+                "username": profile.user.username,
+                "placename": profile.location.get("value", ""),
+            },
+        }

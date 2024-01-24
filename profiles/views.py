@@ -29,8 +29,21 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, IsStaffPermission)
 
     serializer_class = UserSerializer
+
     queryset = get_user_model().objects.filter(is_active=True)
     lookup_field = "username"
+
+
+class CurrentUserRetrieveViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """User retrieve and update viewsets for the current user"""
+
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        """Return the current request user"""
+        # NOTE: this may be a logged in or anonymous user
+        return self.request.user
 
 
 class ProfileViewSet(
