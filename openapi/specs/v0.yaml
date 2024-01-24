@@ -208,6 +208,19 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v0/users/me/:
+    get:
+      operationId: users_me_retrieve
+      description: User retrieve and update viewsets for the current user
+      tags:
+      - users
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
   /api/v1/ckeditor/:
     get:
       operationId: ckeditor_retrieve
@@ -444,6 +457,61 @@ components:
           description: Get the banner image URL
         about:
           nullable: true
+    Profile:
+      type: object
+      description: Serializer for Profile
+      properties:
+        name:
+          type: string
+          nullable: true
+        image:
+          type: string
+          nullable: true
+          maxLength: 1024
+        image_small:
+          type: string
+          nullable: true
+          maxLength: 1024
+        image_medium:
+          type: string
+          nullable: true
+          maxLength: 1024
+        image_file:
+          type: string
+          format: uri
+          nullable: true
+        image_small_file:
+          type: string
+          format: uri
+          nullable: true
+        image_medium_file:
+          type: string
+          format: uri
+          nullable: true
+        profile_image_small:
+          type: string
+          readOnly: true
+        profile_image_medium:
+          type: string
+          readOnly: true
+        bio:
+          type: string
+          nullable: true
+        headline:
+          type: string
+          nullable: true
+          maxLength: 60
+        username:
+          type: string
+          readOnly: true
+        placename:
+          type: string
+          readOnly: true
+      required:
+      - placename
+      - profile_image_medium
+      - profile_image_small
+      - username
     Subfield:
       type: object
       description: Serializer for Subfields
@@ -461,3 +529,19 @@ components:
       required:
       - field_channel
       - parent_field
+    User:
+      type: object
+      description: Serializer for User
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        profile:
+          $ref: '#/components/schemas/Profile'
+      required:
+      - id
+      - profile
+      - username
