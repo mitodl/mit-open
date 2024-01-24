@@ -13,7 +13,7 @@ SPEC_FILE="./openapi/v1/openapi_spec.yaml"
 ##################################################
 docker compose run --no-deps --rm web \
 	./manage.py spectacular \
-	--urlconf openapi.v1.urls_spectacular \
+	--urlconf open_discussions.urls \
 	--file ${SPEC_FILE} \
 	--validate \
 	--api-version 'v1'
