@@ -79,7 +79,7 @@ def test_get_course_content_files_endpoint(client, url):
     course = CourseFactory.create()
     content_files = sorted(
         ContentFileFactory.create_batch(17, run=course.learning_resource.runs.first()),
-        key=lambda content_file: content_file.updated_on,
+        key=lambda content_file: content_file.created_on,
         reverse=True,
     )
     ContentFileFactory.create(

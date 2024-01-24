@@ -525,11 +525,6 @@ def load_content_files(
             for content_file in content_files_data
         ]
 
-        deleted_files = course_run.content_files.filter(published=True).exclude(
-            pk__in=content_files_ids
-        )
-        deleted_files.update(published=False)
-
         if course_run.published:
             resource_run_upserted_actions(course_run)
         else:
