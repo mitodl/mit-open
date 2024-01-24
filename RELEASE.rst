@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.2.0
+-------------
+
+- Get rid of tika verify warning (#410)
+- Improve contentfile api query performance (#409)
+- Search: Tweak aggregations formattings, add OpenAPI schema for metadata (#407)
+- Remove unused django apps (#398)
+
 Version 0.1.1 (Released January 19, 2024)
 -------------
 
