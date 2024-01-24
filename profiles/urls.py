@@ -6,6 +6,7 @@ from rest_framework.routers import DefaultRouter
 from profiles.views import (
     ProfileViewSet,
     UserViewSet,
+    CurrentUserRetrieveViewSet,
     UserWebsiteViewSet,
     name_initials_avatar_view,
 )
@@ -16,6 +17,13 @@ router.register(r"profiles", ProfileViewSet, basename="profile_api")
 router.register(r"websites", UserWebsiteViewSet, basename="user_websites_api")
 
 urlpatterns = [
+    re_path(
+        r"^api/v0/users/me/?$",
+        CurrentUserRetrieveViewSet.as_view(
+            {"get": "retrieve"}
+        ),
+        name="users_api-me",
+    ),
     re_path(r"^api/v0/", include(router.urls)),
     # The URL that gravatar will redirect to if no gravatar exists for the user (no query parameters allowed).  # noqa: E501
     re_path(
