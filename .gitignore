@@ -134,3 +134,4 @@ storybook-static/
 /e2e_testing/playwright-report/
 /e2e_testing/blob-report/
 /e2e_testing/playwright/.cache/
+!/e2e_testing/.env
