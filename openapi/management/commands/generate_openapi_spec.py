@@ -8,16 +8,6 @@ from django.core import management
 from django.core.management import BaseCommand
 
 
-def generate_openapi_spec(version, file: str | None = None):
-    management.call_command(
-        "spectacular",
-        urlconf="open_discussions.urls",
-        file=file,
-        validate=True,
-        api_version=version,
-    )
-
-
 class Command(BaseCommand):
     """Generate OpenAPI specs for our APIs."""
 
@@ -38,4 +28,10 @@ class Command(BaseCommand):
         for version in settings.REST_FRAMEWORK["ALLOWED_VERSIONS"]:
             filename = version + ".yaml"
             filepath = Path(directory) / filename
-            generate_openapi_spec(version, filepath)
+            management.call_command(
+                "spectacular",
+                urlconf="open_discussions.urls",
+                file=filepath,
+                validate=True,
+                api_version=version,
+            )
