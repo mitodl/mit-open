@@ -135,9 +135,26 @@ MIDDLEWARE = (
 )
 
 # CORS
-CORS_ALLOWED_ORIGINS = get_list_of_str("CORS_ALLOWED_ORIGINS", [])
+CORS_ALLOWED_ORIGINS = get_list_of_str(
+    "CORS_ALLOWED_ORIGINS", ["http://localhost:3000"]
+)
 CORS_ALLOWED_ORIGIN_REGEXES = get_list_of_str("CORS_ALLOWED_ORIGIN_REGEXES", [])
 CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SECURE = True
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    "credentials",
+    "mode",
+    "Cookie",
+)
+CORS_EXPOSE_HEADERS = ["Cookie"]
+CORS_ALLOW_PRIVATE_NETWORK = True
 
 # enable the nplusone profiler only in debug mode
 if DEBUG:
