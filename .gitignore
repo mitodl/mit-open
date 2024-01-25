@@ -129,3 +129,8 @@ github-pages/public
 
 # Storybook
 storybook-static/
+
+/e2e_testing/test-results/
+/e2e_testing/playwright-report/
+/e2e_testing/blob-report/
+/e2e_testing/playwright/.cache/
