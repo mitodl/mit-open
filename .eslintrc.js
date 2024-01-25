@@ -7,7 +7,8 @@ module.exports = {
     "plugin:mdx/recommended",
     "prettier",
   ],
-  plugins: ["testing-library", "import"],
+  plugins: ["testing-library", "import", "disable"],
+  processor: "disable/disable",
   ignorePatterns: ["**/build/**"],
   settings: {
     "import/resolver": {
@@ -83,6 +84,12 @@ module.exports = {
       ],
       rules: {
         ...restrictedImports(),
+      },
+    },
+    {
+      files: ["e2e_testing/**/*.ts"],
+      settings: {
+        "disable/plugins": ["testing-library"],
       },
     },
   ],
