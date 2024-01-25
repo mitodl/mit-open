@@ -1,3 +1,6 @@
 {
-  "baseUrl": "./tests"
+  "compilerOptions": {
+    "baseUrl": "./",
+    "skipLibCheck": true
+  }
 }
