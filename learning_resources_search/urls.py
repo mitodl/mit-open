@@ -1,21 +1,26 @@
 """URLs for search"""
 
-from django.urls import re_path
+from django.urls import include, re_path
 
 from learning_resources_search.views import (
     ContentFileSearchView,
     LearningResourcesSearchView,
 )
 
-urlpatterns = [
+v1_urls = [
     re_path(
-        r"api/v1/learning_resources_search/",
+        r"learning_resources_search/",
         LearningResourcesSearchView.as_view(),
         name="learning_resources_search",
     ),
     re_path(
-        r"api/v1/content_file_search/",
+        r"content_file_search/",
         ContentFileSearchView.as_view(),
         name="content_file_search",
     ),
+]
+
+app_name = "lr_search"
+urlpatterns = [
+    re_path(r"^api/v1/", include((v1_urls, "v1"))),
 ]

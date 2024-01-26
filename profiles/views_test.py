@@ -19,7 +19,7 @@ def test_list_users(staff_client, staff_user):
     List users
     """
     profile = staff_user.profile
-    url = reverse("user_api-list")
+    url = reverse("profile:v0:user_api-list")
     resp = staff_client.get(url)
     assert resp.status_code == 200
     assert resp.json() == [
@@ -58,7 +58,7 @@ def test_create_user(staff_client, staff_user, mocker, email_optin, toc_optin): 
     staff_user.profile.email_optin = None
     staff_user.profile.save()
     staff_user.save()
-    url = reverse("user_api-list")
+    url = reverse("profile:v0:user_api-list")
     email = "test.email@example.com"
     payload = {
         "email": email,
@@ -104,7 +104,7 @@ def test_get_user(staff_client, user):
     Get a user
     """
     profile = user.profile
-    url = reverse("user_api-detail", kwargs={"username": user.username})
+    url = reverse("profile:v0:user_api-detail", kwargs={"username": user.username})
     resp = staff_client.get(url)
     assert resp.status_code == 200
     assert resp.json() == {
@@ -132,7 +132,9 @@ def test_get_user(staff_client, user):
 def test_get_profile(logged_in, user, user_client):
     """Anonymous users should be able to view a person's profile"""
     profile = user.profile
-    url = reverse("profile_api-detail", kwargs={"user__username": user.username})
+    url = reverse(
+        "profile:v0:profile_api-detail", kwargs={"user__username": user.username}
+    )
     resp = user_client.get(url)
     if not logged_in:
         user_client.logout()
@@ -174,7 +176,7 @@ def test_patch_user(staff_client, user, email, email_optin, toc_optin):
         payload["profile"]["email_optin"] = email_optin
     if toc_optin is not None:
         payload["profile"]["toc_optin"] = toc_optin
-    url = reverse("user_api-detail", kwargs={"username": user.username})
+    url = reverse("profile:v0:user_api-detail", kwargs={"username": user.username})
     resp = staff_client.patch(url, data=payload)
     assert resp.status_code == 200
     assert resp.json() == {
@@ -207,7 +209,7 @@ def test_patch_username(staff_client, user):
     """
     Trying to update a users's username does not change anything
     """
-    url = reverse("user_api-detail", kwargs={"username": user.username})
+    url = reverse("profile:v0:user_api-detail", kwargs={"username": user.username})
     resp = staff_client.patch(url, data={"username": "notallowed"})
     assert resp.status_code == 200
     assert resp.json()["username"] == user.username
@@ -218,7 +220,8 @@ def test_patch_profile_by_user(client, logged_in_profile):
     Test that users can update their profiles, including profile images
     """
     url = reverse(
-        "profile_api-detail", kwargs={"user__username": logged_in_profile.user.username}
+        "profile:v0:profile_api-detail",
+        kwargs={"user__username": logged_in_profile.user.username},
     )
     # create a dummy image file in memory for upload
     location_json = {"value": "Boston"}
@@ -256,7 +259,7 @@ def test_initialized_avatar(client, user):
     Test that a PNG avatar image is returned for a user
     """
     url = reverse(
-        "name-initials-avatar",
+        "profile:name-initials-avatar",
         kwargs={
             "username": user.username,
             "color": "afafaf",
@@ -277,7 +280,7 @@ def test_initials_avatar_fake_user(client):
     Test that a default avatar image is returned for a fake user
     """
     url = reverse(
-        "name-initials-avatar",
+        "profile:name-initials-avatar",
         kwargs={
             "username": "fakeuser",
             "color": "afafaf",
@@ -295,7 +298,7 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
     """Test that user can request their own user by the 'me' alias"""
     if not is_anonymous:
         client.force_login(user)
-    resp = client.get(reverse("users_api-me"))
+    resp = client.get(reverse("profile:v0:users_api-me"))
 
     if is_anonymous:
         assert resp.status_code == status.HTTP_403_FORBIDDEN

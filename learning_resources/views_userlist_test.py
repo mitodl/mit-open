@@ -40,16 +40,16 @@ def test_user_list_endpoint_get(client, user, is_author, has_image, is_unlisted)
         image_url = first_resource.image.url
 
     # Anonymous users should get empty results
-    resp = client.get(reverse("lr_userlists_api-list"))
+    resp = client.get(reverse("lr:v1:userlists_api-list"))
     assert resp.data.get("count") == 0
 
     # Logged in user should get own lists only
     client.force_login(author if is_author else user)
-    resp = client.get(reverse("lr_userlists_api-list"))
+    resp = client.get(reverse("lr:v1:userlists_api-list"))
     assert resp.data.get("count") == (1 if is_author else 0)
 
     # Only author should get details of own private list
-    resp = client.get(reverse("lr_userlists_api-detail", args=[user_list.id]))
+    resp = client.get(reverse("lr:v1:userlists_api-detail", args=[user_list.id]))
     assert resp.status_code == (404 if not is_author else 200)
     if resp.status_code == 200:
         assert resp.data.get("title") == user_list.title
@@ -59,7 +59,9 @@ def test_user_list_endpoint_get(client, user, is_author, has_image, is_unlisted)
         else:
             assert resp.data.get("image") is None
     # Author should get details of another user's list only if privacy is unlisted
-    resp = client.get(reverse("lr_userlists_api-detail", args=[another_user_list.id]))
+    resp = client.get(
+        reverse("lr:v1:userlists_api-detail", args=[another_user_list.id])
+    )
     assert resp.status_code == 404 if not is_unlisted else 200
 
 
@@ -74,7 +76,7 @@ def test_user_list_endpoint_create(  # pylint: disable=too-many-arguments
 
     data = {"title": "My List"}
 
-    resp = client.post(reverse("lr_userlists_api-list"), data=data, format="json")
+    resp = client.post(reverse("lr:v1:userlists_api-list"), data=data, format="json")
     assert resp.status_code == (403 if is_anonymous else 201)
     if resp.status_code == 201:
         assert resp.data.get("title") == resp.data.get("title")
@@ -100,7 +102,9 @@ def test_user_list_endpoint_patch(client, update_topics):
         data["topics"] = [new_topic.id]
 
     resp = client.patch(
-        reverse("lr_userlists_api-detail", args=[userlist.id]), data=data, format="json"
+        reverse("lr:v1:userlists_api-detail", args=[userlist.id]),
+        data=data,
+        format="json",
     )
     assert resp.data["title"] == "Title 2"
     assert resp.data["topics"][0]["id"] == (
@@ -120,7 +124,7 @@ def test_user_list_items_endpoint_create_item(client, user, is_author):
     data = {"child": course.learning_resource.id}
 
     resp = client.post(
-        reverse("lr_userlistitems_api-list", args=[userlist.id]),
+        reverse("lr:v1:userlistitems_api-list", args=[userlist.id]),
         data=data,
         format="json",
     )
@@ -138,7 +142,7 @@ def test_user_list_items_endpoint_create_item_bad_data(client, user):
     data = {"child": 999}
 
     resp = client.post(
-        reverse("lr_userlistitems_api-list", args=[userlist.id]),
+        reverse("lr:v1:userlistitems_api-list", args=[userlist.id]),
         data=data,
         format="json",
     )
@@ -173,7 +177,7 @@ def test_user_list_items_endpoint_update_item(client, user, is_author, position)
     data = {"position": position}
 
     resp = client.patch(
-        reverse("lr_userlistitems_api-detail", args=[userlist.id, list_item_2.id]),
+        reverse("lr:v1:userlistitems_api-detail", args=[userlist.id, list_item_2.id]),
         data=data,
         format="json",
     )
@@ -199,7 +203,7 @@ def test_user_list_items_endpoint_update_items_wrong_list(client, user):
 
     resp = client.patch(
         reverse(
-            "lr_userlistitems_api-detail", args=[userlist.id, list_item_incorrect.id]
+            "lr:v1:userlistitems_api-detail", args=[userlist.id, list_item_incorrect.id]
         ),
         data=data,
         format="json",
@@ -220,14 +224,14 @@ def test_user_list_items_endpoint_delete_items(client, user, is_author):
     client.force_login(author if is_author else user)
 
     resp = client.delete(
-        reverse("lr_userlistitems_api-detail", args=[userlist.id, list_items[0].id]),
+        reverse("lr:v1:userlistitems_api-detail", args=[userlist.id, list_items[0].id]),
         format="json",
     )
     assert resp.status_code == (204 if is_author else 403)
     if resp.status_code == 204:
         client.delete(
             reverse(
-                "lr_userlistitems_api-detail", args=[userlist.id, list_items[0].id]
+                "lr:v1:userlistitems_api-detail", args=[userlist.id, list_items[0].id]
             ),
             format="json",
         )
@@ -245,7 +249,7 @@ def test_user_list_endpoint_delete(client, user, is_author):
 
     client.force_login(author if is_author else user)
 
-    resp = client.delete(reverse("lr_userlists_api-detail", args=[userlist.id]))
+    resp = client.delete(reverse("lr:v1:userlists_api-detail", args=[userlist.id]))
     assert resp.status_code == (204 if is_author else 403)
     assert UserList.objects.filter(id=userlist.id).exists() is not is_author
 
@@ -268,7 +272,7 @@ def test_get_resource_user_lists(client, user, is_author, is_unlisted):
         key=lambda item: item.position,
     )
     resp = client.get(
-        reverse("lr_courses_api-detail", args=[course.learning_resource.id])
+        reverse("lr:v1:courses_api-detail", args=[course.learning_resource.id])
     )
 
     items_json = resp.data.get("user_list_parents")

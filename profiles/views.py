@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.decorators.cache import cache_page
+from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
 
@@ -23,6 +24,7 @@ from profiles.serializers import (
 from profiles.utils import DEFAULT_PROFILE_IMAGE, generate_svg_avatar
 
 
+@extend_schema(exclude=True)
 class UserViewSet(viewsets.ModelViewSet):
     """View for users"""
 
@@ -46,6 +48,7 @@ class CurrentUserRetrieveViewSet(mixins.RetrieveModelMixin, viewsets.GenericView
         return self.request.user
 
 
+@extend_schema(exclude=True)
 class ProfileViewSet(
     mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet
 ):
@@ -62,6 +65,7 @@ class ProfileViewSet(
         return {"include_user_websites": True}
 
 
+@extend_schema(exclude=True)
 class UserWebsiteViewSet(
     mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet
 ):

@@ -14,7 +14,7 @@ def test_get_ckeditor(client, user, settings):
     settings.CKEDITOR_SECRET_KEY = "super secret"  # noqa: S105
     settings.CKEDITOR_ENVIRONMENT_ID = "environment"
     client.force_login(user)
-    resp = client.get(reverse("ckeditor-token"))
+    resp = client.get(reverse("ckeditor:v0:ckeditor-token"))
     assert resp.status_code == status.HTTP_200_OK
     jwt_body = jwt.decode(
         resp.content, settings.CKEDITOR_SECRET_KEY, algorithms=["HS256"]
@@ -39,5 +39,5 @@ def test_get_ckeditor_status(  # noqa: PLR0913
     settings.CKEDITOR_SECRET_KEY = secret_key
     settings.CKEDITOR_ENVIRONMENT_ID = env_id
     client.force_login(user)
-    resp = client.get(reverse("ckeditor-token"))
+    resp = client.get(reverse("ckeditor:v0:ckeditor-token"))
     assert resp.status_code == exp_status
