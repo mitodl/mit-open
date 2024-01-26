@@ -2,7 +2,7 @@
 Django settings specific to learning_resources ingestion
 """
 
-from open_discussions.envs import get_int, get_string
+from open_discussions.envs import get_bool, get_int, get_string
 
 # EDX API Credentials
 EDX_API_URL = get_string("EDX_API_URL", None)
@@ -19,6 +19,7 @@ GITHUB_ACCESS_TOKEN = get_string("GITHUB_ACCESS_TOKEN", None)
 # OCW settings
 OCW_LIVE_BUCKET = get_string("OCW_LIVE_BUCKET", None)
 OCW_ITERATOR_CHUNK_SIZE = get_int("OCW_ITERATOR_CHUNK_SIZE", 1000)
+OCW_SKIP_CONTENT_FILES = get_bool("OCW_SKIP_CONTENT_FILES", default=False)
 OCW_WEBHOOK_KEY = get_string("OCW_WEBHOOK_KEY", None)
 MAX_S3_GET_ITERATIONS = get_int("MAX_S3_GET_ITERATIONS", 3)
 

@@ -190,9 +190,9 @@ def test_podcast_etl():
 
 @mock_s3
 @pytest.mark.django_db()
-def test_ocw_courses_etl(settings, mocker):
+@pytest.mark.parametrize("skip_content_files", [True, False])
+def test_ocw_courses_etl(settings, mocker, skip_content_files):
     """Test ocw_courses_etl"""
-
     setup_s3_ocw(settings)
 
     mocker.patch(
@@ -208,6 +208,7 @@ def test_ocw_courses_etl(settings, mocker):
         url_paths=[OCW_TEST_PREFIX],
         force_overwrite=True,
         start_timestamp=datetime(2020, 12, 15, tzinfo=pytz.utc),
+        skip_content_files=skip_content_files,
     )
 
     resource = LearningResource.objects.first()
@@ -225,7 +226,7 @@ def test_ocw_courses_etl(settings, mocker):
     run = resource.runs.first()
     assert run.instructors.count() == 10
     assert run.run_id == "97db384ef34009a64df7cb86cf701979"
-    assert run.content_files.count() == 4
+    assert run.content_files.count() == (0 if skip_content_files else 4)
 
 
 @mock_s3

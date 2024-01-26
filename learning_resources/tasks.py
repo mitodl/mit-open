@@ -4,6 +4,7 @@ learning_resources tasks
 
 import logging
 from datetime import datetime
+from typing import Optional
 
 import boto3
 import celery
@@ -166,7 +167,13 @@ def get_podcast_data():
 
 
 @app.task(acks_late=True)
-def get_ocw_courses(*, url_paths, force_overwrite, utc_start_timestamp=None):
+def get_ocw_courses(
+    *,
+    url_paths,
+    force_overwrite,
+    utc_start_timestamp=None,
+    skip_content_files=settings.OCW_SKIP_CONTENT_FILES,
+):
     """
     Task to sync a batch of OCW Next courses
     """
@@ -180,16 +187,19 @@ def get_ocw_courses(*, url_paths, force_overwrite, utc_start_timestamp=None):
         url_paths=url_paths,
         force_overwrite=force_overwrite,
         start_timestamp=utc_start_timestamp,
+        skip_content_files=skip_content_files,
     )
 
 
 @app.task(bind=True, acks_late=True)
-def get_ocw_data(
+def get_ocw_data(  # noqa: PLR0913
     self,
-    force_overwrite=False,  # noqa: FBT002
-    course_url_substring=None,
-    utc_start_timestamp=None,
-    prefix=None,
+    *,
+    force_overwrite: Optional[bool] = False,
+    course_url_substring: Optional[str] = None,
+    utc_start_timestamp: Optional[datetime] = None,
+    prefix: Optional[str] = None,
+    skip_content_files: Optional[bool] = settings.OCW_SKIP_CONTENT_FILES,
 ):
     """
     Task to sync OCW Next course data with database
@@ -236,6 +246,7 @@ def get_ocw_data(
                 url_paths=url_path,
                 force_overwrite=force_overwrite,
                 utc_start_timestamp=utc_start_timestamp,
+                skip_content_files=skip_content_files,
             )
             for url_path in chunks(
                 ocw_courses, chunk_size=settings.OCW_ITERATOR_CHUNK_SIZE
