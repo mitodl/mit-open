@@ -438,7 +438,9 @@ def test_ocw_webhook_endpoint(client, mocker, settings, data):
         "learning_resources.views.get_ocw_courses.delay", autospec=True
     )
     response = client.post(
-        reverse("lr:v1:ocw-next-webhook"), data=data, headers={"Content-Type": "text/plain"}
+        reverse("lr:v1:ocw-next-webhook"),
+        data=data,
+        headers={"Content-Type": "text/plain"},
     )
 
     prefix = data.get("prefix")
