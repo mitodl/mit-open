@@ -3279,7 +3279,7 @@ export const ArticlesApiAxiosParamCreator = function (
     ): Promise<RequestArgs> => {
       // verify required parameter 'ArticleRequest' is not null or undefined
       assertParamExists("articlesCreate", "ArticleRequest", ArticleRequest)
-      const localVarPath = `/api/v0/articles/`
+      const localVarPath = `/api/v1/articles/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -3329,7 +3329,7 @@ export const ArticlesApiAxiosParamCreator = function (
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("articlesDestroy", "id", id)
-      const localVarPath = `/api/v0/articles/{id}/`.replace(
+      const localVarPath = `/api/v1/articles/{id}/`.replace(
         `{${"id"}}`,
         encodeURIComponent(String(id)),
       )
@@ -3375,7 +3375,7 @@ export const ArticlesApiAxiosParamCreator = function (
       offset?: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/articles/`
+      const localVarPath = `/api/v1/articles/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -3428,7 +3428,7 @@ export const ArticlesApiAxiosParamCreator = function (
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("articlesPartialUpdate", "id", id)
-      const localVarPath = `/api/v0/articles/{id}/`.replace(
+      const localVarPath = `/api/v1/articles/{id}/`.replace(
         `{${"id"}}`,
         encodeURIComponent(String(id)),
       )
@@ -3481,7 +3481,7 @@ export const ArticlesApiAxiosParamCreator = function (
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("articlesRetrieve", "id", id)
-      const localVarPath = `/api/v0/articles/{id}/`.replace(
+      const localVarPath = `/api/v1/articles/{id}/`.replace(
         `{${"id"}}`,
         encodeURIComponent(String(id)),
       )
