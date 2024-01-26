@@ -5,7 +5,7 @@ from rest_framework.routers import SimpleRouter
 from rest_framework_nested.routers import NestedSimpleRouter
 
 from learning_resources import views
-from learning_resources.views import WebhookOCWNextView
+from learning_resources.views import WebhookOCWView
 
 router = SimpleRouter()
 router.register(
@@ -96,7 +96,7 @@ urlpatterns = [
     re_path(r"^podcasts/rss_feed", views.podcast_rss_feed, name="podcast-rss-feed"),
     re_path(
         r"^api/v1/ocw_next_webhook/$",
-        WebhookOCWNextView.as_view(),
+        WebhookOCWView.as_view(),
         name="ocw-next-webhook",
     ),
 ]

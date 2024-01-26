@@ -414,27 +414,54 @@ def test_get_podcast_items_endpoint(client, url):
 @pytest.mark.parametrize(
     "data",
     [
-        {"webhook_key": "fake_key", "prefix": "prefix", "version": "live"},
-        {"webhook_key": "fake_key", "prefix": "prefix", "version": "draft"},
+        {"webhook_key": "fake_key", "prefix": "prefix1", "version": "live"},
+        {"webhook_key": "fake_key", "prefix": "prefix2", "version": "draft"},
+        {"webhook_key": "fake_key", "prefixes": "prefix1, prefix2", "version": "live"},
+        {
+            "webhook_key": "fake_key",
+            "prefixes": ["prefix1", "prefix2"],
+            "version": "live",
+        },
         {"webhook_key": "fake_key", "version": "live"},
     ],
 )
-def test_ocw_next_webhook_endpoint(client, mocker, settings, data):
+def test_ocw_webhook_endpoint(client, mocker, settings, data):
     """Test that the OCW webhook endpoint schedules a get_ocw_courses task"""
     settings.OCW_WEBHOOK_KEY = "fake_key"
     mock_get_ocw = mocker.patch(
         "learning_resources.views.get_ocw_courses.delay", autospec=True
     )
-    client.post(
+    response = client.post(
         reverse("ocw-next-webhook"), data=data, headers={"Content-Type": "text/plain"}
     )
 
     prefix = data.get("prefix")
+    prefixes = data.get("prefixes")
 
-    if prefix is not None and data.get("version") == "live":
-        mock_get_ocw.assert_called_once_with(url_paths=[prefix], force_overwrite=False)
+    expected_prefixes = [prefix] if prefix else prefixes
+    if isinstance(expected_prefixes, str):
+        expected_prefixes = [prefix.strip() for prefix in expected_prefixes.split(",")]
+
+    if expected_prefixes and data.get("version") == "live":
+        mock_get_ocw.assert_called_once_with(
+            url_paths=expected_prefixes, force_overwrite=False
+        )
+        assert response.status_code == 200
+        assert (
+            response.data["message"]
+            == f"OCW courses queued for indexing: {expected_prefixes}"
+        )
     else:
         mock_get_ocw.assert_not_called()
+        if data.get("version") != "live":
+            assert response.data["message"] == "Not a live version, ignoring"
+            assert response.status_code == 200
+        else:
+            assert (
+                response.data["message"]
+                == f"Could not determine appropriate action from request: {data}"
+            )
+            assert response.status_code == 400
 
 
 @pytest.mark.parametrize(
@@ -454,7 +481,8 @@ def test_ocw_next_webhook_endpoint(client, mocker, settings, data):
         {"site_uid": None, "version": "live", "unpublished": True},
     ],
 )
-def test_ocw_next_webhook_endpoint_unpublished(client, mocker, settings, data):
+@pytest.mark.parametrize("run_exists", [True, False])
+def test_ocw_webhook_endpoint_unpublished(client, mocker, settings, data, run_exists):
     """Test that the OCW webhook endpoint removes an unpublished task from the search index"""
     settings.OCW_WEBHOOK_KEY = "fake_key"
     mock_delete_course = mocker.patch(
@@ -462,14 +490,14 @@ def test_ocw_next_webhook_endpoint_unpublished(client, mocker, settings, data):
     )
     run_id = data.get("site_uid")
     course_run = None
-    if run_id:
+    if run_id and run_exists:
         course_run = LearningResourceRunFactory.create(
             run_id=run_id,
             learning_resource=CourseFactory.create(
                 platform=PlatformType.ocw.name
             ).learning_resource,
         )
-    client.post(
+    response = client.post(
         reverse("ocw-next-webhook"),
         data={"webhook_key": "fake_key", **data},
         headers={"Content-Type": "text/plain"},
@@ -480,12 +508,23 @@ def test_ocw_next_webhook_endpoint_unpublished(client, mocker, settings, data):
         and data.get("unpublished") is True
         and data.get("version") == "live"
     ):
-        mock_delete_course.assert_called_once_with(course_run.learning_resource)
+        assert response.status_code == 200
+        if run_exists:
+            mock_delete_course.assert_called_once_with(course_run.learning_resource)
+            assert (
+                response.data["message"]
+                == f"OCW course {run_id} queued for unpublishing"
+            )
+        else:
+            assert (
+                response.data["message"]
+                == f"OCW course {run_id} not found, so nothing to unpublish"
+            )
     else:
         mock_delete_course.assert_not_called()
 
 
-def test_ocw_next_webhook_endpoint_bad_key(settings, client):
+def test_ocw_webhook_endpoint_bad_key(settings, client):
     """Test that a webhook exception is raised if a bad key is sent"""
     settings.OCW_WEBHOOK_KEY = "fake_key"
     with pytest.raises(WebhookException):
