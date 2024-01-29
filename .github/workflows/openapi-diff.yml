@@ -1,0 +1,62 @@
+name: CI
+on: [pull_request]
+jobs:
+  openapi-diff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout HEAD
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          path: head
+      - name: Checkout BASE
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+          path: base
+      - name: Generate oasdiff changelog
+        id: oasdif_changelog
+        run: | # Capture changelog as a multiline output
+          echo "changelog<<EOF" > $GITHUB_OUTPUT
+          docker run --rm \
+            --workdir ${{ github.workspace }} \
+            --volume ${{ github.workspace }}:${{ github.workspace }}:rw \
+            -e GITHUB_WORKSPACE=${{ github.workspace }} \
+            tufin/oasdiff changelog --composed \
+            'base/openapi/specs/*.yaml' \
+            'head/openapi/specs/*.yaml' \
+            >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Get summary
+        id: oasdif_summary
+        run: |
+          echo summary=$(echo "${{ steps.oasdif_changelog.outputs.changelog }}" | head -1 ) \
+          >> $GITHUB_OUTPUT
+      - name: Post changes as comment
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ## OpenAPI Changes
+
+            <details>
+            <summary>Show/hide ${{ steps.oasdif_summary.outputs.summary || 'No detectable change.' }}</summary>
+
+            ```
+            ${{ steps.oasdif_changelog.outputs.changelog }}
+            ```
+            </details>
+          comment_tag: oasdiff_changelog
+          mode: upsert
+      - name: Check for breaking changes
+        id: oasdif_breaking
+        run: |
+          docker run --rm \
+            --workdir ${{ github.workspace }} \
+            --volume ${{ github.workspace }}:${{ github.workspace }}:ro \
+            -e GITHUB_WORKSPACE=${{ github.workspace }} \
+            tufin/oasdiff breaking \
+            --fail-on ERR \
+            --format githubactions \
+            --composed \
+            'base/openapi/specs/*.yaml' \
+            'head/openapi/specs/*.yaml'
