@@ -1,6 +1,5 @@
 {
   "name": "e2e_testing",
-  "packageManager": "yarn@3.7.0",
   "scripts": {
     "test": "playwright test",
     "start": "playwright test --ui"

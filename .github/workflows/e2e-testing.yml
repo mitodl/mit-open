@@ -1,4 +1,4 @@
-name: E2E-testing
+name: E2E Testing
 on: [push]
 jobs:
   e2e-tests:
@@ -15,6 +15,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
+          cache: yarn
 
       - name: Install dependencies
         run: yarn workspace e2e_testing install

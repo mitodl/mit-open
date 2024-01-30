@@ -62,6 +62,11 @@ services:
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
       - ./:/src
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8063"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   web:
     build:
@@ -127,6 +132,19 @@ services:
     image: apache/tika:1.28
     ports:
       - "9998:9998"
+
+  e2e-tests:
+    build:
+      context: e2e_testing
+      args:
+        - BASE_URL=http://web:8063
+    environment:
+      - CI=true
+    depends_on:
+      nginx:
+        condition: service_healthy
+    links:
+      - nginx
 
 volumes:
   opensearch-data1:
