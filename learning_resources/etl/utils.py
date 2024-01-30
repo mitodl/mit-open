@@ -132,6 +132,7 @@ def extract_text_metadata(data, *, other_headers=None):
         return None
 
     headers = {**other_headers} if other_headers else {}
+    headers["X-Tika-PDFOcrStrategy"] = settings.TIKA_OCR_STRATEGY
     if settings.TIKA_ACCESS_TOKEN:
         headers["X-Access-Token"] = settings.TIKA_ACCESS_TOKEN
 

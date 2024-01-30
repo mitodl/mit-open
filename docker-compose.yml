@@ -124,7 +124,7 @@ services:
       - .:/src
       - django_media:/var/media
   tika:
-    image: apache/tika:1.28
+    image: apache/tika:2.4.0
     ports:
       - "9998:9998"
 
