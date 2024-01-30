@@ -1,5 +1,8 @@
 # MIT Open
 
+![CI Workflow](https://github.com/mitodl/mit-open/actions/workflows/ci.yml/badge.svg)
+![E2E Testing Workflow](https://github.com/mitodl/mit-open/actions/workflows/e2e-testing.yml/badge.svg)
+
 This application provides a central interface from which learners can browse MIT courses.
 
 **SECTIONS**

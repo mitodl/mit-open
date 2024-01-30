@@ -1,0 +1,35 @@
+name: E2E-testing
+on: [push]
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start web service
+        run: |
+          cp .env.example .env
+          docker-compose up web nginx
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: yarn workspace e2e_testing install
+
+      - name: Install Playwright browsers
+        run: yarn workspace e2e_testing exec playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: yarn workspace e2e_testing test
+        env:
+          BASE_URL: http://localhost:8063
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: e2e_testing/playwright-report/
+          retention-days: 30
