@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.2.1 (Released January 30, 2024)
+-------------
+
+- Modify OCW webhook endpoint to handle multiple courses (#412)
+- Optionally skip loading OCW content files (#413)
+- Add /api/v0/users/me API (#415)
+
 Version 0.2.0 (Released January 26, 2024)
 -------------
 
