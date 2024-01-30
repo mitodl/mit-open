@@ -34,7 +34,6 @@ handler404 = "open_discussions.views.handle_404"
 urlpatterns = [  # noqa: RUF005
     re_path(r"^admin/", admin.site.urls),
     re_path(r"", include("authentication.urls")),
-    re_path(r"", include("social_django.urls", namespace="social")),
     re_path(r"", include("channels.urls")),
     re_path(r"", include("profiles.urls")),
     re_path(r"", include("embedly.urls")),
