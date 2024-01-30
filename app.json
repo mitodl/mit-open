@@ -547,6 +547,10 @@
       "description": "The client secret provided by the OpenID Connect provider.",
       "required": false
     },
+    "SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS": {
+      "description": "The list of additional redirect hosts allowed for social auth.",
+      "required": false
+    },
     "USERINFO_URL": {
       "description": "Provder endpoint where client sends requests for identity claims.",
       "required": false

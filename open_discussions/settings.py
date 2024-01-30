@@ -225,10 +225,16 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
 SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
-SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [urlparse(SITE_BASE_URL).netloc]
+SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [
+    *get_list_of_str(
+        name="SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS",
+        default=[],
+    ),
+    urlparse(SITE_BASE_URL).netloc
+]
 
 SOCIAL_AUTH_PIPELINE = (
-    # Checks if an admin user attempts to login/register while hijacking another user.
+# Checks if an admin user attempts to login/register while hijacking another user.
     "authentication.pipeline.user.forbid_hijack",
     # Get the information we can about the user and return it in a simple
     # format to create the user instance later. On some cases the details are
