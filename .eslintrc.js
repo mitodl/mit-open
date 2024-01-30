@@ -2,13 +2,11 @@ module.exports = {
   extends: [
     "eslint-config-mitodl",
     "eslint-config-mitodl/jest",
-    "plugin:testing-library/react",
     "plugin:import/typescript",
     "plugin:mdx/recommended",
     "prettier",
   ],
-  plugins: ["testing-library", "import", "disable"],
-  processor: "disable/disable",
+  plugins: ["testing-library", "import"],
   ignorePatterns: ["**/build/**"],
   settings: {
     "import/resolver": {
@@ -86,10 +84,9 @@ module.exports = {
       },
     },
     {
-      files: ["e2e_testing/**/*.ts"],
-      settings: {
-        "disable/plugins": ["testing-library"],
-      },
+      files: ["./frontends/**/*.test.{ts,tsx}"],
+      plugins: ["testing-library"],
+      extends: ["plugin:testing-library/react"],
     },
   ],
 }
