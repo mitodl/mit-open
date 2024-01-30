@@ -8,4 +8,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run web service and E2E tests
-        run: docker compose up e2e-tests
+        run: |
+          cp .env.ci .env
+          docker compose up e2e-tests

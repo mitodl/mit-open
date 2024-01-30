@@ -67,6 +67,8 @@ repos:
           - yarn.lock
           - --exclude-files
           - ".*/generated/"
+          - --exclude-files
+          - ".env.ci"
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: "v0.1.8"
     hooks:
