@@ -26,11 +26,13 @@ pytestmark = pytest.mark.django_db
 
 
 @mock_s3
-def test_transform_content_files(settings, mocker):
+@pytest.mark.parametrize("base_ocw_url", ["http://test.edu/", "http://test.edu"])
+def test_transform_content_files(settings, mocker, base_ocw_url):
     """
     Test transform_content_files
     """
-
+    settings.OCW_BASE_URL = base_ocw_url
+    ocw_url = base_ocw_url.rstrip("/")
     setup_s3_ocw(settings)
     s3_resource = boto3.resource("s3")
     mocker.patch(
@@ -53,7 +55,7 @@ def test_transform_content_files(settings, mocker):
         "published": True,
         "title": "Pages",
         "content_title": "Pages",
-        "url": "../courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/pages/",
+        "url": f"{ocw_url}/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/pages/",
     }
 
     assert content_data[1] == {
@@ -63,7 +65,7 @@ def test_transform_content_files(settings, mocker):
         "published": True,
         "title": "Syllabus",
         "content_title": "Syllabus",
-        "url": "../courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/pages/syllabus/",
+        "url": f"{ocw_url}/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/pages/syllabus/",
     }
 
     assert content_data[2] == {
@@ -79,7 +81,7 @@ def test_transform_content_files(settings, mocker):
         "published": True,
         "title": "Resource Title",
         "content_title": "Resource Title",
-        "url": "../courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/resources/resource/",
+        "url": f"{ocw_url}/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/resources/resource/",
     }
 
     assert content_data[3] == {
@@ -92,7 +94,7 @@ def test_transform_content_files(settings, mocker):
         "published": True,
         "title": None,
         "content_title": None,
-        "url": "../courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/resources/video/",
+        "url": f"{ocw_url}/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/resources/video/",
         "image_src": "https://img.youtube.com/vi/vKer2U5W5-s/default.jpg",
     }
 
