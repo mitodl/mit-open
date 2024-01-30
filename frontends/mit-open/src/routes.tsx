@@ -6,6 +6,7 @@ import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPat
 import LearningPathDetailsPage from "@/pages/LearningPathDetailsPage/LearningPathDetailsPage"
 import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
+import DashboardPage from "@/pages/DashboardPage/DashboardPage"
 import ErrorPage from "@/pages/ErrorPage/ErrorPage"
 import * as urls from "@/common/urls"
 import Header from "@/page-components/Header/Header"
@@ -33,6 +34,14 @@ const routes: RouteObject[] = [
       {
         path: urls.LEARNINGPATH_VIEW,
         element: <LearningPathDetailsPage />,
+      },
+      {
+        path: urls.DASHBOARD,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <DashboardPage />
+          </RestrictedRoute>
+        ),
       },
       {
         element: <RestrictedRoute requires={Permissions.ArticleEditor} />,

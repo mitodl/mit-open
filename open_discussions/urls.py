@@ -51,6 +51,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"^search/", index, name="site-search"),
     re_path(r"^learningpaths/", index, name="learningpaths"),
     re_path(r"^articles/", index, name="articles"),
+    re_path(r"^dashboard/", index, name="dashboard"),
     # Hijack
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

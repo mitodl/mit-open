@@ -41,3 +41,5 @@ export const login = ({
   const next = `${pathname}${encodeURIComponent(search)}`
   return `${LOGIN}?next=${next}`
 }
+
+export const DASHBOARD = "/dashboard/"
