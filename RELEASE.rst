@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.2.1
+Version 0.2.1 (Released January 30, 2024)
 -------------
 
 - Modify OCW webhook endpoint to handle multiple courses (#412)
