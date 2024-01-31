@@ -236,10 +236,10 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         ),
     )
 
-    level_choices = [(e.name, e.value.lower()) for e in LevelType]
     level = StringArrayField(
-        required=False, child=serializers.ChoiceField(choices=level_choices)
+        required=False, child=serializers.ChoiceField(choices=LevelType.as_list())
     )
+
     course_feature = StringArrayField(
         required=False,
         child=serializers.CharField(),

@@ -2917,13 +2917,13 @@ paths:
             - introductory
             type: string
             description: |-
-              * `undergraduate` - undergraduate
-              * `graduate` - graduate
-              * `high_school` - high school
-              * `noncredit` - non-credit
-              * `advanced` - advanced
-              * `intermediate` - intermediate
-              * `introductory` - introductory
+              * `undergraduate` - Undergraduate
+              * `graduate` - Graduate
+              * `high_school` - High School
+              * `noncredit` - Non-Credit
+              * `advanced` - Advanced
+              * `intermediate` - Intermediate
+              * `introductory` - Introductory
       - in: query
         name: limit
         schema:
@@ -6467,6 +6467,22 @@ components:
           - $ref: '#/components/schemas/LearningResourceImage'
           readOnly: true
           nullable: true
+        level:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - undergraduate
+                - graduate
+                - high_school
+                - noncredit
+                - advanced
+                - intermediate
+                - introductory
+              name:
+                type: string
         run_id:
           type: string
           maxLength: 128
@@ -6496,11 +6512,6 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
-        level:
-          type: array
-          items:
-            type: string
-            maxLength: 128
         slug:
           type: string
           nullable: true
@@ -6549,12 +6560,29 @@ components:
       - id
       - image
       - instructors
+      - level
       - run_id
       - title
     LearningResourceRunRequest:
       type: object
       description: Serializer for the LearningResourceRun model
       properties:
+        level:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - undergraduate
+                - graduate
+                - high_school
+                - noncredit
+                - advanced
+                - intermediate
+                - introductory
+              name:
+                type: string
         run_id:
           type: string
           minLength: 1
@@ -6588,12 +6616,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        level:
-          type: array
-          items:
-            type: string
-            minLength: 1
-            maxLength: 128
         slug:
           type: string
           nullable: true
@@ -6639,6 +6661,7 @@ components:
           nullable: true
           maxLength: 32
       required:
+      - level
       - run_id
       - title
     LearningResourceTopic:

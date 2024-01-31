@@ -29,6 +29,7 @@ from learning_resources.etl.utils import (
     extract_text_metadata,
     generate_course_numbers_json,
     get_content_type,
+    transform_levels,
 )
 from learning_resources.models import ContentFile, LearningResource
 from learning_resources.utils import (
@@ -249,7 +250,7 @@ def transform_run(course_data: dict) -> dict:
                 .get("image-alt")
             ),
         },
-        "level": course_data.get("level", []),
+        "level": transform_levels(course_data.get("level", [])),
         "last_modified": course_data.get("last_modified"),
         "title": course_data.get("course_title"),
         "slug": course_data.get("slug"),

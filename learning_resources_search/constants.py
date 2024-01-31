@@ -57,7 +57,7 @@ LEARNING_RESOURCE_SEARCH_FILTERS = [
 
 SEARCH_NESTED_FILTERS = {
     "topic": "topics.name",
-    "level": "runs.level",
+    "level": "runs.level.code",
     "department": "departments.department_id",
     "platform": "platform.code",
     "offered_by": "offered_by.code",
@@ -163,7 +163,13 @@ LEARNING_RESOURCE_MAP = {
             "end_date": {"type": "date"},
             "enrollment_start": {"type": "date"},
             "enrollment_end": {"type": "date"},
-            "level": {"type": "keyword"},
+            "level": {
+                "type": "nested",
+                "properties": {
+                    "code": {"type": "keyword"},
+                    "name": {"type": "keyword"},
+                },
+            },
             "instructors": {
                 "type": "nested",
                 "properties": {

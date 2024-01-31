@@ -1202,6 +1202,12 @@ export interface LearningResourceRun {
   image: LearningResourceImage | null
   /**
    *
+   * @type {Array<LearningResourceRunLevelInner>}
+   * @memberof LearningResourceRun
+   */
+  level: Array<LearningResourceRunLevelInner>
+  /**
+   *
    * @type {string}
    * @memberof LearningResourceRun
    */
@@ -1248,12 +1254,6 @@ export interface LearningResourceRun {
    * @memberof LearningResourceRun
    */
   url?: string | null
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceRun
-   */
-  level?: Array<string>
   /**
    *
    * @type {string}
@@ -1316,11 +1316,50 @@ export interface LearningResourceRun {
   checksum?: string | null
 }
 /**
+ *
+ * @export
+ * @interface LearningResourceRunLevelInner
+ */
+export interface LearningResourceRunLevelInner {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRunLevelInner
+   */
+  code?: LearningResourceRunLevelInnerCodeEnum
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRunLevelInner
+   */
+  name?: string
+}
+
+export const LearningResourceRunLevelInnerCodeEnum = {
+  Undergraduate: "undergraduate",
+  Graduate: "graduate",
+  HighSchool: "high_school",
+  Noncredit: "noncredit",
+  Advanced: "advanced",
+  Intermediate: "intermediate",
+  Introductory: "introductory",
+} as const
+
+export type LearningResourceRunLevelInnerCodeEnum =
+  (typeof LearningResourceRunLevelInnerCodeEnum)[keyof typeof LearningResourceRunLevelInnerCodeEnum]
+
+/**
  * Serializer for the LearningResourceRun model
  * @export
  * @interface LearningResourceRunRequest
  */
 export interface LearningResourceRunRequest {
+  /**
+   *
+   * @type {Array<LearningResourceRunLevelInner>}
+   * @memberof LearningResourceRunRequest
+   */
+  level: Array<LearningResourceRunLevelInner>
   /**
    *
    * @type {string}
@@ -1369,12 +1408,6 @@ export interface LearningResourceRunRequest {
    * @memberof LearningResourceRunRequest
    */
   url?: string | null
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceRunRequest
-   */
-  level?: Array<string>
   /**
    *
    * @type {string}

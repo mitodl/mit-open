@@ -486,7 +486,31 @@ def execute_learn_search(search_params):
         search = search.query("bool", should=[text_query])
         search = search.extra(suggest=suggest)
 
-    filter_clauses = generate_filter_clauses(search_params)
+    # filter_clauses = generate_filter_clauses(search_params)
+    filter_clauses = {
+        "level": {
+            "bool": {
+                "should": [
+                    {
+                        "nested": {
+                            "path": "runs",
+                            "query": {
+                                "path": "runs.level",
+                                "query": {
+                                    "term": {
+                                        "runs.level.code": {
+                                            "value": "high_school",
+                                            "case_insensitive": True,
+                                        }
+                                    }
+                                },
+                            },
+                        }
+                    }
+                ]
+            }
+        }
+    }
 
     search = search.post_filter("bool", must=list(filter_clauses.values()))
 

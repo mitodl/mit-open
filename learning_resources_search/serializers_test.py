@@ -179,7 +179,7 @@ def test_learning_resources_search_request_serializer():
         "platform": "xpro,edx,ocw",
         "topic": "Math",
         "department": "18,5",
-        "level": "undergraduate",
+        "level": "high_school,undergraduate",
         "course_feature": "Lecture Videos",
         "aggregations": "resource_type,platform,level",
     }
@@ -196,7 +196,7 @@ def test_learning_resources_search_request_serializer():
         "platform": ["xpro", "edx", "ocw"],
         "topic": ["Math"],
         "department": ["18", "5"],
-        "level": ["undergraduate"],
+        "level": ["High School", "Undergraduate"],
         "course_feature": ["Lecture Videos"],
         "aggregations": ["resource_type", "platform", "level"],
     }

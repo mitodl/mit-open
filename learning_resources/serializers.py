@@ -11,7 +11,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from learning_resources import constants, models
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import LearningResourceType, LevelType
 from learning_resources.etl.loaders import update_index
 from main.serializers import WriteableSerializerMethodField
 
@@ -136,6 +136,20 @@ class LearningResourceImageSerializer(serializers.ModelSerializer):
         exclude = COMMON_IGNORED_FIELDS
 
 
+@extend_schema_field(
+    {
+        "type": "object",
+        "properties": {
+            "code": {"enum": LevelType.names()},
+            "name": {"type": "string"},
+        },
+    }
+)
+class LearningResourceLevelSerializer(serializers.Field):
+    def to_representation(self, value):
+        return {"code": value, "name": LevelType[value].value}
+
+
 class LearningResourceRunSerializer(serializers.ModelSerializer):
     """Serializer for the LearningResourceRun model"""
 
@@ -143,6 +157,8 @@ class LearningResourceRunSerializer(serializers.ModelSerializer):
         read_only=True, allow_null=True, many=True
     )
     image = LearningResourceImageSerializer(read_only=True, allow_null=True)
+
+    level = serializers.ListField(child=LearningResourceLevelSerializer())
 
     class Meta:
         model = models.LearningResourceRun
