@@ -24,7 +24,6 @@ ARG POETRY_VERSION=1.5.1
 ENV  \
   # poetry:
   POETRY_VERSION=$POETRY_VERSION \
-  POETRY_VIRTUALENVS_CREATE=false \
   POETRY_CACHE_DIR='/tmp/cache/poetry'
 
 # Install poetry
