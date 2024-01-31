@@ -18,12 +18,10 @@ RUN mkdir /src
 RUN adduser --disabled-password --gecos "" mitodl
 RUN mkdir /var/media && chown -R mitodl:mitodl /var/media
 
-ARG POETRY_VERSION=1.5.1
-
 # Poetry env configuration
 ENV  \
   # poetry:
-  POETRY_VERSION=$POETRY_VERSION \
+  POETRY_VERSION=1.5.1 \
   POETRY_CACHE_DIR='/tmp/cache/poetry'
 
 # Install poetry

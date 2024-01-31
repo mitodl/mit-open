@@ -27,8 +27,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        POETRY_VERSION: 1.7.0
     environment:
       PORT: 8061
     env_file: .env.ci
