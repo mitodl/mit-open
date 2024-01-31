@@ -21,7 +21,7 @@ const createQueryClient = (): QueryClient => {
           const url = queryKey[0]
           if (typeof url !== "string" || queryKey.length !== 1) {
             throw new Error(
-              `Query key must be a single string for use with default queryFn`,
+              "Query key must be a single string for use with default queryFn",
             )
           }
           const { data } = await axios.get(url)

@@ -72,6 +72,7 @@ module.exports = {
         ],
       },
     ],
+    quotes: ["error", "double", { avoidEscape: true }],
   },
   overrides: [
     {
