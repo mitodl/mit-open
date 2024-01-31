@@ -59,7 +59,7 @@ def test_sync_s3_text(mock_ocw_learning_bucket, has_bucket, metadata):
 
 
 @pytest.mark.parametrize("token", ["abc123", "", None])
-@pytest.mark.parametrize("ocr_strategy", ["no_ocr", "ocr_and_text_extraction"])
+@pytest.mark.parametrize("ocr_strategy", ["no_ocr", "ocr_and_text_extraction", None])
 @pytest.mark.parametrize("data", [b"data", b"", None])
 @pytest.mark.parametrize("headers", [None, {"a": "header"}])
 def test_extract_text_metadata(  # noqa: PLR0913
@@ -78,7 +78,7 @@ def test_extract_text_metadata(  # noqa: PLR0913
     )
     response = utils.extract_text_metadata(data, other_headers=headers)
 
-    expected_headers = {"X-Tika-PDFOcrStrategy": ocr_strategy}
+    expected_headers = {"X-Tika-PDFOcrStrategy": ocr_strategy} if ocr_strategy else {}
     expected_options = {"timeout": 120, "verify": True}
 
     if token:
