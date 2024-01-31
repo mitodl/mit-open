@@ -1,0 +1,55 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:12.17
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
+  nginx:
+    image: nginx:1.25.3
+    ports:
+      - "8063:8063"
+    links:
+      - web
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
+      - ./:/src
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8063"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PORT: 8061
+    env_file: .env.ci
+    command: ./scripts/run-django-dev.sh
+    stdin_open: true
+    tty: true
+    ports:
+      - "8061:8061"
+    links:
+      - db
+    volumes:
+      - .:/src
+
+  e2e-tests:
+    build:
+      context: e2e_testing
+      args:
+        - BASE_URL=http://web:8063
+    environment:
+      - CI=true
+    env_file: .env.ci
+    depends_on:
+      nginx:
+        condition: service_healthy
+    links:
+      - nginx
