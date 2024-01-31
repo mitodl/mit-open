@@ -11,3 +11,4 @@ jobs:
         run: |
           cp .env.ci .env
           docker compose up e2e-tests
+          docker compose down
