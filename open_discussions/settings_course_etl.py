@@ -84,5 +84,7 @@ YOUTUBE_FETCH_TRANSCRIPT_SLEEP_SECONDS = get_int(
 # course catalog podcast etl settings
 OPEN_PODCAST_DATA_BRANCH = get_string("OPEN_PODCAST_DATA_BRANCH", "master")
 
-# Tika security
+# Tika settings
 TIKA_ACCESS_TOKEN = get_string("TIKA_ACCESS_TOKEN", None)
+TIKA_TIMEOUT = get_int("TIKA_TIMEOUT", 60)
+TIKA_OCR_STRATEGY = get_string("TIKA_OCR_STRATEGY", "no_ocr")

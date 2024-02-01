@@ -3454,12 +3454,12 @@ kidmagic = ["kid"]
 
 [[package]]
 name = "tika"
-version = "1.25"
+version = "2.6.0"
 description = "Apache Tika Python library"
 optional = false
 python-versions = "*"
 files = [
-    {file = "tika-1.25.tar.gz", hash = "sha256:6f5623b34bf08154611f84e6359e0c09f022c30ba34223abf3caca29c7af35f7"},
+    {file = "tika-2.6.0.tar.gz", hash = "sha256:56670eb812944eb25ed73f1b3b075aa41e7a135b74b240822f28b819e5b373da"},
 ]
 
 [package.dependencies]
@@ -3802,4 +3802,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "eba162887f670977714d69c10524ef35df1032530eccf94abab5936a94a48dcc"
+content-hash = "73f633fa7d9e289b3ce8e5fc2491d556687fd7c0ae84c449beb901aba230c44e"
