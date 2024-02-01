@@ -437,6 +437,7 @@ def test_ocw_webhook_endpoint(client, mocker, settings, data):
     mock_get_ocw = mocker.patch(
         "learning_resources.views.get_ocw_courses.delay", autospec=True
     )
+    assert reverse("lr:v1:ocw-next-webhook") == "/api/v1/ocw_next_webhook/"
     response = client.post(
         reverse("lr:v1:ocw-next-webhook"),
         data=data,

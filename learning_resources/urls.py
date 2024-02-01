@@ -90,7 +90,7 @@ v1_urls = [
     *nested_podcast_router.urls,
     *nested_userlist_router.urls,
     path(
-        "api/v1/ocw_next_webhook/",
+        "ocw_next_webhook/",
         WebhookOCWView.as_view(),
         name="ocw-next-webhook",
     ),
