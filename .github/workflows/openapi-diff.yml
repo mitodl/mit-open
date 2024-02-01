@@ -1,4 +1,4 @@
-name: CI
+name: OpenAPI Diff
 on: [pull_request]
 jobs:
   openapi-diff:
