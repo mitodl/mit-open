@@ -16,6 +16,7 @@ from learning_resources.etl.constants import COMMON_HEADERS
 from learning_resources.etl.utils import (
     extract_valid_department_from_id,
     generate_course_numbers_json,
+    without_none,
 )
 from learning_resources.utils import get_year_and_semester
 
@@ -206,9 +207,9 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "title": course_run.get("title"),
         "description": course_run.get("short_description"),
         "full_description": course_run.get("full_description"),
-        "level": [course_run.get("level_type")],
+        "level": without_none([course_run.get("level_type")]),
         "semester": semester,
-        "languages": [course_run.get("content_language")],
+        "languages": without_none([course_run.get("content_language")]),
         "year": year,
         "start_date": course_run.get("start"),
         "end_date": course_run.get("end"),

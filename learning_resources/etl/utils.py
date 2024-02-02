@@ -91,6 +91,11 @@ def transform_topics(topics):
     ]
 
 
+def without_none(values) -> list:
+    """Remove all occurrences of None from a list."""
+    return [x for x in values if x is not None]
+
+
 def _infinite_counter():
     """Infinite counter"""
     count = 0
