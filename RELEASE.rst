@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.2.2
+Version 0.2.2 (Released February 02, 2024)
 -------------
 
 - Fix webhook url (#442)
