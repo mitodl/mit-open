@@ -16,6 +16,7 @@ from learning_resources.etl.constants import COMMON_HEADERS
 from learning_resources.etl.utils import (
     extract_valid_department_from_id,
     generate_course_numbers_json,
+    without_none,
 )
 from learning_resources.utils import get_year_and_semester
 
@@ -186,10 +187,6 @@ def _transform_image(image_data: dict) -> dict:
             "description": image_data.get("description"),
         }
     return None
-
-
-def without_none(values):
-    return [x for x in values if x is not None]
 
 
 def _transform_course_run(config, course_run, course_last_modified, marketing_url):
