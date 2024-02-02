@@ -188,6 +188,10 @@ def _transform_image(image_data: dict) -> dict:
     return None
 
 
+def without_none(values):
+    return [x for x in values if x is not None]
+
+
 def _transform_course_run(config, course_run, course_last_modified, marketing_url):
     """
     Transform a course run into the normalized data structure
@@ -206,9 +210,9 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "title": course_run.get("title"),
         "description": course_run.get("short_description"),
         "full_description": course_run.get("full_description"),
-        "level": [course_run.get("level_type")],
+        "level": without_none([course_run.get("level_type")]),
         "semester": semester,
-        "languages": [course_run.get("content_language")],
+        "languages": without_none([course_run.get("content_language")]),
         "year": year,
         "start_date": course_run.get("start"),
         "end_date": course_run.get("end"),
