@@ -110,12 +110,12 @@ def test_get_course_content_files_filtered(client, url):
     ContentFileFactory.create_batch(3, run=course.learning_resource.runs.last())
 
     resp = client.get(
-        f"{reverse(url, args=[course.learning_resource.id])}?run_readable_id={course.learning_resource.runs.first().run_id}"
+        f"{reverse(url, args=[course.learning_resource.id])}?run_id={course.learning_resource.runs.first().id}"
     )
     assert resp.data.get("count") == 2
 
     resp = client.get(
-        f"{reverse(url, args=[course.learning_resource.id])}?run_readable_id={course.learning_resource.runs.last().run_id}"
+        f"{reverse(url, args=[course.learning_resource.id])}?run_id={course.learning_resource.runs.last().id}"
     )
     assert resp.data.get("count") == 3
 
@@ -270,12 +270,10 @@ def test_list_content_files_list_filtered(client):
     )
     assert resp.data.get("count") == 2
     resp = client.get(
-        f"{reverse('lr:v1:contentfiles_api-list')}?learning_resource_id={course_2.learning_resource.id}"
+        f"{reverse('lr:v1:contentfiles_api-list')}?resource_id={course_2.learning_resource.id}"
     )
     assert resp.data.get("count") == 3
-    resp = client.get(
-        f"{reverse('lr:v1:contentfiles_api-list')}?learning_resource_id=1001001"
-    )
+    resp = client.get(f"{reverse('lr:v1:contentfiles_api-list')}?resource_id=1001001")
     assert resp.data.get("count") == 0
 
 

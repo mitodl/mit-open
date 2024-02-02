@@ -318,26 +318,18 @@ paths:
       - in: query
         name: content_feature_type
         schema:
-          type: string
-        description: Content feature type for the content file. Load the 'api/v1/course_features'
-          endpoint for a list of course features
-      - in: query
-        name: learning_resource_id
-        schema:
-          type: number
-        description: The id of the learning resource the content file belongs to
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: path
         name: learning_resource_id
         schema:
           type: integer
         description: id of the parent learning resource
         required: true
-      - in: query
-        name: learning_resource_readable_id
-        schema:
-          type: string
-        description: The readable id of the learning resource the content file belongs
-          to
       - name: limit
         required: false
         in: query
@@ -347,17 +339,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource the content file belongs to
 
@@ -370,6 +364,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -379,25 +375,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources the content file belongs to is offered
 
@@ -418,18 +416,26 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
+      - in: query
+        name: resource_id
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: run_id
         schema:
-          type: number
-        description: The id of the learning resource run the content file belongs
-          to
-      - in: query
-        name: run_readable_id
-        schema:
-          type: string
-        description: The readable id of the learning resource run the content file
-          belongs to
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - contentfiles
       responses:
@@ -522,51 +528,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -607,18 +618,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -629,6 +644,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -638,17 +655,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -661,6 +680,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -670,25 +691,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -709,6 +732,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -716,13 +741,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -731,6 +758,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -766,9 +795,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - courses
       responses:
@@ -808,26 +840,18 @@ paths:
       - in: query
         name: content_feature_type
         schema:
-          type: string
-        description: Content feature type for the content file. Load the 'api/v1/course_features'
-          endpoint for a list of course features
-      - in: query
-        name: learning_resource_id
-        schema:
-          type: number
-        description: The id of the learning resource the content file belongs to
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: path
         name: learning_resource_id
         schema:
           type: integer
         description: id of the parent learning resource
         required: true
-      - in: query
-        name: learning_resource_readable_id
-        schema:
-          type: string
-        description: The readable id of the learning resource the content file belongs
-          to
       - name: limit
         required: false
         in: query
@@ -837,17 +861,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource the content file belongs to
 
@@ -860,6 +886,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -869,25 +897,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources the content file belongs to is offered
 
@@ -908,18 +938,26 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
+      - in: query
+        name: resource_id
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: run_id
         schema:
-          type: number
-        description: The id of the learning resource run the content file belongs
-          to
-      - in: query
-        name: run_readable_id
-        schema:
-          type: string
-        description: The readable id of the learning resource run the content file
-          belongs to
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - courses
       responses:
@@ -965,51 +1003,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -1050,18 +1093,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -1072,6 +1119,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -1081,17 +1130,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -1104,6 +1155,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -1113,25 +1166,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -1152,6 +1207,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -1159,13 +1216,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -1174,6 +1233,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -1209,9 +1270,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - courses
       responses:
@@ -1230,51 +1294,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -1315,18 +1384,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -1337,6 +1410,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -1346,17 +1421,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -1369,6 +1446,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -1378,25 +1457,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -1417,6 +1498,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -1424,13 +1507,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -1439,6 +1524,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -1474,9 +1561,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - courses
       responses:
@@ -1543,51 +1633,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -1628,18 +1723,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -1650,6 +1749,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -1659,17 +1760,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -1682,6 +1785,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -1691,25 +1796,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -1730,6 +1837,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -1737,13 +1846,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -1752,6 +1863,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -1787,9 +1900,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - learning_resources
       responses:
@@ -1829,26 +1945,18 @@ paths:
       - in: query
         name: content_feature_type
         schema:
-          type: string
-        description: Content feature type for the content file. Load the 'api/v1/course_features'
-          endpoint for a list of course features
-      - in: query
-        name: learning_resource_id
-        schema:
-          type: number
-        description: The id of the learning resource the content file belongs to
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: path
         name: learning_resource_id
         schema:
           type: integer
         description: id of the parent learning resource
         required: true
-      - in: query
-        name: learning_resource_readable_id
-        schema:
-          type: string
-        description: The readable id of the learning resource the content file belongs
-          to
       - name: limit
         required: false
         in: query
@@ -1858,17 +1966,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource the content file belongs to
 
@@ -1881,6 +1991,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -1890,25 +2002,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources the content file belongs to is offered
 
@@ -1929,18 +2043,26 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
+      - in: query
+        name: resource_id
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: run_id
         schema:
-          type: number
-        description: The id of the learning resource run the content file belongs
-          to
-      - in: query
-        name: run_readable_id
-        schema:
-          type: string
-        description: The readable id of the learning resource run the content file
-          belongs to
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - learning_resources
       responses:
@@ -2052,51 +2174,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -2137,18 +2264,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -2159,6 +2290,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -2168,17 +2301,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -2191,6 +2326,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -2200,25 +2337,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -2239,6 +2378,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -2246,13 +2387,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -2261,6 +2404,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -2296,9 +2441,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - learning_resources
       responses:
@@ -2317,51 +2465,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -2402,18 +2555,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -2424,6 +2581,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -2433,17 +2592,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -2456,6 +2617,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -2465,25 +2628,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -2504,6 +2669,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -2511,13 +2678,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -2526,6 +2695,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -2561,9 +2732,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - learning_resources
       responses:
@@ -2932,51 +3106,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -3017,18 +3196,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -3039,6 +3222,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -3048,17 +3233,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -3071,6 +3258,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -3080,25 +3269,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -3119,6 +3310,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -3126,13 +3319,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -3141,6 +3336,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -3176,9 +3373,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - learningpaths
       responses:
@@ -3543,51 +3743,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -3628,18 +3833,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -3650,6 +3859,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -3659,17 +3870,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -3682,6 +3895,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -3691,25 +3906,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -3730,6 +3947,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -3737,13 +3956,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -3752,6 +3973,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -3787,9 +4010,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - podcast_episodes
       responses:
@@ -3829,51 +4055,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -3914,18 +4145,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -3936,6 +4171,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -3945,17 +4182,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -3968,6 +4207,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -3977,25 +4218,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -4016,6 +4259,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -4023,13 +4268,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -4038,6 +4285,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -4073,9 +4322,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - podcasts
       responses:
@@ -4181,51 +4433,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -4266,18 +4523,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -4288,6 +4549,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -4297,17 +4560,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -4320,6 +4585,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -4329,25 +4596,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -4368,6 +4637,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -4375,13 +4646,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -4390,6 +4663,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -4425,9 +4700,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - programs
       responses:
@@ -4467,51 +4745,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -4552,18 +4835,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -4574,6 +4861,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -4583,17 +4872,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -4606,6 +4897,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -4615,25 +4908,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -4654,6 +4949,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -4661,13 +4958,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -4676,6 +4975,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -4711,9 +5012,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - programs
       responses:
@@ -4732,51 +5036,56 @@ paths:
       - in: query
         name: course_feature
         schema:
-          type: string
-        description: Content feature for the resources. Load the 'api/v1/course_features'
-          endpoint for a list of course features
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: department
         schema:
-          type: string
-          enum:
-          - '1'
-          - '10'
-          - '11'
-          - '12'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '2'
-          - '20'
-          - 21A
-          - 21G
-          - 21H
-          - 21L
-          - 21M
-          - '22'
-          - '24'
-          - '3'
-          - '4'
-          - '5'
-          - '6'
-          - '7'
-          - '8'
-          - '9'
-          - CC
-          - CMS-W
-          - EC
-          - ES
-          - ESD
-          - HST
-          - IDS
-          - MAS
-          - PE
-          - RES
-          - STS
-          - WGS
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
         description: |-
           The department that offers learning resources
 
@@ -4817,18 +5126,22 @@ paths:
           * `RES` - Supplemental Resources
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
-          type: string
-          enum:
-          - advanced
-          - graduate
-          - high_school
-          - intermediate
-          - introductory
-          - noncredit
-          - undergraduate
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
         description: |-
           The academic level of the resources
 
@@ -4839,6 +5152,8 @@ paths:
           * `advanced` - Advanced
           * `intermediate` - Intermediate
           * `introductory` - Introductory
+        explode: true
+        style: form
       - name: limit
         required: false
         in: query
@@ -4848,17 +5163,19 @@ paths:
       - in: query
         name: offered_by
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - mitpe
-          - mitx
-          - ocw
-          - scc
-          - see
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
         description: |-
           The organization that offers a learning resource
 
@@ -4871,6 +5188,8 @@ paths:
           * `see` - Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -4880,25 +5199,27 @@ paths:
       - in: query
         name: platform
         schema:
-          type: string
-          enum:
-          - bootcamps
-          - csail
-          - ctl
-          - edx
-          - emeritus
-          - globalalumni
-          - mitpe
-          - mitxonline
-          - ocw
-          - oll
-          - podcast
-          - scc
-          - see
-          - simplilearn
-          - susskind
-          - whu
-          - xpro
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
         description: |-
           The platform on which learning resources are offered
 
@@ -4919,6 +5240,8 @@ paths:
           * `simplilearn` - Simplilearn
           * `emeritus` - Emeritus
           * `podcast` - Podcast
+        explode: true
+        style: form
       - in: query
         name: professional
         schema:
@@ -4926,13 +5249,15 @@ paths:
       - in: query
         name: resource_type
         schema:
-          type: string
-          enum:
-          - course
-          - learning_path
-          - podcast
-          - podcast_episode
-          - program
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
         description: |-
           The type of learning resource
 
@@ -4941,6 +5266,8 @@ paths:
           * `learning_path` - Learning Path
           * `podcast` - Podcast
           * `podcast_episode` - Podcast Episode
+        explode: true
+        style: form
       - in: query
         name: sortby
         schema:
@@ -4976,9 +5303,12 @@ paths:
       - in: query
         name: topic
         schema:
-          type: string
-        description: Topics covered by the resources. Load the '/api/v1/topics' endpoint
-          for a list of topics
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - programs
       responses:
