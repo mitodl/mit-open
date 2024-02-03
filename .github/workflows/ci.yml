@@ -94,7 +94,7 @@ jobs:
           MITOPEN_COOKIE_NAME: cookie_monster
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@v3.1.4
+        uses: codecov/codecov-action@v3.1.6
         with:
           file: ./coverage.xml
 
@@ -139,7 +139,7 @@ jobs:
           NODE_ENV: test
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@v3.1.4
+        uses: codecov/codecov-action@v3.1.6
         with:
           file: coverage/lcov.info
 
