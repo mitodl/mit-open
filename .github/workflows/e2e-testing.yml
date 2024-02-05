@@ -16,12 +16,12 @@ jobs:
         run: yarn install --immutable
 
       - name: Build frontend
-        run: yarn run build
+        run: yarn build
 
       - name: Run services and E2E tests
         run: |
           docker compose -f docker-compose-e2e-tests.yml up nginx web db --detach --wait
-          docker compose cp e2e_testing/fixtures/002_carousel.sql db:/002_carousel.sql
-          docker compose exec -u postgres db psql postgres postgres -f /002_carousel.sql
+          docker compose -f docker-compose-e2e-tests.yml cp e2e_testing/fixtures/002_carousel.sql db:/002_carousel.sql
+          docker compose -f docker-compose-e2e-tests.yml exec -u postgres db psql postgres postgres -f /002_carousel.sql
           docker compose -f docker-compose-e2e-tests.yml run e2e-tests
-          docker compose down
+          docker compose -f docker-compose-e2e-tests.yml down
