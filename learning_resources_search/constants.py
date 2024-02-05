@@ -1,5 +1,6 @@
 """Constants for search"""
 
+from dataclasses import dataclass
 from enum import Enum
 
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
@@ -39,21 +40,29 @@ LEARNING_RESOURCE_TYPES = (
 
 SCRIPTING_LANG = "painless"
 UPDATE_CONFLICT_SETTING = "proceed"
-LEARNING_RESOURCE_SEARCH_FILTERS = [
-    "resource_type",
-    "certification",
-    "offered_by",
-    "topic",
-    "department",
-    "level",
-    "platform",
-    "professional",
-    "id",
-    "course_feature",
-    "content_feature_type",
-    "run_id",
-    "resource_id",
-]
+
+
+@dataclass
+class FilterConfig:
+    path: str
+    case_sensitive: bool = False
+
+
+LEARNING_RESOURCE_SEARCH_FILTERS = {
+    "resource_type": FilterConfig("resource_type"),
+    "certification": FilterConfig("certification"),
+    "professional": FilterConfig("professional"),
+    "id": FilterConfig("id", case_sensitive=True),
+    "course_feature": FilterConfig("course_feature"),
+    "content_feature_type": FilterConfig("content_feature_type"),
+    "run_id": FilterConfig("run_id", case_sensitive=True),
+    "resource_id": FilterConfig("resource_id"),
+    "topic": FilterConfig("topics.name"),
+    "level": FilterConfig("runs.level.code"),
+    "department": FilterConfig("departments.department_id"),
+    "platform": FilterConfig("platform.code"),
+    "offered_by": FilterConfig("offered_by.code"),
+}
 
 SEARCH_NESTED_FILTERS = {
     "topic": "topics.name",

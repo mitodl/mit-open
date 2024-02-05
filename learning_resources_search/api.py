@@ -276,6 +276,42 @@ def generate_learning_resources_text_clause(text):
     return wrap_text_clause(text_query)
 
 
+def generate_filter_clause(
+    path: str, value: str, *, case_sensitive: bool, current_path_length=1
+):
+    """
+    Generate search clause for a single filter path abd value.
+
+    Args:
+        path (str): Search index on which to filter
+        value (str): Value of filter
+        case_sensitive(bool): Whether to match vale case-sensitively or not
+
+    Returns:
+        An OpenSearch query clause for use in filtering.
+
+    NOTE: Indexes with periods are assumed to be nested. E.g., path='a.b.c' will
+    generate a doubly-nested query clause.
+    """
+    path_pieces = path.split(".")
+    current_path = ".".join(path_pieces[0:current_path_length])
+    if current_path == path:
+        case_sensitivity = {} if case_sensitive else {"case_insensitive": True}
+        return {"term": {path: {"value": value, **case_sensitivity}}}
+
+    return {
+        "nested": {
+            "path": current_path,
+            "query": generate_filter_clause(
+                path,
+                value,
+                case_sensitive=case_sensitive,
+                current_path_length=current_path_length + 1,
+            ),
+        }
+    }
+
+
 def generate_filter_clauses(search_params):
     """
     Return the filter clauses for the query
@@ -288,45 +324,22 @@ def generate_filter_clauses(search_params):
         the active filters as the keys and the opensearch filter clause for that
         filter as the query
     """
-    filter_clauses = {}
+    all_filter_clauses = {}
 
-    for search_filter in LEARNING_RESOURCE_SEARCH_FILTERS:
-        if search_params.get(search_filter):
-            filter_clauses_for_filter = []
+    for filter_name, filter_config in LEARNING_RESOURCE_SEARCH_FILTERS.items():
+        if search_params.get(filter_name):
+            clauses_for_filter = [
+                generate_filter_clause(
+                    filter_config.path,
+                    filter_value,
+                    case_sensitive=filter_config.case_sensitive,
+                )
+                for filter_value in search_params.get(filter_name)
+            ]
 
-            for option in search_params.get(search_filter):
-                if search_filter in SEARCH_NESTED_FILTERS:
-                    filter_clauses_for_filter.append(
-                        {
-                            "nested": {
-                                "path": SEARCH_NESTED_FILTERS[search_filter].split(".")[
-                                    0
-                                ],
-                                "query": {
-                                    "term": {
-                                        SEARCH_NESTED_FILTERS[search_filter]: {
-                                            "value": option,
-                                            "case_insensitive": True,
-                                        }
-                                    }
-                                },
-                            }
-                        }
-                    )
+            all_filter_clauses[filter_name] = {"bool": {"should": clauses_for_filter}}
 
-                else:
-                    filter_term = {"term": {search_filter: {"value": option}}}
-
-                    if not search_filter.endswith("id"):
-                        filter_term["term"][search_filter]["case_insensitive"] = True
-
-                    filter_clauses_for_filter.append(filter_term)
-
-            filter_clauses[search_filter] = {
-                "bool": {"should": filter_clauses_for_filter}
-            }
-
-    return filter_clauses
+    return all_filter_clauses
 
 
 def generate_suggest_clause(text):
@@ -486,31 +499,7 @@ def execute_learn_search(search_params):
         search = search.query("bool", should=[text_query])
         search = search.extra(suggest=suggest)
 
-    # filter_clauses = generate_filter_clauses(search_params)
-    filter_clauses = {
-        "level": {
-            "bool": {
-                "should": [
-                    {
-                        "nested": {
-                            "path": "runs",
-                            "query": {
-                                "path": "runs.level",
-                                "query": {
-                                    "term": {
-                                        "runs.level.code": {
-                                            "value": "high_school",
-                                            "case_insensitive": True,
-                                        }
-                                    }
-                                },
-                            },
-                        }
-                    }
-                ]
-            }
-        }
-    }
+    filter_clauses = generate_filter_clauses(search_params)
 
     search = search.post_filter("bool", must=list(filter_clauses.values()))
 
