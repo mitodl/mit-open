@@ -17,7 +17,6 @@ from learning_resources_search.constants import (
     RESOURCEFILE_QUERY_FIELDS,
     RUN_INSTRUCTORS_QUERY_FIELDS,
     RUNS_QUERY_FIELDS,
-    SEARCH_NESTED_FILTERS,
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
@@ -277,7 +276,7 @@ def generate_learning_resources_text_clause(text):
 
 
 def generate_filter_clause(
-    path: str, value: str, *, case_sensitive: bool, current_path_length=1
+    path: str, value: str, *, case_sensitive: bool, _current_path_length=1
 ):
     """
     Generate search clause for a single filter path abd value.
@@ -285,16 +284,16 @@ def generate_filter_clause(
     Args:
         path (str): Search index on which to filter
         value (str): Value of filter
-        case_sensitive(bool): Whether to match vale case-sensitively or not
+        case_sensitive(bool): Whether to match value case-sensitively or not
 
     Returns:
         An OpenSearch query clause for use in filtering.
 
-    NOTE: Indexes with periods are assumed to be nested. E.g., path='a.b.c' will
+    NOTE: Paths with periods are assumed to be nested. E.g., path='a.b.c' will
     generate a doubly-nested query clause.
     """
     path_pieces = path.split(".")
-    current_path = ".".join(path_pieces[0:current_path_length])
+    current_path = ".".join(path_pieces[0:_current_path_length])
     if current_path == path:
         case_sensitivity = {} if case_sensitive else {"case_insensitive": True}
         return {"term": {path: {"value": value, **case_sensitivity}}}
@@ -306,7 +305,7 @@ def generate_filter_clause(
                 path,
                 value,
                 case_sensitive=case_sensitive,
-                current_path_length=current_path_length + 1,
+                _current_path_length=_current_path_length + 1,
             ),
         }
     }
@@ -375,6 +374,38 @@ def generate_suggest_clause(text):
     return suggest
 
 
+def generate_aggregation_clause(
+    aggregation_name: str, path: str, _current_path_length=1
+):
+    """
+    Generate a search aggregation clause for a search query.
+
+    Args:
+        aggregation_name (str): name of aggregation
+        path (str): Search index on which to aggregate
+
+    Returns:
+        An OpenSearch query clause for use in aggregation.
+
+    NOTE: Properties with periods are assumed to be nested. E.g., path='a.b.c'
+    will generate a doubly-nested query clause.
+    """
+    path_pieces = path.split(".")
+    current_path = ".".join(path_pieces[0:_current_path_length])
+
+    if current_path == path:
+        return {"terms": {"field": path, "size": 10000}}
+
+    return {
+        "nested": {"path": current_path},
+        "aggs": {
+            aggregation_name: generate_aggregation_clause(
+                aggregation_name, path, _current_path_length + 1
+            )
+        },
+    }
+
+
 def generate_aggregation_clauses(search_params, filter_clauses):
     """
     Return the aggregations for the query
@@ -390,66 +421,20 @@ def generate_aggregation_clauses(search_params, filter_clauses):
         for aggregation in search_params.get("aggregations"):
             # Each aggregation clause contains a filter which includes all the filters
             # except it's own
-
+            path = LEARNING_RESOURCE_SEARCH_FILTERS[aggregation].path
+            unfiltered_aggs = generate_aggregation_clause(aggregation, path)
             other_filters = [
                 filter_clauses[key] for key in filter_clauses if key != aggregation
             ]
 
             if other_filters:
-                if aggregation in SEARCH_NESTED_FILTERS:
-                    aggregation_clauses[aggregation] = {
-                        "aggs": {
-                            aggregation: {
-                                "nested": {
-                                    "path": SEARCH_NESTED_FILTERS[aggregation].split(
-                                        "."
-                                    )[0]
-                                },
-                                "aggs": {
-                                    aggregation: {
-                                        "terms": {
-                                            "field": SEARCH_NESTED_FILTERS[aggregation],
-                                            "size": 10000,
-                                        }
-                                    }
-                                },
-                            }
-                        },
-                        "filter": {"bool": {"must": other_filters}},
-                    }
-                else:
-                    aggregation_clauses[aggregation] = {
-                        "aggs": {
-                            aggregation: {
-                                "terms": {
-                                    "field": aggregation,
-                                    "size": 10000,
-                                }
-                            }
-                        },
-                        "filter": {"bool": {"must": other_filters}},
-                    }
-            elif aggregation in SEARCH_NESTED_FILTERS:
                 aggregation_clauses[aggregation] = {
-                    "nested": {
-                        "path": SEARCH_NESTED_FILTERS[aggregation].split(".")[0]
-                    },
-                    "aggs": {
-                        aggregation: {
-                            "terms": {
-                                "field": SEARCH_NESTED_FILTERS[aggregation],
-                                "size": 10000,
-                            }
-                        }
-                    },
+                    "aggs": {aggregation: unfiltered_aggs},
+                    "filter": {"bool": {"must": other_filters}},
                 }
             else:
-                aggregation_clauses[aggregation] = {
-                    "terms": {
-                        "field": aggregation,
-                        "size": 10000,
-                    }
-                }
+                aggregation_clauses[aggregation] = unfiltered_aggs
+
     return aggregation_clauses
 
 

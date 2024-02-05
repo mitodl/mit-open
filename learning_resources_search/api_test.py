@@ -862,7 +862,14 @@ def test_generate_aggregation_clauses_when_there_is_no_filter():
         },
         "level": {
             "nested": {"path": "runs"},
-            "aggs": {"level": {"terms": {"field": "runs.level.code", "size": 10000}}},
+            "aggs": {
+                "level": {
+                    "nested": {"path": "runs.level"},
+                    "aggs": {
+                        "level": {"terms": {"field": "runs.level.code", "size": 10000}}
+                    },
+                }
+            },
         },
     }
     assert generate_aggregation_clauses(params, {}) == result
@@ -890,7 +897,14 @@ def test_generate_aggregation_clauses_with_filter():
                 "level": {
                     "nested": {"path": "runs"},
                     "aggs": {
-                        "level": {"terms": {"field": "runs.level.code", "size": 10000}}
+                        "level": {
+                            "nested": {"path": "runs.level"},
+                            "aggs": {
+                                "level": {
+                                    "terms": {"field": "runs.level.code", "size": 10000}
+                                }
+                            },
+                        }
                     },
                 }
             },
@@ -912,7 +926,14 @@ def test_generate_aggregation_clauses_with_same_filters_as_aggregation():
             "aggs": {
                 "level": {
                     "aggs": {
-                        "level": {"terms": {"field": "runs.level.code", "size": 10000}}
+                        "level": {
+                            "aggs": {
+                                "level": {
+                                    "terms": {"field": "runs.level.code", "size": 10000}
+                                },
+                            },
+                            "nested": {"path": "runs.level"},
+                        }
                     },
                     "nested": {"path": "runs"},
                 }
