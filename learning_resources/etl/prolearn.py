@@ -1,6 +1,5 @@
 """Prolearn ETL"""
 
-import json
 import logging
 import re
 from datetime import datetime
@@ -176,9 +175,7 @@ def extract_data(course_or_program: str) -> list[dict]:
     if settings.PROLEARN_CATALOG_API_URL:
         response = requests.post(  # noqa: S113
             settings.PROLEARN_CATALOG_API_URL,
-            data=json.dumps(
-                {"query": PROLEARN_QUERY % (course_or_program, PROLEARN_QUERY_FIELDS)}
-            ),
+            json={"query": PROLEARN_QUERY % (course_or_program, PROLEARN_QUERY_FIELDS)},
         ).json()
         return response["data"]["searchAPISearch"]["documents"]
     log.warning("Missing required setting PROLEARN_CATALOG_API_URL")
