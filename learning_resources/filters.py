@@ -30,7 +30,7 @@ def multi_or_filter(
 ) -> QuerySet:
     """Filter attribute by value string with n comma-delimited values"""
     query_or_filters = Q()
-    for query in [Q(**{f"{attribute}": value}) for value in values]:
+    for query in [Q(**{attribute: value}) for value in values]:
         query_or_filters |= query
     return queryset.filter(query_or_filters)
 
