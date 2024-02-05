@@ -14,7 +14,7 @@ frontends/
 
 To aid in separating concerns, we should strive to write code with independent, clearly defined contracts that can be extracted to isolated packages (workspaces) and re-used throughout this project.
 
-**Flow vs Typescript:** The majority of the frontend code in this project is in the `open-discussions` workspace and is written in Javascript + FlowType. We are in the process of migrating the codebase to Typescript and all other packages should be written in Typescript.
+**Flow vs Typescript:** The majority of the frontend code in this project is in the `mit-open` workspace and is written in Javascript + FlowType. We are in the process of migrating the codebase to Typescript and all other packages should be written in Typescript.
 
 ## Running Yarn Commands
 

@@ -20,7 +20,7 @@
       "url": "https://github.com/heroku/heroku-buildpack-nginx"
     }
   ],
-  "description": "open-discussions",
+  "description": "mit-open",
   "env": {
     "ALLOWED_HOSTS": {
       "description": "",
@@ -577,7 +577,7 @@
     }
   },
   "keywords": ["Django", "Python", "MIT", "Office of Digital Learning"],
-  "name": "open_discussions",
+  "name": "mit_open",
   "repository": "https://github.com/mitodl/mit-open",
   "scripts": {
     "postdeploy": "./manage.py migrate --noinput"

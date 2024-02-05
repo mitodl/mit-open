@@ -3,7 +3,7 @@
   "extends": ["local>mitodl/.github:renovate-config"],
   "packageRules": [
     {
-      "matchFiles": ["frontends/open-discussions/package.json"],
+      "matchFiles": ["frontends/mit-open/package.json"],
       "matchUpdateTypes": ["major"],
       "enabled": false
     },

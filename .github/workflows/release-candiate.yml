@@ -21,7 +21,7 @@ jobs:
       - uses: akhileshns/heroku-deploy@581dd286c962b6972d427fcf8980f60755c15520
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "odl-open-discussions-rc"
+          heroku_app_name: "mitopen-rc"
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           branch: release-candidate
   # runs ONLY on a failure of the CI workflow
