@@ -43,13 +43,13 @@ services:
   e2e-tests:
     build:
       context: e2e_testing
-      args:
-        - BASE_URL=http://web:8063
     environment:
       - CI=true
-    env_file: .env.ci
+      - BASE_URL=http://nginx:8063
     depends_on:
       nginx:
         condition: service_healthy
     links:
       - nginx
+    profiles:
+      - e2e-tests
