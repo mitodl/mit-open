@@ -4,7 +4,7 @@ import pytest
 from learning_resources.constants import FAVORITES_TITLE
 from learning_resources.factories import UserListFactory
 from learning_resources.plugins import FavoritesListPlugin
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 
 @pytest.mark.django_db()

@@ -7,7 +7,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from ipware.utils import is_private_ip
 
-from open_discussions.models import TimestampedModel
+from main.models import TimestampedModel
 
 HELP_TEXT = """
 @spam.com: blocks all emails containing `@spam.com` like `joe@spam.com.edu`<br/>

@@ -12,7 +12,7 @@ from learning_resources.constants import (
     LearningResourceType,
     PrivacyLevel,
 )
-from open_discussions.models import TimestampedModel
+from main.models import TimestampedModel
 
 
 class LearningResourcePlatform(TimestampedModel):

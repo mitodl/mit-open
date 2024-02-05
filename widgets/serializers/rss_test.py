@@ -5,7 +5,7 @@ import time
 import pytest
 from rest_framework.serializers import ValidationError
 
-from open_discussions.test_utils import PickleableMock
+from main.test_utils import PickleableMock
 from widgets.factories import WidgetInstanceFactory, WidgetListFactory
 from widgets.serializers import rss
 

@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 
-from open_discussions.permissions import AnonymousAccessReadonlyPermission
+from main.permissions import AnonymousAccessReadonlyPermission
 
 
 @api_view()

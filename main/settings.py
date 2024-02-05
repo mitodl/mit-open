@@ -1,5 +1,5 @@
 """
-Django settings for open_discussions.
+Django settings for main.
 
 
 For more information on this file, see
@@ -20,17 +20,17 @@ from urllib.parse import urljoin, urlparse
 import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
 
-from open_discussions.envs import (
+from main.envs import (
     get_any,
     get_bool,
     get_int,
     get_list_of_str,
     get_string,
 )
-from open_discussions.sentry import init_sentry
-from open_discussions.settings_celery import *  # noqa: F403
-from open_discussions.settings_course_etl import *  # noqa: F403
-from open_discussions.settings_pluggy import *  # noqa: F403
+from main.sentry import init_sentry
+from main.settings_celery import *  # noqa: F403
+from main.settings_course_etl import *  # noqa: F403
+from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
 VERSION = "0.2.2"
@@ -109,7 +109,7 @@ INSTALLED_APPS = (
     "django_filters",
     "drf_spectacular",
     # Put our apps after this point
-    "open_discussions",
+    "main",
     "authentication",
     "channels",
     "profiles",
@@ -156,7 +156,7 @@ MITOPEN_TOS_URL = get_string(
     "MITOPEN_TOS_URL", urljoin(SITE_BASE_URL, "/terms-and-conditions/")
 )
 
-ROOT_URLCONF = "open_discussions.urls"
+ROOT_URLCONF = "main.urls"
 
 TEMPLATES = [
     {
@@ -176,7 +176,7 @@ TEMPLATES = [
     }
 ]
 
-WSGI_APPLICATION = "open_discussions.wsgi.application"
+WSGI_APPLICATION = "main.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
@@ -582,8 +582,8 @@ MIDDLEWARE_FEATURE_FLAG_COOKIE_MAX_AGE_SECONDS = get_int(
 if MIDDLEWARE_FEATURE_FLAG_QS_PREFIX:
     MIDDLEWARE = (
         *MIDDLEWARE,
-        "open_discussions.middleware.feature_flags.QueryStringFeatureFlagMiddleware",
-        "open_discussions.middleware.feature_flags.CookieFeatureFlagMiddleware",
+        "main.middleware.feature_flags.QueryStringFeatureFlagMiddleware",
+        "main.middleware.feature_flags.CookieFeatureFlagMiddleware",
     )
 
 # django debug toolbar only in debug mode
@@ -597,7 +597,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
     ),
-    "EXCEPTION_HANDLER": "open_discussions.exceptions.api_exception_handler",
+    "EXCEPTION_HANDLER": "main.exceptions.api_exception_handler",
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
     "TEST_REQUEST_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",

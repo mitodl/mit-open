@@ -3,7 +3,7 @@
 import pytest
 from django.contrib.auth import get_user_model
 
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 from profiles.filters import UserFilter
 
 pytestmark = pytest.mark.django_db

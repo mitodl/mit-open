@@ -2,7 +2,7 @@
 
 from rest_framework import permissions
 
-from open_discussions.permissions import is_admin_user
+from main.permissions import is_admin_user
 
 
 def is_owner_or_privileged_user(obj_user, request):

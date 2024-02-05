@@ -34,7 +34,7 @@ from learning_resources_search.serializers import (
     serialize_content_file_for_bulk,
     serialize_content_file_for_bulk_deletion,
 )
-from open_discussions.utils import chunks
+from main.utils import chunks
 
 log = logging.getLogger(__name__)
 User = get_user_model()

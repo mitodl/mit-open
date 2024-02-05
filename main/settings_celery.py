@@ -4,7 +4,7 @@ Django settings for celery.
 
 from celery.schedules import crontab
 
-from open_discussions.envs import get_bool, get_int, get_string
+from main.envs import get_bool, get_int, get_string
 
 USE_CELERY = True
 CELERY_BROKER_URL = get_string("CELERY_BROKER_URL", get_string("REDISCLOUD_URL", None))

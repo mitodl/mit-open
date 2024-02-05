@@ -2,7 +2,7 @@
 
 import pytest
 
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 from profiles import api
 from profiles.api import (
     get_site_type_from_url,

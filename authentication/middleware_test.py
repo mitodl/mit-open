@@ -14,7 +14,7 @@ from authentication.middleware import (
     SocialAuthExceptionRedirectMiddleware,
 )
 from authentication.models import BlockedIPRange
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 
 def test_process_exception_no_strategy(mocker, rf, settings):

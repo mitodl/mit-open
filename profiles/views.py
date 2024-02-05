@@ -10,7 +10,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from open_discussions.permissions import (
+from main.permissions import (
     AnonymousAccessReadonlyPermission,
     IsStaffPermission,
 )

@@ -2,7 +2,7 @@
 Django settings specific to learning_resources ingestion
 """
 
-from open_discussions.envs import get_bool, get_int, get_string
+from main.envs import get_bool, get_int, get_string
 
 # EDX API Credentials
 EDX_API_URL = get_string("EDX_API_URL", None)

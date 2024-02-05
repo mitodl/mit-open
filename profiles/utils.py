@@ -11,7 +11,7 @@ from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
 from PIL import Image
 
-from open_discussions.utils import generate_filepath
+from main.utils import generate_filepath
 
 # Max dimension of either height or width for small and medium images
 IMAGE_SMALL_MAX_DIMENSION = 64

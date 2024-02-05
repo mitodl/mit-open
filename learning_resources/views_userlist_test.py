@@ -6,7 +6,7 @@ from django.urls import reverse
 from learning_resources import factories
 from learning_resources.constants import PrivacyLevel
 from learning_resources.models import UserList
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 # pylint:disable=redefined-outer-name, use-maxsplit-arg
 

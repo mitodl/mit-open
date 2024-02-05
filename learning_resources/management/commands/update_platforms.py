@@ -3,7 +3,7 @@
 from django.core.management import BaseCommand
 
 from learning_resources.utils import upsert_platform_data
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 
 class Command(BaseCommand):

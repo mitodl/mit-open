@@ -12,7 +12,7 @@ from learning_resources.serializers import (
     LearningPathResourceSerializer,
     LearningResourceImageSerializer,
 )
-from open_discussions.test_utils import assert_json_equal, drf_datetime
+from main.test_utils import assert_json_equal, drf_datetime
 
 pytestmark = pytest.mark.django_db
 

@@ -2,7 +2,7 @@
 """Tests for profile permissions"""
 import pytest
 
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 from profiles.permissions import (
     HasEditPermission,
     HasSiteEditPermission,

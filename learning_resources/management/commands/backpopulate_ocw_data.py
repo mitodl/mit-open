@@ -6,8 +6,8 @@ from learning_resources.etl.constants import ETLSource
 from learning_resources.models import LearningResource
 from learning_resources.tasks import get_ocw_data
 from learning_resources.utils import resource_delete_actions
-from open_discussions.constants import ISOFORMAT
-from open_discussions.utils import now_in_utc
+from main.constants import ISOFORMAT
+from main.utils import now_in_utc
 
 
 class Command(BaseCommand):

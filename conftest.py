@@ -7,7 +7,7 @@ from fixtures.aws import *  # noqa: F403
 from fixtures.common import *  # noqa: F403
 from fixtures.opensearch import *  # noqa: F403
 from fixtures.users import *  # noqa: F403
-from open_discussions.exceptions import DoNotUseRequestException
+from main.exceptions import DoNotUseRequestException
 
 
 @pytest.fixture(autouse=True)

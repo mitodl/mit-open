@@ -11,7 +11,7 @@ import responses
 from pytest_mock import PytestMockWarning
 from urllib3.exceptions import InsecureRequestWarning
 
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)

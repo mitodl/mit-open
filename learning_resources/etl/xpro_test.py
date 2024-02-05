@@ -12,7 +12,7 @@ from learning_resources.constants import LearningResourceType, PlatformType
 from learning_resources.etl import xpro
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.utils import UCC_TOPIC_MAPPINGS
-from open_discussions.test_utils import any_instance_of
+from main.test_utils import any_instance_of
 
 pytestmark = pytest.mark.django_db
 
