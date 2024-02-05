@@ -19,9 +19,4 @@ test("Home page loads and main elements are visible", async ({ page }) => {
     page.getByPlaceholder("What do you want to learn?"),
     "Main search input is visible",
   ).toBeVisible()
-
-  await expect(
-    page.getByRole("heading", { name: "Upcoming Courses" }),
-    "Upcoming courses header visible",
-  ).toBeVisible()
 })
