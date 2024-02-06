@@ -237,8 +237,7 @@ LEARNING_RESOURCE_SORTBY_OPTIONS = {
 
 class LevelType(ExtendedEnum):
     """
-    Enum for LearningResourceRun levels. Each value is a namedtuple with slug
-    and label.
+    Enum for resource (run) level.
     """
 
     undergraduate = "Undergraduate"
