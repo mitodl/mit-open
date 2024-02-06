@@ -20,7 +20,7 @@ from learning_resources.permissions import (
     is_learning_path_editor,
 )
 from learning_resources.utils import update_editor_group
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)

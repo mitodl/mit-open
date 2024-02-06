@@ -13,7 +13,7 @@ from rest_framework.exceptions import ValidationError
 from learning_resources import constants, models
 from learning_resources.constants import LearningResourceType
 from learning_resources.etl.loaders import update_index
-from open_discussions.serializers import WriteableSerializerMethodField
+from main.serializers import WriteableSerializerMethodField
 
 COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
 

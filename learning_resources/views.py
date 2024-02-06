@@ -77,12 +77,12 @@ from learning_resources.utils import (
     resource_delete_actions,
     resource_unpublished_actions,
 )
-from open_discussions.constants import VALID_HTTP_METHODS
-from open_discussions.permissions import (
+from main.constants import VALID_HTTP_METHODS
+from main.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
 )
-from open_discussions.utils import chunks
+from main.utils import chunks
 
 log = logging.getLogger(__name__)
 

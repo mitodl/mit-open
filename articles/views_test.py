@@ -3,7 +3,7 @@
 import pytest
 from rest_framework.reverse import reverse
 
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 pytestmark = [pytest.mark.django_db]
 

@@ -18,7 +18,7 @@ from channels.serializers import (
     LearningPathPreviewSerializer,
 )
 from learning_resources.factories import LearningPathFactory
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 # pylint:disable=redefined-outer-name
 pytestmark = pytest.mark.django_db

@@ -5,7 +5,7 @@ import pytest
 from channels.api import add_user_role, remove_user_role
 from channels.constants import FIELD_ROLE_MODERATORS
 from channels.models import FieldChannelGroupRole
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
 

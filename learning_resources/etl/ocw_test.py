@@ -20,7 +20,7 @@ from learning_resources.etl.ocw import (
 from learning_resources.factories import ContentFileFactory
 from learning_resources.models import ContentFile
 from learning_resources.utils import get_s3_object_and_read, safe_load_json
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 pytestmark = pytest.mark.django_db
 

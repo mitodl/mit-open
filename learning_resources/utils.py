@@ -27,7 +27,7 @@ from learning_resources.models import (
     LearningResourcePlatform,
     LearningResourceRun,
 )
-from open_discussions.utils import generate_filepath
+from main.utils import generate_filepath
 
 log = logging.getLogger()
 

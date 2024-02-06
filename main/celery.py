@@ -7,11 +7,11 @@ import os
 
 from celery import Celery
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "open_discussions.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings")
 
 from django.conf import settings  # noqa: E402
 
-app = Celery("open_discussions")
+app = Celery("main")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.conf.task_default_queue = "default"
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)  # pragma: no cover

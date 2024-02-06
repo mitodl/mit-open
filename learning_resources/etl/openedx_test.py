@@ -12,7 +12,7 @@ from learning_resources.etl.openedx import (
     OpenEdxConfiguration,
     openedx_extract_transform_factory,
 )
-from open_discussions.test_utils import any_instance_of
+from main.test_utils import any_instance_of
 
 ACCESS_TOKEN = "invalid_access_token"  # noqa: S105
 

@@ -8,7 +8,7 @@ from cache_memoize import cache_memoize
 from django.conf import settings
 from rest_framework.serializers import ValidationError
 
-from open_discussions.constants import ISOFORMAT
+from main.constants import ISOFORMAT
 from widgets.serializers.react_fields import ReactIntegerField, ReactURLField
 from widgets.serializers.widget_instance import (
     WidgetConfigSerializer,

@@ -21,7 +21,7 @@ from learning_resources.etl.utils import (
     UCC_TOPIC_MAPPINGS,
     extract_valid_department_from_id,
 )
-from open_discussions.test_utils import any_instance_of
+from main.test_utils import any_instance_of
 
 pytestmark = pytest.mark.django_db
 

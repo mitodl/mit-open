@@ -1,4 +1,4 @@
-"""open_discussions constants"""
+"""main constants"""
 
 from rest_framework import status
 

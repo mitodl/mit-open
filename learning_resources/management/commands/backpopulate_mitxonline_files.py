@@ -3,8 +3,8 @@
 from django.core.management import BaseCommand
 
 from learning_resources.tasks import import_all_mitxonline_files
-from open_discussions import settings
-from open_discussions.utils import now_in_utc
+from main import settings
+from main.utils import now_in_utc
 
 
 class Command(BaseCommand):

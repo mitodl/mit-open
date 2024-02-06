@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 from embedly.api import get_embedly_summary
-from open_discussions.permissions import AnonymousAccessReadonlyPermission
+from main.permissions import AnonymousAccessReadonlyPermission
 
 
 @api_view()

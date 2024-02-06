@@ -15,7 +15,7 @@ from learning_resources.constants import LearningResourceType
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import generate_readable_id
 from learning_resources.models import PodcastEpisode
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 CONFIG_FILE_REPO = "mitodl/open-podcast-data"
 CONFIG_FILE_FOLDER = "podcasts"

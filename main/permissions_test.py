@@ -3,7 +3,7 @@
 import pytest
 from django.contrib.auth.models import AnonymousUser
 
-from open_discussions.permissions import (
+from main.permissions import (
     AnonymousAccessReadonlyPermission,
     IsOwnSubscriptionOrAdminPermission,
     IsStaffOrReadonlyPermission,
@@ -53,7 +53,7 @@ def test_is_staff_permission(mocker, is_staff):
     """
     request, view = mocker.Mock(), mocker.Mock()
     is_staff_user_mock = mocker.patch(
-        "open_discussions.permissions.is_admin_user",
+        "main.permissions.is_admin_user",
         autospec=True,
         return_value=is_staff,
     )
@@ -76,12 +76,12 @@ def test_is_staff_or_readonly_permission(mocker, is_staff, readonly, expected):
     """
     request, view = mocker.Mock(), mocker.Mock()
     is_staff_user_mock = mocker.patch(
-        "open_discussions.permissions.is_admin_user",
+        "main.permissions.is_admin_user",
         autospec=True,
         return_value=is_staff,
     )
     is_readonly_mock = mocker.patch(
-        "open_discussions.permissions.is_readonly", autospec=True, return_value=readonly
+        "main.permissions.is_readonly", autospec=True, return_value=readonly
     )
     assert IsStaffOrReadonlyPermission().has_permission(request, view) is expected
     if is_staff_user_mock.called:
@@ -111,9 +111,9 @@ def test_is_own_subscription_permission(
         user=mocker.Mock(username=logged_in_username),
         data={"subscriber_name": req_body_username} if req_body_username else {},
     )
-    mocker.patch("open_discussions.permissions.is_admin_user", return_value=False)
-    mocker.patch("open_discussions.permissions.is_moderator", return_value=False)
-    mocker.patch("open_discussions.permissions.is_readonly", return_value=False)
+    mocker.patch("main.permissions.is_admin_user", return_value=False)
+    mocker.patch("main.permissions.is_moderator", return_value=False)
+    mocker.patch("main.permissions.is_readonly", return_value=False)
     assert (
         IsOwnSubscriptionOrAdminPermission().has_permission(request, view) is expected
     )

@@ -2,7 +2,7 @@
 
 from rest_framework import permissions
 
-from open_discussions import features
+from main import features
 
 
 def is_admin_user(request):

@@ -9,7 +9,7 @@ from imagekit.processors import ResizeToFit
 
 from channels.constants import FIELD_ROLE_CHOICES
 from learning_resources.models import LearningResource
-from open_discussions.models import TimestampedModel
+from main.models import TimestampedModel
 from profiles.utils import avatar_uri, banner_uri
 from widgets.models import WidgetList
 

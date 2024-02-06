@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 import pytest
 
-from open_discussions.envs import (
+from main.envs import (
     EnvironmentVariableParseException,
     get_any,
     get_bool,
@@ -45,7 +45,7 @@ def test_get_any():
         "list_of_int": "[3,4,5]",
         "list_of_str": '["x", "y", \'z\']',
     }
-    with patch("open_discussions.envs.os", environ=FAKE_ENVIRONS):
+    with patch("main.envs.os", environ=FAKE_ENVIRONS):
         for key, value in expected.items():
             assert get_any(key, "default") == value
         assert get_any("missing", "default") == "default"
@@ -55,7 +55,7 @@ def test_get_string():
     """
     get_string should get the string from the environment variable
     """
-    with patch("open_discussions.envs.os", environ=FAKE_ENVIRONS):
+    with patch("main.envs.os", environ=FAKE_ENVIRONS):
         for key, value in FAKE_ENVIRONS.items():
             assert get_string(key, "default") == value
         assert get_string("missing", "default") == "default"
@@ -66,7 +66,7 @@ def test_get_int():
     """
     get_int should get the int from the environment variable, or raise an exception if it's not parseable as an int
     """
-    with patch("open_discussions.envs.os", environ=FAKE_ENVIRONS):
+    with patch("main.envs.os", environ=FAKE_ENVIRONS):
         assert get_int("positive", 1234) == 123
         assert get_int("negative", 1234) == -456
         assert get_int("zero", 1234) == 0
@@ -86,7 +86,7 @@ def test_get_bool():
     """
     get_bool should get the bool from the environment variable, or raise an exception if it's not parseable as a bool
     """
-    with patch("open_discussions.envs.os", environ=FAKE_ENVIRONS):
+    with patch("main.envs.os", environ=FAKE_ENVIRONS):
         assert get_bool("true", 1234) is True
         assert get_bool("false", 1234) is False
 
@@ -106,7 +106,7 @@ def test_get_list_of_str():
     """
     get_list_of_str should parse a list of strings
     """
-    with patch("open_discussions.envs.os", environ=FAKE_ENVIRONS):
+    with patch("main.envs.os", environ=FAKE_ENVIRONS):
         assert get_list_of_str("list_of_str", ["noth", "ing"]) == ["x", "y", "z"]
 
         for key, value in FAKE_ENVIRONS.items():

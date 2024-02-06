@@ -40,7 +40,7 @@ from learning_resources_search.tasks import (
     upsert_learning_resource,
     wrap_retry_exception,
 )
-from open_discussions.test_utils import assert_not_raises
+from main.test_utils import assert_not_raises
 
 pytestmark = pytest.mark.django_db
 

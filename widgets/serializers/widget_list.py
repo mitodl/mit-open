@@ -3,7 +3,7 @@
 from django.db import transaction
 from rest_framework import serializers
 
-from open_discussions.serializers import WriteableSerializerMethodField
+from main.serializers import WriteableSerializerMethodField
 from widgets.models import WidgetList
 from widgets.serializers.utils import get_widget_classes, get_widget_type_mapping
 

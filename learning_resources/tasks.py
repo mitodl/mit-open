@@ -21,9 +21,9 @@ from learning_resources.etl.pipelines import ocw_courses_etl
 from learning_resources.etl.utils import get_learning_course_bucket_name
 from learning_resources.models import LearningResource
 from learning_resources.utils import load_course_blocklist
-from open_discussions.celery import app
-from open_discussions.constants import ISOFORMAT
-from open_discussions.utils import chunks
+from main.celery import app
+from main.constants import ISOFORMAT
+from main.utils import chunks
 
 log = logging.getLogger(__name__)
 

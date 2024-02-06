@@ -8,7 +8,7 @@ from PIL import Image
 from rest_framework.test import APIClient
 from rest_framework_jwt.settings import api_settings
 
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 
 @pytest.fixture()

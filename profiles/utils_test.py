@@ -7,8 +7,8 @@ from urllib.parse import parse_qs, urlparse
 import pytest
 from PIL import Image
 
-from open_discussions.factories import UserFactory
-from open_discussions.utils import generate_filepath
+from main.factories import UserFactory
+from main.utils import generate_filepath
 from profiles.utils import (
     DEFAULT_PROFILE_IMAGE,
     generate_initials,

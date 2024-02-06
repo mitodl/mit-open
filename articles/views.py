@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAdminUser
 
 from articles.models import Article
 from articles.serializers import ArticleSerializer
-from open_discussions.constants import VALID_HTTP_METHODS
+from main.constants import VALID_HTTP_METHODS
 
 # Create your views here.
 

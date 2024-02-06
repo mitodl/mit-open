@@ -1,5 +1,5 @@
 """
-open_discussions views
+main views
 """
 
 from django.conf import settings
@@ -11,7 +11,7 @@ from django.http import (
 from django.shortcuts import render
 
 from learning_resources.permissions import is_learning_path_editor
-from open_discussions.permissions import is_admin_user
+from main.permissions import is_admin_user
 
 
 def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001

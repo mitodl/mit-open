@@ -8,7 +8,7 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 from learning_resources.constants import GROUP_STAFF_LISTS_EDITORS, PrivacyLevel
 from learning_resources.models import LearningPath, UserList
-from open_discussions.permissions import is_admin_user, is_readonly
+from main.permissions import is_admin_user, is_readonly
 
 
 def is_learning_path_editor(request: HttpRequest) -> bool:

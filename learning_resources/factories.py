@@ -13,7 +13,7 @@ from factory.fuzzy import FuzzyChoice, FuzzyText
 from learning_resources import constants, models
 from learning_resources.constants import DEPARTMENTS, PlatformType
 from learning_resources.etl.constants import CourseNumberType
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 # pylint:disable=unused-argument
 

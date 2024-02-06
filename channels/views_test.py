@@ -17,7 +17,7 @@ from channels.models import FieldChannel
 from channels.serializers import FieldChannelSerializer
 from learning_resources.constants import LearningResourceType
 from learning_resources.factories import LearningResourceFactory
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
 

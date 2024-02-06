@@ -9,7 +9,7 @@ from learning_resources.constants import (
     LearningResourceRelationTypes,
 )
 from learning_resources.utils import update_editor_group
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 # pylint:disable=redefined-outer-name,unused-argument
 
