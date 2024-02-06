@@ -143,6 +143,7 @@ class LearningResourceImageSerializer(serializers.ModelSerializer):
             "code": {"enum": LevelType.names()},
             "name": {"type": "string"},
         },
+        "required": ["code", "name"],
     }
 )
 class LearningResourceLevelSerializer(serializers.Field):

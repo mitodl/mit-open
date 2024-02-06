@@ -21,7 +21,7 @@ import type {
   PodcastEpisodeResource,
   PaginatedLearningPathRelationshipList,
 } from "api"
-import { ResourceTypeEnum } from "api"
+import { ResourceTypeEnum, LearningResourceRunLevelInnerCodeEnum } from "api"
 import type { PartialDeep } from "type-fest"
 
 const maybe = faker.helpers.maybe
@@ -106,6 +106,14 @@ const learningResourceRun: Factory<LearningResourceRun> = (overrides = {}) => {
     languages: maybe(() => repeat(language, { min: 0, max: 3 })),
     start_date: start.toISOString(),
     end_date: end.toISOString(),
+    level: [
+      {
+        code: faker.helpers.arrayElement(
+          Object.values(LearningResourceRunLevelInnerCodeEnum),
+        ),
+        name: faker.helpers.unique(faker.lorem.words),
+      },
+    ],
     ...overrides,
   }
   return run

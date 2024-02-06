@@ -1326,13 +1326,13 @@ export interface LearningResourceRunLevelInner {
    * @type {string}
    * @memberof LearningResourceRunLevelInner
    */
-  code?: LearningResourceRunLevelInnerCodeEnum
+  code: LearningResourceRunLevelInnerCodeEnum
   /**
    *
    * @type {string}
    * @memberof LearningResourceRunLevelInner
    */
-  name?: string
+  name: string
 }
 
 export const LearningResourceRunLevelInnerCodeEnum = {

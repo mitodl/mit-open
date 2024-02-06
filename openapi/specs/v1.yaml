@@ -6483,6 +6483,9 @@ components:
                 - introductory
               name:
                 type: string
+            required:
+            - code
+            - name
         run_id:
           type: string
           maxLength: 128
@@ -6583,6 +6586,9 @@ components:
                 - introductory
               name:
                 type: string
+            required:
+            - code
+            - name
         run_id:
           type: string
           minLength: 1
