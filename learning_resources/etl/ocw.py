@@ -235,8 +235,8 @@ def transform_run(course_data: dict) -> dict:
         "published": True,
         "instructors": parse_instructors(course_data.get("instructors", [])),
         "description": course_data.get("course_description"),
-        "year": course_data.get("year"),
-        "semester": course_data.get("term"),
+        "year": course_data.get("year") or None,
+        "semester": course_data.get("term") or None,
         "availability": AvailabilityType.current.value,
         "image": {
             "url": urljoin(settings.OCW_BASE_URL, image_src) if image_src else None,
@@ -289,8 +289,11 @@ def transform_course(course_data: dict) -> dict:
         extra_course_numbers = [num.strip() for num in extra_course_numbers.split(",")]
     else:
         extra_course_numbers = []
-
-    readable_id = f"{course_data[PRIMARY_COURSE_ID]}+{slugify(course_data.get('term'))}_{course_data.get('year')}"  # noqa: E501
+    term = course_data.get("term")
+    year = course_data.get("year")
+    readable_term = f"+{slugify(term)}" if term else ""
+    readable_year = f"_{course_data.get('year')}" if year else ""
+    readable_id = f"{course_data[PRIMARY_COURSE_ID]}{readable_term}{readable_year}"
     topics = [
         {"name": topic_name}
         for topic_name in list(

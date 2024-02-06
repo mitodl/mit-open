@@ -164,14 +164,26 @@ def test_transform_content_file_needs_text_update(
 
 @mock_s3
 @pytest.mark.parametrize(
-    ("legacy_uid", "site_uid", "expected_uid", "has_extra_num"),
+    (
+        "legacy_uid",
+        "site_uid",
+        "expected_uid",
+        "has_extra_num",
+        "term",
+        "year",
+        "expected_id",
+    ),
     [
-        ("legacy-uid", None, "legacyuid", False),
-        (None, "site-uid", "siteuid", True),
-        (None, None, None, True),
+        ("legacy-uid", None, "legacyuid", False, "Spring", "2005", "16.01+spring_2005"),
+        (None, "site-uid", "siteuid", True, "", 2005, "16.01_2005"),
+        (None, "site-uid", "siteuid", True, "", "", "16.01"),
+        (None, "site-uid", "siteuid", True, None, None, "16.01"),
+        (None, None, None, True, "Spring", "2005", None),
     ],
 )
-def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extra_num):
+def test_transform_course(  # noqa: PLR0913
+    settings, legacy_uid, site_uid, expected_uid, has_extra_num, term, year, expected_id
+):
     """transform_course should return expected data"""
     settings.OCW_BASE_URL = "http://test.edu/"
     with Path.open(
@@ -181,6 +193,8 @@ def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extr
     ) as inf:
         course_json = json.load(inf)
 
+    course_json["term"] = term
+    course_json["year"] = year
     course_json["legacy_uid"] = legacy_uid
     course_json["site_uid"] = site_uid
     course_json["extra_course_numbers"] = "1, 2" if has_extra_num else None
@@ -192,10 +206,12 @@ def test_transform_course(settings, legacy_uid, site_uid, expected_uid, has_extr
     }
     transformed_json = transform_course(extracted_json)
     if expected_uid:
-        assert transformed_json["readable_id"] == "16.01+fall_2005"
+        assert transformed_json["readable_id"] == expected_id
         assert transformed_json["etl_source"] == ETLSource.ocw.name
         assert transformed_json["runs"][0]["run_id"] == expected_uid
         assert transformed_json["runs"][0]["level"] == ["Undergraduate"]
+        assert transformed_json["runs"][0]["semester"] == (term if term else None)
+        assert transformed_json["runs"][0]["year"] == (year if year else None)
         assert (
             transformed_json["image"]["url"]
             == "http://test.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg"
