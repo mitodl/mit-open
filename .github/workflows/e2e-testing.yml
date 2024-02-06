@@ -16,7 +16,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build frontend
-        run: yarn build
+        run: MITOPEN_HOSTNAME=nginx:8063 yarn build
 
       - name: Run services and E2E tests
         run: |
