@@ -24,7 +24,7 @@ jobs:
         run: yarn build
 
       - name: List build files (debug)
-        run: ls -laR /src/staticfiles
+        run: ls -laR frontends/mit-open/build
 
       - name: Build services
         run: docker compose -f docker-compose-e2e-tests.yml build
@@ -32,8 +32,11 @@ jobs:
       - name: Start services
         run: docker compose -f docker-compose-e2e-tests.yml up nginx web db --detach --wait
 
+      - name: Print the web service startup logs
+        run: docker compose -f docker-compose-e2e-tests.yml logs web
+
       - name: List static files (debug)
-        run: docker compose -f docker-compose-e2e-tests.yml exec web ls /src/staticfiles -laR
+        run: docker compose -f docker-compose-e2e-tests.yml exec web ls /src/staticfiles -laR 2>&1 || true
 
       - name: Apply test data
         run: ./e2e_testing/scripts/apply-fixtures.sh
