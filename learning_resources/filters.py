@@ -116,7 +116,7 @@ class LearningResourceFilter(FilterSet):
     level = MultipleChoiceFilter(
         label="The academic level of the resources",
         method="filter_level",
-        choices=([(level.name, level.value) for level in LevelType]),
+        choices=LevelType.as_list(),
     )
 
     topic = CharInFilter(
@@ -144,7 +144,7 @@ class LearningResourceFilter(FilterSet):
 
     def filter_level(self, queryset, _, value):
         """Level Filter for learning resources"""
-        values = [[LevelType[val].value] for val in value]
+        values = [[LevelType[val].name] for val in value]
         return multi_or_filter(queryset, "runs__level__contains", values)
 
     def filter_topic(self, queryset, _, value):

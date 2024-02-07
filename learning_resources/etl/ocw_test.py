@@ -209,7 +209,7 @@ def test_transform_course(  # noqa: PLR0913
         assert transformed_json["readable_id"] == expected_id
         assert transformed_json["etl_source"] == ETLSource.ocw.name
         assert transformed_json["runs"][0]["run_id"] == expected_uid
-        assert transformed_json["runs"][0]["level"] == ["Undergraduate"]
+        assert transformed_json["runs"][0]["level"] == ["undergraduate", "high_school"]
         assert transformed_json["runs"][0]["semester"] == (term if term else None)
         assert transformed_json["runs"][0]["year"] == (year if year else None)
         assert (

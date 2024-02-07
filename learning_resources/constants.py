@@ -1,5 +1,6 @@
 """Constants for learning_resources"""
 
+
 from django.db.models import TextChoices
 from named_enum import ExtendedEnum
 
@@ -235,12 +236,14 @@ LEARNING_RESOURCE_SORTBY_OPTIONS = {
 
 
 class LevelType(ExtendedEnum):
-    """Enum for LearningResourceRun levels"""
+    """
+    Enum for resource (run) level.
+    """
 
     undergraduate = "Undergraduate"
     graduate = "Graduate"
     high_school = "High School"
-    noncredit = "Non Credit"
+    noncredit = "Non-Credit"
     advanced = "Advanced"
     intermediate = "Intermediate"
     introductory = "Introductory"

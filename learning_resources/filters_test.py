@@ -7,6 +7,7 @@ import pytest
 from learning_resources.constants import (
     LEARNING_RESOURCE_SORTBY_OPTIONS,
     LearningResourceType,
+    LevelType,
     OfferedBy,
     PlatformType,
 )
@@ -285,9 +286,13 @@ def test_learning_resource_filter_course_features(client, multifilter):
 def test_learning_resource_filter_level(client, multifilter):
     """Test that the level filter works"""
 
-    hs_run = LearningResourceRunFactory.create(level=["High School", "Undergraduate"])
-    grad_run = LearningResourceRunFactory.create(level=["Undergraduate", "Graduate"])
-    other_run = LearningResourceRunFactory.create(level=["Other"])
+    hs_run = LearningResourceRunFactory.create(
+        level=[LevelType.high_school.name, LevelType.undergraduate.name]
+    )
+    grad_run = LearningResourceRunFactory.create(
+        level=[LevelType.undergraduate.name, LevelType.graduate.name]
+    )
+    other_run = LearningResourceRunFactory.create(level=[LevelType.advanced.name])
 
     LearningResourceRun.objects.exclude(
         id__in=[hs_run.id, grad_run.id, other_run.id]

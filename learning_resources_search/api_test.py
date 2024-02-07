@@ -6,6 +6,7 @@ from learning_resources_search.api import (
     execute_learn_search,
     generate_aggregation_clauses,
     generate_content_file_text_clause,
+    generate_filter_clause,
     generate_filter_clauses,
     generate_learning_resources_text_clause,
     generate_sort_clause,
@@ -749,6 +750,44 @@ def test_generate_suggest_clause():
     assert generate_suggest_clause("math") == result
 
 
+@pytest.mark.parametrize("case_sensitive", [False, True])
+def test_generate_filter_clause_not_nested(case_sensitive):
+    case_sensitivity = {} if case_sensitive else {"case_insensitive": True}
+    assert generate_filter_clause("a", "some-value", case_sensitive=case_sensitive) == {
+        "term": {"a": {"value": "some-value", **case_sensitivity}}
+    }
+
+
+@pytest.mark.parametrize("case_sensitive", [False, True])
+def test_generate_filter_clause_with_nesting(case_sensitive):
+    case_sensitivity = {} if case_sensitive else {"case_insensitive": True}
+    assert generate_filter_clause(
+        "a.b.c.d", "some-value", case_sensitive=case_sensitive
+    ) == {
+        "nested": {
+            "path": "a",
+            "query": {
+                "nested": {
+                    "path": "a.b",
+                    "query": {
+                        "nested": {
+                            "path": "a.b.c",
+                            "query": {
+                                "term": {
+                                    "a.b.c.d": {
+                                        "value": "some-value",
+                                        **case_sensitivity,
+                                    }
+                                }
+                            },
+                        }
+                    },
+                }
+            },
+        }
+    }
+
+
 def test_generate_filter_clauses():
     query = {"offered_by": ["ocw", "xpro"], "level": ["Undergraduate"]}
     result = {
@@ -759,11 +798,16 @@ def test_generate_filter_clauses():
                         "nested": {
                             "path": "runs",
                             "query": {
-                                "term": {
-                                    "runs.level": {
-                                        "case_insensitive": True,
-                                        "value": "Undergraduate",
-                                    }
+                                "nested": {
+                                    "path": "runs.level",
+                                    "query": {
+                                        "term": {
+                                            "runs.level.code": {
+                                                "case_insensitive": True,
+                                                "value": "Undergraduate",
+                                            }
+                                        }
+                                    },
                                 }
                             },
                         }
@@ -818,7 +862,14 @@ def test_generate_aggregation_clauses_when_there_is_no_filter():
         },
         "level": {
             "nested": {"path": "runs"},
-            "aggs": {"level": {"terms": {"field": "runs.level", "size": 10000}}},
+            "aggs": {
+                "level": {
+                    "nested": {"path": "runs.level"},
+                    "aggs": {
+                        "level": {"terms": {"field": "runs.level.code", "size": 10000}}
+                    },
+                }
+            },
         },
     }
     assert generate_aggregation_clauses(params, {}) == result
@@ -846,7 +897,14 @@ def test_generate_aggregation_clauses_with_filter():
                 "level": {
                     "nested": {"path": "runs"},
                     "aggs": {
-                        "level": {"terms": {"field": "runs.level", "size": 10000}}
+                        "level": {
+                            "nested": {"path": "runs.level"},
+                            "aggs": {
+                                "level": {
+                                    "terms": {"field": "runs.level.code", "size": 10000}
+                                }
+                            },
+                        }
                     },
                 }
             },
@@ -868,7 +926,14 @@ def test_generate_aggregation_clauses_with_same_filters_as_aggregation():
             "aggs": {
                 "level": {
                     "aggs": {
-                        "level": {"terms": {"field": "runs.level", "size": 10000}}
+                        "level": {
+                            "aggs": {
+                                "level": {
+                                    "terms": {"field": "runs.level.code", "size": 10000}
+                                },
+                            },
+                            "nested": {"path": "runs.level"},
+                        }
                     },
                     "nested": {"path": "runs"},
                 }

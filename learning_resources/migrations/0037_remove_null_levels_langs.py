@@ -4,7 +4,7 @@ from django.db import migrations
 
 def update_languages_and_level(apps, _schema_editor):
     """
-    Convert relative urls to absolute urls
+    Remove None from language and level arrays.
     """
     LearningResourceRun = apps.get_model("learning_resources", "LearningResourceRun")
 

@@ -32,6 +32,7 @@ from learning_resources.constants import (
     CONTENT_TYPE_VIDEO,
     DEPARTMENTS,
     VALID_TEXT_FILE_TYPES,
+    LevelType,
 )
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.models import (
@@ -94,6 +95,18 @@ def transform_topics(topics):
 def without_none(values) -> list:
     """Remove all occurrences of None from a list."""
     return [x for x in values if x is not None]
+
+
+def transform_levels(level_labels: list[str]) -> list[LevelType]:
+    """
+    Given list of level labels, return list of keys.
+
+    >>> transform_levels(["High School", "Undergraduate"])
+    ["high_school", "undergraduate"]
+    """
+    return [
+        LevelType(label).name for label in level_labels if label in LevelType.values()
+    ]
 
 
 def _infinite_counter():
