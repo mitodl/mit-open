@@ -27,5 +27,11 @@ jobs:
       - name: Apply test data
         run: ./e2e_testing/scripts/apply-fixtures.sh
 
+      # - name: Run E2E tests
+      #   run: docker compose -f docker-compose-e2e-tests.yml run e2e-tests
+
+      - name: Install Playwright Browsers
+        run: yarn --cwd e2e_testing playwright install --with-deps
+
       - name: Run E2E tests
-        run: docker compose -f docker-compose-e2e-tests.yml run e2e-tests
+        run: BASE_URL=localhost:8063 CI=true yarn --cwd e2e_testing test
