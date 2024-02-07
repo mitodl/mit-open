@@ -1,6 +1,36 @@
 Release Notes
 =============
 
+Version 0.3.0
+-------------
+
+- Allow for blank OCW terms/years (adjust readable_id accordingly), raise an error at end of ocw_courses_etl function if any exceptions occurred during processing (#475)
+- Remove all references to open-discussions (#472)
+- Fix prolearn etl (#471)
+- Multiple filter options for learningresources and contenfiles API rest endpoints (#449)
+- Lock file maintenance (#470)
+- Update dependency pluggy to v1.4.0 (#468)
+- Update dependency jekyll-feed to v0.17.0 (#467)
+- Update dependency @types/react to v18.2.53 (#469)
+- Update dependency ipython to v8.21.0 (#466)
+- Update dependency google-api-python-client to v2.116.0 (#465)
+- Update dependency django-debug-toolbar to v4.3.0 (#464)
+- Update dependency @sentry/react to v7.99.0 (#463)
+- Update apache/tika Docker tag to v2.5.0 (#461)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.17 (#460)
+- Update dependency prettier to v3.2.5 (#462)
+- Update dependency social-auth-core to v4.5.2 (#458)
+- Update dependency toolz to v0.12.1 (#459)
+- Update dependency moto to v4.2.14 (#457)
+- Update dependency drf-spectacular to v0.27.1 (#456)
+- Update dependency boto3 to v1.34.34 (#454)
+- Update dependency beautifulsoup4 to v4.12.3 (#453)
+- Update dependency axios to v1.6.7 (#452)
+- Update codecov/codecov-action action to v3.1.6 (#451)
+- Update all non-major dev-dependencies (#450)
+- Added support to set SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS (#429)
+- do not allow None in levels/languages (#446)
+
 Version 0.2.2 (Released February 02, 2024)
 -------------
 
