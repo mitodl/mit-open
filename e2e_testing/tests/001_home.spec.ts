@@ -3,7 +3,6 @@ import { test, expect } from "@playwright/test"
 const { BASE_URL } = process.env
 
 test("Home page loads and main elements are visible", async ({ page }) => {
-  console.log("BASE_URL: ", BASE_URL)
   await page.goto(BASE_URL!)
 
   await expect(
