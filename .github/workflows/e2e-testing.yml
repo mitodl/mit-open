@@ -4,6 +4,11 @@ jobs:
   e2e-tests:
     runs-on: ubuntu-latest
 
+    permissions:
+      pages: write
+      id-token: write
+      actions: read
+
     steps:
       - uses: actions/checkout@v4
 
@@ -37,7 +42,7 @@ jobs:
         run: curl -v http://localhost:8063
 
       - name: Run E2E tests
-        run: BASE_URL=localhost:8063 CI=true yarn --cwd e2e_testing test
+        run: BASE_URL=http://localhost:8063 CI=true yarn --cwd e2e_testing test
 
       - name: Setup Pages
         if: always()
