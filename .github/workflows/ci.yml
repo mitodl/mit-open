@@ -1,8 +1,5 @@
 name: CI
-on:
-  push:
-    branches-ignore:
-      - "jk/418-e2e-tests-ci"
+on: [push]
 jobs:
   python-tests:
     runs-on: ubuntu-latest
@@ -210,3 +207,53 @@ jobs:
         run: |
           diff $GENERATOR_OUTPUT_DIR_CI $GENERATOR_OUTPUT_DIR_VC \
           || { echo "OpenAPI spec is out of date. Please regenerate via ./scripts/generate_openapi.sh"; exit 1; }
+
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18.18.2"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build frontend
+        run: yarn build
+
+      - name: List build files (debug)
+        run: ls -laR frontends/mit-open/build
+
+      - name: Build services
+        run: docker compose -f docker-compose-e2e-tests.yml build
+
+      - name: Start services
+        run: docker compose -f docker-compose-e2e-tests.yml up nginx web db --detach --wait
+
+      - name: Apply test data
+        run: ./e2e_testing/scripts/apply-fixtures.sh
+
+      - name: Install browsers
+        run: yarn --cwd e2e_testing playwright install --with-deps
+
+      - name: Run E2E tests
+        run: BASE_URL=http://localhost:8063 CI=true yarn --cwd e2e_testing test
+
+      - name: Setup Pages
+        if: always()
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: e2e_testing/playwright-report
