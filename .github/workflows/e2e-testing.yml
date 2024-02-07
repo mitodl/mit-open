@@ -20,14 +20,17 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Build frontend
-        run: MITOPEN_HOSTNAME=localhost:8063 yarn build
+      # - name: Build frontend
+      #   run: MITOPEN_HOSTNAME=localhost:8063 yarn build
 
       - name: Build services
         run: docker compose -f docker-compose-e2e-tests.yml build
 
       - name: Start services
         run: docker compose -f docker-compose-e2e-tests.yml up nginx web db --detach --wait
+
+      - name: List static files (debug)
+        run: docker compose -f docker-compose-e2e-tests.yml exec web ls /src/staticfiles -laR
 
       - name: Apply test data
         run: ./e2e_testing/scripts/apply-fixtures.sh
