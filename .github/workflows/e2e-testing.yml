@@ -16,7 +16,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build frontend
-        run: MITOPEN_HOSTNAME=nginx:8063 yarn build
+        run: MITOPEN_HOSTNAME=localhost:8063 yarn build
 
       - name: Build services
         run: docker compose -f docker-compose-e2e-tests.yml build
@@ -33,5 +33,23 @@ jobs:
       - name: Install Playwright Browsers
         run: yarn --cwd e2e_testing playwright install --with-deps
 
+      - name: Curl home page (debug)
+        run: curl -v http://localhost:8063
+
       - name: Run E2E tests
         run: BASE_URL=localhost:8063 CI=true yarn --cwd e2e_testing test
+
+      - name: Setup Pages
+        if: always()
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: e2e_testing/playwright-report
+
+      - name: Deploy to GitHub Pages
+        if: always()
+        id: deployment
+        uses: actions/deploy-pages@v2

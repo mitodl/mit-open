@@ -54,6 +54,14 @@ const routes: RouteObject[] = [
                 </h3>
                 MIT Open Learning's React component library, presented with{" "}
                 <a href="https://storybook.js.org/">Storybook</a>.
+                <h3>
+                  <a href={`${PUBLIC_URL}/playwright-report`}>
+                    E2E Test Report
+                  </a>
+                </h3>
+                The report from the most recent{" "}
+                <a href="https://playwright.dev/">Playwright</a> E2E testing
+                run.
               </Links>
             </Grid>
           </Page>
