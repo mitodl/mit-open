@@ -2059,13 +2059,13 @@ files = [
 
 [[package]]
 name = "nplusone"
-version = "0.9.0"
+version = "1.0.0"
 description = "Detecting the n+1 queries problem in Python"
 optional = false
 python-versions = "*"
 files = [
-    {file = "nplusone-0.9.0-py2.py3-none-any.whl", hash = "sha256:334542aa5760e13fd546060d188850660eade7bc0b447618035e488fb3e1380b"},
-    {file = "nplusone-0.9.0.tar.gz", hash = "sha256:7386feb6a7bdf38e365bbb0fec917a75e0e642bf62bb8eaede8fba60d3cb5fea"},
+    {file = "nplusone-1.0.0-py2.py3-none-any.whl", hash = "sha256:96b1e6e29e6af3e71b67d0cc012a5ec8c97c6a2f5399f4ba41a2bbe0e253a9ac"},
+    {file = "nplusone-1.0.0.tar.gz", hash = "sha256:1726c0a10c0aa7eabb04e24db2882ff97b6b7ee29d729a8d97dcbd12ef5a5651"},
 ]
 
 [package.dependencies]
@@ -3800,4 +3800,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "a6b459797e742f616cf3e6622f7e9d79926a0da6f06a6c761154c7b7b383d333"
+content-hash = "0fd15ce49077e3b4d5567773a98a43345052b8c2f663d81d69cd2a68738703dd"
