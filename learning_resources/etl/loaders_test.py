@@ -521,6 +521,26 @@ def test_load_instructors(instructor_exists):
     assert run.instructors.count() == len(instructors)
 
 
+def test_load_instructors_dupe_full_names():
+    """Test that no dupe instructors are created and no integrity errors are raised"""
+    instructor_data = [
+        {"full_name": "John Doe", "first_name": "John", "last_name": "Doe"},
+        {"full_name": "John Doe"},
+        {"first_name": "John", "last_name": "Doe"},
+        {"title": "John Doe", "first_name": None, "last_name": ""},
+    ]
+    run = LearningResourceRunFactory.create(no_instructors=True)
+
+    assert run.instructors.count() == 0
+
+    load_instructors(run, instructor_data)
+
+    assert run.instructors.count() == 1
+    assert run.instructors.first().full_name == "John Doe"
+    assert run.instructors.first().first_name == "John"
+    assert run.instructors.first().last_name == "Doe"
+
+
 @pytest.mark.parametrize("parent_factory", [CourseFactory, ProgramFactory])
 @pytest.mark.parametrize("offeror_exists", [True, False])
 @pytest.mark.parametrize("has_other_offered_by", [True, False])
