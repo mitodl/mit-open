@@ -104,7 +104,7 @@ def load_instructors(
                 "title",
                 f"{prof.get('first_name', '')} {prof.get('last_name', '')}".strip(),
             )
-        instructor, _ = LearningResourceInstructor.objects.get_or_create(
+        instructor, _ = LearningResourceInstructor.objects.update_or_create(
             full_name=prof.pop("full_name"),
             defaults={key: value for key, value in prof.items() if value},
         )
