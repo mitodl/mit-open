@@ -36,7 +36,7 @@ RUN chown -R mitodl:mitodl /src
 RUN mkdir ${VIRTUAL_ENV} && chown -R mitodl:mitodl ${VIRTUAL_ENV}
 
 ## Install poetry itself, and pre-create a venv with predictable name
-# USER mitodl
+USER mitodl
 RUN curl -sSL https://install.python-poetry.org \
   | \
   POETRY_VERSION=${POETRY_VERSION} \
@@ -47,14 +47,15 @@ RUN python3 -m venv $VIRTUAL_ENV
 RUN poetry install
 
 # Add project
-# USER root
+USER root
 COPY . /src
 WORKDIR /src
-# RUN chown -R mitodl:mitodl /src
+RUN mkdir /src/staticfiles
+RUN chown -R mitodl:mitodl /src
 
 RUN apt-get clean && apt-get purge
 
-# USER mitodl
+USER mitodl
 
 EXPOSE 8063
 ENV PORT 8063

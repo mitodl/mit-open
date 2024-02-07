@@ -62,8 +62,3 @@ jobs:
         uses: actions/upload-pages-artifact@v2
         with:
           path: e2e_testing/playwright-report
-
-      - name: Deploy to GitHub Pages
-        if: always()
-        id: deployment
-        uses: actions/deploy-pages@v2
