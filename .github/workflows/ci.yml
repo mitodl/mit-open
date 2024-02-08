@@ -144,8 +144,6 @@ jobs:
           file: coverage/lcov.info
 
   build-storybook:
-    environment:
-      name: github-pages
     runs-on: ubuntu-latest
 
     steps:
@@ -254,8 +252,11 @@ jobs:
           name: playwright-report
           path: e2e_testing/playwright-report
 
-  pubilsh-pages:
+  publish-pages:
     runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
 
     permissions:
       pages: write
