@@ -4,6 +4,7 @@ import pytest
 
 from learning_resources_search.api import (
     execute_learn_search,
+    generate_aggregation_clause,
     generate_aggregation_clauses,
     generate_content_file_text_clause,
     generate_filter_clause,
@@ -856,7 +857,10 @@ def test_generate_aggregation_clauses_when_there_is_no_filter():
     result = {
         "offered_by": {
             "aggs": {
-                "offered_by": {"terms": {"field": "offered_by.code", "size": 10000}}
+                "offered_by": {
+                    "terms": {"field": "offered_by.code", "size": 10000},
+                    "aggs": {"root": {"reverse_nested": {}}},
+                }
             },
             "nested": {"path": "offered_by"},
         },
@@ -866,13 +870,39 @@ def test_generate_aggregation_clauses_when_there_is_no_filter():
                 "level": {
                     "nested": {"path": "runs.level"},
                     "aggs": {
-                        "level": {"terms": {"field": "runs.level.code", "size": 10000}}
+                        "level": {
+                            "terms": {"field": "runs.level.code", "size": 10000},
+                            "aggs": {"root": {"reverse_nested": {}}},
+                        }
                     },
                 }
             },
         },
     }
     assert generate_aggregation_clauses(params, {}) == result
+
+
+def test_generate_aggregation_clause_single_not_nested():
+    assert generate_aggregation_clause("agg_a", "a") == {
+        "terms": {"field": "a", "size": 10000}
+    }
+
+
+def test_generate_aggregation_clause_single_nested():
+    assert generate_aggregation_clause("some_name", "a.b.c") == {
+        "nested": {"path": "a"},
+        "aggs": {
+            "some_name": {
+                "nested": {"path": "a.b"},
+                "aggs": {
+                    "some_name": {
+                        "terms": {"field": "a.b.c", "size": 10000},
+                        "aggs": {"root": {"reverse_nested": {}}},
+                    }
+                },
+            }
+        },
+    }
 
 
 def test_generate_aggregation_clauses_with_filter():
@@ -884,7 +914,8 @@ def test_generate_aggregation_clauses_with_filter():
                 "offered_by": {
                     "aggs": {
                         "offered_by": {
-                            "terms": {"field": "offered_by.code", "size": 10000}
+                            "terms": {"field": "offered_by.code", "size": 10000},
+                            "aggs": {"root": {"reverse_nested": {}}},
                         }
                     },
                     "nested": {"path": "offered_by"},
@@ -901,7 +932,11 @@ def test_generate_aggregation_clauses_with_filter():
                             "nested": {"path": "runs.level"},
                             "aggs": {
                                 "level": {
-                                    "terms": {"field": "runs.level.code", "size": 10000}
+                                    "terms": {
+                                        "field": "runs.level.code",
+                                        "size": 10000,
+                                    },
+                                    "aggs": {"root": {"reverse_nested": {}}},
                                 }
                             },
                         }
@@ -929,7 +964,11 @@ def test_generate_aggregation_clauses_with_same_filters_as_aggregation():
                         "level": {
                             "aggs": {
                                 "level": {
-                                    "terms": {"field": "runs.level.code", "size": 10000}
+                                    "terms": {
+                                        "field": "runs.level.code",
+                                        "size": 10000,
+                                    },
+                                    "aggs": {"root": {"reverse_nested": {}}},
                                 },
                             },
                             "nested": {"path": "runs.level"},
@@ -945,7 +984,8 @@ def test_generate_aggregation_clauses_with_same_filters_as_aggregation():
                 "offered_by": {
                     "aggs": {
                         "offered_by": {
-                            "terms": {"field": "offered_by.code", "size": 10000}
+                            "terms": {"field": "offered_by.code", "size": 10000},
+                            "aggs": {"root": {"reverse_nested": {}}},
                         }
                     },
                     "nested": {"path": "offered_by"},
@@ -1297,7 +1337,8 @@ def test_execute_learn_search(opensearch):
                                 "terms": {
                                     "field": "offered_by.code",
                                     "size": 10000,
-                                }
+                                },
+                                "aggs": {"root": {"reverse_nested": {}}},
                             }
                         },
                         "nested": {"path": "offered_by"},

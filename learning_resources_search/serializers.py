@@ -317,6 +317,9 @@ def _transform_aggregations(aggregations):
         copy = {**bucket}
         if "key_as_string" in bucket:
             copy["key"] = copy.pop("key_as_string")
+        if "root" in bucket:
+            root_doc_count = copy.pop("root")["doc_count"]
+            copy["doc_count"] = root_doc_count
         return copy
 
     return {

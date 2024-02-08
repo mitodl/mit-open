@@ -394,7 +394,14 @@ def generate_aggregation_clause(
     current_path = ".".join(path_pieces[0:_current_path_length])
 
     if current_path == path:
-        return {"terms": {"field": path, "size": 10000}}
+        bucket_agg = {"terms": {"field": path, "size": 10000}}
+        if _current_path_length == 1:
+            return bucket_agg
+        else:
+            # In case of nested aggregations, we want to return the root
+            # document count; the reverse_nested aggregation with no path
+            # property goes back to root
+            return {**bucket_agg, "aggs": {"root": {"reverse_nested": {}}}}
 
     return {
         "nested": {"path": current_path},
