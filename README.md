@@ -37,12 +37,6 @@ The following settings must be configured before running the app:
 
 ### Loading Data
 
-Run the following to load platforms, departments, and offers. This populates the database with the fixture files contained in [learning_resources/fixtures](learning_resources/fixtures). Note that you will first need to run the Django models to schema migrations detailed in the [Handbook Initial Setup](https://mitodl.github.io/handbook/how-to/common-web-app-guide.html#3-create-database-tables-from-the-django-models) step.
-
-```bash
-docker compose run --rm web python manage.py loaddata platforms departments offered_by
-```
-
 The MIT Open platform aggregates data from many sources. These data are populated by ETL (extract, transform, load) pipelines that run automatically on a regular schedule. Django [management commands](https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/) are also available to force the pipelines to run—particularly useful for local development.
 
 To load data from [xpro](https://github.com/mitodl/mitxpro), for example, ensure you have the relevant environment variables
@@ -109,6 +103,14 @@ MAILGUN_KEY
 
 Additionally, you'll need to set `MAILGUN_RECIPIENT_OVERRIDE` to your own email address so
 any emails sent from the app will be delivered to you.
+
+### Loading fixture files
+
+Run the following to load platforms, departments, and offers. This populates the database with the fixture files contained in [learning_resources/fixtures](learning_resources/fixtures). Note that you will first need to run the Django models to schema migrations detailed in the [Handbook Initial Setup](https://mitodl.github.io/handbook/how-to/common-web-app-guide.html#3-create-database-tables-from-the-django-models) step. This is already done for you when bringing up your local (development) environment.
+
+```bash
+docker compose run --rm web python manage.py loaddata platforms departments offered_by
+```
 
 ### Enabling image uploads to S3
 
