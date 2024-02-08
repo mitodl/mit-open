@@ -28,7 +28,7 @@ jobs:
           - 6379:6379
 
       elastic:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.16
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.17
         env:
           network.host: "0.0.0.0"
           http.cors.enabled: "true"
@@ -143,33 +143,34 @@ jobs:
         with:
           file: coverage/lcov.info
 
-  publish-pages-storybook:
+  build-storybook:
     environment:
       name: github-pages
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-      actions: read
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
           node-version: "18.18.2"
           cache: "yarn"
+
       - run: yarn install
+
       - run: PUBLIC_URL=/mit-open yarn build-github-pages
+
       - run: PUBLIC_URL=/mit-open yarn build-storybook --output-dir ../github-pages/build/storybook
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
+          name: pages-site
           path: frontends/github-pages/build
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
 
   openapi-generated-client-check:
     # This job checks that the output of openapi-generator-typescript-axios that
@@ -210,11 +211,6 @@ jobs:
   e2e-tests:
     runs-on: ubuntu-latest
 
-    permissions:
-      pages: write
-      id-token: write
-      actions: read
-
     steps:
       - uses: actions/checkout@v4
 
@@ -253,6 +249,38 @@ jobs:
 
       - name: Upload artifact
         if: always()
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
+          name: playwright-report
           path: e2e_testing/playwright-report
+
+  pubilsh-pages:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+      actions: read
+
+    needs:
+      - build-storybook
+      - e2e-tests
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+
+      - name: List files (debug)
+        run: ls -laR
+
+      - name: Move E2E test report
+        run: mv playwright-report pages-site/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: pages-site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
