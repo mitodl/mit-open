@@ -398,9 +398,13 @@ def generate_aggregation_clause(
         if _current_path_length == 1:
             return bucket_agg
         else:
-            # In case of nested aggregations, we want to return the root
-            # document count; the reverse_nested aggregation with no path
-            # property goes back to root
+            # In case of nested aggregations, use reverse_nested to return the
+            # root document count to avoid overcounting. For example, a resource
+            # with 5 runs all with level high_school would otherwise count 5
+            # times toward a level aggregation.
+            #
+            # Strictly speaking, this is only necessary for fields that may
+            # contain arrays with duplicated field values.
             return {**bucket_agg, "aggs": {"root": {"reverse_nested": {}}}}
 
     return {
