@@ -34,8 +34,8 @@ from learning_resources_search.serializers import (
     serialize_content_file_for_update,
     serialize_learning_resource_for_update,
 )
-from open_discussions.celery import app
-from open_discussions.utils import chunks, merge_strings
+from main.celery import app
+from main.utils import chunks, merge_strings
 
 User = get_user_model()
 log = logging.getLogger(__name__)

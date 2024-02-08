@@ -6,7 +6,7 @@ from django.contrib.auth.models import AnonymousUser
 from channels import permissions
 from channels.api import add_user_role
 from channels.constants import FIELD_ROLE_MODERATORS
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
 

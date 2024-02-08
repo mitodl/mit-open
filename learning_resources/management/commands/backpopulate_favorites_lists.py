@@ -4,7 +4,7 @@ from django.core.management import BaseCommand
 
 from learning_resources.constants import FAVORITES_TITLE
 from learning_resources.models import UserList
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 
 class Command(BaseCommand):

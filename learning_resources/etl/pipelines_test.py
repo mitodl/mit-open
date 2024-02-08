@@ -17,6 +17,7 @@ from learning_resources.etl.constants import (
     ETLSource,
     ProgramLoaderConfig,
 )
+from learning_resources.etl.exceptions import ExtractException
 from learning_resources.models import LearningResource
 
 
@@ -201,6 +202,9 @@ def test_ocw_courses_etl(settings, mocker, skip_content_files):
     )
     mocker.patch("learning_resources.etl.pipelines.loaders.resource_upserted_actions")
     mocker.patch(
+        "learning_resources.etl.pipelines.loaders.resource_run_upserted_actions"
+    )
+    mocker.patch(
         "learning_resources.etl.pipelines.loaders.resource_unpublished_actions"
     )
 
@@ -253,17 +257,18 @@ def test_ocw_courses_etl_exception(settings, mocker):
 
     mock_log = mocker.patch("learning_resources.etl.pipelines.log.exception")
     mocker.patch(
-        "learning_resources.etl.pipelines.ocw.extract_course", side_effect=Exception
+        "learning_resources.etl.pipelines.ocw.extract_course", side_effect=[Exception]
     )
-
-    pipelines.ocw_courses_etl(
-        url_paths=[OCW_TEST_PREFIX],
-        force_overwrite=True,
-        start_timestamp=datetime(2020, 12, 15, tzinfo=pytz.utc),
-    )
-    mock_log.assert_called_once_with(
-        "Error encountered parsing OCW json for %s", OCW_TEST_PREFIX
-    )
+    url_paths = ["courses/1", "courses/2", "courses/3"]
+    with pytest.raises(ExtractException) as ex:
+        pipelines.ocw_courses_etl(
+            url_paths=url_paths,
+            force_overwrite=True,
+            start_timestamp=datetime(2020, 12, 15, tzinfo=pytz.utc),
+        )
+    assert str(ex.value) == "Some OCW urls raised errors: %s" % ",".join(url_paths)
+    for path in url_paths:
+        mock_log.assert_any_call("Error encountered parsing OCW json for %s", path)
 
 
 def test_micromasters_etl():

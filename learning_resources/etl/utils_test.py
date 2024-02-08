@@ -59,14 +59,18 @@ def test_sync_s3_text(mock_ocw_learning_bucket, has_bucket, metadata):
 
 
 @pytest.mark.parametrize("token", ["abc123", "", None])
+@pytest.mark.parametrize("ocr_strategy", ["no_ocr", "ocr_and_text_extraction", None])
 @pytest.mark.parametrize("data", [b"data", b"", None])
 @pytest.mark.parametrize("headers", [None, {"a": "header"}])
-def test_extract_text_metadata(mocker, data, token, settings, headers):
+def test_extract_text_metadata(  # noqa: PLR0913
+    mocker, settings, data, token, ocr_strategy, headers
+):
     """
     Verify that tika is called and returns a response
     """
     settings.TIKA_TIMEOUT = 120
     settings.TIKA_ACCESS_TOKEN = token
+    settings.TIKA_OCR_STRATEGY = ocr_strategy
     mock_response = {"metadata": {"Author:": "MIT"}, "content": "Extracted text"}
     mock_tika = mocker.patch(
         "learning_resources.etl.utils.tika_parser.from_buffer",
@@ -74,7 +78,7 @@ def test_extract_text_metadata(mocker, data, token, settings, headers):
     )
     response = utils.extract_text_metadata(data, other_headers=headers)
 
-    expected_headers = {}
+    expected_headers = {"X-Tika-PDFOcrStrategy": ocr_strategy} if ocr_strategy else {}
     expected_options = {"timeout": 120, "verify": True}
 
     if token:

@@ -89,19 +89,22 @@ files = [
 
 [[package]]
 name = "beautifulsoup4"
-version = "4.12.2"
+version = "4.12.3"
 description = "Screen-scraping library"
 optional = false
 python-versions = ">=3.6.0"
 files = [
-    {file = "beautifulsoup4-4.12.2-py3-none-any.whl", hash = "sha256:bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a"},
-    {file = "beautifulsoup4-4.12.2.tar.gz", hash = "sha256:492bbc69dca35d12daac71c4db1bfff0c876c00ef4a2ffacce226d4638eb72da"},
+    {file = "beautifulsoup4-4.12.3-py3-none-any.whl", hash = "sha256:b80878c9f40111313e55da8ba20bdba06d8fa3969fc68304167741bbf9e082ed"},
+    {file = "beautifulsoup4-4.12.3.tar.gz", hash = "sha256:74e3d1928edc070d21748185c46e3fb33490f22f52a3addee9aee0f4f7781051"},
 ]
 
 [package.dependencies]
 soupsieve = ">1.2"
 
 [package.extras]
+cchardet = ["cchardet"]
+chardet = ["chardet"]
+charset-normalizer = ["charset-normalizer"]
 html5lib = ["html5lib"]
 lxml = ["lxml"]
 
@@ -145,17 +148,17 @@ files = [
 
 [[package]]
 name = "boto3"
-version = "1.34.14"
+version = "1.34.34"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "boto3-1.34.14-py3-none-any.whl", hash = "sha256:1f94042f4efb5133b6b9b8b3243afc01143a81d21b3197a3afadf5780f97b05d"},
-    {file = "boto3-1.34.14.tar.gz", hash = "sha256:5c1bb487c68120aae236354d81b8a1a55d0aa3395d30748a01825ef90891921e"},
+    {file = "boto3-1.34.34-py3-none-any.whl", hash = "sha256:33a8b6d9136fa7427160edb92d2e50f2035f04e9d63a2d1027349053e12626aa"},
+    {file = "boto3-1.34.34.tar.gz", hash = "sha256:b2f321e20966f021ec800b7f2c01287a3dd04fc5965acdfbaa9c505a24ca45d1"},
 ]
 
 [package.dependencies]
-botocore = ">=1.34.14,<1.35.0"
+botocore = ">=1.34.34,<1.35.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.10.0,<0.11.0"
 
@@ -164,13 +167,13 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.34.14"
+version = "1.34.34"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "botocore-1.34.14-py3-none-any.whl", hash = "sha256:3b592f50f0406e236782a3a0a9ad1c3976060fdb2e04a23d18c3df5b7dfad3e0"},
-    {file = "botocore-1.34.14.tar.gz", hash = "sha256:041bed0852649cab7e4dcd4d87f9d1cc084467fb846e5b60015e014761d96414"},
+    {file = "botocore-1.34.34-py3-none-any.whl", hash = "sha256:cd060b0d88ebb2b893f1411c1db7f2ba66cc18e52dcc57ad029564ef5fec437b"},
+    {file = "botocore-1.34.34.tar.gz", hash = "sha256:54093dc97372bb7683f5c61a279aa8240408abf3b2cc494ae82a9a90c1b784b5"},
 ]
 
 [package.dependencies]
@@ -925,13 +928,13 @@ Django = ">=3.2"
 
 [[package]]
 name = "django-debug-toolbar"
-version = "4.2.0"
+version = "4.3.0"
 description = "A configurable set of panels that display various debug information about the current request/response."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "django_debug_toolbar-4.2.0-py3-none-any.whl", hash = "sha256:af99128c06e8e794479e65ab62cc6c7d1e74e1c19beb44dcbf9bad7a9c017327"},
-    {file = "django_debug_toolbar-4.2.0.tar.gz", hash = "sha256:bc7fdaafafcdedefcc67a4a5ad9dac96efd6e41db15bc74d402a54a2ba4854dc"},
+    {file = "django_debug_toolbar-4.3.0-py3-none-any.whl", hash = "sha256:e09b7dcb8417b743234dfc57c95a7c1d1d87a88844abd13b4c5387f807b31bf6"},
+    {file = "django_debug_toolbar-4.3.0.tar.gz", hash = "sha256:0b0dddee5ea29b9cb678593bc0d7a6d76b21d7799cb68e091a2148341a80f3c4"},
 ]
 
 [package.dependencies]
@@ -1176,13 +1179,13 @@ djangorestframework = ">=3.14.0"
 
 [[package]]
 name = "drf-spectacular"
-version = "0.27.0"
+version = "0.27.1"
 description = "Sane and flexible OpenAPI 3 schema generation for Django REST framework"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "drf-spectacular-0.27.0.tar.gz", hash = "sha256:18d7ae74b2b5d533fd31f1c591ebaa5cce1447e0976ced927401e3163040dea9"},
-    {file = "drf_spectacular-0.27.0-py3-none-any.whl", hash = "sha256:6ab2d20674244e8c940c2883f744b43c34fc68c70ea3aefa802f574108c9699b"},
+    {file = "drf-spectacular-0.27.1.tar.gz", hash = "sha256:452e0cff3c12ee057b897508a077562967b9e62717992eeec10e62dbbc7b5a33"},
+    {file = "drf_spectacular-0.27.1-py3-none-any.whl", hash = "sha256:0a4cada4b7136a0bf17233476c066c511a048bc6a485ae2140326ac7ba4003b2"},
 ]
 
 [package.dependencies]
@@ -1231,19 +1234,17 @@ doc = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-spelling"]
 
 [[package]]
 name = "faker"
-version = "2.0.5"
+version = "22.6.0"
 description = "Faker is a Python package that generates fake data for you."
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+python-versions = ">=3.8"
 files = [
-    {file = "Faker-2.0.5-py2.py3-none-any.whl", hash = "sha256:c1d19f8c63487b4711189403f5c2e06af1dd8b5be7928f6547f5f7cddd13d917"},
-    {file = "Faker-2.0.5.tar.gz", hash = "sha256:29093e61f12745150774fd05ab499e87252a4fa51ed51e45c40179e854f87925"},
+    {file = "Faker-22.6.0-py3-none-any.whl", hash = "sha256:2b57f0256da6b45b7851dca87836ef5e2ae2fbb64d63d8697f1e47830d7b505d"},
+    {file = "Faker-22.6.0.tar.gz", hash = "sha256:fa6d969728ef3da6229da91267a1bd4e6b902044c4822012d4fc46c71bb92b26"},
 ]
 
 [package.dependencies]
 python-dateutil = ">=2.4"
-six = ">=1.10"
-text-unidecode = "1.3"
 
 [[package]]
 name = "fancycompleter"
@@ -1322,13 +1323,13 @@ grpcio-gcp = ["grpcio-gcp (>=0.2.2,<1.0.dev0)"]
 
 [[package]]
 name = "google-api-python-client"
-version = "2.112.0"
+version = "2.116.0"
 description = "Google API Client Library for Python"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "google-api-python-client-2.112.0.tar.gz", hash = "sha256:c3bcb5fd70d57f4c94b30c0dbeade53c216febfbf1d771eeb1a2fa74bd0d6756"},
-    {file = "google_api_python_client-2.112.0-py2.py3-none-any.whl", hash = "sha256:f5e45d9812376deb7e04cda8d8ca5233aa608038bdbf1253ad8f7edcb7f6d595"},
+    {file = "google-api-python-client-2.116.0.tar.gz", hash = "sha256:f9f32361e16114d62929638fe07f77be30216b079ad316dc2ced859d9f72e5ad"},
+    {file = "google_api_python_client-2.116.0-py2.py3-none-any.whl", hash = "sha256:846e44417c6b7385fa5f5a46cb6b9d23327754c560830245ee53a577c5e44cec"},
 ]
 
 [package.dependencies]
@@ -1568,13 +1569,13 @@ ipython = {version = ">=7.31.1", markers = "python_version >= \"3.11\""}
 
 [[package]]
 name = "ipython"
-version = "8.19.0"
+version = "8.21.0"
 description = "IPython: Productive Interactive Computing"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ipython-8.19.0-py3-none-any.whl", hash = "sha256:2f55d59370f59d0d2b2212109fe0e6035cfea436b1c0e6150ad2244746272ec5"},
-    {file = "ipython-8.19.0.tar.gz", hash = "sha256:ac4da4ecf0042fb4e0ce57c60430c2db3c719fa8bdf92f8631d6bd8a5785d1f0"},
+    {file = "ipython-8.21.0-py3-none-any.whl", hash = "sha256:1050a3ab8473488d7eee163796b02e511d0735cf43a04ba2a8348bd0f2eaf8a5"},
+    {file = "ipython-8.21.0.tar.gz", hash = "sha256:48fbc236fbe0e138b88773fa0437751f14c3645fb483f1d4c5dee58b37e5ce73"},
 ]
 
 [package.dependencies]
@@ -1589,17 +1590,17 @@ stack-data = "*"
 traitlets = ">=5"
 
 [package.extras]
-all = ["black", "curio", "docrepr", "exceptiongroup", "ipykernel", "ipyparallel", "ipywidgets", "matplotlib", "matplotlib (!=3.2.0)", "nbconvert", "nbformat", "notebook", "numpy (>=1.23)", "pandas", "pickleshare", "pytest", "pytest-asyncio (<0.22)", "qtconsole", "setuptools (>=18.5)", "sphinx (>=1.3)", "sphinx-rtd-theme", "stack-data", "testpath", "trio", "typing-extensions"]
+all = ["black", "curio", "docrepr", "exceptiongroup", "ipykernel", "ipyparallel", "ipywidgets", "matplotlib", "matplotlib (!=3.2.0)", "nbconvert", "nbformat", "notebook", "numpy (>=1.23)", "pandas", "pickleshare", "pytest (<8)", "pytest-asyncio (<0.22)", "qtconsole", "setuptools (>=18.5)", "sphinx (>=1.3)", "sphinx-rtd-theme", "stack-data", "testpath", "trio", "typing-extensions"]
 black = ["black"]
-doc = ["docrepr", "exceptiongroup", "ipykernel", "matplotlib", "pickleshare", "pytest", "pytest-asyncio (<0.22)", "setuptools (>=18.5)", "sphinx (>=1.3)", "sphinx-rtd-theme", "stack-data", "testpath", "typing-extensions"]
+doc = ["docrepr", "exceptiongroup", "ipykernel", "matplotlib", "pickleshare", "pytest (<8)", "pytest-asyncio (<0.22)", "setuptools (>=18.5)", "sphinx (>=1.3)", "sphinx-rtd-theme", "stack-data", "testpath", "typing-extensions"]
 kernel = ["ipykernel"]
 nbconvert = ["nbconvert"]
 nbformat = ["nbformat"]
 notebook = ["ipywidgets", "notebook"]
 parallel = ["ipyparallel"]
 qtconsole = ["qtconsole"]
-test = ["pickleshare", "pytest", "pytest-asyncio (<0.22)", "testpath"]
-test-extra = ["curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.23)", "pandas", "pickleshare", "pytest", "pytest-asyncio (<0.22)", "testpath", "trio"]
+test = ["pickleshare", "pytest (<8)", "pytest-asyncio (<0.22)", "testpath"]
+test-extra = ["curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.23)", "pandas", "pickleshare", "pytest (<8)", "pytest-asyncio (<0.22)", "testpath", "trio"]
 
 [[package]]
 name = "jedi"
@@ -1938,13 +1939,13 @@ traitlets = "*"
 
 [[package]]
 name = "moto"
-version = "4.2.13"
+version = "4.2.14"
 description = ""
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "moto-4.2.13-py2.py3-none-any.whl", hash = "sha256:93e0fd13b624bd79115494f833308c3641b2be0fc9f4f18aa9264aa01f6168e0"},
-    {file = "moto-4.2.13.tar.gz", hash = "sha256:01aef6a489a725c8d725bd3dc6f70ff1bedaee3e2641752e4b471ff0ede4b4d7"},
+    {file = "moto-4.2.14-py2.py3-none-any.whl", hash = "sha256:6d242dbbabe925bb385ddb6958449e5c827670b13b8e153ed63f91dbdb50372c"},
+    {file = "moto-4.2.14.tar.gz", hash = "sha256:8f9263ca70b646f091edcc93e97cda864a542e6d16ed04066b1370ed217bd190"},
 ]
 
 [package.dependencies]
@@ -1967,18 +1968,13 @@ awslambda = ["docker (>=3.0.0)"]
 batch = ["docker (>=3.0.0)"]
 cloudformation = ["PyYAML (>=5.1)", "aws-xray-sdk (>=0.93,!=0.96)", "cfn-lint (>=0.40.0)", "docker (>=3.0.0)", "ecdsa (!=0.15)", "graphql-core", "jsondiff (>=1.1.2)", "openapi-spec-validator (>=0.5.0)", "py-partiql-parser (==0.5.0)", "pyparsing (>=3.0.7)", "python-jose[cryptography] (>=3.1.0,<4.0.0)", "setuptools", "sshpubkeys (>=3.1.0)"]
 cognitoidp = ["ecdsa (!=0.15)", "python-jose[cryptography] (>=3.1.0,<4.0.0)"]
-ds = ["sshpubkeys (>=3.1.0)"]
 dynamodb = ["docker (>=3.0.0)", "py-partiql-parser (==0.5.0)"]
 dynamodbstreams = ["docker (>=3.0.0)", "py-partiql-parser (==0.5.0)"]
-ebs = ["sshpubkeys (>=3.1.0)"]
 ec2 = ["sshpubkeys (>=3.1.0)"]
-efs = ["sshpubkeys (>=3.1.0)"]
-eks = ["sshpubkeys (>=3.1.0)"]
 glue = ["pyparsing (>=3.0.7)"]
 iotdata = ["jsondiff (>=1.1.2)"]
 proxy = ["PyYAML (>=5.1)", "aws-xray-sdk (>=0.93,!=0.96)", "cfn-lint (>=0.40.0)", "docker (>=2.5.1)", "ecdsa (!=0.15)", "graphql-core", "jsondiff (>=1.1.2)", "multipart", "openapi-spec-validator (>=0.5.0)", "py-partiql-parser (==0.5.0)", "pyparsing (>=3.0.7)", "python-jose[cryptography] (>=3.1.0,<4.0.0)", "setuptools", "sshpubkeys (>=3.1.0)"]
-resourcegroupstaggingapi = ["PyYAML (>=5.1)", "cfn-lint (>=0.40.0)", "docker (>=3.0.0)", "ecdsa (!=0.15)", "graphql-core", "jsondiff (>=1.1.2)", "openapi-spec-validator (>=0.5.0)", "py-partiql-parser (==0.5.0)", "pyparsing (>=3.0.7)", "python-jose[cryptography] (>=3.1.0,<4.0.0)", "sshpubkeys (>=3.1.0)"]
-route53resolver = ["sshpubkeys (>=3.1.0)"]
+resourcegroupstaggingapi = ["PyYAML (>=5.1)", "cfn-lint (>=0.40.0)", "docker (>=3.0.0)", "ecdsa (!=0.15)", "graphql-core", "jsondiff (>=1.1.2)", "openapi-spec-validator (>=0.5.0)", "py-partiql-parser (==0.5.0)", "pyparsing (>=3.0.7)", "python-jose[cryptography] (>=3.1.0,<4.0.0)"]
 s3 = ["PyYAML (>=5.1)", "py-partiql-parser (==0.5.0)"]
 s3crc32c = ["PyYAML (>=5.1)", "crc32c", "py-partiql-parser (==0.5.0)"]
 server = ["PyYAML (>=5.1)", "aws-xray-sdk (>=0.93,!=0.96)", "cfn-lint (>=0.40.0)", "docker (>=3.0.0)", "ecdsa (!=0.15)", "flask (!=2.2.0,!=2.2.1)", "flask-cors", "graphql-core", "jsondiff (>=1.1.2)", "openapi-spec-validator (>=0.5.0)", "py-partiql-parser (==0.5.0)", "pyparsing (>=3.0.7)", "python-jose[cryptography] (>=3.1.0,<4.0.0)", "setuptools", "sshpubkeys (>=3.1.0)"]
@@ -2063,13 +2059,13 @@ files = [
 
 [[package]]
 name = "nplusone"
-version = "0.9.0"
+version = "1.0.0"
 description = "Detecting the n+1 queries problem in Python"
 optional = false
 python-versions = "*"
 files = [
-    {file = "nplusone-0.9.0-py2.py3-none-any.whl", hash = "sha256:334542aa5760e13fd546060d188850660eade7bc0b447618035e488fb3e1380b"},
-    {file = "nplusone-0.9.0.tar.gz", hash = "sha256:7386feb6a7bdf38e365bbb0fec917a75e0e642bf62bb8eaede8fba60d3cb5fea"},
+    {file = "nplusone-1.0.0-py2.py3-none-any.whl", hash = "sha256:96b1e6e29e6af3e71b67d0cc012a5ec8c97c6a2f5399f4ba41a2bbe0e253a9ac"},
+    {file = "nplusone-1.0.0.tar.gz", hash = "sha256:1726c0a10c0aa7eabb04e24db2882ff97b6b7ee29d729a8d97dcbd12ef5a5651"},
 ]
 
 [package.dependencies]
@@ -2295,13 +2291,13 @@ tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "pa
 
 [[package]]
 name = "pluggy"
-version = "1.3.0"
+version = "1.4.0"
 description = "plugin and hook calling mechanisms for python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pluggy-1.3.0-py3-none-any.whl", hash = "sha256:d89c696a773f8bd377d18e5ecda92b7a3793cbe66c87060a6fb58c7b6e1061f7"},
-    {file = "pluggy-1.3.0.tar.gz", hash = "sha256:cf61ae8f126ac6f7c451172cf30e3e43d3ca77615509771b3a984a0730651e12"},
+    {file = "pluggy-1.4.0-py3-none-any.whl", hash = "sha256:7db9f7b503d67d1c5b95f59773ebb58a8c1c288129a88665838012cfb07b8981"},
+    {file = "pluggy-1.4.0.tar.gz", hash = "sha256:8c85c2876142a764e5b7548e7d9a0e0ddb46f5185161049a79b7e974454223be"},
 ]
 
 [package.extras]
@@ -2595,20 +2591,20 @@ testing = ["Django", "django-configurations (>=2.0)"]
 
 [[package]]
 name = "pytest-env"
-version = "0.8.2"
-description = "py.test plugin that allows you to add environment variables."
+version = "1.1.3"
+description = "pytest plugin that allows you to add environment variables."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "pytest_env-0.8.2-py3-none-any.whl", hash = "sha256:5e533273f4d9e6a41c3a3120e0c7944aae5674fa773b329f00a5eb1f23c53a38"},
-    {file = "pytest_env-0.8.2.tar.gz", hash = "sha256:baed9b3b6bae77bd75b9238e0ed1ee6903a42806ae9d6aeffb8754cd5584d4ff"},
+    {file = "pytest_env-1.1.3-py3-none-any.whl", hash = "sha256:aada77e6d09fcfb04540a6e462c58533c37df35fa853da78707b17ec04d17dfc"},
+    {file = "pytest_env-1.1.3.tar.gz", hash = "sha256:fcd7dc23bb71efd3d35632bde1bbe5ee8c8dc4489d6617fb010674880d96216b"},
 ]
 
 [package.dependencies]
-pytest = ">=7.3.1"
+pytest = ">=7.4.3"
 
 [package.extras]
-test = ["coverage (>=7.2.7)", "pytest-mock (>=3.10)"]
+test = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "pytest-mock (>=3.12)"]
 
 [[package]]
 name = "pytest-freezegun"
@@ -2819,6 +2815,7 @@ files = [
     {file = "PyYAML-6.0.1-cp311-cp311-win_amd64.whl", hash = "sha256:bf07ee2fef7014951eeb99f56f39c9bb4af143d8aa3c21b1677805985307da34"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:855fb52b0dc35af121542a76b9a84f8d1cd886ea97c84703eaa6d88e37a2ad28"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:40df9b996c2b73138957fe23a16a4f0ba614f4c0efce1e9406a184b6d07fa3a9"},
+    {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a08c6f0fe150303c1c6b71ebcd7213c2858041a7e01975da3a99aed1e7a378ef"},
     {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6c22bec3fbe2524cde73d7ada88f6566758a8f7227bfbf93a408a9d86bcc12a0"},
     {file = "PyYAML-6.0.1-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:8d4e9c88387b0f5c7d5f281e55304de64cf7f9c0021a3525bd3b1c542da3b0e4"},
     {file = "PyYAML-6.0.1-cp312-cp312-win32.whl", hash = "sha256:d483d2cdf104e7c9fa60c544d92981f12ad66a457afae824d146093b8c294c54"},
@@ -3369,13 +3366,13 @@ social-auth-core = ">=4.4.1"
 
 [[package]]
 name = "social-auth-core"
-version = "4.5.1"
+version = "4.5.2"
 description = "Python social authentication made simple."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "social-auth-core-4.5.1.tar.gz", hash = "sha256:307a4ba64d4f3ec86e4389163eac1d8b8656ffe5ab2e964aeff043ab00b3a662"},
-    {file = "social_auth_core-4.5.1-py3-none-any.whl", hash = "sha256:54d0c598bf6ea0ec12bbcf78bee035c7cd604b5d781d80b7997e9e033c3ac05d"},
+    {file = "social-auth-core-4.5.2.tar.gz", hash = "sha256:e313bfd09ad78a4af44c5630f3770776b24f468e9a5b71160ade9583efa43f8a"},
+    {file = "social_auth_core-4.5.2-py3-none-any.whl", hash = "sha256:47b48be9b6da59aed4792d805cc25f4c7b7f57e0bbf86d659b5df0ff3f253109"},
 ]
 
 [package.dependencies]
@@ -3454,24 +3451,13 @@ genshimagic = ["Genshi"]
 kidmagic = ["kid"]
 
 [[package]]
-name = "text-unidecode"
-version = "1.3"
-description = "The most basic Text::Unidecode port"
-optional = false
-python-versions = "*"
-files = [
-    {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},
-    {file = "text_unidecode-1.3-py2.py3-none-any.whl", hash = "sha256:1311f10e8b895935241623731c2ba64f4c455287888b18189350b67134a822e8"},
-]
-
-[[package]]
 name = "tika"
-version = "1.25"
+version = "2.6.0"
 description = "Apache Tika Python library"
 optional = false
 python-versions = "*"
 files = [
-    {file = "tika-1.25.tar.gz", hash = "sha256:6f5623b34bf08154611f84e6359e0c09f022c30ba34223abf3caca29c7af35f7"},
+    {file = "tika-2.6.0.tar.gz", hash = "sha256:56670eb812944eb25ed73f1b3b075aa41e7a135b74b240822f28b819e5b373da"},
 ]
 
 [package.dependencies]
@@ -3518,13 +3504,13 @@ requests-file = ">=1.4"
 
 [[package]]
 name = "toolz"
-version = "0.12.0"
+version = "0.12.1"
 description = "List processing tools and functional utilities"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.7"
 files = [
-    {file = "toolz-0.12.0-py3-none-any.whl", hash = "sha256:2059bd4148deb1884bb0eb770a3cde70e7f954cfbbdc2285f1f2de01fd21eb6f"},
-    {file = "toolz-0.12.0.tar.gz", hash = "sha256:88c570861c440ee3f2f6037c4654613228ff40c93a6c25e0eba70d17282c6194"},
+    {file = "toolz-0.12.1-py3-none-any.whl", hash = "sha256:d22731364c07d72eea0a0ad45bafb2c2937ab6fd38a3507bf55eae8744aa7d85"},
+    {file = "toolz-0.12.1.tar.gz", hash = "sha256:ecca342664893f177a13dac0e6b41cbd8ac25a358e5f215316d43e2100224f4d"},
 ]
 
 [[package]]
@@ -3814,4 +3800,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "29d469eda18662d898e14626c87ce37e56de579fa3c2e08e59824f83e7d6c376"
+content-hash = "0fd15ce49077e3b4d5567773a98a43345052b8c2f663d81d69cd2a68738703dd"

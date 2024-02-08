@@ -6,7 +6,7 @@ nav_order: 0
 
 ---
 
-Documentation gets published via Github pages to [https://mitodl.github.io/open-discussions/](https://mitodl.github.io/open-discussions/)
+Documentation gets published via Github pages to [https://mitodl.github.io/mit-open/](https://mitodl.github.io/mit-open/)
 
 ## Running locally
 

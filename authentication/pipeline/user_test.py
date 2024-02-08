@@ -3,7 +3,7 @@
 import pytest
 
 from authentication.pipeline import user as user_actions
-from open_discussions.factories import UserFactory
+from main.factories import UserFactory
 
 
 @pytest.mark.parametrize("hijacked", [True, False])

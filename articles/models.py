@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from open_discussions.models import TimestampedModel
+from main.models import TimestampedModel
 
 
 class Article(TimestampedModel):

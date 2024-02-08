@@ -61,7 +61,7 @@ and run
 docker compose run --rm web python manage.py backpopulate_xpro_data
 ```
 
-See [learning_resources/management/commands](learning_resources/management/commands) and [open_discussions/settings_course_etl.py](open_discussions/settings_course_etl.py) for more ETL commands and their relevant environment variables.
+See [learning_resources/management/commands](learning_resources/management/commands) and [main/settings_course_etl.py](main/settings_course_etl.py) for more ETL commands and their relevant environment variables.
 
 ## Code Generation
 

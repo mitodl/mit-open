@@ -26,7 +26,7 @@ services:
       - .:/src
     environment:
       <<: *py-environment
-      BASE_DJANGO_APP_NAME: open_discussions
+      BASE_DJANGO_APP_NAME: main
       # See https://docs.djangoproject.com/en/4.1/topics/async/#async-safety
       # Do no use this outside the notebook
       DJANGO_ALLOW_ASYNC_UNSAFE: true

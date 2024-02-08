@@ -1,7 +1,16 @@
 """Filters for learning_resources API"""
 import logging
 
-from django_filters import CharFilter, ChoiceFilter, FilterSet, NumberFilter
+from django.db.models import Q, QuerySet
+from django_filters import (
+    BaseInFilter,
+    CharFilter,
+    ChoiceFilter,
+    FilterSet,
+    MultipleChoiceFilter,
+    NumberFilter,
+)
+from django_filters.rest_framework import DjangoFilterBackend
 
 from learning_resources.constants import (
     DEPARTMENTS,
@@ -16,56 +25,110 @@ from learning_resources.models import ContentFile, LearningResource
 log = logging.getLogger(__name__)
 
 
+def multi_or_filter(
+    queryset: QuerySet, attribute: str, values: list[str or list]
+) -> QuerySet:
+    """Filter attribute by value string with n comma-delimited values"""
+    query_or_filters = Q()
+    for query in [Q(**{attribute: value}) for value in values]:
+        query_or_filters |= query
+    return queryset.filter(query_or_filters)
+
+
+class CharInFilter(BaseInFilter, CharFilter):
+    """Filter that allows for multiple character values"""
+
+
+class NumberInFilter(BaseInFilter, NumberFilter):
+    """Filter that allows for multiple numeric values"""
+
+
+class MultipleOptionsFilterBackend(DjangoFilterBackend):
+    """
+    Custom filter backend that handles multiple values for the same key
+    in various formats
+    """
+
+    def get_filterset_kwargs(self, request, queryset, view):  # noqa: ARG002
+        """
+        Adjust the query parameters to handle multiple values for the same key,
+        regardless of whether they are in the form 'key=x&key=y' or 'key=x,y'
+        """
+        query_params = request.query_params.copy()
+        for key in query_params:
+            filter_key = request.parser_context[
+                "view"
+            ].filterset_class.base_filters.get(key)
+            if filter_key:
+                values = query_params.getlist(key)
+                if isinstance(filter_key, MultipleChoiceFilter):
+                    split_values = [
+                        value.split(",") for value in query_params.getlist(key)
+                    ]
+                    values = [value for val_list in split_values for value in val_list]
+                    query_params.setlist(key, values)
+                elif (isinstance(filter_key, CharInFilter | NumberInFilter)) and len(
+                    values
+                ) > 1:
+                    query_params[key] = ",".join(list(values))
+
+        return {
+            "data": query_params,
+            "queryset": queryset,
+            "request": request,
+        }
+
+
 class LearningResourceFilter(FilterSet):
     """LearningResource filter"""
 
-    department = ChoiceFilter(
+    department = MultipleChoiceFilter(
         label="The department that offers learning resources",
-        method="filter_department",
         field_name="departments__department_id",
         choices=(list(DEPARTMENTS.items())),
     )
 
-    resource_type = ChoiceFilter(
+    resource_type = MultipleChoiceFilter(
         label="The type of learning resource",
-        method="filter_resource_type",
         choices=(
             [
                 (resource_type.name, resource_type.value)
                 for resource_type in LearningResourceType
             ]
         ),
+        field_name="resource_type",
+        lookup_expr="iexact",
     )
-    offered_by = ChoiceFilter(
+    offered_by = MultipleChoiceFilter(
         label="The organization that offers a learning resource",
-        method="filter_offered_by",
         choices=([(offeror.name, offeror.value) for offeror in OfferedBy]),
+        field_name="offered_by",
+        lookup_expr="exact",
     )
 
-    platform = ChoiceFilter(
+    platform = MultipleChoiceFilter(
         label="The platform on which learning resources are offered",
-        method="filter_platform",
         choices=([(platform.name, platform.value) for platform in PlatformType]),
+        field_name="platform",
+        lookup_expr="exact",
     )
 
-    level = ChoiceFilter(
+    level = MultipleChoiceFilter(
         label="The academic level of the resources",
         method="filter_level",
-        choices=([(level.name, level.value) for level in LevelType]),
+        choices=LevelType.as_list(),
     )
 
-    topic = CharFilter(
+    topic = CharInFilter(
         label="Topics covered by the resources. Load the '/api/v1/topics' endpoint "
         "for a list of topics",
-        field_name="topics__name",
-        lookup_expr="iexact",
+        method="filter_topic",
     )
 
-    course_feature = CharFilter(
+    course_feature = CharInFilter(
         label="Content feature for the resources. Load the 'api/v1/course_features' "
         "endpoint for a list of course features",
-        field_name="content_tags__name",
-        lookup_expr="iexact",
+        method="filter_course_feature",
     )
 
     sortby = ChoiceFilter(
@@ -79,25 +142,18 @@ class LearningResourceFilter(FilterSet):
         ),
     )
 
-    def filter_resource_type(self, queryset, _, value):
-        """resource_type Filter for learning resources"""
-        return queryset.filter(resource_type=value)
-
-    def filter_offered_by(self, queryset, _, value):
-        """OfferedBy Filter for learning resources"""
-        return queryset.filter(offered_by__code=value)
-
-    def filter_platform(self, queryset, _, value):
-        """Platform Filter for learning resources"""
-        return queryset.filter(platform__code=value)
-
-    def filter_department(self, queryset, _, value):
-        """Department ID Filter for learning resources"""
-        return queryset.filter(departments__department_id=value)
-
     def filter_level(self, queryset, _, value):
         """Level Filter for learning resources"""
-        return queryset.filter(runs__level__contains=[LevelType[value].value])
+        values = [[LevelType[val].name] for val in value]
+        return multi_or_filter(queryset, "runs__level__contains", values)
+
+    def filter_topic(self, queryset, _, value):
+        """Topic Filter for learning resources"""
+        return multi_or_filter(queryset, "topics__name__iexact", value)
+
+    def filter_course_feature(self, queryset, _, value):
+        """Topic Filter for learning resources"""
+        return multi_or_filter(queryset, "content_tags__name__iexact", value)
 
     def filter_sortby(self, queryset, _, value):
         """Sort the queryset in the order specified by the value"""
@@ -111,63 +167,57 @@ class LearningResourceFilter(FilterSet):
 class ContentFileFilter(FilterSet):
     """ContentFile filter"""
 
-    run_id = NumberFilter(
+    run_id = NumberInFilter(
         label="The id of the learning resource run the content file belongs to",
-        field_name="run_id",
-        lookup_expr="exact",
+        method="filter_run_id",
     )
 
-    learning_resource_id = NumberFilter(
+    resource_id = NumberInFilter(
         label="The id of the learning resource the content file belongs to",
-        field_name="run__learning_resource_id",
-        lookup_expr="exact",
+        method="filter_resource_id",
     )
 
-    content_feature_type = CharFilter(
+    content_feature_type = CharInFilter(
         label="Content feature type for the content file. Load the "
         "'api/v1/course_features' endpoint for a list of course features",
-        field_name="content_tags__name",
-        lookup_expr="iexact",
+        method="filter_content_feature_type",
     )
 
-    offered_by = ChoiceFilter(
+    offered_by = MultipleChoiceFilter(
         label="The organization that offers a learning resource the content file "
         "belongs to",
-        method="filter_offered_by",
+        field_name="run__learning_resource__offered_by",
+        lookup_expr="exact",
         choices=([(offeror.name, offeror.value) for offeror in OfferedBy]),
     )
 
-    platform = ChoiceFilter(
+    platform = MultipleChoiceFilter(
         label="The platform on which learning resources the content file belongs "
         "to is offered",
-        method="filter_platform",
+        field_name="run__learning_resource__platform",
+        lookup_expr="exact",
         choices=([(platform.name, platform.value) for platform in PlatformType]),
     )
 
-    run_readable_id = CharFilter(
-        label="The readable id of the learning resource run the content file "
-        "belongs to",
-        field_name="run__run_id",
-        lookup_expr="exact",
-    )
+    def filter_run_id(self, queryset, _, value):
+        """Run ID Filter for contentfiles"""
+        return multi_or_filter(queryset, "run_id", value)
 
-    learning_resource_readable_id = CharFilter(
-        label="The readable id of the learning resource the content file belongs to",
-        field_name="run__learning_resource__readable_id",
-        lookup_expr="exact",
-    )
+    def filter_resource_id(self, queryset, _, value):
+        """Resource ID Filter for contentfiles"""
+        return multi_or_filter(queryset, "run__learning_resource__id", value)
 
-    def filter_offered_by(self, queryset, _, value):
-        """OfferedBy Filter for content files"""
-        return queryset.filter(run__learning_resource__offered_by__code=value)
+    def filter_run_readable_id(self, queryset, _, value):
+        """Run Readable ID Filter for contentfiles"""
+        return multi_or_filter(queryset, "run__run_id", value)
 
-    def filter_platform(self, queryset, _, value):
-        """Platform Filter for content files"""
-        return queryset.filter(run__learning_resource__platform__code=value)
+    def filter_resource_readable_id(self, queryset, _, value):
+        """Resource Readable ID Filter for contentfiles"""
+        return multi_or_filter(queryset, "run__learning_resource__readable_id", value)
 
-    def filter_learning_resource_types(self, queryset, _, value):
-        """Level Filter for learning resources"""
-        return queryset.filter(learning_resource_types__contains=[value])
+    def filter_content_feature_type(self, queryset, _, value):
+        """Content feature type filter for contentfiles"""
+        return multi_or_filter(queryset, "content_tags__name__iexact", value)
 
     class Meta:
         model = ContentFile

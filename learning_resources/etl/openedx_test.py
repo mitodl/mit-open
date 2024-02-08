@@ -12,7 +12,7 @@ from learning_resources.etl.openedx import (
     OpenEdxConfiguration,
     openedx_extract_transform_factory,
 )
-from open_discussions.test_utils import any_instance_of
+from main.test_utils import any_instance_of
 
 ACCESS_TOKEN = "invalid_access_token"  # noqa: S105
 
@@ -161,7 +161,7 @@ def test_transform_course(  # noqa: PLR0913
                         ],
                         "languages": ["en-us"],
                         "last_modified": any_instance_of(datetime),
-                        "level": ["Intermediate"],
+                        "level": ["intermediate"],
                         "prices": ["150.00", "0.00"],
                         "semester": "spring",
                         "description": "short_description",

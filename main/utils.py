@@ -1,4 +1,4 @@
-"""open_discussions utilities"""
+"""main utilities"""
 
 import datetime
 import logging

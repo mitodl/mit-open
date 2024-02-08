@@ -56,7 +56,7 @@ from learning_resources.models import (
     PodcastEpisode,
     Program,
 )
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 pytestmark = pytest.mark.django_db
 

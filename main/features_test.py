@@ -2,7 +2,7 @@
 
 import pytest
 
-from open_discussions import features
+from main import features
 
 
 @pytest.mark.parametrize(

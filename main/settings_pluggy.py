@@ -1,4 +1,4 @@
-from open_discussions.envs import get_string
+from main.envs import get_string
 
 MITOPEN_AUTHENTICATION_PLUGINS = get_string(
     "MITOPEN_AUTHENTICATION_PLUGINS",

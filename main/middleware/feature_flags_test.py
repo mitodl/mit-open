@@ -3,11 +3,11 @@
 # pylint: disable=redefined-outer-name
 import pytest
 
-from open_discussions.middleware.feature_flags import (
+from main.middleware.feature_flags import (
     CookieFeatureFlagMiddleware,
     QueryStringFeatureFlagMiddleware,
 )
-from open_discussions.utils import FeatureFlag
+from main.utils import FeatureFlag
 
 FEATURE_FLAG_COOKIE_NAME = "TEST_COOKIE"
 FEATURE_FLAG_COOKIE_MAX_AGE_SECONDS = 60
@@ -102,7 +102,7 @@ def test_process_request_valid_cookie(cookie_middleware, mocker):
     request.COOKIES = {FEATURE_FLAG_COOKIE_NAME: 1}
     request.get_signed_cookie.return_value = 1
     assert cookie_middleware(request) == cookie_middleware.get_response.return_value
-    assert request.open_discussions_feature_flags == {FeatureFlag.EXAMPLE_FEATURE}
+    assert request.main_feature_flags == {FeatureFlag.EXAMPLE_FEATURE}
     request.get_signed_cookie.assert_called_once_with(FEATURE_FLAG_COOKIE_NAME)
 
 
@@ -112,7 +112,7 @@ def test_process_request_invalid_cookie(cookie_middleware, mocker):
     request.COOKIES = {FEATURE_FLAG_COOKIE_NAME: 1}
     request.get_signed_cookie.side_effect = ValueError
     assert cookie_middleware(request) == cookie_middleware.get_response.return_value
-    assert request.open_discussions_feature_flags == set()
+    assert request.main_feature_flags == set()
     request.get_signed_cookie.assert_called_once_with(FEATURE_FLAG_COOKIE_NAME)
 
 
@@ -122,4 +122,4 @@ def test_process_request_no_cookie(cookie_middleware, mocker):
     request.COOKIES = {}
     assert cookie_middleware(request) == cookie_middleware.get_response.return_value
     request.get_signed_cookie.assert_not_called()
-    assert request.open_discussions_feature_flags == set()
+    assert request.main_feature_flags == set()

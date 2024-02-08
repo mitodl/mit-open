@@ -29,6 +29,7 @@ from learning_resources.etl.utils import (
     extract_text_metadata,
     generate_course_numbers_json,
     get_content_type,
+    transform_levels,
 )
 from learning_resources.models import ContentFile, LearningResource
 from learning_resources.utils import (
@@ -105,7 +106,7 @@ def transform_page(s3_key: str, page_data: dict) -> dict:
     s3_path = s3_key.split("data.json")[0]
     return {
         "content_type": CONTENT_TYPE_PAGE,
-        "url": "../" + urlparse(s3_path).path.lstrip("/"),
+        "url": urljoin(settings.OCW_BASE_URL, urlparse(s3_path).path.lstrip("/")),
         "title": page_data.get("title"),
         "content_title": page_data.get("title"),
         "content": page_data.get("content"),
@@ -206,7 +207,7 @@ def transform_contentfile(
         "description": contentfile_data.get("description"),
         "file_type": file_type,
         "content_type": content_type,
-        "url": "../" + urlparse(s3_path).path.lstrip("/"),
+        "url": urljoin(settings.OCW_BASE_URL, urlparse(s3_path).path.lstrip("/")),
         "title": title,
         "content_title": title,
         "key": s3_path,
@@ -235,8 +236,8 @@ def transform_run(course_data: dict) -> dict:
         "published": True,
         "instructors": parse_instructors(course_data.get("instructors", [])),
         "description": course_data.get("course_description"),
-        "year": course_data.get("year"),
-        "semester": course_data.get("term"),
+        "year": course_data.get("year") or None,
+        "semester": course_data.get("term") or None,
         "availability": AvailabilityType.current.value,
         "image": {
             "url": urljoin(settings.OCW_BASE_URL, image_src) if image_src else None,
@@ -249,7 +250,7 @@ def transform_run(course_data: dict) -> dict:
                 .get("image-alt")
             ),
         },
-        "level": course_data.get("level", []),
+        "level": transform_levels(course_data.get("level", [])),
         "last_modified": course_data.get("last_modified"),
         "title": course_data.get("course_title"),
         "slug": course_data.get("slug"),
@@ -289,8 +290,11 @@ def transform_course(course_data: dict) -> dict:
         extra_course_numbers = [num.strip() for num in extra_course_numbers.split(",")]
     else:
         extra_course_numbers = []
-
-    readable_id = f"{course_data[PRIMARY_COURSE_ID]}+{slugify(course_data.get('term'))}_{course_data.get('year')}"  # noqa: E501
+    term = course_data.get("term")
+    year = course_data.get("year")
+    readable_term = f"+{slugify(term)}" if term else ""
+    readable_year = f"_{course_data.get('year')}" if year else ""
+    readable_id = f"{course_data[PRIMARY_COURSE_ID]}{readable_term}{readable_year}"
     topics = [
         {"name": topic_name}
         for topic_name in list(

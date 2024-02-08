@@ -21,7 +21,7 @@ from channels.serializers import (
     FieldModeratorSerializer,
 )
 from learning_resources.views import LargePagination
-from open_discussions.constants import VALID_HTTP_METHODS
+from main.constants import VALID_HTTP_METHODS
 
 log = logging.getLogger(__name__)
 

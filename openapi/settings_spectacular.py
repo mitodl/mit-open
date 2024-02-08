@@ -7,7 +7,7 @@ open_spectacular_settings = {
     "DESCRIPTION": "MIT public API",
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
-    "SERVE_URLCONF": "open_discussions.urls",
+    "SERVE_URLCONF": "main.urls",
     "ENUM_GENERATE_CHOICE_DESCRIPTION": True,
     "COMPONENT_SPLIT_REQUEST": True,
     "AUTHENTICATION_WHITELIST": [],

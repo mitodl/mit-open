@@ -8,7 +8,7 @@ from learning_resources_search.constants import (
     LEARNING_RESOURCE_TYPES,
 )
 from learning_resources_search.tasks import start_update_index
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 valid_object_types = [*list(LEARNING_RESOURCE_TYPES), CONTENT_FILE_TYPE]
 

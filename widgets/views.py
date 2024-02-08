@@ -2,7 +2,7 @@
 
 from rest_framework import mixins, viewsets
 
-from open_discussions.permissions import ObjectOnlyPermissions, ReadOnly
+from main.permissions import ObjectOnlyPermissions, ReadOnly
 from widgets.models import WidgetList
 from widgets.serializers.widget_list import WidgetListSerializer
 

@@ -8,8 +8,8 @@ import pytest
 import pytz
 from django.contrib.auth import get_user_model
 
-from open_discussions.factories import UserFactory
-from open_discussions.utils import (
+from main.factories import UserFactory
+from main.utils import (
     chunks,
     extract_values,
     filter_dict_keys,

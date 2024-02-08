@@ -3,7 +3,7 @@ branch = True
 source = .
 data_file=/tmp/coverage
 omit =
-    open_discussions/wsgi.py
+    main/wsgi.py
     manage.py
     ./.tox/*
     */migrations/*

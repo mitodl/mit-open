@@ -30,7 +30,7 @@ class Command(BaseCommand):
             filepath = Path(directory) / filename
             management.call_command(
                 "spectacular",
-                urlconf="open_discussions.urls",
+                urlconf="main.urls",
                 file=filepath,
                 validate=True,
                 api_version=version,

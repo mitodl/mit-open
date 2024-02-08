@@ -6,7 +6,7 @@ from learning_resources.etl.constants import ETLSource
 from learning_resources.models import LearningResource
 from learning_resources.tasks import get_micromasters_data
 from learning_resources.utils import resource_delete_actions
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 
 class Command(BaseCommand):

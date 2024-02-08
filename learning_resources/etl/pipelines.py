@@ -23,6 +23,7 @@ from learning_resources.etl.constants import (
     ETLSource,
     ProgramLoaderConfig,
 )
+from learning_resources.etl.exceptions import ExtractException
 
 log = logging.getLogger(__name__)
 
@@ -117,7 +118,7 @@ def ocw_courses_etl(
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
     )
-
+    exceptions = []
     for url_path in url_paths:
         try:
             data = ocw.extract_course(
@@ -140,3 +141,6 @@ def ocw_courses_etl(
                 log.info("No course data found for %s", url_path)
         except:  # noqa: E722
             log.exception("Error encountered parsing OCW json for %s", url_path)
+            exceptions.append(url_path)
+    if exceptions:
+        raise ExtractException("Some OCW urls raised errors: %s" % ",".join(exceptions))

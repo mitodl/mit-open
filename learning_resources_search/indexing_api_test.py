@@ -36,7 +36,7 @@ from learning_resources_search.indexing_api import (
     index_run_content_files,
     switch_indices,
 )
-from open_discussions.utils import chunks
+from main.utils import chunks
 
 pytestmark = [pytest.mark.django_db, pytest.mark.usefixtures("mocked_es")]
 

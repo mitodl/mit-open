@@ -53,7 +53,7 @@ describe("CkeditorDisplay", () => {
 <p>Some more text</p>
         `.trim()
     const input1 = input0
-    const input2 = `input2`
+    const input2 = "input2"
     const view = render(<CkeditorDisplay dangerouslySetInnerHTML={input0} />)
     const html0 = view.container.innerHTML
     view.rerender(<CkeditorDisplay dangerouslySetInnerHTML={input1} />)

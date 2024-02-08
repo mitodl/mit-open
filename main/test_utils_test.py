@@ -4,7 +4,7 @@ import pickle
 
 import pytest
 
-from open_discussions.test_utils import (
+from main.test_utils import (
     MockResponse,
     PickleableMock,
     any_instance_of,

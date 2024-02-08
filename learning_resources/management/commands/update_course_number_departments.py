@@ -4,7 +4,7 @@ from django.core.management import BaseCommand
 
 from learning_resources.etl.utils import update_course_numbers_json
 from learning_resources.models import Course
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 
 class Command(BaseCommand):

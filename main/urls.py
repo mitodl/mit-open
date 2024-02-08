@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, re_path
 
-from open_discussions.views import index
+from main.views import index
 
 # Post slugs can contain unicode characters, so a letter-matching pattern like [A-Za-z] doesn't work.  # noqa: E501
 # "[^\W]" Matches any character that is NOT a non-alphanumeric character, including underscores.  # noqa: E501
@@ -27,14 +27,13 @@ from open_discussions.views import index
 # as well, that character is added to the pattern via an alternation (|).
 POST_SLUG_PATTERN = "([^\\W]|-)+"
 
-handler400 = "open_discussions.views.handle_400"
-handler403 = "open_discussions.views.handle_403"
-handler404 = "open_discussions.views.handle_404"
+handler400 = "main.views.handle_400"
+handler403 = "main.views.handle_403"
+handler404 = "main.views.handle_404"
 
 urlpatterns = [  # noqa: RUF005
     re_path(r"^admin/", admin.site.urls),
     re_path(r"", include("authentication.urls")),
-    re_path(r"", include("social_django.urls", namespace="social")),
     re_path(r"", include("channels.urls")),
     re_path(r"", include("profiles.urls")),
     re_path(r"", include("embedly.urls")),
@@ -46,11 +45,12 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("articles.urls")),
     re_path(r"", include("livestream.urls")),
     # React App
-    re_path(r"^$", index, name="open_discussions-index"),
+    re_path(r"^$", index, name="main-index"),
     re_path(r"^privacy-statement/", index, name="privacy-statement"),
     re_path(r"^search/", index, name="site-search"),
     re_path(r"^learningpaths/", index, name="learningpaths"),
     re_path(r"^articles/", index, name="articles"),
+    re_path(r"^dashboard/", index, name="dashboard"),
     # Hijack
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

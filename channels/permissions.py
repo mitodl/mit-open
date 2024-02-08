@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 
 from channels.api import is_moderator
 from channels.models import FieldChannel
-from open_discussions.permissions import is_admin_user
+from main.permissions import is_admin_user
 
 log = logging.getLogger()
 

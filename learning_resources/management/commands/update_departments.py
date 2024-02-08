@@ -5,7 +5,7 @@ from django.db import transaction
 
 from learning_resources.constants import DEPARTMENTS
 from learning_resources.models import LearningResourceDepartment
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 
 class Command(BaseCommand):

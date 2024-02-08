@@ -1,9 +1,9 @@
-"""Common open_discussions middleware"""
+"""Common main middleware"""
 
 from django import shortcuts
 from django.conf import settings
 
-from open_discussions.utils import FeatureFlag
+from main.utils import FeatureFlag
 
 
 class QueryStringFeatureFlagMiddleware:
@@ -125,6 +125,6 @@ class CookieFeatureFlagMiddleware:
         Args:
             request (django.http.request.Request): the request to inspect
         """  # noqa: D401
-        request.open_discussions_feature_flags = self.get_feature_flags(request)
+        request.main_feature_flags = self.get_feature_flags(request)
 
         return self.get_response(request)

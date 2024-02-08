@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from open_discussions.serializers import WriteableSerializerMethodField
+from main.serializers import WriteableSerializerMethodField
 from widgets.models import WidgetInstance
 from widgets.serializers.utils import get_widget_type_names
 

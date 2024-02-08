@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.management import BaseCommand
 
 from learning_resources.tasks import import_all_mit_edx_files
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 
 class Command(BaseCommand):

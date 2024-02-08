@@ -1,11 +1,11 @@
 """
-Classes related to models for open_discussions
+Classes related to models for main
 """
 
 from django.db.models import DateTimeField, Model
 from django.db.models.query import QuerySet
 
-from open_discussions.utils import now_in_utc
+from main.utils import now_in_utc
 
 
 class TimestampedModelQuerySet(QuerySet):

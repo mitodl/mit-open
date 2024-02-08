@@ -11,7 +11,6 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import views, viewsets
@@ -32,7 +31,11 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.podcast import generate_aggregate_podcast_rss
 from learning_resources.exceptions import WebhookException
-from learning_resources.filters import ContentFileFilter, LearningResourceFilter
+from learning_resources.filters import (
+    ContentFileFilter,
+    LearningResourceFilter,
+    MultipleOptionsFilterBackend,
+)
 from learning_resources.models import (
     ContentFile,
     LearningResource,
@@ -74,12 +77,12 @@ from learning_resources.utils import (
     resource_delete_actions,
     resource_unpublished_actions,
 )
-from open_discussions.constants import VALID_HTTP_METHODS
-from open_discussions.permissions import (
+from main.constants import VALID_HTTP_METHODS
+from main.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
 )
-from open_discussions.utils import chunks
+from main.utils import chunks
 
 log = logging.getLogger(__name__)
 
@@ -117,7 +120,7 @@ class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
 
     permission_classes = (AnonymousAccessReadonlyPermission,)
     pagination_class = DefaultPagination
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [MultipleOptionsFilterBackend]
     filterset_class = LearningResourceFilter
     lookup_field = "id"
 
@@ -524,7 +527,7 @@ class ContentFileViewSet(viewsets.ReadOnlyModelViewSet):
         .order_by("-created_on")
     )
     pagination_class = DefaultPagination
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [MultipleOptionsFilterBackend]
     filterset_class = ContentFileFilter
 
 

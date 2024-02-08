@@ -97,25 +97,31 @@ def test_get_course_content_files_endpoint(client, url):
 
 
 @pytest.mark.parametrize(
-    "url",
+    ("reverse_url", "expected_url"),
     [
-        "lr:v1:learning_resource_content_files_api-list",
-        "lr:v1:course_content_files_api-list",
+        (
+            "lr:v1:learning_resource_content_files_api-list",
+            "/api/v1/learning_resources/{}/contentfiles/",
+        ),
+        ("lr:v1:course_content_files_api-list", "/api/v1/courses/{}/contentfiles/"),
     ],
 )
-def test_get_course_content_files_filtered(client, url):
+def test_get_course_content_files_filtered(client, reverse_url, expected_url):
     """Test course detail contentfiles endpoint"""
     course = CourseFactory.create()
     ContentFileFactory.create_batch(2, run=course.learning_resource.runs.first())
     ContentFileFactory.create_batch(3, run=course.learning_resource.runs.last())
 
+    expected_url = expected_url.format(course.learning_resource.id)
+    assert reverse(reverse_url, args=[course.learning_resource.id]) == expected_url
+
     resp = client.get(
-        f"{reverse(url, args=[course.learning_resource.id])}?run_readable_id={course.learning_resource.runs.first().run_id}"
+        f"{expected_url}?run_id={course.learning_resource.runs.first().id}"
     )
     assert resp.data.get("count") == 2
 
     resp = client.get(
-        f"{reverse(url, args=[course.learning_resource.id])}?run_readable_id={course.learning_resource.runs.last().run_id}"
+        f"{expected_url}?run_id={course.learning_resource.runs.last().id}"
     )
     assert resp.data.get("count") == 3
 
@@ -252,6 +258,8 @@ def test_list_content_files_list_endpoint(client):
     # this should be filtered out
     ContentFileFactory.create_batch(5, published=False)
 
+    assert reverse("lr:v1:contentfiles_api-list") == "/api/v1/contentfiles/"
+
     resp = client.get(f"{reverse('lr:v1:contentfiles_api-list')}")
     assert resp.data.get("count") == 2
     for result in resp.data.get("results"):
@@ -270,12 +278,10 @@ def test_list_content_files_list_filtered(client):
     )
     assert resp.data.get("count") == 2
     resp = client.get(
-        f"{reverse('lr:v1:contentfiles_api-list')}?learning_resource_id={course_2.learning_resource.id}"
+        f"{reverse('lr:v1:contentfiles_api-list')}?resource_id={course_2.learning_resource.id}"
     )
     assert resp.data.get("count") == 3
-    resp = client.get(
-        f"{reverse('lr:v1:contentfiles_api-list')}?learning_resource_id=1001001"
-    )
+    resp = client.get(f"{reverse('lr:v1:contentfiles_api-list')}?resource_id=1001001")
     assert resp.data.get("count") == 0
 
 
@@ -283,8 +289,10 @@ def test_get_contentfiles_detail_endpoint(client):
     """Test ContentFile detail endpoint"""
     content_file = ContentFileFactory.create()
 
-    resp = client.get(reverse("lr:v1:contentfiles_api-detail", args=[content_file.id]))
+    url = reverse("lr:v1:contentfiles_api-detail", args=[content_file.id])
+    assert url == f"/api/v1/contentfiles/{content_file.id}/"
 
+    resp = client.get(url)
     assert resp.data == ContentFileSerializer(instance=content_file).data
 
 
@@ -437,6 +445,7 @@ def test_ocw_webhook_endpoint(client, mocker, settings, data):
     mock_get_ocw = mocker.patch(
         "learning_resources.views.get_ocw_courses.delay", autospec=True
     )
+    assert reverse("lr:v1:ocw-next-webhook") == "/api/v1/ocw_next_webhook/"
     response = client.post(
         reverse("lr:v1:ocw-next-webhook"),
         data=data,
