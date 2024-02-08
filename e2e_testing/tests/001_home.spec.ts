@@ -2,7 +2,9 @@ import { test, expect } from "@playwright/test"
 
 const { BASE_URL } = process.env
 
-test("Home page loads and main elements are visible", async ({ page }) => {
+test("Home page loads and main elements are visible @sanity", async ({
+  page,
+}) => {
   await page.goto(BASE_URL!)
 
   await expect(

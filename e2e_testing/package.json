@@ -1,8 +1,10 @@
 {
   "name": "e2e_testing",
   "scripts": {
+    "start": "playwright test --ui",
     "test": "playwright test",
-    "start": "playwright test --ui"
+    "test:rc": "BASE_URL=https://mit-open-rc.odl.mit.edu/ playwright test --grep @sanity",
+    "test:production": "BASE_URL=https://mitopen.odl.mit.edu/ playwright test --grep @sanity"
   },
   "devDependencies": {
     "@playwright/test": "^1.41.0",

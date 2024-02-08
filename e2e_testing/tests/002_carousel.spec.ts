@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test"
 
 const { BASE_URL } = process.env
 
-test("Home page upcoming courses carousel renders correctly", async ({
+test("Home page upcoming courses carousel section renders correctly @sanity", async ({
   page,
 }) => {
   await page.goto(BASE_URL!)
@@ -11,7 +11,11 @@ test("Home page upcoming courses carousel renders correctly", async ({
     page.getByRole("heading", { name: "Upcoming Courses" }),
     "Upcoming courses header is visible",
   ).toBeVisible()
+})
 
+test("Home page upcoming courses carousel item renders correctly", async ({
+  page,
+}) => {
   await expect(
     page
       .locator("section")
@@ -40,7 +44,8 @@ test("Home page upcoming courses carousel renders correctly", async ({
       .filter({
         hasText: "Upcoming Courses",
       })
-      .getByRole("tabpanel"),
+      .getByRole("tabpanel")
+      .getByText("Offered by –MITx"),
     "Provider is visible",
   ).toBeVisible()
 })
