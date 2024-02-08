@@ -1,8 +1,8 @@
-import { describe, test, expect } from "@playwright/test"
+import { test, expect } from "@playwright/test"
 
 const { BASE_URL } = process.env
 
-describe("Home page", () => {
+test.describe("Home page", () => {
   test("Loads and main elements are visible @sanity", async ({ page }) => {
     await page.goto(BASE_URL!)
 

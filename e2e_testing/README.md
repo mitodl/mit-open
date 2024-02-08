@@ -79,3 +79,9 @@ To run tests with a specific tag, run e.g.:
 ```bash
 yarn test --grep @sanity
 ```
+
+## CI
+
+A GitHub Actions job runs the full test suite against locally running services.
+
+Test reports deploy to the GitHub Pages site at https://mitodl.github.io/mit-open/playwright-report/.
