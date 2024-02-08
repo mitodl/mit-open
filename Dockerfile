@@ -20,7 +20,7 @@ RUN mkdir /var/media && chown -R mitodl:mitodl /var/media
 
 ## Set some poetry config
 ENV  \
-  POETRY_VERSION=1.5.1 \
+  POETRY_VERSION=1.7.1 \
   POETRY_VIRTUALENVS_CREATE=true \
   POETRY_CACHE_DIR='/tmp/cache/poetry' \
   POETRY_HOME='/home/mitodl/.local' \
