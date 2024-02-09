@@ -98,17 +98,22 @@ def load_instructors(
 ) -> list[LearningResourceInstructor]:
     """Load the instructors for a resource into the database"""
     instructors = []
+    valid_attributes = ["first_name", "last_name"]
     for prof in instructors_data:
-        if "full_name" not in prof:
-            prof["full_name"] = prof.pop(
-                "title",
-                f"{prof.get('first_name', '')} {prof.get('last_name', '')}".strip(),
+        full_name = (
+            prof.get("full_name", "")
+            or f"{prof.get('first_name') or ''} {prof.get('last_name') or ''}"
+        ).strip()
+        if full_name:
+            instructor, _ = LearningResourceInstructor.objects.update_or_create(
+                full_name=full_name,
+                defaults={
+                    key: value
+                    for key, value in prof.items()
+                    if value and key in valid_attributes
+                },
             )
-        instructor, _ = LearningResourceInstructor.objects.update_or_create(
-            full_name=prof.pop("full_name"),
-            defaults={key: value for key, value in prof.items() if value},
-        )
-        instructors.append(instructor)
+            instructors.append(instructor)
 
     resource.instructors.set(instructors)
     resource.save()

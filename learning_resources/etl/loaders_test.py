@@ -525,9 +525,10 @@ def test_load_instructors_dupe_full_names():
     """Test that no dupe instructors are created and no integrity errors are raised"""
     instructor_data = [
         {"full_name": "John Doe", "first_name": "John", "last_name": "Doe"},
-        {"full_name": "John Doe"},
-        {"first_name": "John", "last_name": "Doe"},
-        {"title": "John Doe", "first_name": None, "last_name": ""},
+        {"full_name": "", "first_name": "John", "last_name": "Doe"},
+        {"full_name": None, "first_name": "John", "last_name": "Doe"},
+        {"full_name": "John Doe", "email": "johndoe@test.edu"},
+        {"first_name": "John", "last_name": "Doe", "profession": "QA analyst"},
     ]
     run = LearningResourceRunFactory.create(no_instructors=True)
 
@@ -539,6 +540,20 @@ def test_load_instructors_dupe_full_names():
     assert run.instructors.first().full_name == "John Doe"
     assert run.instructors.first().first_name == "John"
     assert run.instructors.first().last_name == "Doe"
+
+
+def test_load_instructors_no_full_name():
+    """Test that instructors with no full name are not created"""
+    instructor_data = [
+        {"full_name": " ", "first_name": "", "last_name": " "},
+        {"full_name": "", "first_name": None, "last_name": ""},
+        {"full_name": None, "first_name": "", "last_name": None},
+    ]
+    run = LearningResourceRunFactory.create(no_instructors=True)
+
+    assert run.instructors.count() == 0
+    load_instructors(run, instructor_data)
+    assert run.instructors.count() == 0
 
 
 @pytest.mark.parametrize("parent_factory", [CourseFactory, ProgramFactory])
