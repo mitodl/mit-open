@@ -5692,7 +5692,7 @@ components:
         topics:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/LearningResourceTopic'
         key:
           type: string
           nullable: true
