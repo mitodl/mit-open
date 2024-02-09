@@ -23,9 +23,4 @@ fi
 python3 manage.py collectstatic --noinput --clear
 python3 manage.py migrate --noinput
 
-if [[ $NODE_ENV == "development" ]]; then
-	# load required fixtures on development by default
-	python3 manage.py loaddata platforms departments offered_by
-fi
-
 uwsgi uwsgi.ini --honour-stdin
