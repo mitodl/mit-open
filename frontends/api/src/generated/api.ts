@@ -133,10 +133,10 @@ export interface ContentFile {
   year: number
   /**
    *
-   * @type {Array<string>}
+   * @type {Array<LearningResourceTopic>}
    * @memberof ContentFile
    */
-  topics: Array<string>
+  topics: Array<LearningResourceTopic>
   /**
    *
    * @type {string}

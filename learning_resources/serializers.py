@@ -95,15 +95,6 @@ class LearningResourceContentTagField(serializers.Field):
         return [tag.name for tag in value.all()]
 
 
-@extend_schema_field({"type": "array", "items": {"type": "string"}})
-class LearningResourceTopicsField(serializers.Field):
-    """Serializer field for LearningResourceTopics"""
-
-    def to_representation(self, value):
-        """Serialize list of topics"""
-        return [LearningResourceTopicSerializer(topic).data for topic in value.all()]
-
-
 class LearningResourcePlatformSerializer(serializers.ModelSerializer):
     """Serializer for LearningResourcePlatform"""
 
@@ -573,7 +564,9 @@ class ContentFileSerializer(serializers.ModelSerializer):
     run_slug = serializers.CharField(source="run.slug")
     semester = serializers.CharField(source="run.semester")
     year = serializers.IntegerField(source="run.year")
-    topics = LearningResourceTopicsField(source="run.learning_resource.topics")
+    topics = LearningResourceTopicSerializer(
+        source="run.learning_resource.topics", many=True
+    )
     resource_id = serializers.CharField(source="run.learning_resource.id")
     departments = LearningResourceDepartmentSerializer(
         source="run.learning_resource.departments", many=True
