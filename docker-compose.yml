@@ -62,11 +62,6 @@ services:
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
       - ./:/src
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8063"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
 
   web:
     build:
