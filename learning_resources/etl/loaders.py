@@ -94,9 +94,9 @@ def load_departments(
 
 
 def load_instructors(
-    resource: LearningResource, instructors_data: list[dict]
+    run: LearningResourceRun, instructors_data: list[dict]
 ) -> list[LearningResourceInstructor]:
-    """Load the instructors for a resource into the database"""
+    """Load the instructors for a resource run into the database"""
     instructors = []
     valid_attributes = ["first_name", "last_name"]
     for prof in instructors_data:
@@ -115,8 +115,8 @@ def load_instructors(
             )
             instructors.append(instructor)
 
-    resource.instructors.set(instructors)
-    resource.save()
+    run.instructors.set(instructors)
+    run.save()
     return instructors
 
 
