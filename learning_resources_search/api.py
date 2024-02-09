@@ -394,7 +394,18 @@ def generate_aggregation_clause(
     current_path = ".".join(path_pieces[0:_current_path_length])
 
     if current_path == path:
-        return {"terms": {"field": path, "size": 10000}}
+        bucket_agg = {"terms": {"field": path, "size": 10000}}
+        if _current_path_length == 1:
+            return bucket_agg
+        else:
+            # In case of nested aggregations, use reverse_nested to return the
+            # root document count to avoid overcounting. For example, a resource
+            # with 5 runs all with level high_school would otherwise count 5
+            # times toward a level aggregation.
+            #
+            # Strictly speaking, this is only necessary for fields that may
+            # contain arrays with duplicated field values.
+            return {**bucket_agg, "aggs": {"root": {"reverse_nested": {}}}}
 
     return {
         "nested": {"path": current_path},
