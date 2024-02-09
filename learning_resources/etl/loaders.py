@@ -94,21 +94,29 @@ def load_departments(
 
 
 def load_instructors(
-    resource: LearningResource, instructors_data: list[dict]
+    run: LearningResourceRun, instructors_data: list[dict]
 ) -> list[LearningResourceInstructor]:
-    """Load the instructors for a resource into the database"""
+    """Load the instructors for a resource run into the database"""
     instructors = []
-    for instructor_data in instructors_data:
-        if "full_name" not in instructor_data:
-            instructor_data["full_name"] = instructor_data.get("title", None)
+    valid_attributes = ["first_name", "last_name"]
+    for prof in instructors_data:
+        full_name = (
+            prof.get("full_name", "")
+            or f"{prof.get('first_name') or ''} {prof.get('last_name') or ''}"
+        ).strip()
+        if full_name:
+            instructor, _ = LearningResourceInstructor.objects.update_or_create(
+                full_name=full_name,
+                defaults={
+                    key: value
+                    for key, value in prof.items()
+                    if value and key in valid_attributes
+                },
+            )
+            instructors.append(instructor)
 
-        instructor, _ = LearningResourceInstructor.objects.get_or_create(
-            **instructor_data
-        )
-        instructors.append(instructor)
-
-    resource.instructors.set(instructors)
-    resource.save()
+    run.instructors.set(instructors)
+    run.save()
     return instructors
 
 
