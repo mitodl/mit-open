@@ -20400,14 +20400,14 @@ __metadata:
   linkType: hard
 
 "react-share@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "react-share@npm:5.0.3"
+  version: 5.1.0
+  resolution: "react-share@npm:5.1.0"
   dependencies:
     classnames: ^2.3.2
     jsonp: ^0.2.1
   peerDependencies:
     react: ^17 || ^18
-  checksum: b56277c55bbbbdcd5c1deeb1bdd0a9fdab11a0b39b88bd5121098002dba127c002464673507cb05f6dfe00b507d40751f5569c44a81480aa5833e3dc531c5a6e
+  checksum: c20c84b6ad203504f1bf83db63810793619f5b6ae63834960e7f441a5eeff8a3955894353f67c2d897470e24b75694b63b54d007764d4ee133150dbea6c0fe5b
   languageName: node
   linkType: hard
 
