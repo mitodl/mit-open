@@ -1,6 +1,6 @@
 {
   "name": "ol-test-utilities",
-  "packageManager": "yarn@3.7.0",
+  "packageManager": "yarn@4.1.0",
   "exports": {
     ".": "./src/index.ts",
     "./filemocks/*": "./src/filemocks/*"
