@@ -123,8 +123,10 @@ def load_instructors(
 def load_image(resource: LearningResource, image_data: dict) -> LearningResourceImage:
     """Load the image for a resource into the database"""
     if image_data:
-        image, _ = LearningResourceImage.objects.get_or_create(**image_data)
-
+        if LearningResourceImage.objects.filter(**image_data).exists():
+            image = LearningResourceImage.objects.filter(**image_data).first()
+        else:
+            image = LearningResourceImage.objects.create(**image_data)
         resource.image = image
     else:
         resource.image = None
