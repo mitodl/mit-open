@@ -1,12 +1,17 @@
 version: "3.7"
 
+name: mit-open-e2e-tests
+
 services:
   db:
     image: postgres:12.17
+    container_name: mit-open-e2e-test-db
     ports:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata-e2e-tests:/var/lib/postgresql/data
 
   nginx:
     image: nginx:1.25.3
@@ -47,3 +52,11 @@ services:
         condition: service_healthy
     links:
       - nginx
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    command: >
+      bash -c "bash ./scripts/apply-fixtures-dind.sh
+      && yarn test"
+
+volumes:
+  pgdata-e2e-tests:
