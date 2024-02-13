@@ -23,6 +23,7 @@ from learning_resources.etl.loaders import (
     load_content_files,
     load_course,
     load_courses,
+    load_image,
     load_instructors,
     load_offered_by,
     load_podcast,
@@ -51,6 +52,7 @@ from learning_resources.models import (
     ContentFile,
     Course,
     LearningResource,
+    LearningResourceImage,
     LearningResourceOfferor,
     LearningResourceRun,
     PodcastEpisode,
@@ -679,6 +681,32 @@ def test_load_content_file():
         assert (
             getattr(loaded_file, key) == value
         ), f"Property {key} should equal {value}"
+
+
+def test_load_image():
+    """Test that image resources are uniquely created or retrieved based on parameters"""
+    LearningResourceImage.objects.filter(url="https://mit.edu").delete()
+    learning_resource = LearningResourceFactory.create()
+
+    # first image should be different from second due to 'description' parameter
+    image_a = load_image(learning_resource, image_data={"url": "https://mit.edu"})
+    image_b = load_image(
+        learning_resource, image_data={"url": "https://mit.edu", "description": ""}
+    )
+    assert image_a.id != image_b.id
+
+    # first image should be the same as third image since url and alt field matches
+    image_c = load_image(
+        learning_resource, image_data={"url": "https://mit.edu", "alt": None}
+    )
+    assert image_a.id == image_c.id
+
+    # fourth image should have a totally new id since all fields are unique
+    image_d = load_image(
+        learning_resource,
+        image_data={"url": "https://mit.edu", "alt": "test", "description": "new"},
+    )
+    assert image_d.id not in {image_a.id, image_b.id, image_c.id}
 
 
 def test_load_content_file_error(mocker):
