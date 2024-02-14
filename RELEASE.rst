@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 0.3.1 (Released February 14, 2024)
+-------------
+
+- Avoid integrity errors when loading instructors (#478)
+- Load fixtures by default in dev environment (#483)
+- upgrading version of poetry (#480)
+- Fix multiword search filters & aggregations, change Non Credit to Non-Credit
+- Update dependency nplusone to v1 (#381)
+- Update dependency pytest-env to v1 (#382)
+
 Version 0.3.0 (Released February 09, 2024)
 -------------
 
