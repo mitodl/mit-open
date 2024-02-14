@@ -1,10 +1,8 @@
 import { test, expect } from "@playwright/test"
 
-const { BASE_URL } = process.env
-
 test.describe("Home page", () => {
   test("Loads and main elements are visible @sanity", async ({ page }) => {
-    await page.goto(BASE_URL!)
+    await page.goto("/")
 
     await expect(
       page.getByRole("link", { name: "MIT Open" }),

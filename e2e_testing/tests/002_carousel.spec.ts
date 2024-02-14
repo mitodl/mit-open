@@ -1,10 +1,8 @@
 import { test, expect } from "@playwright/test"
 
-const { BASE_URL } = process.env
-
 test.describe("Home page upcoming courses carousel", () => {
   test("Page section renders correctly @sanity", async ({ page }) => {
-    await page.goto(BASE_URL!)
+    await page.goto("/")
 
     await expect(
       page.getByRole("heading", { name: "Upcoming Courses" }),
@@ -13,7 +11,7 @@ test.describe("Home page upcoming courses carousel", () => {
   })
 
   test("Carousel item renders correctly", async ({ page }) => {
-    await page.goto(BASE_URL!)
+    await page.goto("")
 
     await expect(
       page
