@@ -61,7 +61,7 @@ docker compose -f docker-compose-e2e-tests.yml up --exit-code-from e2e-tests
 
 Applying and tearing down data adds significant overhead to writing tests. This can be minimized by writing SQL alongside any tests that are expecting specific data, that can be applied to a fresh ephemeral database locally and in CI that is disposed of after a test run. This also guarantees that tests are dependent only on the codebase and not any data that happens to have been set during an instances lifetime on a hosted environment. We have the added benefit that we do not need to write teardown code to leave the database in its original state.
 
-These test fixtures can be written in plain SQL and any files in the adjacent [./fixtures](./fixtures) directory will be applied to the database whilst standing up services in CI. As a suggestion, SQL inserts can be written in [JSON format](https://www.postgresql.org/docs/9.6/functions-json.html) for readability.
+These test fixtures can be written in plain SQL and any files in the adjacent [./fixtures](./fixtures) directory will be applied to the database whilst standing up services in CI. As a suggestion, SQL inserts can be written in [JSON format](https://www.postgresql.org/docs/current/functions-json.html) for readability.
 
 There is a script at [./scripts/apply-fixtures.sh](./scripts/apply-fixtures.sh) that will apply these to a database service named `db` running via Docker Compose, or a single file can be copied to the container and applied with e.g.:
 
