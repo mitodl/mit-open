@@ -12,7 +12,7 @@ from main.utils import now_in_utc
 class Command(BaseCommand):
     """Populate micromasters programs and courses"""
 
-    help = "Populate micromasters programs and courses"  # noqa: A003
+    help = "Populate micromasters programs and courses"
 
     def add_arguments(self, parser):
         parser.add_argument(

@@ -202,16 +202,8 @@ def transform(extracted_podcasts):
                 if "offered_by" in config_data
                 else None
             )
-            apple_podcasts_url = (
-                config_data["apple_podcasts_url"]
-                if "apple_podcasts_url" in config_data
-                else None
-            )
-            google_podcasts_url = (
-                config_data["google_podcasts_url"]
-                if "google_podcasts_url" in config_data
-                else None
-            )
+            apple_podcasts_url = config_data.get("apple_podcasts_url")
+            google_podcasts_url = config_data.get("google_podcasts_url")
             title = config_data.get("podcast_title", rss_data.channel.title.text)
             podcast_id = generate_readable_id(title[:95])
             yield {

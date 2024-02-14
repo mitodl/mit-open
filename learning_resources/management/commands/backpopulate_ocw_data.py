@@ -13,7 +13,7 @@ from main.utils import now_in_utc
 class Command(BaseCommand):
     """Populate OCW learning resources"""
 
-    help = "Populate OCW learning resources"  # noqa: A003
+    help = "Populate OCW learning resources"
 
     def add_arguments(self, parser):
         parser.add_argument(

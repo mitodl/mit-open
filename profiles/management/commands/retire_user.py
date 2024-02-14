@@ -2,7 +2,6 @@
 
 from django.contrib.auth import get_user_model
 from django.core.management import BaseCommand
-from search import search_index_helpers
 
 User = get_user_model()
 
@@ -10,7 +9,7 @@ User = get_user_model()
 class Command(BaseCommand):
     """Retire a user"""
 
-    help = "Retire a user"  # noqa: A003
+    help = "Retire a user"
 
     def add_arguments(self, parser):
         group = parser.add_mutually_exclusive_group(required=True)
@@ -37,7 +36,5 @@ class Command(BaseCommand):
 
         self.stdout.write(f"Deleting {user.social_auth.count()} social auths")
         user.social_auth.all().delete()
-
-        search_index_helpers.deindex_profile(user)
 
         self.stdout.write(f"Retired user: {user}")

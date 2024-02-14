@@ -9,7 +9,7 @@ from main.utils import now_in_utc
 class Command(BaseCommand):
     """Update LearningResourcePlatform data"""
 
-    help = "Update LearningResourcePlatform data"  # noqa: A003
+    help = "Update LearningResourcePlatform data"
 
     def handle(self, *args, **options):  # noqa: ARG002
         """Update LearningResourcePlatform data"""

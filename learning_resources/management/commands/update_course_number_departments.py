@@ -10,7 +10,7 @@ from main.utils import now_in_utc
 class Command(BaseCommand):
     """Update course.course_numbers JSON"""
 
-    help = "Update course.course_numbers JSON"  # noqa: A003
+    help = "Update course.course_numbers JSON"
 
     def handle(self, *args, **options):  # noqa: ARG002
         """Update LearningResourceDepartment data"""

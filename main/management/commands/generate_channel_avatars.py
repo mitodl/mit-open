@@ -30,7 +30,7 @@ DIRECTORY = "static/images/channel_avatars"
 class Command(BaseCommand):
     """Command to generate the channel avatar SVGs"""
 
-    help = "Command to generate the channel avatar SVGs"  # noqa: A003
+    help = "Command to generate the channel avatar SVGs"
 
     def handle(self, *args, **options):  # noqa: ARG002
         # get a list of the colors plus the reverse gradient of each

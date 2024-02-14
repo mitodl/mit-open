@@ -10,7 +10,7 @@ from main.utils import now_in_utc
 class Command(BaseCommand):
     """Indexes content"""
 
-    help = "Recreate opensearch index"  # noqa: A003
+    help = "Recreate opensearch index"
 
     def add_arguments(self, parser):
         parser.add_argument(

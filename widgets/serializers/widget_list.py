@@ -57,7 +57,7 @@ class WidgetListSerializer(serializers.ModelSerializer):
         ret = []
         for data in widgets_data:
             widget_id = data.get("id", None)
-            widget = existing_widgets_by_id.get(widget_id, None)
+            widget = existing_widgets_by_id.get(widget_id)
             widget_serializer_cls = _serializer_for_widget_type(data["widget_type"])
 
             if not widget:
