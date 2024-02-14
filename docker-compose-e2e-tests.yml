@@ -5,13 +5,15 @@ name: mit-open-e2e-tests
 services:
   db:
     image: postgres:12.17
-    container_name: mit-open-e2e-test-db
     ports:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=postgres
-    volumes:
-      - pgdata-e2e-tests:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 2
 
   nginx:
     image: nginx:1.25.3
@@ -31,9 +33,20 @@ services:
     build:
       context: .
     environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/e2e_postgres # pragma: allowlist secret
       PORT: 8061
     env_file: .env.ci
-    command: ./scripts/run-django-dev.sh
+    depends_on:
+      db:
+        condition: service_healthy
+    command: > # pragma: allowlist secret
+      bash -c "export PGPASSWORD=postgres
+      && dropdb --if-exists -h db -U postgres e2e_postgres
+      && createdb -h db -U postgres e2e_postgres
+      && python3 manage.py collectstatic --noinput --clear
+      && python3 manage.py migrate --noinput
+      && python3 manage.py loaddata e2e_testing/fixtures/*.json
+      && uwsgi uwsgi.ini --honour-stdin"
     stdin_open: true
     tty: true
     ports:
@@ -52,11 +65,3 @@ services:
         condition: service_healthy
     links:
       - nginx
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    command: >
-      bash -c "bash ./scripts/apply-fixtures-dind.sh
-      && yarn test"
-
-volumes:
-  pgdata-e2e-tests:

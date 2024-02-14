@@ -59,16 +59,18 @@ docker compose -f docker-compose-e2e-tests.yml up --exit-code-from e2e-tests
 
 ## Data Handling
 
-Applying and tearing down data adds significant overhead to writing tests. This can be minimized by writing SQL alongside any tests that are expecting specific data, that can be applied to a fresh ephemeral database locally and in CI that is disposed of after a test run. This also guarantees that tests are dependent only on the codebase and not any data that happens to have been set during an instances lifetime on a hosted environment. We have the added benefit that we do not need to write teardown code to leave the database in its original state.
+Applying and tearing down data adds significant overhead to writing tests. This can be minimized by specifying initial fixture data alongside any tests that run against it. The data can be applied to a fresh ephemeral database locally and in CI and can be disposed of after a test run. This also guarantees that tests are dependent only on the codebase and not any data that happens to have been set during an instances lifetime on a hosted environment. We have the added benefit that we do not need to write teardown code to leave the database in its original state.
 
-These test fixtures can be written in plain SQL and any files in the adjacent [./fixtures](./fixtures) directory will be applied to the database whilst standing up services in CI. As a suggestion, SQL inserts can be written in [JSON format](https://www.postgresql.org/docs/current/functions-json.html) for readability.
+These test fixtures can be written in JSON and any files in the adjacent [./fixtures](./fixtures) directory will be applied to the database whilst standing up services in CI. The data is in [Django fixture](https://docs.djangoproject.com/en/5.0/howto/initial-data/) format for use with the manage.py [loaddata utility](https://docs.djangoproject.com/en/5.0/ref/django-admin/#loaddata).
 
-There is a script at [./scripts/apply-fixtures.sh](./scripts/apply-fixtures.sh) that will apply these to a database service named `db` running via Docker Compose, or a single file can be copied to the container and applied with e.g.:
+The [docker-compose-e2e-tests.yml](../docker-compose-e2e-tests.yml) file includes run commands on the web service to apply the fixtures. As the database is destroyed and created fresh each run, the tests use their own Postgres instance, `e2e_postgres`, to not impact local development. Whilst working on the tests locally, the fixtures can be copied to a running web container and applied with these commands from [./scripts/apply-fixtures.sh](./scripts/apply-fixtures.sh):
 
 ```bash
-docker compose cp e2e_testing/fixtures/example.sql db:/example.sql
-docker compose exec -u postgres db psql postgres postgres -f /example.sql
+docker compose -f docker-compose-e2e-tests.yml cp e2e_testing/fixtures web:/src/e2e_testing
+docker compose -f docker-compose-e2e-tests.yml exec web python3 manage.py loaddata e2e_testing/fixtures/*.json
 ```
+
+The tests can also insert data via the API, with the benefit that we adding test coverage for the endpoints. There will be cases where we insert data while testing the UI, such as an admin creating of learning paths or user lists. There is a general preference to test against data that has been applied during the test sequence. The fixtures are particularly useful where data is voluminous and creating via the UI would be slow, also for inserting data for the read only endpoints where data is ingested from other platforms by the ETL jobs.
 
 ## Tag Annotations
 
