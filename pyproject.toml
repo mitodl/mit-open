@@ -95,7 +95,7 @@ pytest-freezegun = "^0.4.2"
 pytest-lazy-fixture = "^0.6.3"
 pytest-mock = "^3.10.0"
 responses = "^0.24.0"
-ruff = "^0.1.4"
+ruff = "^0.2.0"
 safety = "^2.3.4"
 semantic-version = "^2.10.0"
 
