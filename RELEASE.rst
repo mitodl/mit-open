@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.3.1
+Version 0.3.1 (Released February 14, 2024)
 -------------
 
 - Avoid integrity errors when loading instructors (#478)
