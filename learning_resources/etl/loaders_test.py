@@ -685,26 +685,27 @@ def test_load_content_file():
 
 def test_load_image():
     """Test that image resources are uniquely created or retrieved based on parameters"""
-    LearningResourceImage.objects.filter(url="https://mit.edu").delete()
+    resource_url = "https://mit.edu"
+    LearningResourceImage.objects.filter(url=resource_url).delete()
     learning_resource = LearningResourceFactory.create()
 
     # first image should be different from second due to 'description' parameter
-    image_a = load_image(learning_resource, image_data={"url": "https://mit.edu"})
+    image_a = load_image(learning_resource, image_data={"url": resource_url})
     image_b = load_image(
-        learning_resource, image_data={"url": "https://mit.edu", "description": ""}
+        learning_resource, image_data={"url": resource_url, "description": ""}
     )
     assert image_a.id != image_b.id
 
     # first image should be the same as third image since url and alt field matches
     image_c = load_image(
-        learning_resource, image_data={"url": "https://mit.edu", "alt": None}
+        learning_resource, image_data={"url": resource_url, "alt": None}
     )
     assert image_a.id == image_c.id
 
     # fourth image should have a totally new id since all fields are unique
     image_d = load_image(
         learning_resource,
-        image_data={"url": "https://mit.edu", "alt": "test", "description": "new"},
+        image_data={"url": resource_url, "alt": "test", "description": "new"},
     )
     assert image_d.id not in {image_a.id, image_b.id, image_c.id}
 
