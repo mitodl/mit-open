@@ -11,7 +11,7 @@ test.describe("Home page upcoming courses carousel", () => {
   })
 
   test("Carousel item renders correctly", async ({ page }) => {
-    await page.goto("")
+    await page.goto("/")
 
     await expect(
       page
