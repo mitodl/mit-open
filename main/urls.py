@@ -17,7 +17,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, re_path
+from django.urls import include, path, re_path
 
 from main.views import index
 
@@ -32,6 +32,8 @@ handler403 = "main.views.handle_403"
 handler404 = "main.views.handle_404"
 
 urlpatterns = [  # noqa: RUF005
+    path("scim/v2/", include("django_scim.urls")),
+    re_path(r"^o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     re_path(r"^admin/", admin.site.urls),
     re_path(r"", include("authentication.urls")),
     re_path(r"", include("channels.urls")),

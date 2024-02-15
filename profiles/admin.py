@@ -15,7 +15,7 @@ class ProfileAdmin(admin.ModelAdmin):
     search_fields = ["name", "user__email", "user__username"]
     list_filter = ["email_optin", "toc_optin", "user__is_active"]
     raw_id_fields = ("user",)
-    readonly_fields = ("image", "image_small", "image_medium")
+    readonly_fields = ("image", "image_small", "image_medium", "updated_at")
 
 
 admin.site.register(Profile, ProfileAdmin)
