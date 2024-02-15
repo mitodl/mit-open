@@ -159,3 +159,21 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
             }
         ]
     )
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize(
+    ("start_dt", "enrollment_dt", "expected_dt"),
+    [
+        (None, "2019-02-20T15:00:00Z", "2019-02-20T15:00:00Z"),
+        ("2024-02-20T15:00:00Z", None, "2024-02-20T15:00:00Z"),
+        ("2023-02-20T15:00:00Z", "2024-02-20T15:00:00Z", "2023-02-20T15:00:00Z"),
+        (None, None, None),
+    ],
+)
+def test_start_date_value(mock_micromasters_data, start_dt, enrollment_dt, expected_dt):
+    """Test that the start date value is correctly determined"""
+    mock_micromasters_data[0]["start_date"] = start_dt
+    mock_micromasters_data[0]["enrollment_start"] = enrollment_dt
+    transformed_program = micromasters.transform(mock_micromasters_data)
+    assert transformed_program[0]["runs"][0]["start_date"] == expected_dt

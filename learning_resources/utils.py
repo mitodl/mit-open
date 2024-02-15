@@ -101,9 +101,11 @@ def semester_year_to_date(semester, year, ending=False):  # noqa: FBT002
     Returns:
         datetime: The rough date of the course
     """
-    if semester is None or year is None:
+    if year is None:
         return None
-    if semester.lower() == "fall":
+    elif semester is None:
+        month_day = "12-31" if ending else "01-01"
+    elif semester.lower() == "fall":
         month_day = "12-31" if ending else "09-01"
     elif semester.lower() == "summer":
         month_day = "08-30" if ending else "06-01"

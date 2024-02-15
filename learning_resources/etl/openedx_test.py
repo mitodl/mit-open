@@ -100,6 +100,15 @@ def test_extract_disabled(openedx_config, config_arg_idx):
 @pytest.mark.parametrize("has_runs", [True, False])
 @pytest.mark.parametrize("is_course_deleted", [True, False])
 @pytest.mark.parametrize("is_course_run_deleted", [True, False])
+@pytest.mark.parametrize(
+    ("start_dt", "enrollment_dt", "expected_dt"),
+    [
+        (None, "2019-02-20T15:00:00Z", "2019-02-20T15:00:00Z"),
+        ("2024-02-20T15:00:00Z", None, "2024-02-20T15:00:00Z"),
+        ("2023-02-20T15:00:00Z", "2024-02-20T15:00:00Z", "2023-02-20T15:00:00Z"),
+        (None, None, None),
+    ],
+)
 def test_transform_course(  # noqa: PLR0913
     openedx_config,
     openedx_extract_transform,
@@ -107,12 +116,19 @@ def test_transform_course(  # noqa: PLR0913
     has_runs,
     is_course_deleted,
     is_course_run_deleted,
+    start_dt,
+    enrollment_dt,
+    expected_dt,
 ):  # pylint: disable=too-many-arguments
     """Test that the transform function normalizes and filters out data"""
     extracted = mitx_course_data["results"]
     for course in extracted:
         if not has_runs:
             course["course_runs"] = []
+        else:
+            for run in course["course_runs"]:
+                run["start"] = start_dt
+                run["enrollment_start"] = enrollment_dt
         if is_course_deleted:
             course["title"] = f"[delete] {course['title']}"
         if is_course_run_deleted:
@@ -149,7 +165,7 @@ def test_transform_course(  # noqa: PLR0913
                         "run_id": "course-v1:MITx+15.071x+1T2019",
                         "end_date": "2019-05-22T23:30:00Z",
                         "enrollment_end": None,
-                        "enrollment_start": None,
+                        "enrollment_start": enrollment_dt,
                         "full_description": "<p>Full Description</p>",
                         "image": {
                             "url": "https://prod-discovery.edx-cdn.org/media/course/image/ff1df27b-3c97-42ee-a9b3-e031ffd41a4f-747c9c2f216e.small.jpg",
@@ -165,7 +181,7 @@ def test_transform_course(  # noqa: PLR0913
                         "prices": ["150.00", "0.00"],
                         "semester": "spring",
                         "description": "short_description",
-                        "start_date": "2019-02-20T15:00:00Z",
+                        "start_date": expected_dt,
                         "title": "The Analytics Edge",
                         "url": "http://localhost/fake-alt-url/this_course",
                         "year": 2019,
