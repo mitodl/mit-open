@@ -221,7 +221,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build frontend
-        run: yarn build
+        run: NODE_ENV=production yarn build
 
       - name: Build services
         run: docker compose -f docker-compose-e2e-tests.yml build
