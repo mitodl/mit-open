@@ -229,8 +229,8 @@ class SCIMProfile(SCIMUser):
         https://tools.ietf.org/html/rfc7644#section-3.5.2.1
 
         Args:
-            path (AttrPath): _description_
-            value (Union[str, list, dict]): _description_
+            path (AttrPath)
+            value (Union[str, list, dict])
         """
         if path == "externalId":
             self.obj.scim_external_id = value
@@ -243,7 +243,7 @@ class SCIMProfile(SCIMUser):
         All operations happen within an atomic transaction.
 
         Args:
-            value (Union[str, list, dict]): _description_
+            value (Union[str, list, dict])
         """
         attr_map = {
             "familyName": "last_name",
