@@ -43,7 +43,7 @@ yarn test:rc
 yarn test:production
 ```
 
-A Docker Compose configuration at [../docker-compose-e2e-tests.yml](../docker-compose-e2e-tests.yml) provides the minimal run configuration for starting services needed for testing, the Postgres database, the backend web service and our nginx reverse proxy:
+A Docker Compose configuration at [../docker-compose-e2e-tests.yml](../docker-compose-e2e-tests.yml) provides the minimal run configuration for starting services needed for testing, the Postgres database, the backend web service and our nginx reverse proxy.
 
 Services can be started with:
 
@@ -55,6 +55,12 @@ The tests themselves are also containerized so the following command will start 
 
 ```bash
 docker compose -f docker-compose-e2e-tests.yml up --exit-code-from e2e-tests
+```
+
+Note that to be loaded from within the e2e-tests container, the front end must first be built for production (in development mode Webpack builds the static assets URLs to `od.odl.local`, not available on the Docker network).
+
+```bash
+NODE_ENV=production yarn build
 ```
 
 ## Data Handling

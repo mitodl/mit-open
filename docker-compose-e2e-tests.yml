@@ -65,3 +65,6 @@ services:
         condition: service_healthy
     links:
       - nginx
+    command: bash -c "yarn install && yarn test"
+    volumes:
+      - ./e2e_testing:/tests
