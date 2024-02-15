@@ -11,7 +11,7 @@ from main.utils import now_in_utc
 class Command(BaseCommand):
     """Update LearningResourceDepartment data"""
 
-    help = "Update LearningResourceDepartment data"  # noqa: A003
+    help = "Update LearningResourceDepartment data"
 
     def handle(self, *args, **options):  # noqa: ARG002
         """Update LearningResourceDepartment data"""

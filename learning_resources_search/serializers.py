@@ -191,7 +191,7 @@ class SearchRequestSerializer(serializers.Serializer):
 
 
 class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
-    id = StringArrayField(  # noqa: A003
+    id = StringArrayField(
         required=False,
         child=serializers.IntegerField(),
         help_text="The id value for the learning resource",
@@ -254,7 +254,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
 
 
 class ContentFileSearchRequestSerializer(SearchRequestSerializer):
-    id = StringArrayField(  # noqa: A003
+    id = StringArrayField(
         required=False,
         child=serializers.IntegerField(),
         help_text="The id value for the content file",

@@ -10,7 +10,7 @@ from main.utils import now_in_utc
 class Command(BaseCommand):
     """Populate xpro course run files"""
 
-    help = "Populate xpro course run files"  # noqa: A003
+    help = "Populate xpro course run files"
 
     def add_arguments(self, parser):
         parser.add_argument(

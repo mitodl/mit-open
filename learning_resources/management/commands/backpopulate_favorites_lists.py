@@ -10,7 +10,7 @@ from main.utils import now_in_utc
 class Command(BaseCommand):
     """Create a Favorites userlist for every active user"""
 
-    help = "Create a Favorites userlist for every active user"  # noqa: A003
+    help = "Create a Favorites userlist for every active user"
 
     def add_arguments(self, parser):
         parser.add_argument(

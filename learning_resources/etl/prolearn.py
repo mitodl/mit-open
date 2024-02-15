@@ -111,7 +111,7 @@ def parse_price(document: dict) -> Decimal:
     """
     price_str = (
         re.sub(r"[^\d.]", "", document["field_price"])
-        if document.get("field_price", None) is not None
+        if document.get("field_price") is not None
         else ""
     )
     return [round(Decimal(price_str), 2)] if price_str else []
@@ -127,7 +127,7 @@ def parse_topic(document: dict) -> list[dict]:
     Returns:
         list of dict: list containing one topic dict with a name attribute
     """
-    topic = document.get("ucc_name", None)
+    topic = document.get("ucc_name")
     return transform_topics([{"name": topic}]) if topic else []
 
 
@@ -141,7 +141,7 @@ def parse_image(document: dict) -> dict:
     Returns:
         dict: image element with url
     """
-    url = document.get("featured_image_url", None)
+    url = document.get("featured_image_url")
     return {"url": urljoin(settings.PROLEARN_CATALOG_API_URL, url)} if url else None
 
 

@@ -284,7 +284,7 @@ def transform_course(course_data: dict) -> dict:
         uid = uid.replace("-", "")
     course_data["run_id"] = uid
 
-    extra_course_numbers = course_data.get("extra_course_numbers", None)
+    extra_course_numbers = course_data.get("extra_course_numbers")
 
     if extra_course_numbers:
         extra_course_numbers = [num.strip() for num in extra_course_numbers.split(",")]

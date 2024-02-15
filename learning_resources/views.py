@@ -573,7 +573,7 @@ class UserListViewSet(viewsets.ModelViewSet):
             .annotate(item_count=Count("children"))
         )
 
-    def list(self, request, **kwargs):  # noqa: A003,ARG002
+    def list(self, request, **kwargs):  # noqa: ARG002
         queryset = self.get_queryset().filter(author_id=self.request.user.id)
         page = self.paginate_queryset(queryset)
         if page is not None:

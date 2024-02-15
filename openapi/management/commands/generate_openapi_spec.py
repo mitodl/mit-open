@@ -11,7 +11,7 @@ from django.core.management import BaseCommand
 class Command(BaseCommand):
     """Generate OpenAPI specs for our APIs."""
 
-    help = "Generate OpenAPI specs for our APIs."  # noqa: A003
+    help = "Generate OpenAPI specs for our APIs."
 
     def add_arguments(self, parser):
         parser.add_argument(
