@@ -1,7 +1,6 @@
 import copy
 import logging
 
-from django import core
 from django.contrib.auth import get_user_model
 from django.db import transaction
 from django_scim import constants
@@ -123,7 +122,7 @@ class SCIMProfile(SCIMUser):
 
         self.obj.last_name = d.get("name", {}).get("familyName") or ""
 
-        self.parse_email(d.get("emails"))
+        super().parse_emails(d.get("emails"))
 
         if self.is_new_user and not self.obj.email:
             raise scim_exceptions.BadRequestError("Empty email value")  # noqa: TRY003 EM101
@@ -142,57 +141,6 @@ class SCIMProfile(SCIMUser):
             if active != self.obj.user.is_active:
                 self.activity_changed = True
             self.obj.user.is_active = active
-
-    def parse_email(self, emails_value):
-        """
-        Retrieve the email from the SCIM request.  The email value can be
-        defined with a few different syntax per the SCIM spec and
-        whatever OneLogin feels like doing (dict).
-        Sets the User's email attribute to the primary email.
-        If the primary email doesn't exist, the emails are sorted
-        and the first email is used for the User's email attribute.
-
-
-        Args:
-            emails_value (list/dict): list or dict containing email values.
-        """
-        if emails_value:
-            email = None
-            if isinstance(emails_value, list):
-                primary_emails = [e["value"] for e in emails_value if e.get("primary")]
-                other_emails = [
-                    e["value"] for e in emails_value if not e.get("primary")
-                ]
-                # Make primary emails the first in the list
-                sorted_emails = list(map(str.strip, primary_emails + other_emails))
-                email = sorted_emails[0] if sorted_emails else None
-            elif isinstance(emails_value, dict):
-                # if value is a dict, let's assume it contains the primary email.
-                # OneLogin sends a dict despite the spec:
-                #   https://tools.ietf.org/html/rfc7643#section-4.1.2
-                #   https://tools.ietf.org/html/rfc7643#section-8.2
-                email = (emails_value.get("value") or "").strip()
-
-            self.validate_email(email)
-
-            self.obj.email = email
-
-    @staticmethod
-    def validate_email(email):
-        """
-        Validate the email.
-
-        Args:
-            email (str): Email address.
-
-        Raises:
-            scim_exceptions.BadRequestError: Email is not valid.
-        """
-        try:
-            validator = core.validators.EmailValidator()
-            validator(email)
-        except core.exceptions.ValidationError as exc:
-            raise scim_exceptions.BadRequestError("Invalid email value") from exc  # noqa: EM101, TRY003
 
     def save(self):
         """
@@ -267,23 +215,3 @@ class SCIMProfile(SCIMUser):
                 raise scim_exceptions.SCIMException("Not Implemented", status=409)  # noqa: EM101, TRY003
 
         self.obj.save()
-
-    @classmethod
-    def resource_type_dict(cls, request=None):
-        """
-        Return a ``dict`` containing ResourceType metadata for the user object.
-
-        Args:
-            request (Request, optional): SCIM HTTP Request. Defaults to None.
-
-        Returns:
-            dict: Containing ResourceType metadata for the user object.
-        """
-        d = super().resource_type_dict(request)
-        d["schemaExtensions"] = [
-            {
-                "schema": constants.SCHEMA_URI_APP_USER,
-                "required": False,
-            },
-        ]
-        return d
