@@ -37,7 +37,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-node
-    env_file: .env.ci
+    environment:
+      - NODE_ENV=production
     working_dir: /src
     user: root
     command: bash -c "yarn install && yarn build"
