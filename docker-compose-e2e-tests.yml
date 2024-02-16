@@ -23,6 +23,9 @@ services:
       - web
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
+    depends_on:
+      build-frontend:
+        condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8063"]
       interval: 30s
