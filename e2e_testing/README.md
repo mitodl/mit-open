@@ -75,12 +75,7 @@ Applying and tearing down data adds significant overhead to writing tests. This 
 
 These test fixtures can be written in JSON and any files in the adjacent [./fixtures](./fixtures) directory will be applied to the database whilst standing up services in CI. The data is in [Django fixture](https://docs.djangoproject.com/en/5.0/howto/initial-data/) format for use with the manage.py [loaddata utility](https://docs.djangoproject.com/en/5.0/ref/django-admin/#loaddata).
 
-The [docker-compose-e2e-tests.yml](../docker-compose-e2e-tests.yml) file includes run commands on the web service to apply the fixtures. As the database is destroyed and created fresh each run, the tests use their own Postgres instance, `e2e_postgres`, to not impact local development. Whilst working on the tests locally, the fixtures can be copied to a running web container and applied with these commands from [./scripts/apply-fixtures.sh](./scripts/apply-fixtures.sh):
-
-```bash
-docker compose -f docker-compose-e2e-tests.yml cp e2e_testing/fixtures web:/src/e2e_testing
-docker compose -f docker-compose-e2e-tests.yml exec web python3 manage.py loaddata e2e_testing/fixtures/*.json
-```
+The [docker-compose-e2e-tests.yml](../docker-compose-e2e-tests.yml) file includes run commands on the web service to apply the fixtures. As the database is destroyed and created fresh each run, the tests use their own Postgres instance, `e2e_postgres`, to not impact local development. Whilst working on the tests locally, the fixtures can be copied to a running web container and applied with the [./scripts/apply-fixtures.sh](./scripts/apply-fixtures.sh) script.
 
 The tests can also insert data via the API, with the benefit that we adding test coverage for the endpoints. There will be cases where we insert data while testing the UI, such as an admin creating of learning paths or user lists. There is a general preference to test against data that has been applied during the test sequence. The fixtures are particularly useful where data is voluminous and creating via the UI would be slow, also for inserting data for the read only endpoints where data is ingested from other platforms by the ETL jobs.
 
