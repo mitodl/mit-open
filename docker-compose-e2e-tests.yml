@@ -22,7 +22,6 @@ services:
     links:
       - web
     volumes:
-      - ./:/src
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8063"]

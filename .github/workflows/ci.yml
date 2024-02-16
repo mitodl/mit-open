@@ -232,9 +232,6 @@ jobs:
       - name: Apply test data
         run: ./e2e_testing/scripts/apply-fixtures.sh
 
-      - name: Install dependencies
-        run: yarn workspace e2e_testing install --immutable
-
       - name: Install Playwright browsers
         run: yarn workspace e2e_testing playwright install --with-deps chromium
 
