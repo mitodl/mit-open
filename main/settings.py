@@ -356,7 +356,7 @@ ANYMAIL = {
 
 # e-mail configurable admins
 ADMIN_EMAIL = get_string("MITOPEN_ADMIN_EMAIL", "")
-ADMINS = (("Admins", ADMIN_EMAIL),) if ADMIN_EMAIL != "" else ()
+ADMINS = (("Admins", ADMIN_EMAIL),) if ADMIN_EMAIL else ()
 
 # embed.ly configuration
 EMBEDLY_KEY = get_string("EMBEDLY_KEY", None)
@@ -653,3 +653,173 @@ KEYCLOAK_REALM_NAME = get_string(
     name="KEYCLOAK_REALM_NAME",
     default="olapps",
 )
+
+# publicly consumed api paths
+PINNED_API_ROUTES = [
+    {"path": "/api/v0/", "name": "channels:v0:api-root"},
+    {"path": "/api/v0/", "name": "profile:v0:api-root"},
+    {"path": "/api/v0/.<format>", "name": "api-root"},
+    {"path": "/api/v0/.<format>", "name": "channels:v0:api-root"},
+    {"path": "/api/v0/.<format>", "name": "profile:v0:api-root"},
+    {"path": "/api/v0/ckeditor/", "name": "ckeditor:v0:ckeditor-token"},
+    {"path": "/api/v0/embedly/<url>/", "name": "embedly-detail"},
+    {"path": "/api/v0/fields/", "name": "channels:v0:field_channels_api-list"},
+    {
+        "path": "/api/v0/fields/<field_name>/",
+        "name": "channels:v0:field_channels_api-detail",
+    },
+    {
+        "path": "/api/v0/fields/<field_name>/moderators/",
+        "name": "channels:v0:field_moderators_api-list",
+    },
+    {
+        "path": "/api/v0/fields/<field_name>/moderators/<moderator_name>/",
+        "name": "channels:v0:field_moderators_api-detail",
+    },
+    {
+        "path": "/api/v0/fields/<field_name>.<format>",
+        "name": "channels:v0:field_channels_api-detail",
+    },
+    {"path": "/api/v0/fields.<format>", "name": "channels:v0:field_channels_api-list"},
+    {"path": "/api/v0/livestream/", "name": "livestream"},
+    {
+        "path": "/api/v0/profiles/<user__username>/",
+        "name": "profile:v0:profile_api-detail",
+    },
+    {
+        "path": "/api/v0/profiles/<user__username>.<format>",
+        "name": "profile:v0:profile_api-detail",
+    },
+    {"path": "/api/v0/schema/", "name": "v0_schema"},
+    {"path": "/api/v0/schema/redoc/", "name": "v0_redoc"},
+    {"path": "/api/v0/schema/swagger-ui/", "name": "v0_swagger_ui"},
+    {"path": "/api/v0/users/", "name": "profile:v0:user_api-list"},
+    {"path": "/api/v0/users/<username>/", "name": "profile:v0:user_api-detail"},
+    {"path": "/api/v0/users/<username>.<format>", "name": "profile:v0:user_api-detail"},
+    {"path": "/api/v0/users/me/", "name": "profile:v0:users_api-me"},
+    {"path": "/api/v0/users.<format>", "name": "profile:v0:user_api-list"},
+    {"path": "/api/v0/websites/", "name": "profile:v0:user_websites_api-list"},
+    {"path": "/api/v0/websites/<pk>/", "name": "profile:v0:user_websites_api-detail"},
+    {
+        "path": "/api/v0/websites/<pk>.<format>",
+        "name": "profile:v0:user_websites_api-detail",
+    },
+    {"path": "/api/v0/websites.<format>", "name": "profile:v0:user_websites_api-list"},
+    {"path": "/api/v0/widget_lists/<pk>/", "name": "widget_list-detail"},
+    {"path": "/api/v0/widget_lists/<pk>.<format>", "name": "widget_list-detail"},
+    {"path": "/api/v1/articles/", "name": "articles:v1:articles-list"},
+    {"path": "/api/v1/articles/<pk>/", "name": "articles:v1:articles-detail"},
+    {
+        "path": "/api/v1/content_file_search/",
+        "name": "lr_search:v1:content_file_search",
+    },
+    {"path": "/api/v1/contentfiles/", "name": "lr:v1:contentfiles_api-list"},
+    {"path": "/api/v1/contentfiles/<pk>/", "name": "lr:v1:contentfiles_api-detail"},
+    {"path": "/api/v1/course_features/", "name": "lr:v1:contenttags_api-list"},
+    {"path": "/api/v1/course_features/<id>/", "name": "lr:v1:contenttags_api-detail"},
+    {"path": "/api/v1/courses/", "name": "lr:v1:courses_api-list"},
+    {"path": "/api/v1/courses/<id>/", "name": "lr:v1:courses_api-detail"},
+    {
+        "path": "/api/v1/courses/<learning_resource_id>/contentfiles/",
+        "name": "lr:v1:course_content_files_api-list",
+    },
+    {
+        "path": "/api/v1/courses/<learning_resource_id>/contentfiles/<pk>/",
+        "name": "lr:v1:course_content_files_api-detail",
+    },
+    {"path": "/api/v1/courses/new/", "name": "lr:v1:courses_api-new"},
+    {"path": "/api/v1/courses/upcoming/", "name": "lr:v1:courses_api-upcoming"},
+    {"path": "/api/v1/departments/", "name": "lr:v1:departments_api-list"},
+    {
+        "path": "/api/v1/departments/<department_id>/",
+        "name": "lr:v1:departments_api-detail",
+    },
+    {
+        "path": "/api/v1/learning_resources/",
+        "name": "lr:v1:learning_resources_api-list",
+    },
+    {
+        "path": "/api/v1/learning_resources/<id>/",
+        "name": "lr:v1:learning_resources_api-detail",
+    },
+    {
+        "path": "/api/v1/learning_resources/<learning_resource_id>/contentfiles/",
+        "name": "lr:v1:learning_resource_content_files_api-list",
+    },
+    {
+        "path": "/api/v1/learning_resources/"
+        "<learning_resource_id>/contentfiles/<pk>/",
+        "name": "lr:v1:learning_resource_content_files_api-detail",
+    },
+    {
+        "path": "/api/v1/learning_resources/<learning_resource_id>/items/",
+        "name": "lr:v1:learning_resource_items_api-list",
+    },
+    {
+        "path": "/api/v1/learning_resources/<learning_resource_id>/items/<pk>/",
+        "name": "lr:v1:learning_resource_items_api-detail",
+    },
+    {
+        "path": "/api/v1/learning_resources/new/",
+        "name": "lr:v1:learning_resources_api-new",
+    },
+    {
+        "path": "/api/v1/learning_resources/upcoming/",
+        "name": "lr:v1:learning_resources_api-upcoming",
+    },
+    {
+        "path": "/api/v1/learning_resources_search/",
+        "name": "lr_search:v1:learning_resources_search",
+    },
+    {"path": "/api/v1/learningpaths/", "name": "lr:v1:learningpaths_api-list"},
+    {"path": "/api/v1/learningpaths/<id>/", "name": "lr:v1:learningpaths_api-detail"},
+    {
+        "path": "/api/v1/learningpaths/<learning_resource_id>/items/",
+        "name": "lr:v1:learningpathitems_api-list",
+    },
+    {
+        "path": "/api/v1/learningpaths/<learning_resource_id>/items/<pk>/",
+        "name": "lr:v1:learningpathitems_api-detail",
+    },
+    {"path": "/api/v1/ocw_next_webhook/", "name": "lr:v1:ocw-next-webhook"},
+    {"path": "/api/v1/offerors/", "name": "lr:v1:offerors_api-list"},
+    {"path": "/api/v1/offerors/<code>/", "name": "lr:v1:offerors_api-detail"},
+    {"path": "/api/v1/platforms/", "name": "lr:v1:platforms_api-list"},
+    {"path": "/api/v1/platforms/<pk>/", "name": "lr:v1:platforms_api-detail"},
+    {"path": "/api/v1/podcast_episodes/", "name": "lr:v1:podcast_episodes_api-list"},
+    {
+        "path": "/api/v1/podcast_episodes/<id>/",
+        "name": "lr:v1:podcast_episodes_api-detail",
+    },
+    {"path": "/api/v1/podcasts/", "name": "lr:v1:podcasts_api-list"},
+    {"path": "/api/v1/podcasts/<id>/", "name": "lr:v1:podcasts_api-detail"},
+    {
+        "path": "/api/v1/podcasts/<learning_resource_id>/items/",
+        "name": "lr:v1:podcast_items_api-list",
+    },
+    {
+        "path": "/api/v1/podcasts/<learning_resource_id>/items/<pk>/",
+        "name": "lr:v1:podcast_items_api-detail",
+    },
+    {"path": "/api/v1/programs/", "name": "lr:v1:programs_api-list"},
+    {"path": "/api/v1/programs/<id>/", "name": "lr:v1:programs_api-detail"},
+    {"path": "/api/v1/programs/new/", "name": "lr:v1:programs_api-new"},
+    {"path": "/api/v1/programs/upcoming/", "name": "lr:v1:programs_api-upcoming"},
+    {"path": "/api/v1/schema/", "name": "v1_schema"},
+    {"path": "/api/v1/schema/redoc/", "name": "v1_redoc"},
+    {"path": "/api/v1/schema/swagger-ui/", "name": "v1_swagger_ui"},
+    {"path": "/api/v1/topics/", "name": "lr:v1:topics_api-list"},
+    {"path": "/api/v1/topics/", "name": "lr:v1:topics_api-list"},
+    {"path": "/api/v1/topics/<pk>/", "name": "lr:v1:topics_api-detail"},
+    {"path": "/api/v1/topics/<pk>/", "name": "lr:v1:topics_api-detail"},
+    {"path": "/api/v1/userlists/", "name": "lr:v1:userlists_api-list"},
+    {"path": "/api/v1/userlists/<id>/", "name": "lr:v1:userlists_api-detail"},
+    {
+        "path": "/api/v1/userlists/<userlist_id>/items/",
+        "name": "lr:v1:userlistitems_api-list",
+    },
+    {
+        "path": "/api/v1/userlists/<userlist_id>/items/<pk>/",
+        "name": "lr:v1:userlistitems_api-detail",
+    },
+]
