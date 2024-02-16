@@ -39,6 +39,7 @@ services:
     user: root
     command: bash -c "yarn install && yarn build"
     volumes:
+      - .:/src
       - yarn-cache:/home/mitodl/.cache/yarn
 
   web:
