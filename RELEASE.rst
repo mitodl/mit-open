@@ -1,6 +1,29 @@
 Release Notes
 =============
 
+Version 0.3.2
+-------------
+
+- Update ruff and adjust code to new criteria (#511)
+- Avoid using get_or_create for LearningResourceImage object that has no unique constraint (#510)
+- Update SimenB/github-actions-cpu-cores action to v2 (#508)
+- Update dependency sentry-sdk to v1.40.3 (#506)
+- Update dependency react-share to v5.1.0 (#504)
+- Update dependency pytest-django to v4.8.0 (#503)
+- Update dependency google-api-python-client to v2.117.0 (#502)
+- Update dependency faker to v22.7.0 (#501)
+- Update dependency @sentry/react to v7.100.1 (#499)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.18 (#498)
+- Update dependency uwsgi to v2.0.24 (#497)
+- Update all non-major dev-dependencies (#500)
+- Update dependency boto3 to v1.34.39 (#496)
+- Update dependency Django to v4.2.10 (#495)
+- Update dependency @ckeditor/ckeditor5-dev-utils to v39.6.1 (#493)
+- Update dependency @ckeditor/ckeditor5-dev-translations to v39.6.1 (#492)
+- Update all non-major dev-dependencies (#491)
+- fix topics schema (#488)
+- Use root document counts to avoid overcounting in aggregations (#484)
+
 Version 0.3.1 (Released February 14, 2024)
 -------------
 
