@@ -24,9 +24,6 @@ services:
     volumes:
       - ./:/src
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
-    depends_on:
-      build-frontend:
-        condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8063"]
       interval: 30s
@@ -54,8 +51,6 @@ services:
       PORT: 8061
     env_file: .env.ci
     depends_on:
-      build-frontend:
-        condition: service_completed_successfully
       db:
         condition: service_healthy
     command: > # pragma: allowlist secret

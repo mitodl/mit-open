@@ -57,7 +57,17 @@ The tests themselves are also containerized so the following command will start 
 docker compose -f docker-compose-e2e-tests.yml up --exit-code-from e2e-tests
 ```
 
-Note that the Docker Compose configuration includes a container, `build-fronted` to build the front end in production mode, necessary as in development mode Webpack builds the static assets URLs to `od.odl.local`, not available on the Docker network. The project root on your local filesystem is mounted to both this and the `watch` container from the main [docker-compose.yml](../docker-compose.yml) file, so will overwrite - during development you will need the watch container to fire again to produce a development build.
+The Docker Compose configuration includes a container, `build-frontend` to build the front end in production mode, necessary as in development mode Webpack builds the static assets URLs to `od.odl.local`, not available on the Docker network. The project root on your local filesystem is mounted to both this and the `watch` container from the main [docker-compose.yml](../docker-compose.yml) file, so will overwrite - during development you will need the watch container to fire again to produce a development build. To run use:
+
+```bash
+docker compose -f docker-compose-e2e-tests.yml up build-frontend
+```
+
+This runs the local equivalent:
+
+```bash
+NODE_ENV=production yarn build
+```
 
 ## Data Handling
 
