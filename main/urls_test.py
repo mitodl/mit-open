@@ -14,11 +14,6 @@ def extract_path_parameters(url_pattern):
     return pattern.findall(url_pattern)
 
 
-def test_index():
-    """Test that the index URL is set correctly"""
-    assert reverse("main-index") == "/"
-
-
 def test_api_urls():
     """
     Test that explicitly pins our publicly consumed urls.
@@ -28,9 +23,14 @@ def test_api_urls():
         path = route.get("path")
         expected_path = path.replace("<", "").replace(">", "")
         url_args = extract_path_parameters(path)
-        resolved_url = reverse(route.get("name"), args=url_args)
+        try:
+            resolved_url = reverse(route.get("name"), args=url_args)
+        except RuntimeError:
+            resolved_url = ""
+
         assert resolved_url == expected_path, (
-            f"{resolved_url} !== {expected_path} you have changed api path {route['path']}"
+            f"path '{resolved_url}' !== {expected_path} "
+            "you have changed api path {route['path']}"
             "which other services may rely on."
             " If this is a deliberate change please"
             "update the path in settings.PINNED_API_ROUTES"

@@ -656,6 +656,7 @@ KEYCLOAK_REALM_NAME = get_string(
 
 # publicly consumed api paths
 PINNED_API_ROUTES = [
+    {"path": "/", "name": "main-index"},
     {"path": "/api/v0/", "name": "channels:v0:api-root"},
     {"path": "/api/v0/", "name": "profile:v0:api-root"},
     {"path": "/api/v0/.<format>", "name": "api-root"},
