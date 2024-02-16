@@ -217,12 +217,6 @@ jobs:
           node-version: "18.18.2"
           cache: "yarn"
 
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Build frontend
-        run: NODE_ENV=production yarn build
-
       - name: Build services
         run: docker compose -f docker-compose-e2e-tests.yml build
 
@@ -232,11 +226,14 @@ jobs:
       - name: Apply test data
         run: ./e2e_testing/scripts/apply-fixtures.sh
 
-      - name: Install browsers
-        run: yarn --cwd e2e_testing playwright install --with-deps
+      - name: Install dependencies
+        run: yarn workspace e2e_testing install --immutable
+
+      - name: Install Playwright browsers
+        run: yarn workspace e2e_testing playwright install --with-deps chromium
 
       - name: Run E2E tests
-        run: BASE_URL=http://localhost:8063 CI=true yarn --cwd e2e_testing test
+        run: BASE_URL=http://localhost:8063 CI=true yarn workspace e2e_testing test
 
       - name: Setup Pages
         if: always()
