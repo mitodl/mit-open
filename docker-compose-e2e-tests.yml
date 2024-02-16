@@ -22,6 +22,7 @@ services:
     links:
       - web
     volumes:
+      - ./:/src
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
     depends_on:
       build-frontend:
@@ -30,7 +31,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8063"]
       interval: 30s
       timeout: 10s
-      retries: 10
+      retries: 5
 
   build-frontend:
     build:
