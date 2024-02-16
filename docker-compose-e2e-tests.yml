@@ -29,6 +29,17 @@ services:
       timeout: 10s
       retries: 5
 
+  build-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-node
+    env_file: .env.ci
+    working_dir: /src
+    command: bash -c "yarn install && yarn build"
+    volumes:
+      - .:/src
+      - yarn-cache:/home/mitodl/.cache/yarn
+
   web:
     build:
       context: .
@@ -37,6 +48,8 @@ services:
       PORT: 8061
     env_file: .env.ci
     depends_on:
+      build-frontend:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
     command: > # pragma: allowlist secret
@@ -68,3 +81,6 @@ services:
     command: bash -c "yarn install && yarn test"
     volumes:
       - ./e2e_testing:/tests
+
+volumes:
+  yarn-cache:
