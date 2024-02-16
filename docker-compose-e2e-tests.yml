@@ -30,7 +30,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8063"]
       interval: 30s
       timeout: 10s
-      retries: 5
+      retries: 10
 
   build-frontend:
     build:
