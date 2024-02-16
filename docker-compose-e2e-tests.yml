@@ -35,6 +35,7 @@ services:
       dockerfile: Dockerfile-node
     env_file: .env.ci
     working_dir: /src
+    user: root
     command: bash -c "yarn install && yarn build"
     volumes:
       - .:/src
