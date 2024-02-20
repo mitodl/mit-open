@@ -1,0 +1,86 @@
+version: "3.7"
+
+name: mit-open-e2e-tests
+
+services:
+  db:
+    image: postgres:12.17
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 2
+
+  nginx:
+    image: nginx:1.25.3
+    ports:
+      - 8063:8063
+    links:
+      - web
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8063"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  build-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-node
+    environment:
+      - NODE_ENV=production
+    working_dir: /src
+    user: root
+    command: bash -c "yarn install && yarn build"
+    volumes:
+      - .:/src
+      - yarn-cache:/home/mitodl/.cache/yarn
+
+  web:
+    build:
+      context: .
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/e2e_postgres # pragma: allowlist secret
+      PORT: 8061
+    env_file: .env.ci
+    depends_on:
+      db:
+        condition: service_healthy
+    command: > # pragma: allowlist secret
+      bash -c "export PGPASSWORD=postgres
+      && dropdb --if-exists -h db -U postgres e2e_postgres
+      && createdb -h db -U postgres e2e_postgres
+      && python3 manage.py collectstatic --noinput --clear
+      && python3 manage.py migrate --noinput
+      && python3 manage.py loaddata e2e_testing/fixtures/*.json
+      && uwsgi uwsgi.ini --honour-stdin"
+    stdin_open: true
+    tty: true
+    ports:
+      - 8061:8061
+    links:
+      - db
+
+  e2e-tests:
+    build:
+      context: e2e_testing
+    environment:
+      - CI=true
+      - BASE_URL=http://nginx:8063
+    depends_on:
+      nginx:
+        condition: service_healthy
+    links:
+      - nginx
+    command: bash -c "yarn install && yarn test"
+    volumes:
+      - ./e2e_testing:/tests
+
+volumes:
+  yarn-cache:

@@ -21,6 +21,10 @@ const PageTitle = styled.h1`
 
 const Links = styled.div`
   margin-top: 4rem;
+`
+
+const LinkItem = styled.div`
+  margin-bottom: 3rem;
 
   a {
     text-decoration: underline;
@@ -47,13 +51,25 @@ const routes: RouteObject[] = [
                 projects
               </h2>
               <Links>
-                <h3>
-                  <a href={`${PUBLIC_URL}/storybook`}>
-                    React Component Library
-                  </a>
-                </h3>
-                MIT Open Learning's React component library, presented with{" "}
-                <a href="https://storybook.js.org/">Storybook</a>.
+                <LinkItem>
+                  <h3>
+                    <a href={`${PUBLIC_URL}/storybook`}>
+                      React Component Library
+                    </a>
+                  </h3>
+                  MIT Open Learning's React component library, presented with{" "}
+                  <a href="https://storybook.js.org/">Storybook</a>.
+                </LinkItem>
+                <LinkItem>
+                  <h3>
+                    <a href={`${PUBLIC_URL}/playwright-report`}>
+                      E2E Test Report
+                    </a>
+                  </h3>
+                  The report from the most recent{" "}
+                  <a href="https://playwright.dev/">Playwright</a> E2E testing
+                  run.
+                </LinkItem>
               </Links>
             </Grid>
           </Page>

@@ -1,5 +1,7 @@
 # MIT Open
 
+![CI Workflow](https://github.com/mitodl/mit-open/actions/workflows/ci.yml/badge.svg)
+
 This application provides a central interface from which learners can browse MIT courses.
 
 **SECTIONS**
