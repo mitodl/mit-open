@@ -95,6 +95,7 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "django.contrib.sites",
+    "django_scim",
     "social_django",
     "server_status",
     "rest_framework",
@@ -118,8 +119,30 @@ INSTALLED_APPS = (
     "learning_resources_search",
     "openapi",
     "articles",
+    "oauth2_provider",
 )
 
+SCIM_SERVICE_PROVIDER = {
+    "SCHEME": "https",
+    # use default value,
+    # this will be overridden by value returned by BASE_LOCATION_GETTER
+    "NETLOC": "localhost",
+    "AUTHENTICATION_SCHEMES": [
+        {
+            "type": "oauth2",
+            "name": "OAuth 2",
+            "description": "Oauth 2 implemented with bearer token",
+            "specUri": "",
+            "documentationUri": "",
+        },
+    ],
+    "USER_ADAPTER": "profiles.adapters.SCIMProfile",
+    "USER_MODEL_GETTER": "profiles.adapters.get_user_model_for_scim",
+}
+
+
+# OAuth2TokenMiddleware must be before SCIMAuthCheckMiddleware
+# in order to insert request.user into the request.
 MIDDLEWARE = (
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -132,6 +155,8 @@ MIDDLEWARE = (
     "authentication.middleware.BlockedIPMiddleware",
     "authentication.middleware.SocialAuthExceptionRedirectMiddleware",
     "hijack.middleware.HijackUserMiddleware",
+    "oauth2_provider.middleware.OAuth2TokenMiddleware",
+    "django_scim.middleware.SCIMAuthCheckMiddleware",
 )
 
 # CORS
@@ -218,6 +243,7 @@ USE_TZ = True
 # Social Auth configurations - [START]
 AUTHENTICATION_BACKENDS = (
     "authentication.backends.ol_open_id_connect.OlOpenIdConnectAuth",
+    "oauth2_provider.backends.OAuth2Backend",
     # the following needs to stay here to allow login of local users
     "django.contrib.auth.backends.ModelBackend",
     "guardian.backends.ObjectPermissionBackend",

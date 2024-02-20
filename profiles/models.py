@@ -5,6 +5,7 @@ from uuid import uuid4
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import JSONField
+from django_scim.models import AbstractSCIMUserMixin
 
 from profiles.utils import (
     IMAGE_MEDIUM_MAX_DIMENSION,
@@ -56,7 +57,7 @@ def filter_profile_props(data):
     return {key: value for key, value in data.items() if key in PROFILE_PROPS}
 
 
-class Profile(models.Model):
+class Profile(AbstractSCIMUserMixin):
     """Profile model"""
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -89,6 +90,7 @@ class Profile(models.Model):
     headline = models.CharField(blank=True, null=True, max_length=60)  # noqa: DJ001
     bio = models.TextField(blank=True, null=True)  # noqa: DJ001
     location = JSONField(null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @transaction.atomic
     def save(self, *args, update_image=False, **kwargs):  # pylint: disable=arguments-differ
@@ -110,7 +112,7 @@ class Profile(models.Model):
                 self.image_medium_file = None
         super().save(*args, **kwargs)  # pylint:disable=super-with-arguments
 
-    def __str__(self):  # noqa: DJ012
+    def __str__(self):
         return f"{self.name}"
 
 
