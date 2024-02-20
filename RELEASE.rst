@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.3.2
+Version 0.3.2 (Released February 20, 2024)
 -------------
 
 - Update ruff and adjust code to new criteria (#511)
