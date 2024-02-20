@@ -50,6 +50,7 @@ RUN poetry install
 USER root
 COPY . /src
 WORKDIR /src
+RUN mkdir /src/staticfiles
 RUN chown -R mitodl:mitodl /src
 
 RUN apt-get clean && apt-get purge

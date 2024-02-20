@@ -35,6 +35,8 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
   const isProduction = mode === "production"
   validateEnv(isProduction)
   const publicPath = getPublicPath(isProduction)
+
+  console.info("Public path is:", publicPath)
   const config = {
     mode,
     context: __dirname,
@@ -144,6 +146,9 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
 
 module.exports = (_env, argv) => {
   const mode = argv.mode || process.env.NODE_ENV || "production"
+
+  console.info("Mode is:", mode)
+
   const analyzeBundle = process.env.WEBPACK_ANALYZE === "True"
   const settings = { mode, analyzeBundle }
   return getWebpackConfig(settings)
