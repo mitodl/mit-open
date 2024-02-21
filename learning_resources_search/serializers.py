@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from drf_spectacular.plumbing import build_choice_description_list
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
+from rest_framework.utils.urls import replace_query_param
 
 from learning_resources.constants import (
     DEPARTMENTS,
@@ -148,6 +149,33 @@ LEARNING_RESOURCE_AGGREGATIONS = [
 ]
 
 CONTENT_FILE_AGGREGATIONS = ["topic", "content_feature_type", "platform", "offered_by"]
+
+
+class PaginatedSearchSerializer(serializers.Serializer):
+    next = serializers.SerializerMethodField()
+    previous = serializers.SerializerMethodField()
+
+    def construct_pagination_url(self, instance, request, link_type="next"):
+        if request:
+            url = request.build_absolute_uri()
+            total_record_count = self.get_count(instance)
+            offset = int(request.query_params.get("offset", 0))
+            limit = int(request.query_params.get("limit", 20))
+            if link_type == "previous":
+                offset -= limit
+            else:
+                offset += limit
+            if offset >= 0 and offset <= total_record_count:
+                return replace_query_param(url, "offset", offset)
+        return None
+
+    def get_next(self, instance) -> int:
+        request = self.context.get("request")
+        return self.construct_pagination_url(instance, request, link_type="next")
+
+    def get_previous(self, instance) -> int:
+        request = self.context.get("request")
+        return self.construct_pagination_url(instance, request, link_type="previous")
 
 
 class SearchRequestSerializer(serializers.Serializer):
@@ -370,7 +398,7 @@ class SearchResponseMetadata(TypedDict):
     suggestions: list[str]
 
 
-class SearchResponseSerializer(serializers.Serializer):
+class SearchResponseSerializer(PaginatedSearchSerializer):
     count = serializers.SerializerMethodField()
     results = serializers.SerializerMethodField()
     metadata = serializers.SerializerMethodField()
