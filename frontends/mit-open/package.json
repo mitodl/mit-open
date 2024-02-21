@@ -22,6 +22,7 @@
     "@types/lodash": "^4.14.182",
     "@types/react": "^18.2.6",
     "css-loader": "^6.9.0",
+    "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.6.1",
     "ol-test-utilities": "workspace:*",
     "storybook": "^7.6.6",
@@ -65,6 +66,8 @@
   },
   "scripts": {
     "start-dev": "webpack serve",
+    "start-dev:local": "ENVIRONMENT=local NODE_ENV=development webpack serve",
+    "start-dev:rc": "API_BASE_URL=https://mit-open-rc.odl.mit.edu ENVIRONMENT=local NODE_ENV=development webpack serve",
     "build": "webpack --config webpack.config.js --bail",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"

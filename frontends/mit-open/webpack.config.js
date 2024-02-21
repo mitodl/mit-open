@@ -6,26 +6,34 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 const { withCKEditor } = require("ol-ckeditor/webpack-utils")
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 const STATS_FILEPATH = path.resolve(
   __dirname,
   "../../webpack-stats/mit-open.json",
 )
 
-const getPublicPath = (isProduction) => {
-  const { MITOPEN_HOSTNAME: hostname, WEBPACK_PORT_MITOPEN: port } = process.env
-  const buildPath = "/static/mit-open/"
-  if (isProduction) return buildPath
-  if (!hostname || !port) {
+const { ENVIRONMENT, MITOPEN_HOSTNAME, WEBPACK_PORT_MITOPEN } = process.env
+
+const getPublicPath = (mode) => {
+  if (ENVIRONMENT === "local") {
+    return "/"
+  }
+  if (mode === "production") {
+    return "/static/mit-open/"
+  }
+  if (!MITOPEN_HOSTNAME || !WEBPACK_PORT_MITOPEN) {
     throw new Error(
-      `hostname (${hostname}) and port (${port}) should both be defined.`,
+      "Hostname (MITOPEN_HOSTNAME) and port (WEBPACK_PORT_MITOPEN) should be set on the environment",
     )
   }
-  return `http://${hostname}:${port}/`
+  return `http://${MITOPEN_HOSTNAME}:${WEBPACK_PORT_MITOPEN}/`
 }
 
-const validateEnv = (isProduction) => {
-  if (isProduction) return
+const validateEnv = (mode) => {
+  if (mode === "production" || ENVIRONMENT === "local") {
+    return
+  }
   if (!process.env.WEBPACK_PORT_MITOPEN) {
     throw new Error("WEBPACK_PORT_MITOPEN should be defined")
   }
@@ -33,10 +41,10 @@ const validateEnv = (isProduction) => {
 
 const getWebpackConfig = ({ mode, analyzeBundle }) => {
   const isProduction = mode === "production"
-  validateEnv(isProduction)
-  const publicPath = getPublicPath(isProduction)
-
+  validateEnv(mode)
+  const publicPath = getPublicPath(mode)
   console.info("Public path is:", publicPath)
+
   const config = {
     mode,
     context: __dirname,
@@ -78,6 +86,9 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       ],
     },
     plugins: [
+      new HtmlWebpackPlugin({
+        template: "public/index.html",
+      }),
       new BundleTracker({ filename: STATS_FILEPATH }),
       new webpack.DefinePlugin({
         "process.env": {
@@ -139,6 +150,17 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       },
       host: "::",
       port: process.env.WEBPACK_PORT_MITOPEN,
+      static: {
+        directory: path.join(__dirname, "../../static"),
+        publicPath: "/static",
+      },
+      proxy: [
+        {
+          context: ["/api"],
+          target: process.env.API_BASE_URL || "",
+          changeOrigin: true,
+        },
+      ],
     },
   }
   return withCKEditor(config)
