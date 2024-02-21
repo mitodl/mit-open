@@ -151,33 +151,6 @@ LEARNING_RESOURCE_AGGREGATIONS = [
 CONTENT_FILE_AGGREGATIONS = ["topic", "content_feature_type", "platform", "offered_by"]
 
 
-class PaginatedSearchSerializer(serializers.Serializer):
-    next = serializers.SerializerMethodField()
-    previous = serializers.SerializerMethodField()
-
-    def construct_pagination_url(self, instance, request, link_type="next"):
-        if request:
-            url = request.build_absolute_uri()
-            total_record_count = self.get_count(instance)
-            offset = int(request.query_params.get("offset", 0))
-            limit = int(request.query_params.get("limit", 20))
-            if link_type == "previous":
-                offset -= limit
-            else:
-                offset += limit
-            if offset >= 0 and offset <= total_record_count:
-                return replace_query_param(url, "offset", offset)
-        return None
-
-    def get_next(self, instance) -> int:
-        request = self.context.get("request")
-        return self.construct_pagination_url(instance, request, link_type="next")
-
-    def get_previous(self, instance) -> int:
-        request = self.context.get("request")
-        return self.construct_pagination_url(instance, request, link_type="previous")
-
-
 class SearchRequestSerializer(serializers.Serializer):
     q = serializers.CharField(required=False, help_text="The search text")
     offset = serializers.IntegerField(
@@ -398,10 +371,34 @@ class SearchResponseMetadata(TypedDict):
     suggestions: list[str]
 
 
-class SearchResponseSerializer(PaginatedSearchSerializer):
+class SearchResponseSerializer(serializers.Serializer):
     count = serializers.SerializerMethodField()
     results = serializers.SerializerMethodField()
     metadata = serializers.SerializerMethodField()
+    next = serializers.SerializerMethodField()
+    previous = serializers.SerializerMethodField()
+
+    def construct_pagination_url(self, instance, request, link_type="next"):
+        if request:
+            url = request.build_absolute_uri()
+            total_record_count = self.get_count(instance)
+            offset = int(request.query_params.get("offset", 0))
+            limit = int(request.query_params.get("limit", 20))
+            if link_type == "previous":
+                offset -= limit
+            else:
+                offset += limit
+            if offset >= 0 and offset <= total_record_count:
+                return replace_query_param(url, "offset", offset)
+        return None
+
+    def get_next(self, instance) -> int:
+        request = self.context.get("request")
+        return self.construct_pagination_url(instance, request, link_type="next")
+
+    def get_previous(self, instance) -> int:
+        request = self.context.get("request")
+        return self.construct_pagination_url(instance, request, link_type="previous")
 
     def get_count(self, instance) -> int:
         return instance.get("hits", {}).get("total", {}).get("value")
