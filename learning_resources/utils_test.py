@@ -52,9 +52,11 @@ def fixture_test_instructors_data():
 @pytest.mark.parametrize(
     ("semester", "year", "expected"),
     [
-        ("spring", 2020, "2020-01-01"),
+        ("Spring", 2020, "2020-01-01"),
+        ("Fall", 2020, "2020-09-01"),
         ("fall", 2020, "2020-09-01"),
         ("summer", 2021, "2021-06-01"),
+        ("Summer", 2021, "2021-06-01"),
         ("spring", None, None),
         (None, 2020, "2020-01-01"),
         ("something", 2020, "2020-01-01"),

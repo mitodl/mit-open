@@ -102,7 +102,7 @@ def semester_year_to_date(semester, year):
     """
     if year is None:
         return None
-    if semester is None or semester in ("spring", "january_iap"):
+    if semester is None:
         month_day = "01-01"
     elif semester.lower() == "fall":
         month_day = "09-01"
