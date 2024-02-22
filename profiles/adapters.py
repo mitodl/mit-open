@@ -157,7 +157,6 @@ class SCIMProfile(SCIMUser):
                 self.obj.user.username = self.obj.email
                 self.obj.user.first_name = self.obj.first_name
                 self.obj.user.last_name = self.obj.last_name
-                self.obj.user.is_active = self.obj.user.is_active
                 self.obj.user.save()
                 self.obj.name = self.display_name
                 self.obj.save()
