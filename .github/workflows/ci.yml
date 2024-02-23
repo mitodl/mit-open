@@ -220,12 +220,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Debug OIDC endpoint
-        run: echo $SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT
-
-      - name: Debug OIDC key
-        run: echo $SOCIAL_AUTH_OL_OIDC_KEY
-
       - name: Build frontend
         run: NODE_ENV=production yarn build
 
