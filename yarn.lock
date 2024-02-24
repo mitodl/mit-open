@@ -14143,9 +14143,9 @@ __metadata:
   linkType: hard
 
 "iso-639-1@npm:^3.1.0":
-  version: 3.1.1
-  resolution: "iso-639-1@npm:3.1.1"
-  checksum: 9ce4a52f070948f2b9f68058d8be83cb392cfcd6052035cfdf41e73fdc9b4e71cb0b93d4e355d15daecea51ae78614bc60623238c593eee4e1952f9e172e53bc
+  version: 3.1.2
+  resolution: "iso-639-1@npm:3.1.2"
+  checksum: 0fa2ac33d9f164b0102e1a8578cca6baae797a46c738bf280e48271b3be1f129cc764796f3856ac86c8d884cdb29ad3cae57a7b925b29b1dd454ea8d13fc61f9
   languageName: node
   linkType: hard
 
