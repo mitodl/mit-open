@@ -3100,6 +3100,18 @@ export interface SearchResponse {
    * @memberof SearchResponse
    */
   metadata: SearchResponseMetadata
+  /**
+   *
+   * @type {number}
+   * @memberof SearchResponse
+   */
+  next: number
+  /**
+   *
+   * @type {number}
+   * @memberof SearchResponse
+   */
+  previous: number
 }
 /**
  *

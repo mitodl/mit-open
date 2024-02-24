@@ -7836,9 +7836,17 @@ components:
           - aggregations
           - suggestions
           readOnly: true
+        next:
+          type: integer
+          readOnly: true
+        previous:
+          type: integer
+          readOnly: true
       required:
       - count
       - metadata
+      - next
+      - previous
       - results
     UserList:
       type: object
