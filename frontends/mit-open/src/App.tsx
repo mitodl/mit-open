@@ -7,6 +7,8 @@ import { createQueryClient } from "@/services/react-query/react-query"
 import routes from "./routes"
 import AppProviders from "./AppProviders"
 
+console.log("wut!!!?")
+
 Sentry.init({
   dsn: window.SETTINGS.sentry_dsn,
   release: window.SETTINGS.release_version,

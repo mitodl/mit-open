@@ -12,6 +12,8 @@ const STATS_FILEPATH = path.resolve(
   "../../webpack-stats/mit-open.json",
 )
 
+console.log("Hihi!!!")
+
 const getPublicPath = (isProduction) => {
   const { MITOPEN_HOSTNAME: hostname, WEBPACK_PORT_MITOPEN: port } = process.env
   const buildPath = "/static/mit-open/"
