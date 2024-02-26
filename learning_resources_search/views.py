@@ -57,9 +57,7 @@ class LearningResourcesSearchView(ESView):
         if request_data.is_valid():
             response = execute_learn_search(request_data.data)
             return Response(
-                SearchResponseSerializer(
-                    response, context={"request": request, "request_data": request_data}
-                ).data
+                SearchResponseSerializer(response, context={"request": request}).data
             )
         else:
             errors = {}
@@ -93,9 +91,7 @@ class ContentFileSearchView(ESView):
         if request_data.is_valid():
             response = execute_learn_search(request_data.data)
             return Response(
-                SearchResponseSerializer(
-                    response, context={"request": request, "request_data": request_data}
-                ).data
+                SearchResponseSerializer(response, context={"request": request}).data
             )
         else:
             errors = {}
