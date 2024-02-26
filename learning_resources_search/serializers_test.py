@@ -3,6 +3,8 @@
 import pytest
 from django.http import QueryDict
 from rest_framework.renderers import JSONRenderer
+from rest_framework.request import Request
+from rest_framework.test import APIRequestFactory
 
 from learning_resources import factories
 from learning_resources.constants import DEPARTMENTS, LearningResourceType
@@ -18,6 +20,12 @@ from learning_resources_search.serializers import (
     SearchResponseSerializer,
     extract_values,
 )
+
+
+def get_request_object(url):
+    request_factory = APIRequestFactory()
+    api_request = request_factory.get(url, {"q": "test"})
+    return Request(api_request)
 
 
 @pytest.mark.django_db()
@@ -500,7 +508,10 @@ response_test_response_1 = {
         },
         "suggest": ["manage"],
     },
+    "next": None,
+    "previous": None,
 }
+
 response_test_raw_data_2 = {
     "took": 13,
     "timed_out": False,
@@ -651,6 +662,7 @@ response_test_raw_data_2 = {
         ],
     },
 }
+
 response_test_response_2 = {
     "count": 1,
     "results": [
@@ -706,6 +718,8 @@ response_test_response_2 = {
         },
         "suggest": ["broadignite"],
     },
+    "next": None,
+    "previous": None,
 }
 
 
@@ -716,8 +730,11 @@ response_test_response_2 = {
         (response_test_raw_data_2, response_test_response_2),
     ],
 )
-def test_learning_resources_search_response_serializer(settings, raw_data, response):
+def test_learning_resources_search_response_serializer(
+    settings, raw_data, response, learning_resources_search_view
+):
     settings.OPENSEARCH_MAX_SUGGEST_HITS = 10
+    request = get_request_object(learning_resources_search_view.url)
     assert JSONRenderer().render(
-        SearchResponseSerializer(raw_data).data
+        SearchResponseSerializer(raw_data, context={"request": request}).data
     ) == JSONRenderer().render(response)
