@@ -13,20 +13,22 @@ const getReadableResourceType = (
   resource: Pick<LearningResource, "resource_type">,
 ): string => readableResourceTypes[resource.resource_type]
 
-const BLANK_THUMBNAIL = new URL(
-  "/static/images/blank.png",
-  window.location.origin,
-).toString()
+const BLANK_THUMBNAIL = ""
+// new URL(
+//   "/static/images/blank.png",
+//   window.location.origin,
+// ).toString()
 
 const embedlyThumbnail = (url: string, { key, width, height }: EmbedlyConfig) =>
   `https://i.embed.ly/1/display/crop/?key=${key}&url=${encodeURIComponent(
     url,
   )}&height=${height}&width=${width}&grow=true&animate=false&errorurl=${BLANK_THUMBNAIL}`
 
-const DEFAULT_RESOURCE_IMG = new URL(
-  "/static/images/default_resource_thumb.jpg",
-  window.location.origin,
-).toString()
+const DEFAULT_RESOURCE_IMG = ""
+// new URL(
+//   "/static/images/default_resource_thumb.jpg",
+//   // window.location.origin,
+// ).toString()
 
 type EmbedlyConfig = {
   key: string
