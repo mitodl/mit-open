@@ -12,6 +12,7 @@ from learning_resources.constants import LearningResourceType, PlatformType
 from learning_resources.etl import xpro
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.utils import UCC_TOPIC_MAPPINGS
+from learning_resources.etl.xpro import _parse_datetime
 from main.test_utils import any_instance_of
 
 pytestmark = pytest.mark.django_db
@@ -251,3 +252,47 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
         for course_data in mock_xpro_courses_data
     ]
     assert expected == result
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize(
+    ("start_dt", "enrollment_dt", "expected_dt"),
+    [
+        (None, "2019-02-20T15:00:00", "2019-02-20T15:00:00"),
+        ("2024-02-20T15:00:00", None, "2024-02-20T15:00:00"),
+        ("2023-02-20T15:00:00", "2024-02-20T15:00:00", "2023-02-20T15:00:00"),
+        (None, None, None),
+    ],
+)
+def test_course_run_start_date_value(
+    mock_xpro_courses_data, start_dt, enrollment_dt, expected_dt
+):
+    """Test that the start date value is correctly determined for course runs"""
+    mock_xpro_courses_data[1]["courseruns"][0]["start_date"] = start_dt
+    mock_xpro_courses_data[1]["courseruns"][0]["enrollment_start"] = enrollment_dt
+    transformed_courses = xpro.transform_courses(mock_xpro_courses_data)
+    assert transformed_courses[1]["runs"][0]["start_date"] == _parse_datetime(
+        expected_dt
+    )
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize(
+    ("start_dt", "enrollment_dt", "expected_dt"),
+    [
+        (None, "2019-02-20T15:00:00", "2019-02-20T15:00:00"),
+        ("2024-02-20T15:00:00", None, "2024-02-20T15:00:00"),
+        ("2023-02-20T15:00:00", "2024-02-20T15:00:00", "2023-02-20T15:00:00"),
+        (None, None, None),
+    ],
+)
+def test_program_run_start_date_value(
+    mock_xpro_programs_data, start_dt, enrollment_dt, expected_dt
+):
+    """Test that the start date value is correctly determined for program runs"""
+    mock_xpro_programs_data[0]["start_date"] = start_dt
+    mock_xpro_programs_data[0]["enrollment_start"] = enrollment_dt
+    transformed_programs = xpro.transform_programs(mock_xpro_programs_data)
+    assert transformed_programs[0]["runs"][0]["start_date"] == _parse_datetime(
+        expected_dt
+    )

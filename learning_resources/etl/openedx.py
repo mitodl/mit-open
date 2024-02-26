@@ -212,7 +212,7 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "semester": semester,
         "languages": without_none([course_run.get("content_language")]),
         "year": year,
-        "start_date": course_run.get("start"),
+        "start_date": course_run.get("start") or course_run.get("enrollment_start"),
         "end_date": course_run.get("end"),
         "last_modified": last_modified,
         "published": course_run.get("status", "") == "published",
