@@ -1,7 +1,10 @@
 """Tests for opensearch serializers"""
 
+from types import SimpleNamespace
+
 import pytest
 from django.http import QueryDict
+from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
@@ -20,6 +23,12 @@ from learning_resources_search.serializers import (
     SearchResponseSerializer,
     extract_values,
 )
+
+
+@pytest.fixture()
+def learning_resources_search_view():
+    """Fixture with relevant properties for testing the search view"""
+    return SimpleNamespace(url=reverse("lr_search:v1:learning_resources_search"))
 
 
 def get_request_object(url):
@@ -426,6 +435,8 @@ response_test_raw_data_1 = {
 }
 response_test_response_1 = {
     "count": 9,
+    "next": None,
+    "previous": None,
     "results": [
         {
             "id": 5147,
@@ -508,8 +519,6 @@ response_test_response_1 = {
         },
         "suggest": ["manage"],
     },
-    "next": None,
-    "previous": None,
 }
 
 response_test_raw_data_2 = {
@@ -665,6 +674,8 @@ response_test_raw_data_2 = {
 
 response_test_response_2 = {
     "count": 1,
+    "next": None,
+    "previous": None,
     "results": [
         {
             "image": {
@@ -718,8 +729,6 @@ response_test_response_2 = {
         },
         "suggest": ["broadignite"],
     },
-    "next": None,
-    "previous": None,
 }
 
 

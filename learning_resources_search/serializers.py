@@ -373,10 +373,10 @@ class SearchResponseMetadata(TypedDict):
 
 class SearchResponseSerializer(serializers.Serializer):
     count = serializers.SerializerMethodField()
-    results = serializers.SerializerMethodField()
-    metadata = serializers.SerializerMethodField()
     next = serializers.SerializerMethodField()
     previous = serializers.SerializerMethodField()
+    results = serializers.SerializerMethodField()
+    metadata = serializers.SerializerMethodField()
 
     def construct_pagination_url(self, instance, request, link_type="next"):
         if request:
