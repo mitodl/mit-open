@@ -7806,6 +7806,12 @@ components:
         count:
           type: integer
           readOnly: true
+        next:
+          type: integer
+          readOnly: true
+        previous:
+          type: integer
+          readOnly: true
         results:
           type: array
           items:
@@ -7835,12 +7841,6 @@ components:
           required:
           - aggregations
           - suggestions
-          readOnly: true
-        next:
-          type: integer
-          readOnly: true
-        previous:
-          type: integer
           readOnly: true
       required:
       - count

@@ -3090,18 +3090,6 @@ export interface SearchResponse {
   count: number
   /**
    *
-   * @type {Array<LearningResource>}
-   * @memberof SearchResponse
-   */
-  results: Array<LearningResource>
-  /**
-   *
-   * @type {SearchResponseMetadata}
-   * @memberof SearchResponse
-   */
-  metadata: SearchResponseMetadata
-  /**
-   *
    * @type {number}
    * @memberof SearchResponse
    */
@@ -3112,6 +3100,18 @@ export interface SearchResponse {
    * @memberof SearchResponse
    */
   previous: number
+  /**
+   *
+   * @type {Array<LearningResource>}
+   * @memberof SearchResponse
+   */
+  results: Array<LearningResource>
+  /**
+   *
+   * @type {SearchResponseMetadata}
+   * @memberof SearchResponse
+   */
+  metadata: SearchResponseMetadata
 }
 /**
  *
