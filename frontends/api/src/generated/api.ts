@@ -3090,6 +3090,18 @@ export interface SearchResponse {
   count: number
   /**
    *
+   * @type {string}
+   * @memberof SearchResponse
+   */
+  next: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof SearchResponse
+   */
+  previous: string | null
+  /**
+   *
    * @type {Array<LearningResource>}
    * @memberof SearchResponse
    */

@@ -53,9 +53,12 @@ class LearningResourcesSearchView(ESView):
     @extend_schema(summary="Search")
     def get(self, request):
         request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
+
         if request_data.is_valid():
             response = execute_learn_search(request_data.data)
-            return Response(SearchResponseSerializer(response).data)
+            return Response(
+                SearchResponseSerializer(response, context={"request": request}).data
+            )
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():
@@ -63,7 +66,6 @@ class LearningResourcesSearchView(ESView):
                     errors[key] = errors_obj
                 else:
                     errors[key] = list(set(chain(*errors_obj.values())))
-
             return Response(errors, status=400)
 
 
@@ -86,10 +88,11 @@ class ContentFileSearchView(ESView):
     @extend_schema(summary="Search")
     def get(self, request):
         request_data = ContentFileSearchRequestSerializer(data=request.GET)
-
         if request_data.is_valid():
             response = execute_learn_search(request_data.data)
-            return Response(SearchResponseSerializer(response).data)
+            return Response(
+                SearchResponseSerializer(response, context={"request": request}).data
+            )
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():
