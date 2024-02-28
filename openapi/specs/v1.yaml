@@ -7806,6 +7806,14 @@ components:
         count:
           type: integer
           readOnly: true
+        next:
+          type: string
+          nullable: true
+          readOnly: true
+        previous:
+          type: string
+          nullable: true
+          readOnly: true
         results:
           type: array
           items:
@@ -7839,6 +7847,8 @@ components:
       required:
       - count
       - metadata
+      - next
+      - previous
       - results
     UserList:
       type: object
