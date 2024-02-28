@@ -5,7 +5,7 @@ enum Permissions {
 }
 
 const hasPermission = (permission: Permissions) => {
-  return window.SETTINGS.user[permission]
+  return false //window.SETTINGS.user[permission]
 }
 /**
  * Thrown when we know something is forbidden without having to make a request.

@@ -90,7 +90,7 @@ const StyledCarousel = styled(Carousel)({
 
 const defaultAnimationDuration = 800
 
-const TitledCarousel: React.FC<TitledCarouselProps> = ({
+const TitledCarousel = ({
   children,
   title,
   className,
@@ -102,7 +102,7 @@ const TitledCarousel: React.FC<TitledCarouselProps> = ({
   previous = <button>Previous</button>,
   next = <button>Next</button>,
   showNavigationButtons = true,
-}) => {
+}: TitledCarouselProps): React.ReactNode => {
   const wasButtonChange = useRef(false)
   const [index, setIndex] = useState(0)
   const childCount = React.Children.count(children)

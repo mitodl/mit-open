@@ -12,8 +12,8 @@
  * Do not edit the class manually.
  */
 
-import type { Configuration } from "./configuration"
-import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
+import { Configuration } from "./configuration"
+import { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -29,7 +29,7 @@ import {
   toPathString,
   createRequestFunction,
 } from "./common"
-import type { RequestArgs } from "./base"
+import { RequestArgs } from "./base"
 // @ts-ignore
 import {
   BASE_PATH,

@@ -1,5 +1,5 @@
 import React from "react"
-import { UseQueryResult } from "@tanstack/react-query"
+// import { UseQueryResult } from "@tanstack/react-query"
 import ArrowBack from "@mui/icons-material/ArrowBack"
 import ArrowForward from "@mui/icons-material/ArrowForward"
 import {
@@ -12,7 +12,7 @@ import type { PaginatedLearningResourceList } from "api"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 
 interface HomePageCarouselProps {
-  query: UseQueryResult<PaginatedLearningResourceList>
+  // query: UseQueryResult<PaginatedLearningResourceList>
   showNavigationButtons?: boolean
   title: React.ReactNode
 }
@@ -33,11 +33,11 @@ const CarouselButton = styled(Button)({
   marginLeft: "0.5em",
 })
 
-const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
-  query,
+const HomePageCarousel = ({
+  // query,
   showNavigationButtons = true,
   title,
-}) => {
+}: HomePageCarouselProps): React.ReactNode => {
   const aboveSm = useMuiBreakpointAtLeast("sm")
   const aboveLg = useMuiBreakpointAtLeast("lg")
   const pageSize = aboveLg ? 4 : aboveSm ? 2 : 1
@@ -68,9 +68,10 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({
       }
       showNavigationButtons={showNavigationButtons}
     >
-      {query.data?.results?.map((resource) => (
+      Carousel
+      {/* TODO {query.data?.results?.map((resource) => (
         <CarouselCard key={resource.id} resource={resource} variant="column" />
-      ))}
+      ))} */}
     </TitledCarousel>
   )
 }

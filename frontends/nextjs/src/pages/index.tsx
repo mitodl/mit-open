@@ -13,6 +13,8 @@ import type { SearchInputProps } from "ol-components"
 import { GridContainer } from "@/components/GridLayout/GridLayout"
 import { useLearningResourcesList } from "api/hooks/learningResources"
 import HomePageCarousel from "@/components/HomePageCarousel/HomePageCarousel"
+import { ThemeProvider } from "ol-components"
+import { HelmetProvider } from "react-helmet-async"
 
 const EXPLORE_BUTTONS = [
   {
@@ -145,55 +147,59 @@ const HomePage: React.FC = () => {
     console.log("Submitting search")
     console.log(e)
   }, [])
-  const resourcesQuery = useLearningResourcesList()
+  // const resourcesQuery = useLearningResourcesList()
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <HomePageContainer className="homepage">
-        <TopContainer>
-          <BackgroundGradient />
-          <Grid item xs={12} md={7}>
-            <PageTitle>Learn from MIT</PageTitle>
-            <h2>
-              Search for MIT courses, videos, podcasts, learning paths, and
-              communities
-            </h2>
-            <StyledSearchInput
-              value={searchText}
-              placeholder="What do you want to learn?"
-              onSubmit={onSearchSubmit}
-              onClear={onSearchClear}
-              onChange={onSearchChange}
-            />
-            <div>
-              <h3>Explore</h3>
-              <SearchButtonsContainer>
-                {EXPLORE_BUTTONS.map(({ label }) => (
-                  <StyledChipLink
-                    color="secondary"
-                    to=""
-                    key={label}
-                    label={label}
-                  />
-                ))}
-              </SearchButtonsContainer>
-            </div>
-          </Grid>
-          <Grid item xs={12} md={5}>
-            <div>
-              <FrontPageImage
-                alt="Photos from the MIT campus arranged to form the letter M"
-                src="/static/images/infinite-front-page-image.png"
+    <ThemeProvider>
+      {/* <QueryClientProvider client={queryClient}> */}
+      <HelmetProvider>
+        <HomePageContainer className="homepage">
+          <TopContainer>
+            <BackgroundGradient />
+            <Grid item xs={12} md={7}>
+              <PageTitle>Learn from MIT</PageTitle>
+              <h2>
+                Search for MIT courses, videos, podcasts, learning paths, and
+                communities
+              </h2>
+              <StyledSearchInput
+                value={searchText}
+                placeholder="What do you want to learn?"
+                onSubmit={onSearchSubmit}
+                onClear={onSearchClear}
+                onChange={onSearchChange}
               />
-            </div>
-          </Grid>
-        </TopContainer>
-        <HomePageCarousel
-          title={<h2>Upcoming Courses</h2>}
-          query={resourcesQuery}
-        />
-      </HomePageContainer>
-    </QueryClientProvider>
+              <div>
+                <h3>Explore</h3>
+                <SearchButtonsContainer>
+                  {/* {EXPLORE_BUTTONS.map(({ label }) => (
+                    <StyledChipLink
+                      color="secondary"
+                      to=""
+                      key={label}
+                      label={label}
+                    />
+                  ))} */}
+                </SearchButtonsContainer>
+              </div>
+            </Grid>
+            <Grid item xs={12} md={5}>
+              <div>
+                <FrontPageImage
+                  alt="Photos from the MIT campus arranged to form the letter M"
+                  src="/static/images/infinite-front-page-image.png"
+                />
+              </div>
+            </Grid>
+          </TopContainer>
+          <HomePageCarousel
+            title={<h2>Upcoming Courses</h2>}
+            // query={resourcesQuery as any} // TODO
+          />
+        </HomePageContainer>
+      </HelmetProvider>
+      {/* </QueryClientProvider> */}
+    </ThemeProvider>
   )
 }
 
