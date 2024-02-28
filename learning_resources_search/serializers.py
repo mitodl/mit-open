@@ -406,7 +406,6 @@ class SearchResponseSerializer(serializers.Serializer):
     def get_count(self, instance) -> int:
         return instance.get("hits", {}).get("total", {}).get("value")
 
-    @extend_schema_field(LearningResourceSerializer(many=True))
     def get_results(self, instance):
         hits = instance.get("hits", {}).get("hits", [])
         return (hit.get("_source") for hit in hits)
@@ -416,6 +415,27 @@ class SearchResponseSerializer(serializers.Serializer):
             "aggregations": _transform_aggregations(instance.get("aggregations", {})),
             "suggest": _transform_search_results_suggest(instance),
         }
+
+
+class LearningResourceSearchResponseSerializer(SearchResponseSerializer):
+    """
+    SearchResponseSerializer with OpenAPI annotations for Learning Resources
+    search
+    """
+
+    @extend_schema_field(LearningResourceSerializer(many=True))
+    def get_results():
+        return super().get_results()
+
+
+class ContentFileeSearchResponseSerializer(SearchResponseSerializer):
+    """
+    SearchResponseSerializer with OpenAPI annotations for Content Files search
+    """
+
+    @extend_schema_field(ContentFileSerializer(many=True))
+    def get_results():
+        return super().get_results()
 
 
 def serialize_content_file_for_update(content_file_obj):

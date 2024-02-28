@@ -222,11 +222,11 @@ export interface ContentFile {
    */
   resource_readable_id: string
   /**
-   *
-   * @type {string}
+   * Extract the course number(s) from the associated course
+   * @type {Array<string>}
    * @memberof ContentFile
    */
-  course_number: string
+  course_number: Array<string>
   /**
    *
    * @type {string}
@@ -253,6 +253,85 @@ export interface ContentFile {
   run_readable_id: string
 }
 
+/**
+ * SearchResponseSerializer with OpenAPI annotations for Content Files search
+ * @export
+ * @interface ContentFileeSearchResponse
+ */
+export interface ContentFileeSearchResponse {
+  /**
+   *
+   * @type {number}
+   * @memberof ContentFileeSearchResponse
+   */
+  count: number
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFileeSearchResponse
+   */
+  next: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFileeSearchResponse
+   */
+  previous: string | null
+  /**
+   *
+   * @type {Array<ContentFile>}
+   * @memberof ContentFileeSearchResponse
+   */
+  results: Array<ContentFile>
+  /**
+   *
+   * @type {ContentFileeSearchResponseMetadata}
+   * @memberof ContentFileeSearchResponse
+   */
+  metadata: ContentFileeSearchResponseMetadata
+}
+/**
+ *
+ * @export
+ * @interface ContentFileeSearchResponseMetadata
+ */
+export interface ContentFileeSearchResponseMetadata {
+  /**
+   *
+   * @type {{ [key: string]: Array<ContentFileeSearchResponseMetadataAggregationsValueInner>; }}
+   * @memberof ContentFileeSearchResponseMetadata
+   */
+  aggregations: {
+    [
+      key: string
+    ]: Array<ContentFileeSearchResponseMetadataAggregationsValueInner>
+  }
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ContentFileeSearchResponseMetadata
+   */
+  suggestions: Array<string>
+}
+/**
+ *
+ * @export
+ * @interface ContentFileeSearchResponseMetadataAggregationsValueInner
+ */
+export interface ContentFileeSearchResponseMetadataAggregationsValueInner {
+  /**
+   *
+   * @type {string}
+   * @memberof ContentFileeSearchResponseMetadataAggregationsValueInner
+   */
+  key: string
+  /**
+   *
+   * @type {number}
+   * @memberof ContentFileeSearchResponseMetadataAggregationsValueInner
+   */
+  doc_count: number
+}
 /**
  * * `page` - page * `file` - file * `vertical` - vertical
  * @export
@@ -1468,6 +1547,43 @@ export interface LearningResourceRunRequest {
    * @memberof LearningResourceRunRequest
    */
   checksum?: string | null
+}
+/**
+ * SearchResponseSerializer with OpenAPI annotations for Learning Resources search
+ * @export
+ * @interface LearningResourceSearchResponse
+ */
+export interface LearningResourceSearchResponse {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceSearchResponse
+   */
+  count: number
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceSearchResponse
+   */
+  next: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceSearchResponse
+   */
+  previous: string | null
+  /**
+   *
+   * @type {Array<LearningResource>}
+   * @memberof LearningResourceSearchResponse
+   */
+  results: Array<LearningResource>
+  /**
+   *
+   * @type {ContentFileeSearchResponseMetadata}
+   * @memberof LearningResourceSearchResponse
+   */
+  metadata: ContentFileeSearchResponseMetadata
 }
 /**
  * Serializer for LearningResourceTopic model
@@ -3077,83 +3193,6 @@ export type ResourceTypeEnum =
   (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
 
 /**
- *
- * @export
- * @interface SearchResponse
- */
-export interface SearchResponse {
-  /**
-   *
-   * @type {number}
-   * @memberof SearchResponse
-   */
-  count: number
-  /**
-   *
-   * @type {string}
-   * @memberof SearchResponse
-   */
-  next: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof SearchResponse
-   */
-  previous: string | null
-  /**
-   *
-   * @type {Array<LearningResource>}
-   * @memberof SearchResponse
-   */
-  results: Array<LearningResource>
-  /**
-   *
-   * @type {SearchResponseMetadata}
-   * @memberof SearchResponse
-   */
-  metadata: SearchResponseMetadata
-}
-/**
- *
- * @export
- * @interface SearchResponseMetadata
- */
-export interface SearchResponseMetadata {
-  /**
-   *
-   * @type {{ [key: string]: Array<SearchResponseMetadataAggregationsValueInner>; }}
-   * @memberof SearchResponseMetadata
-   */
-  aggregations: {
-    [key: string]: Array<SearchResponseMetadataAggregationsValueInner>
-  }
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof SearchResponseMetadata
-   */
-  suggestions: Array<string>
-}
-/**
- *
- * @export
- * @interface SearchResponseMetadataAggregationsValueInner
- */
-export interface SearchResponseMetadataAggregationsValueInner {
-  /**
-   *
-   * @type {string}
-   * @memberof SearchResponseMetadataAggregationsValueInner
-   */
-  key: string
-  /**
-   *
-   * @type {number}
-   * @memberof SearchResponseMetadataAggregationsValueInner
-   */
-  doc_count: number
-}
-/**
  * Simplified serializer for UserList model.
  * @export
  * @interface UserList
@@ -4161,7 +4200,10 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
       topic?: Array<string>,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SearchResponse>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ContentFileeSearchResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.contentFileSearchRetrieve(
@@ -4216,7 +4258,7 @@ export const ContentFileSearchApiFactory = function (
     contentFileSearchRetrieve(
       requestParameters: ContentFileSearchApiContentFileSearchRetrieveRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<SearchResponse> {
+    ): AxiosPromise<ContentFileeSearchResponse> {
       return localVarFp
         .contentFileSearchRetrieve(
           requestParameters.aggregations,
@@ -9979,7 +10021,10 @@ export const LearningResourcesSearchApiFp = function (
       topic?: Array<string>,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SearchResponse>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResourceSearchResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesSearchRetrieve(
@@ -10037,7 +10082,7 @@ export const LearningResourcesSearchApiFactory = function (
     learningResourcesSearchRetrieve(
       requestParameters: LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<SearchResponse> {
+    ): AxiosPromise<LearningResourceSearchResponse> {
       return localVarFp
         .learningResourcesSearchRetrieve(
           requestParameters.aggregations,
