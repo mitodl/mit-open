@@ -7807,10 +7807,12 @@ components:
           type: integer
           readOnly: true
         next:
-          type: integer
+          type: string
+          nullable: true
           readOnly: true
         previous:
-          type: integer
+          type: string
+          nullable: true
           readOnly: true
         results:
           type: array

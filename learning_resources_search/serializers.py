@@ -395,11 +395,11 @@ class SearchResponseSerializer(serializers.Serializer):
                 return replace_query_param(url, "offset", offset)
         return None
 
-    def get_next(self, instance) -> int:
+    def get_next(self, instance) -> str | None:
         request = self.context.get("request")
         return self.construct_pagination_url(instance, request, link_type="next")
 
-    def get_previous(self, instance) -> int:
+    def get_previous(self, instance) -> str | None:
         request = self.context.get("request")
         return self.construct_pagination_url(instance, request, link_type="previous")
 
