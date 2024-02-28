@@ -383,12 +383,15 @@ class SearchResponseSerializer(serializers.Serializer):
             url = request.build_absolute_uri()
             total_record_count = self.get_count(instance)
             offset = int(request.query_params.get("offset", 0))
-            limit = int(request.query_params.get("limit", 20))
+            limit = int(
+                request.query_params.get("limit", settings.OPENSEARCH_DEFAULT_PAGE_SIZE)
+            )
+            url = replace_query_param(url, "limit", limit)
             if link_type == "previous":
                 offset -= limit
             else:
                 offset += limit
-            if offset >= 0 and offset <= total_record_count:
+            if offset >= 0 and offset < total_record_count:
                 return replace_query_param(url, "offset", offset)
         return None
 
