@@ -32,6 +32,7 @@ def learning_resources_search_view():
 
 
 def get_request_object(url):
+    """Build and return a django request object"""
     request_factory = APIRequestFactory()
     api_request = request_factory.get(url, {"q": "test"})
     return Request(api_request)
@@ -742,6 +743,10 @@ response_test_response_2 = {
 def test_learning_resources_search_response_serializer(
     settings, raw_data, response, learning_resources_search_view
 ):
+    """
+    Test that the search response serializer processes
+    opensearch results as expected
+    """
     settings.OPENSEARCH_MAX_SUGGEST_HITS = 10
     request = get_request_object(learning_resources_search_view.url)
     assert JSONRenderer().render(
