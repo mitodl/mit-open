@@ -39,87 +39,59 @@ class Migration(migrations.Migration):
                 ("mitxonline_program_id", models.IntegerField(blank=True, null=True)),
                 (
                     "user_edxorg_username",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_email",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "program_title",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_gender",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_address_city",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_first_name",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_last_name",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_full_name",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_year_of_birth",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_country",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_address_postal_code",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_street_address",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_address_state_or_territory",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "user_mitxonline_username",
-                    models.CharField(
-                        blank=True, max_length=256, null=True, unique=True
-                    ),
+                    models.CharField(blank=True, max_length=256),
                 ),
                 (
                     "program_completion_timestamp",
