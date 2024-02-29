@@ -135,6 +135,8 @@ class UserWebsite(models.Model):
 
 
 class ProgramCertificate(models.Model):
+    """An external model that syncs with data from our data platform"""
+
     user_edxorg_id = models.IntegerField(null=True, blank=True)
 
     micromasters_program_id = models.IntegerField(null=True, blank=True)
