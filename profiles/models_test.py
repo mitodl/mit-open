@@ -2,6 +2,7 @@
 
 import pytest
 from django.core.files.uploadedfile import UploadedFile
+from django.db import connection
 
 from profiles.models import PERSONAL_SITE_TYPE, SITE_TYPE_OPTIONS, SOCIAL_SITE_NAME_MAP
 
@@ -48,3 +49,21 @@ def test_social_site_name_map():
     social_site_type_options = set(SITE_TYPE_OPTIONS)
     social_site_type_options.remove(PERSONAL_SITE_TYPE)
     assert social_site_type_options == set(SOCIAL_SITE_NAME_MAP.keys())
+
+
+@pytest.mark.django_db()
+def test_external_schema_exists():
+    """
+    Test that our migrations have created a seperate schema
+    for storing our external readonly tables
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT 1
+                FROM pg_catalog.pg_class
+                WHERE relname = 'external.programcertificate'
+                AND relkind = 'r';
+            """
+        )
+        assert cursor.fetchone()[0] == 1
