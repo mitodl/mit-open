@@ -12,6 +12,7 @@ import ErrorPage from "@/pages/ErrorPage/ErrorPage"
 import * as urls from "@/common/urls"
 import Header from "@/page-components/Header/Header"
 import { Permissions } from "@/common/permissions"
+import SearchPage from "./pages/SearchPage/SearchPage"
 
 const routes: RouteObject[] = [
   {
@@ -47,6 +48,10 @@ const routes: RouteObject[] = [
       {
         path: urls.PROGRAMLETTER_VIEW,
         element: <ProgramLetterPage />,
+      },
+      {
+        path: urls.SEARCH,
+        element: <SearchPage />,
       },
       {
         element: <RestrictedRoute requires={Permissions.ArticleEditor} />,

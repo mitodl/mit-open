@@ -101,6 +101,8 @@ export { default as FormHelperText } from "@mui/material/FormHelperText"
 export type { FormHelperTextProps } from "@mui/material/FormHelperText"
 export { default as FormLabel } from "@mui/material/FormLabel"
 export type { FormLabelProps } from "@mui/material/FormLabel"
+export { default as Pagination } from "@mui/material/Pagination"
+export type { PaginationProps } from "@mui/material/Pagination"
 
 export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"
