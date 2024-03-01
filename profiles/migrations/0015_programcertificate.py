@@ -98,6 +98,6 @@ class Migration(migrations.Migration):
                     models.DateTimeField(blank=True, null=True),
                 ),
             ],
-            options={"db_table": "external.programcertificate", "managed": False},
+            options={"db_table": "external.programcertificate"},
         ),
     ]
