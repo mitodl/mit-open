@@ -17548,8 +17548,8 @@ __metadata:
     react-dotdotdot: ^1.3.1
     react-helmet-async: ^2.0.3
     react-infinite-scroller: ^1.2.6
-    react-router: ^6.19.0
-    react-router-dom: ^6.19.0
+    react-router: ^6.22.2
+    react-router-dom: ^6.22.2
     storybook: ^7.6.6
     swc-loader: ^0.2.3
     tiny-invariant: ^1.3.1
@@ -18189,8 +18189,8 @@ __metadata:
     rc-tooltip: ^6.1.2
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-router: ^6.19.0
-    react-router-dom: ^6.19.0
+    react-router: ^6.22.2
+    react-router-dom: ^6.22.2
     react-select: ^5.7.7
     react-share: ^5.0.3
     storybook-addon-react-router-v6: ^2.0.10
@@ -18246,7 +18246,6 @@ __metadata:
     validator: ^13.7.0
   peerDependencies:
     react: ^18.2.0
-    react-router: ^6.19.0
   languageName: unknown
   linkType: soft
 
@@ -20595,7 +20594,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.19.0":
+"react-router-dom@npm:^6.22.2":
   version: 6.22.3
   resolution: "react-router-dom@npm:6.22.3"
   dependencies:
@@ -20608,7 +20607,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router@npm:6.22.3, react-router@npm:^6.19.0":
+"react-router@npm:6.22.3, react-router@npm:^6.22.2":
   version: 6.22.3
   resolution: "react-router@npm:6.22.3"
   dependencies:
