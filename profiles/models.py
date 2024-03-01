@@ -132,3 +132,51 @@ class UserWebsite(models.Model):
 
     def __str__(self):
         return f"url: {self.url}; site_type: {self.site_type}"
+
+
+class ProgramCertificate(models.Model):
+    """An external model that syncs with data from our data platform"""
+
+    user_edxorg_id = models.IntegerField(null=True, blank=True)
+
+    micromasters_program_id = models.IntegerField(null=True, blank=True)
+
+    mitxonline_program_id = models.IntegerField(null=True, blank=True)
+
+    user_edxorg_username = models.CharField(max_length=256, blank=True)
+
+    user_email = models.CharField(max_length=256, blank=False)
+
+    program_title = models.CharField(max_length=256, blank=False)
+
+    user_gender = models.CharField(max_length=256, blank=True)
+
+    user_address_city = models.CharField(max_length=256, blank=True)
+
+    user_first_name = models.CharField(max_length=256, blank=True)
+
+    user_last_name = models.CharField(max_length=256, blank=True)
+
+    user_full_name = models.CharField(max_length=256, blank=True)
+
+    user_year_of_birth = models.CharField(max_length=256, blank=True)
+
+    user_country = models.CharField(max_length=256, blank=True)
+
+    user_address_postal_code = models.CharField(max_length=256, blank=True)
+
+    user_street_address = models.CharField(max_length=256, blank=True)
+
+    user_address_state_or_territory = models.CharField(max_length=256, blank=True)
+
+    user_mitxonline_username = models.CharField(max_length=256, blank=True)
+
+    # Timestamp of the course certificate that completed the program
+    program_completion_timestamp = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = "external.programcertificate"
+
+    def __str__(self):
+        return "program certificate: {self.user_full_name} - {self.program_title}"
