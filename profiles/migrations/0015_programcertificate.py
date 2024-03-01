@@ -43,11 +43,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "user_email",
-                    models.CharField(blank=True, max_length=256),
+                    models.CharField(blank=False, max_length=256),
                 ),
                 (
                     "program_title",
-                    models.CharField(blank=True, max_length=256),
+                    models.CharField(blank=False, max_length=256),
                 ),
                 (
                     "user_gender",

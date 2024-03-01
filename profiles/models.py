@@ -145,9 +145,9 @@ class ProgramCertificate(models.Model):
 
     user_edxorg_username = models.CharField(max_length=256, blank=True)
 
-    user_email = models.CharField(max_length=256, blank=True)
+    user_email = models.CharField(max_length=256, blank=False)
 
-    program_title = models.CharField(max_length=256, blank=True)
+    program_title = models.CharField(max_length=256, blank=False)
 
     user_gender = models.CharField(max_length=256, blank=True)
 
