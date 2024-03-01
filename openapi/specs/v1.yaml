@@ -307,7 +307,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SearchResponse'
+                $ref: '#/components/schemas/ContentFileeSearchResponse'
           description: ''
   /api/v1/contentfiles/:
     get:
@@ -3095,7 +3095,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SearchResponse'
+                $ref: '#/components/schemas/LearningResourceSearchResponse'
           description: ''
   /api/v1/learningpaths/:
     get:
@@ -5742,7 +5742,10 @@ components:
         resource_readable_id:
           type: string
         course_number:
-          type: string
+          type: array
+          items:
+            type: string
+          description: Extract the course number(s) from the associated course
           readOnly: true
         file_type:
           type: string
@@ -5770,6 +5773,58 @@ components:
       - semester
       - topics
       - year
+    ContentFileeSearchResponse:
+      type: object
+      description: SearchResponseSerializer with OpenAPI annotations for Content Files
+        search
+      properties:
+        count:
+          type: integer
+          readOnly: true
+        next:
+          type: string
+          nullable: true
+          readOnly: true
+        previous:
+          type: string
+          nullable: true
+          readOnly: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentFile'
+          readOnly: true
+        metadata:
+          type: object
+          properties:
+            aggregations:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                    doc_count:
+                      type: integer
+                  required:
+                  - doc_count
+                  - key
+            suggestions:
+              type: array
+              items:
+                type: string
+          required:
+          - aggregations
+          - suggestions
+          readOnly: true
+      required:
+      - count
+      - metadata
+      - next
+      - previous
+      - results
     ContentTypeEnum:
       enum:
       - page
@@ -6670,6 +6725,59 @@ components:
       - level
       - run_id
       - title
+    LearningResourceSearchResponse:
+      type: object
+      description: |-
+        SearchResponseSerializer with OpenAPI annotations for Learning Resources
+        search
+      properties:
+        count:
+          type: integer
+          readOnly: true
+        next:
+          type: string
+          nullable: true
+          readOnly: true
+        previous:
+          type: string
+          nullable: true
+          readOnly: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResource'
+          readOnly: true
+        metadata:
+          type: object
+          properties:
+            aggregations:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                    doc_count:
+                      type: integer
+                  required:
+                  - doc_count
+                  - key
+            suggestions:
+              type: array
+              items:
+                type: string
+          required:
+          - aggregations
+          - suggestions
+          readOnly: true
+      required:
+      - count
+      - metadata
+      - next
+      - previous
+      - results
     LearningResourceTopic:
       type: object
       description: Serializer for LearningResourceTopic model
@@ -7800,56 +7908,6 @@ components:
         * `learning_path` - learning_path
         * `podcast` - podcast
         * `podcast_episode` - podcast_episode
-    SearchResponse:
-      type: object
-      properties:
-        count:
-          type: integer
-          readOnly: true
-        next:
-          type: string
-          nullable: true
-          readOnly: true
-        previous:
-          type: string
-          nullable: true
-          readOnly: true
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResource'
-          readOnly: true
-        metadata:
-          type: object
-          properties:
-            aggregations:
-              type: object
-              additionalProperties:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    key:
-                      type: string
-                    doc_count:
-                      type: integer
-                  required:
-                  - doc_count
-                  - key
-            suggestions:
-              type: array
-              items:
-                type: string
-          required:
-          - aggregations
-          - suggestions
-          readOnly: true
-      required:
-      - count
-      - metadata
-      - next
-      - previous
-      - results
     UserList:
       type: object
       description: Simplified serializer for UserList model.

@@ -13,7 +13,9 @@ from rest_framework.views import APIView
 from authentication.decorators import blocked_ip_exempt
 from learning_resources_search.api import execute_learn_search
 from learning_resources_search.serializers import (
+    ContentFileeSearchResponseSerializer,
     ContentFileSearchRequestSerializer,
+    LearningResourceSearchResponseSerializer,
     LearningResourcesSearchRequestSerializer,
     SearchResponseSerializer,
 )
@@ -39,7 +41,7 @@ class ESView(APIView):
 @extend_schema_view(
     get=extend_schema(
         parameters=[LearningResourcesSearchRequestSerializer()],
-        responses=SearchResponseSerializer(),
+        responses=LearningResourceSearchResponseSerializer(),
     ),
 )
 @action(methods=["GET"], detail=False, name="Search Learning Resources")
@@ -73,7 +75,7 @@ class LearningResourcesSearchView(ESView):
 @extend_schema_view(
     get=extend_schema(
         parameters=[ContentFileSearchRequestSerializer()],
-        responses=SearchResponseSerializer(),
+        responses=ContentFileeSearchResponseSerializer(),
     ),
 )
 @action(methods=["GET"], detail=False, name="Search Content Files")
