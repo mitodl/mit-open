@@ -754,13 +754,13 @@ files = [
 
 [[package]]
 name = "ddt"
-version = "1.7.1"
+version = "1.7.2"
 description = "Data-Driven/Decorated Tests"
 optional = false
 python-versions = "*"
 files = [
-    {file = "ddt-1.7.1-py2.py3-none-any.whl", hash = "sha256:2c4ac421bbdc10d2403b472294500c6f75ca822386c34d9fe82882d7a2ce9682"},
-    {file = "ddt-1.7.1.tar.gz", hash = "sha256:1a4472c477bf766f75f7b1efb628656ff3c35ff3f6c821129ae8e328fff8a9a2"},
+    {file = "ddt-1.7.2-py2.py3-none-any.whl", hash = "sha256:6adcfaf9785f0a36f9e73a89b91e412de9ef8649e289b750e3683bc79d5e2354"},
+    {file = "ddt-1.7.2.tar.gz", hash = "sha256:d215d6b083963013c4a19b1e4dcd6a96e80e43ab77519597a6acfcf2e9a3e04b"},
 ]
 
 [[package]]
