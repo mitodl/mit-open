@@ -92,6 +92,11 @@ class ProgramLetterSignatorInline(TabularInline):
     show_change_link = True
 
 
+class ProgramLetterConfigurationAdmin(admin.ModelAdmin):
+    model = models.ProgramLetterConfiguration
+    inlines = [ProgramLetterSignatorInline]
+
+
 class CourseInline(TabularInline):
     """Inline list items for Courses"""
 
@@ -148,4 +153,5 @@ admin.site.register(models.LearningResourceRun, LearningResourceRunAdmin)
 admin.site.register(models.LearningResourceDepartment, LearningResourceDepartmentAdmin)
 admin.site.register(models.LearningResourcePlatform, LearningResourcePlatformAdmin)
 admin.site.register(models.LearningResourceOfferor, LearningResourceOfferorAdmin)
+admin.site.register(models.ProgramLetterConfiguration, ProgramLetterConfigurationAdmin)
 admin.site.register(models.UserList, UserListAdmin)
