@@ -476,7 +476,7 @@ class Video(TimestampedModel):
         related_name="video",
         on_delete=models.CASCADE,
     )
-    duration = models.CharField(null=True, blank=True, max_length=11)  # noqa: DJ001
+    duration = models.CharField(max_length=11)
     transcript = models.TextField(blank=True, default="")
 
     def __str__(self):

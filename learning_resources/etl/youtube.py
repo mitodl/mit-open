@@ -28,6 +28,7 @@ CONFIG_FILE_REPO = "mitodl/open-video-data"
 CONFIG_FILE_FOLDER = "youtube"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
+YOUTUBE_MAX_RESULTS = 50
 WILDCARD_PLAYLIST_ID = "all"
 
 log = logging.getLogger()
@@ -35,11 +36,11 @@ log = logging.getLogger()
 
 def get_youtube_client() -> Resource:
     """
-    Function to generate a Google api client
+    Generate a Google api client for Youtube
 
     Returns:
         Google Api client resource
-    """  # noqa: D401
+    """
 
     developer_key = settings.YOUTUBE_DEVELOPER_KEY
     return build(
@@ -94,7 +95,9 @@ def extract_playlist_items(
 
     try:
         request = youtube_client.playlistItems().list(
-            part="contentDetails", maxResults=50, playlistId=playlist_id
+            part="contentDetails",
+            maxResults=YOUTUBE_MAX_RESULTS,
+            playlistId=playlist_id,
         )
 
         while request is not None:
@@ -105,7 +108,7 @@ def extract_playlist_items(
 
             video_ids = (
                 item["contentDetails"]["videoId"] for item in response["items"]
-            )  # noqa: E501, RUF100
+            )
 
             yield from extract_videos(youtube_client, video_ids)
 
@@ -184,7 +187,7 @@ def extract_playlists(
     if WILDCARD_PLAYLIST_ID in playlist_configs_by_id:
         requests.append(
             youtube_client.playlists().list(
-                part="snippet", channelId=channel_id, maxResults=50
+                part="snippet", channelId=channel_id, maxResults=YOUTUBE_MAX_RESULTS
             )
         )
 
@@ -192,7 +195,9 @@ def extract_playlists(
         playlist_ids = playlist_configs_by_id.keys()
         requests.append(
             youtube_client.playlists().list(
-                part="snippet", id=",".join(playlist_ids), maxResults=50
+                part="snippet",
+                id=",".join(playlist_ids),
+                maxResults=YOUTUBE_MAX_RESULTS,
             )
         )
 
@@ -221,7 +226,9 @@ def extract_channels(
 
     try:
         request = youtube_client.channels().list(
-            part="snippet,contentDetails", id=",".join(channel_ids), maxResults=50
+            part="snippet,contentDetails",
+            id=",".join(channel_ids),
+            maxResults=YOUTUBE_MAX_RESULTS,
         )
 
         while request is not None:
@@ -290,14 +297,14 @@ def github_youtube_config_file() -> bytes:
 
 def validate_channel_configs(channel_configs: dict) -> list[str]:
     """
-    Validates a channel config
+    Validate a channel config
 
     Args:
         channel_configs (dict): the channel config object
 
     Returns:
         list of str: list of errors or an empty list if no errors
-    """  # noqa: D401
+    """
     errors = []
 
     if not channel_configs:
@@ -359,11 +366,11 @@ def extract(*, channel_ids: Optional[str] = None) -> Generator[tuple, None, None
     Return video data for all videos in channels' playlists
 
     Args:
-        channel_ids (list of str or None): if a list the extraction is limited to those channels
+        channel_ids (list of str or None): list of channels to extract (all if None)
 
     Returns:
         A generator that yields tuples with offered_by and video data
-    """  # noqa: E501
+    """
     for setting in ("YOUTUBE_CONFIG_URL", "YOUTUBE_DEVELOPER_KEY"):
         if not getattr(settings, setting):
             log.error("Missing required setting %s", setting)

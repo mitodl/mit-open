@@ -732,7 +732,7 @@ def load_video(video_data: dict) -> LearningResource:
 
 def load_videos(videos_data: iter) -> list[LearningResource]:
     """
-    Loads a list of videos into the database
+    Load a list of videos into the database
 
     Args:
         videos_data (iter of dict): iterable of the video data
@@ -740,7 +740,7 @@ def load_videos(videos_data: iter) -> list[LearningResource]:
     Returns:
         list of Video:
             the list of loaded videos
-    """  # noqa: D401
+    """
 
     return [load_video(video_data) for video_data in videos_data]
 

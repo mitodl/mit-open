@@ -106,7 +106,7 @@ class Migration(migrations.Migration):
                 ),
                 ("created_on", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_on", models.DateTimeField(auto_now=True)),
-                ("duration", models.CharField(blank=True, max_length=11, null=True)),
+                ("duration", models.CharField(max_length=11)),
                 ("transcript", models.TextField(blank=True, default="")),
                 (
                     "learning_resource",

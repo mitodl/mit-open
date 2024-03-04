@@ -93,14 +93,14 @@ class LearningPathInline(TabularInline):
 
 
 class VideoInline(TabularInline):
-    """PodcastAdmin"""
+    """Inline Video objects"""
 
     model = models.Video
     show_change_link = True
 
 
 class VideoPlaylistInline(TabularInline):
-    """Inline list items for VideoPlaylists"""
+    """Inline VideoPlaylist objects"""
 
     model = models.VideoPlaylist
     extra = 0
@@ -108,21 +108,21 @@ class VideoPlaylistInline(TabularInline):
 
 
 class ProgramInline(TabularInline):
-    """PodcastAdmin"""
+    """Inline Program objects"""
 
     model = models.Program
     show_change_link = True
 
 
 class PodcastInline(TabularInline):
-    """PodcastAdmin"""
+    """Inline Podcast objects"""
 
     model = models.Podcast
     show_change_link = True
 
 
 class PodcastEpisodeInline(TabularInline):
-    """PodcastEpisodeAdmin"""
+    """Inline podcast episode objects"""
 
     model = models.PodcastEpisode
     show_change_link = True
@@ -165,6 +165,8 @@ class UserListAdmin(admin.ModelAdmin):
 
 
 class VideoChannelAdmin(admin.ModelAdmin):
+    """VideoChannel Admin"""
+
     model = models.VideoChannel
     list_display = ("title", "channel_id", "published")
     search_fields = ("title", "channel_id")

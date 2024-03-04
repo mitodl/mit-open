@@ -735,6 +735,7 @@ class VideoFactory(DjangoModelFactory):
         is_video=True,
         create_video=False,
     )
+    duration = factory.Sequence(lambda n: "PT%02dM%02dS" % (n, n))
 
     class Meta:
         model = models.Video
