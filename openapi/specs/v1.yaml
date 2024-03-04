@@ -8111,11 +8111,11 @@ components:
           readOnly: true
         duration:
           type: string
-          nullable: true
           maxLength: 11
         transcript:
           type: string
       required:
+      - duration
       - id
     VideoChannel:
       type: object
@@ -8342,10 +8342,12 @@ components:
       properties:
         duration:
           type: string
-          nullable: true
+          minLength: 1
           maxLength: 11
         transcript:
           type: string
+      required:
+      - duration
     VideoResource:
       type: object
       description: Serializer for video resources

@@ -3366,7 +3366,7 @@ export interface Video {
    * @type {string}
    * @memberof Video
    */
-  duration?: string | null
+  duration: string
   /**
    *
    * @type {string}
@@ -3668,7 +3668,7 @@ export interface VideoRequest {
    * @type {string}
    * @memberof VideoRequest
    */
-  duration?: string | null
+  duration: string
   /**
    *
    * @type {string}
