@@ -1,6 +1,26 @@
 Release Notes
 =============
 
+Version 0.3.3 (Released March 04, 2024)
+-------------
+
+- Save user with is_active from SCIM request (#535)
+- Add SCIM client (#513)
+- CI and test fixtures for E2E testing (#481)
+- Update postgres Docker tag to v12.18 (#530)
+- Update dependency responses to ^0.25.0 (#529)
+- Update dependency google-api-python-client to v2.118.0 (#528)
+- Update dependency @sentry/react to v7.101.1 (#527)
+- Update react-router monorepo to v6.22.1 (#526)
+- Update nginx Docker tag to v1.25.4 (#524)
+- Update dependency ruff to v0.2.2 (#525)
+- Update dependency social-auth-core to v4.5.3 (#523)
+- Update dependency sentry-sdk to v1.40.4 (#522)
+- Update dependency iso-639-1 to v3.1.1 (#521)
+- Update dependency boto3 to v1.34.44 (#520)
+- Update all non-major dev-dependencies (#519)
+- Update Node.js to v18.19.1 (#518)
+
 Version 0.3.2 (Released February 20, 2024)
 -------------
 
