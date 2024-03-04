@@ -12,7 +12,11 @@ from learning_resources import factories, models, tasks
 from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3, setup_s3_ocw
 from learning_resources.constants import LearningResourceType, PlatformType
 from learning_resources.etl.constants import ETLSource
-from learning_resources.tasks import get_ocw_data
+from learning_resources.tasks import (
+    get_ocw_data,
+    get_youtube_data,
+    get_youtube_transcripts,
+)
 
 pytestmark = pytest.mark.django_db
 # pylint:disable=redefined-outer-name,unused-argument,too-many-arguments
@@ -287,4 +291,28 @@ def test_get_ocw_courses(settings, mocker, mocked_celery, timestamp, overwrite):
     assert (
         course_resource.runs.first().slug
         == "courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+    )
+
+
+@pytest.mark.parametrize("channel_ids", [["abc", "123"], None])
+def test_get_youtube_data(mocker, settings, channel_ids):
+    """Verify that the get_youtube_data invokes the YouTube ETL pipeline with expected params"""
+    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
+    get_youtube_data.delay(channel_ids=channel_ids)
+    mock_pipelines.youtube_etl.assert_called_once_with(channel_ids=channel_ids)
+
+
+def test_get_youtube_transcripts(mocker):
+    """Verify that get_youtube_transcripts invokes correct course_catalog.etl.youtube functions"""
+
+    mock_etl_youtube = mocker.patch("learning_resources.tasks.youtube")
+
+    get_youtube_transcripts(created_after=None, created_minutes=2000, overwrite=True)
+
+    mock_etl_youtube.get_youtube_videos_for_transcripts_job.assert_called_once_with(
+        created_after=None, created_minutes=2000, overwrite=True
+    )
+
+    mock_etl_youtube.get_youtube_transcripts.assert_called_once_with(
+        mock_etl_youtube.get_youtube_videos_for_transcripts_job.return_value
     )

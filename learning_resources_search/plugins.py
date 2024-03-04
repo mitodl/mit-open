@@ -7,6 +7,8 @@ from learning_resources_search import tasks
 from learning_resources_search.constants import (
     COURSE_TYPE,
 )
+from main import settings
+from main.utils import chunks
 
 log = logging.getLogger()
 
@@ -53,6 +55,25 @@ class SearchIndexPlugin:
         if resource.resource_type == COURSE_TYPE:
             for run in resource.runs.all():
                 self.resource_run_unpublished(run)
+
+    @hookimpl
+    def bulk_resources_unpublished(self, resource_ids, resource_type):
+        """
+        Remove multiple resources from the search index
+
+        Args:
+            resource_ids(list): The Learning Resource ids that were removed
+            resource_type(str): The Learning Resource type that was removed
+        """
+        for ids in chunks(
+            resource_ids,
+            chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+        ):
+            try_with_retry_as_task(
+                tasks.bulk_deindex_learning_resources,
+                ids,
+                resource_type,
+            )
 
     @hookimpl
     def resource_delete(self, resource):

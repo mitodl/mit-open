@@ -92,6 +92,42 @@ class LearningPathInline(TabularInline):
     show_change_link = True
 
 
+class VideoInline(TabularInline):
+    """PodcastAdmin"""
+
+    model = models.Video
+    show_change_link = True
+
+
+class VideoPlaylistInline(TabularInline):
+    """Inline list items for VideoPlaylists"""
+
+    model = models.VideoPlaylist
+    extra = 0
+    show_change_link = True
+
+
+class ProgramInline(TabularInline):
+    """PodcastAdmin"""
+
+    model = models.Program
+    show_change_link = True
+
+
+class PodcastInline(TabularInline):
+    """PodcastAdmin"""
+
+    model = models.Podcast
+    show_change_link = True
+
+
+class PodcastEpisodeInline(TabularInline):
+    """PodcastEpisodeAdmin"""
+
+    model = models.PodcastEpisode
+    show_change_link = True
+
+
 class LearningResourceAdmin(admin.ModelAdmin):
     """LearningResource Admin"""
 
@@ -107,7 +143,16 @@ class LearningResourceAdmin(admin.ModelAdmin):
         "published",
     )
     list_filter = ("platform", "offered_by", "etl_source", "resource_type", "published")
-    inlines = [CourseInline, LearningPathInline, LearningResourceRunInline]
+    inlines = [
+        CourseInline,
+        LearningResourceRunInline,
+        LearningPathInline,
+        ProgramInline,
+        PodcastInline,
+        PodcastEpisodeInline,
+        VideoInline,
+        VideoPlaylistInline,
+    ]
     autocomplete_fields = ("topics",)
 
 
@@ -119,6 +164,14 @@ class UserListAdmin(admin.ModelAdmin):
     list_display = ("title", "author", "created_on", "updated_on")
 
 
+class VideoChannelAdmin(admin.ModelAdmin):
+    model = models.VideoChannel
+    list_display = ("title", "channel_id", "published")
+    search_fields = ("title", "channel_id")
+    list_filter = ("published",)
+    inlines = (VideoPlaylistInline,)
+
+
 admin.site.register(models.LearningResourceTopic, LearningResourceTopicAdmin)
 admin.site.register(models.LearningResourceInstructor, LearningResourceInstructorAdmin)
 admin.site.register(models.LearningResource, LearningResourceAdmin)
@@ -127,3 +180,4 @@ admin.site.register(models.LearningResourceDepartment, LearningResourceDepartmen
 admin.site.register(models.LearningResourcePlatform, LearningResourcePlatformAdmin)
 admin.site.register(models.LearningResourceOfferor, LearningResourceOfferorAdmin)
 admin.site.register(models.UserList, UserListAdmin)
+admin.site.register(models.VideoChannel, VideoChannelAdmin)

@@ -246,6 +246,40 @@ class PodcastSerializer(serializers.ModelSerializer):
         exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
+class VideoChannelSerializer(serializers.ModelSerializer):
+    """Serializer for the VideoChannel model"""
+
+    class Meta:
+        model = models.VideoChannel
+        exclude = ["published", *COMMON_IGNORED_FIELDS]
+
+
+class VideoSerializer(serializers.ModelSerializer):
+    """Serializer for the Video model"""
+
+    class Meta:
+        model = models.Video
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
+
+
+class VideoPlaylistSerializer(serializers.ModelSerializer):
+    """Serializer for the VideoPlaylist model"""
+
+    channel = VideoChannelSerializer(read_only=True, allow_null=True)
+
+    video_count = serializers.SerializerMethodField()
+
+    def get_video_count(self, instance) -> int:
+        """Return the number of videos in the playlist"""
+        return instance.learning_resource.children.filter(
+            relation_type=constants.LearningResourceRelationTypes.PLAYLIST_VIDEOS.value
+        ).count()
+
+    class Meta:
+        model = models.VideoPlaylist
+        exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
+
+
 class MicroLearningPathRelationshipSerializer(serializers.ModelSerializer):
     """
     Serializer containing only parent and child ids for a learning path relationship
@@ -472,6 +506,26 @@ class PodcastEpisodeResourceSerializer(LearningResourceBaseSerializer):
     podcast_episode = PodcastEpisodeSerializer(read_only=True)
 
 
+class VideoResourceSerializer(LearningResourceBaseSerializer):
+    """Serializer for video resources"""
+
+    resource_type = LearningResourceTypeField(
+        default=constants.LearningResourceType.video.name
+    )
+
+    video = VideoSerializer(read_only=True)
+
+
+class VideoPlaylistResourceSerializer(LearningResourceBaseSerializer):
+    """Serializer for video playlist resources"""
+
+    resource_type = LearningResourceTypeField(
+        default=constants.LearningResourceType.video_playlist.name
+    )
+
+    video_playlist = VideoPlaylistSerializer(read_only=True)
+
+
 class LearningResourceSerializer(serializers.Serializer):
     """Serializer for LearningResource"""
 
@@ -483,6 +537,8 @@ class LearningResourceSerializer(serializers.Serializer):
             LearningPathResourceSerializer,
             PodcastResourceSerializer,
             PodcastEpisodeResourceSerializer,
+            VideoResourceSerializer,
+            VideoPlaylistResourceSerializer,
         )
     }
 

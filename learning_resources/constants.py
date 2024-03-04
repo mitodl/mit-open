@@ -31,6 +31,8 @@ class LearningResourceType(ExtendedEnum):
     learning_path = "Learning Path"
     podcast = "Podcast"
     podcast_episode = "Podcast Episode"
+    video = "Video"
+    video_playlist = "Video Playlist"
 
 
 class OfferedBy(ExtendedEnum):
@@ -76,6 +78,7 @@ class PlatformType(ExtendedEnum):
     simplilearn = "Simplilearn"
     emeritus = "Emeritus"
     podcast = "Podcast"
+    youtube = "YouTube"
 
 
 class PrivacyLevel(ExtendedEnum):
@@ -96,6 +99,7 @@ class LearningResourceRelationTypes(TextChoices):
     PROGRAM_COURSES = "PROGRAM_COURSES", "Program Courses"
     LEARNING_PATH_ITEMS = "LEARNING_PATH_ITEMS", "Learning Path Items"
     PODCAST_EPISODES = "PODCAST_EPISODES", "Podcast Episodes"
+    PLAYLIST_VIDEOS = "PLAYLIST_VIDEOS", "Playlist Videos"
 
 
 GROUP_STAFF_LISTS_EDITORS = "learning_path_editors"

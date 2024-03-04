@@ -13,6 +13,8 @@ CONTENT_FILE_TYPE = "content_file"
 PODCAST_TYPE = "podcast"
 PODCAST_EPISODE_TYPE = "podcast_episode"
 LEARNING_PATH_TYPE = "learning_path"
+VIDEO_TYPE = "video"
+VIDEO_PLAYLIST_TYPE = "video_playlist"
 
 CURRENT_INDEX = "current_index"
 REINDEXING_INDEX = "reindexing_index"
@@ -35,6 +37,8 @@ LEARNING_RESOURCE_TYPES = (
     PODCAST_TYPE,
     PODCAST_EPISODE_TYPE,
     LEARNING_PATH_TYPE,
+    VIDEO_TYPE,
+    VIDEO_PLAYLIST_TYPE,
 )
 
 
@@ -154,6 +158,12 @@ LEARNING_RESOURCE_MAP = {
             }
         }
     },
+    "video": {
+        "properties": {
+            "duration": {"type": "keyword"},
+            "transcript": ENGLISH_TEXT_FIELD,
+        }
+    },
     "runs": {
         "type": "nested",
         "properties": {
@@ -253,6 +263,7 @@ LEARNING_RESOURCE_QUERY_FIELDS = [
     "offered_by",
     "course_feature",
     "course",
+    "video.transcript.english",
 ]
 
 TOPICS_QUERY_FIELDS = ["topics.name"]
@@ -287,6 +298,8 @@ MAPPING = {
     PODCAST_TYPE: LEARNING_RESOURCE_MAP,
     PODCAST_EPISODE_TYPE: LEARNING_RESOURCE_MAP,
     LEARNING_PATH_TYPE: LEARNING_RESOURCE_MAP,
+    VIDEO_TYPE: LEARNING_RESOURCE_MAP,
+    VIDEO_PLAYLIST_TYPE: LEARNING_RESOURCE_MAP,
 }
 
 SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)

@@ -30,6 +30,8 @@ from learning_resources_search.constants import SOURCE_EXCLUDED_FIELDS
                 "testindex_podcast_default",
                 "testindex_podcast_episode_default",
                 "testindex_learning_path_default",
+                "testindex_video_default",
+                "testindex_video_playlist_default",
             ],
         ),
         (["content_file"], [], ["testindex_course_default"]),
@@ -129,6 +131,7 @@ def test_generate_learning_resources_text_clause():
                                                 "offered_by",
                                                 "course_feature",
                                                 "course",
+                                                "video.transcript.english",
                                             ],
                                         }
                                     },
@@ -249,6 +252,7 @@ def test_generate_learning_resources_text_clause():
                             "offered_by",
                             "course_feature",
                             "course",
+                            "video.transcript.english",
                         ],
                     }
                 },
@@ -361,6 +365,7 @@ def test_generate_learning_resources_text_clause():
                                                 "offered_by",
                                                 "course_feature",
                                                 "course",
+                                                "video.transcript.english",
                                             ],
                                         }
                                     },
@@ -481,6 +486,7 @@ def test_generate_learning_resources_text_clause():
                             "offered_by",
                             "course_feature",
                             "course",
+                            "video.transcript.english",
                         ],
                     }
                 },
@@ -1037,6 +1043,7 @@ def test_execute_learn_search(opensearch):
                                                                     "offered_by",
                                                                     "course_feature",
                                                                     "course",
+                                                                    "video.transcript.english",
                                                                 ],
                                                             }
                                                         },
@@ -1162,6 +1169,7 @@ def test_execute_learn_search(opensearch):
                                             "offered_by",
                                             "course_feature",
                                             "course",
+                                            "video.transcript.english",
                                         ],
                                     }
                                 },

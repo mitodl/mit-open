@@ -27,6 +27,8 @@ from learning_resources_search.constants import (
     PODCAST_TYPE,
     PROGRAM_TYPE,
     SEARCH_CONN_EXCEPTIONS,
+    VIDEO_PLAYLIST_TYPE,
+    VIDEO_TYPE,
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
@@ -271,6 +273,8 @@ def start_recreate_index(self, indexes):
             PODCAST_TYPE,
             PODCAST_EPISODE_TYPE,
             LEARNING_PATH_TYPE,
+            VIDEO_TYPE,
+            VIDEO_PLAYLIST_TYPE,
         ]:
             if resource_type in indexes:
                 index_tasks = index_tasks + [
@@ -330,6 +334,8 @@ def start_update_index(self, indexes, etl_source):
             PODCAST_TYPE,
             PODCAST_EPISODE_TYPE,
             LEARNING_PATH_TYPE,
+            VIDEO_TYPE,
+            VIDEO_PLAYLIST_TYPE,
         ]:
             if resource_type in indexes:
                 index_tasks = index_tasks + get_update_learning_resource_tasks(
