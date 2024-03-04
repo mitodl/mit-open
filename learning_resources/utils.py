@@ -1,10 +1,8 @@
 """Utils for learning resources"""
 
-import json
 import logging
 import re
 from datetime import datetime
-from pathlib import Path
 
 import pytz
 import rapidjson
@@ -13,19 +11,11 @@ import yaml
 from botocore.exceptions import ClientError
 from django.conf import settings
 from django.contrib.auth.models import Group, User
-from django.db import transaction
 from retry import retry
 
 from learning_resources.constants import (
     GROUP_STAFF_LISTS_EDITORS,
     semester_mapping,
-)
-from learning_resources.hooks import get_plugin_manager
-from learning_resources.models import (
-    LearningResource,
-    LearningResourceOfferor,
-    LearningResourcePlatform,
-    LearningResourceRun,
 )
 from main.utils import generate_filepath
 
@@ -48,12 +38,18 @@ def staff_list_image_upload_uri(instance, filename):
     return generate_filepath(filename, "staff_list", instance.title, "")
 
 
-# NOTE: this is unused, but a migration references it, so we'll leave it until we decide to squash migrations or something  # noqa: E501
 def program_image_upload_uri(instance, filename):
     """
     upload_to handler for Program image
     """
     return generate_filepath(filename, instance.title, "", "program")
+
+
+def program_signator_signature_image_upload_uri(instance, filename):
+    """
+    upload_to handler for ProgramSignator's "signature" image
+    """
+    return generate_filepath(filename, instance.id, "", "program_signator")
 
 
 def get_year_and_semester(course_run):
@@ -274,94 +270,3 @@ def get_ocw_topics(topics_collection):
             topics.append(topic_object["ocw_speciality"])
 
     return list(set(topics))
-
-
-def upsert_offered_by_data():
-    """
-    Upsert LearningResourceOfferor data
-    """
-    with Path.open(Path(__file__).parent / "fixtures" / "offered_by.json") as inf:
-        offered_by_json = json.load(inf)
-        offerors = []
-        with transaction.atomic():
-            for offeror in offered_by_json:
-                offeror_fields = offeror["fields"]
-                LearningResourceOfferor.objects.update_or_create(
-                    name=offeror_fields["name"],
-                    defaults=offeror_fields,
-                )
-                offerors.append(offeror_fields["name"])
-            LearningResourceOfferor.objects.exclude(name__in=offerors).delete()
-
-
-def upsert_platform_data():
-    """
-    Upsert LearningResourcePlatform data
-    """
-    with Path.open(Path(__file__).parent / "fixtures" / "platforms.json") as inf:
-        platform_json = json.load(inf)
-        platforms = []
-        with transaction.atomic():
-            for platform in platform_json:
-                platform_fields = platform["fields"]
-                LearningResourcePlatform.objects.update_or_create(
-                    code=platform_fields["code"],
-                    defaults=platform_fields,
-                )
-                platforms.append(platform_fields["code"])
-            LearningResourcePlatform.objects.exclude(code__in=platforms).delete()
-        return platforms
-
-
-def resource_upserted_actions(resource: LearningResource):
-    """
-    Trigger plugins when a LearningResource is created or updated
-    """
-    pm = get_plugin_manager()
-    hook = pm.hook
-    hook.resource_upserted(resource=resource)
-
-
-def resource_unpublished_actions(resource: LearningResource):
-    """
-    Trigger plugins when a LearningResource is removed/unpublished
-    """
-    pm = get_plugin_manager()
-    hook = pm.hook
-    hook.resource_unpublished(resource=resource)
-
-
-def resource_delete_actions(resource: LearningResource):
-    """
-    Trigger plugin to handle learning resource deletion
-    """
-    pm = get_plugin_manager()
-    hook = pm.hook
-    hook.resource_delete(resource=resource)
-
-
-def resource_run_upserted_actions(run: LearningResourceRun):
-    """
-    Trigger plugins when a LearningResourceRun is created or updated
-    """
-    pm = get_plugin_manager()
-    hook = pm.hook
-    hook.resource_run_upserted(run=run)
-
-
-def resource_run_unpublished_actions(run: LearningResourceRun):
-    """
-    Trigger plugins when a LearningResourceRun is removed/unpublished
-    """
-    pm = get_plugin_manager()
-    hook = pm.hook
-    hook.resource_run_unpublished(run=run)
-
-
-def resource_run_delete_actions(run: LearningResourceRun):
-    """
-    Trigger plugin to handle learning resource run deletion
-    """
-    pm = get_plugin_manager()
-    hook = pm.hook
-    hook.resource_run_delete(run=run)

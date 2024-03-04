@@ -3,9 +3,9 @@ from django.conf import settings
 from django.core.management import BaseCommand
 
 from learning_resources.etl.constants import ETLSource
+from learning_resources.etl.utils import resource_delete_actions
 from learning_resources.models import LearningResource
 from learning_resources.tasks import get_ocw_data
-from learning_resources.utils import resource_delete_actions
 from main.constants import ISOFORMAT
 from main.utils import now_in_utc
 

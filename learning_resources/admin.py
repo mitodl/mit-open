@@ -76,6 +76,22 @@ class LearningResourceRunInline(TabularInline):
     )
 
 
+class ProgramLetterConfigurationInline(TabularInline):
+    """Inline list items for Courses"""
+
+    model = models.ProgramLetterConfiguration
+    extra = 0
+    show_change_link = True
+
+
+class ProgramLetterSignatorInline(TabularInline):
+    """Inline list items for Courses"""
+
+    model = models.ProgramLetterSignator
+    extra = 0
+    show_change_link = True
+
+
 class CourseInline(TabularInline):
     """Inline list items for Courses"""
 
@@ -111,6 +127,11 @@ class LearningResourceAdmin(admin.ModelAdmin):
     autocomplete_fields = ("topics",)
 
 
+class ProgramAdmin(admin.ModelAdmin):
+    model = models.Program
+    inlines = [ProgramLetterConfigurationInline]
+
+
 class UserListAdmin(admin.ModelAdmin):
     """UserList Admin"""
 
@@ -119,6 +140,7 @@ class UserListAdmin(admin.ModelAdmin):
     list_display = ("title", "author", "created_on", "updated_on")
 
 
+admin.site.register(models.Program, ProgramAdmin)
 admin.site.register(models.LearningResourceTopic, LearningResourceTopicAdmin)
 admin.site.register(models.LearningResourceInstructor, LearningResourceInstructorAdmin)
 admin.site.register(models.LearningResource, LearningResourceAdmin)

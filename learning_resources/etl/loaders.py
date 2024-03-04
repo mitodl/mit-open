@@ -17,6 +17,12 @@ from learning_resources.etl.constants import (
 )
 from learning_resources.etl.deduplication import get_most_relevant_run
 from learning_resources.etl.exceptions import ExtractException
+from learning_resources.etl.utils import (
+    resource_run_unpublished_actions,
+    resource_run_upserted_actions,
+    resource_unpublished_actions,
+    resource_upserted_actions,
+)
 from learning_resources.models import (
     ContentFile,
     Course,
@@ -33,14 +39,7 @@ from learning_resources.models import (
     PodcastEpisode,
     Program,
 )
-from learning_resources.utils import (
-    load_course_blocklist,
-    load_course_duplicates,
-    resource_run_unpublished_actions,
-    resource_run_upserted_actions,
-    resource_unpublished_actions,
-    resource_upserted_actions,
-)
+from learning_resources.utils import load_course_blocklist, load_course_duplicates
 
 log = logging.getLogger()
 

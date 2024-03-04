@@ -30,6 +30,10 @@ from learning_resources.constants import (
     PrivacyLevel,
 )
 from learning_resources.etl.podcast import generate_aggregate_podcast_rss
+from learning_resources.etl.utils import (
+    resource_delete_actions,
+    resource_unpublished_actions,
+)
 from learning_resources.exceptions import WebhookException
 from learning_resources.filters import (
     ContentFileFilter,
@@ -73,10 +77,6 @@ from learning_resources.serializers import (
     UserListSerializer,
 )
 from learning_resources.tasks import get_ocw_courses
-from learning_resources.utils import (
-    resource_delete_actions,
-    resource_unpublished_actions,
-)
 from main.constants import VALID_HTTP_METHODS
 from main.permissions import (
     AnonymousAccessReadonlyPermission,

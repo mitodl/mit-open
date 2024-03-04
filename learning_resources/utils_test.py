@@ -15,8 +15,17 @@ from learning_resources.constants import (
     CONTENT_TYPE_PDF,
     CONTENT_TYPE_VIDEO,
 )
-from learning_resources.etl.utils import get_content_type
+from learning_resources.etl.utils import (
+    get_content_type,
+    resource_delete_actions,
+    resource_run_delete_actions,
+    resource_run_unpublished_actions,
+    resource_run_upserted_actions,
+    resource_unpublished_actions,
+    resource_upserted_actions,
+)
 from learning_resources.factories import CourseFactory, LearningResourceRunFactory
+from learning_resources.management.commands.utils import upsert_platform_data
 from learning_resources.models import LearningResourcePlatform
 
 pytestmark = pytest.mark.django_db
@@ -25,7 +34,7 @@ pytestmark = pytest.mark.django_db
 @pytest.fixture()
 def mock_plugin_manager(mocker):
     """Fixture for mocking the plugin manager"""
-    return mocker.patch("learning_resources.utils.get_plugin_manager").return_value
+    return mocker.patch("learning_resources.etl.utils.get_plugin_manager").return_value
 
 
 @pytest.fixture()
@@ -197,7 +206,7 @@ def test_platform_data():
     assert LearningResourcePlatform.objects.filter(code="bad").count() == 1
     with Path.open(Path(__file__).parent / "fixtures" / "platforms.json") as inf:
         expected_count = len(json.load(inf))
-    codes = utils.upsert_platform_data()
+    codes = upsert_platform_data()
     assert LearningResourcePlatform.objects.count() == expected_count == len(codes)
     assert LearningResourcePlatform.objects.filter(code="bad").count() == 0
 
@@ -206,7 +215,7 @@ def test_resource_upserted_actions(mock_plugin_manager, fixture_resource):
     """
     resource_upserted_actions function should trigger plugin hook's resource_upserted function
     """
-    utils.resource_upserted_actions(fixture_resource)
+    resource_upserted_actions(fixture_resource)
     mock_plugin_manager.hook.resource_upserted.assert_called_once_with(
         resource=fixture_resource
     )
@@ -216,7 +225,7 @@ def test_resource_unpublished_actions(mock_plugin_manager, fixture_resource):
     """
     resource_unpublished_actions function should trigger plugin hook's resource_unpublished function
     """
-    utils.resource_unpublished_actions(fixture_resource)
+    resource_unpublished_actions(fixture_resource)
     mock_plugin_manager.hook.resource_unpublished.assert_called_once_with(
         resource=fixture_resource
     )
@@ -226,7 +235,7 @@ def test_resource_delete_actions(mock_plugin_manager, fixture_resource):
     """
     resource_delete_actions function should trigger plugin hook's resource_deleted function
     """
-    utils.resource_delete_actions(fixture_resource)
+    resource_delete_actions(fixture_resource)
     mock_plugin_manager.hook.resource_delete.assert_called_once_with(
         resource=fixture_resource
     )
@@ -236,7 +245,7 @@ def test_resource_run_upserted_actions(mock_plugin_manager, fixture_resource_run
     """
     resource_run_upserted_actions function should trigger plugin hook's resource_run_upserted function
     """
-    utils.resource_run_upserted_actions(fixture_resource_run)
+    resource_run_upserted_actions(fixture_resource_run)
     mock_plugin_manager.hook.resource_run_upserted.assert_called_once_with(
         run=fixture_resource_run
     )
@@ -246,7 +255,7 @@ def test_resource_run_unpublished_actions(mock_plugin_manager, fixture_resource_
     """
     resource_run_unpublished_actions function should trigger plugin hook's resource_run_unpublished function
     """
-    utils.resource_run_unpublished_actions(fixture_resource_run)
+    resource_run_unpublished_actions(fixture_resource_run)
     mock_plugin_manager.hook.resource_run_unpublished.assert_called_once_with(
         run=fixture_resource_run
     )
@@ -256,7 +265,7 @@ def test_resource_run_delete_actions(mock_plugin_manager, fixture_resource_run):
     """
     resource_run_delete_actions function should trigger plugin hook's resource_run_deleted function
     """
-    utils.resource_run_delete_actions(fixture_resource_run)
+    resource_run_delete_actions(fixture_resource_run)
     mock_plugin_manager.hook.resource_run_delete.assert_called_once_with(
         run=fixture_resource_run
     )

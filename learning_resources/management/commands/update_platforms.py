@@ -2,7 +2,7 @@
 
 from django.core.management import BaseCommand
 
-from learning_resources.utils import upsert_platform_data
+from learning_resources.management.commands.utils import upsert_platform_data
 from main.utils import now_in_utc
 
 
