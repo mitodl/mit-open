@@ -12,6 +12,10 @@ from learning_resources.constants import (
     LearningResourceType,
     PrivacyLevel,
 )
+from learning_resources.utils import (
+    program_image_upload_uri,
+    program_signator_signature_image_upload_uri,
+)
 from main.models import TimestampedModel
 
 
@@ -296,6 +300,42 @@ class Program(TimestampedModel):
     def courses(self):
         """Get the associated resources (should all be courses)"""
         return self.learning_resource.children
+
+
+class ProgramLetterConfiguration(TimestampedModel):
+    """
+    Configuration for rendering a program letter
+    """
+
+    program = models.OneToOneField(
+        Program, related_name="program_letter_configuration", on_delete=models.PROTECT
+    )
+
+    body = models.TextField(null=True, blank=True)  # noqa: DJ001
+
+    branding = models.ImageField(
+        null=True,
+        max_length=2083,
+        upload_to=program_image_upload_uri,
+    )
+
+
+class ProgramLetterSignator(TimestampedModel):
+    """
+    A program letter signator for a program
+    """
+
+    letter_configuration = models.ForeignKey(
+        ProgramLetterConfiguration,
+        related_name="signatories",
+        on_delete=models.CASCADE,
+    )
+    display_name = models.CharField(max_length=256)
+    signature = models.ImageField(
+        null=True,
+        max_length=2083,
+        upload_to=program_signator_signature_image_upload_uri,
+    )
 
 
 class LearningPath(TimestampedModel):
