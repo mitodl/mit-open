@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.3.3
+Version 0.3.3 (Released March 04, 2024)
 -------------
 
 - Save user with is_active from SCIM request (#535)
