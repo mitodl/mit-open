@@ -562,4 +562,4 @@ def get_similar_topics(
     topics = [topic.to_dict()["name"] for hit in response.hits for topic in hit.topics]
 
     counter = Counter(topics)
-    return dict(counter.most_common(num_topics)).keys()
+    return list(dict(counter.most_common(num_topics)).keys())

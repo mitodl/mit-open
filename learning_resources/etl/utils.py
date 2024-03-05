@@ -645,7 +645,7 @@ def most_common_topics(
         list: The most common topic names as a dict
     """
     counter = Counter(
-        list({topic.name for resource in resources for topic in resource.topics.all()})
+        [topic.name for resource in resources for topic in resource.topics.all()]
     )
     common_topics = dict(counter.most_common(max_topics)).keys()
     return [{"name": topic} for topic in common_topics]

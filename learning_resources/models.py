@@ -111,16 +111,15 @@ class LearningResource(TimestampedModel):
         "runs__image",
         "children__child",
         "children__child__runs",
+        "children__child__parents",
         "children__child__runs__instructors",
-        "children__child__course",
-        "children__child__program",
-        "children__child__learning_path",
         "children__child__departments",
         "children__child__platform",
         "children__child__topics",
         "children__child__image",
         "children__child__offered_by",
         "children__child__content_tags",
+        *[f"children__child__{item.name}" for item in LearningResourceType],
     ]
 
     related_selects = [

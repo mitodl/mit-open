@@ -105,6 +105,7 @@ class VideoPlaylistInline(TabularInline):
     model = models.VideoPlaylist
     extra = 0
     show_change_link = True
+    fields = ("channel",)
 
 
 class ProgramInline(TabularInline):

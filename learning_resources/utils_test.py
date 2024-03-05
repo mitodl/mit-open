@@ -212,6 +212,18 @@ def test_resource_upserted_actions(mock_plugin_manager, fixture_resource):
     )
 
 
+def test_similar_topics_action(mock_plugin_manager, fixture_resource) -> dict:
+    """
+    similar_topics_action should trigger plugin hook's resource_similar_topics function
+    """
+    mock_topics = [{"name": "Biology"}, {"name": "Chemistry"}]
+    mock_plugin_manager.hook.resource_similar_topics.return_value = [mock_topics]
+    assert utils.similar_topics_action(fixture_resource) == mock_topics
+    mock_plugin_manager.hook.resource_similar_topics.assert_called_once_with(
+        resource=fixture_resource
+    )
+
+
 def test_resource_unpublished_actions(mock_plugin_manager, fixture_resource):
     """
     resource_unpublished_actions function should trigger plugin hook's resource_unpublished function

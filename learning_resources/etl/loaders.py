@@ -861,9 +861,10 @@ def load_video_channels(video_channels_data: iter) -> list[VideoChannel]:
         list of VideoChannel: the loaded video channels
     """
     video_channels = []
-
+    channel_ids = []
     for video_channel_data in video_channels_data:
         channel_id = video_channel_data["channel_id"]
+        channel_ids.append(channel_id)
         try:
             video_channel = load_video_channel(video_channel_data)
         except ExtractException:
@@ -879,7 +880,6 @@ def load_video_channels(video_channels_data: iter) -> list[VideoChannel]:
         else:
             video_channels.append(video_channel)
 
-    channel_ids = [video_channel.channel_id for video_channel in video_channels]
     VideoChannel.objects.exclude(channel_id__in=channel_ids).update(published=False)
 
     # Unpublish any video playlists not included in published channels
