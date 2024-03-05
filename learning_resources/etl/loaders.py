@@ -17,6 +17,7 @@ from learning_resources.etl.constants import (
 )
 from learning_resources.etl.deduplication import get_most_relevant_run
 from learning_resources.etl.exceptions import ExtractException
+from learning_resources.etl.utils import most_common_topics
 from learning_resources.models import (
     ContentFile,
     Course,
@@ -45,6 +46,7 @@ from learning_resources.utils import (
     resource_run_upserted_actions,
     resource_unpublished_actions,
     resource_upserted_actions,
+    similar_topics_action,
 )
 
 log = logging.getLogger()
@@ -722,6 +724,8 @@ def load_video(video_data: dict) -> LearningResource:
             learning_resource=learning_resource, defaults=video_fields
         )
         load_image(learning_resource, image_data)
+        if not topics_data:
+            topics_data = similar_topics_action(learning_resource)
         load_topics(learning_resource, topics_data)
         load_offered_by(learning_resource, offered_by_data)
 
@@ -776,6 +780,7 @@ def load_playlist(video_channel: VideoChannel, playlist_data: dict) -> LearningR
         )
         load_offered_by(playlist_resource, offered_bys_data)
         video_resources = load_videos(videos_data)
+        load_topics(playlist_resource, most_common_topics(video_resources))
         playlist_resource.resources.clear()
         for idx, video in enumerate(video_resources):
             playlist_resource.resources.add(

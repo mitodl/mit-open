@@ -7,6 +7,7 @@ import mimetypes
 import os
 import re
 import uuid
+from collections import Counter
 from collections.abc import Generator
 from datetime import datetime
 from hashlib import md5
@@ -38,6 +39,7 @@ from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.models import (
     ContentFile,
     Course,
+    LearningResource,
     LearningResourceRun,
 )
 
@@ -627,3 +629,23 @@ def update_course_numbers_json(course: Course):
         is_ocw=is_ocw,
     )
     course.save()
+
+
+def most_common_topics(
+    resources: list[LearningResource], max_topics: int = settings.OPEN_VIDEO_MAX_TOPICS
+) -> list[dict]:
+    """
+    Get the most common topics from a list of resources
+
+    Args:
+        resources (list[LearningResource]): resources to get topics from
+        max_topics (int): The maximum number of topics to return
+
+    Returns:
+        list: The most common topic names as a dict
+    """
+    counter = Counter(
+        list({topic.name for resource in resources for topic in resource.topics.all()})
+    )
+    common_topics = dict(counter.most_common(max_topics)).keys()
+    return [{"name": topic} for topic in common_topics]
