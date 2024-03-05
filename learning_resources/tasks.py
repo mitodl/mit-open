@@ -11,7 +11,7 @@ import celery
 import pytz
 from django.conf import settings
 
-from learning_resources.etl import pipelines
+from learning_resources.etl import pipelines, youtube
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.edx_shared import (
     get_most_recent_course_archives,
@@ -254,3 +254,47 @@ def get_ocw_data(  # noqa: PLR0913
         ]
     )
     raise self.replace(ocw_tasks)
+
+
+@app.task
+def get_youtube_data(*, channel_ids=None):
+    """
+    Execute the YouTube ETL pipeline
+
+    Args:
+        channel_ids (list of str or None):
+            if a list the extraction is limited to those channels
+
+    Returns:
+        int:
+            The number of results that were fetched
+    """
+    results = pipelines.youtube_etl(channel_ids=channel_ids)
+
+    return len(list(results))
+
+
+@app.task
+def get_youtube_transcripts(
+    *, created_after=None, created_minutes=None, overwrite=False
+):
+    """
+    Fetch transcripts for Youtube videos
+
+    Args:
+        created_after (date or None):
+            if str, transcripts are pulled only for videos added after date
+        created_minutes (int or None):
+            if str, transcripts are pulled only from videos added >= created_minutes ago
+        overwrite (bool):
+            if true, transcripts are updated for videos that already have transcripts
+    """
+
+    videos = youtube.get_youtube_videos_for_transcripts_job(
+        created_after=created_after,
+        created_minutes=created_minutes,
+        overwrite=overwrite,
+    )
+
+    log.info("Updating transcripts for %i videos", videos.count())
+    youtube.get_youtube_transcripts(videos)

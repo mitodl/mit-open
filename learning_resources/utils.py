@@ -340,6 +340,17 @@ def resource_delete_actions(resource: LearningResource):
     hook.resource_delete(resource=resource)
 
 
+def bulk_resources_unpublished_actions(resource_ids: list[int], resource_type: str):
+    """
+    Trigger plugins when a LearningResource is removed/unpublished
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.bulk_resources_unpublished(
+        resource_ids=resource_ids, resource_type=resource_type
+    )
+
+
 def resource_run_upserted_actions(run: LearningResourceRun):
     """
     Trigger plugins when a LearningResourceRun is created or updated

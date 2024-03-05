@@ -18,6 +18,7 @@ from learning_resources.etl.constants import (
     ETLSource,
     ProgramLoaderConfig,
 )
+from learning_resources.etl.exceptions import ExtractException
 from learning_resources.etl.loaders import (
     load_content_file,
     load_content_files,
@@ -26,6 +27,8 @@ from learning_resources.etl.loaders import (
     load_image,
     load_instructors,
     load_offered_by,
+    load_playlist,
+    load_playlists,
     load_podcast,
     load_podcast_episode,
     load_podcasts,
@@ -33,6 +36,9 @@ from learning_resources.etl.loaders import (
     load_programs,
     load_run,
     load_topics,
+    load_video,
+    load_video_channels,
+    load_videos,
 )
 from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.factories import (
@@ -47,6 +53,9 @@ from learning_resources.factories import (
     PodcastEpisodeFactory,
     PodcastFactory,
     ProgramFactory,
+    VideoChannelFactory,
+    VideoFactory,
+    VideoPlaylistFactory,
 )
 from learning_resources.models import (
     ContentFile,
@@ -57,6 +66,9 @@ from learning_resources.models import (
     LearningResourceRun,
     PodcastEpisode,
     Program,
+    Video,
+    VideoChannel,
+    VideoPlaylist,
 )
 from main.utils import now_in_utc
 
@@ -69,6 +81,12 @@ non_transformable_attributes = (
     "content_tags",
     "resources",
 )
+
+
+@pytest.fixture(autouse=True)
+def youtube_video_platform():
+    """Fixture for a youtube video platform"""
+    return LearningResourcePlatformFactory.create(code=PlatformType.youtube.name)
 
 
 @pytest.fixture(autouse=True)
@@ -96,6 +114,9 @@ def mock_upsert_tasks(mocker):
         ),
         deindex_learning_resource=mocker.patch(
             "learning_resources_search.tasks.deindex_document"
+        ),
+        batch_deindex_resources=mocker.patch(
+            "learning_resources_search.tasks.bulk_deindex_learning_resources"
         ),
     )
 
@@ -904,3 +925,207 @@ def test_load_podcast(
     else:
         mock_upsert_tasks.deindex_learning_resource.assert_not_called()
         mock_upsert_tasks.upsert_learning_resource.assert_not_called()
+
+
+@pytest.mark.parametrize("video_exists", [True, False])
+@pytest.mark.parametrize("is_published", [True, False])
+@pytest.mark.parametrize("pass_topics", [True, False])
+def test_load_video(mocker, mock_upsert_tasks, video_exists, is_published, pass_topics):
+    """Test that a video is properly loaded and saved"""
+    video_resource = (
+        VideoFactory.create() if video_exists else VideoFactory.build()
+    ).learning_resource
+    offered_by = LearningResourceOfferorFactory.create()
+
+    assert Video.objects.count() == (1 if video_exists else 0)
+
+    props = {
+        "readable_id": video_resource.readable_id,
+        "platform": PlatformType.youtube.name,
+        "resource_type": LearningResourceType.video.name,
+        "etl_source": ETLSource.youtube.name,
+        "title": video_resource.title,
+        "description": video_resource.description,
+        "full_description": video_resource.full_description,
+        "image": {"url": video_resource.image.url},
+        "last_modified": video_resource.last_modified,
+        "url": video_resource.url,
+        "offered_by": {"code": offered_by.code},
+        "published": is_published,
+        "video": {"duration": video_resource.video.duration},
+    }
+
+    result = load_video(props)
+    assert Video.objects.count() == 1
+
+    # assert we got a video resource back
+    assert isinstance(result, LearningResource)
+    assert result.published == is_published
+
+    for key, value in props.items():
+        assert getattr(result, key) == value, f"Property {key} should equal {value}"
+
+
+def test_load_videos():
+    """Verify that load_videos loads a list of videos"""
+    assert Video.objects.count() == 0
+    video_resources = [video.learning_resource for video in VideoFactory.build_batch(5)]
+    videos_data = [
+        {
+            **model_to_dict(video, exclude=non_transformable_attributes),
+            "offered_by": {"code": LearningResourceOfferorFactory.create().code},
+            "platform": PlatformType.youtube.name,
+        }
+        for video in video_resources
+    ]
+
+    results = load_videos(videos_data)
+
+    assert len(results) == len(video_resources)
+
+    assert Video.objects.count() == len(video_resources)
+
+
+def test_load_playlist():
+    """Test load_playlist"""
+    channel = VideoChannelFactory.create(playlists=None)
+    playlist = VideoPlaylistFactory.build().learning_resource
+    assert VideoPlaylist.objects.count() == 0
+    assert Video.objects.count() == 0
+    videos_resources = [
+        video.learning_resource for video in VideoFactory.build_batch(5)
+    ]
+    videos_data = [
+        {
+            **model_to_dict(video, exclude=non_transformable_attributes),
+            "platform": PlatformType.youtube.name,
+            "offered_by": {"code": LearningResourceOfferorFactory.create().code},
+        }
+        for video in videos_resources
+    ]
+
+    props = {
+        **model_to_dict(playlist, exclude=["topics", *non_transformable_attributes]),
+        "platform": PlatformType.youtube.name,
+        "offered_by": {"code": LearningResourceOfferorFactory.create().code},
+        "playlist_id": playlist.readable_id,
+        "videos": videos_data,
+    }
+
+    result = load_playlist(channel, props)
+
+    assert isinstance(result, LearningResource)
+
+    assert result.resources.count() == len(videos_resources)
+    assert result.video_playlist.channel == channel
+
+
+def test_load_playlists_unpublish(mocker):
+    """Test load_playlists when a video/playlist gets unpublished"""
+    mocker.patch("learning_resources_search.tasks.bulk_deindex_learning_resources")
+    channel = VideoChannelFactory.create()
+
+    playlists = sorted(
+        VideoPlaylistFactory.create_batch(4, channel=channel),
+        key=lambda playlist: playlist.id,
+    )
+    assert playlists[0].learning_resource.published is True
+    playlists_data = [
+        {
+            "playlist_id": playlists[0].learning_resource.readable_id,
+            "published": True,
+            "videos": [],
+        }
+    ]
+
+    load_playlists(channel, playlists_data)
+    assert (
+        LearningResource.objects.filter(
+            resource_type="video_playlist", published=True
+        ).count()
+        == 1
+    )
+
+    for playlist in playlists:
+        playlist.refresh_from_db()
+        if playlist.id == playlists[0].id:
+            assert playlist.learning_resource.published is True
+        else:
+            assert playlist.learning_resource.published is False
+
+
+def test_load_video_channels():
+    """Test load_video_channels"""
+    assert VideoChannel.objects.count() == 0
+    assert VideoPlaylist.objects.count() == 0
+
+    channels_data = []
+    for channel in VideoChannelFactory.build_batch(3):
+        channel_data = model_to_dict(channel)
+
+        playlist = VideoPlaylistFactory.build()
+        playlist_data = model_to_dict(playlist)
+        playlist_data["playlist_id"] = playlist.learning_resource.readable_id
+        del playlist_data["id"]
+        del playlist_data["channel"]
+        del playlist_data["learning_resource"]
+
+        channel_data["playlists"] = [playlist_data]
+        channels_data.append(channel_data)
+
+    results = load_video_channels(channels_data)
+
+    assert len(results) == len(channels_data)
+
+    for result in results:
+        assert isinstance(result, VideoChannel)
+
+        assert result.playlists.count() == 1
+
+
+def test_load_video_channels_error(mocker):
+    """Test that an error doesn't fail the entire operation"""
+
+    def pop_channel_id_with_exception(data):
+        """Pop channel_id off data and raise an exception"""
+        data.pop("channel_id")
+        raise ExtractException
+
+    mock_load_channel = mocker.patch(
+        "learning_resources.etl.loaders.load_video_channel"
+    )
+    mock_load_channel.side_effect = pop_channel_id_with_exception
+    mock_log = mocker.patch("learning_resources.etl.loaders.log")
+    channel_id = "abc"
+
+    load_video_channels([{"channel_id": channel_id}])
+
+    mock_log.exception.assert_called_once_with(
+        "Error with extracted video channel: channel_id=%s", channel_id
+    )
+
+
+def test_load_video_channels_unpublish(mock_upsert_tasks):
+    """Test load_video_channels when a video/playlist gets unpublished"""
+    channel = VideoChannelFactory.create()
+    playlist = VideoPlaylistFactory.create(channel=channel).learning_resource
+    video = VideoFactory.create().learning_resource
+    playlist.resources.set(
+        [video],
+        through_defaults={
+            "relation_type": LearningResourceRelationTypes.PLAYLIST_VIDEOS.value
+        },
+    )
+    assert channel.published is True
+    assert video.published is True
+    assert playlist.published is True
+
+    # inputs don't matter here
+    load_video_channels([])
+
+    video.refresh_from_db()
+    assert video.published is False
+    playlist.refresh_from_db()
+    assert playlist.published is False
+    channel.refresh_from_db()
+    assert channel.published is False

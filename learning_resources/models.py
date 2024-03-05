@@ -455,3 +455,51 @@ class PodcastEpisode(TimestampedModel):
 
     class Meta:
         ordering = ("id",)
+
+
+class VideoChannel(TimestampedModel):
+    """Data model for video channels"""
+
+    channel_id = models.CharField(max_length=80, primary_key=True)
+    title = models.CharField(max_length=256)
+    published = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"VideoChannel: {self.title} - {self.channel_id}"
+
+
+class Video(TimestampedModel):
+    """Data model for video resources"""
+
+    learning_resource = models.OneToOneField(
+        LearningResource,
+        related_name="video",
+        on_delete=models.CASCADE,
+    )
+    duration = models.CharField(max_length=11)
+    transcript = models.TextField(blank=True, default="")
+
+    def __str__(self):
+        return f"Video: {self.id} - {self.learning_resource.readable_id}"
+
+
+class VideoPlaylist(TimestampedModel):
+    """
+    Video playlist model, contains videos
+    """
+
+    learning_resource = models.OneToOneField(
+        LearningResource,
+        related_name="video_playlist",
+        on_delete=models.CASCADE,
+    )
+
+    channel = models.ForeignKey(
+        VideoChannel, on_delete=models.CASCADE, related_name="playlists"
+    )
+
+    def __str__(self):
+        return (
+            f"Video Playlist: "
+            f"{self.learning_resource.title} - {self.learning_resource.readable_id}"
+        )

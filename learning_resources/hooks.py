@@ -24,6 +24,10 @@ class LearningResourceHooks:
         """Trigger actions after a learning resource is unpublished"""
 
     @hookspec
+    def bulk_resources_unpublished(self, resource_ids, resource_type):
+        """Trigger actions after multiple learning resources are unpublished"""
+
+    @hookspec
     def resource_delete(self, resource):
         """Trigger actions to remove a learning resource"""
 

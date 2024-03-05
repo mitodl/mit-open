@@ -8,6 +8,8 @@ const readableResourceTypes: Record<ResourceTypeEnum, string> = {
   [ResourceTypeEnum.LearningPath]: "Learning Path",
   [ResourceTypeEnum.Podcast]: "Podcast",
   [ResourceTypeEnum.PodcastEpisode]: "Podcast Episode",
+  [ResourceTypeEnum.Video]: "Video",
+  [ResourceTypeEnum.VideoPlaylist]: "Video Playlist",
 }
 const getReadableResourceType = (
   resource: Pick<LearningResource, "resource_type">,

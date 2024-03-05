@@ -49,6 +49,7 @@ class ETLSource(Enum):
     ocw = "ocw"
     prolearn = "prolearn"
     podcast = "podcast"
+    youtube = "youtube"
 
 
 class CourseNumberType(Enum):
