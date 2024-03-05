@@ -6,7 +6,7 @@ from contextlib import contextmanager
 from io import BytesIO
 from urllib.parse import quote, urljoin
 from xml.sax.saxutils import escape as xml_escape
-
+import requests
 from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
 from PIL import Image
@@ -340,3 +340,14 @@ def generate_svg_avatar(name, size, color, bgcolor):
             "text": xml_escape(initials.upper()),
         }
     ).replace("\n", "")
+
+
+def fetch_program_letter_template_data(letter):
+    if settings.MICROMASTERS_CMS_API_URL:
+        api_params = {
+            "fields": "*",
+            "program_id": letter.certificate.micromasters_program_id,
+        }
+
+        api_url = urljoin(settings.MICROMASTERS_CMS_API_URL, "pages/listing/")
+        response_json = request.get(api_url, api_params).json()

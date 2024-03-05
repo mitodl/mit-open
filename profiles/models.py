@@ -93,7 +93,9 @@ class Profile(AbstractSCIMUserMixin):
     updated_at = models.DateTimeField(auto_now=True)
 
     @transaction.atomic
-    def save(self, *args, update_image=False, **kwargs):  # pylint: disable=arguments-differ
+    def save(
+        self, *args, update_image=False, **kwargs
+    ):  # pylint: disable=arguments-differ
         """Update thumbnails if necessary"""
         if update_image:
             if self.image_file:
@@ -180,3 +182,9 @@ class ProgramCertificate(models.Model):
 
     def __str__(self):
         return "program certificate: {self.user_full_name} - {self.program_title}"
+
+
+class ProgramLetter(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    certificate = models.ForeignKey(ProgramCertificate, on_delete=models.CASCADE)

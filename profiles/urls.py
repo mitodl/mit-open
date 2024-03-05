@@ -1,6 +1,6 @@
 """URL configurations for profiles"""
 
-from django.urls import include, re_path
+from django.urls import include, re_path, path
 from rest_framework.routers import DefaultRouter
 
 from profiles.views import (
@@ -9,6 +9,8 @@ from profiles.views import (
     UserViewSet,
     UserWebsiteViewSet,
     name_initials_avatar_view,
+    ProgramLetterInterceptView,
+    ProgramLetterDisplayView,
 )
 
 router = DefaultRouter()
@@ -33,5 +35,15 @@ urlpatterns = [
         r"^profile/(?P<username>[A-Za-z0-9_]+)/(?P<size>\d+)/(?P<color>[A-Za-z0-9]+)/(?P<bgcolor>[A-Za-z0-9]+).png",
         name_initials_avatar_view,
         name="name-initials-avatar",
+    ),
+    path(
+        "program_letter/intercept/<int:program_id>/",
+        ProgramLetterInterceptView.as_view(),
+        name="program-letter-intercept",
+    ),
+    re_path(
+        r"^program_letter/view/(?P<uuid>[0-9a-f\-]{32,})/$",
+        ProgramLetterDisplayView.as_view(),
+        name="program-letter-view",
     ),
 ]

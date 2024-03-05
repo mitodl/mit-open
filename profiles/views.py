@@ -3,18 +3,21 @@
 from cairosvg import svg2png  # pylint:disable=no-name-in-module
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.cache import cache_page
+from django.views import View
+from django.views.generic.base import TemplateView
+from django.utils.decorators import method_decorator
 from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
-
+from django.contrib.auth.decorators import login_required
 from main.permissions import (
     AnonymousAccessReadonlyPermission,
     IsStaffPermission,
 )
-from profiles.models import Profile, UserWebsite
+from profiles.models import Profile, UserWebsite, ProgramCertificate, ProgramLetter
 from profiles.permissions import HasEditPermission, HasSiteEditPermission
 from profiles.serializers import (
     ProfileSerializer,
@@ -90,3 +93,39 @@ def name_initials_avatar_view(
         return redirect(DEFAULT_PROFILE_IMAGE)
     svg = generate_svg_avatar(user.profile.name, int(size), color, bgcolor)
     return HttpResponse(svg2png(bytestring=svg), content_type="image/png")
+
+
+class ProgramLetterInterceptView(View):
+    """
+    View that generates a uuid (via ProgramLetter instance)
+    and then passes the user along to the shareable letter view
+    """
+
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        program_id = kwargs.get("program_id")
+        certificate = get_object_or_404(
+            ProgramCertificate,
+            user_email=request.user.email,
+            micromasters_program_id=program_id,
+        )
+        letter, created = ProgramLetter.objects.get_or_create(
+            user=request.user, certificate=certificate
+        )
+        return HttpResponseRedirect(reverse("program-letter-view", args=[letter.uuid]))
+
+
+class ProgramLetterDisplayView(TemplateView):
+    """
+    View that pulls template data from micromasters
+    to render a program letter
+    """
+
+    template_name = "program_letter.html"
+
+    @method_decorator(login_required)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        letter_uuid = kwargs.get("uuid")
+        letter = get_object_or_404(ProgramLetter, uuid=letter_uuid)
+        return context
