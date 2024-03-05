@@ -14,14 +14,18 @@ from learning_resources_search.api import (
     generate_suggest_clause,
     relevant_indexes,
 )
-from learning_resources_search.constants import SOURCE_EXCLUDED_FIELDS
+from learning_resources_search.constants import (
+    CONTENT_FILE_TYPE,
+    LEARNING_RESOURCE,
+)
 
 
 @pytest.mark.parametrize(
-    ("resourse_types", "aggregations", "result"),
+    ("endpoint", "resourse_types", "aggregations", "result"),
     [
-        (["course"], [], ["testindex_course_default"]),
+        (LEARNING_RESOURCE, ["course"], [], ["testindex_course_default"]),
         (
+            LEARNING_RESOURCE,
             ["course"],
             ["resource_type"],
             [
@@ -34,12 +38,11 @@ from learning_resources_search.constants import SOURCE_EXCLUDED_FIELDS
                 "testindex_video_playlist_default",
             ],
         ),
-        (["content_file"], [], ["testindex_course_default"]),
-        (["content_file", "course"], [], ["testindex_course_default"]),
+        (CONTENT_FILE_TYPE, ["content_file"], [], ["testindex_course_default"]),
     ],
 )
-def test_relevant_indexes(resourse_types, aggregations, result):
-    assert list(relevant_indexes(resourse_types, aggregations)) == result
+def test_relevant_indexes(endpoint, resourse_types, aggregations, result):
+    assert list(relevant_indexes(resourse_types, aggregations, endpoint)) == result
 
 
 @pytest.mark.parametrize(
@@ -1003,7 +1006,7 @@ def test_generate_aggregation_clauses_with_same_filters_as_aggregation():
     assert generate_aggregation_clauses(params, filters) == result
 
 
-def test_execute_learn_search(opensearch):
+def test_execute_learn_search_for_learning_resource_query(opensearch):
     opensearch.conn.search.return_value = {
         "hits": {"total": {"value": 10, "relation": "eq"}}
     }
@@ -1014,13 +1017,13 @@ def test_execute_learn_search(opensearch):
         "limit": 1,
         "offset": 1,
         "sortby": "-readable_id",
+        "endpoint": LEARNING_RESOURCE,
     }
 
     query = {
-        "_source": {"excludes": SOURCE_EXCLUDED_FIELDS},
         "query": {
             "bool": {
-                "should": [
+                "must": [
                     {
                         "bool": {
                             "filter": [
@@ -1077,9 +1080,7 @@ def test_execute_learn_search(opensearch):
                                                             "wildcard": {
                                                                 "readable_id": {
                                                                     "value": "MATH*",
-                                                                    "rewrite": (
-                                                                        "constant_score"
-                                                                    ),
+                                                                    "rewrite": "constant_score",
                                                                 }
                                                             }
                                                         },
@@ -1090,7 +1091,7 @@ def test_execute_learn_search(opensearch):
                                                                     "multi_match": {
                                                                         "query": "math",
                                                                         "fields": [
-                                                                            "course.course_numbers.value",
+                                                                            "course.course_numbers.value"
                                                                         ],
                                                                     }
                                                                 },
@@ -1271,7 +1272,8 @@ def test_execute_learn_search(opensearch):
                             ],
                         }
                     }
-                ]
+                ],
+                "filter": [{"exists": {"field": "resource_type"}}],
             }
         },
         "post_filter": {
@@ -1340,17 +1342,14 @@ def test_execute_learn_search(opensearch):
             "offered_by": {
                 "aggs": {
                     "offered_by": {
+                        "nested": {"path": "offered_by"},
                         "aggs": {
                             "offered_by": {
-                                "terms": {
-                                    "field": "offered_by.code",
-                                    "size": 10000,
-                                },
+                                "terms": {"field": "offered_by.code", "size": 10000},
                                 "aggs": {"root": {"reverse_nested": {}}},
                             }
                         },
-                        "nested": {"path": "offered_by"},
-                    },
+                    }
                 },
                 "filter": {
                     "bool": {
@@ -1373,6 +1372,216 @@ def test_execute_learn_search(opensearch):
                     }
                 },
             }
+        },
+        "_source": {
+            "excludes": [
+                "course.course_numbers.sort_coursenum",
+                "course.course_numbers.primary",
+                "created_on",
+                "resource_relations",
+            ]
+        },
+    }
+
+    assert execute_learn_search(search_params) == opensearch.conn.search.return_value
+
+    opensearch.conn.search.assert_called_once_with(
+        body=query,
+        index=["testindex_course_default"],
+    )
+
+
+def test_execute_learn_search_for_content_file_query(opensearch):
+    opensearch.conn.search.return_value = {
+        "hits": {"total": {"value": 10, "relation": "eq"}}
+    }
+
+    search_params = {
+        "aggregations": ["offered_by"],
+        "q": "math",
+        "limit": 1,
+        "offset": 1,
+        "content_feature_type": ["Online Textbook"],
+        "endpoint": CONTENT_FILE_TYPE,
+    }
+
+    query = {
+        "query": {
+            "bool": {
+                "must": [
+                    {
+                        "bool": {
+                            "filter": [
+                                {
+                                    "bool": {
+                                        "must": [
+                                            {
+                                                "bool": {
+                                                    "should": [
+                                                        {
+                                                            "multi_match": {
+                                                                "query": "math",
+                                                                "fields": [
+                                                                    "content",
+                                                                    "title.english^3",
+                                                                    "short_description.english^2",
+                                                                    "content_feature_type",
+                                                                ],
+                                                            }
+                                                        },
+                                                        {
+                                                            "nested": {
+                                                                "path": "departments",
+                                                                "query": {
+                                                                    "multi_match": {
+                                                                        "query": "math",
+                                                                        "fields": [
+                                                                            "departments.department_id"
+                                                                        ],
+                                                                    }
+                                                                },
+                                                            }
+                                                        },
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "should": [
+                                {
+                                    "multi_match": {
+                                        "query": "math",
+                                        "fields": [
+                                            "content",
+                                            "title.english^3",
+                                            "short_description.english^2",
+                                            "content_feature_type",
+                                        ],
+                                    }
+                                },
+                                {
+                                    "nested": {
+                                        "path": "departments",
+                                        "query": {
+                                            "multi_match": {
+                                                "query": "math",
+                                                "fields": ["departments.department_id"],
+                                            }
+                                        },
+                                    }
+                                },
+                            ],
+                        }
+                    }
+                ],
+                "filter": [{"exists": {"field": "content_type"}}],
+            }
+        },
+        "post_filter": {
+            "bool": {
+                "must": [
+                    {
+                        "bool": {
+                            "should": [
+                                {
+                                    "term": {
+                                        "content_feature_type": {
+                                            "value": "Online Textbook",
+                                            "case_insensitive": True,
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "from": 1,
+        "size": 1,
+        "suggest": {
+            "text": "math",
+            "title.trigram": {
+                "phrase": {
+                    "field": "title.trigram",
+                    "size": 5,
+                    "gram_size": 1,
+                    "confidence": 0.0001,
+                    "max_errors": 3,
+                    "collate": {
+                        "query": {
+                            "source": {
+                                "match_phrase": {"{{field_name}}": "{{suggestion}}"}
+                            }
+                        },
+                        "params": {"field_name": "title.trigram"},
+                        "prune": True,
+                    },
+                }
+            },
+            "description.trigram": {
+                "phrase": {
+                    "field": "description.trigram",
+                    "size": 5,
+                    "gram_size": 1,
+                    "confidence": 0.0001,
+                    "max_errors": 3,
+                    "collate": {
+                        "query": {
+                            "source": {
+                                "match_phrase": {"{{field_name}}": "{{suggestion}}"}
+                            }
+                        },
+                        "params": {"field_name": "description.trigram"},
+                        "prune": True,
+                    },
+                }
+            },
+        },
+        "aggs": {
+            "offered_by": {
+                "aggs": {
+                    "offered_by": {
+                        "nested": {"path": "offered_by"},
+                        "aggs": {
+                            "offered_by": {
+                                "terms": {"field": "offered_by.code", "size": 10000},
+                                "aggs": {"root": {"reverse_nested": {}}},
+                            }
+                        },
+                    }
+                },
+                "filter": {
+                    "bool": {
+                        "must": [
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "content_feature_type": {
+                                                    "value": "Online Textbook",
+                                                    "case_insensitive": True,
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+            }
+        },
+        "_source": {
+            "excludes": [
+                "course.course_numbers.sort_coursenum",
+                "course.course_numbers.primary",
+                "created_on",
+                "resource_relations",
+            ]
         },
     }
 

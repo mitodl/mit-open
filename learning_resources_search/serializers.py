@@ -276,7 +276,6 @@ class ContentFileSearchRequestSerializer(SearchRequestSerializer):
         help_text="Show resource counts by category",
         child=serializers.ChoiceField(choices=CONTENT_FILE_AGGREGATIONS),
     )
-    resource_type = serializers.ReadOnlyField(default=[CONTENT_FILE_TYPE])
     run_id = StringArrayField(
         required=False,
         child=serializers.IntegerField(),
@@ -446,7 +445,6 @@ def serialize_content_file_for_update(content_file_obj):
             "name": CONTENT_FILE_TYPE,
             "parent": content_file_obj.run.learning_resource_id,
         },
-        "resource_type": CONTENT_FILE_TYPE,
         **ContentFileSerializer(content_file_obj).data,
     }
 
