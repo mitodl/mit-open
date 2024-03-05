@@ -109,7 +109,9 @@ def _transform_run(course_run: dict, course: dict) -> dict:
     return {
         "title": course_run["title"],
         "run_id": course_run["courseware_id"],
-        "start_date": _parse_datetime(course_run.get("start_date")),
+        "start_date": _parse_datetime(
+            course_run.get("start_date") or course_run.get("enrollment_start")
+        ),
         "end_date": _parse_datetime(course_run.get("end_date")),
         "enrollment_start": _parse_datetime(course_run.get("enrollment_start")),
         "enrollment_end": _parse_datetime(course_run.get("enrollment_end")),
@@ -212,7 +214,9 @@ def transform_programs(programs):
                         program.get("enrollment_start")
                     ),
                     "enrollment_end": _parse_datetime(program.get("enrollment_end")),
-                    "start_date": _parse_datetime(program.get("start_date")),
+                    "start_date": _parse_datetime(
+                        program.get("start_date") or program.get("enrollment_start")
+                    ),
                     "end_date": _parse_datetime(program.get("end_date")),
                     "title": program["title"],
                     "published": bool(

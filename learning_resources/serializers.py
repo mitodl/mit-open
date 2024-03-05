@@ -583,7 +583,7 @@ class ContentFileSerializer(serializers.ModelSerializer):
         source="run.learning_resource.platform"
     )
 
-    def get_course_number(self, instance):
+    def get_course_number(self, instance) -> list[str]:
         """Extract the course number(s) from the associated course"""
         if hasattr(instance.run.learning_resource, LearningResourceType.course.name):
             return [

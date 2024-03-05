@@ -13,7 +13,9 @@ from rest_framework.views import APIView
 from authentication.decorators import blocked_ip_exempt
 from learning_resources_search.api import execute_learn_search
 from learning_resources_search.serializers import (
+    ContentFileeSearchResponseSerializer,
     ContentFileSearchRequestSerializer,
+    LearningResourceSearchResponseSerializer,
     LearningResourcesSearchRequestSerializer,
     SearchResponseSerializer,
 )
@@ -39,7 +41,7 @@ class ESView(APIView):
 @extend_schema_view(
     get=extend_schema(
         parameters=[LearningResourcesSearchRequestSerializer()],
-        responses=SearchResponseSerializer(),
+        responses=LearningResourceSearchResponseSerializer(),
     ),
 )
 @action(methods=["GET"], detail=False, name="Search Learning Resources")
@@ -53,9 +55,12 @@ class LearningResourcesSearchView(ESView):
     @extend_schema(summary="Search")
     def get(self, request):
         request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
+
         if request_data.is_valid():
             response = execute_learn_search(request_data.data)
-            return Response(SearchResponseSerializer(response).data)
+            return Response(
+                SearchResponseSerializer(response, context={"request": request}).data
+            )
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():
@@ -63,7 +68,6 @@ class LearningResourcesSearchView(ESView):
                     errors[key] = errors_obj
                 else:
                     errors[key] = list(set(chain(*errors_obj.values())))
-
             return Response(errors, status=400)
 
 
@@ -71,7 +75,7 @@ class LearningResourcesSearchView(ESView):
 @extend_schema_view(
     get=extend_schema(
         parameters=[ContentFileSearchRequestSerializer()],
-        responses=SearchResponseSerializer(),
+        responses=ContentFileeSearchResponseSerializer(),
     ),
 )
 @action(methods=["GET"], detail=False, name="Search Content Files")
@@ -86,10 +90,11 @@ class ContentFileSearchView(ESView):
     @extend_schema(summary="Search")
     def get(self, request):
         request_data = ContentFileSearchRequestSerializer(data=request.GET)
-
         if request_data.is_valid():
             response = execute_learn_search(request_data.data)
-            return Response(SearchResponseSerializer(response).data)
+            return Response(
+                SearchResponseSerializer(response, context={"request": request}).data
+            )
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():

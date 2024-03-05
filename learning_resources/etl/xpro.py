@@ -69,7 +69,9 @@ def _transform_run(course_run):
     return {
         "run_id": course_run["courseware_id"],
         "title": course_run["title"],
-        "start_date": _parse_datetime(course_run["start_date"]),
+        "start_date": _parse_datetime(
+            course_run["start_date"] or course_run["enrollment_start"]
+        ),
         "end_date": _parse_datetime(course_run["end_date"]),
         "enrollment_start": _parse_datetime(course_run["enrollment_start"]),
         "enrollment_end": _parse_datetime(course_run["enrollment_end"]),
@@ -163,7 +165,9 @@ def transform_programs(programs):
                     "title": program["title"],
                     "run_id": program["readable_id"],
                     "enrollment_start": _parse_datetime(program["enrollment_start"]),
-                    "start_date": _parse_datetime(program["start_date"]),
+                    "start_date": _parse_datetime(
+                        program["start_date"] or program["enrollment_start"]
+                    ),
                     "end_date": _parse_datetime(program["end_date"]),
                     "description": program["description"],
                     "instructors": [

@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from drf_spectacular.plumbing import build_choice_description_list
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
+from rest_framework.utils.urls import replace_query_param
 
 from learning_resources.constants import (
     DEPARTMENTS,
@@ -372,13 +373,39 @@ class SearchResponseMetadata(TypedDict):
 
 class SearchResponseSerializer(serializers.Serializer):
     count = serializers.SerializerMethodField()
+    next = serializers.SerializerMethodField()
+    previous = serializers.SerializerMethodField()
     results = serializers.SerializerMethodField()
     metadata = serializers.SerializerMethodField()
+
+    def construct_pagination_url(self, instance, request, link_type="next"):
+        if request:
+            url = request.build_absolute_uri()
+            total_record_count = self.get_count(instance)
+            offset = int(request.query_params.get("offset", 0))
+            limit = int(
+                request.query_params.get("limit", settings.OPENSEARCH_DEFAULT_PAGE_SIZE)
+            )
+            url = replace_query_param(url, "limit", limit)
+            if link_type == "previous":
+                offset -= limit
+            else:
+                offset += limit
+            if offset >= 0 and offset < total_record_count:
+                return replace_query_param(url, "offset", offset)
+        return None
+
+    def get_next(self, instance) -> str | None:
+        request = self.context.get("request")
+        return self.construct_pagination_url(instance, request, link_type="next")
+
+    def get_previous(self, instance) -> str | None:
+        request = self.context.get("request")
+        return self.construct_pagination_url(instance, request, link_type="previous")
 
     def get_count(self, instance) -> int:
         return instance.get("hits", {}).get("total", {}).get("value")
 
-    @extend_schema_field(LearningResourceSerializer(many=True))
     def get_results(self, instance):
         hits = instance.get("hits", {}).get("hits", [])
         return (hit.get("_source") for hit in hits)
@@ -388,6 +415,27 @@ class SearchResponseSerializer(serializers.Serializer):
             "aggregations": _transform_aggregations(instance.get("aggregations", {})),
             "suggest": _transform_search_results_suggest(instance),
         }
+
+
+class LearningResourceSearchResponseSerializer(SearchResponseSerializer):
+    """
+    SearchResponseSerializer with OpenAPI annotations for Learning Resources
+    search
+    """
+
+    @extend_schema_field(LearningResourceSerializer(many=True))
+    def get_results():
+        return super().get_results()
+
+
+class ContentFileeSearchResponseSerializer(SearchResponseSerializer):
+    """
+    SearchResponseSerializer with OpenAPI annotations for Content Files search
+    """
+
+    @extend_schema_field(ContentFileSerializer(many=True))
+    def get_results():
+        return super().get_results()
 
 
 def serialize_content_file_for_update(content_file_obj):

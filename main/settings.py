@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.3.3"
+VERSION = "0.4.0"
 
 log = logging.getLogger()
 
@@ -513,7 +513,7 @@ CACHES = {
 }
 
 # OpenSearch
-OPENSEARCH_DEFAULT_PAGE_SIZE = get_int("OPENSEARCH_DEFAULT_PAGE_SIZE", 6)
+OPENSEARCH_DEFAULT_PAGE_SIZE = get_int("OPENSEARCH_DEFAULT_PAGE_SIZE", 10)
 OPENSEARCH_URL = get_string("OPENSEARCH_URL", None)
 if not OPENSEARCH_URL:
     msg = "Missing OPENSEARCH_URL"
