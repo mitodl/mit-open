@@ -2,22 +2,24 @@
 
 from cairosvg import svg2png  # pylint:disable=no-name-in-module
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect, get_object_or_404
-from django.views.decorators.cache import cache_page
-from django.views import View
-from django.views.generic.base import TemplateView
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.views import View
+from django.views.decorators.cache import cache_page
+from django.views.generic.base import TemplateView
 from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth.decorators import login_required
+
 from main.permissions import (
     AnonymousAccessReadonlyPermission,
     IsStaffPermission,
 )
-from profiles.models import Profile, UserWebsite, ProgramCertificate, ProgramLetter
+from profiles.models import Profile, ProgramCertificate, ProgramLetter, UserWebsite
 from profiles.permissions import HasEditPermission, HasSiteEditPermission
 from profiles.serializers import (
     ProfileSerializer,
@@ -102,7 +104,7 @@ class ProgramLetterInterceptView(View):
     """
 
     @method_decorator(login_required)
-    def get(self, request, *args, **kwargs):
+    def get(self, request, **kwargs):
         program_id = kwargs.get("program_id")
         certificate = get_object_or_404(
             ProgramCertificate,
@@ -128,4 +130,5 @@ class ProgramLetterDisplayView(TemplateView):
         context = super().get_context_data(**kwargs)
         letter_uuid = kwargs.get("uuid")
         letter = get_object_or_404(ProgramLetter, uuid=letter_uuid)
+        context["letter"] = letter
         return context
