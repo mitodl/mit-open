@@ -31,6 +31,10 @@ CELERY_BEAT_SCHEDULE = {
             minute=0, hour=16, day_of_week=1
         ),  # 12:00 PM EST on Mondays
     },
+    "update-micromasters-programs-every-1-days": {
+        "task": "learning_resources.tasks.get_micromasters_data",
+        "schedule": crontab(minute=30, hour=16),
+    },
     "update-mitxonline-courses-every-1-days": {
         "task": "learning_resources.tasks.get_mitxonline_data",
         "schedule": crontab(minute=30, hour=19),  # 3:30pm EST
