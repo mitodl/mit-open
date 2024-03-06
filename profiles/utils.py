@@ -352,6 +352,6 @@ def fetch_program_letter_template_data(letter):
         }
         api_url = urljoin(settings.MICROMASTERS_CMS_API_URL, "pages/")
         response_json = requests.get(api_url, api_params, timeout=5).json()
-        if response_json["meta"]["total_count"] > 0:
+        if response_json and response_json.get("meta", {}).get("total_count", 0) > 0:
             return response_json["items"][0]
     return None
