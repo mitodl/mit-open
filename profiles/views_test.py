@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 
+from profiles.factories import ProgramCertificateFactory, ProgramLetterFactory
+from profiles.models import ProgramLetter
 from profiles.utils import DEFAULT_PROFILE_IMAGE, make_temp_image_file
 
 pytestmark = [pytest.mark.django_db]
@@ -323,3 +325,109 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
                 "placename": profile.location.get("value", ""),
             },
         }
+
+
+@pytest.mark.parametrize("is_anonymous", [True, False])
+def test_letter_intercept_view_generates_program_letter(
+    mocker, client, user, is_anonymous
+):
+    """
+    Test that the letter intercept view generates a
+    ProgramLetter and then passes the user along to the display.
+    Also test that anonymous users do not generate letters and cant access this page
+    """
+    mocker.patch(
+        "profiles.views.fetch_program_letter_template_data",
+        return_value={
+            "id": 4,
+            "title": "Supply Chain Management",
+            "program_id": 1,
+            "program_letter_footer_text": "",
+            "program_letter_header_text": "",
+            "program_letter_text": "<p>Congratulations</p>",
+            "program_letter_signatories": [],
+        },
+    )
+    micromasters_program_id = 1
+    if not is_anonymous:
+        client.force_login(user)
+        cert = ProgramCertificateFactory(
+            user_email=user.email, micromasters_program_id=micromasters_program_id
+        )
+        assert ProgramLetter.objects.filter(user=user).count() == 0
+
+        response = client.get(
+            reverse("profile:program-letter-intercept", args=[micromasters_program_id])
+        )
+        assert ProgramLetter.objects.filter(user=user).count() == 1
+        letter_id = ProgramLetter.objects.get(user=user, certificate=cert).id
+        assert response.url == reverse("profile:program-letter-view", args=[letter_id])
+    else:
+        cert = ProgramCertificateFactory(
+            user_email=user.email, micromasters_program_id=micromasters_program_id
+        )
+        program_letter = ProgramLetterFactory(user=user, certificate=cert)
+        response = client.get(
+            reverse("profile:program-letter-intercept", args=[micromasters_program_id])
+        )
+        assert response.status_code == 302
+        # test that the anonymous user can still view other user's program letter
+        response = client.get(
+            reverse("profile:program-letter-view", args=[program_letter.id])
+        )
+        assert response.status_code == 200
+
+
+@pytest.mark.parametrize("is_anonymous", [True, False])
+def test_letter_view_renders_letter(mocker, client, user, is_anonymous):
+    """
+    Test that the program letter display page is viewable by
+    all users logged in or not
+    """
+    mock_return_value = {
+        "id": 4,
+        "title": "Supply Chain Management",
+        "program_id": 1,
+        "program_letter_footer_text": "",
+        "program_letter_header_text": "",
+        "program_letter_text": "<p>Congratulations</p>",
+        "program_letter_signatories": [],
+    }
+    mocker.patch(
+        "profiles.views.fetch_program_letter_template_data",
+        return_value=mock_return_value,
+    )
+    micromasters_program_id = 1
+    if not is_anonymous:
+        client.force_login(user)
+    cert = ProgramCertificateFactory(
+        user_email=user.email, micromasters_program_id=micromasters_program_id
+    )
+    program_letter = ProgramLetterFactory(user=user, certificate=cert)
+    response = client.get(
+        reverse("profile:program-letter-view", args=[program_letter.id])
+    )
+    content = str(response.content)
+    assert mock_return_value["title"] in content
+    assert mock_return_value["program_letter_text"] in content
+
+
+def test_empty_page_template_raises_404(mocker, client, user):
+    """
+    Test that the program letter display page is viewable by
+    all users logged in or not
+    """
+    mock_return_value = None
+    mocker.patch(
+        "profiles.views.fetch_program_letter_template_data",
+        return_value=mock_return_value,
+    )
+    micromasters_program_id = 1
+    cert = ProgramCertificateFactory(
+        user_email=user.email, micromasters_program_id=micromasters_program_id
+    )
+    program_letter = ProgramLetterFactory(user=user, certificate=cert)
+    response = client.get(
+        reverse("profile:program-letter-view", args=[program_letter.id])
+    )
+    assert response.status_code == 404
