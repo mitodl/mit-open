@@ -4,7 +4,7 @@ from cairosvg import svg2png  # pylint:disable=no-name-in-module
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -26,7 +26,11 @@ from profiles.serializers import (
     UserSerializer,
     UserWebsiteSerializer,
 )
-from profiles.utils import DEFAULT_PROFILE_IMAGE, generate_svg_avatar
+from profiles.utils import (
+    DEFAULT_PROFILE_IMAGE,
+    fetch_program_letter_template_data,
+    generate_svg_avatar,
+)
 
 
 @extend_schema(exclude=True)
@@ -97,13 +101,13 @@ def name_initials_avatar_view(
     return HttpResponse(svg2png(bytestring=svg), content_type="image/png")
 
 
+@method_decorator(login_required, name="dispatch")
 class ProgramLetterInterceptView(View):
     """
     View that generates a uuid (via ProgramLetter instance)
     and then passes the user along to the shareable letter view
     """
 
-    @method_decorator(login_required)
     def get(self, request, **kwargs):
         program_id = kwargs.get("program_id")
         certificate = get_object_or_404(
@@ -114,7 +118,9 @@ class ProgramLetterInterceptView(View):
         letter, created = ProgramLetter.objects.get_or_create(
             user=request.user, certificate=certificate
         )
-        return HttpResponseRedirect(reverse("program-letter-view", args=[letter.uuid]))
+        return HttpResponseRedirect(
+            reverse("profile:program-letter-view", args=[letter.id])
+        )
 
 
 class ProgramLetterDisplayView(TemplateView):
@@ -125,10 +131,14 @@ class ProgramLetterDisplayView(TemplateView):
 
     template_name = "program_letter.html"
 
-    @method_decorator(login_required)
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         letter_uuid = kwargs.get("uuid")
-        letter = get_object_or_404(ProgramLetter, uuid=letter_uuid)
+        letter = get_object_or_404(ProgramLetter, id=letter_uuid)
+        template_data = fetch_program_letter_template_data(letter)
+        if not template_data:
+            raise Http404
         context["letter"] = letter
+        context["name"] = letter.certificate.user_full_name
+        context.update(template_data)
         return context

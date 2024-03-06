@@ -3,6 +3,7 @@
 from uuid import uuid4
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models, transaction
 from django.db.models import JSONField
 from django_scim.models import AbstractSCIMUserMixin
@@ -42,6 +43,8 @@ SOCIAL_SITE_NAME_MAP = {
     TWITTER_DOMAIN: "Twitter",
     LINKEDIN_DOMAIN: "LinkedIn",
 }
+
+User = get_user_model()
 
 
 def filter_profile_props(data):
@@ -184,7 +187,7 @@ class ProgramCertificate(models.Model):
 
 class ProgramLetter(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     certificate = models.ForeignKey(ProgramCertificate, on_delete=models.CASCADE)
 
     def __str__(self):

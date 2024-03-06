@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from io import BytesIO
 from urllib.parse import quote, urljoin
 from xml.sax.saxutils import escape as xml_escape
+
 import requests
 from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
@@ -345,9 +346,12 @@ def generate_svg_avatar(name, size, color, bgcolor):
 def fetch_program_letter_template_data(letter):
     if settings.MICROMASTERS_CMS_API_URL:
         api_params = {
+            "type": "cms.ProgramPage",
             "fields": "*",
             "program_id": letter.certificate.micromasters_program_id,
         }
-
-        api_url = urljoin(settings.MICROMASTERS_CMS_API_URL, "pages/listing/")
-        response_json = request.get(api_url, api_params).json()
+        api_url = urljoin(settings.MICROMASTERS_CMS_API_URL, "pages/")
+        response_json = requests.get(api_url, api_params, timeout=5).json()
+        if response_json["meta"]["total_count"] > 0:
+            return response_json["items"][0]
+    return None

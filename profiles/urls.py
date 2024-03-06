@@ -37,7 +37,7 @@ urlpatterns = [
         name="name-initials-avatar",
     ),
     path(
-        "program_letter/intercept/<int:program_id>/",
+        "program_letter/<int:program_id>/",
         ProgramLetterInterceptView.as_view(),
         name="program-letter-intercept",
     ),
