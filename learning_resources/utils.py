@@ -333,7 +333,7 @@ def resource_unpublished_actions(resource: LearningResource):
 
 def similar_topics_action(resource: LearningResource) -> dict:
     """
-    Trigger plugins to get similar topics for a resource
+    Trigger plugin to get similar topics for a resource
     """
     pm = get_plugin_manager()
     hook = pm.hook

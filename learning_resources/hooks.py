@@ -24,7 +24,7 @@ class LearningResourceHooks:
         """Trigger actions after a learning resource is unpublished"""
 
     @hookspec
-    def resource_similar_topics(self, resource) -> dict:
+    def resource_similar_topics(self, resource) -> list[dict]:
         """Get similar topics for a learning resource"""
 
     @hookspec

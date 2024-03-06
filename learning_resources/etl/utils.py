@@ -642,7 +642,7 @@ def most_common_topics(
         max_topics (int): The maximum number of topics to return
 
     Returns:
-        list: The most common topic names as a dict
+        list of dict: The most common topic names
     """
     counter = Counter(
         [topic.name for resource in resources for topic in resource.topics.all()]

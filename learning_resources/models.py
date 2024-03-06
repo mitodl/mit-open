@@ -111,7 +111,6 @@ class LearningResource(TimestampedModel):
         "runs__image",
         "children__child",
         "children__child__runs",
-        "children__child__parents",
         "children__child__runs__instructors",
         "children__child__departments",
         "children__child__platform",
