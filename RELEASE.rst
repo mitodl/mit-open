@@ -1,6 +1,42 @@
 Release Notes
 =============
 
+Version 0.4.0
+-------------
+
+- resource_type changes (#583)
+- Update nginx Docker tag to v1.25.4 (#544)
+- Youtube video ETL and search (#558)
+- Update dependency ruff to ^0.3.0 (#577)
+- Update dependency html-entities to v2.5.0 (#576)
+- Update dependency python-rapidjson to v1.16 (#575)
+- Update dependency python-dateutil to v2.9.0 (#574)
+- Update dependency google-api-python-client to v2.120.0 (#573)
+- Update dependency @sentry/react to v7.104.0 (#572)
+- Update react-router monorepo to v6.22.2 (#571)
+- Update dependency storybook-addon-react-router-v6 to v2.0.11 (#570)
+- Update dependency sentry-sdk to v1.40.6 (#569)
+- Update dependency markdown2 to v2.4.13 (#568)
+- Update dependency ddt to v1.7.2 (#567)
+- Update dependency boto3 to v1.34.54 (#566)
+- Update dependency @ckeditor/ckeditor5-dev-utils to v39.6.2 (#565)
+- Update dependency @ckeditor/ckeditor5-dev-translations to v39.6.2 (#564)
+- Update all non-major dev-dependencies (#563)
+- Create program certificate django model (#561)
+- fix OpenAPI response for content_file_search (#559)
+- Update material-ui monorepo (#233)
+- next/previous links for search api (#550)
+- Remove livestream app (#549)
+- Assign best date available to LearningResourceRun.start_date field (#514)
+- Update dependency ipython to v8.22.1 (#547)
+- Update dependency google-api-python-client to v2.119.0 (#546)
+- Update dependency @sentry/react to v7.102.1 (#545)
+- Update mcr.microsoft.com/playwright Docker tag to v1.41.2 (#543)
+- Update dependency sentry-sdk to v1.40.5 (#542)
+- Update dependency iso-639-1 to v3.1.2 (#540)
+- Update dependency boto3 to v1.34.49 (#541)
+- Update all non-major dev-dependencies (#539)
+
 Version 0.3.3 (Released March 04, 2024)
 -------------
 
