@@ -1,7 +1,7 @@
 {% load i18n %}
 <html>
   <head>
-    <style>
+    <style type="text/css">
       html,
       body {
         height: 100%;
@@ -33,88 +33,71 @@
         margin-right: auto;
         padding: 50px 60px;
       }
-
       .letter .program-title {
         margin-top: 30px;
       }
-
       .letter .program-footer {
         margin-top: 40px;
         display: flex;
       }
-
       .letter .program-footer .footer-logo {
         width: 50%;
       }
-
       .letter .program-footer .footer-text {
         font-size: 12px;
         text-align: end;
         width: 50%;
       }
-
       .letter .program-footer .footer-text p {
         line-height: 0.5em;
       }
-
       .letter .program-footer .footer-text h2,
       .letter .program-footer .footer-text h3,
       .letter .program-footer .footer-text h4 {
         font-size: 13px;
         margin-top: 0;
       }
-
       .letter .header-row {
         display: flex;
       }
-
       .letter .header-row .header-text {
         width: 50%;
       }
-
       .letter .header-row .header-text p {
         font-size: 14px;
         line-height: 1.2em;
         margin: 0;
       }
-
       .letter .header-row .header-text h2,
       .letter .header-row .header-text h3,
       .letter .header-row .header-text h4 {
         font-size: 18px;
         margin: 0;
       }
-
       .letter .header-row .letter-logo {
         width: 50%;
         text-align: end;
       }
-
       .letter .letter-content {
         margin-top: 50px;
       }
-
       .letter .signatories .signatory {
         margin: 10px 0 5px;
       }
-
       .letter .signatories .sig-image {
         max-height: 80px;
         margin-bottom: 3px;
       }
-
       @media print {
         @page {
           size: portrait;
         }
-
         #footer {
           display: none !important;
         }
       }
     </style>
   </head>
-
   <body>
     <div class="letter">
       <div class="header-row">
@@ -127,7 +110,6 @@
           {% endif %}
         </div>
       </div>
-
       <div class="letter-content">
         <p>
           <strong
@@ -135,18 +117,15 @@
             {{ name }},</strong
           >
         </p>
-
         <div class="letter-text">
           {{ program_letter_text | safe}}
         </div>
-
         <div class="signatories">
           {% for signatory in program_letter_signatories %}
           <div class="signatory">
             <div class="sig-image">
               <img src="{{signatory.signature_image.meta.download_url}}" />
             </div>
-
             <div class="name">
               {{ signatory.name }},
               {{ signatory.title_line_1 }}{% if signatory.title_line_2 %},{{ signatory.title_line_2 }}{% endif %}
@@ -155,7 +134,6 @@
           {% endfor %}
         </div>
       </div>
-
       <div class="program-footer">
         <div class="footer-logo">
           {% if program_letter_footer %}

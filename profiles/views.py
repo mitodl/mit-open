@@ -136,7 +136,7 @@ class ProgramLetterDisplayView(TemplateView):
         letter_uuid = kwargs.get("uuid")
         letter = get_object_or_404(ProgramLetter, id=letter_uuid)
         template_data = fetch_program_letter_template_data(letter)
-        if not template_data:
+        if not template_data or not template_data.get("program_letter_text"):
             raise Http404
         context["letter"] = letter
         context["name"] = letter.certificate.user_full_name

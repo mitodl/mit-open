@@ -414,10 +414,39 @@ def test_letter_view_renders_letter(mocker, client, user, is_anonymous):
 
 def test_empty_page_template_raises_404(mocker, client, user):
     """
-    Test that the program letter display page is viewable by
-    all users logged in or not
+    Test that an empty response from the template
+    call to micromasters will cause a 404
     """
     mock_return_value = None
+    mocker.patch(
+        "profiles.views.fetch_program_letter_template_data",
+        return_value=mock_return_value,
+    )
+    micromasters_program_id = 1
+    cert = ProgramCertificateFactory(
+        user_email=user.email, micromasters_program_id=micromasters_program_id
+    )
+    program_letter = ProgramLetterFactory(user=user, certificate=cert)
+    response = client.get(
+        reverse("profile:program-letter-view", args=[program_letter.id])
+    )
+    assert response.status_code == 404
+
+
+def test_empty_template_letter_text_raises_404(mocker, client, user):
+    """
+    Test that program letter display will 404
+    if the program_letter_text is not configured in micromasters
+    """
+    mock_return_value = {
+        "id": 4,
+        "title": "Supply Chain Management",
+        "program_id": 1,
+        "program_letter_footer_text": "",
+        "program_letter_header_text": "",
+        "program_letter_text": "",
+        "program_letter_signatories": [],
+    }
     mocker.patch(
         "profiles.views.fetch_program_letter_template_data",
         return_value=mock_return_value,
