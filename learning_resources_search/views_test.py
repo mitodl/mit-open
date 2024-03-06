@@ -9,6 +9,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
 
+from learning_resources_search.constants import CONTENT_FILE_TYPE, LEARNING_RESOURCE
 from learning_resources_search.serializers import (
     ContentFileSearchRequestSerializer,
     LearningResourcesSearchRequestSerializer,
@@ -72,6 +73,7 @@ def test_learn_resources_search(mocker, client, learning_resources_search_view):
     resp = client.get(learning_resources_search_view.url, params)
     search_mock.assert_called_once_with(
         LearningResourcesSearchRequestSerializer(params).data
+        | {"endpoint": LEARNING_RESOURCE}
     )
     assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
         SearchResponseSerializer(FAKE_SEARCH_RESPONSE).data
@@ -214,7 +216,10 @@ def test_content_file_search(mocker, client, content_file_search_view):
     params = {"q": "text"}
     request = Request(request_factory.get(content_file_search_view.url, params))
     resp = client.get(content_file_search_view.url, params)
-    search_mock.assert_called_once_with(ContentFileSearchRequestSerializer(params).data)
+    search_mock.assert_called_once_with(
+        ContentFileSearchRequestSerializer(params).data
+        | {"endpoint": CONTENT_FILE_TYPE}
+    )
     assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
         SearchResponseSerializer(
             FAKE_SEARCH_RESPONSE, context={"request": request}

@@ -38,29 +38,26 @@ def gen_content_file_id(content_file_id):
     return f"cf_{content_file_id}"
 
 
-def relevant_indexes(resource_types, aggregations):
+def relevant_indexes(resource_types, aggregations, endpoint):
     """
     Return list of relevent index type for the query
 
     Args:
         resource_types (list): the resource type parameter for the search
         aggregations (list): the aggregations parameter for the search
+        endpoint (string): the endpoint: learning_resource or content_file
 
     Returns:
         Array(string): array of index names
 
     """
+    if endpoint == CONTENT_FILE_TYPE:
+        return [get_default_alias_name(COURSE_TYPE)]
 
     if aggregations and "resource_type" in aggregations:
         return map(get_default_alias_name, LEARNING_RESOURCE_TYPES)
 
-    resource_types_copy = resource_types.copy()
-
-    if CONTENT_FILE_TYPE in resource_types_copy:
-        resource_types_copy.remove(CONTENT_FILE_TYPE)
-        resource_types_copy.append(COURSE_TYPE)
-
-    return map(get_default_alias_name, set(resource_types_copy))
+    return map(get_default_alias_name, set(resource_types))
 
 
 def generate_sort_clause(search_params):
@@ -462,11 +459,16 @@ def execute_learn_search(search_params):
         dict: The opensearch response dict
     """
 
-    if not search_params.get("resource_type"):
+    if (
+        not search_params.get("resource_type")
+        and search_params.get("endpoint") != CONTENT_FILE_TYPE
+    ):
         search_params["resource_type"] = list(LEARNING_RESOURCE_TYPES)
 
     indexes = relevant_indexes(
-        search_params.get("resource_type"), search_params.get("aggregations")
+        search_params.get("resource_type"),
+        search_params.get("aggregations"),
+        search_params.get("endpoint"),
     )
 
     search = Search(index=",".join(indexes))
@@ -484,16 +486,23 @@ def execute_learn_search(search_params):
 
         search = search.sort(sort)
 
+    if search_params.get("endpoint") == CONTENT_FILE_TYPE:
+        query_type_query = {"exists": {"field": "content_type"}}
+    else:
+        query_type_query = {"exists": {"field": "resource_type"}}
+
     if search_params.get("q"):
         text = re.sub("[\u201c\u201d]", '"', search_params.get("q"))
-        if CONTENT_FILE_TYPE in search_params.get("resource_type"):
+        if search_params.get("endpoint") == CONTENT_FILE_TYPE:
             text_query = generate_content_file_text_clause(text)
         else:
             text_query = generate_learning_resources_text_clause(text)
 
         suggest = generate_suggest_clause(text)
-        search = search.query("bool", should=[text_query])
+        search = search.query("bool", must=[text_query], filter=query_type_query)
         search = search.extra(suggest=suggest)
+    else:
+        search = search.query(query_type_query)
 
     filter_clauses = generate_filter_clauses(search_params)
 

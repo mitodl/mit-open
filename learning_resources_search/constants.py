@@ -20,6 +20,8 @@ CURRENT_INDEX = "current_index"
 REINDEXING_INDEX = "reindexing_index"
 BOTH_INDEXES = "all_indexes"
 
+LEARNING_RESOURCE = "learning_resource"
+
 
 class IndexestoUpdate(Enum):
     """
@@ -235,7 +237,6 @@ CONTENT_FILE_MAP = {
     "resource_id": {"type": "long"},
     "resource_readable_id": {"type": "keyword"},
     "course_number": {"type": "keyword"},
-    "resource_type": {"type": "keyword"},
     "offered_by": {
         "type": "nested",
         "properties": {

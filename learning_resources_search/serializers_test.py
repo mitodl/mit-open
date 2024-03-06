@@ -155,7 +155,6 @@ def test_serialize_content_file_for_bulk():
             "name": "content_file",
             "parent": content_file.run.learning_resource_id,
         },
-        "resource_type": "content_file",
         **ContentFileSerializer(content_file).data,
     }
 
@@ -249,7 +248,6 @@ def test_content_file_search_request_serializer():
         "limit": 1,
         "id": [1],
         "sortby": "-id",
-        "resource_type": ["content_file"],
         "topic": ["Math"],
         "aggregations": ["topic"],
         "content_feature_type": ["Assignment"],

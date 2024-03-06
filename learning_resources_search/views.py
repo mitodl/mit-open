@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 
 from authentication.decorators import blocked_ip_exempt
 from learning_resources_search.api import execute_learn_search
+from learning_resources_search.constants import CONTENT_FILE_TYPE, LEARNING_RESOURCE
 from learning_resources_search.serializers import (
     ContentFileeSearchResponseSerializer,
     ContentFileSearchRequestSerializer,
@@ -57,7 +58,9 @@ class LearningResourcesSearchView(ESView):
         request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
 
         if request_data.is_valid():
-            response = execute_learn_search(request_data.data)
+            response = execute_learn_search(
+                request_data.data | {"endpoint": LEARNING_RESOURCE}
+            )
             return Response(
                 SearchResponseSerializer(response, context={"request": request}).data
             )
@@ -91,7 +94,9 @@ class ContentFileSearchView(ESView):
     def get(self, request):
         request_data = ContentFileSearchRequestSerializer(data=request.GET)
         if request_data.is_valid():
-            response = execute_learn_search(request_data.data)
+            response = execute_learn_search(
+                request_data.data | {"endpoint": CONTENT_FILE_TYPE}
+            )
             return Response(
                 SearchResponseSerializer(response, context={"request": request}).data
             )
