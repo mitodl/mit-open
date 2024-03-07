@@ -202,3 +202,26 @@ def test_fetch_program_letter_template_data_malformed_api_response(mocker, user)
     cert = ProgramCertificateFactory(user_email=user.email, micromasters_program_id=1)
     program_letter = ProgramLetterFactory(user=user, certificate=cert)
     assert fetch_program_letter_template_data(program_letter) is None
+
+
+@pytest.mark.django_db()
+def test_fetch_program_letter_template_data_has_results(mocker, user):
+    """
+    Tests that a malformed response from micromasters api
+    causes fetch_program_letter_template_data to return None
+    """
+    settings.MICROMASTERS_CMS_API_URL = "http://test.com"
+    expected_item = {"test": "test"}
+    mm_api_response = mocker.Mock()
+    mm_api_response.configure_mock(
+        **{
+            "json.return_value": {
+                "meta": {"total_count": 1},
+                "items": [expected_item],
+            },
+        }
+    )
+    mocker.patch("requests.get", return_value=mm_api_response)
+    cert = ProgramCertificateFactory(user_email=user.email, micromasters_program_id=1)
+    program_letter = ProgramLetterFactory(user=user, certificate=cert)
+    assert fetch_program_letter_template_data(program_letter) == expected_item
