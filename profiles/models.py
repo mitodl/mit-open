@@ -192,6 +192,6 @@ class ProgramLetter(models.Model):
 
     def __str__(self):
         return (
-            "program letter:"
+            "program letter: "
             f"{self.certificate.user_full_name} - {self.certificate.program_title}"
         )

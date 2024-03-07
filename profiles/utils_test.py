@@ -207,8 +207,8 @@ def test_fetch_program_letter_template_data_malformed_api_response(mocker, user)
 @pytest.mark.django_db()
 def test_fetch_program_letter_template_data_has_results(mocker, user):
     """
-    Tests that a malformed response from micromasters api
-    causes fetch_program_letter_template_data to return None
+    Tests that a response from micromasters api
+    with a result returns properly
     """
     settings.MICROMASTERS_CMS_API_URL = "http://test.com"
     expected_item = {"test": "test"}
