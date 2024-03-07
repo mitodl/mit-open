@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.4.0
+Version 0.4.0 (Released March 06, 2024)
 -------------
 
 - Update dependency ruff to ^0.3.0 (#577)
