@@ -1,4 +1,5 @@
 """Search API function tests"""
+from unittest.mock import Mock
 
 import pytest
 
@@ -12,12 +13,22 @@ from learning_resources_search.api import (
     generate_learning_resources_text_clause,
     generate_sort_clause,
     generate_suggest_clause,
+    get_similar_topics,
     relevant_indexes,
 )
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
+    COURSE_TYPE,
     LEARNING_RESOURCE,
 )
+
+
+def os_topic(topic_name) -> Mock:
+    """
+    Given a topic name, return a mock object emulating an
+    OpenSearch topic AttrDict object
+    """
+    return Mock(to_dict=Mock(return_value={"name": topic_name}))
 
 
 @pytest.mark.parametrize(
@@ -1590,4 +1601,65 @@ def test_execute_learn_search_for_content_file_query(opensearch):
     opensearch.conn.search.assert_called_once_with(
         body=query,
         index=["testindex_course_default"],
+    )
+
+
+def test_get_similar_topics(settings, opensearch):
+    """Test get_similar_topics makes a query for similar document topics"""
+    input_doc = {"title": "title text", "description": "description text"}
+
+    # topic d is least popular and should not show up, order does not matter
+    opensearch.conn.search.return_value = {
+        "hits": {
+            "hits": [
+                {
+                    "_source": {
+                        "topics": [
+                            os_topic("topic a"),
+                            os_topic("topic b"),
+                            os_topic("topic d"),
+                        ]
+                    }
+                },
+                {"_source": {"topics": [os_topic("topic a"), os_topic("topic c")]}},
+                {"_source": {"topics": [os_topic("topic a"), os_topic("topic c")]}},
+                {"_source": {"topics": [os_topic("topic a"), os_topic("topic c")]}},
+                {"_source": {"topics": [os_topic("topic a"), os_topic("topic b")]}},
+            ]
+        }
+    }
+
+    # results should be top 3 in decreasing order of frequency
+    assert get_similar_topics(input_doc, 3, 1, 15) == ["topic a", "topic c", "topic b"]
+
+    opensearch.conn.search.assert_called_once_with(
+        body={
+            "_source": {"includes": "topics"},
+            "query": {
+                "bool": {
+                    "filter": [{"term": {"resource_type": "course"}}],
+                    "must": [
+                        {
+                            "more_like_this": {
+                                "like": [
+                                    {
+                                        "doc": input_doc,
+                                        "fields": ["title", "description"],
+                                    }
+                                ],
+                                "fields": [
+                                    "course.course_numbers.value",
+                                    "title",
+                                    "description",
+                                    "full_description",
+                                ],
+                                "min_term_freq": 1,
+                                "min_doc_freq": 15,
+                            }
+                        }
+                    ],
+                }
+            },
+        },
+        index=[f"{settings.OPENSEARCH_INDEX}_{COURSE_TYPE}_default"],
     )

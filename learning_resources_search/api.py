@@ -1,8 +1,10 @@
 """API for general search-related functionality"""
 
 import re
+from collections import Counter
 
 from opensearch_dsl import Search
+from opensearch_dsl.query import MoreLikeThis
 
 from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
 from learning_resources_search.connection import get_default_alias_name
@@ -11,6 +13,7 @@ from learning_resources_search.constants import (
     COURSE_QUERY_FIELDS,
     COURSE_TYPE,
     DEPARTMENT_QUERY_FIELDS,
+    LEARNING_RESOURCE,
     LEARNING_RESOURCE_QUERY_FIELDS,
     LEARNING_RESOURCE_SEARCH_FILTERS,
     LEARNING_RESOURCE_TYPES,
@@ -515,3 +518,49 @@ def execute_learn_search(search_params):
         search = search.extra(aggs=aggregation_clauses)
 
     return search.execute().to_dict()
+
+
+def get_similar_topics(
+    value_doc: dict, num_topics: int, min_term_freq: int, min_doc_freq: int
+) -> list[str]:
+    """
+    Get a list of similar topics based on text values
+
+    Args:
+        value_doc (dict):
+            a document representing the data fields we want to search with
+        num_topics (int):
+            number of topics to return
+        min_term_freq (int):
+            minimum times a term needs to show up in input
+        min_doc_freq (int):
+            minimum times a term needs to show up in docs
+
+    Returns:
+        list of str:
+            list of topic values
+    """
+    indexes = relevant_indexes([COURSE_TYPE], [], endpoint=LEARNING_RESOURCE)
+    search = Search(index=",".join(indexes))
+    search = search.filter("term", resource_type=COURSE_TYPE)
+    search = search.query(
+        MoreLikeThis(
+            like=[{"doc": value_doc, "fields": list(value_doc.keys())}],
+            fields=[
+                "course.course_numbers.value",
+                "title",
+                "description",
+                "full_description",
+            ],
+            min_term_freq=min_term_freq,
+            min_doc_freq=min_doc_freq,
+        )
+    )
+    search = search.source(includes="topics")
+
+    response = search.execute()
+
+    topics = [topic.to_dict()["name"] for hit in response.hits for topic in hit.topics]
+
+    counter = Counter(topics)
+    return list(dict(counter.most_common(num_topics)).keys())

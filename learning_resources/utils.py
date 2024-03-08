@@ -331,6 +331,17 @@ def resource_unpublished_actions(resource: LearningResource):
     hook.resource_unpublished(resource=resource)
 
 
+def similar_topics_action(resource: LearningResource) -> dict:
+    """
+    Trigger plugin to get similar topics for a resource
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    topics = hook.resource_similar_topics(resource=resource)
+    # The plugin returns the list wrapped in another list for some reason
+    return topics[0] if topics else []
+
+
 def resource_delete_actions(resource: LearningResource):
     """
     Trigger plugin to handle learning resource deletion

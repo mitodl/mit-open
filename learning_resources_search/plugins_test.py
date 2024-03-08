@@ -117,3 +117,26 @@ def test_search_index_plugin_resource_run_delete(mock_search_index_helpers):
         False,  # noqa: FBT003
     )
     assert LearningResourceRun.objects.filter(id=run_id).exists() is False
+
+
+@pytest.mark.django_db()
+def test_resource_similar_topics(mocker, settings):
+    """The plugin function should return expected topics for a resource"""
+    expected_topics = ["topic1", "topic2"]
+    mock_similar_topics = mocker.patch(
+        "learning_resources_search.plugins.get_similar_topics",
+        return_value=expected_topics,
+    )
+    resource = LearningResourceFactory.create()
+    topics = SearchIndexPlugin().resource_similar_topics(resource)
+    assert topics == [{"name": topic} for topic in expected_topics]
+    mock_similar_topics.assert_called_once_with(
+        {
+            "title": resource.title,
+            "description": resource.description,
+            "full_description": resource.full_description,
+        },
+        settings.OPEN_VIDEO_MAX_TOPICS,
+        settings.OPEN_VIDEO_MIN_TERM_FREQ,
+        settings.OPEN_VIDEO_MIN_DOC_FREQ,
+    )

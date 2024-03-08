@@ -2,6 +2,7 @@
 
 import datetime
 import pathlib
+from random import randrange
 from subprocess import check_call
 from tempfile import TemporaryDirectory
 from unittest.mock import ANY
@@ -16,7 +17,12 @@ from learning_resources.constants import (
     PlatformType,
 )
 from learning_resources.etl import utils
-from learning_resources.factories import ContentFileFactory, LearningResourceRunFactory
+from learning_resources.factories import (
+    ContentFileFactory,
+    LearningResourceFactory,
+    LearningResourceRunFactory,
+    LearningResourceTopicFactory,
+)
 
 pytestmark = pytest.mark.django_db
 
@@ -326,3 +332,24 @@ def test_extract_valid_department_from_id(readable_id, is_ocw, dept_ids):
     assert (
         utils.extract_valid_department_from_id(readable_id, is_ocw=is_ocw) == dept_ids
     )
+
+
+def test_most_common_topics():
+    """Test that most_common_topics returns the correct topics"""
+    max_topics = 4
+    common_topics = LearningResourceTopicFactory.create_batch(max_topics)
+    uncommon_topics = LearningResourceTopicFactory.create_batch(3)
+    resources = []
+    for topic in common_topics:
+        resources.extend(
+            LearningResourceFactory.create_batch(randrange(2, 4), topics=[topic])  # noqa: S311
+        )
+    resources.extend(
+        [LearningResourceFactory.create(topics=[topic]) for topic in uncommon_topics]
+    )
+    assert sorted(
+        [
+            topic["name"]
+            for topic in utils.most_common_topics(resources, max_topics=max_topics)
+        ]
+    ) == [topic.name for topic in common_topics]

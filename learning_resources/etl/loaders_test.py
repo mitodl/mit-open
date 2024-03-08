@@ -936,6 +936,11 @@ def test_load_video(mocker, mock_upsert_tasks, video_exists, is_published, pass_
         VideoFactory.create() if video_exists else VideoFactory.build()
     ).learning_resource
     offered_by = LearningResourceOfferorFactory.create()
+    expected_topics = [{"name": "Biology"}, {"name": "Chemistry"}]
+    mock_similar_topics_action = mocker.patch(
+        "learning_resources.etl.loaders.similar_topics_action",
+        return_value=expected_topics,
+    )
 
     assert Video.objects.count() == (1 if video_exists else 0)
 
@@ -954,6 +959,8 @@ def test_load_video(mocker, mock_upsert_tasks, video_exists, is_published, pass_
         "published": is_published,
         "video": {"duration": video_resource.video.duration},
     }
+    if pass_topics:
+        props["topics"] = expected_topics
 
     result = load_video(props)
     assert Video.objects.count() == 1
@@ -961,6 +968,11 @@ def test_load_video(mocker, mock_upsert_tasks, video_exists, is_published, pass_
     # assert we got a video resource back
     assert isinstance(result, LearningResource)
     assert result.published == is_published
+
+    assert mock_similar_topics_action.call_count == (0 if pass_topics else 1)
+    assert list(result.topics.values_list("name", flat=True).order_by("name")) == [
+        topic["name"] for topic in expected_topics
+    ]
 
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"
@@ -986,22 +998,25 @@ def test_load_videos():
     assert Video.objects.count() == len(video_resources)
 
 
-def test_load_playlist():
+def test_load_playlist(mocker):
     """Test load_playlist"""
+    expected_topics = [{"name": "Biology"}, {"name": "Physics"}]
+    mock_most_common_topics = mocker.patch(
+        "learning_resources.etl.loaders.most_common_topics",
+        return_value=expected_topics,
+    )
     channel = VideoChannelFactory.create(playlists=None)
     playlist = VideoPlaylistFactory.build().learning_resource
     assert VideoPlaylist.objects.count() == 0
     assert Video.objects.count() == 0
-    videos_resources = [
-        video.learning_resource for video in VideoFactory.build_batch(5)
-    ]
+    video_resources = [video.learning_resource for video in VideoFactory.build_batch(5)]
     videos_data = [
         {
             **model_to_dict(video, exclude=non_transformable_attributes),
             "platform": PlatformType.youtube.name,
             "offered_by": {"code": LearningResourceOfferorFactory.create().code},
         }
-        for video in videos_resources
+        for video in video_resources
     ]
 
     props = {
@@ -1015,9 +1030,13 @@ def test_load_playlist():
     result = load_playlist(channel, props)
 
     assert isinstance(result, LearningResource)
+    mock_most_common_topics.assert_called_once()
 
-    assert result.resources.count() == len(videos_resources)
+    assert result.resources.count() == len(video_resources)
     assert result.video_playlist.channel == channel
+    assert list(result.topics.values_list("name", flat=True).order_by("name")) == [
+        topic["name"] for topic in expected_topics
+    ]
 
 
 def test_load_playlists_unpublish(mocker):
