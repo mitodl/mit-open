@@ -10,6 +10,8 @@ COMMON_HEADERS = {
     "User-Agent": f"CourseCatalogBot/{settings.VERSION} ({settings.SITE_BASE_URL})"
 }
 
+DEFAULT_UNIQUE_KEY = "readable_id"
+
 MIT_OWNER_KEYS = ["MITx", "MITx_PRO"]
 
 

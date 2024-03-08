@@ -43,6 +43,7 @@ log = logging.getLogger(__name__)
 
 OFFERED_BY = {"code": OfferedBy.ocw.name}
 PRIMARY_COURSE_ID = "primary_course_number"
+UNIQUE_FIELD = "url"
 
 
 def transform_content_files(
@@ -344,6 +345,7 @@ def transform_course(course_data: dict) -> dict:
         "topics": topics,
         "runs": [transform_run(course_data)],
         "resource_type": LearningResourceType.course.name,
+        "unique_field": UNIQUE_FIELD,
     }
 
 

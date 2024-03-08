@@ -12,10 +12,10 @@ from learning_resources.constants import (
     PlatformType,
 )
 from learning_resources.etl.constants import (
+    DEFAULT_UNIQUE_KEY,
     CourseLoaderConfig,
     ProgramLoaderConfig,
 )
-from learning_resources.etl.deduplication import get_most_relevant_run
 from learning_resources.etl.exceptions import ExtractException
 from learning_resources.etl.utils import most_common_topics
 from learning_resources.models import (
@@ -212,7 +212,7 @@ def load_run(
     return learning_resource_run
 
 
-def load_course(  # noqa: C901
+def load_course(
     resource_data: dict,
     blocklist: list[str],
     duplicates: list[dict],
@@ -237,7 +237,6 @@ def load_course(  # noqa: C901
             the created/updated course
     """
     platform_name = resource_data.pop("platform")
-    readable_id = resource_data.pop("readable_id")
     runs_data = resource_data.pop("runs", [])
     topics_data = resource_data.pop("topics", None)
     offered_bys_data = resource_data.pop("offered_by", None)
@@ -246,6 +245,7 @@ def load_course(  # noqa: C901
     department_data = resource_data.pop("departments", [])
     content_tags_data = resource_data.pop("content_tags", [])
 
+    readable_id = resource_data.pop("readable_id")
     if readable_id in blocklist or not runs_data:
         resource_data["published"] = False
 
@@ -268,37 +268,47 @@ def load_course(  # noqa: C901
             )
             return None
 
-        if deduplicated_course_id:
-            # intentionally not updating if the course doesn't exist
-            (
-                learning_resource,
-                created,
-            ) = LearningResource.objects.select_for_update().get_or_create(
-                platform=platform,
-                readable_id=deduplicated_course_id,
-                resource_type=LearningResourceType.course.name,
-                defaults=resource_data,
-            )
+        if readable_id != deduplicated_course_id:
+            duplicate_resource = LearningResource.objects.filter(
+                platform=platform, readable_id=readable_id
+            ).first()
+            if duplicate_resource:
+                duplicate_resource.published = False
+                duplicate_resource.save()
+                resource_unpublished_actions(duplicate_resource)
 
-            if readable_id != deduplicated_course_id:
-                duplicate_resource = LearningResource.objects.filter(
-                    platform=platform, readable_id=readable_id
-                ).first()
-                if duplicate_resource:
-                    duplicate_resource.published = False
-                    duplicate_resource.save()
-                    resource_unpublished_actions(duplicate_resource)
+        unique_field_name = resource_data.pop("unique_field", DEFAULT_UNIQUE_KEY)
+        unique_field_value = resource_data.get(unique_field_name)
 
-        else:
-            (
-                learning_resource,
-                created,
-            ) = LearningResource.objects.select_for_update().update_or_create(
+        log.info(
+            "Loading course: %s:%s=%s",
+            readable_id,
+            unique_field_name,
+            unique_field_value,
+        )
+        resource_id = deduplicated_course_id or readable_id
+        if unique_field_name != DEFAULT_UNIQUE_KEY:
+            # Some dupes may result, so we need to unpublish resources
+            # with matching unique values and different readable_ids
+            dupe_resources = LearningResource.objects.filter(
+                **{unique_field_name: unique_field_value},
                 platform=platform,
-                readable_id=readable_id,
                 resource_type=LearningResourceType.course.name,
-                defaults=resource_data,
-            )
+            ).exclude(readable_id=resource_id)
+            if dupe_resources.count() > 0:
+                bulk_resources_unpublished_actions(
+                    [resource.id for resource in dupe_resources],
+                    LearningResourceType.course.name,
+                )
+        (
+            learning_resource,
+            created,
+        ) = LearningResource.objects.select_for_update().update_or_create(
+            readable_id=resource_id,
+            platform=platform,
+            resource_type=LearningResourceType.course.name,
+            defaults=resource_data,
+        )
 
         Course.objects.get_or_create(
             learning_resource=learning_resource, defaults=course_data
@@ -308,14 +318,6 @@ def load_course(  # noqa: C901
 
         for course_run_data in runs_data:
             load_run(learning_resource, course_run_data)
-
-        if deduplicated_course_id and not created:
-            most_relevent_run = get_most_relevant_run(learning_resource.runs.all())
-
-            if most_relevent_run.run_id in run_ids_to_update_or_create:
-                for attr, val in resource_data.items():
-                    setattr(learning_resource, attr, val)
-                learning_resource.save()
 
         unpublished_runs = []
         if config.prune:
