@@ -23,6 +23,7 @@ from profiles.models import Profile, ProgramCertificate, ProgramLetter, UserWebs
 from profiles.permissions import HasEditPermission, HasSiteEditPermission
 from profiles.serializers import (
     ProfileSerializer,
+    ProgramLetterSerializer,
     UserSerializer,
     UserWebsiteSerializer,
 )
@@ -43,6 +44,16 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = get_user_model().objects.filter(is_active=True)
     lookup_field = "username"
+
+
+class ProgramLetterViewSet(viewsets.ModelViewSet):
+    """View for users"""
+
+    permission_classes = (IsAuthenticated,)
+
+    serializer_class = ProgramLetterSerializer
+
+    queryset = ProgramLetter.objects.all()
 
 
 class CurrentUserRetrieveViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):

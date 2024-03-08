@@ -17,9 +17,16 @@ from profiles.models import (
     PROFILE_PROPS,
     SOCIAL_SITE_NAME_MAP,
     Profile,
+    ProgramCertificate,
+    ProgramLetter,
     UserWebsite,
 )
-from profiles.utils import IMAGE_MEDIUM, IMAGE_SMALL, image_uri
+from profiles.utils import (
+    IMAGE_MEDIUM,
+    IMAGE_SMALL,
+    fetch_program_letter_template_data,
+    image_uri,
+)
 
 User = get_user_model()
 
@@ -244,3 +251,29 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ("id", "username", "profile", "email")
         read_only_fields = ("id", "username")
+
+
+class ProgramCertificateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramCertificate
+        fields = "__all__"
+
+
+class ProgramLetterSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Podcasts
+    """
+
+    id = serializers.UUIDField(read_only=True)
+
+    template_fields = serializers.SerializerMethodField()
+
+    certificate = ProgramCertificateSerializer()
+
+    def get_template_fields(self, instance) -> int:
+        """Return the number of episodes in the podcast"""
+        return fetch_program_letter_template_data(instance)
+
+    class Meta:
+        model = ProgramLetter
+        fields = ["id", "template_fields", "certificate"]

@@ -6,6 +6,7 @@ import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPat
 import LearningPathDetailsPage from "@/pages/LearningPathDetailsPage/LearningPathDetailsPage"
 import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
+import ProgramLetterPage from "@/pages/ProgramLetterPage/ProgramLetterPage"
 import DashboardPage from "@/pages/DashboardPage/DashboardPage"
 import ErrorPage from "@/pages/ErrorPage/ErrorPage"
 import * as urls from "@/common/urls"
@@ -42,6 +43,10 @@ const routes: RouteObject[] = [
             <DashboardPage />
           </RestrictedRoute>
         ),
+      },
+      {
+        path: urls.PROGRAMLETTER_VIEW,
+        element: <ProgramLetterPage />,
       },
       {
         element: <RestrictedRoute requires={Permissions.ArticleEditor} />,

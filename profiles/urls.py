@@ -18,6 +18,7 @@ router.register(r"users", UserViewSet, basename="user_api")
 router.register(r"profiles", ProfileViewSet, basename="profile_api")
 router.register(r"websites", UserWebsiteViewSet, basename="user_websites_api")
 
+
 v0_urls = [
     re_path(
         r"^users/me/$",
