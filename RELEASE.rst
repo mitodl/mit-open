@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.4.1 (Released March 08, 2024)
+-------------
+
+- resource_type changes (#583)
+- Update nginx Docker tag to v1.25.4 (#544)
+- Youtube video ETL and search (#558)
+
 Version 0.4.0 (Released March 06, 2024)
 -------------
 
