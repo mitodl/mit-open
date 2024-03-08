@@ -1005,7 +1005,7 @@ def test_load_playlist(mocker):
         "learning_resources.etl.loaders.most_common_topics",
         return_value=expected_topics,
     )
-    channel = VideoChannelFactory.create(playlists=None)
+    channel = VideoChannelFactory.create()
     playlist = VideoPlaylistFactory.build().learning_resource
     assert VideoPlaylist.objects.count() == 0
     assert Video.objects.count() == 0

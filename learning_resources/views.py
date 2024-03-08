@@ -71,6 +71,8 @@ from learning_resources.serializers import (
     ProgramResourceSerializer,
     UserListRelationshipSerializer,
     UserListSerializer,
+    VideoPlaylistResourceSerializer,
+    VideoResourceSerializer,
 )
 from learning_resources.tasks import get_ocw_courses
 from learning_resources.utils import (
@@ -799,3 +801,65 @@ class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
     lookup_field = "code"
+
+
+@extend_schema_view(
+    list=extend_schema(
+        description="Get a paginated list of videos",
+    ),
+    retrieve=extend_schema(
+        description="Retrieve a single video",
+    ),
+)
+class VideoViewSet(
+    BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
+):
+    """
+    Viewset for Videos
+    """
+
+    resource_type_name_plural = "Videos"
+
+    serializer_class = VideoResourceSerializer
+
+    def get_queryset(self):
+        """
+        Generate a QuerySet for fetching valid Programs
+
+        Returns:
+            QuerySet of LearningResource objects that are Programs
+        """
+        return self._get_base_queryset(
+            resource_type=LearningResourceType.video.name
+        ).filter(published=True)
+
+
+@extend_schema_view(
+    list=extend_schema(
+        description="Get a paginated list of video playlists",
+    ),
+    retrieve=extend_schema(
+        description="Retrieve a single video playlist",
+    ),
+)
+class VideoPlaylistViewSet(
+    BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
+):
+    """
+    Viewset for VideoPlaylists
+    """
+
+    resource_type_name_plural = "Video Playlists"
+
+    serializer_class = VideoPlaylistResourceSerializer
+
+    def get_queryset(self):
+        """
+        Generate a QuerySet for fetching valid Programs
+
+        Returns:
+            QuerySet of LearningResource objects that are Programs
+        """
+        return self._get_base_queryset(
+            resource_type=LearningResourceType.video_playlist.name
+        ).filter(published=True)

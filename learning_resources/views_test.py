@@ -22,8 +22,12 @@ from learning_resources.factories import (
     PodcastEpisodeFactory,
     PodcastFactory,
     ProgramFactory,
+    VideoFactory,
+    VideoPlaylistFactory,
 )
-from learning_resources.models import LearningResourceRelationship
+from learning_resources.models import (
+    LearningResourceRelationship,
+)
 from learning_resources.serializers import (
     ContentFileSerializer,
     LearningResourceDepartmentSerializer,
@@ -32,6 +36,9 @@ from learning_resources.serializers import (
     LearningResourceTopicSerializer,
     PodcastEpisodeSerializer,
     PodcastSerializer,
+    VideoPlaylistSerializer,
+    VideoResourceSerializer,
+    VideoSerializer,
 )
 
 pytestmark = [pytest.mark.django_db]
@@ -656,3 +663,128 @@ def test_offerors_detail_endpoint(client):
 
     resp = client.get(reverse("lr:v1:offerors_api-detail", args=[offeror.code]))
     assert resp.data == LearningResourceOfferorSerializer(instance=offeror).data
+
+
+@pytest.mark.parametrize(
+    ("url", "params"),
+    [
+        ("lr:v1:video_playlists_api-list", ""),
+        ("lr:v1:learning_resources_api-list", "resource_type=video_playlist"),
+    ],
+)
+def test_list_video_playlist_endpoint(client, url, params):
+    """Test video playlist endpoint"""
+    playlists = sorted(
+        VideoPlaylistFactory.create_batch(2), key=lambda resource: resource.id
+    )
+
+    # this should be filtered out
+    VideoPlaylistFactory.create_batch(5, is_unpublished=True)
+
+    resp = client.get(f"{reverse(url)}?{params}")
+    assert resp.data.get("count") == 2
+
+    for idx, playlist in enumerate(playlists):
+        assert resp.data.get("results")[idx]["id"] == playlist.learning_resource.id
+        assert (
+            resp.data.get("results")[idx]["video_playlist"]
+            == VideoPlaylistSerializer(instance=playlist).data
+        )
+
+
+@pytest.mark.parametrize(
+    "url", ["lr:v1:video_playlists_api-detail", "lr:v1:learning_resources_api-detail"]
+)
+def test_get_video_playlist_detail_endpoint(client, url):
+    """Test video playlist detail endpoint"""
+    playlist = VideoPlaylistFactory.create()
+
+    resp = client.get(reverse(url, args=[playlist.learning_resource.id]))
+
+    assert resp.data.get("readable_id") == playlist.learning_resource.readable_id
+    assert (
+        resp.data.get("video_playlist")
+        == VideoPlaylistSerializer(instance=playlist).data
+    )
+
+
+@pytest.mark.parametrize(
+    "url",
+    ["lr:v1:learning_resource_items_api-list", "lr:v1:video_playlist_items_api-list"],
+)
+def test_get_video_playlist_items_endpoint(client, url):
+    """Test video playlist items endpoint"""
+    playlist = VideoPlaylistFactory.create().learning_resource
+    videos = VideoFactory.create_batch(2)
+    playlist.resources.set(
+        [video.learning_resource for video in videos],
+        through_defaults={
+            "relation_type": LearningResourceRelationTypes.PLAYLIST_VIDEOS
+        },
+    )
+    assert playlist.resources.count() > 0
+
+    # this should be filtered out
+    playlist.resources.add(
+        VideoFactory.create(is_unpublished=True).learning_resource,
+        through_defaults={
+            "relation_type": LearningResourceRelationTypes.PLAYLIST_VIDEOS.value
+        },
+    )
+
+    resp = client.get(reverse(url, args=[playlist.id]))
+
+    assert resp.data.get("count") == playlist.resources.count() - 1
+
+    for idx, resource_relationship in enumerate(
+        sorted(
+            LearningResourceRelationship.objects.filter(
+                parent_id=playlist.id, child__published=True
+            ),
+            key=lambda item: item.child.last_modified,
+            reverse=True,
+        )
+    ):
+        assert resp.data.get("results")[idx]["id"] == resource_relationship.id
+        assert (
+            resp.data.get("results")[idx]["resource"]
+            == VideoResourceSerializer(instance=resource_relationship.child).data
+        )
+
+
+@pytest.mark.parametrize(
+    ("url", "params"),
+    [
+        ("lr:v1:videos_api-list", ""),
+        ("lr:v1:learning_resources_api-list", "resource_type=video"),
+    ],
+)
+def test_list_video_endpoint(client, url, params):
+    """Test video endpoint"""
+    videos = sorted(VideoFactory.create_batch(2), key=lambda resource: resource.id)
+
+    # this should be filtered out
+    VideoFactory.create_batch(5, is_unpublished=True)
+
+    resp = client.get(f"{reverse(url)}?{params}")
+    assert resp.data.get("count") == 2
+
+    for idx, video in enumerate(videos):
+        assert resp.data.get("results")[idx]["id"] == video.learning_resource.id
+        assert (
+            resp.data.get("results")[idx]["video"]
+            == VideoSerializer(instance=video).data
+        )
+
+
+@pytest.mark.parametrize(
+    "url", ["lr:v1:videos_api-detail", "lr:v1:learning_resources_api-detail"]
+)
+def test_get_video_detail_endpoint(client, url):
+    """Test video detail endpoint"""
+    video = VideoFactory.create()
+
+    resp = client.get(reverse(url, args=[video.learning_resource.id]))
+
+    assert resp.data.get("readable_id") == video.learning_resource.readable_id
+    assert resp.data.get("video") == VideoSerializer(instance=video).data
