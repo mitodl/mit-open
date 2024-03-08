@@ -120,11 +120,3 @@ class ObjectOnlyPermissions(permissions.DjangoObjectPermissions):
     def has_permission(self, request, view):  # noqa: ARG002
         """Ignores model-level permissions"""
         return True
-
-
-class PodcastFeatureFlag(permissions.BasePermission):
-    """Forbids access if the podcast feature flag is not enabled"""
-
-    def has_permission(self, request, view):  # noqa: ARG002
-        """Check that the feature flag is enabled"""
-        return features.is_enabled(features.PODCAST_APIS)
