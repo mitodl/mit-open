@@ -13,6 +13,7 @@ from learning_resources_search.constants import (
     COURSE_QUERY_FIELDS,
     COURSE_TYPE,
     DEPARTMENT_QUERY_FIELDS,
+    LEARNING_RESOURCE,
     LEARNING_RESOURCE_QUERY_FIELDS,
     LEARNING_RESOURCE_SEARCH_FILTERS,
     LEARNING_RESOURCE_TYPES,
@@ -539,7 +540,7 @@ def get_similar_topics(
         list of str:
             list of topic values
     """
-    indexes = relevant_indexes([COURSE_TYPE], [])
+    indexes = relevant_indexes([COURSE_TYPE], [], endpoint=LEARNING_RESOURCE)
     search = Search(index=",".join(indexes))
     search = search.filter("term", resource_type=COURSE_TYPE)
     search = search.query(
