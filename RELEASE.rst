@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.4.1
+Version 0.4.1 (Released March 08, 2024)
 -------------
 
 - resource_type changes (#583)
