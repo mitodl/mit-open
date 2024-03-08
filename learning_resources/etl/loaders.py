@@ -290,16 +290,14 @@ def load_course(
         if unique_field_name != DEFAULT_UNIQUE_KEY:
             # Some dupes may result, so we need to unpublish resources
             # with matching unique values and different readable_ids
-            dupe_resources = LearningResource.objects.filter(
+            for resource in LearningResource.objects.filter(
                 **{unique_field_name: unique_field_value},
                 platform=platform,
                 resource_type=LearningResourceType.course.name,
-            ).exclude(readable_id=resource_id)
-            if dupe_resources.count() > 0:
-                bulk_resources_unpublished_actions(
-                    [resource.id for resource in dupe_resources],
-                    LearningResourceType.course.name,
-                )
+            ).exclude(readable_id=resource_id):
+                resource.published = False
+                resource.save()
+                resource_unpublished_actions(resource)
         (
             learning_resource,
             created,
