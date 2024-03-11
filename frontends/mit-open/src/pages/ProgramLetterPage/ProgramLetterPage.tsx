@@ -85,6 +85,7 @@ const ProgramLetterFooter = styled.div`
     text-align: end;
     width: 100%;
   }
+
   .footer-text p {
     line-height: 0.5em;
   }
@@ -95,6 +96,7 @@ const ProgramLetterFooter = styled.div`
     font-size: 13px;
     margin-top: 0;
   }
+
   .program-footer img {
     max-height: 50px;
     max-width: 300px;

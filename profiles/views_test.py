@@ -371,6 +371,9 @@ def test_program_letter_api_view(mocker, client, user, is_anonymous):
     """
     mock_return_value = {
         "id": 4,
+        "meta": {},
+        "program_letter_footer": "",
+        "program_letter_logo": {},
         "title": "Supply Chain Management",
         "program_id": 1,
         "program_letter_footer_text": "",
