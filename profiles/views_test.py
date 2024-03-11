@@ -11,6 +11,7 @@ from rest_framework import status
 
 from profiles.factories import ProgramCertificateFactory, ProgramLetterFactory
 from profiles.models import ProgramLetter
+from profiles.serializers import ProgramLetterSerializer
 from profiles.utils import DEFAULT_PROFILE_IMAGE, make_temp_image_file
 
 pytestmark = [pytest.mark.django_db]
@@ -360,3 +361,35 @@ def test_letter_intercept_view_generates_program_letter(
             reverse("profile:program-letter-intercept", args=[micromasters_program_id])
         )
         assert response.status_code == 302
+
+
+@pytest.mark.parametrize("is_anonymous", [True, False])
+def test_program_letter_api_view(mocker, client, user, is_anonymous):
+    """
+    Test that the program letter display page is viewable by
+    all users logged in or not
+    """
+    mock_return_value = {
+        "id": 4,
+        "title": "Supply Chain Management",
+        "program_id": 1,
+        "program_letter_footer_text": "",
+        "program_letter_header_text": "",
+        "program_letter_text": "<p>Congratulations</p>",
+        "program_letter_signatories": [],
+    }
+    mocker.patch(
+        "profiles.serializers.fetch_program_letter_template_data",
+        return_value=mock_return_value,
+    )
+    micromasters_program_id = 1
+    if not is_anonymous:
+        client.force_login(user)
+    cert = ProgramCertificateFactory(
+        user_email=user.email, micromasters_program_id=micromasters_program_id
+    )
+    program_letter = ProgramLetterFactory(user=user, certificate=cert)
+    response = client.get(
+        reverse("lr:v1:program_letters_api-detail", args=[program_letter.id])
+    )
+    assert response.data == ProgramLetterSerializer(instance=program_letter).data
