@@ -20,7 +20,7 @@ describe("ProgramLetterDisplayPage", () => {
     setup({ programLetter })
     await waitFor(() => {
       const letterText = document.querySelector(".letter-text > .ck-content")
-      expect(letterText.innerHTML).toBe(
+      expect(letterText?.innerHTML).toBe(
         programLetter?.template_fields?.program_letter_text,
       )
     })
