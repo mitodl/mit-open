@@ -15,72 +15,60 @@ const ProgramLetterPageContainer = styled.div`
   margin-right: auto;
   padding: 50px 60px;
 
-  .program-title {
-    margin-top: 30px;
-  }
-  .program-footer {
-    margin-top: 40px;
-    display: flex;
-  }
-  .program-footer .footer-logo {
-    width: 50%;
-  }
-  .program-footer .footer-text {
-    font-size: 12px;
-    text-align: end;
-    width: 50%;
-  }
-  .program-footer .footer-text p {
-    line-height: 0.5em;
-  }
-  .program-footer .footer-text h2,
-  .program-footer .footer-text h3,
-  .program-footer .footer-text h4 {
-    font-size: 13px;
-    margin-top: 0;
-  }
-  .header-row {
-    display: flex;
-  }
-  .header-row .header-text {
-    width: 50%;
-  }
-  .header-row .header-text p {
-    font-size: 14px;
-    line-height: 1.2em;
-    margin: 0;
-  }
-  .header-row .header-text h2,
-  .header-row .header-text h3,
-  .header-row .header-text h4 {
-    font-size: 18px;
-    margin: 0;
-  }
-  .header-row .letter-logo {
-    width: 50%;
-    text-align: end;
-  }
   .letter-content {
     margin-top: 50px;
   }
-  .signatories .signatory {
-    margin: 10px 0 5px;
-  }
-  .signatories .sig-image {
-    max-height: 80px;
-    margin-bottom: 3px;
-  }
+
   .letter-logo > img {
     max-width: 300px;
     max-height: 150px;
   }
-  .sig-image > img {
-    max-height: 60px;
-    max-width: 130px;
-  }
+
   .footer-logo > img {
     max-width: 300px;
     max-height: 150px;
+  }
+`
+
+const ProgramLetterHeader = styled.div`
+  display: flex;
+
+  .header-text {
+    width: 50%;
+  }
+
+  .header-text p {
+    font-size: 14px;
+    line-height: 1.2em;
+    margin: 0;
+  }
+
+  .header-text h2,
+  .header-text h3,
+  .header-text h4 {
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .letter-logo {
+    width: 50%;
+    text-align: end;
+  }
+`
+
+const ProgramLetterSignatures = styled.div`
+  .signatory {
+    margin: 10px 0 5px;
+  }
+
+  .sig-image {
+    max-height: 80px;
+    margin-bottom: 3px;
+  }
+
+  .sig-image > img {
+    max-height: 60px;
+    max-width: 130px;
   }
 `
 
@@ -92,12 +80,12 @@ const ProgramLetterPage: React.FC = () => {
 
   return (
     <ProgramLetterPageContainer className="letter">
-      <div className="header-row">
+      <ProgramLetterHeader>
         <div className="header-text">{templateFields?.header_text}</div>
         <div className="letter-logo">
           <img src={templateFields?.program_letter_logo.meta.download_url} />
         </div>
-      </div>
+      </ProgramLetterHeader>
 
       <strong>Dear {certificateInfo?.user_full_name},</strong>
       <div className="letter-text">
@@ -105,7 +93,7 @@ const ProgramLetterPage: React.FC = () => {
           dangerouslySetInnerHTML={templateFields?.program_letter_text ?? ""}
         />
       </div>
-      <div className="signatories">
+      <ProgramLetterSignatures>
         {templateFields?.program_letter_signatories.map((signatory) => (
           <div key={signatory.id} className="signatory">
             <div className="sig-image">
@@ -121,7 +109,7 @@ const ProgramLetterPage: React.FC = () => {
             </div>
           </div>
         ))}
-      </div>
+      </ProgramLetterSignatures>
     </ProgramLetterPageContainer>
   )
 }

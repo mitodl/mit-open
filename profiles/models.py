@@ -195,3 +195,6 @@ class ProgramLetter(models.Model):
             "program letter: "
             f"{self.certificate.user_full_name} - {self.certificate.program_title}"
         )
+
+    def get_absolute_url(self):
+        return f"/program_letter/{self.id}/view"

@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query"
 import programLetters from "./keyFactory"
 
 /**

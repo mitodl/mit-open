@@ -4,16 +4,15 @@ from cairosvg import svg2png  # pylint:disable=no-name-in-module
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
-from django.views.generic.base import TemplateView
 from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from main.permissions import (
     AnonymousAccessReadonlyPermission,
@@ -29,7 +28,6 @@ from profiles.serializers import (
 )
 from profiles.utils import (
     DEFAULT_PROFILE_IMAGE,
-    fetch_program_letter_template_data,
     generate_svg_avatar,
 )
 
@@ -46,14 +44,17 @@ class UserViewSet(viewsets.ModelViewSet):
     lookup_field = "username"
 
 
-class ProgramLetterViewSet(viewsets.ModelViewSet):
-    """View for users"""
+class ProgramLetterViewSet(viewsets.ViewSet):
+    """Detail only View for program letters"""
 
-    permission_classes = (IsAuthenticated,)
+    authentication_classes = []
+    permission_classes = []
 
-    serializer_class = ProgramLetterSerializer
-
-    queryset = ProgramLetter.objects.all()
+    def retrieve(self, request, pk=None):  # noqa: ARG002
+        queryset = ProgramLetter.objects.all()
+        program_letter = get_object_or_404(queryset, pk=pk)
+        serializer = ProgramLetterSerializer(program_letter)
+        return Response(serializer.data)
 
 
 class CurrentUserRetrieveViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -129,27 +130,4 @@ class ProgramLetterInterceptView(View):
         letter, created = ProgramLetter.objects.get_or_create(
             user=request.user, certificate=certificate
         )
-        return HttpResponseRedirect(
-            reverse("profile:program-letter-view", args=[letter.id])
-        )
-
-
-class ProgramLetterDisplayView(TemplateView):
-    """
-    View that pulls template data from micromasters
-    to render a program letter
-    """
-
-    template_name = "program_letter.html"
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        letter_uuid = kwargs.get("uuid")
-        letter = get_object_or_404(ProgramLetter, id=letter_uuid)
-        template_data = fetch_program_letter_template_data(letter)
-        if not template_data or not template_data.get("program_letter_text"):
-            raise Http404
-        context["letter"] = letter
-        context["name"] = letter.certificate.user_full_name
-        context.update(template_data)
-        return context
+        return HttpResponseRedirect(letter.get_absolute_url())
