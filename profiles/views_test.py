@@ -336,18 +336,7 @@ def test_letter_intercept_view_generates_program_letter(
     ProgramLetter and then passes the user along to the display.
     Also test that anonymous users do not generate letters and cant access this page
     """
-    mocker.patch(
-        "profiles.views.fetch_program_letter_template_data",
-        return_value={
-            "id": 4,
-            "title": "Supply Chain Management",
-            "program_id": 1,
-            "program_letter_footer_text": "",
-            "program_letter_header_text": "",
-            "program_letter_text": "<p>Congratulations</p>",
-            "program_letter_signatories": [],
-        },
-    )
+
     micromasters_program_id = 1
     if not is_anonymous:
         client.force_login(user)
@@ -361,7 +350,7 @@ def test_letter_intercept_view_generates_program_letter(
         )
         assert ProgramLetter.objects.filter(user=user).count() == 1
         letter_id = ProgramLetter.objects.get(user=user, certificate=cert).id
-        assert response.url == reverse("profile:program-letter-view", args=[letter_id])
+        assert response.url == f"/program_letter/{letter_id}/view"
     else:
         cert = ProgramCertificateFactory(
             user_email=user.email, micromasters_program_id=micromasters_program_id
