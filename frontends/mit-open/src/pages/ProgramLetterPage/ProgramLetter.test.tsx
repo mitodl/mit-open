@@ -2,6 +2,7 @@ import { renderTestApp, waitFor } from "../../test-utils"
 import type { ProgramLetter } from "api"
 import { programLetters as factory } from "api/test-utils/factories"
 import { setMockResponse, urls } from "api/test-utils"
+import { programLetterView } from "@/common/urls"
 
 const setup = ({ programLetter }: { programLetter: ProgramLetter }) => {
   setMockResponse.get(
@@ -9,7 +10,7 @@ const setup = ({ programLetter }: { programLetter: ProgramLetter }) => {
     programLetter,
   )
   renderTestApp({
-    url: `/program_letter/${programLetter.id}/view`,
+    url: programLetterView(programLetter.id),
   })
 }
 
