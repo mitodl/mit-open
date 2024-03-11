@@ -3075,10 +3075,10 @@ export interface ProgramLetter {
   id: string
   /**
    *
-   * @type {ProgramLetterTemplateFields}
+   * @type {ProgramLetterTemplateField}
    * @memberof ProgramLetter
    */
-  template_fields: ProgramLetterTemplateFields
+  template_fields: ProgramLetterTemplateField
   /**
    *
    * @type {ProgramCertificate}
@@ -3089,151 +3089,69 @@ export interface ProgramLetter {
 /**
  *
  * @export
- * @interface ProgramLetterTemplateFields
+ * @interface ProgramLetterTemplateField
  */
-export interface ProgramLetterTemplateFields {
+export interface ProgramLetterTemplateField {
   /**
    *
    * @type {number}
-   * @memberof ProgramLetterTemplateFields
+   * @memberof ProgramLetterTemplateField
    */
-  id?: number
+  id: number
   /**
    *
-   * @type {object}
-   * @memberof ProgramLetterTemplateFields
+   * @type {any}
+   * @memberof ProgramLetterTemplateField
    */
-  meta?: object
+  meta: any
   /**
    *
    * @type {string}
-   * @memberof ProgramLetterTemplateFields
+   * @memberof ProgramLetterTemplateField
    */
-  title?: string
+  title: string
   /**
    *
    * @type {number}
-   * @memberof ProgramLetterTemplateFields
+   * @memberof ProgramLetterTemplateField
    */
-  program_id?: number
+  program_id: number
+  /**
+   *
+   * @type {any}
+   * @memberof ProgramLetterTemplateField
+   */
+  program_letter_footer: any
   /**
    *
    * @type {string}
-   * @memberof ProgramLetterTemplateFields
+   * @memberof ProgramLetterTemplateField
    */
-  program_letter_footer?: string
+  program_letter_footer_text: string
   /**
    *
    * @type {string}
-   * @memberof ProgramLetterTemplateFields
+   * @memberof ProgramLetterTemplateField
    */
-  program_letter_footer_text?: string
+  program_letter_header_text: string
   /**
    *
    * @type {string}
-   * @memberof ProgramLetterTemplateFields
+   * @memberof ProgramLetterTemplateField
    */
-  program_letter_header_text?: string
+  program_letter_text: string
   /**
    *
-   * @type {string}
-   * @memberof ProgramLetterTemplateFields
+   * @type {any}
+   * @memberof ProgramLetterTemplateField
    */
-  program_letter_text?: string
+  program_letter_logo: any
   /**
    *
-   * @type {ProgramLetterTemplateFieldsProgramLetterLogo}
-   * @memberof ProgramLetterTemplateFields
+   * @type {Array<any>}
+   * @memberof ProgramLetterTemplateField
    */
-  program_letter_logo?: ProgramLetterTemplateFieldsProgramLetterLogo
-  /**
-   *
-   * @type {Array<ProgramLetterTemplateFieldsProgramLetterSignatoriesInner>}
-   * @memberof ProgramLetterTemplateFields
-   */
-  program_letter_signatories?: Array<ProgramLetterTemplateFieldsProgramLetterSignatoriesInner>
-}
-/**
- *
- * @export
- * @interface ProgramLetterTemplateFieldsProgramLetterLogo
- */
-export interface ProgramLetterTemplateFieldsProgramLetterLogo {
-  /**
-   *
-   * @type {ProgramLetterTemplateFieldsProgramLetterLogoMeta}
-   * @memberof ProgramLetterTemplateFieldsProgramLetterLogo
-   */
-  meta?: ProgramLetterTemplateFieldsProgramLetterLogoMeta
-}
-/**
- *
- * @export
- * @interface ProgramLetterTemplateFieldsProgramLetterLogoMeta
- */
-export interface ProgramLetterTemplateFieldsProgramLetterLogoMeta {
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramLetterTemplateFieldsProgramLetterLogoMeta
-   */
-  download_url?: string
-}
-/**
- *
- * @export
- * @interface ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
- */
-export interface ProgramLetterTemplateFieldsProgramLetterSignatoriesInner {
-  /**
-   *
-   * @type {number}
-   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
-   */
-  id?: number
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
-   */
-  name?: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
-   */
-  title_line_1?: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
-   */
-  title_line_2?: string
-  /**
-   *
-   * @type {ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage}
-   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
-   */
-  signature_image?: ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage
-}
-/**
- *
- * @export
- * @interface ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage
- */
-export interface ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage {
-  /**
-   *
-   * @type {number}
-   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage
-   */
-  id?: number
-  /**
-   *
-   * @type {ProgramLetterTemplateFieldsProgramLetterLogoMeta}
-   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage
-   */
-  meta?: ProgramLetterTemplateFieldsProgramLetterLogoMeta
+  program_letter_signatories: Array<any>
 }
 /**
  * Serializer for program resources

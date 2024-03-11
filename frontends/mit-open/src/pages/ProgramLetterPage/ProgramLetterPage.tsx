@@ -72,6 +72,35 @@ const ProgramLetterSignatures = styled.div`
   }
 `
 
+const ProgramLetterFooter = styled.div`
+  margin-top: 40px;
+  display: flex;
+
+  .footer-logo {
+    width: 50%;
+  }
+
+  .footer-text {
+    font-size: 12px;
+    text-align: end;
+    width: 100%;
+  }
+  .footer-text p {
+    line-height: 0.5em;
+  }
+
+  .footer-text h2,
+  .footer-text h3,
+  .footer-text h4 {
+    font-size: 13px;
+    margin-top: 0;
+  }
+  .program-footer img {
+    max-height: 50px;
+    max-width: 300px;
+  }
+`
+
 const ProgramLetterPage: React.FC = () => {
   const id = String(useParams<RouteParams>().id)
   const programLetter = useProgramLettersDetail(id)
@@ -112,6 +141,24 @@ const ProgramLetterPage: React.FC = () => {
           </div>
         ))}
       </ProgramLetterSignatures>
+      <ProgramLetterFooter>
+        <div className="program-footer">
+          {templateFields?.program_letter_footer ? (
+            <img
+              src={templateFields.program_letter_footer?.meta?.download_url}
+            />
+          ) : (
+            <p>MITx MicroMasters program in {templateFields?.title}</p>
+          )}
+        </div>
+        <div className="footer-text">
+          <CkeditorDisplay
+            dangerouslySetInnerHTML={
+              templateFields?.program_letter_footer_text ?? ""
+            }
+          />
+        </div>
+      </ProgramLetterFooter>
     </ProgramLetterPageContainer>
   )
 }

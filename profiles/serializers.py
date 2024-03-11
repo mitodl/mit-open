@@ -264,6 +264,19 @@ class ProgramCertificateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ProgramLetterTemplateFieldSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    meta = serializers.JSONField()
+    title = serializers.CharField()
+    program_id = serializers.IntegerField()
+    program_letter_footer = serializers.JSONField()
+    program_letter_footer_text = serializers.CharField()
+    program_letter_header_text = serializers.CharField()
+    program_letter_text = serializers.CharField()
+    program_letter_logo = serializers.JSONField()
+    program_letter_signatories = serializers.ListField(child=serializers.JSONField())
+
+
 class ProgramLetterSerializer(serializers.ModelSerializer):
     """
     Serializer for Program Letters
@@ -275,57 +288,12 @@ class ProgramLetterSerializer(serializers.ModelSerializer):
 
     certificate = ProgramCertificateSerializer()
 
-    @extend_schema_field(
-        {
-            "type": "object",
-            "properties": {
-                "id": {"type": "number"},
-                "meta": {"type": "object"},
-                "title": {"type": "string"},
-                "program_id": {"type": "number"},
-                "program_letter_footer": {"type": "string"},
-                "program_letter_footer_text": {"type": "string"},
-                "program_letter_header_text": {"type": "string"},
-                "program_letter_text": {"type": "string"},
-                "program_letter_logo": {
-                    "type": "object",
-                    "properties": {
-                        "meta": {
-                            "type": "object",
-                            "properties": {"download_url": {"type": "string"}},
-                        },
-                    },
-                },
-                "program_letter_signatories": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "id": {"type": "number"},
-                            "name": {"type": "string"},
-                            "title_line_1": {"type": "string"},
-                            "title_line_2": {"type": "string"},
-                            "signature_image": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {"type": "number"},
-                                    "meta": {
-                                        "type": "object",
-                                        "properties": {
-                                            "download_url": {"type": "string"}
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        }
-    )
+    @extend_schema_field(ProgramLetterTemplateFieldSerializer())
     def get_template_fields(self, instance) -> dict:
         """Return the number of episodes in the podcast"""
-        return fetch_program_letter_template_data(instance)
+        return ProgramLetterTemplateFieldSerializer(
+            fetch_program_letter_template_data(instance)
+        ).data
 
     class Meta:
         model = ProgramLetter

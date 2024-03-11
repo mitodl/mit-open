@@ -6,7 +6,9 @@ import type { ProgramLetter } from "../../generated"
 const programLetter: Factory<ProgramLetter> = (overrides = {}) => ({
   id: faker.datatype.uuid(),
   template_fields: {
+    meta: {},
     id: faker.datatype.number(),
+    program_id: faker.datatype.number(),
     title: faker.lorem.words(),
     program_letter_logo: {
       meta: {
@@ -14,6 +16,9 @@ const programLetter: Factory<ProgramLetter> = (overrides = {}) => ({
       },
     },
     program_letter_text: faker.lorem.paragraph(),
+    program_letter_footer: {},
+    program_letter_footer_text: faker.lorem.paragraph(),
+    program_letter_header_text: faker.lorem.paragraph(),
     program_letter_signatories: [
       {
         id: faker.datatype.number(),

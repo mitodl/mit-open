@@ -7814,55 +7814,8 @@ components:
           format: uuid
           readOnly: true
         template_fields:
-          type: object
-          properties:
-            id:
-              type: number
-            meta:
-              type: object
-            title:
-              type: string
-            program_id:
-              type: number
-            program_letter_footer:
-              type: string
-            program_letter_footer_text:
-              type: string
-            program_letter_header_text:
-              type: string
-            program_letter_text:
-              type: string
-            program_letter_logo:
-              type: object
-              properties:
-                meta:
-                  type: object
-                  properties:
-                    download_url:
-                      type: string
-            program_letter_signatories:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: number
-                  name:
-                    type: string
-                  title_line_1:
-                    type: string
-                  title_line_2:
-                    type: string
-                  signature_image:
-                    type: object
-                    properties:
-                      id:
-                        type: number
-                      meta:
-                        type: object
-                        properties:
-                          download_url:
-                            type: string
+          allOf:
+          - $ref: '#/components/schemas/ProgramLetterTemplateField'
           readOnly: true
         certificate:
           $ref: '#/components/schemas/ProgramCertificate'
@@ -7870,6 +7823,38 @@ components:
       - certificate
       - id
       - template_fields
+    ProgramLetterTemplateField:
+      type: object
+      properties:
+        id:
+          type: integer
+        meta: {}
+        title:
+          type: string
+        program_id:
+          type: integer
+        program_letter_footer: {}
+        program_letter_footer_text:
+          type: string
+        program_letter_header_text:
+          type: string
+        program_letter_text:
+          type: string
+        program_letter_logo: {}
+        program_letter_signatories:
+          type: array
+          items: {}
+      required:
+      - id
+      - meta
+      - program_id
+      - program_letter_footer
+      - program_letter_footer_text
+      - program_letter_header_text
+      - program_letter_logo
+      - program_letter_signatories
+      - program_letter_text
+      - title
     ProgramResource:
       type: object
       description: Serializer for program resources
