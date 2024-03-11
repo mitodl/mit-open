@@ -254,6 +254,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProgramCertificateSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Program Certificates
+    """
+
     class Meta:
         model = ProgramCertificate
         fields = "__all__"
@@ -261,7 +265,7 @@ class ProgramCertificateSerializer(serializers.ModelSerializer):
 
 class ProgramLetterSerializer(serializers.ModelSerializer):
     """
-    Serializer for Podcasts
+    Serializer for Program Letters
     """
 
     id = serializers.UUIDField(read_only=True)
