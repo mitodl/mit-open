@@ -113,36 +113,41 @@ const ProgramLetterPage: React.FC = () => {
     <ProgramLetterPageContainer className="letter">
       <ProgramLetterHeader>
         <div className="header-text">
-          {templateFields?.program_letter_header_text}
+          <CkeditorDisplay
+            dangerouslySetInnerHTML={
+              templateFields?.program_letter_header_text ?? ""
+            }
+          />
         </div>
         <div className="letter-logo">
           <img src={templateFields?.program_letter_logo?.meta?.download_url} />
         </div>
       </ProgramLetterHeader>
-
-      <strong>Dear {certificateInfo?.user_full_name},</strong>
-      <div className="letter-text">
-        <CkeditorDisplay
-          dangerouslySetInnerHTML={templateFields?.program_letter_text ?? ""}
-        />
+      <div className="letter-content">
+        <strong>Dear {certificateInfo?.user_full_name},</strong>
+        <div className="letter-text">
+          <CkeditorDisplay
+            dangerouslySetInnerHTML={templateFields?.program_letter_text ?? ""}
+          />
+        </div>
+        <ProgramLetterSignatures>
+          {templateFields?.program_letter_signatories?.map((signatory) => (
+            <div key={signatory.id} className="signatory">
+              <div className="sig-image">
+                <img src={signatory.signature_image?.meta?.download_url} />
+              </div>
+              <div className="name">
+                {signatory.name},{signatory.title_line_1}
+                {signatory.title_line_2 ? (
+                  <p>, {signatory.title_line_2}</p>
+                ) : (
+                  <p></p>
+                )}
+              </div>
+            </div>
+          ))}
+        </ProgramLetterSignatures>
       </div>
-      <ProgramLetterSignatures>
-        {templateFields?.program_letter_signatories?.map((signatory) => (
-          <div key={signatory.id} className="signatory">
-            <div className="sig-image">
-              <img src={signatory.signature_image?.meta?.download_url} />
-            </div>
-            <div className="name">
-              {signatory.name},{signatory.title_line_1}
-              {signatory.title_line_2 ? (
-                <p>, {signatory.title_line_2}</p>
-              ) : (
-                <p></p>
-              )}
-            </div>
-          </div>
-        ))}
-      </ProgramLetterSignatures>
       <ProgramLetterFooter>
         <div className="program-footer">
           {templateFields?.program_letter_footer ? (
