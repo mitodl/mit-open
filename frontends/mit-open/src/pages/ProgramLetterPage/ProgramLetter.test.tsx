@@ -1,6 +1,6 @@
 import { renderTestApp, waitFor } from "../../test-utils"
 import type { ProgramLetter } from "api"
-import { programLetters as factory } from "api/test-utils/factories"
+import { letters as factory } from "api/test-utils/factories"
 import { setMockResponse, urls } from "api/test-utils"
 import { programLetterView } from "@/common/urls"
 
@@ -18,6 +18,12 @@ describe("ProgramLetterDisplayPage", () => {
   it("Renders a program letter from api", async () => {
     const programLetter = factory.programLetter()
     setup({ programLetter })
+    await waitFor(() => {
+      const letterText = document.querySelector(".letter-text > .ck-content")
+      expect(letterText.innerHTML).toBe(
+        programLetter?.template_fields?.program_letter_text,
+      )
+    })
     await waitFor(() => {
       const signatureImage = document.querySelector(
         ".sig-image > img",

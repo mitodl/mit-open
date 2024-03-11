@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker/locale/en"
-import { makePaginatedFactory } from "ol-test-utilities"
 import type { Factory } from "ol-test-utilities"
 import type { ProgramLetter } from "../../generated"
 
@@ -44,6 +43,4 @@ const programLetter: Factory<ProgramLetter> = (overrides = {}) => ({
   ...overrides,
 })
 
-const programLetters = makePaginatedFactory(programLetter)
-
-export { programLetter, programLetters }
+export { programLetter }
