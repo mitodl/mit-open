@@ -13,7 +13,8 @@ import {
 import { MetaTags } from "ol-utilities"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import { useSearchQueryParams } from "@mitodl/course-search-utils"
+import { useSearchQueryParams, FacetDisplay } from "@mitodl/course-search-utils"
+import type { FacetManifest } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import { ResourceTypeEnum } from "api"
 import type {
