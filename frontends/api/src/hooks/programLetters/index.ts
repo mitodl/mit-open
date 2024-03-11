@@ -6,7 +6,7 @@ import programLetters from "./keyFactory"
  */
 const useProgramLettersDetail = (id: string | undefined) => {
   return useQuery({
-    ...programLetters.detail(id ?? -1),
+    ...programLetters.detail(id ?? ""),
     enabled: id !== undefined,
   })
 }

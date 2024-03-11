@@ -7,6 +7,7 @@ import re
 import ulid
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -274,7 +275,55 @@ class ProgramLetterSerializer(serializers.ModelSerializer):
 
     certificate = ProgramCertificateSerializer()
 
-    def get_template_fields(self, instance) -> int:
+    @extend_schema_field(
+        {
+            "type": "object",
+            "properties": {
+                "id": {"type": "number"},
+                "meta": {"type": "object"},
+                "title": {"type": "string"},
+                "program_id": {"type": "number"},
+                "program_letter_footer": {"type": "string"},
+                "program_letter_footer_text": {"type": "string"},
+                "program_letter_header_text": {"type": "string"},
+                "program_letter_text": {"type": "string"},
+                "program_letter_logo": {
+                    "type": "object",
+                    "properties": {
+                        "meta": {
+                            "type": "object",
+                            "properties": {"download_url": {"type": "string"}},
+                        },
+                    },
+                },
+                "program_letter_signatories": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "name": {"type": "string"},
+                            "title_line_1": {"type": "string"},
+                            "title_line_2": {"type": "string"},
+                            "signature_image": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {"type": "number"},
+                                    "meta": {
+                                        "type": "object",
+                                        "properties": {
+                                            "download_url": {"type": "string"}
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    )
+    def get_template_fields(self, instance) -> dict:
         """Return the number of episodes in the podcast"""
         return fetch_program_letter_template_data(instance)
 

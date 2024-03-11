@@ -10,7 +10,6 @@ import type {
   TopicsApi,
   LearningpathsApi,
   ArticlesApi,
-  ProgramLettersApi,
 } from "../generated"
 import type { BaseAPI } from "../generated/base"
 
@@ -65,8 +64,6 @@ const articles = {
 }
 
 const programLetters = {
-  list: (params?: Params<ProgramLettersApi, "programLettersList">) =>
-    `/api/v1/program_letters/${query(params)}`,
   details: (id: string) => `/api/v1/program_letters/${id}/`,
 }
 

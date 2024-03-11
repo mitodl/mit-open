@@ -5,7 +5,7 @@ const programLetters = createQueryKeys("programLetters", {
   detail: (id: string) => ({
     queryKey: [id],
     queryFn: () => {
-      if (id < 0) return Promise.reject("Invalid ID")
+      if (id === "") return Promise.reject("Invalid ID")
       return programLettersApi
         .programLettersRetrieve({ id })
         .then((res) => res.data)

@@ -2941,6 +2941,301 @@ export interface Program {
   courses: Array<CourseResource> | null
 }
 /**
+ * Serializer for Program Certificates
+ * @export
+ * @interface ProgramCertificate
+ */
+export interface ProgramCertificate {
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  id: number
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  user_edxorg_id?: number | null
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  micromasters_program_id?: number | null
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  mitxonline_program_id?: number | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_edxorg_username?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_email: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_title: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_gender?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_address_city?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_first_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_last_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_full_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_year_of_birth?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_country?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_address_postal_code?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_street_address?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_address_state_or_territory?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_mitxonline_username?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_completion_timestamp?: string | null
+}
+/**
+ * Serializer for Program Letters
+ * @export
+ * @interface ProgramLetter
+ */
+export interface ProgramLetter {
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetter
+   */
+  id: string
+  /**
+   *
+   * @type {ProgramLetterTemplateFields}
+   * @memberof ProgramLetter
+   */
+  template_fields: ProgramLetterTemplateFields
+  /**
+   *
+   * @type {ProgramCertificate}
+   * @memberof ProgramLetter
+   */
+  certificate: ProgramCertificate
+}
+/**
+ *
+ * @export
+ * @interface ProgramLetterTemplateFields
+ */
+export interface ProgramLetterTemplateFields {
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramLetterTemplateFields
+   */
+  id?: number
+  /**
+   *
+   * @type {object}
+   * @memberof ProgramLetterTemplateFields
+   */
+  meta?: object
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateFields
+   */
+  title?: string
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramLetterTemplateFields
+   */
+  program_id?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateFields
+   */
+  program_letter_footer?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateFields
+   */
+  program_letter_footer_text?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateFields
+   */
+  program_letter_header_text?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateFields
+   */
+  program_letter_text?: string
+  /**
+   *
+   * @type {ProgramLetterTemplateFieldsProgramLetterLogo}
+   * @memberof ProgramLetterTemplateFields
+   */
+  program_letter_logo?: ProgramLetterTemplateFieldsProgramLetterLogo
+  /**
+   *
+   * @type {Array<ProgramLetterTemplateFieldsProgramLetterSignatoriesInner>}
+   * @memberof ProgramLetterTemplateFields
+   */
+  program_letter_signatories?: Array<ProgramLetterTemplateFieldsProgramLetterSignatoriesInner>
+}
+/**
+ *
+ * @export
+ * @interface ProgramLetterTemplateFieldsProgramLetterLogo
+ */
+export interface ProgramLetterTemplateFieldsProgramLetterLogo {
+  /**
+   *
+   * @type {ProgramLetterTemplateFieldsProgramLetterLogoMeta}
+   * @memberof ProgramLetterTemplateFieldsProgramLetterLogo
+   */
+  meta?: ProgramLetterTemplateFieldsProgramLetterLogoMeta
+}
+/**
+ *
+ * @export
+ * @interface ProgramLetterTemplateFieldsProgramLetterLogoMeta
+ */
+export interface ProgramLetterTemplateFieldsProgramLetterLogoMeta {
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateFieldsProgramLetterLogoMeta
+   */
+  download_url?: string
+}
+/**
+ *
+ * @export
+ * @interface ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
+ */
+export interface ProgramLetterTemplateFieldsProgramLetterSignatoriesInner {
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
+   */
+  id?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
+   */
+  name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
+   */
+  title_line_1?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
+   */
+  title_line_2?: string
+  /**
+   *
+   * @type {ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage}
+   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInner
+   */
+  signature_image?: ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage
+}
+/**
+ *
+ * @export
+ * @interface ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage
+ */
+export interface ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage {
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage
+   */
+  id?: number
+  /**
+   *
+   * @type {ProgramLetterTemplateFieldsProgramLetterLogoMeta}
+   * @memberof ProgramLetterTemplateFieldsProgramLetterSignatoriesInnerSignatureImage
+   */
+  meta?: ProgramLetterTemplateFieldsProgramLetterLogoMeta
+}
+/**
  * Serializer for program resources
  * @export
  * @interface ProgramResource
@@ -14435,7 +14730,8 @@ export const ProgramLettersApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Detail only View for program letters
+     * Retrieve a single program letter.
+     * @summary Retrieve
      * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -14491,7 +14787,8 @@ export const ProgramLettersApiFp = function (configuration?: Configuration) {
     ProgramLettersApiAxiosParamCreator(configuration)
   return {
     /**
-     * Detail only View for program letters
+     * Retrieve a single program letter.
+     * @summary Retrieve
      * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -14500,7 +14797,7 @@ export const ProgramLettersApiFp = function (configuration?: Configuration) {
       id: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProgramLetter>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.programLettersRetrieve(id, options)
@@ -14531,7 +14828,8 @@ export const ProgramLettersApiFactory = function (
   const localVarFp = ProgramLettersApiFp(configuration)
   return {
     /**
-     * Detail only View for program letters
+     * Retrieve a single program letter.
+     * @summary Retrieve
      * @param {ProgramLettersApiProgramLettersRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -14539,7 +14837,7 @@ export const ProgramLettersApiFactory = function (
     programLettersRetrieve(
       requestParameters: ProgramLettersApiProgramLettersRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<ProgramLetter> {
       return localVarFp
         .programLettersRetrieve(requestParameters.id, options)
         .then((request) => request(axios, basePath))
@@ -14569,7 +14867,8 @@ export interface ProgramLettersApiProgramLettersRetrieveRequest {
  */
 export class ProgramLettersApi extends BaseAPI {
   /**
-   * Detail only View for program letters
+   * Retrieve a single program letter.
+   * @summary Retrieve
    * @param {ProgramLettersApiProgramLettersRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

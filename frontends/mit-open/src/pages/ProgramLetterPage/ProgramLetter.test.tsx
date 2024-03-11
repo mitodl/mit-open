@@ -17,13 +17,13 @@ describe("ProgramLetterDisplayPage", () => {
   it("Renders a program letter from api", async () => {
     const programLetter = factory.programLetter()
     setup({ programLetter })
-    console.log(programLetter.template_data)
     await waitFor(() => {
-      const signatureImage = document.querySelector(".sig-image > img")
-      expect(signatureImage.src).toBe(
-        programLetter.template_fields.program_letter_signatories[0][
-          "signature_image"
-        ]["meta"]["download_url"],
+      const signatureImage = document.querySelector(
+        ".sig-image > img",
+      ) as HTMLImageElement
+      expect(signatureImage?.src).toBe(
+        programLetter?.template_fields?.program_letter_signatories![0]
+          .signature_image?.meta?.download_url,
       )
     })
   })

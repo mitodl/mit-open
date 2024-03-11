@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -44,11 +44,19 @@ class UserViewSet(viewsets.ModelViewSet):
     lookup_field = "username"
 
 
+@extend_schema_view(
+    retrieve=extend_schema(
+        summary="Retrieve",
+        description="Retrieve a single program letter.",
+        responses=ProgramLetterSerializer(),
+    ),
+)
 class ProgramLetterViewSet(viewsets.ViewSet):
     """Detail only View for program letters"""
 
     authentication_classes = []
     permission_classes = []
+    serializer_class = ProgramLetterSerializer
 
     def retrieve(self, request, pk=None):  # noqa: ARG002
         queryset = ProgramLetter.objects.all()

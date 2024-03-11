@@ -81,9 +81,11 @@ const ProgramLetterPage: React.FC = () => {
   return (
     <ProgramLetterPageContainer className="letter">
       <ProgramLetterHeader>
-        <div className="header-text">{templateFields?.header_text}</div>
+        <div className="header-text">
+          {templateFields?.program_letter_header_text}
+        </div>
         <div className="letter-logo">
-          <img src={templateFields?.program_letter_logo.meta.download_url} />
+          <img src={templateFields?.program_letter_logo?.meta?.download_url} />
         </div>
       </ProgramLetterHeader>
 
@@ -94,10 +96,10 @@ const ProgramLetterPage: React.FC = () => {
         />
       </div>
       <ProgramLetterSignatures>
-        {templateFields?.program_letter_signatories.map((signatory) => (
+        {templateFields?.program_letter_signatories?.map((signatory) => (
           <div key={signatory.id} className="signatory">
             <div className="sig-image">
-              <img src={signatory.signature_image.meta.download_url} />
+              <img src={signatory.signature_image?.meta?.download_url} />
             </div>
             <div className="name">
               {signatory.name},{signatory.title_line_1}

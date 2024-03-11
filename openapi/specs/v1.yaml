@@ -4427,7 +4427,8 @@ paths:
   /api/v1/program_letters/{id}/:
     get:
       operationId: program_letters_retrieve
-      description: Detail only View for program letters
+      description: Retrieve a single program letter.
+      summary: Retrieve
       parameters:
       - in: path
         name: id
@@ -4438,7 +4439,11 @@ paths:
       - program_letters
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramLetter'
+          description: ''
   /api/v1/programs/:
     get:
       operationId: programs_list
@@ -7728,6 +7733,143 @@ components:
           readOnly: true
       required:
       - courses
+    ProgramCertificate:
+      type: object
+      description: Serializer for Program Certificates
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_edxorg_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        micromasters_program_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        mitxonline_program_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        user_edxorg_username:
+          type: string
+          maxLength: 256
+        user_email:
+          type: string
+          maxLength: 256
+        program_title:
+          type: string
+          maxLength: 256
+        user_gender:
+          type: string
+          maxLength: 256
+        user_address_city:
+          type: string
+          maxLength: 256
+        user_first_name:
+          type: string
+          maxLength: 256
+        user_last_name:
+          type: string
+          maxLength: 256
+        user_full_name:
+          type: string
+          maxLength: 256
+        user_year_of_birth:
+          type: string
+          maxLength: 256
+        user_country:
+          type: string
+          maxLength: 256
+        user_address_postal_code:
+          type: string
+          maxLength: 256
+        user_street_address:
+          type: string
+          maxLength: 256
+        user_address_state_or_territory:
+          type: string
+          maxLength: 256
+        user_mitxonline_username:
+          type: string
+          maxLength: 256
+        program_completion_timestamp:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - id
+      - program_title
+      - user_email
+    ProgramLetter:
+      type: object
+      description: Serializer for Program Letters
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        template_fields:
+          type: object
+          properties:
+            id:
+              type: number
+            meta:
+              type: object
+            title:
+              type: string
+            program_id:
+              type: number
+            program_letter_footer:
+              type: string
+            program_letter_footer_text:
+              type: string
+            program_letter_header_text:
+              type: string
+            program_letter_text:
+              type: string
+            program_letter_logo:
+              type: object
+              properties:
+                meta:
+                  type: object
+                  properties:
+                    download_url:
+                      type: string
+            program_letter_signatories:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type: string
+                  title_line_1:
+                    type: string
+                  title_line_2:
+                    type: string
+                  signature_image:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      meta:
+                        type: object
+                        properties:
+                          download_url:
+                            type: string
+          readOnly: true
+        certificate:
+          $ref: '#/components/schemas/ProgramCertificate'
+      required:
+      - certificate
+      - id
+      - template_fields
     ProgramResource:
       type: object
       description: Serializer for program resources
