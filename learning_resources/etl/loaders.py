@@ -12,7 +12,7 @@ from learning_resources.constants import (
     PlatformType,
 )
 from learning_resources.etl.constants import (
-    DEFAULT_UNIQUE_KEY,
+    READABLE_ID_FIELD,
     CourseLoaderConfig,
     ProgramLoaderConfig,
 )
@@ -277,7 +277,7 @@ def load_course(
                 duplicate_resource.save()
                 resource_unpublished_actions(duplicate_resource)
 
-        unique_field_name = resource_data.pop("unique_field", DEFAULT_UNIQUE_KEY)
+        unique_field_name = resource_data.pop("unique_field", READABLE_ID_FIELD)
         unique_field_value = resource_data.get(unique_field_name)
 
         log.info(
@@ -287,7 +287,7 @@ def load_course(
             unique_field_value,
         )
         resource_id = deduplicated_course_id or readable_id
-        if unique_field_name != DEFAULT_UNIQUE_KEY:
+        if unique_field_name != READABLE_ID_FIELD:
             # Some dupes may result, so we need to unpublish resources
             # with matching unique values and different readable_ids
             for resource in LearningResource.objects.filter(

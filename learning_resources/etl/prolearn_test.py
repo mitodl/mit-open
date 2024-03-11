@@ -10,6 +10,7 @@ import pytz
 from learning_resources.etl import prolearn
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.prolearn import (
+    UNIQUE_FIELD,
     get_offered_by,
     parse_date,
     parse_image,
@@ -164,6 +165,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                 }
                 for course_id in sorted(program["field_related_courses_programs"])
             ],
+            "unique_field": UNIQUE_FIELD,
         }
         for program in extracted_data
     ]
@@ -212,6 +214,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                 )
             ],
             "course": {"course_numbers": []},
+            "unique_field": UNIQUE_FIELD,
         }
         for course in extracted_data
     ]
