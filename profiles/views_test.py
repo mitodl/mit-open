@@ -396,3 +396,20 @@ def test_program_letter_api_view(mocker, client, user, is_anonymous):
         reverse("lr:v1:program_letters_api-detail", args=[program_letter.id])
     )
     assert response.data == ProgramLetterSerializer(instance=program_letter).data
+
+
+@pytest.mark.parametrize("is_anonymous", [True, False])
+def test_program_letter_api_view_returns_404_for_invalid_id(
+    mocker, client, user, is_anonymous
+):
+    """
+    Test that the program letter api responds with 404
+    for malformed uuids
+    """
+    response = client.get(
+        reverse(
+            "lr:v1:program_letters_api-detail",
+            args=["5de96fc0-449e-4668-be89-a119dbdcab799999"],
+        )
+    )
+    assert response.status_code == 404

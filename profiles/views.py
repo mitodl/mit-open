@@ -4,7 +4,7 @@ from cairosvg import svg2png  # pylint:disable=no-name-in-module
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -29,6 +29,7 @@ from profiles.serializers import (
 from profiles.utils import (
     DEFAULT_PROFILE_IMAGE,
     generate_svg_avatar,
+    validate_uuid,
 )
 
 
@@ -60,6 +61,9 @@ class ProgramLetterViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, pk=None):  # noqa: ARG002
         queryset = ProgramLetter.objects.all()
+        if not validate_uuid(pk):
+            invalid_uuid = "Invalid letter uuid"
+            raise Http404(invalid_uuid)
         program_letter = get_object_or_404(queryset, pk=pk)
         serializer = ProgramLetterSerializer(program_letter)
         return Response(serializer.data)

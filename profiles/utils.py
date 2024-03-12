@@ -2,6 +2,7 @@
 
 import hashlib
 import re
+import uuid
 from contextlib import contextmanager
 from io import BytesIO
 from urllib.parse import quote, urljoin
@@ -341,6 +342,17 @@ def generate_svg_avatar(name, size, color, bgcolor):
             "text": xml_escape(initials.upper()),
         }
     ).replace("\n", "")
+
+
+def validate_uuid(val):
+    """
+    Check the validity of uuid strings
+    """
+    try:
+        if uuid.UUID(str(val)):
+            return True
+    except ValueError:
+        return False
 
 
 def fetch_program_letter_template_data(letter):
