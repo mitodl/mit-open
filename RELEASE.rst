@@ -1,6 +1,19 @@
 Release Notes
 =============
 
+Version 0.5.0
+-------------
+
+- Avoid duplicate courses (#603)
+- Type-specific api endpoints for videos and video playlists (#595)
+- Update dependency ipython to v8.22.2 (#600)
+- Update dependency html-entities to v2.5.2 (#599)
+- Update dependency boto3 to v1.34.59 (#598)
+- Update dependency Django to v4.2.11 (#597)
+- Update all non-major dev-dependencies (#596)
+- Assign topics to videos and playlists (#584)
+- Add daily micromasters ETL task to celerybeat schedule (#585)
+
 Version 0.4.1 (Released March 08, 2024)
 -------------
 
