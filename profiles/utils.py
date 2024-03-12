@@ -344,6 +344,10 @@ def generate_svg_avatar(name, size, color, bgcolor):
 
 
 def fetch_program_letter_template_data(letter):
+    """
+    Fetch program letter template snippets directly
+    from micromasters
+    """
     if settings.MICROMASTERS_CMS_API_URL:
         api_params = {
             "type": "cms.ProgramPage",

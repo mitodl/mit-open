@@ -186,6 +186,10 @@ class ProgramCertificate(models.Model):
 
 
 class ProgramLetter(models.Model):
+    """
+    Class used to generate program letter views
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     certificate = models.ForeignKey(ProgramCertificate, on_delete=models.CASCADE)

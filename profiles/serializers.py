@@ -265,6 +265,11 @@ class ProgramCertificateSerializer(serializers.ModelSerializer):
 
 
 class ProgramLetterTemplateFieldSerializer(serializers.Serializer):
+    """
+    Seriializer for program letter template data which is configured in
+    micromasters
+    """
+
     id = serializers.IntegerField()
     meta = serializers.JSONField()
     title = serializers.CharField()
@@ -290,7 +295,7 @@ class ProgramLetterSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(ProgramLetterTemplateFieldSerializer())
     def get_template_fields(self, instance) -> dict:
-        """Return the number of episodes in the podcast"""
+        """Get template fields from the micromasters cms api"""
         return ProgramLetterTemplateFieldSerializer(
             fetch_program_letter_template_data(instance)
         ).data
