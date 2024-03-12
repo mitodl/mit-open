@@ -13,7 +13,7 @@ import {
 import { MetaTags } from "ol-utilities"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import { useSearchQueryParams, FacetDisplay } from "@mitodl/course-search-utils"
+import { useSearchQueryParams, FacetDisplay, getDepartmentName, getLevelName } from "@mitodl/course-search-utils"
 import type { FacetManifest } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import { ResourceTypeEnum } from "api"
@@ -23,6 +23,35 @@ import type {
 } from "api"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
+
+const RESOURCE_FACETS: FacetManifest = [
+  {
+    name: "department",
+    title: "Departments",
+    useFilterableFacet: true,
+    expandedOnLoad: true,
+    labelFunction: getDepartmentName,
+  },
+  {
+    name: "level",
+    title: "Level",
+    useFilterableFacet: false,
+    expandedOnLoad: false,
+    labelFunction: getLevelName,
+  },
+  {
+    name: "topic",
+    title: "Topics",
+    useFilterableFacet: true,
+    expandedOnLoad: false,
+  },
+  {
+    name: "course_feature",
+    title: "Features",
+    useFilterableFacet: true,
+    expandedOnLoad: false,
+  },
+]
 
 const AGGREGATIONS: LRSearchRequest["aggregations"] = [
   "resource_type",
@@ -71,6 +100,103 @@ const withCount = (label: string, count?: number) => {
   return `${label} (${count})`
 }
 
+const FacetWrapper = styled.div`
+
+  * {
+    color: ${({ theme }) => theme.palette.secondary.main};
+  }
+  
+  input[type=checkbox] {
+    accent-color: ${({ theme }) => theme.palette.primary.main}
+  }
+
+  .filter-section-main-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .filter-section-button {
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding-left: 0px;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+  }
+
+  .facets {
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+
+    .facet-visible {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 25px;
+      font-size: 0.875em;
+
+      input, label {
+        cursor: pointer;
+      }
+
+      input[type=checkbox] {
+        margin-left: 4px;
+        margin-right: 10px;
+      }
+
+      .facet-count {
+        color: ${({ theme }) => theme.palette.text.secondary}
+      }
+    }
+
+    .facet-more-less {
+      cursor: pointer;
+      color: gray;
+      font-size: 0.875em;
+      text-align: right;
+    }
+  }
+
+  .filterable-facet {
+    .facet-list {
+      max-height: 400px;
+      overflow: auto;
+      padding-right: 0.5rem;
+    }
+  }
+
+  .facet-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  input.facet-filter {
+    background-color: initial;
+    border-radius: 0;
+    border: 1px solid #d2d2d2;
+    padding: 10px;
+    margin-bottom: 5px;
+    width: 100%;
+
+    &::placeholder {
+      color: $medium-gray;
+      line-height: unset;
+    }
+  }
+`
+
 const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -78,6 +204,7 @@ const SearchPage: React.FC = () => {
     params,
     setFacetActive,
     clearFacet,
+    clearFacets,
     currentText,
     setCurrentText,
     setCurrentTextAndQuery,
@@ -156,7 +283,15 @@ const SearchPage: React.FC = () => {
       <Container>
         <GridContainer>
           <GridColumn variant="sidebar-2-wide-main">
-            {/* Facets go here */}
+            <FacetWrapper>
+            <FacetDisplay
+              facetMap={RESOURCE_FACETS}
+              activeFacets={params.activeFacets}
+              onFacetChange={setFacetActive}
+              clearAllFilters={clearFacets}
+              facetOptions={group => data?.metadata.aggregations[group] ?? null}
+            />
+            </FacetWrapper>
           </GridColumn>
           <GridColumn variant="main-2-wide-main">
             <TabContext value={tab}>
