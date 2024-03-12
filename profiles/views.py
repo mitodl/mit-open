@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -119,11 +120,20 @@ class UserProgramCertificateViewSet(viewsets.ViewSet):
 
     permission_classes = (IsAuthenticated,)
     serializer_class = ProgramCertificateSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ["micromasters_program_id", "program_title"]
 
     def list(self, request):
         queryset = ProgramCertificate.objects.filter(user_email=request.user.email)
-        serializer = ProgramCertificateSerializer(queryset, many=True)
+        serializer = ProgramCertificateSerializer(
+            self.filter_queryset(queryset), many=True
+        )
         return Response(serializer.data)
+
+    def filter_queryset(self, queryset):
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, view=self)
+        return queryset
 
 
 @cache_page(60 * 60 * 24)
