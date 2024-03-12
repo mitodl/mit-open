@@ -7,6 +7,7 @@ import re
 import ulid
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -17,9 +18,16 @@ from profiles.models import (
     PROFILE_PROPS,
     SOCIAL_SITE_NAME_MAP,
     Profile,
+    ProgramCertificate,
+    ProgramLetter,
     UserWebsite,
 )
-from profiles.utils import IMAGE_MEDIUM, IMAGE_SMALL, image_uri
+from profiles.utils import (
+    IMAGE_MEDIUM,
+    IMAGE_SMALL,
+    fetch_program_letter_template_data,
+    image_uri,
+)
 
 User = get_user_model()
 
@@ -244,3 +252,54 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ("id", "username", "profile", "email")
         read_only_fields = ("id", "username")
+
+
+class ProgramCertificateSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Program Certificates
+    """
+
+    class Meta:
+        model = ProgramCertificate
+        fields = "__all__"
+
+
+class ProgramLetterTemplateFieldSerializer(serializers.Serializer):
+    """
+    Seriializer for program letter template data which is configured in
+    micromasters
+    """
+
+    id = serializers.IntegerField()
+    meta = serializers.JSONField()
+    title = serializers.CharField()
+    program_id = serializers.IntegerField()
+    program_letter_footer = serializers.JSONField()
+    program_letter_footer_text = serializers.CharField()
+    program_letter_header_text = serializers.CharField()
+    program_letter_text = serializers.CharField()
+    program_letter_logo = serializers.JSONField()
+    program_letter_signatories = serializers.ListField(child=serializers.JSONField())
+
+
+class ProgramLetterSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Program Letters
+    """
+
+    id = serializers.UUIDField(read_only=True)
+
+    template_fields = serializers.SerializerMethodField()
+
+    certificate = ProgramCertificateSerializer()
+
+    @extend_schema_field(ProgramLetterTemplateFieldSerializer())
+    def get_template_fields(self, instance) -> dict:
+        """Get template fields from the micromasters cms api"""
+        return ProgramLetterTemplateFieldSerializer(
+            fetch_program_letter_template_data(instance)
+        ).data
+
+    class Meta:
+        model = ProgramLetter
+        fields = ["id", "template_fields", "certificate"]

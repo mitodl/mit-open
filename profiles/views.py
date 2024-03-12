@@ -2,26 +2,35 @@
 
 from cairosvg import svg2png  # pylint:disable=no-name-in-module
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
+from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.decorators.cache import cache_page
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from main.permissions import (
     AnonymousAccessReadonlyPermission,
     IsStaffPermission,
 )
-from profiles.models import Profile, UserWebsite
+from profiles.models import Profile, ProgramCertificate, ProgramLetter, UserWebsite
 from profiles.permissions import HasEditPermission, HasSiteEditPermission
 from profiles.serializers import (
     ProfileSerializer,
+    ProgramLetterSerializer,
     UserSerializer,
     UserWebsiteSerializer,
 )
-from profiles.utils import DEFAULT_PROFILE_IMAGE, generate_svg_avatar
+from profiles.utils import (
+    DEFAULT_PROFILE_IMAGE,
+    generate_svg_avatar,
+    validate_uuid,
+)
 
 
 @extend_schema(exclude=True)
@@ -34,6 +43,30 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = get_user_model().objects.filter(is_active=True)
     lookup_field = "username"
+
+
+@extend_schema_view(
+    retrieve=extend_schema(
+        summary="Retrieve",
+        description="Retrieve a single program letter.",
+        responses=ProgramLetterSerializer(),
+    ),
+)
+class ProgramLetterViewSet(viewsets.ViewSet):
+    """Detail only View for program letters"""
+
+    authentication_classes = []
+    permission_classes = []
+    serializer_class = ProgramLetterSerializer
+
+    def retrieve(self, request, pk=None):  # noqa: ARG002
+        queryset = ProgramLetter.objects.all()
+        if not validate_uuid(pk):
+            invalid_uuid = "Invalid letter uuid"
+            raise Http404(invalid_uuid)
+        program_letter = get_object_or_404(queryset, pk=pk)
+        serializer = ProgramLetterSerializer(program_letter)
+        return Response(serializer.data)
 
 
 class CurrentUserRetrieveViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -90,3 +123,23 @@ def name_initials_avatar_view(
         return redirect(DEFAULT_PROFILE_IMAGE)
     svg = generate_svg_avatar(user.profile.name, int(size), color, bgcolor)
     return HttpResponse(svg2png(bytestring=svg), content_type="image/png")
+
+
+@method_decorator(login_required, name="dispatch")
+class ProgramLetterInterceptView(View):
+    """
+    View that generates a uuid (via ProgramLetter instance)
+    and then passes the user along to the shareable letter view
+    """
+
+    def get(self, request, **kwargs):
+        program_id = kwargs.get("program_id")
+        certificate = get_object_or_404(
+            ProgramCertificate,
+            user_email=request.user.email,
+            micromasters_program_id=program_id,
+        )
+        letter, created = ProgramLetter.objects.get_or_create(
+            user=request.user, certificate=certificate
+        )
+        return HttpResponseRedirect(letter.get_absolute_url())

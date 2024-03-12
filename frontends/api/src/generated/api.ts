@@ -3007,6 +3007,219 @@ export interface Program {
   courses: Array<CourseResource> | null
 }
 /**
+ * Serializer for Program Certificates
+ * @export
+ * @interface ProgramCertificate
+ */
+export interface ProgramCertificate {
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  id: number
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  user_edxorg_id?: number | null
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  micromasters_program_id?: number | null
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  mitxonline_program_id?: number | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_edxorg_username?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_email: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_title: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_gender?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_address_city?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_first_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_last_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_full_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_year_of_birth?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_country?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_address_postal_code?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_street_address?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_address_state_or_territory?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_mitxonline_username?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_completion_timestamp?: string | null
+}
+/**
+ * Serializer for Program Letters
+ * @export
+ * @interface ProgramLetter
+ */
+export interface ProgramLetter {
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetter
+   */
+  id: string
+  /**
+   *
+   * @type {ProgramLetterTemplateField}
+   * @memberof ProgramLetter
+   */
+  template_fields: ProgramLetterTemplateField
+  /**
+   *
+   * @type {ProgramCertificate}
+   * @memberof ProgramLetter
+   */
+  certificate: ProgramCertificate
+}
+/**
+ * Seriializer for program letter template data which is configured in micromasters
+ * @export
+ * @interface ProgramLetterTemplateField
+ */
+export interface ProgramLetterTemplateField {
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramLetterTemplateField
+   */
+  id: number
+  /**
+   *
+   * @type {any}
+   * @memberof ProgramLetterTemplateField
+   */
+  meta: any
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateField
+   */
+  title: string
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramLetterTemplateField
+   */
+  program_id: number
+  /**
+   *
+   * @type {any}
+   * @memberof ProgramLetterTemplateField
+   */
+  program_letter_footer: any
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateField
+   */
+  program_letter_footer_text: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateField
+   */
+  program_letter_header_text: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLetterTemplateField
+   */
+  program_letter_text: string
+  /**
+   *
+   * @type {any}
+   * @memberof ProgramLetterTemplateField
+   */
+  program_letter_logo: any
+  /**
+   *
+   * @type {Array<any>}
+   * @memberof ProgramLetterTemplateField
+   */
+  program_letter_signatories: Array<any>
+}
+/**
  * Serializer for program resources
  * @export
  * @interface ProgramResource
@@ -15075,6 +15288,169 @@ export const PodcastsListSortbyEnum = {
 } as const
 export type PodcastsListSortbyEnum =
   (typeof PodcastsListSortbyEnum)[keyof typeof PodcastsListSortbyEnum]
+
+/**
+ * ProgramLettersApi - axios parameter creator
+ * @export
+ */
+export const ProgramLettersApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Retrieve a single program letter.
+     * @summary Retrieve
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programLettersRetrieve: async (
+      id: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("programLettersRetrieve", "id", id)
+      const localVarPath = `/api/v1/program_letters/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * ProgramLettersApi - functional programming interface
+ * @export
+ */
+export const ProgramLettersApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    ProgramLettersApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Retrieve a single program letter.
+     * @summary Retrieve
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async programLettersRetrieve(
+      id: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProgramLetter>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.programLettersRetrieve(id, options)
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["ProgramLettersApi.programLettersRetrieve"]?.[index]
+          ?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * ProgramLettersApi - factory interface
+ * @export
+ */
+export const ProgramLettersApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = ProgramLettersApiFp(configuration)
+  return {
+    /**
+     * Retrieve a single program letter.
+     * @summary Retrieve
+     * @param {ProgramLettersApiProgramLettersRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programLettersRetrieve(
+      requestParameters: ProgramLettersApiProgramLettersRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ProgramLetter> {
+      return localVarFp
+        .programLettersRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for programLettersRetrieve operation in ProgramLettersApi.
+ * @export
+ * @interface ProgramLettersApiProgramLettersRetrieveRequest
+ */
+export interface ProgramLettersApiProgramLettersRetrieveRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramLettersApiProgramLettersRetrieve
+   */
+  readonly id: string
+}
+
+/**
+ * ProgramLettersApi - object-oriented interface
+ * @export
+ * @class ProgramLettersApi
+ * @extends {BaseAPI}
+ */
+export class ProgramLettersApi extends BaseAPI {
+  /**
+   * Retrieve a single program letter.
+   * @summary Retrieve
+   * @param {ProgramLettersApiProgramLettersRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProgramLettersApi
+   */
+  public programLettersRetrieve(
+    requestParameters: ProgramLettersApiProgramLettersRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return ProgramLettersApiFp(this.configuration)
+      .programLettersRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
 
 /**
  * ProgramsApi - axios parameter creator

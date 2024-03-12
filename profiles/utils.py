@@ -2,11 +2,13 @@
 
 import hashlib
 import re
+import uuid
 from contextlib import contextmanager
 from io import BytesIO
 from urllib.parse import quote, urljoin
 from xml.sax.saxutils import escape as xml_escape
 
+import requests
 from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
 from PIL import Image
@@ -340,3 +342,32 @@ def generate_svg_avatar(name, size, color, bgcolor):
             "text": xml_escape(initials.upper()),
         }
     ).replace("\n", "")
+
+
+def validate_uuid(val):
+    """
+    Check the validity of uuid strings
+    """
+    try:
+        if uuid.UUID(str(val)):
+            return True
+    except ValueError:
+        return False
+
+
+def fetch_program_letter_template_data(letter):
+    """
+    Fetch program letter template snippets directly
+    from micromasters
+    """
+    if settings.MICROMASTERS_CMS_API_URL:
+        api_params = {
+            "type": "cms.ProgramPage",
+            "fields": "*",
+            "program_id": letter.certificate.micromasters_program_id,
+        }
+        api_url = urljoin(settings.MICROMASTERS_CMS_API_URL, "pages/")
+        response_json = requests.get(api_url, api_params, timeout=5).json()
+        if response_json and response_json.get("meta", {}).get("total_count", 0) > 0:
+            return response_json["items"][0]
+    return None

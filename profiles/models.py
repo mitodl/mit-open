@@ -3,6 +3,7 @@
 from uuid import uuid4
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models, transaction
 from django.db.models import JSONField
 from django_scim.models import AbstractSCIMUserMixin
@@ -42,6 +43,8 @@ SOCIAL_SITE_NAME_MAP = {
     TWITTER_DOMAIN: "Twitter",
     LINKEDIN_DOMAIN: "LinkedIn",
 }
+
+User = get_user_model()
 
 
 def filter_profile_props(data):
@@ -179,4 +182,23 @@ class ProgramCertificate(models.Model):
         db_table = "external.programcertificate"
 
     def __str__(self):
-        return "program certificate: {self.user_full_name} - {self.program_title}"
+        return f"program certificate: {self.user_full_name} - {self.program_title}"
+
+
+class ProgramLetter(models.Model):
+    """
+    Class used to generate program letter views
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    certificate = models.ForeignKey(ProgramCertificate, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return (
+            "program letter: "
+            f"{self.certificate.user_full_name} - {self.certificate.program_title}"
+        )
+
+    def get_absolute_url(self):
+        return f"/program_letter/{self.id}/view"

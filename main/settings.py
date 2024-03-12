@@ -679,3 +679,5 @@ KEYCLOAK_REALM_NAME = get_string(
     name="KEYCLOAK_REALM_NAME",
     default="olapps",
 )
+
+MICROMASTERS_CMS_API_URL = get_string("MICROMASTERS_CMS_API_URL", None)
