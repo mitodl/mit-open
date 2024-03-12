@@ -824,10 +824,10 @@ class VideoViewSet(
 
     def get_queryset(self):
         """
-        Generate a QuerySet for fetching valid Programs
+        Generate a QuerySet for fetching valid Videos
 
         Returns:
-            QuerySet of LearningResource objects that are Programs
+            QuerySet of LearningResource objects that are Videos
         """
         return self._get_base_queryset(
             resource_type=LearningResourceType.video.name
@@ -855,10 +855,10 @@ class VideoPlaylistViewSet(
 
     def get_queryset(self):
         """
-        Generate a QuerySet for fetching valid Programs
+        Generate a QuerySet for fetching valid Video Playlists
 
         Returns:
-            QuerySet of LearningResource objects that are Programs
+            QuerySet of LearningResource objects that are Video Playlists
         """
         return self._get_base_queryset(
             resource_type=LearningResourceType.video_playlist.name
