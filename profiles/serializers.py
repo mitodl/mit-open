@@ -7,6 +7,7 @@ import re
 import ulid
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.urls import reverse
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -258,6 +259,13 @@ class ProgramCertificateSerializer(serializers.ModelSerializer):
     """
     Serializer for Program Certificates
     """
+
+    program_letter_url = serializers.SerializerMethodField()
+
+    def get_program_letter_url(self, instance):
+        return reverse(
+            "profile:program-letter-intercept", args=[instance.micromasters_program_id]
+        )
 
     class Meta:
         model = ProgramCertificate

@@ -22,6 +22,7 @@ from profiles.models import Profile, ProgramCertificate, ProgramLetter, UserWebs
 from profiles.permissions import HasEditPermission, HasSiteEditPermission
 from profiles.serializers import (
     ProfileSerializer,
+    ProgramCertificateSerializer,
     ProgramLetterSerializer,
     UserSerializer,
     UserWebsiteSerializer,
@@ -107,6 +108,22 @@ class UserWebsiteViewSet(
     permission_classes = (IsAuthenticated, HasSiteEditPermission)
     serializer_class = UserWebsiteSerializer
     queryset = UserWebsite.objects.select_related("profile__user")
+
+
+@extend_schema(exclude=True)
+class UserProgramCertificateViewSet(viewsets.ViewSet):
+    """
+    View for listing program certificates for a user
+    (includes program letter links)
+    """
+
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ProgramCertificateSerializer
+
+    def list(self, request):
+        queryset = ProgramCertificate.objects.filter(user_email=request.user.email)
+        serializer = ProgramCertificateSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 @cache_page(60 * 60 * 24)
