@@ -11,6 +11,7 @@ from django.forms.models import model_to_dict
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
+    OfferedBy,
     PlatformType,
 )
 from learning_resources.etl.constants import (
@@ -465,6 +466,41 @@ def test_load_duplicate_course(
         assert (
             getattr(saved_course, key) == value
         ), f"Property {key} should be updated to {value} in the database"
+
+
+@pytest.mark.parametrize("unique_url", [True, False])
+def test_load_course_dupe_urls(unique_url):
+    """If url is supposed to be unique field, unpublish old courses with same url"""
+    unique_url = "https://mit.edu/unique.html"
+    readable_id = "new_unique_course_id"
+    platform = LearningResourcePlatformFactory.create(code=PlatformType.ocw.name)
+    old_courses = LearningResourceFactory.create_batch(
+        2, url=unique_url, platform=platform, is_course=True
+    )
+    props = {
+        "readable_id": readable_id,
+        "platform": PlatformType.ocw.name,
+        "offered_by": {"code": OfferedBy.ocw.name},
+        "title": "New title",
+        "url": unique_url,
+        "description": "something",
+        "unique_field": "url",
+        "runs": [
+            {
+                "run_id": "run_id",
+                "enrollment_start": "2024-01-01T00:00:00Z",
+                "start_date": "2024-01-20T00:00:00Z",
+                "end_date": "2024-06-20T00:00:00Z",
+            }
+        ],
+    }
+    result = load_course(props, [], [])
+    assert result.readable_id == readable_id
+    assert result.url == unique_url
+    assert result.published is True
+    for course in old_courses:
+        course.refresh_from_db()
+        assert course.published is (unique_url is False)
 
 
 @pytest.mark.parametrize("run_exists", [True, False])
