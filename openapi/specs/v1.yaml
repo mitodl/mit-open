@@ -5724,6 +5724,1896 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/video_playlists/:
+    get:
+      operationId: video_playlists_list
+      description: Get a paginated list of video playlists
+      summary: List
+      parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: department
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
+        description: |-
+          The department that offers learning resources
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
+      - in: query
+        name: level
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non-Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
+        description: |-
+          The organization that offers a learning resource
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
+            - youtube
+        description: |-
+          The platform on which learning resources are offered
+
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
+          * `youtube` - YouTube
+        explode: true
+        style: form
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+      - in: query
+        name: resource_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
+            - video
+            - video_playlist
+        description: |-
+          The type of learning resource
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
+          * `video` - Video
+          * `video_playlist` - Video Playlist
+        explode: true
+        style: form
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -mitcoursenumber
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - mitcoursenumber
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      tags:
+      - video_playlists
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVideoPlaylistResourceList'
+          description: ''
+  /api/v1/video_playlists/{id}/:
+    get:
+      operationId: video_playlists_retrieve
+      description: Retrieve a single video playlist
+      summary: Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - video_playlists
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoPlaylistResource'
+          description: ''
+  /api/v1/video_playlists/{learning_resource_id}/items/:
+    get:
+      operationId: video_playlists_items_list
+      description: Get a list of related learning resources for a learning resource.
+      summary: Nested Learning Resource List
+      parameters:
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: id of the parent learning resource
+        required: true
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: sortby
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      tags:
+      - video_playlists
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceRelationshipList'
+          description: ''
+  /api/v1/video_playlists/{learning_resource_id}/items/{id}/:
+    get:
+      operationId: video_playlists_items_retrieve
+      description: Get a singe related learning resource for a learning resource.
+      summary: Nested Learning Resource Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource relationship.
+        required: true
+      - in: path
+        name: learning_resource_id
+        schema:
+          type: integer
+        description: id of the parent learning resource
+        required: true
+      tags:
+      - video_playlists
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceRelationship'
+          description: ''
+  /api/v1/video_playlists/new/:
+    get:
+      operationId: video_playlists_new_list
+      description: Get a paginated list of newly released Video Playlists.
+      summary: List New
+      parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: department
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
+        description: |-
+          The department that offers learning resources
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
+      - in: query
+        name: level
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non-Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
+        description: |-
+          The organization that offers a learning resource
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
+            - youtube
+        description: |-
+          The platform on which learning resources are offered
+
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
+          * `youtube` - YouTube
+        explode: true
+        style: form
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+      - in: query
+        name: resource_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
+            - video
+            - video_playlist
+        description: |-
+          The type of learning resource
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
+          * `video` - Video
+          * `video_playlist` - Video Playlist
+        explode: true
+        style: form
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -mitcoursenumber
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - mitcoursenumber
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      tags:
+      - video_playlists
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVideoPlaylistResourceList'
+          description: ''
+  /api/v1/video_playlists/upcoming/:
+    get:
+      operationId: video_playlists_upcoming_list
+      description: Get a paginated list of upcoming Video Playlists.
+      summary: List Upcoming
+      parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: department
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
+        description: |-
+          The department that offers learning resources
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
+      - in: query
+        name: level
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non-Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
+        description: |-
+          The organization that offers a learning resource
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
+            - youtube
+        description: |-
+          The platform on which learning resources are offered
+
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
+          * `youtube` - YouTube
+        explode: true
+        style: form
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+      - in: query
+        name: resource_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
+            - video
+            - video_playlist
+        description: |-
+          The type of learning resource
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
+          * `video` - Video
+          * `video_playlist` - Video Playlist
+        explode: true
+        style: form
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -mitcoursenumber
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - mitcoursenumber
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      tags:
+      - video_playlists
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVideoPlaylistResourceList'
+          description: ''
+  /api/v1/videos/:
+    get:
+      operationId: videos_list
+      description: Get a paginated list of videos
+      summary: List
+      parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: department
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
+        description: |-
+          The department that offers learning resources
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
+      - in: query
+        name: level
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non-Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
+        description: |-
+          The organization that offers a learning resource
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
+            - youtube
+        description: |-
+          The platform on which learning resources are offered
+
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
+          * `youtube` - YouTube
+        explode: true
+        style: form
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+      - in: query
+        name: resource_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
+            - video
+            - video_playlist
+        description: |-
+          The type of learning resource
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
+          * `video` - Video
+          * `video_playlist` - Video Playlist
+        explode: true
+        style: form
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -mitcoursenumber
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - mitcoursenumber
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      tags:
+      - videos
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVideoResourceList'
+          description: ''
+  /api/v1/videos/{id}/:
+    get:
+      operationId: videos_retrieve
+      description: Retrieve a single video
+      summary: Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - videos
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoResource'
+          description: ''
+  /api/v1/videos/new/:
+    get:
+      operationId: videos_new_list
+      description: Get a paginated list of newly released Videos.
+      summary: List New
+      parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: department
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
+        description: |-
+          The department that offers learning resources
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
+      - in: query
+        name: level
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non-Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
+        description: |-
+          The organization that offers a learning resource
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
+            - youtube
+        description: |-
+          The platform on which learning resources are offered
+
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
+          * `youtube` - YouTube
+        explode: true
+        style: form
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+      - in: query
+        name: resource_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
+            - video
+            - video_playlist
+        description: |-
+          The type of learning resource
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
+          * `video` - Video
+          * `video_playlist` - Video Playlist
+        explode: true
+        style: form
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -mitcoursenumber
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - mitcoursenumber
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      tags:
+      - videos
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVideoResourceList'
+          description: ''
+  /api/v1/videos/upcoming/:
+    get:
+      operationId: videos_upcoming_list
+      description: Get a paginated list of upcoming Videos.
+      summary: List Upcoming
+      parameters:
+      - in: query
+        name: course_feature
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: department
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
+        description: |-
+          The department that offers learning resources
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
+      - in: query
+        name: level
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non-Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
+        description: |-
+          The organization that offers a learning resource
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
+            - youtube
+        description: |-
+          The platform on which learning resources are offered
+
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
+          * `youtube` - YouTube
+        explode: true
+        style: form
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+      - in: query
+        name: resource_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
+            - video
+            - video_playlist
+        description: |-
+          The type of learning resource
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
+          * `video` - Video
+          * `video_playlist` - Video Playlist
+        explode: true
+        style: form
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created_on
+          - -id
+          - -last_modified
+          - -mitcoursenumber
+          - -readable_id
+          - -start_date
+          - created_on
+          - id
+          - last_modified
+          - mitcoursenumber
+          - readable_id
+          - start_date
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `created_on` - Creation Date ascending
+          * `-created_on` - CreationDate descending
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
+      - in: query
+        name: topic
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      tags:
+      - videos
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVideoResourceList'
+          description: ''
 components:
   schemas:
     Article:
@@ -7264,6 +9154,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UserListRelationship'
+    PaginatedVideoPlaylistResourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoPlaylistResource'
+    PaginatedVideoResourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoResource'
     PatchedArticleRequest:
       type: object
       description: Serializer for LearningResourceInstructor model

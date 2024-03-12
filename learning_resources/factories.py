@@ -728,7 +728,6 @@ class VideoFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.video.name,
         platform=factory.SubFactory(
             LearningResourcePlatformFactory, code=PlatformType.youtube.name
         ),
@@ -750,9 +749,6 @@ class VideoChannelFactory(DjangoModelFactory):
 
     channel_id = factory.Sequence(lambda n: "VIDEO-CHANNEL-%03d.MIT" % n)
     title = factory.Faker("word")
-    playlists = factory.RelatedFactoryList(
-        "learning_resources.factories.VideoPlaylistFactory", "channel", size=1
-    )
 
     class Params:
         is_unpublished = factory.Trait(published=False)
@@ -767,10 +763,6 @@ class VideoPlaylistFactory(DjangoModelFactory):
 
     learning_resource = factory.SubFactory(
         LearningResourceFactory,
-        resource_type=constants.LearningResourceType.video_playlist.name,
-        platform=factory.SubFactory(
-            LearningResourcePlatformFactory, code=PlatformType.youtube.name
-        ),
         is_video_playlist=True,
         create_video_playlist=False,
     )
