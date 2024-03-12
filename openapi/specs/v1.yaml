@@ -7825,6 +7825,9 @@ components:
       - template_fields
     ProgramLetterTemplateField:
       type: object
+      description: |-
+        Seriializer for program letter template data which is configured in
+        micromasters
       properties:
         id:
           type: integer

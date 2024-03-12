@@ -3087,7 +3087,7 @@ export interface ProgramLetter {
   certificate: ProgramCertificate
 }
 /**
- *
+ * Seriializer for program letter template data which is configured in micromasters
  * @export
  * @interface ProgramLetterTemplateField
  */
