@@ -23,6 +23,7 @@ import type {
 } from "api"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
+import PlainVerticalList from "@/components/PlainVerticalList/PlainVerticalList"
 
 const RESOURCE_FACETS: FacetManifest = [
   {
@@ -100,7 +101,8 @@ const withCount = (label: string, count?: number) => {
   return `${label} (${count})`
 }
 
-const FacetWrapper = styled.div`
+const FacetStyles = styled.div`
+  margin-top: 72px;
 
   * {
     color: ${({ theme }) => theme.palette.secondary.main};
@@ -173,6 +175,24 @@ const FacetWrapper = styled.div`
       overflow: auto;
       padding-right: 0.5rem;
     }
+
+    .input-wrapper {
+      position: relative;
+      .input-postfix-icon {
+        display: none;
+      }
+      .input-postfix-button {
+        cursor: pointer;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: none;
+        padding: 0;
+      }
+    }
+    
   }
 
   .facet-label {
@@ -185,15 +205,48 @@ const FacetWrapper = styled.div`
   input.facet-filter {
     background-color: initial;
     border-radius: 0;
-    border: 1px solid #d2d2d2;
+    border: 1px solid ${({ theme }) => theme.custom.inputBorderGrey};
     padding: 10px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     width: 100%;
+  }
 
-    &::placeholder {
-      color: $medium-gray;
-      line-height: unset;
+  .active-search-filter {
+    margin-right: 6px;
+    margin-bottom: 9px;
+    padding-left: 8px;
+
+    background-color: white;
+    font-size: ${({ theme }) => theme.custom.fontSm };
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    border: 1px solid ${({ theme }) => theme.custom.inputBorderGrey};
+    border-radius: 14px;
+
+    .remove-filter-button {
+      padding: 4px;
+      margin-right: 4px;
+
+      display: flex;
+      align-items: center;
+
+      cursor: pointer;
+      border: none;
+      background: none;
+      .material-icons {
+        font-size: 1.25em;
+      }
     }
+  }
+
+  .clear-all-filters-button {
+    font-size: ${({ theme }) => theme.custom.fontNormal};
+    font-weight: normal;
+    text-decoration: underline;
+    background: none;
+    border: none;
   }
 `
 
@@ -245,13 +298,27 @@ const SearchPage: React.FC = () => {
   }
   const tab = params.activeFacets.resource_type?.[0] ?? "all"
 
-  const renderedResults = data?.results.map((resource) => (
-    <LearningResourceCard
-      variant="row-reverse"
-      key={resource.id}
-      resource={resource}
+  const renderedResults = <>
+    <PlainVerticalList itemSpacing="16px">
+      {
+          data?.results.map((resource) => (
+            <li key={resource.id}>
+            <LearningResourceCard
+              variant="row-reverse"
+              resource={resource}
+            />
+            </li>
+          ))
+      }
+    </PlainVerticalList>
+    <Pagination
+      count={getLastPage(data?.count ?? 0)}
+      page={page}
+      onChange={(_, newPage) => setPage(newPage)}
     />
-  ))
+  </>
+  
+
 
   return (
     <>
@@ -283,15 +350,15 @@ const SearchPage: React.FC = () => {
       <Container>
         <GridContainer>
           <GridColumn variant="sidebar-2-wide-main">
-            <FacetWrapper>
-            <FacetDisplay
-              facetMap={RESOURCE_FACETS}
-              activeFacets={params.activeFacets}
-              onFacetChange={setFacetActive}
-              clearAllFilters={clearFacets}
-              facetOptions={group => data?.metadata.aggregations[group] ?? null}
-            />
-            </FacetWrapper>
+            <FacetStyles>
+              <FacetDisplay
+                facetMap={RESOURCE_FACETS}
+                activeFacets={params.activeFacets}
+                onFacetChange={setFacetActive}
+                clearAllFilters={clearFacets}
+                facetOptions={group => data?.metadata.aggregations[group] ?? null}
+              />
+            </FacetStyles>
           </GridColumn>
           <GridColumn variant="main-2-wide-main">
             <TabContext value={tab}>
@@ -314,11 +381,6 @@ const SearchPage: React.FC = () => {
               <TabPanel value="program">{renderedResults}</TabPanel>
               <TabPanel value="podcast">{renderedResults}</TabPanel>
             </TabContext>
-            <Pagination
-              count={getLastPage(data?.count ?? 0)}
-              page={page}
-              onChange={(_, newPage) => setPage(newPage)}
-            />
           </GridColumn>
         </GridContainer>
       </Container>

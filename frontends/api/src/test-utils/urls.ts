@@ -11,6 +11,7 @@ import type {
   LearningpathsApi,
   ArticlesApi,
 } from "../generated"
+import type { LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest } from "../generated"
 import type { BaseAPI } from "../generated/base"
 
 // OpenAPI Generator declares parameters using interfaces, which makes passing
@@ -67,4 +68,8 @@ const programLetters = {
   details: (id: string) => `/api/v1/program_letters/${id}/`,
 }
 
-export { learningResources, topics, learningPaths, articles, programLetters }
+const search = {
+  resources: () => "/api/v1/learning_resources_search/"
+}
+
+export { learningResources, topics, learningPaths, articles, search, programLetters }
