@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 
+from learning_resources_search.serializers_test import get_request_object
 from profiles.factories import ProgramCertificateFactory, ProgramLetterFactory
 from profiles.models import ProgramLetter
 from profiles.serializers import ProgramCertificateSerializer, ProgramLetterSerializer
@@ -429,7 +430,13 @@ def test_list_user_program_certificates(mocker, client, user, is_anonymous):
     url = reverse("profile:v0:user_program_certificates_api-list")
     resp = client.get(url)
     if not is_anonymous:
+        request = get_request_object(url)
         assert resp.status_code == 200
-        assert resp.json() == ProgramCertificateSerializer(certs, many=True).data
+        assert (
+            resp.json()
+            == ProgramCertificateSerializer(
+                certs, many=True, context={"request": request}
+            ).data
+        )
     else:
         assert resp.status_code == 403
