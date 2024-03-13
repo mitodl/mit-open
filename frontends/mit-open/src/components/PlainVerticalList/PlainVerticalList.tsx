@@ -17,4 +17,4 @@ const PlainVerticalList = styled.ul<{ itemSpacing: string }>`
   }
 `
 
-export default PlainVerticalList;
+export default PlainVerticalList

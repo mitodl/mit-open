@@ -69,7 +69,14 @@ const programLetters = {
 }
 
 const search = {
-  resources: () => "/api/v1/learning_resources_search/"
+  resources: () => "/api/v1/learning_resources_search/",
 }
 
-export { learningResources, topics, learningPaths, articles, search, programLetters }
+export {
+  learningResources,
+  topics,
+  learningPaths,
+  articles,
+  search,
+  programLetters,
+}

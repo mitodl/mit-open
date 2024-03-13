@@ -13,7 +13,12 @@ import {
 import { MetaTags } from "ol-utilities"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import { useSearchQueryParams, FacetDisplay, getDepartmentName, getLevelName } from "@mitodl/course-search-utils"
+import {
+  useSearchQueryParams,
+  FacetDisplay,
+  getDepartmentName,
+  getLevelName,
+} from "@mitodl/course-search-utils"
 import type { FacetManifest } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import { ResourceTypeEnum } from "api"
@@ -107,9 +112,9 @@ const FacetStyles = styled.div`
   * {
     color: ${({ theme }) => theme.palette.secondary.main};
   }
-  
-  input[type=checkbox] {
-    accent-color: ${({ theme }) => theme.palette.primary.main}
+
+  input[type="checkbox"] {
+    accent-color: ${({ theme }) => theme.palette.primary.main};
   }
 
   .filter-section-main-title {
@@ -147,17 +152,18 @@ const FacetStyles = styled.div`
       height: 25px;
       font-size: 0.875em;
 
-      input, label {
+      input,
+      label {
         cursor: pointer;
       }
 
-      input[type=checkbox] {
+      input[type="checkbox"] {
         margin-left: 4px;
         margin-right: 10px;
       }
 
       .facet-count {
-        color: ${({ theme }) => theme.palette.text.secondary}
+        color: ${({ theme }) => theme.palette.text.secondary};
       }
     }
 
@@ -192,7 +198,6 @@ const FacetStyles = styled.div`
         padding: 0;
       }
     }
-    
   }
 
   .facet-label {
@@ -218,7 +223,7 @@ const FacetStyles = styled.div`
     padding-left: 8px;
 
     background-color: white;
-    font-size: ${({ theme }) => theme.custom.fontSm };
+    font-size: ${({ theme }) => theme.custom.fontSm};
     display: inline-flex;
     align-items: center;
     flex-wrap: nowrap;
@@ -298,27 +303,22 @@ const SearchPage: React.FC = () => {
   }
   const tab = params.activeFacets.resource_type?.[0] ?? "all"
 
-  const renderedResults = <>
-    <PlainVerticalList itemSpacing="16px">
-      {
-          data?.results.map((resource) => (
-            <li key={resource.id}>
-            <LearningResourceCard
-              variant="row-reverse"
-              resource={resource}
-            />
-            </li>
-          ))
-      }
-    </PlainVerticalList>
-    <Pagination
-      count={getLastPage(data?.count ?? 0)}
-      page={page}
-      onChange={(_, newPage) => setPage(newPage)}
-    />
-  </>
-  
-
+  const renderedResults = (
+    <>
+      <PlainVerticalList itemSpacing="16px">
+        {data?.results.map((resource) => (
+          <li key={resource.id}>
+            <LearningResourceCard variant="row-reverse" resource={resource} />
+          </li>
+        ))}
+      </PlainVerticalList>
+      <Pagination
+        count={getLastPage(data?.count ?? 0)}
+        page={page}
+        onChange={(_, newPage) => setPage(newPage)}
+      />
+    </>
+  )
 
   return (
     <>
@@ -356,7 +356,9 @@ const SearchPage: React.FC = () => {
                 activeFacets={params.activeFacets}
                 onFacetChange={setFacetActive}
                 clearAllFilters={clearFacets}
-                facetOptions={group => data?.metadata.aggregations[group] ?? null}
+                facetOptions={(group) =>
+                  data?.metadata.aggregations[group] ?? null
+                }
               />
             </FacetStyles>
           </GridColumn>
