@@ -39,6 +39,8 @@ const programLetter: Factory<ProgramLetter> = (overrides = {}) => ({
     user_first_name: faker.name.firstName(),
     user_last_name: faker.name.lastName(),
     user_full_name: faker.name.fullName(),
+    program_letter_generate_url: new URL(faker.internet.url()).toString(),
+    program_letter_share_url: new URL(faker.internet.url()).toString(),
   },
   ...overrides,
 })

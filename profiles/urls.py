@@ -7,6 +7,7 @@ from profiles.views import (
     CurrentUserRetrieveViewSet,
     ProfileViewSet,
     ProgramLetterInterceptView,
+    UserProgramCertificateViewSet,
     UserViewSet,
     UserWebsiteViewSet,
     name_initials_avatar_view,
@@ -16,6 +17,11 @@ router = DefaultRouter()
 router.register(r"users", UserViewSet, basename="user_api")
 router.register(r"profiles", ProfileViewSet, basename="profile_api")
 router.register(r"websites", UserWebsiteViewSet, basename="user_websites_api")
+router.register(
+    r"program_certificates",
+    UserProgramCertificateViewSet,
+    basename="user_program_certificates_api",
+)
 
 
 v0_urls = [

@@ -59,6 +59,7 @@ class UserWebsiteFactory(DjangoModelFactory):
 class ProgramCertificateFactory(DjangoModelFactory):
     user_full_name = Faker("name")
     user_email = Faker("email")
+    micromasters_program_id = Faker("random_int")
 
     class Meta:
         model = ProgramCertificate

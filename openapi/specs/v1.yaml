@@ -9765,6 +9765,12 @@ components:
         id:
           type: integer
           readOnly: true
+        program_letter_generate_url:
+          type: string
+          readOnly: true
+        program_letter_share_url:
+          type: string
+          readOnly: true
         user_edxorg_id:
           type: integer
           maximum: 2147483647
@@ -9828,6 +9834,8 @@ components:
           nullable: true
       required:
       - id
+      - program_letter_generate_url
+      - program_letter_share_url
       - program_title
       - user_email
     ProgramLetter:

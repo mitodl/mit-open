@@ -3020,6 +3020,18 @@ export interface ProgramCertificate {
   id: number
   /**
    *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_letter_generate_url: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_letter_share_url: string
+  /**
+   *
    * @type {number}
    * @memberof ProgramCertificate
    */

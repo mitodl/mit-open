@@ -9,9 +9,10 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 
+from learning_resources_search.serializers_test import get_request_object
 from profiles.factories import ProgramCertificateFactory, ProgramLetterFactory
 from profiles.models import ProgramLetter
-from profiles.serializers import ProgramLetterSerializer
+from profiles.serializers import ProgramCertificateSerializer, ProgramLetterSerializer
 from profiles.utils import DEFAULT_PROFILE_IMAGE, make_temp_image_file
 
 pytestmark = [pytest.mark.django_db]
@@ -413,3 +414,29 @@ def test_program_letter_api_view_returns_404_for_invalid_id(
         )
     )
     assert response.status_code == 404
+
+
+@pytest.mark.parametrize("is_anonymous", [True, False])
+def test_list_user_program_certificates(mocker, client, user, is_anonymous):
+    """
+    Test listing program certificates for a user
+    """
+    if not is_anonymous:
+        client.force_login(user)
+        certs = ProgramCertificateFactory.create_batch(
+            3,
+            user_email=user.email,
+        )
+    url = reverse("profile:v0:user_program_certificates_api-list")
+    resp = client.get(url)
+    if not is_anonymous:
+        request = get_request_object(url)
+        assert resp.status_code == 200
+        assert (
+            resp.json()
+            == ProgramCertificateSerializer(
+                certs, many=True, context={"request": request}
+            ).data
+        )
+    else:
+        assert resp.status_code == 403
