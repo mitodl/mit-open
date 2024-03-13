@@ -126,7 +126,7 @@ class UserProgramCertificateViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = ProgramCertificate.objects.filter(user_email=request.user.email)
         serializer = ProgramCertificateSerializer(
-            self.filter_queryset(queryset), many=True
+            self.filter_queryset(queryset), many=True, context={"request": request}
         )
         return Response(serializer.data)
 
