@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.5.0
+Version 0.5.0 (Released March 13, 2024)
 -------------
 
 - Avoid duplicate courses (#603)
