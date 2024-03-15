@@ -28,6 +28,9 @@ const appendCount = (label: string, count?: number) => {
   return label
 }
 
+/**
+ *
+ */
 const ResourceTypesTabContext: React.FC<{
   resourceType?: ResourceTypeEnum
   children: React.ReactNode
@@ -95,5 +98,27 @@ const ResourceTypeTabPanels: React.FC<{
   )
 }
 
-export { ResourceTypesTabContext, ResourceTypeTabList, ResourceTypeTabPanels }
+/**
+ * Components for a tabbed search UI with tabs controlling resource_type facet.
+ *
+ * Intended usage is:
+ * ```jsx
+ * <ResourceTypeTabs.Context>
+ *    <ResourceTypeTabs.TabList />
+ *    <ResourceTypeTabPanels>
+ *      Panel Content
+ *    </ResourceTypeTabPanels>
+ * <ResourceTypeTabs.Context>
+ * ```
+ *
+ * These are exported as three separate components (Context, TabList, TabPanels)
+ * to facilitate placement within a grid layout.
+ */
+const ResourceTypeTabs = {
+  Context: ResourceTypesTabContext,
+  TabList: ResourceTypeTabList,
+  TabPanels: ResourceTypeTabPanels,
+}
+
+export { ResourceTypeTabs }
 export type { TabConfig }

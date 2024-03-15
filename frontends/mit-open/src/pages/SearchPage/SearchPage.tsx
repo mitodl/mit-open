@@ -27,11 +27,7 @@ import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import PlainVerticalList from "@/components/PlainVerticalList/PlainVerticalList"
 
-import {
-  ResourceTypeTabList,
-  ResourceTypeTabPanels,
-  ResourceTypesTabContext,
-} from "./ResourceTypeTabs"
+import { ResourceTypeTabs } from "./ResourceTypeTabs"
 import type { TabConfig } from "./ResourceTypeTabs"
 
 const RESOURCE_FACETS: FacetManifest = [
@@ -325,7 +321,7 @@ const SearchPage: React.FC = () => {
       </ColoredHeader>
       <Container>
         <GridContainer>
-          <ResourceTypesTabContext
+          <ResourceTypeTabs.Context
             resourceType={params.activeFacets.resource_type?.[0]}
           >
             <GridColumn variant="sidebar-2-wide-main" />
@@ -334,7 +330,7 @@ const SearchPage: React.FC = () => {
             </GridColumn>
             <GridColumn variant="sidebar-2-wide-main" />
             <GridColumn variant="main-2-wide-main">
-              <ResourceTypeTabList
+              <ResourceTypeTabs.TabList
                 clearFacet={clearFacet}
                 setFacetActive={setFacetActive}
                 tabs={TABS}
@@ -356,7 +352,7 @@ const SearchPage: React.FC = () => {
               </FacetStyles>
             </GridColumn>
             <GridColumn variant="main-2-wide-main">
-              <ResourceTypeTabPanels tabs={TABS}>
+              <ResourceTypeTabs.TabPanels tabs={TABS}>
                 {data && data.count > 0 ? (
                   <PlainVerticalList itemSpacing="16px">
                     {data.results.map((resource) => (
@@ -380,9 +376,9 @@ const SearchPage: React.FC = () => {
                     onChange={(_, newPage) => setPage(newPage)}
                   />
                 </PaginationContainer>
-              </ResourceTypeTabPanels>
+              </ResourceTypeTabs.TabPanels>
             </GridColumn>
-          </ResourceTypesTabContext>
+          </ResourceTypeTabs.Context>
         </GridContainer>
       </Container>
     </>
