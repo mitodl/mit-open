@@ -4,11 +4,18 @@ import {
   TopicsApi,
   ArticlesApi,
   ProgramLettersApi,
+  LearningResourcesSearchApi,
 } from "./generated/api"
 import axiosInstance from "./axios"
 
 const BASE_PATH = ""
 const learningResourcesApi = new LearningResourcesApi(
+  undefined,
+  BASE_PATH,
+  axiosInstance,
+)
+
+const learningResourcesSearchApi = new LearningResourcesSearchApi(
   undefined,
   BASE_PATH,
   axiosInstance,
@@ -35,4 +42,5 @@ export {
   topicsApi,
   articlesApi,
   programLettersApi,
+  learningResourcesSearchApi,
 }
