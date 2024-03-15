@@ -6,12 +6,13 @@ import { styled } from "ol-components"
  */
 const PlainVerticalList = styled.ul<{ itemSpacing: string }>`
   list-style: none;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 
   > li {
     margin-bottom: ${({ itemSpacing }) => itemSpacing};
   }
+
   > li:last-child {
     margin-bottom: none;
   }

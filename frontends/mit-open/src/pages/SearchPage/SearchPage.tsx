@@ -102,7 +102,7 @@ const FacetStyles = styled.div`
   .filter-section-button {
     font-size: ${({ theme }) => theme.custom.fontLg};
     font-weight: 600;
-    padding-left: 0px;
+    padding-left: 0;
     background-color: transparent;
     display: flex;
     justify-content: space-between;
@@ -158,9 +158,11 @@ const FacetStyles = styled.div`
 
     .input-wrapper {
       position: relative;
+
       .input-postfix-icon {
         display: none;
       }
+
       .input-postfix-button {
         cursor: pointer;
         position: absolute;
@@ -195,7 +197,6 @@ const FacetStyles = styled.div`
     margin-right: 6px;
     margin-bottom: 9px;
     padding-left: 8px;
-
     background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
     font-size: ${({ theme }) => theme.custom.fontSm};
     display: inline-flex;
@@ -207,13 +208,12 @@ const FacetStyles = styled.div`
     .remove-filter-button {
       padding: 4px;
       margin-right: 4px;
-
       display: flex;
       align-items: center;
-
       cursor: pointer;
       border: none;
       background: none;
+
       .material-icons {
         font-size: 1.25em;
       }
