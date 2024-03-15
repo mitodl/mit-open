@@ -227,6 +227,10 @@ else:
 
 DATABASES = {"default": DEFAULT_DATABASE_CONFIG}
 
+DATABASE_ROUTERS = ["main.routers.ExternalSchemaRouter"]
+
+EXTERNAL_MODELS = ["programcertificate"]
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 

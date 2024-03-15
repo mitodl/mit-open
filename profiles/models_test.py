@@ -65,21 +65,19 @@ def test_external_schema_exists():
     with connection.cursor() as cursor:
         cursor.execute(
             """
-            SELECT 1
-                FROM pg_catalog.pg_class
-                WHERE relname = 'external.programcertificate'
-                AND relkind = 'r';
+            SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'external';
             """
         )
-        assert cursor.fetchone()[0] == 1
+        assert cursor.fetchone()[0] == "external"
 
 
 @pytest.mark.django_db()
-def test_program_letter_model_strings(user):
+def test_program_letter_model_strings(user, settings):
     """
     Test that ProgramCertificate and ProgramLetter string methods
     return what we expect
     """
+    settings.DATABASE_ROUTERS = []
     cert = ProgramCertificateFactory(
         user_full_name="test user", program_title="test program"
     )

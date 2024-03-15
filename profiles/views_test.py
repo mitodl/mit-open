@@ -330,14 +330,14 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
 
 @pytest.mark.parametrize("is_anonymous", [True, False])
 def test_letter_intercept_view_generates_program_letter(
-    mocker, client, user, is_anonymous
+    mocker, client, user, is_anonymous, settings
 ):
     """
     Test that the letter intercept view generates a
     ProgramLetter and then passes the user along to the display.
     Also test that anonymous users do not generate letters and cant access this page
     """
-
+    settings.DATABASE_ROUTERS = []
     micromasters_program_id = 1
     if not is_anonymous:
         client.force_login(user)
@@ -364,11 +364,12 @@ def test_letter_intercept_view_generates_program_letter(
 
 
 @pytest.mark.parametrize("is_anonymous", [True, False])
-def test_program_letter_api_view(mocker, client, user, is_anonymous):
+def test_program_letter_api_view(mocker, client, user, is_anonymous, settings):
     """
     Test that the program letter display page is viewable by
     all users logged in or not
     """
+    settings.DATABASE_ROUTERS = []
     mock_return_value = {
         "id": 4,
         "meta": {},
