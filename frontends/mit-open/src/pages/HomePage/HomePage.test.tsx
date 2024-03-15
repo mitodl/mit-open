@@ -4,7 +4,7 @@ import HomePage from "./HomePage"
 
 import { urls, setMockResponse } from "api/test-utils"
 import { learningResources as factory } from "api/test-utils/factories"
-import { renderWithProviders, screen, within } from "../../test-utils"
+import { renderWithProviders, screen, within, user } from "../../test-utils"
 import invariant from "tiny-invariant"
 import type { LearningResource } from "api"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
@@ -20,6 +20,21 @@ const checkLRC = async (container: HTMLElement, resource: LearningResource) => {
 }
 
 describe("HomePage", () => {
+  test("Submitting search goes to search page", async () => {
+    const resources = factory.resources({ count: 0 })
+    setMockResponse.get(urls.learningResources.list(), resources)
+    const { location } = renderWithProviders(<HomePage />)
+    const searchbox = screen.getByRole("textbox", { name: /search for/i })
+    await user.click(searchbox)
+    await user.paste("physics")
+    await user.type(searchbox, "[Enter]")
+    expect(location.current).toEqual(
+      expect.objectContaining({
+        pathname: "/search",
+        search: "?q=physics",
+      }),
+    )
+  })
   it("Shows Upcoming Courses", async () => {
     const resources = factory.resources({ count: 4 })
     setMockResponse.get(urls.learningResources.list(), resources)
