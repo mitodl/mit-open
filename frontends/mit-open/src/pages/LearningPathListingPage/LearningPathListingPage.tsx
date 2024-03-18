@@ -76,7 +76,6 @@ const ListCard: React.FC<ListCardProps> = ({ list, onActivate, canEdit }) => {
   return (
     <LearningResourceCardTemplate
       variant="row-reverse"
-      className="ic-resource-card"
       resource={list}
       imgConfig={imgConfigs["row-reverse-small"]}
       footerActionSlot={canEdit ? <EditListMenu resource={list} /> : null}

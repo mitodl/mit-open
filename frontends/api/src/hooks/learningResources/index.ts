@@ -17,6 +17,7 @@ import type {
   LearningPathRelationshipRequest,
   MicroLearningPathRelationship,
   LearningResource,
+  LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
 } from "../../generated"
 import learningResources, { invalidateResourceQueries } from "./keyFactory"
 
@@ -197,6 +198,16 @@ const useLearningpathRelationshipDestroy = () => {
   })
 }
 
+const useLearningResourcesSearch = (
+  params: LRSearchRequest,
+  opts?: Pick<UseQueryOptions, "keepPreviousData">,
+) => {
+  return useQuery({
+    ...learningResources.search(params),
+    ...opts,
+  })
+}
+
 export {
   useLearningResourcesList,
   useLearningResourcesDetail,
@@ -210,4 +221,5 @@ export {
   useLearningpathRelationshipMove,
   useLearningpathRelationshipCreate,
   useLearningpathRelationshipDestroy,
+  useLearningResourcesSearch,
 }

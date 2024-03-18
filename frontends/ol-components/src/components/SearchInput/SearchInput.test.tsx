@@ -21,7 +21,7 @@ const getSearchButton = (): HTMLButtonElement => {
  * This actually returns an icon (inside a button)
  */
 const getClearButton = (): HTMLButtonElement => {
-  const button = screen.getByLabelText("Clear")
+  const button = screen.getByLabelText("Clear search text")
   invariant(button instanceof HTMLButtonElement)
   return button
 }

@@ -11,6 +11,7 @@ import type { SearchInputProps } from "ol-components"
 import { GridContainer } from "@/components/GridLayout/GridLayout"
 import { useLearningResourcesList } from "api/hooks/learningResources"
 import HomePageCarousel from "./HomePageCarousel"
+import { useNavigate } from "react-router"
 
 const EXPLORE_BUTTONS = [
   {
@@ -134,13 +135,19 @@ const FrontPageImage = styled.img`
 const HomePage: React.FC = () => {
   const [searchText, setSearchText] = useState("")
   const onSearchClear = useCallback(() => setSearchText(""), [])
+  const navigate = useNavigate()
   const onSearchChange: SearchInputProps["onChange"] = useCallback((e) => {
     setSearchText(e.target.value)
   }, [])
-  const onSearchSubmit: SearchInputProps["onSubmit"] = useCallback((e) => {
-    console.log("Submitting search")
-    console.log(e)
-  }, [])
+  const onSearchSubmit: SearchInputProps["onSubmit"] = useCallback(
+    (e) => {
+      navigate({
+        pathname: "/search",
+        search: `q=${e.target.value}`,
+      })
+    },
+    [navigate],
+  )
   const resourcesQuery = useLearningResourcesList()
 
   return (

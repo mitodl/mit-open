@@ -45,3 +45,5 @@ export const login = ({
 }
 
 export const DASHBOARD = "/dashboard/"
+
+export const SEARCH = "/search/"
