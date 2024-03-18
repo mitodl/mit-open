@@ -5,6 +5,7 @@ import json
 from os.path import basename, splitext
 
 import pytest
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
@@ -422,6 +423,8 @@ def test_list_user_program_certificates(mocker, client, user, is_anonymous):
     """
     Test listing program certificates for a user
     """
+    settings.DATABASE_ROUTERS = []
+    settings.EXTERNAL_MODELS = []
     if not is_anonymous:
         client.force_login(user)
         certs = ProgramCertificateFactory.create_batch(
