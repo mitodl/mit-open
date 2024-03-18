@@ -1,4 +1,5 @@
 """MIT Open feature flags"""
+import logging
 
 import hashlib
 import json
@@ -18,6 +19,14 @@ from authentication.backends.ol_open_id_connect import OlOpenIdConnectAuth
 log = logging.getLogger()
 User = get_user_model()
 durable_cache = caches["durable"]
+
+from authentication.backends.ol_open_id_connect import OlOpenIdConnectAuth
+
+
+log = logging.getLogger()
+
+
+User = get_user_model()
 
 
 class Features(StrEnum):
@@ -197,3 +206,5 @@ def if_feature_enabled(name: str, default: Optional[bool] = None):
         return wrapped_func
 
     return if_feature_enabled_inner
+
+
