@@ -12,5 +12,5 @@ class MainConfig(AppConfig):
     def ready(self):
         """Initialize the app"""
         from main import features
-        features.configure()
 
+        features.configure()
