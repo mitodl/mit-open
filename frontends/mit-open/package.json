@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
+    "@mitodl/open-api-axios": "https://github.com/ChristopherChudzicki/odl-open-api-axios.git#216b05001911a425cf7aac831d3b07db4ee9b586",
     "@mui/icons-material": "^5.14.19",
     "@sentry/react": "^7.57.0",
     "@tanstack/react-query": "^4.36.1",

@@ -7,6 +7,9 @@ import { createQueryClient } from "@/services/react-query/react-query"
 import routes from "./routes"
 import AppProviders from "./AppProviders"
 
+import * as client from "@mitodl/open-api-axios"
+console.log(client)
+
 Sentry.init({
   dsn: window.SETTINGS.sentry_dsn,
   release: window.SETTINGS.release_version,

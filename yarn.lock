@@ -3597,6 +3597,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mitodl/open-api-axios@https://github.com/ChristopherChudzicki/odl-open-api-axios.git#216b05001911a425cf7aac831d3b07db4ee9b586":
+  version: 2024.3.18
+  resolution: "@mitodl/open-api-axios@https://github.com/ChristopherChudzicki/odl-open-api-axios.git#commit=216b05001911a425cf7aac831d3b07db4ee9b586"
+  dependencies:
+    "@types/node": ^20.11.19
+    axios: ^1.6.5
+  checksum: 41918ff41d9e988a363dadaaf0ab786fe0bc7c6667eada9f1fef8825baf06ba5b4c4f87ce9a82f06e990decda08b42031b720f6a53dbcba2c6b5f822b3f6bf18
+  languageName: node
+  linkType: hard
+
 "@mui/base@npm:5.0.0-beta.39":
   version: 5.0.0-beta.39
   resolution: "@mui/base@npm:5.0.0-beta.39"
@@ -6599,7 +6609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.11.5":
+"@types/node@npm:*, @types/node@npm:^20.11.19, @types/node@npm:^20.11.5":
   version: 20.11.28
   resolution: "@types/node@npm:20.11.28"
   dependencies:
@@ -8039,7 +8049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.3":
+"axios@npm:^1.6.3, axios@npm:^1.6.5":
   version: 1.6.8
   resolution: "axios@npm:1.6.8"
   dependencies:
@@ -17516,6 +17526,7 @@ __metadata:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
     "@faker-js/faker": ^7.3.0
+    "@mitodl/open-api-axios": "https://github.com/ChristopherChudzicki/odl-open-api-axios.git#216b05001911a425cf7aac831d3b07db4ee9b586"
     "@mui/icons-material": ^5.14.19
     "@sentry/react": ^7.57.0
     "@storybook/addon-essentials": ^7.6.6
