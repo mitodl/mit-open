@@ -2,8 +2,6 @@
 
 from rest_framework import permissions
 
-from main import features
-
 
 def is_admin_user(request):
     """
