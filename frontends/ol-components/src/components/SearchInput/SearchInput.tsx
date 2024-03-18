@@ -74,7 +74,7 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
           {props.value && (
             <IconButton
               className={props.classNameClear}
-              aria-label="Clear"
+              aria-label="Clear search text"
               onClick={props.onClear}
             >
               <ClearIcon />

@@ -279,7 +279,7 @@ const SearchPage: React.FC = () => {
                 value={currentText}
                 onChange={(e) => setCurrentText(e.target.value)}
                 onSubmit={(e) => setCurrentTextAndQuery(e.target.value)}
-                onClear={() => setCurrentText("")}
+                onClear={() => setCurrentTextAndQuery("")}
                 placeholder="Search for resources"
               />
             </Grid>

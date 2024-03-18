@@ -237,6 +237,13 @@ describe("SearchPage", () => {
   })
 })
 
+test("Clearing text updates URL", async () => {
+  setMockSearchResponse({})
+  const { location } = renderWithProviders(<SearchPage />, { url: "?q=meow" })
+  await user.click(screen.getByRole("button", { name: "Clear search text" }))
+  expect(location.current.search).toBe("")
+})
+
 /**
  * Simple tests to check that data / handlers with pagination controls are
  * working as expected.
