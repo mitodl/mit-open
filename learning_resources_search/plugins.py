@@ -1,4 +1,5 @@
 """Pluggy plugins for learning_resources_search"""
+
 import logging
 
 from django.apps import apps

@@ -1,6 +1,7 @@
 """
 Management command to generate OpenAPI specs from our APIs.
 """
+
 from pathlib import Path
 
 from django.conf import settings

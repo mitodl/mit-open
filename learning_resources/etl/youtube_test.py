@@ -1,4 +1,5 @@
 """Tests for Video ETL functions"""
+
 # pylint: disable=redefined-outer-name
 import json
 from collections import defaultdict

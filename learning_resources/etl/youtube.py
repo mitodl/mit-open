@@ -1,4 +1,5 @@
 """video catalog ETL"""
+
 import logging
 from collections.abc import Generator
 from datetime import timedelta

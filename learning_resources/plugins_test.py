@@ -1,4 +1,5 @@
 """Tests for learning_resources plugins"""
+
 import pytest
 
 from learning_resources.constants import FAVORITES_TITLE

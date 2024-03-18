@@ -1,4 +1,5 @@
 """Pluggy hooks for authentication"""
+
 import logging
 
 import pluggy

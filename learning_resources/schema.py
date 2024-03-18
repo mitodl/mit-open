@@ -1,4 +1,5 @@
 """Extensions to drf-spectacular schema"""
+
 from drf_spectacular.extensions import (
     OpenApiSerializerExtension,
     OpenApiSerializerFieldExtension,

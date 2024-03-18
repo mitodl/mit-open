@@ -1,6 +1,5 @@
 """Constants for learning_resources"""
 
-
 from django.db.models import TextChoices
 from named_enum import ExtendedEnum
 

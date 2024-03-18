@@ -1,4 +1,5 @@
 """Management command to create user Favorites lists"""
+
 from django.contrib.auth.models import User
 from django.core.management import BaseCommand
 
@@ -40,7 +41,5 @@ class Command(BaseCommand):
                 )
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
-                "Population of user favorites list finished, took {} seconds".format(
-                    total_seconds
-                )
+                f"Population of user favorites list finished, took {total_seconds} seconds"
             )

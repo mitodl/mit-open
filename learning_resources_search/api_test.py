@@ -1,4 +1,5 @@
 """Search API function tests"""
+
 from unittest.mock import Mock
 
 import pytest

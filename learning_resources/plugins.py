@@ -1,4 +1,5 @@
 """Pluggy plugins for learning resources"""
+
 from django.apps import apps
 
 from learning_resources.constants import FAVORITES_TITLE
