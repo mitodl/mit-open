@@ -1,6 +1,23 @@
 Release Notes
 =============
 
+Version 0.5.1
+-------------
+
+- shanbady/separate database router and schema for program certificates (#617)
+- Update dependency django-anymail to v10.3 (#627)
+- Update dependency @sentry/react to v7.107.0 (#626)
+- Update react-router monorepo to v6.22.3 (#625)
+- Update material-ui monorepo (#624)
+- Update dependency boto3 to v1.34.64 (#623)
+- Update dependency axios to v1.6.8 (#622)
+- Update dependency @ckeditor/ckeditor5-dev-utils to v39.6.3 (#621)
+- Update dependency @ckeditor/ckeditor5-dev-translations to v39.6.3 (#620)
+- Update all non-major dev-dependencies (#619)
+- Endpoint for user program certificate info and program letter links (#608)
+- Update Node.js to v20 (#507)
+- Program Letter View (#605)
+
 Version 0.5.0 (Released March 13, 2024)
 -------------
 
