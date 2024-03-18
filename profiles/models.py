@@ -179,7 +179,7 @@ class ProgramCertificate(models.Model):
 
     class Meta:
         managed = False
-        db_table = "external.programcertificate"
+        db_table = '"external"."programcertificate"'
 
     def __str__(self):
         return f"program certificate: {self.user_full_name} - {self.program_title}"
@@ -192,7 +192,9 @@ class ProgramLetter(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    certificate = models.ForeignKey(ProgramCertificate, on_delete=models.CASCADE)
+    certificate = models.ForeignKey(
+        ProgramCertificate, on_delete=models.CASCADE, null=True
+    )
 
     def __str__(self):
         return (
