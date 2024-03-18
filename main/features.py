@@ -1,18 +1,15 @@
 """MIT Open feature flags"""
 import logging
-
 from enum import StrEnum
 from functools import wraps
 from typing import Optional
 
+import posthog
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 
-import posthog
-
 from authentication.backends.ol_open_id_connect import OlOpenIdConnectAuth
-
 
 log = logging.getLogger()
 
@@ -58,9 +55,7 @@ def user_unique_id(user: Optional[User]) -> Optional[str]:
 
     try:
         # we use the keycloak uid because that should be ubiquitous across all apps
-        return user.social_auth.get(
-            provider=OlOpenIdConnectAuth.name
-        ).uid
+        return user.social_auth.get(provider=OlOpenIdConnectAuth.name).uid
     except ObjectDoesNotExist:
         # this user was created out-of-band (e.g. createsuperuser)
         # so we won't support this edge case
@@ -84,7 +79,7 @@ def _get_person_properties(unique_id: str) -> dict:
     }
 
 
-def get_all_feature_flags(unique_id: Optional[str]=None):
+def get_all_feature_flags(unique_id: Optional[str] = None):
     """
     Get the set of all feature flags
     """
@@ -98,8 +93,8 @@ def get_all_feature_flags(unique_id: Optional[str]=None):
 
 def is_enabled(
     name: str,
-    default: Optional[bool]=None,
-    unique_id: Optional[str]=None,
+    default: Optional[bool] = None,
+    unique_id: Optional[str] = None,
 ) -> bool:
     """
     Return True if the feature flag is enabled
@@ -120,11 +115,15 @@ def is_enabled(
     unique_id = unique_id or default_unique_id()
 
     # value will be None if either there is no value or we can't get a response back
-    value = posthog.get_feature_flag(
-        name,
-        unique_id,
-        person_properties=_get_person_properties(unique_id),
-    ) if settings.POSTHOG_ENABLED else None
+    value = (
+        posthog.get_feature_flag(
+            name,
+            unique_id,
+            person_properties=_get_person_properties(unique_id),
+        )
+        if settings.POSTHOG_ENABLED
+        else None
+    )
 
     return (
         value
@@ -133,7 +132,7 @@ def is_enabled(
     )
 
 
-def if_feature_enabled(name: str, default: Optional[bool]=None):
+def if_feature_enabled(name: str, default: Optional[bool] = None):
     """
     Wrapper that results in a no-op if the given feature isn't enabled, and otherwise
     runs the wrapped function as normal.
@@ -156,5 +155,3 @@ def if_feature_enabled(name: str, default: Optional[bool]=None):
         return wrapped_func
 
     return if_feature_enabled_inner
-
-
