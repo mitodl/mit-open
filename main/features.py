@@ -22,7 +22,6 @@ durable_cache = caches["durable"]
 
 from authentication.backends.ol_open_id_connect import OlOpenIdConnectAuth
 
-
 log = logging.getLogger()
 
 
@@ -206,5 +205,3 @@ def if_feature_enabled(name: str, default: Optional[bool] = None):
         return wrapped_func
 
     return if_feature_enabled_inner
-
-
