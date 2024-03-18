@@ -16,12 +16,7 @@ import type { LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest a
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import {
-  useSearchQueryParams,
-  FacetDisplay,
-  getDepartmentName,
-  getLevelName,
-} from "@mitodl/course-search-utils"
+import { useSearchQueryParams, FacetDisplay } from "@mitodl/course-search-utils"
 import type { FacetManifest } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
@@ -32,40 +27,14 @@ import type { TabConfig } from "./ResourceTypeTabs"
 
 const RESOURCE_FACETS: FacetManifest = [
   {
-    name: "department",
-    title: "Departments",
-    useFilterableFacet: true,
-    expandedOnLoad: true,
-    labelFunction: getDepartmentName,
-  },
-  {
-    name: "level",
-    title: "Level",
-    useFilterableFacet: false,
-    expandedOnLoad: false,
-    labelFunction: getLevelName,
-  },
-  {
     name: "topic",
     title: "Topics",
     useFilterableFacet: true,
-    expandedOnLoad: false,
-  },
-  {
-    name: "course_feature",
-    title: "Features",
-    useFilterableFacet: true,
-    expandedOnLoad: false,
+    expandedOnLoad: true,
   },
 ]
 
-const AGGREGATIONS: LRSearchRequest["aggregations"] = [
-  "resource_type",
-  "level",
-  "department",
-  "topic",
-  "course_feature",
-]
+const AGGREGATIONS: LRSearchRequest["aggregations"] = ["resource_type", "topic"]
 
 const ColoredHeader = styled.div`
   background-color: ${({ theme }) => theme.palette.secondary.light};
@@ -284,8 +253,6 @@ const SearchPage: React.FC = () => {
       aggregations: AGGREGATIONS,
       q: params.queryText,
       resource_type: resourceType ? resourceType : ALL_RESOURCE_TABS,
-      department: params.activeFacets.department,
-      level: params.activeFacets.level,
       topic: params.activeFacets.topic,
       limit: PAGE_SIZE,
       offset: (page - 1) * PAGE_SIZE,

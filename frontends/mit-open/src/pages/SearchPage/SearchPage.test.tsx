@@ -153,10 +153,10 @@ describe("SearchPage", () => {
   })
 
   test.each([
-    { url: "?d=6", expected: { department: "6" } },
+    { url: "?t=physics", expected: { topic: "physics" } },
     {
-      url: "?d=6&r=course",
-      expected: { department: "6", resource_type: "course" },
+      url: "?r=course",
+      expected: { resource_type: "course" },
     },
     { url: "?q=woof", expected: { q: "woof" } },
   ])(
@@ -166,9 +166,9 @@ describe("SearchPage", () => {
         count: 700,
         metadata: {
           aggregations: {
-            department: [
-              { key: "8", doc_count: 100 },
-              { key: "6", doc_count: 200 },
+            topic: [
+              { key: "physics", doc_count: 100 },
+              { key: "chemistry", doc_count: 200 },
             ],
           },
           suggestions: [],
@@ -180,9 +180,6 @@ describe("SearchPage", () => {
       })
       const apiSearchParams = getLastApiSearchParams()
       expect(apiSearchParams.getAll("aggregations").sort()).toEqual([
-        "course_feature",
-        "department",
-        "level",
         "resource_type",
         "topic",
       ])
@@ -197,16 +194,16 @@ describe("SearchPage", () => {
       count: 700,
       metadata: {
         aggregations: {
-          department: [
-            { key: "8", doc_count: 100 }, // Physics
-            { key: "5", doc_count: 200 }, // Chemistry
+          topic: [
+            { key: "Physics", doc_count: 100 }, // Physics
+            { key: "Chemistry", doc_count: 200 }, // Chemistry
           ],
         },
         suggestions: [],
       },
     })
     const { location } = renderWithProviders(<SearchPage />, {
-      url: "?d=8&d=5",
+      url: "?t=Physics&t=Chemistry",
     })
     const clearAll = await screen.findByRole("button", { name: /clear all/i })
     const physics = await screen.findByRole("checkbox", { name: "Physics" })
@@ -222,7 +219,7 @@ describe("SearchPage", () => {
     // toggle physics
     await user.click(physics)
     expect(physics).toBeChecked()
-    expect(location.current.search).toBe("?d=8")
+    expect(location.current.search).toBe("?t=Physics")
   })
 
   test("Submitting text updates URL", async () => {
@@ -250,7 +247,7 @@ describe("Search Page pagination controls", () => {
 
   test("?page URLSearchParam controls activate page", async () => {
     setMockSearchResponse({ count: 137 })
-    renderWithProviders(<SearchPage />, { url: "?d=6&page=3" })
+    renderWithProviders(<SearchPage />, { url: "?page=3" })
     const pagination = getPagination()
     // p3 is current page
     await within(pagination).findByRole("button", {
@@ -264,7 +261,7 @@ describe("Search Page pagination controls", () => {
   test("Clicking on a page updates URL", async () => {
     setMockSearchResponse({ count: 137 })
     const { location } = renderWithProviders(<SearchPage />, {
-      url: "?d=6&page=3",
+      url: "?page=3",
     })
     const pagination = getPagination()
     const p4 = await within(pagination).findByRole("button", {
@@ -279,7 +276,7 @@ describe("Search Page pagination controls", () => {
 
   test("Max page is determined by count", async () => {
     setMockSearchResponse({ count: 137 })
-    renderWithProviders(<SearchPage />, { url: "?d=6&page=3" })
+    renderWithProviders(<SearchPage />, { url: "?page=3" })
     const pagination = getPagination()
     // p14 exists
     await within(pagination).findByRole("button", { name: "Go to page 14" })
