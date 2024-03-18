@@ -506,9 +506,15 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
         "LOCATION": "local-in-memory-cache",
     },
+    # cache specific to widgets
     "external_assets": {
         "BACKEND": "django.core.cache.backends.db.DatabaseCache",
         "LOCATION": "external_asset_cache",
+    },
+    # general durable cache (redis should be considered ephemeral)
+    "durable": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "durable_cache",
     },
     "redis": {
         "BACKEND": "django_redis.cache.RedisCache",
