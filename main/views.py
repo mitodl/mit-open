@@ -8,6 +8,8 @@ from django.http import (
     HttpResponseNotFound,
 )
 from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.view import APIView
 
 from learning_resources.permissions import is_learning_path_editor
 from main.permissions import is_admin_user
@@ -55,3 +57,15 @@ def handle_404(
 ):
     """404 error handler"""
     return HttpResponseNotFound(index(request))
+
+
+class FeaturesView(APIView):
+    """
+    View for getting the currently available feature flags
+    """
+
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        return Response(usernames)
