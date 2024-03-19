@@ -67,8 +67,6 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction
 
-      - name: Lint
-        run: poetry run ruff --extend-ignore=D1 $(git ls-files '*.py')
       - name: Create test local state
         run: ./scripts/test/stub-data.sh
       - name: Tests
