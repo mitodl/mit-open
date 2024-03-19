@@ -168,7 +168,7 @@ export interface FieldChannel {
    * @type {FieldChannelFeaturedList}
    * @memberof FieldChannel
    */
-  featured_list: FieldChannelFeaturedList
+  featured_list: FieldChannelFeaturedList | null
   /**
    *
    * @type {Array<LearningPathPreview>}
@@ -180,25 +180,25 @@ export interface FieldChannel {
    * @type {string}
    * @memberof FieldChannel
    */
-  avatar?: string
+  avatar?: string | null
   /**
    * Get the avatar image medium URL
    * @type {string}
    * @memberof FieldChannel
    */
-  avatar_medium: string
+  avatar_medium: string | null
   /**
    * Get the avatar image small URL
    * @type {string}
    * @memberof FieldChannel
    */
-  avatar_small: string
+  avatar_small: string | null
   /**
    * Get the banner image URL
    * @type {string}
    * @memberof FieldChannel
    */
-  banner?: string
+  banner?: string | null
   /**
    *
    * @type {number}
@@ -494,19 +494,32 @@ export interface PatchedFieldChannelWriteRequest {
    * @type {string}
    * @memberof PatchedFieldChannelWriteRequest
    */
-  avatar?: string
+  avatar?: string | null
   /**
    * Get the banner image URL
    * @type {string}
    * @memberof PatchedFieldChannelWriteRequest
    */
-  banner?: string
+  banner?: string | null
   /**
    *
    * @type {any}
    * @memberof PatchedFieldChannelWriteRequest
    */
   about?: any | null
+}
+/**
+ * Serializer for WidgetLists
+ * @export
+ * @interface PatchedWidgetListRequest
+ */
+export interface PatchedWidgetListRequest {
+  /**
+   *
+   * @type {Array<WidgetInstance>}
+   * @memberof PatchedWidgetListRequest
+   */
+  widgets?: Array<WidgetInstance> | null
 }
 /**
  * Serializer for Profile
@@ -643,6 +656,122 @@ export interface User {
    */
   profile: Profile
 }
+/**
+ * WidgetInstance serializer
+ * @export
+ * @interface WidgetInstance
+ */
+export interface WidgetInstance {
+  /**
+   *
+   * @type {number}
+   * @memberof WidgetInstance
+   */
+  id: number
+  /**
+   *
+   * @type {WidgetTypeEnum}
+   * @memberof WidgetInstance
+   */
+  widget_type: WidgetTypeEnum
+  /**
+   *
+   * @type {string}
+   * @memberof WidgetInstance
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof WidgetInstance
+   */
+  configuration?: string
+  /**
+   *
+   * @type {string}
+   * @memberof WidgetInstance
+   */
+  json: string
+}
+
+/**
+ * Serializer for WidgetLists
+ * @export
+ * @interface WidgetList
+ */
+export interface WidgetList {
+  /**
+   *
+   * @type {number}
+   * @memberof WidgetList
+   */
+  id: number
+  /**
+   *
+   * @type {Array<WidgetInstance>}
+   * @memberof WidgetList
+   */
+  widgets?: Array<WidgetInstance> | null
+  /**
+   *
+   * @type {Array<WidgetListAvailableWidgetsInner>}
+   * @memberof WidgetList
+   */
+  available_widgets: Array<WidgetListAvailableWidgetsInner>
+}
+/**
+ *
+ * @export
+ * @interface WidgetListAvailableWidgetsInner
+ */
+export interface WidgetListAvailableWidgetsInner {
+  /**
+   *
+   * @type {string}
+   * @memberof WidgetListAvailableWidgetsInner
+   */
+  widget_type?: string
+  /**
+   *
+   * @type {string}
+   * @memberof WidgetListAvailableWidgetsInner
+   */
+  description?: string
+  /**
+   *
+   * @type {object}
+   * @memberof WidgetListAvailableWidgetsInner
+   */
+  form_spec?: object
+}
+/**
+ * Serializer for WidgetLists
+ * @export
+ * @interface WidgetListRequest
+ */
+export interface WidgetListRequest {
+  /**
+   *
+   * @type {Array<WidgetInstance>}
+   * @memberof WidgetListRequest
+   */
+  widgets?: Array<WidgetInstance> | null
+}
+/**
+ * * `Markdown` - Markdown * `URL` - URL * `RSS Feed` - RSS Feed * `People` - People
+ * @export
+ * @enum {string}
+ */
+
+export const WidgetTypeEnum = {
+  Markdown: "Markdown",
+  Url: "URL",
+  RssFeed: "RSS Feed",
+  People: "People",
+} as const
+
+export type WidgetTypeEnum =
+  (typeof WidgetTypeEnum)[keyof typeof WidgetTypeEnum]
 
 /**
  * CkeditorApi - axios parameter creator
@@ -2669,6 +2798,453 @@ export class UsersApi extends BaseAPI {
   public usersMeRetrieve(options?: RawAxiosRequestConfig) {
     return UsersApiFp(this.configuration)
       .usersMeRetrieve(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * WidgetListsApi - axios parameter creator
+ * @export
+ */
+export const WidgetListsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * API for managing widget lists
+     * @param {number} id A unique integer value identifying this widget list.
+     * @param {PatchedWidgetListRequest} [PatchedWidgetListRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    widgetListsPartialUpdate: async (
+      id: number,
+      PatchedWidgetListRequest?: PatchedWidgetListRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("widgetListsPartialUpdate", "id", id)
+      const localVarPath = `/api/v0/widget_lists/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedWidgetListRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * API for managing widget lists
+     * @param {number} id A unique integer value identifying this widget list.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    widgetListsRetrieve: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("widgetListsRetrieve", "id", id)
+      const localVarPath = `/api/v0/widget_lists/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * API for managing widget lists
+     * @param {number} id A unique integer value identifying this widget list.
+     * @param {WidgetListRequest} [WidgetListRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    widgetListsUpdate: async (
+      id: number,
+      WidgetListRequest?: WidgetListRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("widgetListsUpdate", "id", id)
+      const localVarPath = `/api/v0/widget_lists/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        WidgetListRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * WidgetListsApi - functional programming interface
+ * @export
+ */
+export const WidgetListsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    WidgetListsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * API for managing widget lists
+     * @param {number} id A unique integer value identifying this widget list.
+     * @param {PatchedWidgetListRequest} [PatchedWidgetListRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async widgetListsPartialUpdate(
+      id: number,
+      PatchedWidgetListRequest?: PatchedWidgetListRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WidgetList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.widgetListsPartialUpdate(
+          id,
+          PatchedWidgetListRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["WidgetListsApi.widgetListsPartialUpdate"]?.[index]
+          ?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * API for managing widget lists
+     * @param {number} id A unique integer value identifying this widget list.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async widgetListsRetrieve(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WidgetList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.widgetListsRetrieve(id, options)
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["WidgetListsApi.widgetListsRetrieve"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * API for managing widget lists
+     * @param {number} id A unique integer value identifying this widget list.
+     * @param {WidgetListRequest} [WidgetListRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async widgetListsUpdate(
+      id: number,
+      WidgetListRequest?: WidgetListRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WidgetList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.widgetListsUpdate(
+          id,
+          WidgetListRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["WidgetListsApi.widgetListsUpdate"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * WidgetListsApi - factory interface
+ * @export
+ */
+export const WidgetListsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = WidgetListsApiFp(configuration)
+  return {
+    /**
+     * API for managing widget lists
+     * @param {WidgetListsApiWidgetListsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    widgetListsPartialUpdate(
+      requestParameters: WidgetListsApiWidgetListsPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<WidgetList> {
+      return localVarFp
+        .widgetListsPartialUpdate(
+          requestParameters.id,
+          requestParameters.PatchedWidgetListRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * API for managing widget lists
+     * @param {WidgetListsApiWidgetListsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    widgetListsRetrieve(
+      requestParameters: WidgetListsApiWidgetListsRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<WidgetList> {
+      return localVarFp
+        .widgetListsRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * API for managing widget lists
+     * @param {WidgetListsApiWidgetListsUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    widgetListsUpdate(
+      requestParameters: WidgetListsApiWidgetListsUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<WidgetList> {
+      return localVarFp
+        .widgetListsUpdate(
+          requestParameters.id,
+          requestParameters.WidgetListRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for widgetListsPartialUpdate operation in WidgetListsApi.
+ * @export
+ * @interface WidgetListsApiWidgetListsPartialUpdateRequest
+ */
+export interface WidgetListsApiWidgetListsPartialUpdateRequest {
+  /**
+   * A unique integer value identifying this widget list.
+   * @type {number}
+   * @memberof WidgetListsApiWidgetListsPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {PatchedWidgetListRequest}
+   * @memberof WidgetListsApiWidgetListsPartialUpdate
+   */
+  readonly PatchedWidgetListRequest?: PatchedWidgetListRequest
+}
+
+/**
+ * Request parameters for widgetListsRetrieve operation in WidgetListsApi.
+ * @export
+ * @interface WidgetListsApiWidgetListsRetrieveRequest
+ */
+export interface WidgetListsApiWidgetListsRetrieveRequest {
+  /**
+   * A unique integer value identifying this widget list.
+   * @type {number}
+   * @memberof WidgetListsApiWidgetListsRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * Request parameters for widgetListsUpdate operation in WidgetListsApi.
+ * @export
+ * @interface WidgetListsApiWidgetListsUpdateRequest
+ */
+export interface WidgetListsApiWidgetListsUpdateRequest {
+  /**
+   * A unique integer value identifying this widget list.
+   * @type {number}
+   * @memberof WidgetListsApiWidgetListsUpdate
+   */
+  readonly id: number
+
+  /**
+   *
+   * @type {WidgetListRequest}
+   * @memberof WidgetListsApiWidgetListsUpdate
+   */
+  readonly WidgetListRequest?: WidgetListRequest
+}
+
+/**
+ * WidgetListsApi - object-oriented interface
+ * @export
+ * @class WidgetListsApi
+ * @extends {BaseAPI}
+ */
+export class WidgetListsApi extends BaseAPI {
+  /**
+   * API for managing widget lists
+   * @param {WidgetListsApiWidgetListsPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WidgetListsApi
+   */
+  public widgetListsPartialUpdate(
+    requestParameters: WidgetListsApiWidgetListsPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WidgetListsApiFp(this.configuration)
+      .widgetListsPartialUpdate(
+        requestParameters.id,
+        requestParameters.PatchedWidgetListRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * API for managing widget lists
+   * @param {WidgetListsApiWidgetListsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WidgetListsApi
+   */
+  public widgetListsRetrieve(
+    requestParameters: WidgetListsApiWidgetListsRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WidgetListsApiFp(this.configuration)
+      .widgetListsRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * API for managing widget lists
+   * @param {WidgetListsApiWidgetListsUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WidgetListsApi
+   */
+  public widgetListsUpdate(
+    requestParameters: WidgetListsApiWidgetListsUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WidgetListsApiFp(this.configuration)
+      .widgetListsUpdate(
+        requestParameters.id,
+        requestParameters.WidgetListRequest,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 }

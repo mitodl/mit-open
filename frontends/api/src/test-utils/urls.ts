@@ -63,6 +63,14 @@ const articles = {
   details: (id: number) => `/api/v1/articles/${id}/`,
 }
 
+const fields = {
+  details: (fieldName: string) => `/api/v0/fields/${fieldName}/`,
+}
+
+const widgetLists = {
+  details: (id: number) => `/api/v0/widget_lists/${id}/`,
+}
+
 const programLetters = {
   details: (id: string) => `/api/v1/program_letters/${id}/`,
 }
@@ -78,4 +86,6 @@ export {
   articles,
   search,
   programLetters,
+  fields,
+  widgetLists,
 }

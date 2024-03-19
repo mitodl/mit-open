@@ -6,6 +6,9 @@ import {
   ProgramLettersApi,
   LearningResourcesSearchApi,
 } from "./generated/v1/api"
+
+import { FieldsApi, WidgetListsApi } from "./generated/v0/api"
+
 import axiosInstance from "./axios"
 
 const BASE_PATH = ""
@@ -36,6 +39,10 @@ const programLettersApi = new ProgramLettersApi(
   BASE_PATH,
   axiosInstance,
 )
+
+const fieldsApi = new FieldsApi(undefined, BASE_PATH, axiosInstance)
+const widgetListsApi = new WidgetListsApi(undefined, BASE_PATH, axiosInstance)
+
 export {
   learningResourcesApi,
   learningpathsApi,
@@ -43,4 +50,6 @@ export {
   articlesApi,
   programLettersApi,
   learningResourcesSearchApi,
+  fieldsApi,
+  widgetListsApi,
 }

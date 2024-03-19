@@ -346,6 +346,86 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: ''
+  /api/v0/widget_lists/{id}/:
+    get:
+      operationId: widget_lists_retrieve
+      description: API for managing widget lists
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this widget list.
+        required: true
+      tags:
+      - widget_lists
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetList'
+          description: ''
+    put:
+      operationId: widget_lists_update
+      description: API for managing widget lists
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this widget list.
+        required: true
+      tags:
+      - widget_lists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WidgetListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WidgetListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WidgetListRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetList'
+          description: ''
+    patch:
+      operationId: widget_lists_partial_update
+      description: API for managing widget lists
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this widget list.
+        required: true
+      tags:
+      - widget_lists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedWidgetListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedWidgetListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedWidgetListRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetList'
+          description: ''
 components:
   schemas:
     FeedImage:
@@ -425,6 +505,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
+          nullable: true
           description: Learning path featured in this field.
         lists:
           type: array
@@ -433,17 +514,21 @@ components:
           readOnly: true
         avatar:
           type: string
+          nullable: true
           description: Get the avatar image URL
         avatar_medium:
           type: string
+          nullable: true
           description: Get the avatar image medium URL
           readOnly: true
         avatar_small:
           type: string
+          nullable: true
           description: Get the avatar image small URL
           readOnly: true
         banner:
           type: string
+          nullable: true
           description: Get the banner image URL
         widget_list:
           type: integer
@@ -639,11 +724,22 @@ components:
           description: Learng paths in this field.
         avatar:
           type: string
+          nullable: true
           description: Get the avatar image URL
         banner:
           type: string
+          nullable: true
           description: Get the banner image URL
         about:
+          nullable: true
+    PatchedWidgetListRequest:
+      type: object
+      description: Serializer for WidgetLists
+      properties:
+        widgets:
+          type: array
+          items:
+            $ref: '#/components/schemas/WidgetInstance'
           nullable: true
     Profile:
       type: object
@@ -733,3 +829,73 @@ components:
       - id
       - profile
       - username
+    WidgetInstance:
+      type: object
+      description: WidgetInstance serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        widget_type:
+          $ref: '#/components/schemas/WidgetTypeEnum'
+        title:
+          type: string
+          maxLength: 200
+        configuration:
+          type: string
+        json:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - json
+      - title
+      - widget_type
+    WidgetList:
+      type: object
+      description: Serializer for WidgetLists
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        widgets:
+          type: array
+          items:
+            $ref: '#/components/schemas/WidgetInstance'
+          nullable: true
+        available_widgets:
+          type: array
+          items:
+            type: object
+            properties:
+              widget_type:
+                type: string
+              description:
+                type: string
+              form_spec:
+                type: object
+          readOnly: true
+      required:
+      - available_widgets
+      - id
+    WidgetListRequest:
+      type: object
+      description: Serializer for WidgetLists
+      properties:
+        widgets:
+          type: array
+          items:
+            $ref: '#/components/schemas/WidgetInstance'
+          nullable: true
+    WidgetTypeEnum:
+      enum:
+      - Markdown
+      - URL
+      - RSS Feed
+      - People
+      type: string
+      description: |-
+        * `Markdown` - Markdown
+        * `URL` - URL
+        * `RSS Feed` - RSS Feed
+        * `People` - People

@@ -104,6 +104,9 @@ export type { FormLabelProps } from "@mui/material/FormLabel"
 export { default as Pagination } from "@mui/material/Pagination"
 export type { PaginationProps } from "@mui/material/Pagination"
 
+export { default as Menu } from "@mui/material/Menu"
+export { default as MenuItem } from "@mui/material/MenuItem"
+
 export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"
 export * from "./components/ButtonLink/ButtonLink"
