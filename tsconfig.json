@@ -15,6 +15,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "preserveWatchOutput": true
+    "preserveWatchOutput": true,
+    "types": ["node", "jest", "@testing-library/jest-dom"]
   }
 }
