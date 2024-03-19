@@ -370,12 +370,11 @@ def test_get_resource_learning_paths(user_client, user, is_editor):
         factories.LearningPathRelationshipFactory.create_batch(
             3, child=course.learning_resource
         ),
-        key=lambda item: item.position,
+        key=lambda item: item.id,
     )
     resp = user_client.get(
         reverse("lr:v1:courses_api-detail", args=[course.learning_resource.id])
     )
-
     expected = (
         [
             {
@@ -388,5 +387,7 @@ def test_get_resource_learning_paths(user_client, user, is_editor):
         if is_editor
         else []
     )
-
-    assert resp.data.get("learning_path_parents") == expected
+    response_data = sorted(
+        resp.data.get("learning_path_parents"), key=lambda item: item["id"]
+    )
+    assert response_data == expected
