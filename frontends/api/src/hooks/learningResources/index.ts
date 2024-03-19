@@ -185,12 +185,9 @@ const useLearningpathRelationshipDestroy = () => {
         },
       )
     },
-    onSettled: (response, _err, vars) => {
+    onSettled: (_response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.child)
-      queryClient.invalidateQueries(
-        learningResources.learningpaths._ctx.detail(vars.parent)._ctx
-          .infiniteItems._def,
-      )
+      invalidateResourceQueries(queryClient, vars.parent)
     },
   })
 }

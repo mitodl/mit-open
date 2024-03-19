@@ -303,7 +303,6 @@ describe("LearningPath CRUD", () => {
     setMockResponse.delete(url, null)
     const { wrapper, queryClient } = setupReactQueryTest()
     queryClient.setQueryData(keys.childResource, relationship.resource)
-    jest.spyOn(queryClient, "invalidateQueries")
     const { result } = renderHook(useLearningpathRelationshipDestroy, {
       wrapper,
     })
@@ -312,12 +311,13 @@ describe("LearningPath CRUD", () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true))
 
     expect(makeRequest).toHaveBeenCalledWith("delete", url, undefined)
-    expect(queryClient.invalidateQueries).toHaveBeenCalledWith(
-      keys.relationshipListing,
-    )
     expect(invalidateResourceQueries).toHaveBeenCalledWith(
       queryClient,
       relationship.child,
+    )
+    expect(invalidateResourceQueries).toHaveBeenCalledWith(
+      queryClient,
+      relationship.parent,
     )
 
     // Patched existing resource
