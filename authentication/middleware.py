@@ -37,7 +37,9 @@ class SocialAuthExceptionRedirectMiddleware(SocialAuthExceptionMiddleware):
             url = self.get_redirect_uri(request, exception)
 
             if url:
-                url += ("?" in url and "&" or "?") + f"message={quote(message)}&backend={backend_name}"
+                url += (
+                    "?" in url and "&" or "?"
+                ) + f"message={quote(message)}&backend={backend_name}"
                 return redirect(url)
             return None
         return None

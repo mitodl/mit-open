@@ -41,5 +41,6 @@ class Command(BaseCommand):
                 )
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
-                f"Population of user favorites list finished, took {total_seconds} seconds"
+                "Population of user favorites list finished, "
+                f"took {total_seconds} seconds"
             )

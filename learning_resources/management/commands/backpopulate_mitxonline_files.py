@@ -34,5 +34,6 @@ class Command(BaseCommand):
         task.get()
         total_seconds = (now_in_utc() - start).total_seconds()
         self.stdout.write(
-            f"Population of MITX Online file data finished, took {total_seconds} seconds"
+            "Population of MITX Online file data finished, "
+            f"took {total_seconds} seconds"
         )
