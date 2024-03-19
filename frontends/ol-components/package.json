@@ -1,6 +1,6 @@
 {
   "name": "ol-components",
-  "packageManager": "yarn@3.7.0",
+  "packageManager": "yarn@3.8.1",
   "exports": {
     ".": "./src/index.ts",
     "./deprecated": "./src/components/deprecated/index.ts"

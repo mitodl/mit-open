@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "packageManager": "yarn@3.7.0",
+  "packageManager": "yarn@3.8.1",
   "sideEffects": false,
   "exports": {
     ".": "./src/generated/api.ts",
