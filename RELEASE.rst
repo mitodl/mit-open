@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.5.1
+Version 0.5.1 (Released March 19, 2024)
 -------------
 
 - Add a Search Page (#618)
