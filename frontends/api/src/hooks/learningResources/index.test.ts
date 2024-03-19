@@ -273,7 +273,6 @@ describe("LearningPath CRUD", () => {
     setMockResponse.post(url, relationship)
 
     const { wrapper, queryClient } = setupReactQueryTest()
-    jest.spyOn(queryClient, "invalidateQueries")
     const { result } = renderHook(useLearningpathRelationshipCreate, {
       wrapper,
     })
@@ -281,12 +280,14 @@ describe("LearningPath CRUD", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true))
     expect(makeRequest).toHaveBeenCalledWith("post", url, requestData)
-    expect(queryClient.invalidateQueries).toHaveBeenCalledWith(
-      keys.relationshipListing,
-    )
+
     expect(invalidateResourceQueries).toHaveBeenCalledWith(
       queryClient,
       relationship.child,
+    )
+    expect(invalidateResourceQueries).toHaveBeenCalledWith(
+      queryClient,
+      relationship.parent,
     )
 
     // Check patches cached result
