@@ -1,4 +1,5 @@
 """Tests for learning_resources_search plugins"""
+
 from types import SimpleNamespace
 
 import pytest

@@ -1,6 +1,7 @@
 """
 URL Configuration for schema & documentation views
 """
+
 from django.urls import path
 from drf_spectacular.views import (
     SpectacularAPIView,

@@ -1,5 +1,6 @@
 # pylint: disable=too-many-arguments,redefined-outer-name
 """Tests for profile permissions"""
+
 import pytest
 
 from main.factories import UserFactory

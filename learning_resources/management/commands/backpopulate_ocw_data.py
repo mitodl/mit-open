@@ -1,4 +1,5 @@
 """Management command for populating ocw course data"""
+
 from django.conf import settings
 from django.core.management import BaseCommand
 

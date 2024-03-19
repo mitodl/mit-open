@@ -1,4 +1,5 @@
 """Filters for learning_resources API"""
+
 import logging
 
 from django.db.models import Q, QuerySet

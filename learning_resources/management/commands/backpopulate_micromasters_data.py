@@ -42,9 +42,8 @@ class Command(BaseCommand):
             count = task.get()
             total_seconds = (now_in_utc() - start).total_seconds()
             self.stdout.write(
-                "Population of micromasters data finished, took {} seconds".format(
-                    total_seconds
-                )
+                "Population of micromasters data finished, "
+                f"took {total_seconds} seconds"
             )
             self.stdout.write(
                 f"Populated {count} resources. See celery logs for details."

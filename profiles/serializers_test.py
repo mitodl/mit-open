@@ -2,6 +2,7 @@
 """
 Tests for serializers for profiles REST APIS
 """
+
 import factory
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile

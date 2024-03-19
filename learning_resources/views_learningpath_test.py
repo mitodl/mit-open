@@ -1,4 +1,5 @@
 """Tests for learning_resources LearningPath views"""
+
 from types import SimpleNamespace
 
 import pytest

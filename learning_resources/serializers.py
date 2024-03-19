@@ -1,4 +1,5 @@
 """Serializers for learning_resources"""
+
 import logging
 from uuid import uuid4
 

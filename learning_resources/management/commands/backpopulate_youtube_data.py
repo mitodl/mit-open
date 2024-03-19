@@ -1,4 +1,5 @@
 """Management command for populating youtube course data"""
+
 from datetime import datetime
 
 import pytz

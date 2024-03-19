@@ -12,7 +12,7 @@
     "vscode": {
       // Extensions you want in all containers can also be set in the
       // User Settings `Dev Containers: Default Extensions` field.
-      "extensions": ["ms-python.python"]
+      "extensions": ["ms-python.python", "charliermarsh.ruff"]
     }
   }
 
