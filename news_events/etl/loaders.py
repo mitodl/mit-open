@@ -9,7 +9,6 @@ from news_events.models import (
     FeedItem,
     FeedNewsDetail,
     FeedSource,
-    FeedTopic,
 )
 
 log = logging.getLogger(__name__)
@@ -51,29 +50,6 @@ def load_event_detail(item: FeedItem, item_details: dict) -> FeedEventDetail:
     return detail
 
 
-def load_topics(item: FeedItem, topics_data: list[dict]) -> list[FeedTopic]:
-    """
-    Load feed item topics
-
-    Args:
-        item (FeedItem): The feed item to load the news detail for
-        topics_data (list): list of topic dicts
-
-    Returns:
-        list of FeedTopic: topic objects
-    """
-    topics = [
-        FeedTopic.objects.update_or_create(
-            url=topic_data.get("url"),
-            code=topic_data.get("code"),
-            name=topic_data.get("name"),
-        )[0]
-        for topic_data in topics_data
-    ]
-    item.topics.set(topics)
-    return topics
-
-
 def load_image(item: FeedItem or FeedSource, image_data: dict) -> FeedImage:
     """
     Load news/events image
@@ -111,7 +87,6 @@ def load_feed_item(source: FeedSource, item_data: dict) -> FeedItem:
     if item_data is None:
         return None
 
-    topics_data = item_data.pop("topics", [])
     image_data = item_data.pop("image", None)
     item_details = item_data.pop("detail", None)
 
@@ -132,7 +107,6 @@ def load_feed_item(source: FeedSource, item_data: dict) -> FeedItem:
     elif source.feed_type == FeedType.events.name:
         load_event_detail(item, item_details)
 
-    load_topics(item, topics_data)
     load_image(item, image_data)
 
     if image_data:

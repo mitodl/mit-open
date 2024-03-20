@@ -29,15 +29,7 @@ def transform_topics(tags: list) -> list[dict]:
     Returns:
         list: list of topic data dicts
     """
-    return [
-        {
-            "url": "",
-            "code": tag.get("term"),
-            "name": tag.get("term").replace("-", " ").title(),
-        }
-        for tag in tags
-        if tag.get("term")
-    ]
+    return sorted([tag.get("term") for tag in tags if tag.get("term")])
 
 
 def transform_items(items_data: list[dict]) -> list[dict]:
@@ -64,8 +56,8 @@ def transform_items(items_data: list[dict]) -> list[dict]:
                 "authors": [
                     author["name"] for author in item.get("authors", []) if author
                 ],
+                "topics": transform_topics(item.get("tags", [])),
             },
-            "topics": transform_topics(item.get("tags", [])),
         }
         for item in items_data
     ]

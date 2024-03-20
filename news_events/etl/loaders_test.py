@@ -34,14 +34,15 @@ def test_load_feed_sources(sources_data, feed_type):
                 )
             else:
                 assert item.image is None
-            assert item.topics.count() == len(
-                original_data[source_idx]["items"][item_idx]["topics"]
-            )
             if is_news:
                 assert (
                     item.news_details.authors
                     == original_data[source_idx]["items"][item_idx]["detail"]["authors"]
                 )
+                assert len(item.news_details.topics) == len(
+                    original_data[source_idx]["items"][item_idx]["detail"]["topics"]
+                )
+                assert len(item.news_details.topics) > 0
             else:
                 for attr in ("location", "audience", "event_type"):
                     assert (

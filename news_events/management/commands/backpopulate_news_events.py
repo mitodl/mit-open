@@ -3,7 +3,7 @@
 from django.core.management import BaseCommand
 
 from news_events.etl import pipelines
-from news_events.models import FeedImage, FeedSource, FeedTopic
+from news_events.models import FeedImage, FeedSource
 
 
 class Command(BaseCommand):
@@ -41,7 +41,6 @@ class Command(BaseCommand):
             self.stdout.write("Deleting all existing MIT news/events sources and items")
             FeedSource.objects.all().delete()
             FeedImage.objects.all().delete()
-            FeedTopic.objects.all().delete()
             self.stdout.write("All MIT news/events sources and items have been deleted")
         else:
             for etl_func in etl_funcs:

@@ -61,12 +61,14 @@ def test_transform_items(mocker, medium_mit_rss_data):
         "content": "<h4>Celebrating Women\u2019s History Month with MIT women\u2019s truncated</h4>",
         "item_date": "2024-03-15T13:42:36Z",
         "image": None,
-        "detail": {"authors": ["MIT Open Learning"]},
-        "topics": [
-            {"url": "", "code": "womens-history-month", "name": "Womens History Month"},
-            {"url": "", "code": "mit", "name": "Mit"},
-            {"url": "", "code": "education", "name": "Education"},
-            {"url": "", "code": "ol-news", "name": "Ol News"},
-            {"url": "", "code": "online-learning", "name": "Online Learning"},
-        ],
+        "detail": {
+            "authors": ["MIT Open Learning"],
+            "topics": [
+                "education",
+                "mit",
+                "ol-news",
+                "online-learning",
+                "womens-history-month",
+            ],
+        },
     }

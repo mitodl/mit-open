@@ -27,22 +27,12 @@ class FeedSource(TimestampedModel):
     feed_type = models.CharField(
         max_length=255,
         choices=((member.name, member.value) for member in FeedType),
+        db_index=True,
     )
     image = models.ForeignKey(FeedImage, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f"{self.title} - {self.url}"
-
-
-class FeedTopic(TimestampedModel):
-    """Represent a topic for a feed item"""
-
-    code = models.CharField(max_length=128)
-    name = models.CharField(max_length=255)
-    url = models.URLField(blank=True)
-
-    def __str__(self):
-        return self.name
 
 
 class FeedItem(TimestampedModel):
@@ -57,7 +47,6 @@ class FeedItem(TimestampedModel):
     summary = models.TextField(blank=True)
     content = models.TextField(blank=True)
     item_date = models.DateTimeField()
-    topics = models.ManyToManyField(FeedTopic, blank=True)
     image = models.ForeignKey(FeedImage, on_delete=models.SET_NULL, null=True)
 
     prefetches = [
@@ -91,3 +80,4 @@ class FeedNewsDetail(TimestampedModel):
         FeedItem, on_delete=models.CASCADE, related_name="news_details"
     )
     authors = ArrayField(models.CharField(max_length=255), blank=True)
+    topics = ArrayField(models.CharField(max_length=255), blank=True)

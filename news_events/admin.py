@@ -44,17 +44,8 @@ class FeedEventDetailAdmin(admin.ModelAdmin):
     list_display = ("feed_item_id", "location", "audience", "event_type")
 
 
-class FeedTopicAdmin(admin.ModelAdmin):
-    """FeedTopic Admin"""
-
-    model = models.FeedTopic
-    search_fields = ("name", "code")
-    list_display = ("name", "code")
-
-
 admin.site.register(models.FeedSource, FeedSourceAdmin)
 admin.site.register(models.FeedItem, FeedItemAdmin)
-admin.site.register(models.FeedTopic, FeedTopicAdmin)
 admin.site.register(models.FeedImage, FeedImageAdmin)
 admin.site.register(models.FeedNewsDetail, FeedNewsDetailAdmin)
 admin.site.register(models.FeedEventDetail, FeedEventDetailAdmin)

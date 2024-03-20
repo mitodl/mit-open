@@ -33,7 +33,10 @@ def ol_events_html_data():
 @pytest.fixture()
 def sources_data() -> SimpleNamespace:
     """Return a list of sources"""
-    news_details = {"authors": ["MIT Open Learning"]}
+    news_details = {
+        "authors": ["MIT Open Learning"],
+        "topics": ["mit", "online-learning"],
+    }
     event_details = {
         "location": ["Online"],
         "audience": ["Faculty", "MIT Community", "Public", "Students"],
@@ -63,14 +66,6 @@ def sources_data() -> SimpleNamespace:
                         "detail": news_details
                         if feed_type == FeedType.news.name
                         else event_details,
-                        "topics": [
-                            {"url": "", "code": "mit", "name": "Mit"},
-                            {
-                                "url": "",
-                                "code": "online-learning",
-                                "name": "Online Learning",
-                            },
-                        ],
                     },
                     {
                         "guid": "https://medium.com/p/b9508faf3144",
@@ -87,12 +82,6 @@ def sources_data() -> SimpleNamespace:
                         "detail": news_details
                         if feed_type == FeedType.news.name
                         else event_details,
-                        "topics": [
-                            {"url": "", "code": "technology", "name": "Technology"},
-                            {"url": "", "code": "science", "name": "Science"},
-                            {"url": "", "code": "education", "name": "Education"},
-                            {"url": "", "code": "ol-news", "name": "Ol News"},
-                        ],
                     },
                 ],
             },
@@ -113,14 +102,6 @@ def sources_data() -> SimpleNamespace:
                         "detail": news_details
                         if feed_type == FeedType.news.name
                         else event_details,
-                        "topics": [
-                            {"url": "", "code": "mit", "name": "Mit"},
-                            {
-                                "url": "",
-                                "code": "online-learning",
-                                "name": "Online Learning",
-                            },
-                        ],
                     },
                 ],
             },

@@ -10,19 +10,6 @@ from news_events import models
 from news_events.constants import FeedType
 
 
-def _post_gen_topics(obj, create, extracted, **kwargs):  # noqa: ARG001
-    """PostGeneration function for topics"""
-    if not create:
-        return
-
-    if extracted is None:
-        extracted = FeedTopicFactory.create_batch(
-            random.randint(1, 5)  # noqa: S311
-        )
-
-    obj.topics.set(extracted)
-
-
 class FeedSourceFactory(factory.django.DjangoModelFactory):
     """Factory for FeedSource model"""
 
@@ -37,17 +24,6 @@ class FeedSourceFactory(factory.django.DjangoModelFactory):
     class Params:
         is_news_type = factory.Trait(feed_type=FeedType.news.name)
         is_events_type = factory.Trait(feed_type=FeedType.events.name)
-
-
-class FeedTopicFactory(factory.django.DjangoModelFactory):
-    """Factory for topics"""
-
-    code = factory.Faker("word")
-    name = factory.Faker("word")
-    url = factory.Faker("url")
-
-    class Meta:
-        model = models.FeedTopic
 
 
 class FeedImageFactory(factory.django.DjangoModelFactory):
@@ -71,7 +47,6 @@ class FeedItemFactory(factory.django.DjangoModelFactory):
     summary = factory.Faker("paragraph")
     content = factory.Faker("paragraph")
     item_date = factory.Faker("date_time", tzinfo=pytz.utc)
-    topics = factory.PostGeneration(_post_gen_topics)
     image = factory.SubFactory(FeedImageFactory)
 
     news_detail = factory.Maybe(
@@ -109,7 +84,8 @@ class FeedNewsDetailFactory(factory.django.DjangoModelFactory):
     feed_item = factory.SubFactory(
         FeedItemFactory, is_news=True, create_news_detail=False
     )
-    authors = factory.List([{"name": factory.Faker("name")}])
+    authors = factory.List([factory.Faker("word")])
+    topics = factory.List([factory.Faker("word")])
 
     class Meta:
         model = models.FeedNewsDetail
