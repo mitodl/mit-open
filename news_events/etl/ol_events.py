@@ -106,7 +106,29 @@ def transform_event_content(event_page_data: Soup) -> str:
         str: The event element text
 
     """
-    return event_page_data.find("div", class_="field--name-body").text.strip()
+    return tag_text(event_page_data.find("div", class_="field--name-body"))
+
+
+def transform_event_image(event_data: Soup) -> dict:
+    """
+    Get the image url for the Open Learning Event.
+
+    Args:
+        event_data (Soup): The event data BeautifulSoup object
+
+    Returns:
+        dict: The event image url
+    """
+    image_div = event_data.find("div", class_="field--name-field-event-image")
+    if image_div:
+        img = image_div.find("img")
+        if img:
+            return {
+                "url": urljoin(OL_EVENTS_BASE_URL, img.attrs["src"]),
+                "alt": img.attrs["alt"],
+                "description": img.attrs["alt"],
+            }
+    return None
 
 
 def transform_event(event_data: Soup, event_page_data: Soup) -> dict:
@@ -125,6 +147,7 @@ def transform_event(event_data: Soup, event_page_data: Soup) -> dict:
         "url": urljoin(OL_EVENTS_BASE_URL, event_data.find("a").attrs["href"]),
         "title": tag_text(event_data.find("h4")),
         "item_date": parse_event_date(event_data, event_page_data),
+        "image": transform_event_image(event_data),
         "summary": tag_text(
             event_page_data.find("div", class_="field--type-text-with-summary")
         ),

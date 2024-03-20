@@ -84,7 +84,7 @@ def test_parse_event_date(item_html, page_html, expected):
     ("html", "expected"),
     [
         ('<div class="field--name-body">Faculty</div>', "Faculty"),
-        ('<div class="field--name-headder">MIT Community</div>', "MIT Community"),
+        ('<div class="field--name-header">MIT Community</div>', None),
     ],
 )
 def test_transform_event_content(html, expected):

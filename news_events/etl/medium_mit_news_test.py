@@ -36,6 +36,11 @@ def test_transform(mocker, medium_mit_rss_data):
         "url": medium_mit_news.MEDIUM_MIT_NEWS_URLS[0],
         "feed_type": FeedType.news.name,
         "description": feed_source["description"],
+        "image": {
+            "url": feed_source["image"]["url"],
+            "description": feed_source["image"]["title"],
+            "alt": feed_source["image"]["title"],
+        },
     }
     for idx, item in enumerate(items):
         assert item["title"] == feed_items[idx]["title"]

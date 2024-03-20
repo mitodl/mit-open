@@ -71,6 +71,23 @@ def transform_items(items_data: list[dict]) -> list[dict]:
     ]
 
 
+def transform_image(image_data: dict) -> dict:
+    """
+    Transform the image from the MIT News RSS feed.
+
+    Args:
+        image_data (dict): image data
+
+    Returns:
+        dict: transformed image data
+    """
+    return {
+        "url": image_data.get("url"),
+        "description": image_data.get("title"),
+        "alt": image_data.get("title"),
+    }
+
+
 def transform(sources_data: list[tuple[dict, str]]) -> list[dict]:
     """
     Transform the data from the MIT News RSS feed.
@@ -89,6 +106,7 @@ def transform(sources_data: list[tuple[dict, str]]) -> list[dict]:
             "feed_type": FeedType.news.name,
             "description": source_data["feed"].get("subtitle", ""),
             "items": transform_items(source_data["entries"]),
+            "image": transform_image(source_data["feed"].get("image", {})),
         }
         for (source_data, url) in sources_data
     ]

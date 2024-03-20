@@ -74,12 +74,12 @@ def load_topics(item: FeedItem, topics_data: list[dict]) -> list[FeedTopic]:
     return topics
 
 
-def load_image(item: FeedItem, image_data: dict) -> FeedImage:
+def load_image(item: FeedItem or FeedSource, image_data: dict) -> FeedImage:
     """
     Load news/events image
 
     Args:
-        item (FeedItem): The feed item to load the image for
+        item (FeedItem or FeedSource): The feed item/source to load the image for
         image_data (dict): The image data
 
     Returns:
@@ -163,7 +163,8 @@ def load_feed_source(feed_type: str, source_data: dict) -> FeedSource:
     if source_data is None:
         return None
 
-    items_data = source_data.pop("items")
+    items_data = source_data.pop("items", None)
+    image_data = source_data.pop("image", None)
 
     source, _ = FeedSource.objects.update_or_create(
         feed_type=feed_type,
@@ -173,6 +174,7 @@ def load_feed_source(feed_type: str, source_data: dict) -> FeedSource:
             "title": source_data.get("title"),
         },
     )
+    load_image(source, image_data)
 
     for item_data in items_data:
         try:

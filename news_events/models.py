@@ -7,30 +7,8 @@ from main.models import TimestampedModel
 from news_events.constants import FeedType
 
 
-class FeedSource(TimestampedModel):
-    title = models.CharField(max_length=255)
-    url = models.URLField()
-    description = models.TextField(blank=True)
-    feed_type = models.CharField(
-        max_length=255,
-        choices=((member.name, member.value) for member in FeedType),
-    )
-
-    def __str__(self):
-        return f"{self.title} - {self.url}"
-
-
-class FeedTopic(TimestampedModel):
-    code = models.CharField(max_length=128)
-    name = models.CharField(max_length=255)
-    url = models.URLField(blank=True)
-
-    def __str__(self):
-        return self.name
-
-
 class FeedImage(TimestampedModel):
-    """Represent image metadata for a learning resource"""
+    """Represent image metadata for a feed source or item"""
 
     url = models.TextField(max_length=2048, blank=True)
     description = models.CharField(max_length=1024, blank=True)
@@ -40,7 +18,36 @@ class FeedImage(TimestampedModel):
         return self.url
 
 
+class FeedSource(TimestampedModel):
+    """Represent a feed source for news or events."""
+
+    title = models.CharField(max_length=255)
+    url = models.URLField()
+    description = models.TextField(blank=True)
+    feed_type = models.CharField(
+        max_length=255,
+        choices=((member.name, member.value) for member in FeedType),
+    )
+    image = models.ForeignKey(FeedImage, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"{self.title} - {self.url}"
+
+
+class FeedTopic(TimestampedModel):
+    """Represent a topic for a feed item"""
+
+    code = models.CharField(max_length=128)
+    name = models.CharField(max_length=255)
+    url = models.URLField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class FeedItem(TimestampedModel):
+    """Represent a news/event item from a feed source."""
+
     guid = models.CharField(max_length=128, unique=True)
     source = models.ForeignKey(
         FeedSource, on_delete=models.CASCADE, related_name="feed_items"
@@ -51,7 +58,7 @@ class FeedItem(TimestampedModel):
     content = models.TextField(blank=True)
     item_date = models.DateTimeField()
     topics = models.ManyToManyField(FeedTopic, blank=True)
-    image = models.ForeignKey(FeedImage, on_delete=models.CASCADE, null=True)
+    image = models.ForeignKey(FeedImage, on_delete=models.SET_NULL, null=True)
 
     prefetches = [
         "topics",
@@ -67,6 +74,8 @@ class FeedItem(TimestampedModel):
 
 
 class FeedEventDetail(TimestampedModel):
+    """Represent event details for a feed item."""
+
     feed_item = models.OneToOneField(
         FeedItem, on_delete=models.CASCADE, related_name="event_details"
     )
@@ -76,6 +85,8 @@ class FeedEventDetail(TimestampedModel):
 
 
 class FeedNewsDetail(TimestampedModel):
+    """Represent news details for a feed item."""
+
     feed_item = models.OneToOneField(
         FeedItem, on_delete=models.CASCADE, related_name="news_details"
     )
