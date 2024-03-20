@@ -5,24 +5,8 @@ from django.contrib import admin
 from news_events import models
 
 
-class FeedEventDetailInline(admin.TabularInline):
-    """FeedEventDetail Inline Admin"""
-
-    model = models.FeedEventDetail
-    extra = 0
-    show_change_link = False
-
-
-class FeedNewsDetailInline(admin.TabularInline):
-    """FeedEventDetail Inline Admin"""
-
-    model = models.FeedNewsDetail
-    extra = 0
-    show_change_link = False
-
-
 class FeedImageAdmin(admin.ModelAdmin):
-    """FeedImage Inline Admin"""
+    """FeedImage Admin"""
 
     model = models.FeedImage
     search_fields = ("url", "description", "alt")
