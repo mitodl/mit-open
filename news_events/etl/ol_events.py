@@ -4,9 +4,9 @@ import logging
 from urllib.parse import urljoin
 
 import pytz
-import requests
 from bs4 import BeautifulSoup as Soup
 from dateutil import parser
+from requests import HTTPError
 
 from main.constants import ISOFORMAT
 from news_events.constants import FeedType
@@ -26,7 +26,7 @@ def extract() -> list[tuple[Soup, str]]:
     for url in OL_EVENTS_URLS:
         try:
             soup = get_soup(urljoin(OL_EVENTS_BASE_URL, url))
-        except requests.exceptions.HTTPError:
+        except HTTPError:
             log.exception("Error fetching source url %s", url)
             continue
         sources.append((soup, url))
