@@ -10,12 +10,25 @@ MEDIUM_MIT_NEWS_URLS = ["https://medium.com/feed/open-learning"]
 
 
 def extract() -> list[tuple[dict, str]]:
-    """Extract data from the MIT News RSS feed."""
+    """
+    Extract data from the MIT News RSS feed.
+
+    Returns:
+        list[tuple[dict, str]]: List of source data and url tuples.
+    """
     return [(feedparser.parse(url), url) for url in MEDIUM_MIT_NEWS_URLS]
 
 
-def transform_topics(tags: list) -> list:
-    """Transform the topics from the MIT News RSS feed."""
+def transform_topics(tags: list) -> list[dict]:
+    """
+    Transform the topics from the MIT News RSS feed.
+
+    Args:
+        tags (list): list of tags
+
+    Returns:
+        list: list of topic data dicts
+    """
     return [
         {
             "url": "",
@@ -27,8 +40,16 @@ def transform_topics(tags: list) -> list:
     ]
 
 
-def transform_items(items_data: list) -> list:
-    """Transform the items from the MIT News RSS feed."""
+def transform_items(items_data: list[dict]) -> list[dict]:
+    """
+    Transform the items from the MIT News RSS feed.
+
+    Args:
+        items_data (list): list of extracted items
+
+    Returns:
+        list of dict: list of transformed items
+    """
     return [
         {
             "guid": item.get("id"),
@@ -51,7 +72,16 @@ def transform_items(items_data: list) -> list:
 
 
 def transform(sources_data: list[tuple[dict, str]]) -> list[dict]:
-    """Transform the data from the MIT News RSS feed."""
+    """
+    Transform the data from the MIT News RSS feed.
+
+    Args:
+        sources_data (list of tuples): list of extracted data and source url tuples
+
+    Returns:
+        list of dict: list of transformed sources data
+
+    """
     return [
         {
             "title": source_data["feed"].get("title", ""),

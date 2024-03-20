@@ -15,9 +15,17 @@ from news_events.models import (
 log = logging.getLogger(__name__)
 
 
-def load_news_detail(item, item_details):
+def load_news_detail(item: FeedItem, item_details: dict) -> FeedNewsDetail:
     """
     Load news detail
+
+    Args:
+        item (FeedItem): The feed item to load the news detail for
+        item_details (dict): News detail attributes
+
+    Returns:
+        FeedNewsDetail: news detail object
+
     """
     detail, _ = FeedNewsDetail.objects.update_or_create(
         feed_item=item, defaults={**item_details}
@@ -25,9 +33,17 @@ def load_news_detail(item, item_details):
     return detail
 
 
-def load_event_detail(item, item_details):
+def load_event_detail(item: FeedItem, item_details: dict) -> FeedEventDetail:
     """
-    Load news item
+    Load event detail
+
+    Args:
+        item (FeedItem): The feed item to load the news detail for
+        item_details (dict): The event detail attributes
+
+    Returns:
+        FeedEventDetail: event detail object
+
     """
     detail, _ = FeedEventDetail.objects.update_or_create(
         feed_item=item, defaults={**item_details}
@@ -35,9 +51,16 @@ def load_event_detail(item, item_details):
     return detail
 
 
-def load_topics(item, topics_data):
+def load_topics(item: FeedItem, topics_data: list[dict]) -> list[FeedTopic]:
     """
-    Load news/event topics
+    Load feed item topics
+
+    Args:
+        item (FeedItem): The feed item to load the news detail for
+        topics_data (list): list of topic dicts
+
+    Returns:
+        list of FeedTopic: topic objects
     """
     topics = [
         FeedTopic.objects.update_or_create(
@@ -51,9 +74,16 @@ def load_topics(item, topics_data):
     return topics
 
 
-def load_image(item, image_data):
+def load_image(item: FeedItem, image_data: dict) -> FeedImage:
     """
     Load news/events image
+
+    Args:
+        item (FeedItem): The feed item to load the image for
+        image_data (dict): The image data
+
+    Returns:
+        FeedImage: image object
     """
     if not image_data:
         return None
@@ -67,9 +97,16 @@ def load_image(item, image_data):
     return image
 
 
-def load_feed_item(source, item_data):
+def load_feed_item(source: FeedSource, item_data: dict) -> FeedItem:
     """
     Load a feed item
+
+    Args:
+        source (FeedSource): The feed source to load the item for
+        item_data (dict): The feed item data
+
+    Returns:
+        FeedItem: Feed news/event item for the source
     """
     if item_data is None:
         return None
@@ -112,9 +149,16 @@ def load_feed_item(source, item_data):
     return item
 
 
-def load_feed_source(feed_type: str, source_data: dict):
+def load_feed_source(feed_type: str, source_data: dict) -> FeedSource:
     """
     Load a feed source
+
+    Args:
+        feed_type (str): The type of feed source (news/events)
+        source_data (dict): The feed source data
+
+    Returns:
+        FeedSource: Feed news/event source object
     """
     if source_data is None:
         return None
@@ -140,9 +184,16 @@ def load_feed_source(feed_type: str, source_data: dict):
     return source
 
 
-def load_feed_sources(feed_type: str, sources_data: list[dict]):
+def load_feed_sources(feed_type: str, sources_data: list[dict]) -> list[FeedSource]:
     """
     Load feed sources for a given feed type
+
+    Args:
+        feed_type (str): The type of feed source (news/events)
+        sources_data (list of dict): The feed sources data
+
+    Returns:
+        list of FeedSource: Feed news/event source objects
     """
     sources_list = list(sources_data or [])
 

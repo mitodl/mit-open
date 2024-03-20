@@ -13,19 +13,44 @@ from main.constants import ISOFORMAT
 
 
 def get_soup(url: str) -> Soup:
-    """Get a BeautifulSoup object from a URL."""
+    """
+    Get a BeautifulSoup object from a URL.
+
+    Args:
+        url (str): The URL to fetch
+
+    Returns:
+        Soup: The BeautifulSoup object extracted from the URL
+
+    """
     response = requests.get(url, timeout=settings.REQUESTS_TIMEOUT)
     response.raise_for_status()
     return Soup(response.content, features="lxml")
 
 
 def tag_text(tag: Tag) -> str:
-    """Get the text from a BeautifulSoup tag."""
+    """
+    Get the text from a BeautifulSoup tag.
+
+    Args:
+        tag (Tag): The BeautifulSoup tag
+
+    Returns:
+        str: The tag text
+    """
     return tag.text.strip() if tag and tag.text else None
 
 
 def safe_html(tag: Tag) -> str:
-    """Get safe html from a BeautifulSoup tag, with no styles, classes, etc"""
+    """
+    Get safe html from a BeautifulSoup tag, with no styles, classes, etc
+
+    Args:
+        tag (Tag): The BeautifulSoup tag
+
+    Returns:
+        str: The html as a string with certain elements/attributes removed
+    """
     if tag:
         [element.decompose() for element in tag.findAll(["script", "style"])]
         children = tag.find_all(recursive=True)
@@ -37,7 +62,15 @@ def safe_html(tag: Tag) -> str:
 
 
 def stringify_time_struct(time_struct: struct_time) -> str:
-    """Transform a struct_time object into an ISO formatted date string"""
+    """
+    Transform a struct_time object into an ISO formatted date string
+
+    Args:
+        time_struct (struct_time): The time struct object
+
+    Returns:
+        str: The ISO formatted date string in UTC timezone
+    """
     min_year = 100
     if time_struct:
         dt = datetime.fromtimestamp(mktime(time_struct), tz=UTC)
