@@ -3,6 +3,7 @@
 from types import SimpleNamespace
 
 import pytest
+from django.utils.http import urlencode
 
 from learning_resources.constants import (
     LEARNING_RESOURCE_SORTBY_OPTIONS,
@@ -20,15 +21,23 @@ from learning_resources.factories import (
     LearningResourceOfferorFactory,
     LearningResourcePlatformFactory,
     LearningResourceRunFactory,
+    PodcastEpisodeFactory,
     PodcastFactory,
     ProgramFactory,
+    VideoFactory,
+    VideoPlaylistFactory,
 )
 from learning_resources.models import ContentFile, LearningResourceRun
 
 pytestmark = pytest.mark.django_db
 
 RESOURCE_API_URL = "/api/v1/learning_resources/"
+COURSE_API_URL = "/api/v1/courses/"
+PODCAST_API_URL = "/api/v1/podcasts/"
+PODCAST_EPISODE_API_URL = "/api/v1/podcast_episodes/"
+VIDEOS_API_URL = "/api/v1/videos/"
 CONTENT_API_URL = "/api/v1/contentfiles/"
+VIDEO_PLAYLISTS_API_URL = "/api/v1/video_playlists/"
 
 
 @pytest.fixture()
@@ -190,6 +199,72 @@ def test_learning_resource_filter_resource_type(client, multifilter):
     assert sorted([result["readable_id"] for result in results]) == sorted(
         [podcast.readable_id, learning_path.readable_id]
     )
+
+
+def test_learning_resource_filter_readable_id(client):
+    """Test that the resource type filter works"""
+    courses = CourseFactory.create_batch(5)
+    resource = courses[0].learning_resource
+    results = client.get(
+        f"{RESOURCE_API_URL}?{urlencode({'readable_id':resource.readable_id})}"
+    ).json()["results"]
+    assert len(results) == 1
+    assert results[0]["readable_id"] == resource.readable_id
+
+
+def test_course_filter_readable_id(client):
+    """Test that the resource type filter works"""
+    courses = CourseFactory.create_batch(5)
+    resource = courses[0].learning_resource
+    results = client.get(
+        f"{COURSE_API_URL}?{urlencode({'readable_id':resource.readable_id})}"
+    ).json()["results"]
+    assert len(results) == 1
+    assert results[0]["readable_id"] == resource.readable_id
+
+
+def test_podcast_filter_readable_id(client):
+    """Test that the resource type filter works"""
+    podcasts = PodcastFactory.create_batch(5)
+    resource = podcasts[0].learning_resource
+    results = client.get(
+        f"{PODCAST_API_URL}?{urlencode({'readable_id':resource.readable_id})}"
+    ).json()["results"]
+    assert len(results) == 1
+    assert results[0]["readable_id"] == resource.readable_id
+
+
+def test_podcast_episode_filter_readable_id(client):
+    """Test that the resource type filter works"""
+    podcast_episodes = PodcastEpisodeFactory.create_batch(5)
+    resource = podcast_episodes[0].learning_resource
+    results = client.get(
+        f"{PODCAST_EPISODE_API_URL}?{urlencode({'readable_id':resource.readable_id})}"
+    ).json()["results"]
+    assert len(results) == 1
+    assert results[0]["readable_id"] == resource.readable_id
+
+
+def test_video_filter_readable_id(client):
+    """Test that the resource type filter works"""
+    videos = VideoFactory.create_batch(5)
+    resource = videos[0].learning_resource
+    results = client.get(
+        f"{VIDEOS_API_URL}?{urlencode({'readable_id':resource.readable_id})}"
+    ).json()["results"]
+    assert len(results) == 1
+    assert results[0]["readable_id"] == resource.readable_id
+
+
+def test_video_playlist_filter_readable_id(client):
+    """Test that the resource type filter works"""
+    channels = VideoPlaylistFactory.create_batch(5)
+    resource = channels[0].learning_resource
+    results = client.get(
+        f"{VIDEO_PLAYLISTS_API_URL}?{urlencode({'readable_id':resource.readable_id})}"
+    ).json()["results"]
+    assert len(results) == 1
+    assert results[0]["readable_id"] == resource.readable_id
 
 
 @pytest.mark.parametrize("sortby", ["created_on", "readable_id", "id"])
