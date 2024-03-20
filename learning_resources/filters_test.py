@@ -202,7 +202,7 @@ def test_learning_resource_filter_resource_type(client, multifilter):
 
 
 def test_learning_resource_filter_readable_id(client):
-    """Test that the resource type filter works"""
+    """Test that the readable id filter works for learning resources"""
     courses = CourseFactory.create_batch(5)
     resource = courses[0].learning_resource
     results = client.get(
@@ -213,7 +213,7 @@ def test_learning_resource_filter_readable_id(client):
 
 
 def test_course_filter_readable_id(client):
-    """Test that the resource type filter works"""
+    """Test that the readable id filter works for courses"""
     courses = CourseFactory.create_batch(5)
     resource = courses[0].learning_resource
     results = client.get(
@@ -224,7 +224,7 @@ def test_course_filter_readable_id(client):
 
 
 def test_podcast_filter_readable_id(client):
-    """Test that the resource type filter works"""
+    """Test that the readable id filter works for video podcasts"""
     podcasts = PodcastFactory.create_batch(5)
     resource = podcasts[0].learning_resource
     results = client.get(
@@ -235,7 +235,7 @@ def test_podcast_filter_readable_id(client):
 
 
 def test_podcast_episode_filter_readable_id(client):
-    """Test that the resource type filter works"""
+    """Test that the readable id filter works for podcast episodes"""
     podcast_episodes = PodcastEpisodeFactory.create_batch(5)
     resource = podcast_episodes[0].learning_resource
     results = client.get(
@@ -246,7 +246,7 @@ def test_podcast_episode_filter_readable_id(client):
 
 
 def test_video_filter_readable_id(client):
-    """Test that the resource type filter works"""
+    """Test that the readable id filter works for videos"""
     videos = VideoFactory.create_batch(5)
     resource = videos[0].learning_resource
     results = client.get(
@@ -257,7 +257,7 @@ def test_video_filter_readable_id(client):
 
 
 def test_video_playlist_filter_readable_id(client):
-    """Test that the resource type filter works"""
+    """Test that the readable id filter works for video playlists"""
     channels = VideoPlaylistFactory.create_batch(5)
     resource = channels[0].learning_resource
     results = client.get(

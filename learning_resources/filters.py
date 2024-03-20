@@ -149,6 +149,7 @@ class LearningResourceFilter(FilterSet):
     )
 
     def filter_readable_id(self, queryset, _, value):
+        """Readable id filter for leaarning resources"""
         return multi_or_filter(queryset, "readable_id", value)
 
     def filter_level(self, queryset, _, value):
@@ -161,7 +162,7 @@ class LearningResourceFilter(FilterSet):
         return multi_or_filter(queryset, "topics__name__iexact", value)
 
     def filter_course_feature(self, queryset, _, value):
-        """Topic Filter for learning resources"""
+        """Course Filter for learning resources"""
         return multi_or_filter(queryset, "content_tags__name__iexact", value)
 
     def filter_sortby(self, queryset, _, value):
