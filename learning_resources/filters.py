@@ -132,6 +132,11 @@ class LearningResourceFilter(FilterSet):
         method="filter_course_feature",
     )
 
+    readable_id = CharInFilter(
+        label="A unique text identifier for the resources",
+        method="filter_readable_id",
+    )
+
     sortby = ChoiceFilter(
         label="Sort By",
         method="filter_sortby",
@@ -142,6 +147,9 @@ class LearningResourceFilter(FilterSet):
             ]
         ),
     )
+
+    def filter_readable_id(self, queryset, _, value):
+        return multi_or_filter(queryset, "readable_id", value)
 
     def filter_level(self, queryset, _, value):
         """Level Filter for learning resources"""
