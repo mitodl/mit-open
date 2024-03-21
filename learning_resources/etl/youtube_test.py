@@ -3,13 +3,12 @@
 # pylint: disable=redefined-outer-name
 import json
 from collections import defaultdict
-from datetime import datetime
+from datetime import UTC, datetime
 from glob import glob
 from os.path import basename
 from unittest.mock import Mock
 
 import pytest
-import pytz
 from googleapiclient.errors import HttpError
 from youtube_transcript_api import NoTranscriptFound
 
@@ -516,9 +515,7 @@ def test_get_youtube_transcripts(mocker):
 
 @pytest.mark.django_db()
 @pytest.mark.parametrize("overwrite", [True, False])
-@pytest.mark.parametrize(
-    "created_after", [datetime(2019, 10, 4, tzinfo=pytz.utc), None]
-)
+@pytest.mark.parametrize("created_after", [datetime(2019, 10, 4, tzinfo=UTC), None])
 @pytest.mark.parametrize("created_minutes", [2000, None])
 def test_get_youtube_videos_for_transcripts_job(
     overwrite, created_after, created_minutes
@@ -528,16 +525,16 @@ def test_get_youtube_videos_for_transcripts_job(
     video1 = VideoFactory.create(transcript="saved already").learning_resource
     video2 = VideoFactory.create(transcript="").learning_resource
     video3 = VideoFactory.create(transcript="saved already").learning_resource
-    video3.created_on = datetime(2019, 10, 1, tzinfo=pytz.utc)
+    video3.created_on = datetime(2019, 10, 1, tzinfo=UTC)
     video3.save()
     video4 = VideoFactory.create(transcript="").learning_resource
-    video4.created_on = datetime(2019, 10, 1, tzinfo=pytz.utc)
+    video4.created_on = datetime(2019, 10, 1, tzinfo=UTC)
     video4.save()
     video5 = VideoFactory.create(transcript="saved already").learning_resource
-    video5.created_on = datetime(2019, 10, 5, tzinfo=pytz.utc)
+    video5.created_on = datetime(2019, 10, 5, tzinfo=UTC)
     video5.save()
     video6 = VideoFactory.create(transcript="").learning_resource
-    video6.created_on = datetime(2019, 10, 5, tzinfo=pytz.utc)
+    video6.created_on = datetime(2019, 10, 5, tzinfo=UTC)
     video6.save()
 
     result = youtube.get_youtube_videos_for_transcripts_job(

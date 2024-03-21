@@ -3,10 +3,9 @@
 import json
 import logging
 import re
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
-import pytz
 import rapidjson
 import requests
 import yaml
@@ -110,7 +109,7 @@ def semester_year_to_date(semester, year):
         month_day = "06-01"
     else:
         month_day = "01-01"
-    return datetime.strptime(f"{year}-{month_day}", "%Y-%m-%d").replace(tzinfo=pytz.UTC)
+    return datetime.strptime(f"{year}-{month_day}", "%Y-%m-%d").replace(tzinfo=UTC)
 
 
 def load_course_blocklist():

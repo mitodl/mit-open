@@ -2,10 +2,9 @@
 
 import decimal
 import random
-from datetime import timedelta
+from datetime import UTC, timedelta
 
 import factory
-import pytz
 from factory import Faker
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyText
@@ -164,7 +163,7 @@ class LearningResourceFactory(DjangoModelFactory):
     full_description = factory.Faker("text")
     url = factory.Faker("url")
     languages = factory.List(random.choices(["en", "es"]))  # noqa: S311
-    last_modified = factory.Faker("date_time", tzinfo=pytz.utc)
+    last_modified = factory.Faker("date_time", tzinfo=UTC)
     image = factory.SubFactory(LearningResourceImageFactory)
     platform = factory.SubFactory(LearningResourcePlatformFactory)
     offered_by = factory.SubFactory(LearningResourceOfferorFactory)
@@ -414,7 +413,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
             constants.AvailabilityType.archived.value,
         )
     )
-    enrollment_start = factory.Faker("date_time", tzinfo=pytz.utc)
+    enrollment_start = factory.Faker("date_time", tzinfo=UTC)
     enrollment_end = factory.LazyAttribute(
         lambda obj: (
             (obj.enrollment_start + timedelta(days=45))
@@ -458,12 +457,12 @@ class LearningResourceRunFactory(DjangoModelFactory):
 
         in_past = factory.Trait(
             enrollment_start=factory.Faker(
-                "date_time_between", end_date="-270d", tzinfo=pytz.utc
+                "date_time_between", end_date="-270d", tzinfo=UTC
             )
         )
         in_future = factory.Trait(
             enrollment_start=factory.Faker(
-                "date_time_between", start_date="+15d", tzinfo=pytz.utc
+                "date_time_between", start_date="+15d", tzinfo=UTC
             )
         )
 

@@ -1,8 +1,7 @@
 """Management command for populating youtube course data"""
 
-from datetime import datetime
+from datetime import UTC, datetime
 
-import pytz
 from django.core.management import BaseCommand
 
 from learning_resources.etl.constants import ETLSource
@@ -96,7 +95,7 @@ class Command(BaseCommand):
             if created_after:
                 try:
                     created_after = datetime.strptime(created_after, ISOFORMAT).replace(
-                        tzinfo=pytz.UTC
+                        tzinfo=UTC
                     )
                 except ValueError:
                     self.stdout.write("Invalid date format")
