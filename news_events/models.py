@@ -46,16 +46,12 @@ class FeedItem(TimestampedModel):
     url = models.URLField()
     summary = models.TextField(blank=True)
     content = models.TextField(blank=True)
-    item_date = models.DateTimeField()
     image = models.ForeignKey(FeedImage, on_delete=models.SET_NULL, null=True)
 
     related_selects = ["source", "image", "news_details", "event_details"]
 
     def __str__(self):
         return f"{self.title} - {self.url}"
-
-    class Meta:
-        ordering = ["-item_date"]
 
 
 class FeedEventDetail(TimestampedModel):
@@ -67,6 +63,7 @@ class FeedEventDetail(TimestampedModel):
     audience = ArrayField(models.CharField(max_length=255, blank=True))
     location = ArrayField(models.CharField(max_length=255, blank=True))
     event_type = ArrayField(models.CharField(max_length=255, blank=True))
+    event_datetime = models.DateTimeField()
 
 
 class FeedNewsDetail(TimestampedModel):
@@ -77,3 +74,4 @@ class FeedNewsDetail(TimestampedModel):
     )
     authors = ArrayField(models.CharField(max_length=255), blank=True)
     topics = ArrayField(models.CharField(max_length=255), blank=True)
+    publish_date = models.DateTimeField()

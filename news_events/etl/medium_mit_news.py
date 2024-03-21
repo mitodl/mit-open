@@ -49,7 +49,6 @@ def transform_items(items_data: list[dict]) -> list[dict]:
             "url": item.get("link", None),
             "summary": item.get("summary", ""),
             "content": (item.get("content") or [{}])[0].get("value", ""),
-            "item_date": stringify_time_struct(item.get("published_parsed")),
             # This RSS does not include images for news items
             "image": None,
             "detail": {
@@ -57,6 +56,7 @@ def transform_items(items_data: list[dict]) -> list[dict]:
                     author["name"] for author in item.get("authors", []) if author
                 ],
                 "topics": transform_topics(item.get("tags", [])),
+                "publish_date": stringify_time_struct(item.get("published_parsed")),
             },
         }
         for item in items_data

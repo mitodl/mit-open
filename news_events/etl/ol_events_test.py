@@ -55,6 +55,7 @@ def test_transform():
         "MIT Open Learning hosts a variety of events"
     )
     assert len(source["items"]) == 2
+    assert source["items"][0]["detail"]["event_datetime"] == "2024-03-19T04:00:00Z"
 
 
 @pytest.mark.parametrize(

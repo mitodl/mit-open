@@ -147,7 +147,6 @@ def transform_event(event_data: Soup, event_page_data: Soup) -> dict:
         "guid": event_data.find("a").attrs["href"],
         "url": urljoin(OL_EVENTS_BASE_URL, event_data.find("a").attrs["href"]),
         "title": tag_text(event_data.find("h4")),
-        "item_date": parse_event_date(event_data, event_page_data),
         "image": transform_event_image(event_data),
         "summary": tag_text(
             event_page_data.find("div", class_="field--type-text-with-summary")
@@ -165,6 +164,7 @@ def transform_event(event_data: Soup, event_page_data: Soup) -> dict:
             "event_type": transform_items(
                 event_page_data, "field--name-field-event-category"
             ),
+            "event_datetime": parse_event_date(event_data, event_page_data),
         },
     }
 

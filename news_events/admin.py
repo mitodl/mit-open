@@ -26,7 +26,7 @@ class FeedItemAdmin(admin.ModelAdmin):
 
     model = models.FeedItem
     search_fields = ("url", "title")
-    list_display = ("title", "url", "item_date")
+    list_display = ("title", "url")
     list_filter = ("source", "source__feed_type")
 
 

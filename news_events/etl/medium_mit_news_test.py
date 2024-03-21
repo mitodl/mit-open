@@ -4,6 +4,7 @@ import pytest
 
 from news_events.constants import FeedType
 from news_events.etl import medium_mit_news
+from news_events.etl.utils import stringify_time_struct
 
 
 @pytest.fixture(autouse=True)
@@ -46,6 +47,9 @@ def test_transform(mocker, medium_mit_rss_data):
         assert item["title"] == feed_items[idx]["title"]
         assert item["url"] == feed_items[idx]["link"]
         assert item["guid"] == feed_items[idx]["id"]
+        assert item["detail"]["publish_date"] == stringify_time_struct(
+            feed_items[idx]["published_parsed"]
+        )
 
 
 def test_transform_items(mocker, medium_mit_rss_data):
@@ -59,10 +63,10 @@ def test_transform_items(mocker, medium_mit_rss_data):
         "url": "https://medium.com/open-learning/meet-8-mit-women-faculty",
         "summary": "<h4>Celebrating Women\u2019s History Month with MIT women\u2019s truncated</h4>",
         "content": "<h4>Celebrating Women\u2019s History Month with MIT women\u2019s truncated</h4>",
-        "item_date": "2024-03-15T13:42:36Z",
         "image": None,
         "detail": {
             "authors": ["MIT Open Learning"],
+            "publish_date": "2024-03-15T13:42:36Z",
             "topics": [
                 "education",
                 "mit",

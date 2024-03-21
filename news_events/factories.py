@@ -46,7 +46,6 @@ class FeedItemFactory(factory.django.DjangoModelFactory):
     url = factory.Faker("url")
     summary = factory.Faker("paragraph")
     content = factory.Faker("paragraph")
-    item_date = factory.Faker("date_time", tzinfo=UTC)
     image = factory.SubFactory(FeedImageFactory)
 
     news_detail = factory.Maybe(
@@ -86,6 +85,7 @@ class FeedNewsDetailFactory(factory.django.DjangoModelFactory):
     )
     authors = factory.List([factory.Faker("word")])
     topics = factory.List([factory.Faker("word")])
+    publish_date = factory.Faker("date_time", tzinfo=UTC)
 
     class Meta:
         model = models.FeedNewsDetail
@@ -101,6 +101,7 @@ class FeedEventDetailFactory(factory.django.DjangoModelFactory):
     audience = factory.List(random.choices(["Faculty", "Public", "Students"]))  # noqa: S311
     location = factory.List(random.choices(["Online", "MIT Campus"]))  # noqa: S311
     event_type = factory.List(random.choices(["Webinar", "Concert", "Conference"]))  # noqa: S311
+    event_datetime = factory.Faker("date_time", tzinfo=UTC)
 
     class Meta:
         model = models.FeedEventDetail

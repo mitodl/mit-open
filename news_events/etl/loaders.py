@@ -98,7 +98,6 @@ def load_feed_item(source: FeedSource, item_data: dict) -> FeedItem:
             "url": item_data.get("url"),
             "summary": item_data.get("summary"),
             "content": item_data.get("content"),
-            "item_date": item_data.get("item_date"),
         },
     )
 
@@ -150,12 +149,22 @@ def load_feed_source(feed_type: str, source_data: dict) -> FeedSource:
     )
     load_image(source, image_data)
 
+    items = []
     for item_data in items_data:
         try:
-            load_feed_item(source, item_data)
+            items.append(load_feed_item(source, item_data))
         except:  # noqa: E722
             log.exception("Error loading item %s for %s", item_data, source)
             continue
+    # Delete items and images that are no longer in the feed source,
+    # if at least some items are present
+    if len(items) > 0:
+        FeedItem.objects.filter(source=source).exclude(
+            pk__in=[item.pk for item in items if item]
+        ).delete()
+        FeedImage.objects.filter(
+            feeditem__isnull=True, feedsource__isnull=True
+        ).delete()
 
     return source
 

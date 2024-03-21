@@ -7,8 +7,8 @@ import pytest
 
 from news_events.constants import FeedType
 from news_events.etl import loaders
-from news_events.factories import FeedSourceFactory
-from news_events.models import FeedSource
+from news_events.factories import FeedImageFactory, FeedItemFactory, FeedSourceFactory
+from news_events.models import FeedImage, FeedItem, FeedSource
 
 pytestmark = [pytest.mark.django_db]
 
@@ -24,7 +24,7 @@ def test_load_feed_sources(sources_data, feed_type):
     for source_idx, source in enumerate(FeedSource.objects.all().order_by("url")):
         for attr in ["url", "title", "description"]:
             assert getattr(source, attr) == original_data[source_idx][attr]
-        source_items = source.feed_items.order_by("-item_date")
+        source_items = source.feed_items.order_by("id")
         assert source_items.count() == len(original_data[source_idx]["items"])
         for item_idx, item in enumerate(source_items):
             if original_data[source_idx]["items"][item_idx]["image"]:
@@ -60,6 +60,26 @@ def load_feed_sources_bad_item(mocker, sources_data):
     mock_log.assert_called_once_with(
         "Error loading item %s for %s", {"bad": "item"}, ANY
     )
+
+
+def test_load_feed_sources_delete_old_items(sources_data):
+    """Tests that laod_sources deletes old items and images"""
+    source_data = sources_data.news
+    source = FeedSourceFactory.create(
+        url=source_data[0]["url"], feed_type=FeedType.news.name
+    )
+    old_source_item = FeedItemFactory(source=source, is_news=True)
+    other_source_item = FeedItemFactory.create(is_news=True)
+    orphaned_image = FeedImageFactory.create()  # no source or item
+
+    loaders.load_feed_sources(FeedType.news.name, source_data)
+
+    assert FeedItem.objects.filter(pk=old_source_item.pk).exists() is False
+    assert FeedImage.objects.filter(pk=old_source_item.image.pk).exists() is False
+    assert FeedItem.objects.filter(pk=other_source_item.pk).exists() is True
+    assert FeedImage.objects.filter(pk=other_source_item.image.pk).exists() is True
+    assert FeedImage.objects.filter(pk=orphaned_image.pk).exists() is False
+    assert FeedItem.objects.filter(source=source).count() == 2
 
 
 def test_load_item_null_data():
