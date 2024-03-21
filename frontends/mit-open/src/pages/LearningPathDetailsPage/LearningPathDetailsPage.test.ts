@@ -4,7 +4,7 @@ import type {
   LearningPathResource,
   PaginatedLearningPathRelationshipList,
 } from "api"
-import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import ItemsListing from "./ItemsListing"
 import { learningPathsView } from "@/common/urls"
 import {
@@ -141,7 +141,7 @@ describe("LearningPathDetailsPage", () => {
     setup({ path, userSettings: { is_learning_path_editor: true } })
     const editButton = await screen.findByRole("button", { name: "Edit" })
 
-    const editList = jest.spyOn(manageListDialogs, "upsert")
+    const editList = jest.spyOn(manageLearningPathDialogs, "upsert")
     editList.mockImplementationOnce(jest.fn())
 
     expect(editList).not.toHaveBeenCalled()

@@ -18,6 +18,8 @@ import type {
   MicroLearningPathRelationship,
   LearningResource,
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
+  UserlistsApiUserlistsListRequest as ULListRequest,
+  UserlistsApiUserlistsItemsListRequest as ULItemsListRequest,
 } from "../../generated/v1"
 import learningResources, { invalidateResourceQueries } from "./keyFactory"
 
@@ -198,7 +200,31 @@ const useLearningResourcesSearch = (
 ) => {
   return useQuery({
     ...learningResources.search(params),
+  })
+}
+
+const useUserListList = (
+  params: ULListRequest = {},
+  opts: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useQuery({
+    ...learningResources.userlists._ctx.list(params),
     ...opts,
+  })
+}
+
+const useInfiniteUserListItems = (
+  params: ULItemsListRequest,
+  options: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useInfiniteQuery({
+    ...learningResources.userlists._ctx
+      .detail(params.userlist_id)
+      ._ctx.infiniteItems(params),
+    getNextPageParam: (lastPage) => {
+      return lastPage.next ?? undefined
+    },
+    ...options,
   })
 }
 
@@ -216,4 +242,6 @@ export {
   useLearningpathRelationshipCreate,
   useLearningpathRelationshipDestroy,
   useLearningResourcesSearch,
+  useUserListList,
+  useInfiniteUserListItems,
 }

@@ -24,7 +24,7 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 
 import { imgConfigs } from "@/common/constants"
-import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import CardRowList from "@/components/CardRowList/CardRowList"
 import * as urls from "@/common/urls"
 
@@ -44,13 +44,13 @@ const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
         key: "edit",
         label: "Edit",
         icon: <EditIcon />,
-        onClick: () => manageListDialogs.upsert(resource),
+        onClick: () => manageLearningPathDialogs.upsert(resource),
       },
       {
         key: "delete",
         label: "Delete",
         icon: <DeleteIcon />,
-        onClick: () => manageListDialogs.destroy(resource),
+        onClick: () => manageLearningPathDialogs.destroy(resource),
       },
     ],
     [resource],
@@ -96,7 +96,7 @@ const LearningPathListingPage: React.FC = () => {
     [navigate],
   )
   const handleCreate = useCallback(() => {
-    manageListDialogs.upsert()
+    manageLearningPathDialogs.upsert()
   }, [])
 
   const canEdit = window.SETTINGS.user.is_learning_path_editor

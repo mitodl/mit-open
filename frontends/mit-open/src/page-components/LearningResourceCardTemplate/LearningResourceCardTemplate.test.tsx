@@ -30,7 +30,7 @@ describe("LearningResourceCard", () => {
     expect(coverImg.src).toBe(resourceThumbnailSrc(resource.image, imgConfig))
   })
 
-  it("does not show an image iff suppressImage is true", () => {
+  it("does not show an image if suppressImage is true", () => {
     const resource = factory.course()
     const imgConfig = makeImgConfig()
     const { rerender } = render(
@@ -41,6 +41,7 @@ describe("LearningResourceCard", () => {
       />,
     )
     const images = screen.queryAllByRole("img")
+    console.log(images.length)
     rerender(
       <LearningResourceCardTemplate
         variant="column"
@@ -49,6 +50,7 @@ describe("LearningResourceCard", () => {
         suppressImage={true}
       />,
     )
+    console.log(images.length)
     expect(screen.queryAllByRole("img").length).toBe(images.length - 1)
   })
 

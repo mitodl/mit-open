@@ -4,6 +4,7 @@ import {
   learningpathsApi,
   learningResourcesSearchApi,
   topicsApi,
+  userListsApi,
 } from "../../clients"
 import axiosInstance from "../../axios"
 import type {
@@ -15,6 +16,10 @@ import type {
   LearningResource,
   PaginatedLearningPathRelationshipList,
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
+  UserlistsApiUserlistsItemsListRequest as ULResourcesListRequest,
+  UserlistsApiUserlistsListRequest as ULListRequest,
+  PaginatedUserListRelationshipList,
+  UserList,
 } from "../../generated/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
@@ -79,9 +84,38 @@ const learningResources = createQueryKeys("learningResources", {
           .then((res) => res.data),
     }
   },
+  userlists: {
+    queryKey: ["user_lists"],
+    contextQueries: {
+      detail: (id: number) => ({
+        queryKey: [id],
+        queryFn: () =>
+          userListsApi.userlistsRetrieve({ id }).then((res) => res.data),
+        contextQueries: {
+          infiniteItems: (itemsP: ULResourcesListRequest) => ({
+            queryKey: [itemsP],
+            queryFn: ({ pageParam }: { pageParam?: string } = {}) => {
+              const request = pageParam
+                ? axiosInstance.request<PaginatedUserListRelationshipList>({
+                    method: "get",
+                    url: pageParam,
+                  })
+                : userListsApi.userlistsItemsList(itemsP)
+              return request.then((res) => res.data)
+            },
+          }),
+        },
+      }),
+      list: (params: ULListRequest) => ({
+        queryKey: [params],
+        queryFn: () =>
+          userListsApi.userlistsList(params).then((res) => res.data),
+      }),
+    },
+  },
 })
 
-const listHasResource =
+const learningPathHasResource =
   (resourceId: number) =>
   (query: Query): boolean => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -93,6 +127,20 @@ const listHasResource =
       : data.results
     return resources.some((res) => res.id === resourceId)
   }
+
+const userListHasResource =
+  (resourceId: number) =>
+  (query: Query): boolean => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data = query.state.data as any
+    const resources: UserList[] = data.pages
+      ? data.pages.flatMap(
+          (page: PaginatedLearningResourceList) => page.results,
+        )
+      : data.results
+    return resources.some((res) => res.id === resourceId)
+  }
+
 const invalidateResourceQueries = (
   queryClient: QueryClient,
   resourceId: LearningResource["id"],
@@ -105,6 +153,9 @@ const invalidateResourceQueries = (
   queryClient.invalidateQueries(
     learningResources.learningpaths._ctx.detail(resourceId).queryKey,
   )
+  queryClient.invalidateQueries(
+    learningResources.userlists._ctx.detail(resourceId).queryKey,
+  )
   /**
    * Invalidate lists that the resource belongs to.
    * Check for actual membership.
@@ -112,11 +163,16 @@ const invalidateResourceQueries = (
   const lists = [
     learningResources.list._def,
     learningResources.learningpaths._ctx.list._def,
+    learningResources.userlists._ctx.list._def,
   ]
   lists.forEach((queryKey) => {
     queryClient.invalidateQueries({
       queryKey,
-      predicate: listHasResource(resourceId),
+      predicate: learningPathHasResource(resourceId),
+    })
+    queryClient.invalidateQueries({
+      queryKey,
+      predicate: userListHasResource(resourceId),
     })
   })
 }
