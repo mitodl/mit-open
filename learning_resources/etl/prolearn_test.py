@@ -1,12 +1,11 @@
 """Tests for prolearn etl functions"""
 
 import json
-from datetime import datetime
+from datetime import UTC, datetime
 from decimal import Decimal
 from urllib.parse import urljoin, urlparse
 
 import pytest
-import pytz
 
 from learning_resources.constants import OfferedBy, PlatformType
 from learning_resources.etl import prolearn
@@ -229,7 +228,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
 @pytest.mark.parametrize(
     ("date_int", "expected_dt"),
     [
-        [1670932800, datetime(2022, 12, 13, 12, 0, tzinfo=pytz.UTC)],  # noqa: PT007
+        [1670932800, datetime(2022, 12, 13, 12, 0, tzinfo=UTC)],  # noqa: PT007
         [None, None],  # noqa: PT007
     ],
 )

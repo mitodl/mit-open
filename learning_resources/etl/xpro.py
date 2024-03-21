@@ -2,8 +2,8 @@
 
 import copy
 import logging
+from datetime import UTC
 
-import pytz
 import requests
 from dateutil.parser import parse
 from django.conf import settings
@@ -37,7 +37,7 @@ def _parse_datetime(value):
     Returns:
         datetime: the parsed datetime
     """  # noqa: D401
-    return parse(value).replace(tzinfo=pytz.utc) if value else None
+    return parse(value).replace(tzinfo=UTC) if value else None
 
 
 def extract_programs():

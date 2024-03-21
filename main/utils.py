@@ -7,7 +7,6 @@ from enum import Flag, auto
 from itertools import islice
 
 import markdown2
-import pytz
 from bs4 import BeautifulSoup
 from django.conf import settings
 
@@ -38,7 +37,7 @@ def is_near_now(time):
         bool:
             True if near now, false otherwise
     """  # noqa: D401
-    now = datetime.datetime.now(tz=pytz.UTC)
+    now = datetime.datetime.now(tz=datetime.UTC)
     five_seconds = datetime.timedelta(0, 5)
     return now - five_seconds < time < now + five_seconds
 
@@ -49,7 +48,7 @@ def now_in_utc():
     Returns:
         datetime.datetime: A datetime object for the current time
     """
-    return datetime.datetime.now(tz=pytz.UTC)
+    return datetime.datetime.now(tz=datetime.UTC)
 
 
 def normalize_to_start_of_day(dt):

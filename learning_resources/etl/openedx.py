@@ -5,8 +5,8 @@ ETL extract and transformations for openedx
 import logging
 import re
 from collections import namedtuple
+from datetime import UTC
 
-import pytz
 import requests
 from dateutil.parser import parse
 from toolz import compose
@@ -99,7 +99,7 @@ def _parse_openedx_datetime(datetime_str):
     Returns:
         str: the parsed datetime
     """  # noqa: D401
-    return parse(datetime_str).astimezone(pytz.utc)
+    return parse(datetime_str).astimezone(UTC)
 
 
 def _get_course_marketing_url(config, course):

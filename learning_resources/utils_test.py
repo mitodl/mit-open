@@ -3,11 +3,10 @@ Test learning_resources utils
 """
 
 import json
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
-import pytz
 
 from learning_resources import utils
 from learning_resources.constants import (
@@ -72,7 +71,7 @@ def test_semester_year_to_date(semester, year, expected):
     else:
         assert utils.semester_year_to_date(semester, year) == datetime.strptime(
             expected, "%Y-%m-%d"
-        ).replace(tzinfo=pytz.UTC)
+        ).replace(tzinfo=UTC)
 
 
 @pytest.mark.parametrize("url", [None, "http://test.me"])

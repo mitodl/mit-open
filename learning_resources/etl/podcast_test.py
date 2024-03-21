@@ -5,7 +5,6 @@ from unittest.mock import Mock
 from urllib.parse import urljoin
 
 import pytest
-import pytz
 import yaml
 from bs4 import BeautifulSoup as bs  # noqa: N813
 from dateutil.tz import tzutc
@@ -258,9 +257,9 @@ def test_generate_aggregate_podcast_rss():
     resource_2 = PodcastEpisodeFactory.create(
         rss="<item>rss2</item>",
     ).learning_resource
-    resource_1.last_modified = datetime.datetime(2020, 2, 1, tzinfo=pytz.UTC)
+    resource_1.last_modified = datetime.datetime(2020, 2, 1, tzinfo=datetime.UTC)
     resource_1.save()
-    resource_2.last_modified = datetime.datetime(2020, 1, 1, tzinfo=pytz.UTC)
+    resource_2.last_modified = datetime.datetime(2020, 1, 1, tzinfo=datetime.UTC)
     resource_2.save()
 
     podcasts_url = urljoin(settings.SITE_BASE_URL, "podcasts")

@@ -1,12 +1,11 @@
 """Tests for ETL pipelines"""
 
 from contextlib import contextmanager
-from datetime import datetime
+from datetime import UTC, datetime
 from importlib import reload
 from unittest.mock import patch
 
 import pytest
-import pytz
 from moto import mock_s3
 
 from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3_ocw
@@ -211,7 +210,7 @@ def test_ocw_courses_etl(settings, mocker, skip_content_files):
     pipelines.ocw_courses_etl(
         url_paths=[OCW_TEST_PREFIX],
         force_overwrite=True,
-        start_timestamp=datetime(2020, 12, 15, tzinfo=pytz.utc),
+        start_timestamp=datetime(2020, 12, 15, tzinfo=UTC),
         skip_content_files=skip_content_files,
     )
 
@@ -245,7 +244,7 @@ def test_ocw_courses_etl_no_data(settings, mocker):
     pipelines.ocw_courses_etl(
         url_paths=[s3_path],
         force_overwrite=True,
-        start_timestamp=datetime(2020, 12, 15, tzinfo=pytz.utc),
+        start_timestamp=datetime(2020, 12, 15, tzinfo=UTC),
     )
     mock_log.assert_called_once_with("No course data found for %s", s3_path)
 
@@ -264,7 +263,7 @@ def test_ocw_courses_etl_exception(settings, mocker):
         pipelines.ocw_courses_etl(
             url_paths=url_paths,
             force_overwrite=True,
-            start_timestamp=datetime(2020, 12, 15, tzinfo=pytz.utc),
+            start_timestamp=datetime(2020, 12, 15, tzinfo=UTC),
         )
     assert str(ex.value) == "Some OCW urls raised errors: %s" % ",".join(url_paths)
     for path in url_paths:
