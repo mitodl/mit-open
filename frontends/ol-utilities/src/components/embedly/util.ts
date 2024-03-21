@@ -82,7 +82,7 @@ const createStylesheet = (doc: Document, css: string) => {
 }
 
 const getEmbedlyKey = (): string | null => {
-  const key = APP_SETTINGS?.embedlyKey
+  const key = APP_SETTINGS.embedlyKey
   if (typeof key === "string") return key
   console.warn("APP_SETTINGS.EMBEDLY_KEY should be a string.")
   return null
