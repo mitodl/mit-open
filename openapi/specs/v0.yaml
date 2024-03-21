@@ -541,7 +541,23 @@ components:
           readOnly: true
         profile:
           $ref: '#/components/schemas/Profile'
+        first_name:
+          type: string
+          readOnly: true
+        last_name:
+          type: string
+          readOnly: true
+        is_article_editor:
+          type: string
+          readOnly: true
+        is_learning_path_editor:
+          type: string
+          readOnly: true
       required:
+      - first_name
       - id
+      - is_article_editor
+      - is_learning_path_editor
+      - last_name
       - profile
       - username
