@@ -745,6 +745,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -1228,6 +1237,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -1524,6 +1542,15 @@ paths:
         name: professional
         schema:
           type: boolean
+      - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: resource_type
         schema:
@@ -1869,6 +1896,15 @@ paths:
         name: professional
         schema:
           type: boolean
+      - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: resource_type
         schema:
@@ -2419,6 +2455,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -2715,6 +2760,15 @@ paths:
         name: professional
         schema:
           type: boolean
+      - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: resource_type
         schema:
@@ -3370,6 +3424,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -4013,6 +4076,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -4330,6 +4402,15 @@ paths:
         name: professional
         schema:
           type: boolean
+      - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: resource_type
         schema:
@@ -4735,6 +4816,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -5053,6 +5143,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -5349,6 +5448,15 @@ paths:
         name: professional
         schema:
           type: boolean
+      - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: resource_type
         schema:
@@ -5966,6 +6074,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -6350,6 +6467,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -6647,6 +6773,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -6943,6 +7078,15 @@ paths:
         name: professional
         schema:
           type: boolean
+      - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: resource_type
         schema:
@@ -7262,6 +7406,15 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -7558,6 +7711,15 @@ paths:
         name: professional
         schema:
           type: boolean
+      - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - in: query
         name: resource_type
         schema:

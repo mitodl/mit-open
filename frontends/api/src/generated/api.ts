@@ -6298,6 +6298,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<CoursesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<CoursesListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {CoursesListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -6313,6 +6314,7 @@ export const CoursesApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<CoursesListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<CoursesListResourceTypeEnum>,
       sortby?: CoursesListSortbyEnum,
       topic?: Array<string>,
@@ -6368,6 +6370,12 @@ export const CoursesApiAxiosParamCreator = function (
         localVarQueryParameter["professional"] = professional
       }
 
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
+      }
+
       if (resource_type) {
         localVarQueryParameter["resource_type"] = resource_type
       }
@@ -6405,6 +6413,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<CoursesNewListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<CoursesNewListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {CoursesNewListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -6420,6 +6429,7 @@ export const CoursesApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<CoursesNewListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<CoursesNewListResourceTypeEnum>,
       sortby?: CoursesNewListSortbyEnum,
       topic?: Array<string>,
@@ -6473,6 +6483,12 @@ export const CoursesApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -6558,6 +6574,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<CoursesUpcomingListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<CoursesUpcomingListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {CoursesUpcomingListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -6573,6 +6590,7 @@ export const CoursesApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<CoursesUpcomingListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<CoursesUpcomingListResourceTypeEnum>,
       sortby?: CoursesUpcomingListSortbyEnum,
       topic?: Array<string>,
@@ -6626,6 +6644,12 @@ export const CoursesApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -6761,6 +6785,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<CoursesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<CoursesListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {CoursesListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -6776,6 +6801,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<CoursesListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<CoursesListResourceTypeEnum>,
       sortby?: CoursesListSortbyEnum,
       topic?: Array<string>,
@@ -6795,6 +6821,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         professional,
+        readable_id,
         resource_type,
         sortby,
         topic,
@@ -6822,6 +6849,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<CoursesNewListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<CoursesNewListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {CoursesNewListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -6837,6 +6865,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<CoursesNewListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<CoursesNewListResourceTypeEnum>,
       sortby?: CoursesNewListSortbyEnum,
       topic?: Array<string>,
@@ -6856,6 +6885,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         professional,
+        readable_id,
         resource_type,
         sortby,
         topic,
@@ -6911,6 +6941,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<CoursesUpcomingListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<CoursesUpcomingListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {CoursesUpcomingListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -6926,6 +6957,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<CoursesUpcomingListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<CoursesUpcomingListResourceTypeEnum>,
       sortby?: CoursesUpcomingListSortbyEnum,
       topic?: Array<string>,
@@ -6946,6 +6978,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -7041,6 +7074,7 @@ export const CoursesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -7069,6 +7103,7 @@ export const CoursesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -7112,6 +7147,7 @@ export const CoursesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -7269,6 +7305,13 @@ export interface CoursesApiCoursesListRequest {
   readonly professional?: boolean
 
   /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
    * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
    * @memberof CoursesApiCoursesList
@@ -7351,6 +7394,13 @@ export interface CoursesApiCoursesNewListRequest {
    * @memberof CoursesApiCoursesNewList
    */
   readonly professional?: boolean
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof CoursesApiCoursesNewList
+   */
+  readonly readable_id?: Array<string>
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
@@ -7451,6 +7501,13 @@ export interface CoursesApiCoursesUpcomingListRequest {
   readonly professional?: boolean
 
   /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof CoursesApiCoursesUpcomingList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
    * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
    * @memberof CoursesApiCoursesUpcomingList
@@ -7549,6 +7606,7 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -7579,6 +7637,7 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -7626,6 +7685,7 @@ export class CoursesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -8685,6 +8745,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningResourcesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {LearningResourcesListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -8700,6 +8761,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<LearningResourcesListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<LearningResourcesListResourceTypeEnum>,
       sortby?: LearningResourcesListSortbyEnum,
       topic?: Array<string>,
@@ -8755,6 +8817,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
         localVarQueryParameter["professional"] = professional
       }
 
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
+      }
+
       if (resource_type) {
         localVarQueryParameter["resource_type"] = resource_type
       }
@@ -8792,6 +8860,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningResourcesNewListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesNewListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {LearningResourcesNewListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -8807,6 +8876,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<LearningResourcesNewListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<LearningResourcesNewListResourceTypeEnum>,
       sortby?: LearningResourcesNewListSortbyEnum,
       topic?: Array<string>,
@@ -8860,6 +8930,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -8945,6 +9021,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningResourcesUpcomingListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesUpcomingListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {LearningResourcesUpcomingListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -8960,6 +9037,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<LearningResourcesUpcomingListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<LearningResourcesUpcomingListResourceTypeEnum>,
       sortby?: LearningResourcesUpcomingListSortbyEnum,
       topic?: Array<string>,
@@ -9013,6 +9091,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -9232,6 +9316,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningResourcesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {LearningResourcesListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -9247,6 +9332,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<LearningResourcesListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<LearningResourcesListResourceTypeEnum>,
       sortby?: LearningResourcesListSortbyEnum,
       topic?: Array<string>,
@@ -9267,6 +9353,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -9296,6 +9383,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningResourcesNewListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesNewListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {LearningResourcesNewListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -9311,6 +9399,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<LearningResourcesNewListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<LearningResourcesNewListResourceTypeEnum>,
       sortby?: LearningResourcesNewListSortbyEnum,
       topic?: Array<string>,
@@ -9331,6 +9420,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -9391,6 +9481,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningResourcesUpcomingListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesUpcomingListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {LearningResourcesUpcomingListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -9406,6 +9497,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<LearningResourcesUpcomingListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<LearningResourcesUpcomingListResourceTypeEnum>,
       sortby?: LearningResourcesUpcomingListSortbyEnum,
       topic?: Array<string>,
@@ -9426,6 +9518,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -9563,6 +9656,7 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -9591,6 +9685,7 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -9634,6 +9729,7 @@ export const LearningResourcesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -9847,6 +9943,13 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly professional?: boolean
 
   /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
    * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
    * @memberof LearningResourcesApiLearningResourcesList
@@ -9929,6 +10032,13 @@ export interface LearningResourcesApiLearningResourcesNewListRequest {
    * @memberof LearningResourcesApiLearningResourcesNewList
    */
   readonly professional?: boolean
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof LearningResourcesApiLearningResourcesNewList
+   */
+  readonly readable_id?: Array<string>
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
@@ -10027,6 +10137,13 @@ export interface LearningResourcesApiLearningResourcesUpcomingListRequest {
    * @memberof LearningResourcesApiLearningResourcesUpcomingList
    */
   readonly professional?: boolean
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof LearningResourcesApiLearningResourcesUpcomingList
+   */
+  readonly readable_id?: Array<string>
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
@@ -10171,6 +10288,7 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -10201,6 +10319,7 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -10248,6 +10367,7 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -11707,6 +11827,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningpathsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<LearningpathsListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {LearningpathsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -11722,6 +11843,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<LearningpathsListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<LearningpathsListResourceTypeEnum>,
       sortby?: LearningpathsListSortbyEnum,
       topic?: Array<string>,
@@ -11775,6 +11897,12 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -12174,6 +12302,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningpathsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<LearningpathsListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {LearningpathsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -12189,6 +12318,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<LearningpathsListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<LearningpathsListResourceTypeEnum>,
       sortby?: LearningpathsListSortbyEnum,
       topic?: Array<string>,
@@ -12209,6 +12339,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -12458,6 +12589,7 @@ export const LearningpathsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -12719,6 +12851,13 @@ export interface LearningpathsApiLearningpathsListRequest {
   readonly professional?: boolean
 
   /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
    * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
    * @memberof LearningpathsApiLearningpathsList
@@ -12949,6 +13088,7 @@ export class LearningpathsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -13760,6 +13900,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<PodcastEpisodesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<PodcastEpisodesListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {PodcastEpisodesListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -13775,6 +13916,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<PodcastEpisodesListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<PodcastEpisodesListResourceTypeEnum>,
       sortby?: PodcastEpisodesListSortbyEnum,
       topic?: Array<string>,
@@ -13828,6 +13970,12 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -13924,6 +14072,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<PodcastEpisodesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<PodcastEpisodesListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {PodcastEpisodesListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -13939,6 +14088,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<PodcastEpisodesListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<PodcastEpisodesListResourceTypeEnum>,
       sortby?: PodcastEpisodesListSortbyEnum,
       topic?: Array<string>,
@@ -13959,6 +14109,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -14042,6 +14193,7 @@ export const PodcastEpisodesApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -14130,6 +14282,13 @@ export interface PodcastEpisodesApiPodcastEpisodesListRequest {
   readonly professional?: boolean
 
   /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
    * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
    * @memberof PodcastEpisodesApiPodcastEpisodesList
@@ -14194,6 +14353,7 @@ export class PodcastEpisodesApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -14497,6 +14657,7 @@ export const PodcastsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<PodcastsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<PodcastsListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {PodcastsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -14512,6 +14673,7 @@ export const PodcastsApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<PodcastsListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<PodcastsListResourceTypeEnum>,
       sortby?: PodcastsListSortbyEnum,
       topic?: Array<string>,
@@ -14565,6 +14727,12 @@ export const PodcastsApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -14736,6 +14904,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<PodcastsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<PodcastsListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {PodcastsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -14751,6 +14920,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<PodcastsListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<PodcastsListResourceTypeEnum>,
       sortby?: PodcastsListSortbyEnum,
       topic?: Array<string>,
@@ -14770,6 +14940,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         professional,
+        readable_id,
         resource_type,
         sortby,
         topic,
@@ -14890,6 +15061,7 @@ export const PodcastsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -15034,6 +15206,13 @@ export interface PodcastsApiPodcastsListRequest {
   readonly professional?: boolean
 
   /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
    * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
    * @memberof PodcastsApiPodcastsList
@@ -15142,6 +15321,7 @@ export class PodcastsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -15483,6 +15663,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<ProgramsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<ProgramsListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {ProgramsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -15498,6 +15679,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<ProgramsListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<ProgramsListResourceTypeEnum>,
       sortby?: ProgramsListSortbyEnum,
       topic?: Array<string>,
@@ -15553,6 +15735,12 @@ export const ProgramsApiAxiosParamCreator = function (
         localVarQueryParameter["professional"] = professional
       }
 
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
+      }
+
       if (resource_type) {
         localVarQueryParameter["resource_type"] = resource_type
       }
@@ -15590,6 +15778,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<ProgramsNewListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<ProgramsNewListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {ProgramsNewListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -15605,6 +15794,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<ProgramsNewListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<ProgramsNewListResourceTypeEnum>,
       sortby?: ProgramsNewListSortbyEnum,
       topic?: Array<string>,
@@ -15658,6 +15848,12 @@ export const ProgramsApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -15743,6 +15939,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<ProgramsUpcomingListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<ProgramsUpcomingListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {ProgramsUpcomingListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -15758,6 +15955,7 @@ export const ProgramsApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<ProgramsUpcomingListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<ProgramsUpcomingListResourceTypeEnum>,
       sortby?: ProgramsUpcomingListSortbyEnum,
       topic?: Array<string>,
@@ -15813,6 +16011,12 @@ export const ProgramsApiAxiosParamCreator = function (
         localVarQueryParameter["professional"] = professional
       }
 
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
+      }
+
       if (resource_type) {
         localVarQueryParameter["resource_type"] = resource_type
       }
@@ -15860,6 +16064,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<ProgramsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<ProgramsListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {ProgramsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -15875,6 +16080,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<ProgramsListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<ProgramsListResourceTypeEnum>,
       sortby?: ProgramsListSortbyEnum,
       topic?: Array<string>,
@@ -15894,6 +16100,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         professional,
+        readable_id,
         resource_type,
         sortby,
         topic,
@@ -15921,6 +16128,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<ProgramsNewListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<ProgramsNewListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {ProgramsNewListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -15936,6 +16144,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<ProgramsNewListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<ProgramsNewListResourceTypeEnum>,
       sortby?: ProgramsNewListSortbyEnum,
       topic?: Array<string>,
@@ -15955,6 +16164,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         professional,
+        readable_id,
         resource_type,
         sortby,
         topic,
@@ -16011,6 +16221,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<ProgramsUpcomingListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<ProgramsUpcomingListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {ProgramsUpcomingListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -16026,6 +16237,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<ProgramsUpcomingListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<ProgramsUpcomingListResourceTypeEnum>,
       sortby?: ProgramsUpcomingListSortbyEnum,
       topic?: Array<string>,
@@ -16046,6 +16258,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -16097,6 +16310,7 @@ export const ProgramsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -16125,6 +16339,7 @@ export const ProgramsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -16168,6 +16383,7 @@ export const ProgramsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -16239,6 +16455,13 @@ export interface ProgramsApiProgramsListRequest {
    * @memberof ProgramsApiProgramsList
    */
   readonly professional?: boolean
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly readable_id?: Array<string>
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
@@ -16323,6 +16546,13 @@ export interface ProgramsApiProgramsNewListRequest {
    * @memberof ProgramsApiProgramsNewList
    */
   readonly professional?: boolean
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof ProgramsApiProgramsNewList
+   */
+  readonly readable_id?: Array<string>
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
@@ -16423,6 +16653,13 @@ export interface ProgramsApiProgramsUpcomingListRequest {
   readonly professional?: boolean
 
   /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof ProgramsApiProgramsUpcomingList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
    * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
    * @memberof ProgramsApiProgramsUpcomingList
@@ -16473,6 +16710,7 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -16503,6 +16741,7 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -16550,6 +16789,7 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -18879,6 +19119,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideoPlaylistsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideoPlaylistsListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideoPlaylistsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -18894,6 +19135,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<VideoPlaylistsListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideoPlaylistsListResourceTypeEnum>,
       sortby?: VideoPlaylistsListSortbyEnum,
       topic?: Array<string>,
@@ -18949,6 +19191,12 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
         localVarQueryParameter["professional"] = professional
       }
 
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
+      }
+
       if (resource_type) {
         localVarQueryParameter["resource_type"] = resource_type
       }
@@ -18986,6 +19234,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideoPlaylistsNewListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideoPlaylistsNewListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideoPlaylistsNewListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -19001,6 +19250,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<VideoPlaylistsNewListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideoPlaylistsNewListResourceTypeEnum>,
       sortby?: VideoPlaylistsNewListSortbyEnum,
       topic?: Array<string>,
@@ -19054,6 +19304,12 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -19139,6 +19395,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideoPlaylistsUpcomingListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideoPlaylistsUpcomingListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideoPlaylistsUpcomingListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -19154,6 +19411,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<VideoPlaylistsUpcomingListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideoPlaylistsUpcomingListResourceTypeEnum>,
       sortby?: VideoPlaylistsUpcomingListSortbyEnum,
       topic?: Array<string>,
@@ -19207,6 +19465,12 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -19336,6 +19600,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideoPlaylistsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideoPlaylistsListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideoPlaylistsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -19351,6 +19616,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<VideoPlaylistsListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideoPlaylistsListResourceTypeEnum>,
       sortby?: VideoPlaylistsListSortbyEnum,
       topic?: Array<string>,
@@ -19371,6 +19637,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -19398,6 +19665,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideoPlaylistsNewListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideoPlaylistsNewListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideoPlaylistsNewListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -19413,6 +19681,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<VideoPlaylistsNewListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideoPlaylistsNewListResourceTypeEnum>,
       sortby?: VideoPlaylistsNewListSortbyEnum,
       topic?: Array<string>,
@@ -19433,6 +19702,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -19491,6 +19761,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideoPlaylistsUpcomingListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideoPlaylistsUpcomingListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideoPlaylistsUpcomingListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -19506,6 +19777,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<VideoPlaylistsUpcomingListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideoPlaylistsUpcomingListResourceTypeEnum>,
       sortby?: VideoPlaylistsUpcomingListSortbyEnum,
       topic?: Array<string>,
@@ -19526,6 +19798,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -19619,6 +19892,7 @@ export const VideoPlaylistsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -19647,6 +19921,7 @@ export const VideoPlaylistsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -19690,6 +19965,7 @@ export const VideoPlaylistsApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -19819,6 +20095,13 @@ export interface VideoPlaylistsApiVideoPlaylistsListRequest {
   readonly professional?: boolean
 
   /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof VideoPlaylistsApiVideoPlaylistsList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
    * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
    * @memberof VideoPlaylistsApiVideoPlaylistsList
@@ -19901,6 +20184,13 @@ export interface VideoPlaylistsApiVideoPlaylistsNewListRequest {
    * @memberof VideoPlaylistsApiVideoPlaylistsNewList
    */
   readonly professional?: boolean
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof VideoPlaylistsApiVideoPlaylistsNewList
+   */
+  readonly readable_id?: Array<string>
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
@@ -20001,6 +20291,13 @@ export interface VideoPlaylistsApiVideoPlaylistsUpcomingListRequest {
   readonly professional?: boolean
 
   /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof VideoPlaylistsApiVideoPlaylistsUpcomingList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
    * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
    * @memberof VideoPlaylistsApiVideoPlaylistsUpcomingList
@@ -20095,6 +20392,7 @@ export class VideoPlaylistsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -20125,6 +20423,7 @@ export class VideoPlaylistsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -20172,6 +20471,7 @@ export class VideoPlaylistsApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -20597,6 +20897,7 @@ export const VideosApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideosListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideosListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideosListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -20612,6 +20913,7 @@ export const VideosApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<VideosListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideosListResourceTypeEnum>,
       sortby?: VideosListSortbyEnum,
       topic?: Array<string>,
@@ -20667,6 +20969,12 @@ export const VideosApiAxiosParamCreator = function (
         localVarQueryParameter["professional"] = professional
       }
 
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
+      }
+
       if (resource_type) {
         localVarQueryParameter["resource_type"] = resource_type
       }
@@ -20704,6 +21012,7 @@ export const VideosApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideosNewListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideosNewListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideosNewListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -20719,6 +21028,7 @@ export const VideosApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<VideosNewListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideosNewListResourceTypeEnum>,
       sortby?: VideosNewListSortbyEnum,
       topic?: Array<string>,
@@ -20772,6 +21082,12 @@ export const VideosApiAxiosParamCreator = function (
 
       if (professional !== undefined) {
         localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
       }
 
       if (resource_type) {
@@ -20857,6 +21173,7 @@ export const VideosApiAxiosParamCreator = function (
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideosUpcomingListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideosUpcomingListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideosUpcomingListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -20872,6 +21189,7 @@ export const VideosApiAxiosParamCreator = function (
       offset?: number,
       platform?: Array<VideosUpcomingListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideosUpcomingListResourceTypeEnum>,
       sortby?: VideosUpcomingListSortbyEnum,
       topic?: Array<string>,
@@ -20927,6 +21245,12 @@ export const VideosApiAxiosParamCreator = function (
         localVarQueryParameter["professional"] = professional
       }
 
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
+      }
+
       if (resource_type) {
         localVarQueryParameter["resource_type"] = resource_type
       }
@@ -20974,6 +21298,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideosListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideosListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideosListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -20989,6 +21314,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<VideosListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideosListResourceTypeEnum>,
       sortby?: VideosListSortbyEnum,
       topic?: Array<string>,
@@ -21008,6 +21334,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         professional,
+        readable_id,
         resource_type,
         sortby,
         topic,
@@ -21035,6 +21362,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideosNewListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideosNewListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideosNewListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -21050,6 +21378,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<VideosNewListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideosNewListResourceTypeEnum>,
       sortby?: VideosNewListSortbyEnum,
       topic?: Array<string>,
@@ -21069,6 +21398,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
         offset,
         platform,
         professional,
+        readable_id,
         resource_type,
         sortby,
         topic,
@@ -21124,6 +21454,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideosUpcomingListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
      * @param {Array<VideosUpcomingListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
      * @param {VideosUpcomingListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;created_on&#x60; - Creation Date ascending * &#x60;-created_on&#x60; - CreationDate descending * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending
      * @param {Array<string>} [topic] Multiple values may be separated by commas.
@@ -21139,6 +21470,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
       offset?: number,
       platform?: Array<VideosUpcomingListPlatformEnum>,
       professional?: boolean,
+      readable_id?: Array<string>,
       resource_type?: Array<VideosUpcomingListResourceTypeEnum>,
       sortby?: VideosUpcomingListSortbyEnum,
       topic?: Array<string>,
@@ -21159,6 +21491,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
           offset,
           platform,
           professional,
+          readable_id,
           resource_type,
           sortby,
           topic,
@@ -21210,6 +21543,7 @@ export const VideosApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -21238,6 +21572,7 @@ export const VideosApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -21281,6 +21616,7 @@ export const VideosApiFactory = function (
           requestParameters.offset,
           requestParameters.platform,
           requestParameters.professional,
+          requestParameters.readable_id,
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
@@ -21352,6 +21688,13 @@ export interface VideosApiVideosListRequest {
    * @memberof VideosApiVideosList
    */
   readonly professional?: boolean
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof VideosApiVideosList
+   */
+  readonly readable_id?: Array<string>
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
@@ -21436,6 +21779,13 @@ export interface VideosApiVideosNewListRequest {
    * @memberof VideosApiVideosNewList
    */
   readonly professional?: boolean
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof VideosApiVideosNewList
+   */
+  readonly readable_id?: Array<string>
 
   /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
@@ -21536,6 +21886,13 @@ export interface VideosApiVideosUpcomingListRequest {
   readonly professional?: boolean
 
   /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof VideosApiVideosUpcomingList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
    * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
    * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
    * @memberof VideosApiVideosUpcomingList
@@ -21586,6 +21943,7 @@ export class VideosApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -21616,6 +21974,7 @@ export class VideosApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
@@ -21663,6 +22022,7 @@ export class VideosApi extends BaseAPI {
         requestParameters.offset,
         requestParameters.platform,
         requestParameters.professional,
+        requestParameters.readable_id,
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
