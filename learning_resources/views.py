@@ -34,7 +34,6 @@ from learning_resources.exceptions import WebhookException
 from learning_resources.filters import (
     ContentFileFilter,
     LearningResourceFilter,
-    MultipleOptionsFilterBackend,
 )
 from learning_resources.models import (
     ContentFile,
@@ -80,6 +79,7 @@ from learning_resources.utils import (
     resource_unpublished_actions,
 )
 from main.constants import VALID_HTTP_METHODS
+from main.filters import MultipleOptionsFilterBackend
 from main.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
