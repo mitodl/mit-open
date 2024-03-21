@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     "openapi",
     "articles",
     "oauth2_provider",
+    "news_events",
 )
 
 SCIM_SERVICE_PROVIDER = {

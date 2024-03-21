@@ -81,6 +81,18 @@ CELERY_BEAT_SCHEDULE = {
             "YOUTUBE_FETCH_TRANSCRIPT_SCHEDULE_SECONDS", 60 * 60 * 12
         ),  # default is 12 hours
     },
+    "update_medium_mit_news": {
+        "task": "news_events.tasks.get_medium_mit_news",
+        "schedule": get_int(
+            "NEWS_EVENTS_MEDIUM_NEWS_SCHEDULE_SECONDS", 60 * 60 * 3
+        ),  # default is every 3 hours
+    },
+    "update_ol_events": {
+        "task": "news_events.tasks.get_ol_events",
+        "schedule": get_int(
+            "NEWS_EVENTS_OL_EVENTS_SCHEDULE_SECONDS", 60 * 60 * 3
+        ),  # default is every 3 hours
+    },
 }
 
 CELERY_TASK_SERIALIZER = "json"
