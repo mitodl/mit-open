@@ -19,18 +19,23 @@ from profiles.utils import DEFAULT_PROFILE_IMAGE, make_temp_image_file
 pytestmark = [pytest.mark.django_db]
 
 
-def test_list_users(staff_client, staff_user):
+@pytest.mark.parametrize("api_version", ["v0", "v1"])
+def test_list_users(staff_client, staff_user, api_version):
     """
     List users
     """
     profile = staff_user.profile
-    url = reverse("profile:v0:user_api-list")
+    url = reverse(f"profile:{api_version}:user_api-list")
     resp = staff_client.get(url)
     assert resp.status_code == 200
     assert resp.json() == [
         {
             "id": staff_user.id,
             "username": staff_user.username,
+            "first_name": staff_user.first_name,
+            "last_name": staff_user.last_name,
+            "is_learning_path_editor": True,
+            "is_article_editor": True,
             "profile": {
                 "name": profile.name,
                 "image": profile.image,
@@ -55,7 +60,8 @@ def test_list_users(staff_client, staff_user):
 # These can be removed once all clients have been updated and are sending both these fields
 @pytest.mark.parametrize("email_optin", [None, True, False])
 @pytest.mark.parametrize("toc_optin", [None, True, False])
-def test_create_user(staff_client, staff_user, mocker, email_optin, toc_optin):  # pylint: disable=too-many-arguments
+@pytest.mark.parametrize("api_version", ["v0", "v1"])
+def test_create_user(staff_client, staff_user, email_optin, toc_optin, api_version):  # pylint: disable=too-many-arguments
     """
     Create a user and assert the response
     """
@@ -63,7 +69,7 @@ def test_create_user(staff_client, staff_user, mocker, email_optin, toc_optin): 
     staff_user.profile.email_optin = None
     staff_user.profile.save()
     staff_user.save()
-    url = reverse("profile:v0:user_api-list")
+    url = reverse(f"profile:{api_version}:user_api-list")
     email = "test.email@example.com"
     payload = {
         "email": email,
@@ -104,17 +110,24 @@ def test_create_user(staff_client, staff_user, mocker, email_optin, toc_optin): 
     assert user.profile.toc_optin is toc_optin
 
 
-def test_get_user(staff_client, user):
+@pytest.mark.parametrize("api_version", ["v0", "v1"])
+def test_get_user(staff_client, user, api_version):
     """
     Get a user
     """
     profile = user.profile
-    url = reverse("profile:v0:user_api-detail", kwargs={"username": user.username})
+    url = reverse(
+        f"profile:{api_version}:user_api-detail", kwargs={"username": user.username}
+    )
     resp = staff_client.get(url)
     assert resp.status_code == 200
     assert resp.json() == {
         "id": user.id,
         "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_article_editor": True,
+        "is_learning_path_editor": True,
         "profile": {
             "name": profile.name,
             "image": profile.image,
@@ -187,6 +200,10 @@ def test_patch_user(staff_client, user, email, email_optin, toc_optin):
     assert resp.json() == {
         "id": user.id,
         "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_learning_path_editor": True,
+        "is_article_editor": True,
         "profile": {
             "name": "othername",
             "image": profile.image,
@@ -312,6 +329,10 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
         assert resp.json() == {
             "id": user.id,
             "username": user.username,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "is_learning_path_editor": False,
+            "is_article_editor": False,
             "profile": {
                 "name": profile.name,
                 "image": profile.image,

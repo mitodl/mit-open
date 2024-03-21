@@ -13,6 +13,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from authentication import api as auth_api
+from learning_resources.permissions import is_admin_user, is_learning_path_editor
 from profiles.api import get_site_type_from_url
 from profiles.models import (
     PERSONAL_SITE_TYPE,
@@ -217,8 +218,24 @@ class UserSerializer(serializers.ModelSerializer):
 
     # username cannot be set but a default is generated on create using ulid.new
     username = serializers.CharField(read_only=True)
+    first_name = serializers.CharField(read_only=True)
+    last_name = serializers.CharField(read_only=True)
     email = serializers.CharField(write_only=True)
+    is_learning_path_editor = serializers.SerializerMethodField()
+    is_article_editor = serializers.SerializerMethodField()
     profile = ProfileSerializer()
+
+    def get_is_learning_path_editor(self, instance):  # noqa: ARG002
+        request = self.context.get("request")
+        if request:
+            return is_admin_user(request) or is_learning_path_editor(request)
+        return False
+
+    def get_is_article_editor(self, instance):  # noqa: ARG002
+        request = self.context.get("request")
+        if request:
+            return is_admin_user(request)
+        return False
 
     def create(self, validated_data):
         profile_data = validated_data.pop("profile") or {}
@@ -246,12 +263,20 @@ class UserSerializer(serializers.ModelSerializer):
                         profile_data.get(prop_name, getattr(profile, prop_name)),
                     )
                 profile.save()
-
         return instance
 
     class Meta:
         model = User
-        fields = ("id", "username", "profile", "email")
+        fields = (
+            "id",
+            "username",
+            "profile",
+            "email",
+            "first_name",
+            "last_name",
+            "is_article_editor",
+            "is_learning_path_editor",
+        )
         read_only_fields = ("id", "username")
 
 
