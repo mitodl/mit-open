@@ -19,7 +19,7 @@ export declare global {
   interface SETTINGS {
     user: User
   }
-  interface APP_SETTINGS {
+  type APP_SETTINGS = {
     search_page_size: number
     ocw_next_base_url: string
     sentry_dsn?: string
