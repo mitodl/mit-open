@@ -3,7 +3,6 @@
 from datetime import UTC, datetime
 from time import mktime, struct_time
 
-import pytz
 import requests
 from bs4 import BeautifulSoup as Soup
 from bs4 import Tag
@@ -80,6 +79,6 @@ def stringify_time_struct(time_struct: struct_time) -> str:
         # Sometimes the year is just 2 digits
         if dt.year < min_year:
             dt = dt.replace(year=2000 + dt.year)
-        dt_utc = dt.astimezone(pytz.utc)
+        dt_utc = dt.astimezone(UTC)
         return dt_utc.strftime(ISOFORMAT)
     return None

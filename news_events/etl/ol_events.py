@@ -1,9 +1,10 @@
 """ETL functions for Open Learning Events data."""
 
 import logging
+from datetime import UTC
 from urllib.parse import urljoin
+from zoneinfo import ZoneInfo
 
-import pytz
 from bs4 import BeautifulSoup as Soup
 from dateutil import parser
 from requests import HTTPError
@@ -54,9 +55,9 @@ def parse_event_date(event_data: Soup, event_page_data: Soup) -> str:
     if not item_date and not page_date:
         return None
     dt = (
-        pytz.timezone("US/Eastern")
-        .localize(parser.parse(page_date or item_date))
-        .astimezone(pytz.utc)
+        parser.parse(page_date or item_date)
+        .replace(tzinfo=ZoneInfo("US/Eastern"))
+        .astimezone(UTC)
     )
     return dt.strftime(ISOFORMAT)
 

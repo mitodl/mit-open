@@ -1,9 +1,9 @@
 """Test factories for news_events"""
 
 import random
+from datetime import UTC
 
 import factory
-import pytz
 from factory.fuzzy import FuzzyChoice
 
 from news_events import models
@@ -46,7 +46,7 @@ class FeedItemFactory(factory.django.DjangoModelFactory):
     url = factory.Faker("url")
     summary = factory.Faker("paragraph")
     content = factory.Faker("paragraph")
-    item_date = factory.Faker("date_time", tzinfo=pytz.utc)
+    item_date = factory.Faker("date_time", tzinfo=UTC)
     image = factory.SubFactory(FeedImageFactory)
 
     news_detail = factory.Maybe(
