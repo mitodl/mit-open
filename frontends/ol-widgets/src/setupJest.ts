@@ -10,7 +10,3 @@ afterEach(() => {
    */
   jest.clearAllMocks()
 })
-
-window.SETTINGS = {
-  embedlyKey: "fake-embedly-key",
-}

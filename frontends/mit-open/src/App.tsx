@@ -8,9 +8,9 @@ import routes from "./routes"
 import AppProviders from "./AppProviders"
 
 Sentry.init({
-  dsn: window.SETTINGS.sentry_dsn,
-  release: window.SETTINGS.release_version,
-  environment: window.SETTINGS.environment,
+  dsn: APP_SETTINGS.sentry_dsn,
+  release: APP_SETTINGS.release_version,
+  environment: APP_SETTINGS.environment,
 })
 
 const container = document.getElementById("app-container")

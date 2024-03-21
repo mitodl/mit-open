@@ -17,9 +17,6 @@ jest.mock("axios", () => {
 })
 
 const _createSettings = () => ({
-  embedlyKey: "fake",
-  ocw_next_base_url: "fake-ocw.com",
-  search_page_size: 4,
   user: makeUserSettings(),
 })
 

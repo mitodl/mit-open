@@ -1,14 +1,7 @@
 /* eslint-disable no-var */
 
 export declare global {
-  interface Window {
-    SETTINGS: SETTINGS
-  }
-
-  /**
-   * Settings injected by Django
-   */
-  interface SETTINGS {
+  interface APP_SETTINGS {
     ckeditor_upload_url?: string
   }
 }

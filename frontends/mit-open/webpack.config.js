@@ -85,7 +85,7 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
         },
       }),
       new webpack.DefinePlugin({
-        SETTINGS: {
+        APP_SETTINGS: {
           embedlyKey: JSON.stringify(process.env.EMBEDLY_KEY),
           ocw_next_base_url: JSON.stringify(process.env.OCW_BASE_URL),
           search_page_size: JSON.stringify(
