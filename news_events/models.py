@@ -49,10 +49,6 @@ class FeedItem(TimestampedModel):
     item_date = models.DateTimeField()
     image = models.ForeignKey(FeedImage, on_delete=models.SET_NULL, null=True)
 
-    prefetches = [
-        "topics",
-    ]
-
     related_selects = ["source", "image", "news_details", "event_details"]
 
     def __str__(self):
