@@ -59,7 +59,7 @@ const learningPaths = {
 }
 
 const userLists = {
-  list: (params?: Params<UserlistsApi, "userlistslist">) =>
+  list: (params?: Params<UserlistsApi, "userlistsList">) =>
     `/api/v1/userlists/${query(params)}`,
   resources: ({
     userlist_id: parentId,
