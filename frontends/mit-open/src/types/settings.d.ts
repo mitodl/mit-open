@@ -9,7 +9,7 @@ export type User = {
 }
 
 export declare global {
-  interface Window {
+  interface window {
     SETTINGS: SETTINGS
   }
 
@@ -19,7 +19,7 @@ export declare global {
   interface SETTINGS {
     user: User
   }
-  type APP_SETTINGS = {
+  interface APP_SETTINGS {
     search_page_size: number
     ocw_next_base_url: string
     sentry_dsn?: string
