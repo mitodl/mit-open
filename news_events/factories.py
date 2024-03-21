@@ -11,7 +11,7 @@ from news_events.constants import FeedType
 
 
 class FeedImageFactory(factory.django.DjangoModelFactory):
-    """Factory for images"""
+    """Factory for source/item images"""
 
     url = factory.Faker("url")
     description = factory.Faker("sentence")
