@@ -30,7 +30,7 @@ describe("LearningResourceCard", () => {
     expect(coverImg.src).toBe(resourceThumbnailSrc(resource.image, imgConfig))
   })
 
-  it("does not show an image if suppressImage is true", () => {
+  it("does not show an image if and only if suppressImage is true", () => {
     const resource = factory.course()
     const imgConfig = makeImgConfig()
     const { rerender } = render(
@@ -94,7 +94,7 @@ describe("LearningResourceCard", () => {
     },
   )
 
-  it("Should show an item count iff the resource is a list", () => {
+  it("Should show an item count if the resource is a list", () => {
     const resource = factory.learningPath()
     const count = resource.learning_path?.item_count
     const imgConfig = makeImgConfig()
@@ -111,7 +111,7 @@ describe("LearningResourceCard", () => {
     expect(itemCount).toBeVisible()
   })
 
-  it("Should NOT show an item count iff the resource is NOT a list", () => {
+  it("Should NOT show an item count if the resource is NOT a list", () => {
     const resource = factory.resource({
       title: "Not a list",
       resource_type: ResourceTypeEnum.Course,
