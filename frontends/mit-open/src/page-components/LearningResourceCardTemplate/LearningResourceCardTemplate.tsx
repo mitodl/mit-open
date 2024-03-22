@@ -1,5 +1,4 @@
 import React, { useCallback } from "react"
-import invariant from "tiny-invariant"
 import { ResourceTypeEnum, type LearningResource } from "api"
 import { Chip, CardMedia, styled } from "ol-components"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
@@ -153,19 +152,14 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
   resource,
   imgConfig,
   className,
-  suppressImage = false,
   onActivate,
   footerActionSlot,
-  sortable = false,
+  sortable,
+  suppressImage = false,
 }: LearningResourceCardTemplateProps<R>) => {
   const handleActivate = useCallback(
     () => onActivate?.(resource),
     [resource, onActivate],
-  )
-
-  invariant(
-    !sortable || variant === "row-reverse",
-    "sortable only supported for variant='row-reverse'",
   )
 
   const image = (

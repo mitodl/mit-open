@@ -1,5 +1,4 @@
 import React from "react"
-import invariant from "tiny-invariant"
 import CardTemplate from "../CardTemplate/CardTemplate"
 import { UserList } from "api"
 
@@ -18,13 +17,8 @@ const UserListCardTemplate = <R extends UserList>({
   variant,
   userList,
   className,
-  sortable = false,
+  sortable,
 }: UserListCardTemplateProps<R>) => {
-  invariant(
-    !sortable || variant === "row-reverse",
-    "sortable only supported for variant='row-reverse'",
-  )
-
   return (
     <CardTemplate
       variant={variant}
