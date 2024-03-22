@@ -43,7 +43,11 @@ const routes: RouteObject[] = [
       },
       {
         path: urls.USERLIST_LISTING,
-        element: <UserListListingPage />,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <UserListListingPage />
+          </RestrictedRoute>
+        ),
       },
       {
         path: urls.DASHBOARD,
