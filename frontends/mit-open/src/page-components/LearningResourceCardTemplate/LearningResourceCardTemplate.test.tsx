@@ -41,7 +41,6 @@ describe("LearningResourceCard", () => {
       />,
     )
     const images = screen.queryAllByRole("img")
-    console.log(images.length)
     rerender(
       <LearningResourceCardTemplate
         variant="column"
@@ -50,7 +49,6 @@ describe("LearningResourceCard", () => {
         suppressImage={true}
       />,
     )
-    console.log(images.length)
     expect(screen.queryAllByRole("img").length).toBe(images.length - 1)
   })
 
