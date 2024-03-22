@@ -5,7 +5,6 @@ from rest_framework.routers import DefaultRouter
 
 from profiles.views import (
     CurrentUserRetrieveViewSet,
-    ExperimentalCurrentUserRetrieveViewSet,
     ProfileViewSet,
     ProgramLetterInterceptView,
     UserProgramCertificateViewSet,
@@ -35,15 +34,6 @@ v0_urls = [
 ]
 
 
-v1_urls = [
-    re_path(
-        r"^users/me/$",
-        ExperimentalCurrentUserRetrieveViewSet.as_view({"get": "retrieve"}),
-        name="users_api-me",
-    ),
-    re_path(r"", include(router.urls)),
-]
-
 app_name = "profile"
 urlpatterns = [
     re_path("api/v0/", include((v0_urls, "v0"))),
@@ -53,7 +43,6 @@ urlpatterns = [
         name_initials_avatar_view,
         name="name-initials-avatar",
     ),
-    re_path("api/v1/", include((v1_urls, "v1"))),
     path(
         "program_letter/<int:program_id>/",
         ProgramLetterInterceptView.as_view(),

@@ -83,13 +83,6 @@ class CurrentUserRetrieveViewSet(mixins.RetrieveModelMixin, viewsets.GenericView
         return self.request.user
 
 
-class ExperimentalCurrentUserRetrieveViewSet(CurrentUserRetrieveViewSet):
-    """
-    Experimental v1 User retrieve and update viewset for the current user
-    Note: this api is experimental and subject to change
-    """
-
-
 @extend_schema(exclude=True)
 class ProfileViewSet(
     mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet

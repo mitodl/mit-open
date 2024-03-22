@@ -19,13 +19,12 @@ from profiles.utils import DEFAULT_PROFILE_IMAGE, make_temp_image_file
 pytestmark = [pytest.mark.django_db]
 
 
-@pytest.mark.parametrize("api_version", ["v0", "v1"])
-def test_list_users(staff_client, staff_user, api_version):
+def test_list_users(staff_client, staff_user):
     """
     List users
     """
     profile = staff_user.profile
-    url = reverse(f"profile:{api_version}:user_api-list")
+    url = reverse("profile:v0:user_api-list")
     resp = staff_client.get(url)
     assert resp.status_code == 200
     assert resp.json() == [
@@ -60,8 +59,7 @@ def test_list_users(staff_client, staff_user, api_version):
 # These can be removed once all clients have been updated and are sending both these fields
 @pytest.mark.parametrize("email_optin", [None, True, False])
 @pytest.mark.parametrize("toc_optin", [None, True, False])
-@pytest.mark.parametrize("api_version", ["v0", "v1"])
-def test_create_user(staff_client, staff_user, email_optin, toc_optin, api_version):  # pylint: disable=too-many-arguments
+def test_create_user(staff_client, staff_user, email_optin, toc_optin):  # pylint: disable=too-many-arguments
     """
     Create a user and assert the response
     """
@@ -69,7 +67,7 @@ def test_create_user(staff_client, staff_user, email_optin, toc_optin, api_versi
     staff_user.profile.email_optin = None
     staff_user.profile.save()
     staff_user.save()
-    url = reverse(f"profile:{api_version}:user_api-list")
+    url = reverse("profile:v0:user_api-list")
     email = "test.email@example.com"
     payload = {
         "email": email,
@@ -110,15 +108,12 @@ def test_create_user(staff_client, staff_user, email_optin, toc_optin, api_versi
     assert user.profile.toc_optin is toc_optin
 
 
-@pytest.mark.parametrize("api_version", ["v0", "v1"])
-def test_get_user(staff_client, user, api_version):
+def test_get_user(staff_client, user):
     """
     Get a user
     """
     profile = user.profile
-    url = reverse(
-        f"profile:{api_version}:user_api-detail", kwargs={"username": user.username}
-    )
+    url = reverse("profile:v0:user_api-detail", kwargs={"username": user.username})
     resp = staff_client.get(url)
     assert resp.status_code == 200
     assert resp.json() == {
