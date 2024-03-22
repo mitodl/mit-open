@@ -3,7 +3,8 @@
   "packageManager": "yarn@3.8.1",
   "sideEffects": false,
   "exports": {
-    ".": "./src/generated/api.ts",
+    ".": "./src/generated/v1/api.ts",
+    "./v0": "./src/generated/v0/api.ts",
     "./hooks/*": "./src/hooks/*/index.ts",
     "./test-utils/factories": "./src/test-utils/factories/index.ts",
     "./test-utils": "./src/test-utils/index.ts"

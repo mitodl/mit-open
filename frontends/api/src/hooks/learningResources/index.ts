@@ -18,7 +18,7 @@ import type {
   MicroLearningPathRelationship,
   LearningResource,
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
-} from "../../generated"
+} from "../../generated/v1"
 import learningResources, { invalidateResourceQueries } from "./keyFactory"
 
 const useLearningResourcesList = (
