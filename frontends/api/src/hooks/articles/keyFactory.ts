@@ -1,5 +1,5 @@
 import { articlesApi } from "../../clients"
-import type { ArticlesApiArticlesListRequest as ArticleListRequest } from "../../generated"
+import type { ArticlesApiArticlesListRequest as ArticleListRequest } from "../../generated/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
 const articles = createQueryKeys("articles", {

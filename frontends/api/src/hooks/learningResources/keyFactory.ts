@@ -15,7 +15,7 @@ import type {
   LearningResource,
   PaginatedLearningPathRelationshipList,
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
-} from "../../generated"
+} from "../../generated/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
 const learningResources = createQueryKeys("learningResources", {

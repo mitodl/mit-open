@@ -10,8 +10,8 @@ import type {
   TopicsApi,
   LearningpathsApi,
   ArticlesApi,
-} from "../generated"
-import type { BaseAPI } from "../generated/base"
+} from "../generated/v1"
+import type { BaseAPI } from "../generated/v1/base"
 
 // OpenAPI Generator declares parameters using interfaces, which makes passing
 // them to functions a little annoying.

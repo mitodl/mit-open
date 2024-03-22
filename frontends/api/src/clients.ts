@@ -5,7 +5,7 @@ import {
   ArticlesApi,
   ProgramLettersApi,
   LearningResourcesSearchApi,
-} from "./generated/api"
+} from "./generated/v1/api"
 import axiosInstance from "./axios"
 
 const BASE_PATH = ""

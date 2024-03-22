@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker/locale/en"
 import type { Factory } from "ol-test-utilities"
-import type { ProgramLetter } from "../../generated"
+import type { ProgramLetter } from "../../generated/v1"
 
 const programLetter: Factory<ProgramLetter> = (overrides = {}) => ({
   id: faker.datatype.uuid(),
