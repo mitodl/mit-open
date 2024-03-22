@@ -200,6 +200,7 @@ const useLearningResourcesSearch = (
 ) => {
   return useQuery({
     ...learningResources.search(params),
+    ...opts,
   })
 }
 
