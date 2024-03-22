@@ -9,7 +9,7 @@ export type User = {
 }
 
 export declare global {
-  interface window {
+  interface Window {
     SETTINGS: SETTINGS
   }
 
@@ -19,11 +19,12 @@ export declare global {
   interface SETTINGS {
     user: User
   }
-  interface APP_SETTINGS {
+  const APP_SETTINGS: {
     search_page_size: number
     ocw_next_base_url: string
     sentry_dsn?: string
     release_version?: string
     environment?: string
+    embedlyKey: string
   }
 }
