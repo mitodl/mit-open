@@ -4616,9 +4616,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rc-component/trigger@npm:^1.18.0":
-  version: 1.18.3
-  resolution: "@rc-component/trigger@npm:1.18.3"
+"@rc-component/trigger@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@rc-component/trigger@npm:2.0.0"
   dependencies:
     "@babel/runtime": ^7.23.2
     "@rc-component/portal": ^1.1.0
@@ -4629,7 +4629,7 @@ __metadata:
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 272098e67b4c09e8ee8f4fa2e55054c05f2ea5196e26859a2fd1dfb63ee4f02e4ca7b60d15704defb59b34151f042ff906099aee20d67a01066d2f0b76dd0c58
+  checksum: df435563e79208dfb93d62e6c9355ae494185d581435680ca0fd7bdf7393e805a3a97eb5a5b0366e0f17466f64550288437044652f5cf97df86f40a0caad2851
   languageName: node
   linkType: hard
 
@@ -20391,16 +20391,16 @@ __metadata:
   linkType: hard
 
 "rc-tooltip@npm:^6.1.2":
-  version: 6.1.3
-  resolution: "rc-tooltip@npm:6.1.3"
+  version: 6.2.0
+  resolution: "rc-tooltip@npm:6.2.0"
   dependencies:
     "@babel/runtime": ^7.11.2
-    "@rc-component/trigger": ^1.18.0
+    "@rc-component/trigger": ^2.0.0
     classnames: ^2.3.1
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: f67cf4e409d110f9f4098807303bd4590297f45ffb21d20f3c59a93de45b38c477eeee346e78b9c2e07bffd2ed53e22f435023113a08b553ed10e269754507e2
+  checksum: 950201af1743f655a867f8e2c9892784d3bb7b9a9f8b48aa0b22c5066b351f8895683e034cf2b8a8de6780641a84dab4bc6b4ecdcb81261b26462801f5cedf11
   languageName: node
   linkType: hard
 
