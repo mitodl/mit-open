@@ -2,7 +2,7 @@ import { styled } from "ol-components"
 
 const SPACER = "1.5em"
 
-const CardRowList = styled.ul<{ disabled?: boolean; marginTop: boolean }>`
+const CardRowList = styled.ul<{ disabled?: boolean; marginTop?: boolean }>`
   padding-left: 0;
   margin-left: 0;
   margin-right: 0;
