@@ -10,9 +10,10 @@ from django.http import (
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
 
 from learning_resources.permissions import is_learning_path_editor
-from main.features import get_all_feature_flags
+from main.features import get_all_feature_flags, is_enabled
 from main.permissions import is_admin_user
 
 
@@ -60,13 +61,19 @@ def handle_404(
     return HttpResponseNotFound(index(request))
 
 
-class FeaturesView(APIView):
+class FeaturesViewSet(ViewSet):
     """
     View for getting the currently available feature flags
     """
 
-    def get(self, request, format=None):
+    def list(self, request):  # noqa: A003, ARG002
         """
-        Return a list of all users.
+        Return a list of all feature flags.
         """
         return Response(get_all_feature_flags())
+
+    def retrieve(self, request, pk=None):  # noqa: ARG002
+        """
+        Return a single feature_flag, specified by its ID.
+        """
+        return Response(is_enabled(pk))
