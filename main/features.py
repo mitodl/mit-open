@@ -1,4 +1,6 @@
 """MIT Open feature flags"""
+import hashlib
+import json
 import logging
 
 import hashlib
@@ -26,6 +28,7 @@ log = logging.getLogger()
 
 
 User = get_user_model()
+durable_cache = caches["durable"]
 
 
 class Features(StrEnum):
@@ -120,6 +123,11 @@ def get_all_feature_flags(opt_unique_id: Optional[str] = None):
         unique_id,
         person_properties=person_properties,
     )
+    cache_key = generate_cache_key(unique_id, person_properties)
+
+    [durable_cache.set(f"{cache_key}_{k}", v) for k, v in flag_data.items()]
+
+    return flag_data
 
     [
         durable_cache.set(generate_cache_key(k, unique_id, person_properties), v)
@@ -148,7 +156,7 @@ def is_enabled(
             efforts.
 
     Returns:
-        bool: True if the feature flag is enabled
+        bool: True if the feature flag is enablede
     """
     unique_id = opt_unique_id or default_unique_id()
     person_properties = _get_person_properties(unique_id)
