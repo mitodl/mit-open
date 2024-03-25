@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useMemo } from "react"
 import {
   styled,
   Container,
@@ -15,9 +15,13 @@ import { MetaTags } from "ol-utilities"
 import { ResourceTypeEnum } from "api"
 import type {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
+  LearningResourceOfferor,
   LearningResourceSearchResponse,
 } from "api"
-import { useLearningResourcesSearch } from "api/hooks/learningResources"
+import {
+  useLearningResourcesSearch,
+  useOfferorsList,
+} from "api/hooks/learningResources"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import {
@@ -33,22 +37,28 @@ import TuneIcon from "@mui/icons-material/Tune"
 
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
 import type { TabConfig } from "./ResourceTypeTabs"
+import _ from "lodash"
 
-const FACET_MANIFEST: FacetManifest = [
-  {
-    name: "topic",
-    title: "Topics",
-    useFilterableFacet: true,
-    expandedOnLoad: true,
-  },
-  {
-    name: "offered_by",
-    title: "Offered By",
-    useFilterableFacet: false,
-    expandedOnLoad: true,
-  },
-]
-const FACET_NAMES = FACET_MANIFEST.map(
+const getFacetManifest = (
+  offerors: Record<string, LearningResourceOfferor>,
+): FacetManifest => {
+  return [
+    {
+      name: "topic",
+      title: "Topics",
+      useFilterableFacet: true,
+      expandedOnLoad: true,
+    },
+    {
+      name: "offered_by",
+      title: "Offered By",
+      useFilterableFacet: false,
+      expandedOnLoad: true,
+      labelFunction: (key) => offerors[key]?.name ?? key,
+    },
+  ]
+}
+const FACET_NAMES = getFacetManifest({}).map(
   (f) => f.name,
 ) as UseResourceSearchParamsProps["facets"]
 
@@ -242,6 +252,15 @@ const includeActiveZerosInBuckets = (
   return opts
 }
 
+const useFacetManifest = () => {
+  const offerorsQuery = useOfferorsList()
+  const offerors = useMemo(() => {
+    return _.keyBy(offerorsQuery.data?.results ?? [], (o) => o.code)
+  }, [offerorsQuery.data?.results])
+  const facetManifest = useMemo(() => getFacetManifest(offerors), [offerors])
+  return facetManifest
+}
+
 const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const setPage = useCallback(
@@ -259,6 +278,7 @@ const SearchPage: React.FC = () => {
     [setSearchParams],
   )
 
+  const facetManifest = useFacetManifest()
   const onFacetsChange = useCallback(() => {
     setPage(1)
   }, [setPage])
@@ -354,7 +374,7 @@ const SearchPage: React.FC = () => {
               </FacetsTitleContainer>
               <FacetStyles>
                 <AvailableFacets
-                  facetMap={FACET_MANIFEST}
+                  facetMap={facetManifest}
                   activeFacets={params}
                   onFacetChange={toggleParamValue}
                   facetOptions={getFacetOptions}

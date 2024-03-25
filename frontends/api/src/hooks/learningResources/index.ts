@@ -20,6 +20,7 @@ import type {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
   UserlistsApiUserlistsListRequest as ULListRequest,
   UserlistsApiUserlistsItemsListRequest as ULItemsListRequest,
+  OfferorsApiOfferorsListRequest,
 } from "../../generated/v1"
 import learningResources, { invalidateResourceQueries } from "./keyFactory"
 
@@ -229,6 +230,16 @@ const useInfiniteUserListItems = (
   })
 }
 
+const useOfferorsList = (
+  params: OfferorsApiOfferorsListRequest = {},
+  opts: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useQuery({
+    ...learningResources.offerors(params),
+    ...opts,
+  })
+}
+
 export {
   useLearningResourcesList,
   useLearningResourcesDetail,
@@ -245,4 +256,5 @@ export {
   useLearningResourcesSearch,
   useUserListList,
   useInfiniteUserListItems,
+  useOfferorsList,
 }

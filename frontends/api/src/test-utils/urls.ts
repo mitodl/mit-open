@@ -11,6 +11,7 @@ import type {
   LearningpathsApi,
   ArticlesApi,
   UserlistsApi,
+  OfferorsApi,
 } from "../generated/v1"
 import type { BaseAPI } from "../generated/v1/base"
 
@@ -34,6 +35,11 @@ const learningResources = {
     `/api/v1/learning_resources/${query(params)}`,
   details: (params: Params<LRApi, "learningResourcesRetrieve">) =>
     `/api/v1/learning_resources/${params.id}/`,
+}
+
+const offerors = {
+  list: (params?: Params<OfferorsApi, "offerorsList">) =>
+    `/api/v1/offerors/${query(params)}`,
 }
 
 const topics = {
@@ -107,4 +113,5 @@ export {
   programLetters,
   fields,
   widgetLists,
+  offerors,
 }

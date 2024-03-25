@@ -8,12 +8,19 @@ import {
 } from "@/test-utils"
 import SearchPage from "./SearchPage"
 import { setMockResponse, urls, factories, makeRequest } from "api/test-utils"
-import type { LearningResourceSearchResponse } from "api"
+import type {
+  LearningResourceSearchResponse,
+  PaginatedLearningResourceOfferorList,
+} from "api"
 import invariant from "tiny-invariant"
 
-const setMockSearchResponse = (
-  responseBody: Partial<LearningResourceSearchResponse>,
-) => {
+const setMockApiResponses = ({
+  search,
+  offerors,
+}: {
+  search?: Partial<LearningResourceSearchResponse>
+  offerors?: PaginatedLearningResourceOfferorList
+}) => {
   setMockResponse.get(expect.stringContaining(urls.search.resources()), {
     count: 0,
     next: null,
@@ -23,8 +30,12 @@ const setMockSearchResponse = (
       aggregations: {},
       suggestions: [],
     },
-    ...responseBody,
+    ...search,
   })
+  setMockResponse.get(
+    urls.offerors.list(),
+    offerors ?? factories.learningResources.offerors({ count: 5 }),
+  )
 }
 
 const getLastApiSearchParams = () => {
@@ -43,20 +54,22 @@ describe("SearchPage", () => {
     const resources = factories.learningResources.resources({
       count: 10,
     }).results
-    setMockSearchResponse({
-      count: 1000,
-      metadata: {
-        aggregations: {
-          resource_type: [
-            { key: "course", doc_count: 100 },
-            { key: "podcast", doc_count: 200 },
-            { key: "program", doc_count: 300 },
-            { key: "irrelevant", doc_count: 400 },
-          ],
+    setMockApiResponses({
+      search: {
+        count: 1000,
+        metadata: {
+          aggregations: {
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 200 },
+              { key: "program", doc_count: 300 },
+              { key: "irrelevant", doc_count: 400 },
+            ],
+          },
+          suggestions: [],
         },
-        suggestions: [],
+        results: resources,
       },
-      results: resources,
     })
     renderWithProviders(<SearchPage />)
     const tabpanel = await screen.findByRole("tabpanel")
@@ -72,18 +85,20 @@ describe("SearchPage", () => {
     { url: "?resource_type=podcast", expectedActive: /Podcasts/ },
     { url: "", expectedActive: /All/ },
   ])("Active tab determined by URL $url", async ({ url, expectedActive }) => {
-    setMockSearchResponse({
-      count: 1000,
-      metadata: {
-        aggregations: {
-          resource_type: [
-            { key: "course", doc_count: 100 },
-            { key: "podcast", doc_count: 200 },
-            { key: "program", doc_count: 300 },
-            { key: "irrelevant", doc_count: 400 },
-          ],
+    setMockApiResponses({
+      search: {
+        count: 1000,
+        metadata: {
+          aggregations: {
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 200 },
+              { key: "program", doc_count: 300 },
+              { key: "irrelevant", doc_count: 400 },
+            ],
+          },
+          suggestions: [],
         },
-        suggestions: [],
       },
     })
     renderWithProviders(<SearchPage />, { url })
@@ -92,18 +107,20 @@ describe("SearchPage", () => {
   })
 
   test("Clicking tabs updates URL", async () => {
-    setMockSearchResponse({
-      count: 1000,
-      metadata: {
-        aggregations: {
-          resource_type: [
-            { key: "course", doc_count: 100 },
-            { key: "podcast", doc_count: 200 },
-            { key: "program", doc_count: 300 },
-            { key: "irrelevant", doc_count: 400 },
-          ],
+    setMockApiResponses({
+      search: {
+        count: 1000,
+        metadata: {
+          aggregations: {
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 200 },
+              { key: "program", doc_count: 300 },
+              { key: "irrelevant", doc_count: 400 },
+            ],
+          },
+          suggestions: [],
         },
-        suggestions: [],
       },
     })
     const { location } = renderWithProviders(<SearchPage />)
@@ -123,17 +140,19 @@ describe("SearchPage", () => {
   })
 
   test("Tab titles show corret result counts", async () => {
-    setMockSearchResponse({
-      count: 700,
-      metadata: {
-        aggregations: {
-          resource_type: [
-            { key: "course", doc_count: 100 },
-            { key: "podcast", doc_count: 200 },
-            { key: "irrelevant", doc_count: 400 },
-          ],
+    setMockApiResponses({
+      search: {
+        count: 700,
+        metadata: {
+          aggregations: {
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 200 },
+              { key: "irrelevant", doc_count: 400 },
+            ],
+          },
+          suggestions: [],
         },
-        suggestions: [],
       },
     })
     renderWithProviders(<SearchPage />)
@@ -166,16 +185,18 @@ describe("SearchPage", () => {
   ])(
     "Makes API call with correct facets and aggregations",
     async ({ url, expected }) => {
-      setMockSearchResponse({
-        count: 700,
-        metadata: {
-          aggregations: {
-            topic: [
-              { key: "physics", doc_count: 100 },
-              { key: "chemistry", doc_count: 200 },
-            ],
+      setMockApiResponses({
+        search: {
+          count: 700,
+          metadata: {
+            aggregations: {
+              topic: [
+                { key: "physics", doc_count: 100 },
+                { key: "chemistry", doc_count: 200 },
+              ],
+            },
+            suggestions: [],
           },
-          suggestions: [],
         },
       })
       renderWithProviders(<SearchPage />, { url })
@@ -195,16 +216,18 @@ describe("SearchPage", () => {
   )
 
   test("Toggling facets", async () => {
-    setMockSearchResponse({
-      count: 700,
-      metadata: {
-        aggregations: {
-          topic: [
-            { key: "Physics", doc_count: 100 }, // Physics
-            { key: "Chemistry", doc_count: 200 }, // Chemistry
-          ],
+    setMockApiResponses({
+      search: {
+        count: 700,
+        metadata: {
+          aggregations: {
+            topic: [
+              { key: "Physics", doc_count: 100 }, // Physics
+              { key: "Chemistry", doc_count: 200 }, // Chemistry
+            ],
+          },
+          suggestions: [],
         },
-        suggestions: [],
       },
     })
     const { location } = renderWithProviders(<SearchPage />, {
@@ -228,7 +251,7 @@ describe("SearchPage", () => {
   })
 
   test("Submitting text updates URL", async () => {
-    setMockSearchResponse({})
+    setMockApiResponses({})
     const { location } = renderWithProviders(<SearchPage />, { url: "?q=meow" })
     const queryInput = await screen.findByRole<HTMLInputElement>("textbox", {
       name: "Search for",
@@ -242,15 +265,17 @@ describe("SearchPage", () => {
   })
 
   test("Active facets show in facet display even if zero count", async () => {
-    setMockSearchResponse({
-      metadata: {
-        aggregations: {
-          topic: [
-            { key: "Biology", doc_count: 10 },
-            { key: "Physics", doc_count: 20 },
-          ],
+    setMockApiResponses({
+      search: {
+        metadata: {
+          aggregations: {
+            topic: [
+              { key: "Biology", doc_count: 10 },
+              { key: "Physics", doc_count: 20 },
+            ],
+          },
+          suggestions: [],
         },
-        suggestions: [],
       },
     })
     renderWithProviders(<SearchPage />, {
@@ -265,8 +290,39 @@ describe("SearchPage", () => {
   })
 })
 
+test("Facet 'Offered By' uses API response for names", async () => {
+  const offerors = factories.learningResources.offerors({ count: 3 })
+  setMockApiResponses({
+    offerors,
+    search: {
+      metadata: {
+        aggregations: {
+          offered_by: offerors.results.map((o) => ({
+            key: o.code,
+            doc_count: 10,
+          })),
+        },
+        suggestions: [],
+      },
+    },
+  })
+  renderWithProviders(<SearchPage />)
+  const offeror0 = await screen.findByRole("checkbox", {
+    name: offerors.results[0].name,
+  })
+  const offeror1 = await screen.findByRole("checkbox", {
+    name: offerors.results[1].name,
+  })
+  const offeror2 = await screen.findByRole("checkbox", {
+    name: offerors.results[2].name,
+  })
+  expect(offeror0).toBeVisible()
+  expect(offeror1).toBeVisible()
+  expect(offeror2).toBeVisible()
+})
+
 test("Clearing text updates URL", async () => {
-  setMockSearchResponse({})
+  setMockApiResponses({})
   const { location } = renderWithProviders(<SearchPage />, { url: "?q=meow" })
   await user.click(screen.getByRole("button", { name: "Clear search text" }))
   expect(location.current.search).toBe("")
@@ -281,7 +337,7 @@ describe("Search Page pagination controls", () => {
     screen.getByRole("navigation", { name: "pagination navigation" })
 
   test("?page URLSearchParam controls activate page", async () => {
-    setMockSearchResponse({ count: 137 })
+    setMockApiResponses({ search: { count: 137 } })
     renderWithProviders(<SearchPage />, { url: "?page=3" })
     const pagination = getPagination()
     // p3 is current page
@@ -294,7 +350,7 @@ describe("Search Page pagination controls", () => {
   })
 
   test("Clicking on a page updates URL", async () => {
-    setMockSearchResponse({ count: 137 })
+    setMockApiResponses({ search: { count: 137 } })
     const { location } = renderWithProviders(<SearchPage />, {
       url: "?page=3",
     })
@@ -310,7 +366,7 @@ describe("Search Page pagination controls", () => {
   })
 
   test("Max page is determined by count", async () => {
-    setMockSearchResponse({ count: 137 })
+    setMockApiResponses({ search: { count: 137 } })
     renderWithProviders(<SearchPage />, { url: "?page=3" })
     const pagination = getPagination()
     // p14 exists

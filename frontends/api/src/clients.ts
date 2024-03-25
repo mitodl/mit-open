@@ -2,6 +2,7 @@ import {
   LearningResourcesApi,
   LearningpathsApi,
   UserlistsApi,
+  OfferorsApi,
   TopicsApi,
   ArticlesApi,
   ProgramLettersApi,
@@ -33,6 +34,8 @@ const learningpathsApi = new LearningpathsApi(
 
 const userListsApi = new UserlistsApi(undefined, BASE_PATH, axiosInstance)
 
+const offerorsApi = new OfferorsApi(undefined, BASE_PATH, axiosInstance)
+
 const topicsApi = new TopicsApi(undefined, BASE_PATH, axiosInstance)
 
 const articlesApi = new ArticlesApi(undefined, BASE_PATH, axiosInstance)
@@ -52,6 +55,7 @@ export {
   userListsApi,
   topicsApi,
   articlesApi,
+  offerorsApi,
   programLettersApi,
   learningResourcesSearchApi,
   fieldsApi,
