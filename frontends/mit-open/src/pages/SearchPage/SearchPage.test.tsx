@@ -68,8 +68,8 @@ describe("SearchPage", () => {
   })
 
   test.each([
-    { url: "?r=course", expectedActive: /Courses/ },
-    { url: "?r=podcast", expectedActive: /Podcasts/ },
+    { url: "?resource_type=course", expectedActive: /Courses/ },
+    { url: "?resource_type=podcast", expectedActive: /Podcasts/ },
     { url: "", expectedActive: /All/ },
   ])("Active tab determined by URL $url", async ({ url, expectedActive }) => {
     setMockSearchResponse({
@@ -112,10 +112,14 @@ describe("SearchPage", () => {
     expect(tabAll).toHaveAttribute("aria-selected")
     await user.click(tabCourses)
     expect(tabCourses).toHaveAttribute("aria-selected")
-    expect(new URLSearchParams(location.current.search).get("r")).toBe("course")
+    expect(
+      new URLSearchParams(location.current.search).get("resource_type"),
+    ).toBe("course")
     await user.click(tabAll)
     expect(tabAll).toHaveAttribute("aria-selected")
-    expect(new URLSearchParams(location.current.search).get("r")).toBe(null)
+    expect(
+      new URLSearchParams(location.current.search).get("resource_type"),
+    ).toBe(null)
   })
 
   test("Tab titles show corret result counts", async () => {
@@ -153,9 +157,9 @@ describe("SearchPage", () => {
   })
 
   test.each([
-    { url: "?t=physics", expected: { topic: "physics" } },
+    { url: "?topic=physics", expected: { topic: "physics" } },
     {
-      url: "?r=course",
+      url: "?resource_type=course",
       expected: { resource_type: "course" },
     },
     { url: "?q=woof", expected: { q: "woof" } },
@@ -180,6 +184,7 @@ describe("SearchPage", () => {
       })
       const apiSearchParams = getLastApiSearchParams()
       expect(apiSearchParams.getAll("aggregations").sort()).toEqual([
+        "offered_by",
         "resource_type",
         "topic",
       ])
@@ -203,7 +208,7 @@ describe("SearchPage", () => {
       },
     })
     const { location } = renderWithProviders(<SearchPage />, {
-      url: "?t=Physics&t=Chemistry",
+      url: "?topic=Physics&topic=Chemistry",
     })
     const clearAll = await screen.findByRole("button", { name: /clear all/i })
     const physics = await screen.findByRole("checkbox", { name: "Physics" })
@@ -219,7 +224,7 @@ describe("SearchPage", () => {
     // toggle physics
     await user.click(physics)
     expect(physics).toBeChecked()
-    expect(location.current.search).toBe("?t=Physics")
+    expect(location.current.search).toBe("?topic=Physics")
   })
 
   test("Submitting text updates URL", async () => {
@@ -234,6 +239,29 @@ describe("SearchPage", () => {
     expect(location.current.search).toBe("?q=meow")
     await user.click(screen.getByRole("button", { name: "Search" }))
     expect(location.current.search).toBe("?q=woof")
+  })
+
+  test("Active facets show in facet display even if zero count", async () => {
+    setMockSearchResponse({
+      metadata: {
+        aggregations: {
+          topic: [
+            { key: "Biology", doc_count: 10 },
+            { key: "Physics", doc_count: 20 },
+          ],
+        },
+        suggestions: [],
+      },
+    })
+    renderWithProviders(<SearchPage />, {
+      url: "?topic=Biology&topic=Chemistry",
+    })
+    const biology = await screen.findByRole("checkbox", { name: /Biology/ })
+    const chemistry = await screen.findByLabelText("Chemistry")
+    const physics = await screen.findByLabelText("Physics")
+    expect(biology).toBeChecked()
+    expect(chemistry).toBeChecked()
+    expect(physics).not.toBeChecked()
   })
 })
 

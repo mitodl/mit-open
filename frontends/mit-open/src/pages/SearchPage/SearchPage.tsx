@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import {
   styled,
   Container,
@@ -8,33 +8,56 @@ import {
   CardContent,
   Grid,
   Skeleton,
+  Stack,
+  Button,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
 import { ResourceTypeEnum } from "api"
-import type { LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest } from "api"
+import type {
+  LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
+  LearningResourceSearchResponse,
+} from "api"
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import { useSearchQueryParams, FacetDisplay } from "@mitodl/course-search-utils"
+import {
+  AvailableFacets,
+  useResourceSearchParams,
+  UseResourceSearchParamsProps,
+} from "@mitodl/course-search-utils"
 import type { FacetManifest } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
-import PlainVerticalList from "@/components/PlainVerticalList/PlainVerticalList"
+import CardRowList from "@/components/CardRowList/CardRowList"
+import TuneIcon from "@mui/icons-material/Tune"
 
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
 import type { TabConfig } from "./ResourceTypeTabs"
 
-const RESOURCE_FACETS: FacetManifest = [
+const FACET_MANIFEST: FacetManifest = [
   {
     name: "topic",
     title: "Topics",
     useFilterableFacet: true,
     expandedOnLoad: true,
   },
+  {
+    name: "offered_by",
+    title: "Offered By",
+    useFilterableFacet: false,
+    expandedOnLoad: true,
+  },
 ]
+const FACET_NAMES = FACET_MANIFEST.map(
+  (f) => f.name,
+) as UseResourceSearchParamsProps["facets"]
 
-const AGGREGATIONS: LRSearchRequest["aggregations"] = ["resource_type", "topic"]
+const AGGREGATIONS: LRSearchRequest["aggregations"] = [
+  "resource_type",
+  "topic",
+  "offered_by",
+]
 
 const ColoredHeader = styled.div`
   background-color: ${({ theme }) => theme.palette.secondary.light};
@@ -52,16 +75,10 @@ const FacetStyles = styled.div`
     color: ${({ theme }) => theme.palette.secondary.main};
   }
 
+  margin-top: 24px;
+
   input[type="checkbox"] {
     accent-color: ${({ theme }) => theme.palette.primary.main};
-  }
-
-  .filter-section-main-title {
-    font-size: ${({ theme }) => theme.custom.fontLg};
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
   }
 
   .filter-section-button {
@@ -157,43 +174,27 @@ const FacetStyles = styled.div`
     margin-bottom: 10px;
     width: 100%;
   }
+`
 
-  .active-search-filter {
-    margin-right: 6px;
-    margin-bottom: 9px;
-    padding-left: 8px;
-    background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
-    font-size: ${({ theme }) => theme.custom.fontSm};
-    display: inline-flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    border: 1px solid ${({ theme }) => theme.custom.inputBorderGrey};
-    border-radius: 14px;
+const FilterTitle = styled.div`
+  font-size: ${({ theme }) => theme.custom.fontLg};
+  font-weight: ${({ theme }) => theme.typography.fontWeightBold};
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
 
-    .remove-filter-button {
-      padding: 4px;
-      margin-right: 4px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      border: none;
-      background: none;
-
-      .material-icons {
-        font-size: 1.25em;
-      }
-    }
-  }
-
-  .clear-all-filters-button {
-    font-size: ${({ theme }) => theme.custom.fontNormal};
-    font-weight: normal;
-    text-decoration: underline;
-    background: none;
-    border: none;
-    cursor: pointer;
+  .MuiSvgIcon-root {
+    margin-left: 0.5rem;
   }
 `
+
+const FacetsTitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 48px;
+  justify-content: end;
+`
+
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: end;
@@ -222,46 +223,88 @@ const TABS: TabConfig[] = [
 ]
 const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
 
+/**
+ * Augment the facet buckets for `groupKey` with active values that have no
+ * results.
+ */
+const includeActiveZerosInBuckets = (
+  groupKey: string,
+  aggregations: LearningResourceSearchResponse["metadata"]["aggregations"],
+  params: LRSearchRequest,
+) => {
+  const opts = [...(aggregations[groupKey] ?? [])]
+  const active = params[groupKey as keyof LRSearchRequest] ?? []
+  const actives = Array.isArray(active) ? active : [active]
+  actives.forEach((key) => {
+    if (!opts.find((o) => o.key === key)) {
+      opts.push({ key: String(key), doc_count: 0 })
+    }
+  })
+  return opts
+}
+
 const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const setPage = useCallback(
+    (newPage: number) => {
+      setSearchParams((current) => {
+        const copy = new URLSearchParams(current)
+        if (newPage === 1) {
+          copy.delete("page")
+        } else {
+          copy.set("page", newPage.toString())
+        }
+        return copy
+      })
+    },
+    [setSearchParams],
+  )
 
+  const onFacetsChange = useCallback(() => {
+    setPage(1)
+  }, [setPage])
   const {
     params,
-    setFacetActive,
-    clearFacet,
-    clearFacets,
+    clearAllFacets,
+    patchParams,
+    toggleParamValue,
     currentText,
     setCurrentText,
     setCurrentTextAndQuery,
-  } = useSearchQueryParams({
+  } = useResourceSearchParams({
     searchParams,
     setSearchParams,
+    facets: FACET_NAMES,
+    onFacetsChange,
   })
   const page = +(searchParams.get("page") ?? "1")
 
-  const setPage = (newPage: number) => {
-    setSearchParams((current) => {
-      const copy = new URLSearchParams(current)
-      copy.set("page", newPage.toString())
-      return copy
-    })
-  }
+  const resourceType = params.resource_type
 
-  const resourceType = params.activeFacets.resource_type
   const { data, isFetching } = useLearningResourcesSearch(
     {
+      ...params,
       aggregations: AGGREGATIONS,
-      q: params.queryText,
       resource_type: resourceType ? resourceType : ALL_RESOURCE_TABS,
-      topic: params.activeFacets.topic,
       limit: PAGE_SIZE,
       offset: (page - 1) * PAGE_SIZE,
     },
     { keepPreviousData: true },
   )
 
-  const resultsTitle = params.queryText
-    ? `${data?.count} results for "${params.queryText}"`
+  const getFacetOptions = useCallback(
+    (groupKey: string) => {
+      return includeActiveZerosInBuckets(
+        groupKey,
+        data?.metadata.aggregations ?? {},
+        params,
+      )
+    },
+    [params, data?.metadata.aggregations],
+  )
+
+  const resultsTitle = params.q
+    ? `${data?.count} results for "${params.q}"`
     : `${data?.count} results`
 
   return (
@@ -278,8 +321,12 @@ const SearchPage: React.FC = () => {
                 color="secondary"
                 value={currentText}
                 onChange={(e) => setCurrentText(e.target.value)}
-                onSubmit={(e) => setCurrentTextAndQuery(e.target.value)}
-                onClear={() => setCurrentTextAndQuery("")}
+                onSubmit={(e) => {
+                  setCurrentTextAndQuery(e.target.value)
+                }}
+                onClear={() => {
+                  setCurrentTextAndQuery("")
+                }}
                 placeholder="Search for resources"
               />
             </Grid>
@@ -288,40 +335,51 @@ const SearchPage: React.FC = () => {
       </ColoredHeader>
       <Container>
         <GridContainer>
-          <ResourceTypeTabs.Context
-            resourceType={params.activeFacets.resource_type?.[0]}
-          >
+          <ResourceTypeTabs.Context resourceType={params.resource_type?.[0]}>
             <GridColumn variant="sidebar-2-wide-main" />
             <GridColumn variant="main-2-wide-main">
               <h3>{isFetching ? <Skeleton width="50%" /> : resultsTitle}</h3>
             </GridColumn>
-            <GridColumn variant="sidebar-2-wide-main" />
-            <GridColumn variant="main-2-wide-main">
-              <ResourceTypeTabs.TabList
-                clearFacet={clearFacet}
-                setFacetActive={setFacetActive}
-                tabs={TABS}
-                aggregations={data?.metadata.aggregations}
-                onTabChange={() => setPage(1)}
-              />
-            </GridColumn>
             <GridColumn variant="sidebar-2-wide-main">
+              <FacetsTitleContainer>
+                <Stack
+                  direction="row"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
+                  <FilterTitle>
+                    Filters
+                    <TuneIcon fontSize="inherit" />
+                  </FilterTitle>
+                  <Button
+                    variant="text"
+                    onClick={clearAllFacets}
+                    color="secondary"
+                    sx={{ padding: 0, lineHeight: "normal" }}
+                  >
+                    Clear all
+                  </Button>
+                </Stack>
+              </FacetsTitleContainer>
               <FacetStyles>
-                <FacetDisplay
-                  facetMap={RESOURCE_FACETS}
-                  activeFacets={params.activeFacets}
-                  onFacetChange={setFacetActive}
-                  clearAllFilters={clearFacets}
-                  facetOptions={(group) =>
-                    data?.metadata.aggregations[group] ?? null
-                  }
+                <AvailableFacets
+                  facetMap={FACET_MANIFEST}
+                  activeFacets={params}
+                  onFacetChange={toggleParamValue}
+                  facetOptions={getFacetOptions}
                 />
               </FacetStyles>
             </GridColumn>
             <GridColumn variant="main-2-wide-main">
+              <ResourceTypeTabs.TabList
+                patchParams={patchParams}
+                tabs={TABS}
+                aggregations={data?.metadata.aggregations}
+                onTabChange={() => setPage(1)}
+              />
               <ResourceTypeTabs.TabPanels tabs={TABS}>
                 {data && data.count > 0 ? (
-                  <PlainVerticalList itemSpacing="16px">
+                  <CardRowList marginTop={false}>
                     {data.results.map((resource) => (
                       <li key={resource.id}>
                         <LearningResourceCard
@@ -330,7 +388,7 @@ const SearchPage: React.FC = () => {
                         />
                       </li>
                     ))}
-                  </PlainVerticalList>
+                  </CardRowList>
                 ) : (
                   <Card>
                     <CardContent>No results found for your query.</CardContent>

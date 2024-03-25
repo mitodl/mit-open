@@ -3597,15 +3597,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@npm:^3.0.3":
+"@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#512230e61e41322dfce203bfe31c19eeba92a9fb":
   version: 3.0.3
-  resolution: "@mitodl/course-search-utils@npm:3.0.3"
+  resolution: "@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#commit=512230e61e41322dfce203bfe31c19eeba92a9fb"
   dependencies:
+    "@mitodl/open-api-axios": ^2024.3.22
     axios: ^1.6.7
     fuse.js: ^7.0.0
     query-string: ^6.13.1
     ramda: ^0.27.1
-    react-dotdotdot: ^1.3.1
   peerDependencies:
     "@types/history": ^4.9
     history: ^4.9 || ^5.0.0
@@ -3618,7 +3618,17 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 1c6799e422729974be8c747c54470b0d9fc19dea544d8a02ab95981178362d3c5ac3be50b989d594afcafec802ad6d429b3c502e1773014c46c58090ca1e70be
+  checksum: 997d2a4bbb62eefb04bab79e34fcf8c8d46e157803204d8a7bc21564aca0897f08c70b0915280b1f9d6200a185a850737eccb7bcfe528e9a07470e03568da2c1
+  languageName: node
+  linkType: hard
+
+"@mitodl/open-api-axios@npm:^2024.3.22":
+  version: 2024.3.22
+  resolution: "@mitodl/open-api-axios@npm:2024.3.22"
+  dependencies:
+    "@types/node": ^20.11.19
+    axios: ^1.6.5
+  checksum: 9364fb29b9098883bc6a35c7bba33c4968748a4a9c7808c122626bff9351c5bdd84f21449f743dee01f1ae1fa2ae46dfc36c1b774bd8aaec426d5fce52191e62
   languageName: node
   linkType: hard
 
@@ -6640,7 +6650,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.11.5":
+"@types/node@npm:*, @types/node@npm:^20.11.19, @types/node@npm:^20.11.5":
   version: 20.11.30
   resolution: "@types/node@npm:20.11.30"
   dependencies:
@@ -8071,7 +8081,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.3, axios@npm:^1.6.7":
+"axios@npm:^1.6.3, axios@npm:^1.6.5, axios@npm:^1.6.7":
   version: 1.6.8
   resolution: "axios@npm:1.6.8"
   dependencies:
@@ -17597,7 +17607,7 @@ __metadata:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
     "@faker-js/faker": ^7.3.0
-    "@mitodl/course-search-utils": ^3.0.3
+    "@mitodl/course-search-utils": "https://github.com/mitodl/course-search-utils.git#512230e61e41322dfce203bfe31c19eeba92a9fb"
     "@mui/icons-material": ^5.14.19
     "@sentry/react": ^7.57.0
     "@storybook/addon-essentials": ^7.6.6
