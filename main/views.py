@@ -10,9 +10,10 @@ from django.http import (
 )
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework.view import APIView
+from rest_framework.views import APIView
 
 from learning_resources.permissions import is_learning_path_editor
+from main.features import get_all_feature_flags
 from main.permissions import is_admin_user
 
 
@@ -76,4 +77,4 @@ class FeaturesView(APIView):
         """
         Return a list of all users.
         """
-        return Response(usernames)
+        return Response(get_all_feature_flags())

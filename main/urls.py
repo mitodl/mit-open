@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
 
-from main.views import index
+from main.views import FeaturesView, index
 
 # Post slugs can contain unicode characters, so a letter-matching pattern like [A-Za-z] doesn't work.  # noqa: E501
 # "[^\W]" Matches any character that is NOT a non-alphanumeric character, including underscores.  # noqa: E501
@@ -45,6 +45,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("openapi.urls")),
     re_path(r"", include("learning_resources.urls")),
     re_path(r"", include("articles.urls")),
+    re_path(r"^_/features/", FeaturesView.as_view(), name="features"),
     # React App
     re_path(r"^$", index, name="main-index"),
     re_path(r"^privacy-statement/", index, name="privacy-statement"),

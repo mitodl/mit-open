@@ -43,7 +43,7 @@ def configure():
 
 def default_unique_id() -> str:
     """Get the default unique_id if it's not provided"""
-    return settings.hostname
+    return settings.HOSTNAME
 
 
 def user_unique_id(user: Optional[User]) -> Optional[str]:
@@ -85,7 +85,7 @@ def get_all_feature_flags(unique_id: Optional[str] = None):
     """
     unique_id = unique_id or default_unique_id()
 
-    return posthog.get_all_feature_flags(
+    return posthog.get_all_flags(
         unique_id,
         person_properties=_get_person_properties(unique_id),
     )
