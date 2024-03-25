@@ -55,6 +55,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"^program_letter/", index, name="programletter"),
     # Hijack
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
+    re_path(r"", include("news_events.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

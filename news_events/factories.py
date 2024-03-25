@@ -10,6 +10,17 @@ from news_events import models
 from news_events.constants import FeedType
 
 
+class FeedImageFactory(factory.django.DjangoModelFactory):
+    """Factory for source/item images"""
+
+    url = factory.Faker("url")
+    description = factory.Faker("sentence")
+    alt = factory.Faker("sentence")
+
+    class Meta:
+        model = models.FeedImage
+
+
 class FeedSourceFactory(factory.django.DjangoModelFactory):
     """Factory for FeedSource model"""
 
@@ -17,6 +28,7 @@ class FeedSourceFactory(factory.django.DjangoModelFactory):
     url = factory.Faker("url")
     description = factory.Faker("paragraph")
     feed_type = FuzzyChoice([feed_type.name for feed_type in FeedType])
+    image = factory.SubFactory(FeedImageFactory)
 
     class Meta:
         model = models.FeedSource

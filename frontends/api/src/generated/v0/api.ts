@@ -40,6 +40,94 @@ import {
 } from "./base"
 
 /**
+ * Serializer for FeedImage
+ * @export
+ * @interface FeedImage
+ */
+export interface FeedImage {
+  /**
+   *
+   * @type {number}
+   * @memberof FeedImage
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof FeedImage
+   */
+  url?: string
+  /**
+   *
+   * @type {string}
+   * @memberof FeedImage
+   */
+  description?: string
+  /**
+   *
+   * @type {string}
+   * @memberof FeedImage
+   */
+  alt?: string
+}
+/**
+ * FeedSource serializer
+ * @export
+ * @interface FeedSource
+ */
+export interface FeedSource {
+  /**
+   *
+   * @type {number}
+   * @memberof FeedSource
+   */
+  id: number
+  /**
+   *
+   * @type {FeedImage}
+   * @memberof FeedSource
+   */
+  image: FeedImage
+  /**
+   *
+   * @type {string}
+   * @memberof FeedSource
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof FeedSource
+   */
+  url: string
+  /**
+   *
+   * @type {string}
+   * @memberof FeedSource
+   */
+  description?: string
+  /**
+   *
+   * @type {FeedTypeEnum}
+   * @memberof FeedSource
+   */
+  feed_type: FeedTypeEnum
+}
+
+/**
+ * * `news` - News * `events` - Events
+ * @export
+ * @enum {string}
+ */
+
+export const FeedTypeEnum = {
+  News: "news",
+  Events: "events",
+} as const
+
+export type FeedTypeEnum = (typeof FeedTypeEnum)[keyof typeof FeedTypeEnum]
+
+/**
  * Serializer for FieldChannel
  * @export
  * @interface FieldChannel
@@ -302,6 +390,37 @@ export interface LearningPathPreview {
    * @memberof LearningPathPreview
    */
   id: number
+}
+/**
+ *
+ * @export
+ * @interface PaginatedFeedSourceList
+ */
+export interface PaginatedFeedSourceList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedFeedSourceList
+   */
+  count?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedFeedSourceList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedFeedSourceList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<FeedSource>}
+   * @memberof PaginatedFeedSourceList
+   */
+  results?: Array<FeedSource>
 }
 /**
  *
@@ -1769,6 +1888,664 @@ export class FieldsApi extends BaseAPI {
       .then((request) => request(this.axios, this.basePath))
   }
 }
+
+/**
+ * NewsEventsApi - axios parameter creator
+ * @export
+ */
+export const NewsEventsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Get a paginated list of feed items.
+     * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    newsEventsList: async (
+      feed_type?: Array<NewsEventsListFeedTypeEnum>,
+      limit?: number,
+      offset?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/news_events/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (feed_type) {
+        localVarQueryParameter["feed_type"] = feed_type
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieve a single feed item.
+     * @param {number} id A unique integer value identifying this feed item.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    newsEventsRetrieve: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("newsEventsRetrieve", "id", id)
+      const localVarPath = `/api/v0/news_events/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * NewsEventsApi - functional programming interface
+ * @export
+ */
+export const NewsEventsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    NewsEventsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Get a paginated list of feed items.
+     * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async newsEventsList(
+      feed_type?: Array<NewsEventsListFeedTypeEnum>,
+      limit?: number,
+      offset?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.newsEventsList(
+        feed_type,
+        limit,
+        offset,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["NewsEventsApi.newsEventsList"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Retrieve a single feed item.
+     * @param {number} id A unique integer value identifying this feed item.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async newsEventsRetrieve(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.newsEventsRetrieve(id, options)
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["NewsEventsApi.newsEventsRetrieve"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * NewsEventsApi - factory interface
+ * @export
+ */
+export const NewsEventsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = NewsEventsApiFp(configuration)
+  return {
+    /**
+     * Get a paginated list of feed items.
+     * @param {NewsEventsApiNewsEventsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    newsEventsList(
+      requestParameters: NewsEventsApiNewsEventsListRequest = {},
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .newsEventsList(
+          requestParameters.feed_type,
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Retrieve a single feed item.
+     * @param {NewsEventsApiNewsEventsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    newsEventsRetrieve(
+      requestParameters: NewsEventsApiNewsEventsRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .newsEventsRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for newsEventsList operation in NewsEventsApi.
+ * @export
+ * @interface NewsEventsApiNewsEventsListRequest
+ */
+export interface NewsEventsApiNewsEventsListRequest {
+  /**
+   * The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+   * @type {Array<'events' | 'news'>}
+   * @memberof NewsEventsApiNewsEventsList
+   */
+  readonly feed_type?: Array<NewsEventsListFeedTypeEnum>
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof NewsEventsApiNewsEventsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof NewsEventsApiNewsEventsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for newsEventsRetrieve operation in NewsEventsApi.
+ * @export
+ * @interface NewsEventsApiNewsEventsRetrieveRequest
+ */
+export interface NewsEventsApiNewsEventsRetrieveRequest {
+  /**
+   * A unique integer value identifying this feed item.
+   * @type {number}
+   * @memberof NewsEventsApiNewsEventsRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * NewsEventsApi - object-oriented interface
+ * @export
+ * @class NewsEventsApi
+ * @extends {BaseAPI}
+ */
+export class NewsEventsApi extends BaseAPI {
+  /**
+   * Get a paginated list of feed items.
+   * @param {NewsEventsApiNewsEventsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof NewsEventsApi
+   */
+  public newsEventsList(
+    requestParameters: NewsEventsApiNewsEventsListRequest = {},
+    options?: RawAxiosRequestConfig,
+  ) {
+    return NewsEventsApiFp(this.configuration)
+      .newsEventsList(
+        requestParameters.feed_type,
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a single feed item.
+   * @param {NewsEventsApiNewsEventsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof NewsEventsApi
+   */
+  public newsEventsRetrieve(
+    requestParameters: NewsEventsApiNewsEventsRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return NewsEventsApiFp(this.configuration)
+      .newsEventsRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * @export
+ */
+export const NewsEventsListFeedTypeEnum = {
+  Events: "events",
+  News: "news",
+} as const
+export type NewsEventsListFeedTypeEnum =
+  (typeof NewsEventsListFeedTypeEnum)[keyof typeof NewsEventsListFeedTypeEnum]
+
+/**
+ * NewsEventsSourcesApi - axios parameter creator
+ * @export
+ */
+export const NewsEventsSourcesApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Get a paginated list of news/event feed sources.
+     * @param {Array<NewsEventsSourcesListFeedTypeEnum>} [feed_type] The type of source  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    newsEventsSourcesList: async (
+      feed_type?: Array<NewsEventsSourcesListFeedTypeEnum>,
+      limit?: number,
+      offset?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/news_events_sources/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (feed_type) {
+        localVarQueryParameter["feed_type"] = feed_type
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieve a single news/event feed source.
+     * @param {number} id A unique integer value identifying this feed source.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    newsEventsSourcesRetrieve: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("newsEventsSourcesRetrieve", "id", id)
+      const localVarPath = `/api/v0/news_events_sources/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * NewsEventsSourcesApi - functional programming interface
+ * @export
+ */
+export const NewsEventsSourcesApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    NewsEventsSourcesApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Get a paginated list of news/event feed sources.
+     * @param {Array<NewsEventsSourcesListFeedTypeEnum>} [feed_type] The type of source  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async newsEventsSourcesList(
+      feed_type?: Array<NewsEventsSourcesListFeedTypeEnum>,
+      limit?: number,
+      offset?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedFeedSourceList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.newsEventsSourcesList(
+          feed_type,
+          limit,
+          offset,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["NewsEventsSourcesApi.newsEventsSourcesList"]?.[
+          index
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Retrieve a single news/event feed source.
+     * @param {number} id A unique integer value identifying this feed source.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async newsEventsSourcesRetrieve(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeedSource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.newsEventsSourcesRetrieve(id, options)
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["NewsEventsSourcesApi.newsEventsSourcesRetrieve"]?.[
+          index
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * NewsEventsSourcesApi - factory interface
+ * @export
+ */
+export const NewsEventsSourcesApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = NewsEventsSourcesApiFp(configuration)
+  return {
+    /**
+     * Get a paginated list of news/event feed sources.
+     * @param {NewsEventsSourcesApiNewsEventsSourcesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    newsEventsSourcesList(
+      requestParameters: NewsEventsSourcesApiNewsEventsSourcesListRequest = {},
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaginatedFeedSourceList> {
+      return localVarFp
+        .newsEventsSourcesList(
+          requestParameters.feed_type,
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Retrieve a single news/event feed source.
+     * @param {NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    newsEventsSourcesRetrieve(
+      requestParameters: NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<FeedSource> {
+      return localVarFp
+        .newsEventsSourcesRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for newsEventsSourcesList operation in NewsEventsSourcesApi.
+ * @export
+ * @interface NewsEventsSourcesApiNewsEventsSourcesListRequest
+ */
+export interface NewsEventsSourcesApiNewsEventsSourcesListRequest {
+  /**
+   * The type of source  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+   * @type {Array<'events' | 'news'>}
+   * @memberof NewsEventsSourcesApiNewsEventsSourcesList
+   */
+  readonly feed_type?: Array<NewsEventsSourcesListFeedTypeEnum>
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof NewsEventsSourcesApiNewsEventsSourcesList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof NewsEventsSourcesApiNewsEventsSourcesList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for newsEventsSourcesRetrieve operation in NewsEventsSourcesApi.
+ * @export
+ * @interface NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest
+ */
+export interface NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest {
+  /**
+   * A unique integer value identifying this feed source.
+   * @type {number}
+   * @memberof NewsEventsSourcesApiNewsEventsSourcesRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * NewsEventsSourcesApi - object-oriented interface
+ * @export
+ * @class NewsEventsSourcesApi
+ * @extends {BaseAPI}
+ */
+export class NewsEventsSourcesApi extends BaseAPI {
+  /**
+   * Get a paginated list of news/event feed sources.
+   * @param {NewsEventsSourcesApiNewsEventsSourcesListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof NewsEventsSourcesApi
+   */
+  public newsEventsSourcesList(
+    requestParameters: NewsEventsSourcesApiNewsEventsSourcesListRequest = {},
+    options?: RawAxiosRequestConfig,
+  ) {
+    return NewsEventsSourcesApiFp(this.configuration)
+      .newsEventsSourcesList(
+        requestParameters.feed_type,
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a single news/event feed source.
+   * @param {NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof NewsEventsSourcesApi
+   */
+  public newsEventsSourcesRetrieve(
+    requestParameters: NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return NewsEventsSourcesApiFp(this.configuration)
+      .newsEventsSourcesRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * @export
+ */
+export const NewsEventsSourcesListFeedTypeEnum = {
+  Events: "events",
+  News: "news",
+} as const
+export type NewsEventsSourcesListFeedTypeEnum =
+  (typeof NewsEventsSourcesListFeedTypeEnum)[keyof typeof NewsEventsSourcesListFeedTypeEnum]
 
 /**
  * UsersApi - axios parameter creator

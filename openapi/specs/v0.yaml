@@ -217,6 +217,122 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v0/news_events/:
+    get:
+      operationId: news_events_list
+      description: Get a paginated list of feed items.
+      parameters:
+      - in: query
+        name: feed_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - events
+            - news
+        description: |-
+          The type of item
+
+          * `news` - News
+          * `events` - Events
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - news_events
+      responses:
+        '200':
+          description: No response body
+  /api/v0/news_events/{id}/:
+    get:
+      operationId: news_events_retrieve
+      description: Retrieve a single feed item.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this feed item.
+        required: true
+      tags:
+      - news_events
+      responses:
+        '200':
+          description: No response body
+  /api/v0/news_events_sources/:
+    get:
+      operationId: news_events_sources_list
+      description: Get a paginated list of news/event feed sources.
+      parameters:
+      - in: query
+        name: feed_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - events
+            - news
+        description: |-
+          The type of source
+
+          * `news` - News
+          * `events` - Events
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - news_events_sources
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFeedSourceList'
+          description: ''
+  /api/v0/news_events_sources/{id}/:
+    get:
+      operationId: news_events_sources_retrieve
+      description: Retrieve a single news/event feed source.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this feed source.
+        required: true
+      tags:
+      - news_events_sources
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedSource'
+          description: ''
   /api/v0/users/me/:
     get:
       operationId: users_me_retrieve
@@ -232,6 +348,58 @@ paths:
           description: ''
 components:
   schemas:
+    FeedImage:
+      type: object
+      description: Serializer for FeedImage
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          maxLength: 2048
+        description:
+          type: string
+          maxLength: 1024
+        alt:
+          type: string
+          maxLength: 1024
+      required:
+      - id
+    FeedSource:
+      type: object
+      description: FeedSource serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        image:
+          $ref: '#/components/schemas/FeedImage'
+        title:
+          type: string
+          maxLength: 255
+        url:
+          type: string
+          format: uri
+          maxLength: 200
+        description:
+          type: string
+        feed_type:
+          $ref: '#/components/schemas/FeedTypeEnum'
+      required:
+      - feed_type
+      - id
+      - image
+      - title
+      - url
+    FeedTypeEnum:
+      enum:
+      - news
+      - events
+      type: string
+      description: |-
+        * `news` - News
+        * `events` - Events
     FieldChannel:
       type: object
       description: Serializer for FieldChannel
@@ -404,6 +572,26 @@ components:
       required:
       - id
       - title
+    PaginatedFeedSourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedSource'
     PaginatedFieldChannelList:
       type: object
       properties:
