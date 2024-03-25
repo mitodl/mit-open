@@ -18,8 +18,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
+from rest_framework.routers import DefaultRouter
 
-from main.views import FeaturesView, index
+from main.views import FeaturesViewSet, index
 
 # Post slugs can contain unicode characters, so a letter-matching pattern like [A-Za-z] doesn't work.  # noqa: E501
 # "[^\W]" Matches any character that is NOT a non-alphanumeric character, including underscores.  # noqa: E501
@@ -30,6 +31,9 @@ POST_SLUG_PATTERN = "([^\\W]|-)+"
 handler400 = "main.views.handle_400"
 handler403 = "main.views.handle_403"
 handler404 = "main.views.handle_404"
+
+features_router = DefaultRouter()
+features_router.register(r"_/features", FeaturesViewSet, basename="features")
 
 urlpatterns = [  # noqa: RUF005
     path("scim/v2/", include("django_scim.urls")),
@@ -45,7 +49,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("openapi.urls")),
     re_path(r"", include("learning_resources.urls")),
     re_path(r"", include("articles.urls")),
-    re_path(r"^_/features/", FeaturesView.as_view(), name="features"),
+    *features_router.urls,
     # React App
     re_path(r"^$", index, name="main-index"),
     re_path(r"^privacy-statement/", index, name="privacy-statement"),
