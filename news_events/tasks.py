@@ -14,3 +14,9 @@ def get_medium_mit_news():
 def get_ol_events():
     """Run the Open Learning Events ETL pipeline"""
     pipelines.ol_events_etl()
+
+
+@app.task
+def get_sloan_news():
+    """Run the Sloan news ETL pipeline"""
+    pipelines.sloan_news_etl()

@@ -10,7 +10,7 @@ from news_events.constants import FeedType
 class FeedImage(TimestampedModel):
     """Represent image metadata for a feed source or item"""
 
-    url = models.TextField(max_length=2048, blank=True)
+    url = models.URLField(blank=True)
     description = models.CharField(max_length=1024, blank=True)
     alt = models.CharField(max_length=1024, blank=True)
 
@@ -38,7 +38,7 @@ class FeedSource(TimestampedModel):
 class FeedItem(TimestampedModel):
     """Represent a news/event item from a feed source."""
 
-    guid = models.CharField(max_length=128, unique=True)
+    guid = models.CharField(max_length=2048, unique=True)
     source = models.ForeignKey(
         FeedSource, on_delete=models.CASCADE, related_name="feed_items"
     )

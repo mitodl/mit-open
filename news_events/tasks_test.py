@@ -13,7 +13,14 @@ def test_get_medium_mit_news(mocker):
 
 
 def test_get_ol_events(mocker):
-    """Task should call the mol_events_etl pipeline"""
+    """Task should call the ol_events_etl pipeline"""
     mock_etl = mocker.patch("news_events.etl.pipelines.ol_events_etl", autospec=True)
     tasks.get_ol_events.delay()
+    mock_etl.assert_called_once()
+
+
+def test_get_sloan_news(mocker):
+    """Task should call the sloan_news_etl pipeline"""
+    mock_etl = mocker.patch("news_events.etl.pipelines.sloan_news_etl", autospec=True)
+    tasks.get_sloan_news.delay()
     mock_etl.assert_called_once()
