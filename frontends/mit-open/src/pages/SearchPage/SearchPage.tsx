@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   Grid,
-  Skeleton,
   Stack,
   Button,
 } from "ol-components"
@@ -281,7 +280,7 @@ const SearchPage: React.FC = () => {
 
   const resourceType = params.resource_type
 
-  const { data, isFetching } = useLearningResourcesSearch(
+  const { data } = useLearningResourcesSearch(
     {
       ...params,
       aggregations: AGGREGATIONS,
@@ -302,10 +301,6 @@ const SearchPage: React.FC = () => {
     },
     [params, data?.metadata.aggregations],
   )
-
-  const resultsTitle = params.q
-    ? `${data?.count} results for "${params.q}"`
-    : `${data?.count} results`
 
   return (
     <>
@@ -336,10 +331,6 @@ const SearchPage: React.FC = () => {
       <Container>
         <GridContainer>
           <ResourceTypeTabs.Context resourceType={params.resource_type?.[0]}>
-            <GridColumn variant="sidebar-2-wide-main" />
-            <GridColumn variant="main-2-wide-main">
-              <h3>{isFetching ? <Skeleton width="50%" /> : resultsTitle}</h3>
-            </GridColumn>
             <GridColumn variant="sidebar-2-wide-main">
               <FacetsTitleContainer>
                 <Stack
