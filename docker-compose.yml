@@ -17,13 +17,11 @@ x-environment: &py-environment
   TIKA_SERVER_ENDPOINT: ${TIKA_SERVER_ENDPOINT:-http://tika:9998/}
   TIKA_CLIENT_ONLY: "True"
 
-  POSTGRES_EXT_PORT: ${POSTGRES_EXT_PORT:-"5432"}
-
 services:
   db:
     image: postgres:12.18
     ports:
-      - "$POSTGRES_EXT_PORT:5432"
+      - 5432:5432
     environment:
       - POSTGRES_PASSWORD=postgres
 
