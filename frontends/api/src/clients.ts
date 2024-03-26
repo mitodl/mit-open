@@ -1,6 +1,7 @@
 import {
   LearningResourcesApi,
   LearningpathsApi,
+  UserlistsApi,
   TopicsApi,
   ArticlesApi,
   ProgramLettersApi,
@@ -30,6 +31,8 @@ const learningpathsApi = new LearningpathsApi(
   axiosInstance,
 )
 
+const userListsApi = new UserlistsApi(undefined, BASE_PATH, axiosInstance)
+
 const topicsApi = new TopicsApi(undefined, BASE_PATH, axiosInstance)
 
 const articlesApi = new ArticlesApi(undefined, BASE_PATH, axiosInstance)
@@ -46,6 +49,7 @@ const widgetListsApi = new WidgetListsApi(undefined, BASE_PATH, axiosInstance)
 export {
   learningResourcesApi,
   learningpathsApi,
+  userListsApi,
   topicsApi,
   articlesApi,
   programLettersApi,

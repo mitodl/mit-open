@@ -7,6 +7,7 @@ import LearningPathDetailsPage from "@/pages/LearningPathDetailsPage/LearningPat
 import FieldPage from "@/pages/FieldPage/FieldPage"
 import EditFieldPage from "@/pages/FieldPage/EditFieldPage"
 
+import UserListListingPage from "./pages/UserListListingPage/UserListListingPage"
 import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ProgramLetterPage from "@/pages/ProgramLetterPage/ProgramLetterPage"
@@ -39,6 +40,14 @@ const routes: RouteObject[] = [
       {
         path: urls.LEARNINGPATH_VIEW,
         element: <LearningPathDetailsPage />,
+      },
+      {
+        path: urls.USERLIST_LISTING,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <UserListListingPage />
+          </RestrictedRoute>
+        ),
       },
       {
         path: urls.DASHBOARD,

@@ -10,6 +10,7 @@ import type {
   TopicsApi,
   LearningpathsApi,
   ArticlesApi,
+  UserlistsApi,
 } from "../generated/v1"
 import type { BaseAPI } from "../generated/v1/base"
 
@@ -57,6 +58,23 @@ const learningPaths = {
     `/api/v1/learningpaths/${params.id}/`,
 }
 
+const userLists = {
+  list: (params?: Params<UserlistsApi, "userlistsList">) =>
+    `/api/v1/userlists/${query(params)}`,
+  resources: ({
+    userlist_id: parentId,
+    ...others
+  }: Params<UserlistsApi, "userlistsItemsList">) =>
+    `/api/v1/userlists/${parentId}/items/${query(others)}`,
+  resourceDetails: ({
+    userlist_id: parentId,
+    id,
+  }: Params<UserlistsApi, "userlistsItemsPartialUpdate">) =>
+    `/api/v1/userlists/${parentId}/items/${id}/`,
+  details: (params: Params<UserlistsApi, "userlistsRetrieve">) =>
+    `/api/v1/userlists/${params.id}/`,
+}
+
 const articles = {
   list: (params?: Params<ArticlesApi, "articlesList">) =>
     `/api/v1/articles/${query(params)}`,
@@ -85,6 +103,7 @@ export {
   learningPaths,
   articles,
   search,
+  userLists,
   programLetters,
   fields,
   widgetLists,

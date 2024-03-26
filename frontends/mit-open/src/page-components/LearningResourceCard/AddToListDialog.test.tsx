@@ -11,7 +11,7 @@ import {
   within,
   act,
 } from "../../test-utils"
-import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { waitForElementToBeRemoved } from "@testing-library/react"
 import {
   LearningPathRelationship,
@@ -163,7 +163,7 @@ describe("AddToListDialog", () => {
   test("Clicking 'Create a new list' opens the create list dialog", async () => {
     // Don't actually open the 'Create List' modal, or we'll need to mock API responses.
     const createList = jest
-      .spyOn(manageListDialogs, "upsert")
+      .spyOn(manageLearningPathDialogs, "upsert")
       .mockImplementationOnce(jest.fn())
 
     setup()
