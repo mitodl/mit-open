@@ -3,7 +3,6 @@
 import logging
 from datetime import timedelta
 
-import posthog
 import pytest
 from django.core.cache import caches
 from freezegun import freeze_time
