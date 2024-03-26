@@ -357,7 +357,8 @@ components:
           readOnly: true
         url:
           type: string
-          maxLength: 2048
+          format: uri
+          maxLength: 200
         description:
           type: string
           maxLength: 1024
