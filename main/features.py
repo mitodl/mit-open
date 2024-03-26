@@ -123,9 +123,11 @@ def get_all_feature_flags(opt_unique_id: Optional[str] = None):
         unique_id,
         person_properties=person_properties,
     )
-    cache_key = generate_cache_key(unique_id, person_properties)
 
-    [durable_cache.set(f"{cache_key}_{k}", v) for k, v in flag_data.items()]
+    [
+        durable_cache.set(generate_cache_key(k, unique_id, person_properties), v)
+        for k, v in flag_data.items()
+    ]
 
     return flag_data
 
