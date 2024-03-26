@@ -17,6 +17,6 @@ def get_ol_events():
 
 
 @app.task
-def get_sloan_news():
-    """Run the Sloan news ETL pipeline"""
-    pipelines.sloan_news_etl()
+def get_sloan_exec_news():
+    """Run the Sloan executive education news ETL pipeline"""
+    pipelines.sloan_exec_news_etl()

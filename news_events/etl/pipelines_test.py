@@ -69,15 +69,15 @@ def test_ol_events_etl():
     assert result == mock_load_sources.return_value
 
 
-def test_sloan_news_etl():
+def test_sloan_edtech_news_etl():
     """Verify that the Sloan news pipeline executes correctly"""
     with reload_mocked_pipeline(
-        patch("news_events.etl.sloan_news.extract", autospec=True),
-        patch("news_events.etl.sloan_news.transform", autospec=False),
+        patch("news_events.etl.sloan_exec_news.extract", autospec=True),
+        patch("news_events.etl.sloan_exec_news.transform", autospec=False),
         patch("news_events.etl.loaders.load_feed_sources", autospec=True),
     ) as patches:
         mock_extract, mock_transform, mock_load_sources = patches
-        result = pipelines.sloan_news_etl()
+        result = pipelines.sloan_exec_news_etl()
 
     mock_extract.assert_called_once_with()
 
