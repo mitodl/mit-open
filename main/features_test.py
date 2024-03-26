@@ -172,11 +172,7 @@ def test_posthog_flag_cache_timeout(mocker, settings):
 
     durable_cache.clear()
 
-    timeout = (
-        settings.CACHES["durable"]["TIMEOUT"]
-        if "TIMEOUT" in settings.CACHES["durable"]
-        else 300
-    )
+    timeout = settings.CACHES["durable"].get("TIMEOUT", 300)
 
     time_freezer = freeze_time(now_in_utc() + timedelta(seconds=timeout * 2))
 
