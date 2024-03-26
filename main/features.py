@@ -66,7 +66,7 @@ def user_unique_id(user: Optional[User]) -> Optional[str]:
             user.id,
         )
         return None
-    except:
+    except Exception:
         log.exception("Unexpected error trying to pick posthog unique_id for user")
         return None
 
@@ -81,7 +81,7 @@ def _get_person_properties(unique_id: str) -> dict:
     }
 
 
-def generate_cache_key(unique_id: str, person_properties: dict) -> str:
+def generate_cache_key(key: str, unique_id: str, person_properties: dict) -> str:
     """
     Generate a cache key for the feature flag.
 
@@ -90,10 +90,13 @@ def generate_cache_key(unique_id: str, person_properties: dict) -> str:
     Append the flag key to this to store the value in the cache.
     """
 
-    return str(
-        hashlib.sha256(
-            json.dumps((unique_id, person_properties)).encode("utf-8")
-        ).hexdigest()
+    return "{}_{}".format(
+        str(
+            hashlib.sha256(
+                json.dumps((unique_id, person_properties)).encode("utf-8")
+            ).hexdigest()
+        ),
+        key,
     )
 
 
@@ -108,9 +111,11 @@ def get_all_feature_flags(opt_unique_id: Optional[str] = None):
         unique_id,
         person_properties=person_properties,
     )
-    cache_key = generate_cache_key(unique_id, person_properties)
 
-    [durable_cache.set(f"{cache_key}_{k}", v) for k, v in flag_data.items()]
+    [
+        durable_cache.set(generate_cache_key(k, unique_id, person_properties), v)
+        for k, v in flag_data.items()
+    ]
 
     return flag_data
 
@@ -139,14 +144,14 @@ def is_enabled(
     unique_id = opt_unique_id or default_unique_id()
     person_properties = _get_person_properties(unique_id)
 
-    cache_key = generate_cache_key(unique_id, person_properties)
-    cached_value = durable_cache.get(f"{cache_key}_{name}")
+    cache_key = generate_cache_key(name, unique_id, person_properties)
+    cached_value = durable_cache.get(cache_key)
 
     if cached_value is not None:
         log.debug("Retrieved %s from the cache", name)
         return cached_value
     else:
-        log.debug("Retrieved %s from Posthog", name)
+        log.debug("Retrieving %s from Posthog", name)
 
     # value will be None if either there is no value or we can't get a response back
     value = (
@@ -159,10 +164,12 @@ def is_enabled(
         else None
     )
 
+    durable_cache.set(cache_key, value) if value is not None else None
+
     return (
         value
         if value is not None
-        else settings.FEATURES.get(name, default or settings.FEATURES_DEFAULT)
+        else settings.FEATURES.get(name, default or settings.MITOPEN_FEATURES_DEFAULT)
     )
 
 
