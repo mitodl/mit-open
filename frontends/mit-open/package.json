@@ -1,10 +1,21 @@
 {
   "name": "mit-open",
   "version": "0.0.0",
+  "packageManager": "yarn@3.7.0",
+  "private": true,
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "https://github.com/mitodl/mit-open.git"
+  },
+  "scripts": {
+    "start-dev": "webpack serve",
+    "watch": "ENVIRONMENT=local NODE_ENV=development webpack serve",
+    "watch:rc": "API_BASE_URL=https://mit-open-rc.odl.mit.edu ENVIRONMENT=local NODE_ENV=development webpack serve",
+    "watch:prod": "API_BASE_URL=https://mitopen.odl.mit.edu ENVIRONMENT=local NODE_ENV=development webpack serve",
+    "build": "webpack --config webpack.config.js --bail",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
@@ -42,7 +53,7 @@
     "@sentry/react": "^7.57.0",
     "@tanstack/react-query": "^4.36.1",
     "@tanstack/react-query-devtools": "^4.29.6",
-    "api": "workspace:*",
+    "api": "*",
     "axios": "^1.6.3",
     "classnames": "^2.3.2",
     "formik": "^2.4.5",
@@ -62,14 +73,6 @@
     "yup": "^1.2.0"
   },
   "engines": {
-    "node": "16"
-  },
-  "scripts": {
-    "start-dev": "webpack serve",
-    "start-dev:local": "ENVIRONMENT=local NODE_ENV=development webpack serve",
-    "start-dev:rc": "API_BASE_URL=https://mit-open-rc.odl.mit.edu ENVIRONMENT=local NODE_ENV=development webpack serve",
-    "build": "webpack --config webpack.config.js --bail",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "node": "20"
   }
 }

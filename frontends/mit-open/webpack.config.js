@@ -10,7 +10,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 const STATS_FILEPATH = path.resolve(
   __dirname,
-  "../../webpack-stats/mit-open.json",
+  // "../../webpack-stats/mit-open.json",
+  "webpack-stats.json",
 )
 
 const { ENVIRONMENT, MITOPEN_HOSTNAME, WEBPACK_PORT_MITOPEN } = process.env
@@ -149,14 +150,14 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
         "Access-Control-Allow-Origin": "*",
       },
       host: "::",
-      port: process.env.WEBPACK_PORT_MITOPEN,
+      port: 8080,
       static: {
-        directory: path.join(__dirname, "../../static"),
+        directory: path.join(__dirname, "public"),
         publicPath: "/static",
       },
       proxy: [
         {
-          context: ["/api"],
+          context: ["/api", "/login"],
           target: process.env.API_BASE_URL || "",
           changeOrigin: true,
         },

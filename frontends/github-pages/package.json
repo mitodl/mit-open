@@ -1,6 +1,7 @@
 {
   "name": "github-pages",
   "version": "0.1.0",
+  "packageManager": "yarn@3.7.0",
   "private": true,
   "dependencies": {
     "ol-components": "workspace:*",

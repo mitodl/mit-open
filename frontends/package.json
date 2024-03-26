@@ -2,13 +2,22 @@
   "name": "root",
   "private": true,
   "workspaces": [
-    "frontends/*",
-    "e2e_testing"
+    "api",
+    "mit-open",
+    "ol-ckeditor",
+    "ol-common",
+    "ol-components",
+    "ol-template",
+    "ol-test-utilities",
+    "ol-utilities",
+    "ol-widgets"
   ],
   "scripts": {
     "foreach": "yarn workspaces foreach -pvi --exclude=root run",
-    "start-dev": "yarn workspaces foreach -pvi run start-dev",
-    "build": "yarn workspaces foreach run build",
+    "watch": "yarn workspace mit-open watch",
+    "watch:rc": "yarn workspace mit-open watch:rc",
+    "watch:prod": "yarn workspace mit-open watch:prod",
+    "build": "yarn workspace mit-open build",
     "lint-check": "eslint --ignore-path .gitignore . --ext .js,.jsx,.ts,.tsx,.mdx",
     "lint-fix": "yarn lint-check --fix",
     "fmt-check": "prettier --check .",
@@ -29,7 +38,7 @@
     "build-storybook": "yarn workspace mit-open build-storybook"
   },
   "version": "0.0.0",
-  "packageManager": "yarn@3.7.0",
+  "packageManager": "yarn@4.1.1",
   "devDependencies": {
     "@swc/core": "^1.3.32",
     "@swc/jest": "^0.2.26",

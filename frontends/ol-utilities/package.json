@@ -1,6 +1,8 @@
 {
   "name": "ol-utilities",
+  "version": "0.0.0",
   "packageManager": "yarn@3.7.0",
+  "private": true,
   "exports": {
     ".": "./src/index.ts",
     "./test-utils/factories": "./src/test-utils/factories.ts"
