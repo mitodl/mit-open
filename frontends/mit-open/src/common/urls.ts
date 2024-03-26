@@ -18,6 +18,16 @@ export const articlesView = (id: number) =>
 export const articlesEditView = (id: number) =>
   generatePath(ARTICLES_EDIT, { id: String(id) })
 
+export const FIELD_VIEW = "/fields/:name/" as const
+export const FIELD_EDIT = "/fields/:name/manage/" as const
+export const FIELD_EDIT_WIDGETS = "/fields/:name/manage/widgets/" as const
+export const makeFieldViewPath = (name: string) =>
+  generatePath(FIELD_VIEW, { name })
+export const makeFieldEditPath = (name: string) =>
+  generatePath(FIELD_EDIT, { name })
+export const makeFieldManageWidgetsPath = (name: string) =>
+  generatePath(FIELD_EDIT_WIDGETS, { name })
+
 export const LOGIN = "/login/ol-oidc/"
 export const LOGOUT = "/logout/"
 

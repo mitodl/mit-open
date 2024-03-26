@@ -53,6 +53,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"^articles/", index, name="articles"),
     re_path(r"^dashboard/", index, name="dashboard"),
     re_path(r"^program_letter/", index, name="programletter"),
+    re_path(r"^fields/", index, name="fields"),
     # Hijack
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
     re_path(r"", include("news_events.urls")),
