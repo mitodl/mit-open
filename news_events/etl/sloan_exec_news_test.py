@@ -11,7 +11,7 @@ from news_events.etl import sloan_exec_news
 
 @pytest.fixture()
 def sloan_blog_json_data():
-    """Return the content of the Sloan blog json response"""
+    """Return the raw content of the Sloan blog json response"""
     with Path.open(Path("test_json/test_sloan_exec_news.json")) as in_file:
         return json.load(in_file)
 

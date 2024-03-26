@@ -61,7 +61,12 @@ SLOAN_EXEC_POST_DATA = (
 
 
 def extract() -> dict:
-    """Extract JSON from Sloan School of Management"""
+    """
+    Extract JSON from Sloan School of Management
+
+    Returns:
+        dict: JSON data from Sloan blog post request
+    """
     session = requests.Session()
     content = str(session.get("https://exec.mit.edu/s/blog").content)
     fwuid = re.findall(r"fwuid%22%3A%22([^%]+)%22", content)[0]
@@ -75,8 +80,17 @@ def extract() -> dict:
     ).json()
 
 
-def transform_item(item_data: dict):
-    """Transform item from Sloan School of Management blog"""
+def transform_item(item_data: dict) -> dict:
+    """
+    Transform item from Sloan School of Management blog
+
+    Args:
+        item_data (dict): raw JSON data for a single blog post
+
+    Returns:
+        dict: Transformed data for a single blog post
+
+    """
     return {
         "guid": item_data.get("managedContentId"),
         "title": html.escape(item_data.get("title", "")),
@@ -131,7 +145,16 @@ def transform_item(item_data: dict):
 
 
 def transform_items(source_data: dict) -> list[dict]:
-    """Transform items from Sloan School of Management blog"""
+    """
+    Transform items from Sloan School of Management blog
+
+    Args:
+        source_data (dict): raw JSON data for Sloan blog posts
+
+    Returns:
+        list of dict: List of transformed blog posts
+
+    """
     items_data = source_data.get("actions", [])
     for item in items_data:
         if isinstance(item.get("returnValue"), dict):
