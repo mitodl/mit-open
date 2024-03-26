@@ -21,7 +21,6 @@ export declare global {
   }
   const APP_SETTINGS: {
     search_page_size: number
-    ocw_next_base_url: string
     sentry_dsn?: string
     release_version?: string
     environment?: string
