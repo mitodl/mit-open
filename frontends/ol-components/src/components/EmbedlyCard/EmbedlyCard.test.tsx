@@ -3,7 +3,8 @@ import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { assertInstanceOf } from "ol-utilities"
 import { render, screen, waitFor } from "@testing-library/react"
-import EmbedlyCard, { EmbedlyCardProps } from "./EmbedlyCard"
+import { EmbedlyCard } from "./EmbedlyCard"
+import type { EmbedlyCardProps } from "./EmbedlyCard"
 import { dispatchCardCreated } from "./util"
 
 const emulateEmbedly = (parent: HTMLElement) => {

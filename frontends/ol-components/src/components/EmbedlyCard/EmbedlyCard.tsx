@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react"
 import isURL from "validator/lib/isURL"
 import {
   createStylesheet,
+  embedlyCardHtml,
   EmbedlyEventTypes,
   ensureEmbedlyPlatform,
   getEmbedlyKey,
@@ -82,5 +83,5 @@ const EmbedlyCard: React.FC<EmbedlyCardProps> = ({ className, url }) => {
   return <div className={className} ref={renderCard} />
 }
 
-export default EmbedlyCard
 export type { EmbedlyCardProps }
+export { EmbedlyCard, ensureEmbedlyPlatform, embedlyCardHtml }

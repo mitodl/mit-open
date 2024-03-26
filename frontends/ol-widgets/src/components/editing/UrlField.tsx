@@ -1,6 +1,6 @@
 import React from "react"
 import { WidgetEditingFieldProps } from "./interfaces"
-import { EmbedlyCard } from "ol-utilities"
+import { EmbedlyCard } from "ol-components"
 
 interface ExtraProps {
   showEmbed?: boolean
