@@ -52,3 +52,13 @@ def test_transform():
         "Organizations & Leadership",
         "Trending Blog Posts",
     ]
+
+
+def test_transform_no_posts(mocker):
+    """Test that an error is logged if no post data is found"""
+    mock_log = mocker.patch("news_events.etl.sloan_exec_news.log.error")
+    data = sloan_exec_news.extract()
+    data.pop("actions")
+    transformed_data = sloan_exec_news.transform(data)
+    assert len(list(transformed_data[0]["items"])) == 0
+    mock_log.assert_called_once_with("No posts found in the Sloan blog source data")

@@ -1,6 +1,7 @@
 """ETL for blog/news from Sloan School of Management Executive Education"""
 
 import html
+import logging
 import re
 from urllib.parse import urlencode, urljoin
 
@@ -9,6 +10,8 @@ from bs4 import BeautifulSoup as Soup
 
 from news_events.constants import FeedType
 from news_events.etl.utils import tag_text
+
+log = logging.getLogger(__name__)
 
 SLOAN_EXEC_TITLE = "MIT Sloan Executive Education"
 SLOAN_EXEC_BASE_URL = "https://exec.mit.edu/"
@@ -155,7 +158,10 @@ def transform_items(source_data: dict) -> list[dict]:
         list of dict: List of transformed blog posts
 
     """
-    items_data = source_data.get("actions", [])
+    items_data = source_data.get("actions")
+    if not items_data:
+        log.error("No posts found in the Sloan blog source data")
+        return []
     for item in items_data:
         if isinstance(item.get("returnValue"), dict):
             contents = item.get("returnValue").get("content")
