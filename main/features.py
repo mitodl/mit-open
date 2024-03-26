@@ -1,4 +1,5 @@
 """MIT Open feature flags"""
+
 import hashlib
 import json
 import logging
