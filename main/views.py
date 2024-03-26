@@ -10,7 +10,6 @@ from django.http import (
 )
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
 from learning_resources.permissions import is_learning_path_editor
@@ -74,7 +73,7 @@ class FeaturesViewSet(ViewSet):
     View for getting the currently available feature flags
     """
 
-    def list(self, request):  # noqa: A003, ARG002
+    def list(self, request):  # noqa: ARG002
         """
         Return a list of all feature flags.
         """
