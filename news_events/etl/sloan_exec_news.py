@@ -68,7 +68,7 @@ def extract() -> dict:
         dict: JSON data from Sloan blog post request
     """
     session = requests.Session()
-    content = str(session.get("https://exec.mit.edu/s/blog").content)
+    content = str(session.get(SLOAN_EXEC_BLOG_URL).content)
     fwuid = re.findall(r"fwuid%22%3A%22([^%]+)%22", content)[0]
     appId = re.findall(r"siteforce%3AcommunityApp%22%3A%22([^%]+)%", content)[0]
     session.headers["Content-Type"] = "application/x-www-form-urlencoded"
