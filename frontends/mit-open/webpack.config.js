@@ -84,6 +84,18 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
           env: { NODE_ENV: JSON.stringify(mode) },
         },
       }),
+      new webpack.DefinePlugin({
+        APP_SETTINGS: {
+          embedlyKey: JSON.stringify(process.env.EMBEDLY_KEY),
+          search_page_size: JSON.stringify(
+            process.env.OPENSEARCH_DEFAULT_PAGE_SIZE,
+          ),
+          ckeditor_upload_url: JSON.stringify(process.env.CKEDITOR_UPLOAD_URL),
+          environment: JSON.stringify(process.env.ENVIRONMENT),
+          sentry_dsn: JSON.stringify(process.env.SENTRY_DSN),
+          release_version: JSON.stringify(process.env.VERSION),
+        },
+      }),
     ]
       .concat(
         isProduction

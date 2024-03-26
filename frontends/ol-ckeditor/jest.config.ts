@@ -12,6 +12,12 @@ const config: Config.InitialOptions = {
       "|vanilla-colorful" +
       ")/)",
   ],
+  globals: {
+    APP_SETTINGS: {
+      ckeditor_upload_url: "https://meowmeow.com",
+      embedlyKey: "embedly_key",
+    },
+  },
 }
 
 export default config
