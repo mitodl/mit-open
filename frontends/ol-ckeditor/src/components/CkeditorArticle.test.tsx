@@ -3,10 +3,10 @@
 import React from "react"
 import { render } from "@testing-library/react"
 import CkeditorArticle from "./CkeditorArticle"
-import * as utils from "ol-utilities"
+import { ensureEmbedlyPlatform } from "ol-components"
 
-jest.mock("ol-utilities", () => {
-  const original = jest.requireActual("ol-utilities")
+jest.mock("ol-components", () => {
+  const original = jest.requireActual("ol-components")
   return {
     ...original,
     ensureEmbedlyPlatform: jest.fn(original.ensureEmbedlyPlatform),
@@ -22,7 +22,7 @@ describe("CkeditorArticle", () => {
         config={{ cloudServices: undefined }}
       />,
     )
-    expect(jest.mocked(utils.ensureEmbedlyPlatform)).toHaveBeenCalled()
+    expect(jest.mocked(ensureEmbedlyPlatform)).toHaveBeenCalled()
   })
 
   it("Adds the given id and classes to the wrapper", () => {

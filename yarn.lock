@@ -18352,6 +18352,7 @@ __metadata:
     react-share: ^5.0.3
     storybook-addon-react-router-v6: ^2.0.10
     tiny-invariant: ^1.3.1
+    validator: ^13.11.0
   peerDependencies:
     react: ^18.2.0
   languageName: unknown
@@ -18400,7 +18401,6 @@ __metadata:
     react-helmet-async: ^2.0.3
     striptags: ^3.2.0
     tiny-invariant: ^1.3.1
-    validator: ^13.7.0
   peerDependencies:
     react: ^18.2.0
   languageName: unknown
@@ -24608,7 +24608,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"validator@npm:^13.7.0":
+"validator@npm:^13.11.0, validator@npm:^13.7.0":
   version: 13.11.0
   resolution: "validator@npm:13.11.0"
   checksum: d1e0c27022681420756da25bc03eb08d5f0c66fb008f8ff02ebc95812b77c6be6e03d3bd05cf80ca702e23eeb73dadd66b4b3683173ea2a0bc7cc72820bee131
