@@ -4,9 +4,12 @@ export const HOME = "/"
 
 export const LEARNINGPATH_LISTING = "/learningpaths/"
 export const LEARNINGPATH_VIEW = "/learningpaths/:id"
-export const USERLIST_LISTING = "/userlists/"
 export const learningPathsView = (id: number) =>
   generatePath(LEARNINGPATH_VIEW, { id: String(id) })
+export const USERLIST_LISTING = "/userlists/"
+export const USERLIST_VIEW = "/userlists/:id"
+export const userListView = (id: number) =>
+  generatePath(USERLIST_VIEW, { id: String(id) })
 export const PROGRAMLETTER_VIEW = "/program_letter/:id/view/"
 export const programLetterView = (id: string) =>
   generatePath(PROGRAMLETTER_VIEW, { id: String(id) })

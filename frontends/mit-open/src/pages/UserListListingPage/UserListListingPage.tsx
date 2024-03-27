@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import {
   Button,
   Grid,
@@ -16,6 +16,8 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
 import CardRowList from "@/components/CardRowList/CardRowList"
 import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserListCardTemplate"
+import { useNavigate } from "react-router"
+import * as urls from "@/common/urls"
 
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
@@ -24,20 +26,31 @@ const ListHeaderGrid = styled(Grid)`
 
 type ListCardProps = {
   list: UserList
+  onActivate: (userList: UserList) => void
   canEdit: boolean
 }
-const ListCard: React.FC<ListCardProps> = ({ list }) => {
+const ListCard: React.FC<ListCardProps> = ({ list, onActivate }) => {
   return (
     <UserListCardTemplate
       variant="row-reverse"
       userList={list}
       className="ic-resource-card"
+      onActivate={onActivate}
     />
   )
 }
 
 const UserListListingPage: React.FC = () => {
   const listingQuery = useUserListList()
+
+  const navigate = useNavigate()
+  const handleActivate = useCallback(
+    (userList: UserList) => {
+      const path = urls.userListView(userList.id)
+      navigate(path)
+    },
+    [navigate],
+  )
 
   return (
     <BannerPage
@@ -71,7 +84,11 @@ const UserListListingPage: React.FC = () => {
                   {listingQuery.data.results?.map((list) => {
                     return (
                       <li key={list.id}>
-                        <ListCard list={list} canEdit={true} />
+                        <ListCard
+                          list={list}
+                          onActivate={handleActivate}
+                          canEdit={true}
+                        />
                       </li>
                     )
                   })}
