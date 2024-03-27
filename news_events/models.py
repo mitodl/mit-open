@@ -38,7 +38,7 @@ class FeedSource(TimestampedModel):
 class FeedItem(TimestampedModel):
     """Represent a news/event item from a feed source."""
 
-    guid = models.CharField(max_length=128, unique=True)
+    guid = models.CharField(max_length=2048, unique=True)
     source = models.ForeignKey(
         FeedSource, on_delete=models.CASCADE, related_name="feed_items"
     )

@@ -1,10 +1,17 @@
 """Tests for MIT news from Medium RSS feed"""
 
+import feedparser
 import pytest
 
 from news_events.constants import FeedType
 from news_events.etl import medium_mit_news
 from news_events.etl.utils import stringify_time_struct
+
+
+@pytest.fixture()
+def medium_mit_rss_data():
+    """Medium MIT News RSS fixture"""
+    return feedparser.parse("test_html/test_medium_mit_news.rss")
 
 
 @pytest.fixture(autouse=True)

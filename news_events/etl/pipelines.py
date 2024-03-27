@@ -3,7 +3,7 @@
 from toolz import compose, curry
 
 from news_events.constants import FeedType
-from news_events.etl import loaders, medium_mit_news, ol_events
+from news_events.etl import loaders, medium_mit_news, ol_events, sloan_exec_news
 
 load_sources = curry(loaders.load_feed_sources)
 
@@ -13,6 +13,14 @@ medium_mit_news_etl = compose(
     medium_mit_news.transform,
     medium_mit_news.extract,
 )
+
+# Pipeline for Sloan blog
+sloan_exec_news_etl = compose(
+    load_sources(FeedType.news.name),
+    sloan_exec_news.transform,
+    sloan_exec_news.extract,
+)
+
 
 # Pipeline for Open Learning Events
 ol_events_etl = compose(

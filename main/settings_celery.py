@@ -87,6 +87,12 @@ CELERY_BEAT_SCHEDULE = {
             "NEWS_EVENTS_MEDIUM_NEWS_SCHEDULE_SECONDS", 60 * 60 * 3
         ),  # default is every 3 hours
     },
+    "update_sloan_news": {
+        "task": "news_events.tasks.get_sloan_exec_news",
+        "schedule": get_int(
+            "NEWS_EVENTS_SLOAN_EXEC_NEWS_SCHEDULE_SECONDS", 60 * 60 * 3
+        ),  # default is every 3 hours
+    },
     "update_ol_events": {
         "task": "news_events.tasks.get_ol_events",
         "schedule": get_int(

@@ -3,16 +3,9 @@
 from pathlib import Path
 from types import SimpleNamespace
 
-import feedparser
 import pytest
 
 from news_events.constants import FeedType
-
-
-@pytest.fixture()
-def medium_mit_rss_data():
-    """Medium MIT News RSS fixture"""
-    return feedparser.parse("test_html/test_medium_mit_news.rss")
 
 
 @pytest.fixture()
