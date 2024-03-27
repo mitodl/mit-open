@@ -31,6 +31,10 @@ def test_list_users(staff_client, staff_user):
         {
             "id": staff_user.id,
             "username": staff_user.username,
+            "first_name": staff_user.first_name,
+            "last_name": staff_user.last_name,
+            "is_learning_path_editor": True,
+            "is_article_editor": True,
             "profile": {
                 "name": profile.name,
                 "image": profile.image,
@@ -55,7 +59,7 @@ def test_list_users(staff_client, staff_user):
 # These can be removed once all clients have been updated and are sending both these fields
 @pytest.mark.parametrize("email_optin", [None, True, False])
 @pytest.mark.parametrize("toc_optin", [None, True, False])
-def test_create_user(staff_client, staff_user, mocker, email_optin, toc_optin):  # pylint: disable=too-many-arguments
+def test_create_user(staff_client, staff_user, email_optin, toc_optin):  # pylint: disable=too-many-arguments
     """
     Create a user and assert the response
     """
@@ -115,6 +119,10 @@ def test_get_user(staff_client, user):
     assert resp.json() == {
         "id": user.id,
         "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_article_editor": True,
+        "is_learning_path_editor": True,
         "profile": {
             "name": profile.name,
             "image": profile.image,
@@ -187,6 +195,10 @@ def test_patch_user(staff_client, user, email, email_optin, toc_optin):
     assert resp.json() == {
         "id": user.id,
         "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_learning_path_editor": True,
+        "is_article_editor": True,
         "profile": {
             "name": "othername",
             "image": profile.image,
@@ -312,6 +324,10 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
         assert resp.json() == {
             "id": user.id,
             "username": user.username,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "is_learning_path_editor": False,
+            "is_article_editor": False,
             "profile": {
                 "name": profile.name,
                 "image": profile.image,

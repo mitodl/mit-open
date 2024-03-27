@@ -33,6 +33,7 @@ v0_urls = [
     re_path(r"", include(router.urls)),
 ]
 
+
 app_name = "profile"
 urlpatterns = [
     re_path("api/v0/", include((v0_urls, "v0"))),
