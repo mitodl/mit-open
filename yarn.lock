@@ -3597,9 +3597,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#a70a9ec60740502e7fe6a22d495766e7f3bd227a":
+"@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#129f141b2504996b9a7ddd73267c5bf9505675f0":
   version: 3.0.3
-  resolution: "@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#commit=a70a9ec60740502e7fe6a22d495766e7f3bd227a"
+  resolution: "@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#commit=129f141b2504996b9a7ddd73267c5bf9505675f0"
   dependencies:
     "@mitodl/open-api-axios": ^2024.3.22
     "@testing-library/react": 12
@@ -3621,7 +3621,7 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 0150ca52960cb8e62857842705031730301525a22e93aa6b4afe3020aba78e35a1c25727db34a8c9228dcbe31d0ee8c5060baddacefdacc848340a303caddd64
+  checksum: b53854f49ee54f7e797b3f64ee66f77dfa399729425b58871142c1964eb4b9be27b46bd7fbb7e6be10e5ec259f8b13df8269514abd89d9af392ad9a9cb41e993
   languageName: node
   linkType: hard
 
@@ -17660,7 +17660,7 @@ __metadata:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
     "@faker-js/faker": ^7.3.0
-    "@mitodl/course-search-utils": "https://github.com/mitodl/course-search-utils.git#a70a9ec60740502e7fe6a22d495766e7f3bd227a"
+    "@mitodl/course-search-utils": "https://github.com/mitodl/course-search-utils.git#129f141b2504996b9a7ddd73267c5bf9505675f0"
     "@mui/icons-material": ^5.14.19
     "@sentry/react": ^7.57.0
     "@storybook/addon-essentials": ^7.6.6
