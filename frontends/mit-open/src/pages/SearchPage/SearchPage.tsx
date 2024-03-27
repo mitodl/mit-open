@@ -221,12 +221,12 @@ const TABS: TabConfig[] = [
     resource_type: ResourceTypeEnum.Course,
   },
   {
-    label: "Podcasts",
-    resource_type: ResourceTypeEnum.Podcast,
-  },
-  {
     label: "Programs",
     resource_type: ResourceTypeEnum.Program,
+  },
+  {
+    label: "Podcasts",
+    resource_type: ResourceTypeEnum.Podcast,
   },
 ]
 const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
