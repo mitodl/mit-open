@@ -214,6 +214,10 @@ const useUserListList = (
   })
 }
 
+const useUserListsDetail = (id: number) => {
+  return useQuery(learningResources.userlists._ctx.detail(id))
+}
+
 const useInfiniteUserListItems = (
   params: ULItemsListRequest,
   options: Pick<UseQueryOptions, "enabled"> = {},
@@ -244,5 +248,6 @@ export {
   useLearningpathRelationshipDestroy,
   useLearningResourcesSearch,
   useUserListList,
+  useUserListsDetail,
   useInfiniteUserListItems,
 }
