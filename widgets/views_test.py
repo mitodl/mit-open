@@ -127,7 +127,7 @@ def widget_list(user):
 
 def test_widget_list_get(client, widget_list):
     """Tests that you can get an existing list"""
-    url = reverse("widget_list-detail", kwargs={"pk": widget_list.id})
+    url = reverse("widgets:v0:widget_list-detail", kwargs={"pk": widget_list.id})
     resp = client.get(url)
 
     assert resp.status_code == status.HTTP_200_OK
@@ -140,7 +140,7 @@ def test_widget_list_get(client, widget_list):
 
 def test_widget_list_add_widget(widget_list, user_client):
     """Tests that you can add a widget to an existing list"""
-    url = reverse("widget_list-detail", kwargs={"pk": widget_list.id})
+    url = reverse("widgets:v0:widget_list-detail", kwargs={"pk": widget_list.id})
     resp = user_client.patch(
         url,
         {
@@ -173,7 +173,7 @@ def test_widget_list_add_widget(widget_list, user_client):
 def test_widget_list_update_widget(widget_list, user_client):
     """Tests that you can add a widget to an existing list"""
     widget_instance = WidgetInstanceFactory.create(widget_list=widget_list)
-    url = reverse("widget_list-detail", kwargs={"pk": widget_list.id})
+    url = reverse("widgets:v0:widget_list-detail", kwargs={"pk": widget_list.id})
     resp = user_client.patch(
         url,
         {
@@ -208,7 +208,7 @@ def test_widget_list_update_widget(widget_list, user_client):
 def test_widget_list_add_update_and_reorder_widgets(widget_list, user_client):
     """Tests that you can simultaneously update, reorder, and add a widget"""
     widget_instance = WidgetInstanceFactory.create(widget_list=widget_list)
-    url = reverse("widget_list-detail", kwargs={"pk": widget_list.id})
+    url = reverse("widgets:v0:widget_list-detail", kwargs={"pk": widget_list.id})
     resp = user_client.patch(
         url,
         {

@@ -42,8 +42,7 @@ const custom = {
   colorBackgroundLight: colors.colorGray1,
   fontColorLight: colors.colorGray3,
   fontColorDefault: colors.colorBlue5,
-  fontFamilyDefault:
-    '"Source Sans Pro", helvetica, arial, sans-serif !important',
+  fontFamilyDefault: "Roboto, helvetica, arial, sans-serif !important",
   fontSizeSmall: 12,
   fontSizeNormal: 16,
   fontSizeH1: 24,
@@ -100,6 +99,14 @@ const themeOptions = {
   components: {
     MuiButton: {
       defaultProps: { disableElevation: true },
+    },
+    MuiTabPanel: {
+      styleOverrides: {
+        root: {
+          paddingLeft: "0px",
+          paddingRight: "0px",
+        },
+      },
     },
   },
 }

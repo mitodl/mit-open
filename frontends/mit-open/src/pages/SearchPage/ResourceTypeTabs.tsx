@@ -1,7 +1,6 @@
 import React from "react"
 import { Tab, TabContext, TabList, TabPanel } from "ol-components"
 import type { ResourceTypeEnum, LearningResourceSearchResponse } from "api"
-import type { UseSearchQueryParamsResult } from "@mitodl/course-search-utils"
 
 type TabConfig = {
   resource_type: ResourceTypeEnum
@@ -42,15 +41,17 @@ const ResourceTypesTabContext: React.FC<{
 type ResourceTypeTabsProps = {
   aggregations?: Aggregations
   tabs: TabConfig[]
-  setFacetActive: UseSearchQueryParamsResult["setFacetActive"]
-  clearFacet: UseSearchQueryParamsResult["clearFacet"]
+  patchParams: ({
+    resource_type,
+  }: {
+    resource_type: ResourceTypeEnum[]
+  }) => void
   onTabChange?: (tab: ResourceTypeEnum | "all") => void
 }
 const ResourceTypeTabList: React.FC<ResourceTypeTabsProps> = ({
   tabs,
   aggregations,
-  setFacetActive,
-  clearFacet,
+  patchParams,
   onTabChange,
 }) => {
   const counts = resourceTypeCounts(aggregations)
@@ -60,10 +61,7 @@ const ResourceTypeTabList: React.FC<ResourceTypeTabsProps> = ({
   return (
     <TabList
       onChange={(_e, value) => {
-        clearFacet("resource_type")
-        if (value !== "all") {
-          setFacetActive("resource_type", value, true)
-        }
+        patchParams({ resource_type: value === "all" ? [] : [value] })
         onTabChange?.(value)
       }}
     >

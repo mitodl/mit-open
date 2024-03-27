@@ -17,12 +17,13 @@ export declare global {
    * Settings injected by Django
    */
   interface SETTINGS {
-    search_page_size: number
-    embedlyKey: string
-    ocw_next_base_url: string
     user: User
+  }
+  const APP_SETTINGS: {
+    search_page_size: number
     sentry_dsn?: string
     release_version?: string
     environment?: string
+    embedlyKey: string
   }
 }

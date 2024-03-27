@@ -5,7 +5,7 @@ import type {
   PaginatedLearningResourceTopicList,
 } from "api"
 import { allowConsoleErrors, getDescriptionFor } from "ol-test-utilities"
-import { manageListDialogs } from "./ManageListDialogs"
+import { manageLearningPathDialogs } from "./ManageListDialogs"
 import {
   screen,
   renderWithProviders,
@@ -70,7 +70,7 @@ describe("manageListDialogs.upsert", () => {
     renderWithProviders(null, opts)
 
     act(() => {
-      manageListDialogs.upsert(resource)
+      manageLearningPathDialogs.upsert(resource)
     })
 
     return { topics }
@@ -216,7 +216,7 @@ describe("manageListDialogs.destroy", () => {
     const resource = factories.learningResources.learningPath()
     renderWithProviders(null)
     act(() => {
-      manageListDialogs.destroy(resource)
+      manageLearningPathDialogs.destroy(resource)
     })
     return { resource }
   }

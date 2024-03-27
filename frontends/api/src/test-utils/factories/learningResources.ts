@@ -92,6 +92,7 @@ const learningResourceOfferor: Factory<LearningResourceOfferor> = (
     ...overrides,
   }
 }
+const learningResourceOfferors = makePaginatedFactory(learningResourceOfferor)
 
 const learningResourceRun: Factory<LearningResourceRun> = (overrides = {}) => {
   const start = overrides.start_date
@@ -404,6 +405,7 @@ export {
   learningResourceImage as image,
   learningResourceDepartment as department,
   learningResourceTopics as topics,
+  learningResourceOfferors as offerors,
   learningPath,
   learningPaths,
   microRelationship,

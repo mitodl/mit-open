@@ -2,7 +2,6 @@
 main views
 """
 
-from django.conf import settings
 from django.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
@@ -20,9 +19,6 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
     user = request.user
 
     js_settings = {
-        "embedlyKey": settings.EMBEDLY_KEY,
-        "ocw_next_base_url": settings.OCW_BASE_URL,
-        "search_page_size": settings.OPENSEARCH_DEFAULT_PAGE_SIZE,
         "user": {
             "id": user.id,
             "first_name": getattr(user, "first_name", None),
@@ -32,10 +28,6 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
             and (is_admin_user(request) or is_learning_path_editor(request)),
             "is_article_editor": is_admin_user(request),
         },
-        "ckeditor_upload_url": settings.CKEDITOR_UPLOAD_URL,
-        "environment": settings.ENVIRONMENT,
-        "sentry_dsn": settings.SENTRY_DSN,
-        "release_version": settings.VERSION,
     }
 
     return render(request, "index.html", context={"js_settings": js_settings})

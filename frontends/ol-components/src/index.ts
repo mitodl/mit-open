@@ -71,6 +71,9 @@ export type { ListItemTextProps } from "@mui/material/ListItemText"
 export { default as Skeleton } from "@mui/material/Skeleton"
 export type { SkeletonProps } from "@mui/material/Skeleton"
 
+export { default as Stack } from "@mui/material/Stack"
+export type { StackProps } from "@mui/material/Stack"
+
 export { default as Tab } from "@mui/material/Tab"
 export type { TabProps } from "@mui/material/Tab"
 export { default as TabList } from "@mui/lab/TabList"
@@ -103,6 +106,9 @@ export { default as FormLabel } from "@mui/material/FormLabel"
 export type { FormLabelProps } from "@mui/material/FormLabel"
 export { default as Pagination } from "@mui/material/Pagination"
 export type { PaginationProps } from "@mui/material/Pagination"
+
+export { default as Menu } from "@mui/material/Menu"
+export { default as MenuItem } from "@mui/material/MenuItem"
 
 export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"

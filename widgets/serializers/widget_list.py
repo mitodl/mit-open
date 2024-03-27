@@ -1,11 +1,13 @@
 """WidgetList serializer"""
 
 from django.db import transaction
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from main.serializers import WriteableSerializerMethodField
 from widgets.models import WidgetList
 from widgets.serializers.utils import get_widget_classes, get_widget_type_mapping
+from widgets.serializers.widget_instance import WidgetInstanceSerializer
 
 
 def _serializer_for_widget_type(widget_type_name):
@@ -27,6 +29,7 @@ class WidgetListSerializer(serializers.ModelSerializer):
             ]
         }
 
+    @extend_schema_field(WidgetInstanceSerializer(many=True, allow_null=True))
     def get_widgets(self, instance):
         """Returns the list of widgets"""  # noqa: D401
         widget_map = get_widget_type_mapping()
@@ -36,11 +39,30 @@ class WidgetListSerializer(serializers.ModelSerializer):
             if widget.widget_type in widget_map
         ]
 
+    @extend_schema_field(
+        {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "widget_type": {
+                        "type": "string",
+                    },
+                    "description": {
+                        "type": "string",
+                    },
+                    "form_spec": {
+                        "type": "object",
+                    },
+                },
+            },
+        }
+    )
     def get_available_widgets(
         self,
         instance,  # noqa: ARG002
     ):
-        """Returns a list of available widgets"""  # noqa: D401
+        """Return a list of available widgets"""
         return [
             serializer_cls.get_widget_spec() for serializer_cls in get_widget_classes()
         ]

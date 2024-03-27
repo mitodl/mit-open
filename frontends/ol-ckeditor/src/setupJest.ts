@@ -1,8 +1,3 @@
-window.SETTINGS = {
-  ckeditor_upload_url: "https://ckeditor_upload_url.com",
-  embedlyKey: "embedly_key",
-}
-
 /**
  * CKEditor sometimes creates ResizeObservers, which JSDOM does not support.
  *

@@ -58,19 +58,19 @@ class ChannelAppearanceMixin(serializers.Serializer):
             return True
         return False
 
-    def get_avatar(self, channel) -> str:
+    def get_avatar(self, channel) -> str | None:
         """Get the avatar image URL"""
         return channel.avatar.url if channel.avatar else None
 
-    def get_avatar_small(self, channel) -> str:
+    def get_avatar_small(self, channel) -> str | None:
         """Get the avatar image small URL"""
         return channel.avatar_small.url if channel.avatar_small else None
 
-    def get_avatar_medium(self, channel) -> str:
+    def get_avatar_medium(self, channel) -> str | None:
         """Get the avatar image medium URL"""
         return channel.avatar_medium.url if channel.avatar_medium else None
 
-    def get_banner(self, channel) -> str:
+    def get_banner(self, channel) -> str | None:
         """Get the banner image URL"""
         return channel.banner.url if channel.banner else None
 
@@ -110,7 +110,10 @@ class FieldChannelSerializer(ChannelAppearanceMixin, serializers.ModelSerializer
 
     lists = serializers.SerializerMethodField()
     featured_list = LearningPathPreviewSerializer(
-        many=False, read_only=True, help_text="Learning path featured in this field."
+        allow_null=True,
+        many=False,
+        read_only=True,
+        help_text="Learning path featured in this field.",
     )
     subfields = SubfieldSerializer(many=True, read_only=True)
 
