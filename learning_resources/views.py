@@ -174,9 +174,7 @@ class NewResourcesViewSetMixin(GenericAPIView):
     @extend_schema(summary="List New")
     @action(methods=["GET"], detail=False, name="New Resources")
     def new(self, request: Request) -> QuerySet:  # noqa: ARG002
-        queryset = self.get_queryset()
-        filtered_queryset = self.filter_queryset(queryset)
-        page = self.paginate_queryset(filtered_queryset.order_by("-created_on"))
+        page = self.paginate_queryset(self.get_queryset().order_by("-created_on"))
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 
@@ -185,8 +183,6 @@ class UpcomingResourcesViewSetMixin(GenericAPIView):
     """ViewSet mixin for adding upcoming resource functionality."""
 
     resource_type_name_plural: str
-    filter_backends = [MultipleOptionsFilterBackend]
-    filterset_class = LearningResourceFilter
 
     def __init_subclass__(cls) -> None:
         """Initialize subclasses by updating the view with the correct serializer."""
