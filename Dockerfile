@@ -32,8 +32,6 @@ RUN pip install "poetry==$POETRY_VERSION"
 
 COPY pyproject.toml /src
 COPY poetry.lock /src
-# it seems poetry won't finish if there's no README.md
-COPY README.md /src
 RUN chown -R mitodl:mitodl /src
 RUN mkdir ${VIRTUAL_ENV} && chown -R mitodl:mitodl ${VIRTUAL_ENV}
 

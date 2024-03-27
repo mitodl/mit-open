@@ -49,7 +49,6 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("openapi.urls")),
     re_path(r"", include("learning_resources.urls")),
     re_path(r"", include("articles.urls")),
-    *features_router.urls,
     # React App
     re_path(r"^$", index, name="main-index"),
     re_path(r"^privacy-statement/", index, name="privacy-statement"),
@@ -60,6 +59,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"^dashboard/", index, name="dashboard"),
     re_path(r"^program_letter/", index, name="programletter"),
     re_path(r"^fields/", index, name="fields"),
+    re_path(r"", include(features_router.urls)),
     # Hijack
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
     re_path(r"", include("news_events.urls")),
