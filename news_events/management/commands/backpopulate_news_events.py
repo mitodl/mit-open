@@ -1,5 +1,7 @@
 """Management command for populating MIT news/events items"""
 
+from itertools import chain
+
 from django.core.management import BaseCommand
 
 from news_events.etl import pipelines
@@ -45,5 +47,11 @@ class Command(BaseCommand):
         else:
             for etl_func in etl_funcs:
                 self.stdout.write(f"Running {etl_func} pipeline")
-                getattr(pipelines, etl_func)()
+                results = getattr(pipelines, etl_func)()
+                item_count = len(
+                    list(chain.from_iterable([result[1] for result in results]))
+                )
+                self.stdout.write(
+                    f"Processed {etl_func} pipeline with {item_count} items"
+                )
         self.stdout.write("Finished running news/events ETL pipelines")

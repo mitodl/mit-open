@@ -19,7 +19,10 @@ def test_load_feed_sources(sources_data, feed_type):
     is_news = feed_type == FeedType.news.name
     original_data = sources_data.news if is_news else sources_data.events
     loaded_data = deepcopy(original_data)
-    loaders.load_feed_sources(feed_type, loaded_data)
+    results = loaders.load_feed_sources(feed_type, loaded_data)
+    for idx, result in enumerate(results):
+        assert result[0].url == original_data[idx]["url"]
+        assert len(result[1]) == len(original_data[idx]["items"])
     assert FeedSource.objects.count() == 2
     for source_idx, source in enumerate(FeedSource.objects.all().order_by("url")):
         for attr in ["url", "title", "description"]:
@@ -63,7 +66,7 @@ def load_feed_sources_bad_item(mocker, sources_data):
 
 
 def test_load_feed_sources_delete_old_items(sources_data):
-    """Tests that laod_sources deletes old items and images"""
+    """Tests that load_sources deletes old items and images"""
     source_data = sources_data.news
     source = FeedSourceFactory.create(
         url=source_data[0]["url"], feed_type=FeedType.news.name

@@ -122,7 +122,9 @@ def load_feed_item(source: FeedSource, item_data: dict) -> FeedItem:
     return item
 
 
-def load_feed_source(feed_type: str, source_data: dict) -> FeedSource:
+def load_feed_source(
+    feed_type: str, source_data: dict
+) -> tuple[FeedSource, list[FeedItem]]:
     """
     Load a feed source
 
@@ -131,7 +133,7 @@ def load_feed_source(feed_type: str, source_data: dict) -> FeedSource:
         source_data (dict): The feed source data
 
     Returns:
-        FeedSource: Feed news/event source object
+        tuple of FeedSource and list of FeedItems
     """
     if source_data is None:
         return None
@@ -166,10 +168,12 @@ def load_feed_source(feed_type: str, source_data: dict) -> FeedSource:
             feeditem__isnull=True, feedsource__isnull=True
         ).delete()
 
-    return source
+    return source, items
 
 
-def load_feed_sources(feed_type: str, sources_data: list[dict]) -> list[FeedSource]:
+def load_feed_sources(
+    feed_type: str, sources_data: list[dict]
+) -> list[tuple[FeedSource, list[FeedItem]]]:
     """
     Load feed sources for a given feed type
 
@@ -178,13 +182,13 @@ def load_feed_sources(feed_type: str, sources_data: list[dict]) -> list[FeedSour
         sources_data (list of dict): The feed sources data
 
     Returns:
-        list of FeedSource: Feed news/event source objects
+        list of tuples of FeedSource and list of FeedItems
     """
     sources_list = list(sources_data or [])
 
     return [
-        source
-        for source in [
+        (source, items)
+        for (source, items) in [
             load_feed_source(feed_type, source_data)
             for source_data in sources_list
             if source_data is not None
