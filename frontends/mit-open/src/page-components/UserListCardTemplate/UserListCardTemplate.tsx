@@ -1,8 +1,9 @@
-import React from "react"
+import React, { useCallback } from "react"
 import CardTemplate from "../CardTemplate/CardTemplate"
 import { UserList } from "api"
 
 type CardVariant = "column" | "row" | "row-reverse"
+type OnActivateCard<U extends UserList> = (userList: U) => void
 type UserListCardTemplateProps<U extends UserList = UserList> = {
   /**
    * Whether the course picture and info display as a column or row.
@@ -11,20 +12,27 @@ type UserListCardTemplateProps<U extends UserList = UserList> = {
   userList: U
   sortable?: boolean
   className?: string
+  onActivate?: OnActivateCard<U>
 }
 
-const UserListCardTemplate = <R extends UserList>({
+const UserListCardTemplate = <U extends UserList>({
   variant,
   userList,
   className,
   sortable,
-}: UserListCardTemplateProps<R>) => {
+  onActivate,
+}: UserListCardTemplateProps<U>) => {
+  const handleActivate = useCallback(
+    () => onActivate?.(userList),
+    [userList, onActivate],
+  )
   return (
     <CardTemplate
       variant={variant}
       className={className}
       title={userList.title}
       sortable={sortable}
+      handleActivate={handleActivate}
     ></CardTemplate>
   )
 }
