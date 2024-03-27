@@ -13,6 +13,9 @@ const preview: Preview = {
       </ThemeProvider>
     ),
   ],
+  globals: {
+    EMBEDLY_KEY: process.env.EMBEDLY_KEY,
+  },
 }
 
 export default preview
