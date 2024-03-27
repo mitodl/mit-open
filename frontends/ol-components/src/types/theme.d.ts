@@ -34,9 +34,9 @@ interface CustomTheme {
   fontFamilyDefault: string
   fontSizeSmall: number
   fontSizeNormal: number
-  fontSizeH1: number
-  fontSizeH2: number
-  fontSizeH4: number
+  fontSizeH1: string
+  fontSizeH2: string
+  fontSizeH4: string
   fontWeightBold: string
   fontWeightSemiBold: string
   transitionDuration: string

@@ -3,10 +3,10 @@ import { faker } from "@faker-js/faker/locale/en"
 import { render } from "@testing-library/react"
 import Widget from "./Widget"
 import { makeEmbeddedUrlWidget } from "../factories"
-import { EmbedlyCard } from "ol-utilities"
+import { EmbedlyCard } from "ol-components"
 
-jest.mock("ol-utilities", () => {
-  const actual = jest.requireActual("ol-utilities")
+jest.mock("ol-components", () => {
+  const actual = jest.requireActual("ol-components")
   return {
     __esModule: true,
     ...actual,

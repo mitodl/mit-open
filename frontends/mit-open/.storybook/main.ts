@@ -36,6 +36,7 @@ const config = {
   env: (config: any) => ({
     ...config,
     PUBLIC_URL: process.env.PUBLIC_URL || "",
+    EMBEDLY_KEY: process.env.EMBEDLY_KEY || "",
   }),
 }
 

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react"
 import isURL from "validator/lib/isURL"
 import {
   createStylesheet,
+  embedlyCardHtml,
   EmbedlyEventTypes,
   ensureEmbedlyPlatform,
   getEmbedlyKey,
@@ -10,6 +11,7 @@ import {
 type EmbedlyCardProps = {
   url: string
   className?: string
+  embedlyKey?: string
 }
 
 /**
@@ -40,8 +42,11 @@ const insertCardStylesheet = (e: Event) => {
  *  - If the URL is invalid, nothing is rendered.
  *
  */
-const EmbedlyCard: React.FC<EmbedlyCardProps> = ({ className, url }) => {
-  const embedlyKey = getEmbedlyKey()
+const EmbedlyCard: React.FC<EmbedlyCardProps> = ({
+  className,
+  url,
+  embedlyKey,
+}) => {
   const [container, setContainer] = useState<HTMLElement | null>(null)
 
   const renderCard = useCallback((div: HTMLElement | null) => {
@@ -73,7 +78,7 @@ const EmbedlyCard: React.FC<EmbedlyCardProps> = ({ className, url }) => {
     const a = document.createElement("a")
     a.dataset.cardChrome = "0"
     a.dataset.cardControls = "0"
-    a.dataset.cardKey = embedlyKey ?? ""
+    a.dataset.cardKey = embedlyKey ?? getEmbedlyKey() ?? ""
     a.href = url
     a.classList.add("embedly-card")
     container.appendChild(a)
@@ -82,5 +87,5 @@ const EmbedlyCard: React.FC<EmbedlyCardProps> = ({ className, url }) => {
   return <div className={className} ref={renderCard} />
 }
 
-export default EmbedlyCard
 export type { EmbedlyCardProps }
+export { EmbedlyCard, ensureEmbedlyPlatform, embedlyCardHtml }
