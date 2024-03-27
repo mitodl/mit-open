@@ -47,8 +47,8 @@ pytestmark = [pytest.mark.django_db]
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ["lr:v1:courses_api-list", ""],  # noqa: PT007
-        ["lr:v1:learning_resources_api-list", "resource_type=course"],  # noqa: PT007
+        ("lr:v1:courses_api-list", ""),
+        ("lr:v1:learning_resources_api-list", "resource_type=course"),
     ],
 )
 def test_list_course_endpoint(client, url, params):
@@ -136,8 +136,8 @@ def test_get_course_content_files_filtered(client, reverse_url, expected_url):
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ["lr:v1:courses_api-list", ""],  # noqa: PT007
-        ["lr:v1:learning_resources_api-list", "resource_type=course"],  # noqa: PT007
+        ("lr:v1:courses_api-list", ""),
+        ("lr:v1:learning_resources_api-list", "resource_type=course"),
     ],
 )
 def test_new_courses_endpoint(client, url, params):
@@ -157,12 +157,35 @@ def test_new_courses_endpoint(client, url, params):
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ["lr:v1:courses_api-list", ""],  # noqa: PT007
-        ["lr:v1:learning_resources_api-list", "resource_type=course"],  # noqa: PT007
+        ("lr:v1:courses_api-list", "platform=ocw"),
+        ("lr:v1:learning_resources_api-list", "resource_type=course&platform=ocw"),
+    ],
+)
+def test_new_courses_endpoint_stacks_with_other_filters(client, url, params):
+    """Test new courses endpoint stacks with other filters"""
+    courses = sorted(
+        CourseFactory.create_batch(3, platform=PlatformType.ocw.name),
+        key=lambda course: course.learning_resource.created_on,
+        reverse=True,
+    )
+
+    CourseFactory.create_batch(3, platform=PlatformType.mitxonline.name)
+
+    resp = client.get(f"{reverse(url)}new/?{params}")
+    assert resp.data.get("count") == 3
+    for i in range(3):
+        assert resp.data.get("results")[i]["id"] == courses[i].learning_resource.id
+
+
+@pytest.mark.parametrize(
+    ("url", "params"),
+    [
+        ("lr:v1:courses_api-list", ""),
+        ("lr:v1:learning_resources_api-list", "resource_type=course"),
     ],
 )
 def test_upcoming_courses_endpoint(client, url, params):
-    """Test new courses endpoint"""
+    """Test upcoming courses endpoint"""
     learning_resource = LearningResourceFactory.create(
         is_course=True, runs__in_future=True
     )
@@ -177,8 +200,35 @@ def test_upcoming_courses_endpoint(client, url, params):
 @pytest.mark.parametrize(
     ("url", "params"),
     [
-        ["lr:v1:programs_api-list", ""],  # noqa: PT007
-        ["lr:v1:learning_resources_api-list", "resource_type=program"],  # noqa: PT007
+        ("lr:v1:courses_api-list", "platform=edx"),
+        ("lr:v1:learning_resources_api-list", "resource_type=course&platform=edx"),
+    ],
+)
+def test_upcoming_courses_endpoint_stacks_with_other_filters(client, url, params):
+    """Test upcoming courses endpoint stacks with other filters"""
+    edx = LearningResourcePlatformFactory.create(
+        code=PlatformType.edx.name, name=PlatformType.edx.value
+    )
+    ocw = LearningResourcePlatformFactory.create(
+        code=PlatformType.ocw.name, name=PlatformType.ocw.value
+    )
+    learning_resource = LearningResourceFactory.create(
+        is_course=True, runs__in_future=True, platform=edx
+    )
+
+    LearningResourceFactory.create(is_course=True, runs__in_past=True, platform=edx)
+    LearningResourceFactory.create(is_course=True, runs__in_future=True, platform=ocw)
+
+    resp = client.get(f"{reverse(url)}upcoming/?{params}")
+    assert resp.data.get("count") == 1
+    assert resp.data.get("results")[0]["id"] == learning_resource.id
+
+
+@pytest.mark.parametrize(
+    ("url", "params"),
+    [
+        ("lr:v1:programs_api-list", ""),
+        ("lr:v1:learning_resources_api-list", "resource_type=program"),
     ],
 )
 def test_program_endpoint(client, url, params):
