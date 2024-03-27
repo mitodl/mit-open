@@ -14,9 +14,4 @@ class Migration(migrations.Migration):
             name="guid",
             field=models.CharField(max_length=2048, unique=True),
         ),
-        migrations.AlterField(
-            model_name="feedimage",
-            name="url",
-            field=models.URLField(blank=True),
-        ),
     ]

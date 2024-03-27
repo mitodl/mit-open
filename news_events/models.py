@@ -10,7 +10,7 @@ from news_events.constants import FeedType
 class FeedImage(TimestampedModel):
     """Represent image metadata for a feed source or item"""
 
-    url = models.URLField(blank=True)
+    url = models.TextField(max_length=2048, blank=True)
     description = models.CharField(max_length=1024, blank=True)
     alt = models.CharField(max_length=1024, blank=True)
 
