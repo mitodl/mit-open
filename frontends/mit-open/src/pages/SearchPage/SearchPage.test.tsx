@@ -161,16 +161,16 @@ describe("SearchPage", () => {
     expect(tabs.map((tab) => tab.textContent)).toEqual([
       "All",
       "Courses",
-      "Podcasts",
       "Programs",
+      "Podcasts",
     ])
     // eventually (after API response) result counts show
     await waitFor(() => {
       expect(tabs.map((tab) => tab.textContent)).toEqual([
         "All (300)",
         "Courses (100)",
-        "Podcasts (200)",
         "Programs (0)",
+        "Podcasts (200)",
       ])
     })
   })
