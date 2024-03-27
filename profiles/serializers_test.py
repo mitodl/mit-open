@@ -2,6 +2,7 @@
 """
 Tests for serializers for profiles REST APIS
 """
+
 import factory
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -31,6 +32,10 @@ def test_serialize_user(user):
     assert UserSerializer(user).data == {
         "id": user.id,
         "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_learning_path_editor": False,
+        "is_article_editor": False,
         "profile": {
             "name": profile.name,
             "image": profile.image,
@@ -85,6 +90,10 @@ def test_serialize_create_user(db, mocker):
     assert UserSerializer(user).data == {
         "id": user.id,
         "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_learning_path_editor": False,
+        "is_article_editor": False,
         "profile": profile,
     }
 

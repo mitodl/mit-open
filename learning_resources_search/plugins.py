@@ -1,12 +1,16 @@
 """Pluggy plugins for learning_resources_search"""
+
 import logging
 
 from django.apps import apps
 
 from learning_resources_search import tasks
+from learning_resources_search.api import get_similar_topics
 from learning_resources_search.constants import (
     COURSE_TYPE,
 )
+from main import settings
+from main.utils import chunks
 
 log = logging.getLogger()
 
@@ -53,6 +57,50 @@ class SearchIndexPlugin:
         if resource.resource_type == COURSE_TYPE:
             for run in resource.runs.all():
                 self.resource_run_unpublished(run)
+
+    @hookimpl
+    def resource_similar_topics(self, resource) -> list[dict]:
+        """
+        Get similar topics for a resource
+
+        Args:
+            resource(LearningResource): The Learning Resource to get similar topics for
+
+        Returns:
+            list: The similar topics
+        """
+        text_doc = {
+            "title": resource.title,
+            "description": resource.description,
+            "full_description": resource.full_description,
+        }
+
+        topic_names = get_similar_topics(
+            text_doc,
+            settings.OPEN_VIDEO_MAX_TOPICS,
+            settings.OPEN_VIDEO_MIN_TERM_FREQ,
+            settings.OPEN_VIDEO_MIN_DOC_FREQ,
+        )
+        return [{"name": topic_name} for topic_name in topic_names]
+
+    @hookimpl
+    def bulk_resources_unpublished(self, resource_ids, resource_type):
+        """
+        Remove multiple resources from the search index
+
+        Args:
+            resource_ids(list): The Learning Resource ids that were removed
+            resource_type(str): The Learning Resource type that was removed
+        """
+        for ids in chunks(
+            resource_ids,
+            chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+        ):
+            try_with_retry_as_task(
+                tasks.bulk_deindex_learning_resources,
+                ids,
+                resource_type,
+            )
 
     @hookimpl
     def resource_delete(self, resource):

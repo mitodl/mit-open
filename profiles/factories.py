@@ -4,7 +4,7 @@ from factory import Faker
 from factory.django import DjangoModelFactory, ImageField
 from faker.providers import BaseProvider
 
-from profiles.models import Profile, UserWebsite
+from profiles.models import Profile, ProgramCertificate, ProgramLetter, UserWebsite
 
 
 class LocationProvider(BaseProvider):
@@ -54,3 +54,17 @@ class UserWebsiteFactory(DjangoModelFactory):
 
     class Meta:
         model = UserWebsite
+
+
+class ProgramCertificateFactory(DjangoModelFactory):
+    user_full_name = Faker("name")
+    user_email = Faker("email")
+    micromasters_program_id = Faker("random_int")
+
+    class Meta:
+        model = ProgramCertificate
+
+
+class ProgramLetterFactory(DjangoModelFactory):
+    class Meta:
+        model = ProgramLetter

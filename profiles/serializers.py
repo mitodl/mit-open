@@ -7,19 +7,29 @@ import re
 import ulid
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.urls import reverse
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from authentication import api as auth_api
+from learning_resources.permissions import is_admin_user, is_learning_path_editor
 from profiles.api import get_site_type_from_url
 from profiles.models import (
     PERSONAL_SITE_TYPE,
     PROFILE_PROPS,
     SOCIAL_SITE_NAME_MAP,
     Profile,
+    ProgramCertificate,
+    ProgramLetter,
     UserWebsite,
 )
-from profiles.utils import IMAGE_MEDIUM, IMAGE_SMALL, image_uri
+from profiles.utils import (
+    IMAGE_MEDIUM,
+    IMAGE_SMALL,
+    fetch_program_letter_template_data,
+    image_uri,
+)
 
 User = get_user_model()
 
@@ -208,8 +218,24 @@ class UserSerializer(serializers.ModelSerializer):
 
     # username cannot be set but a default is generated on create using ulid.new
     username = serializers.CharField(read_only=True)
+    first_name = serializers.CharField(read_only=True)
+    last_name = serializers.CharField(read_only=True)
     email = serializers.CharField(write_only=True)
+    is_learning_path_editor = serializers.SerializerMethodField()
+    is_article_editor = serializers.SerializerMethodField()
     profile = ProfileSerializer()
+
+    def get_is_learning_path_editor(self, instance):  # noqa: ARG002
+        request = self.context.get("request")
+        if request:
+            return is_admin_user(request) or is_learning_path_editor(request)
+        return False
+
+    def get_is_article_editor(self, instance):  # noqa: ARG002
+        request = self.context.get("request")
+        if request:
+            return is_admin_user(request)
+        return False
 
     def create(self, validated_data):
         profile_data = validated_data.pop("profile") or {}
@@ -237,10 +263,93 @@ class UserSerializer(serializers.ModelSerializer):
                         profile_data.get(prop_name, getattr(profile, prop_name)),
                     )
                 profile.save()
-
         return instance
 
     class Meta:
         model = User
-        fields = ("id", "username", "profile", "email")
+        fields = (
+            "id",
+            "username",
+            "profile",
+            "email",
+            "first_name",
+            "last_name",
+            "is_article_editor",
+            "is_learning_path_editor",
+        )
         read_only_fields = ("id", "username")
+
+
+class ProgramCertificateSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Program Certificates
+    """
+
+    program_letter_generate_url = serializers.SerializerMethodField()
+    program_letter_share_url = serializers.SerializerMethodField()
+
+    def get_program_letter_generate_url(self, instance):
+        request = self.context.get("request")
+        letter_url = reverse(
+            "profile:program-letter-intercept", args=[instance.micromasters_program_id]
+        )
+        if request:
+            return request.build_absolute_uri(letter_url)
+        return letter_url
+
+    def get_program_letter_share_url(self, instance):
+        request = self.context.get("request")
+
+        user = User.objects.get(email=instance.user_email)
+        letter, created = ProgramLetter.objects.get_or_create(
+            user=user, certificate=instance
+        )
+        letter_url = letter.get_absolute_url()
+        if request:
+            return request.build_absolute_uri(letter_url)
+        return letter_url
+
+    class Meta:
+        model = ProgramCertificate
+        fields = "__all__"
+
+
+class ProgramLetterTemplateFieldSerializer(serializers.Serializer):
+    """
+    Seriializer for program letter template data which is configured in
+    micromasters
+    """
+
+    id = serializers.IntegerField()
+    meta = serializers.JSONField()
+    title = serializers.CharField()
+    program_id = serializers.IntegerField()
+    program_letter_footer = serializers.JSONField()
+    program_letter_footer_text = serializers.CharField()
+    program_letter_header_text = serializers.CharField()
+    program_letter_text = serializers.CharField()
+    program_letter_logo = serializers.JSONField()
+    program_letter_signatories = serializers.ListField(child=serializers.JSONField())
+
+
+class ProgramLetterSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Program Letters
+    """
+
+    id = serializers.UUIDField(read_only=True)
+
+    template_fields = serializers.SerializerMethodField()
+
+    certificate = ProgramCertificateSerializer()
+
+    @extend_schema_field(ProgramLetterTemplateFieldSerializer())
+    def get_template_fields(self, instance) -> dict:
+        """Get template fields from the micromasters cms api"""
+        return ProgramLetterTemplateFieldSerializer(
+            fetch_program_letter_template_data(instance)
+        ).data
+
+    class Meta:
+        model = ProgramLetter
+        fields = ["id", "template_fields", "certificate"]

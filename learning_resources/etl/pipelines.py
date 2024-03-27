@@ -17,6 +17,7 @@ from learning_resources.etl import (
     podcast,
     prolearn,
     xpro,
+    youtube,
 )
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
@@ -144,3 +145,6 @@ def ocw_courses_etl(
             exceptions.append(url_path)
     if exceptions:
         raise ExtractException("Some OCW urls raised errors: %s" % ",".join(exceptions))
+
+
+youtube_etl = compose(loaders.load_video_channels, youtube.transform, youtube.extract)

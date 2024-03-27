@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import Drawer from "@mui/material/Drawer"
 import type { DrawerProps } from "@mui/material/Drawer"
-import { useSearchParams } from "ol-utilities"
 import IconButton from "@mui/material/IconButton"
 import CloseIcon from "@mui/icons-material/Close"
+import { useSearchParams } from "react-router-dom"
 
 const closeSx: React.CSSProperties = {
   position: "absolute",

@@ -12,11 +12,12 @@ from learning_resources.constants import (
     PlatformType,
 )
 from learning_resources.etl.constants import (
+    READABLE_ID_FIELD,
     CourseLoaderConfig,
     ProgramLoaderConfig,
 )
-from learning_resources.etl.deduplication import get_most_relevant_run
 from learning_resources.etl.exceptions import ExtractException
+from learning_resources.etl.utils import most_common_topics
 from learning_resources.models import (
     ContentFile,
     Course,
@@ -27,19 +28,25 @@ from learning_resources.models import (
     LearningResourceInstructor,
     LearningResourceOfferor,
     LearningResourcePlatform,
+    LearningResourceRelationship,
     LearningResourceRun,
     LearningResourceTopic,
     Podcast,
     PodcastEpisode,
     Program,
+    Video,
+    VideoChannel,
+    VideoPlaylist,
 )
 from learning_resources.utils import (
+    bulk_resources_unpublished_actions,
     load_course_blocklist,
     load_course_duplicates,
     resource_run_unpublished_actions,
     resource_run_upserted_actions,
     resource_unpublished_actions,
     resource_upserted_actions,
+    similar_topics_action,
 )
 
 log = logging.getLogger()
@@ -205,7 +212,7 @@ def load_run(
     return learning_resource_run
 
 
-def load_course(  # noqa: C901
+def load_course(
     resource_data: dict,
     blocklist: list[str],
     duplicates: list[dict],
@@ -230,7 +237,6 @@ def load_course(  # noqa: C901
             the created/updated course
     """
     platform_name = resource_data.pop("platform")
-    readable_id = resource_data.pop("readable_id")
     runs_data = resource_data.pop("runs", [])
     topics_data = resource_data.pop("topics", None)
     offered_bys_data = resource_data.pop("offered_by", None)
@@ -239,6 +245,7 @@ def load_course(  # noqa: C901
     department_data = resource_data.pop("departments", [])
     content_tags_data = resource_data.pop("content_tags", [])
 
+    readable_id = resource_data.pop("readable_id")
     if readable_id in blocklist or not runs_data:
         resource_data["published"] = False
 
@@ -261,37 +268,45 @@ def load_course(  # noqa: C901
             )
             return None
 
-        if deduplicated_course_id:
-            # intentionally not updating if the course doesn't exist
-            (
-                learning_resource,
-                created,
-            ) = LearningResource.objects.select_for_update().get_or_create(
-                platform=platform,
-                readable_id=deduplicated_course_id,
-                resource_type=LearningResourceType.course.name,
-                defaults=resource_data,
-            )
+        if readable_id != deduplicated_course_id:
+            duplicate_resource = LearningResource.objects.filter(
+                platform=platform, readable_id=readable_id
+            ).first()
+            if duplicate_resource:
+                duplicate_resource.published = False
+                duplicate_resource.save()
+                resource_unpublished_actions(duplicate_resource)
 
-            if readable_id != deduplicated_course_id:
-                duplicate_resource = LearningResource.objects.filter(
-                    platform=platform, readable_id=readable_id
-                ).first()
-                if duplicate_resource:
-                    duplicate_resource.published = False
-                    duplicate_resource.save()
-                    resource_unpublished_actions(duplicate_resource)
+        unique_field_name = resource_data.pop("unique_field", READABLE_ID_FIELD)
+        unique_field_value = resource_data.get(unique_field_name)
 
-        else:
-            (
-                learning_resource,
-                created,
-            ) = LearningResource.objects.select_for_update().update_or_create(
+        log.info(
+            "Loading course: %s:%s=%s",
+            readable_id,
+            unique_field_name,
+            unique_field_value,
+        )
+        resource_id = deduplicated_course_id or readable_id
+        if unique_field_name != READABLE_ID_FIELD:
+            # Some dupes may result, so we need to unpublish resources
+            # with matching unique values and different readable_ids
+            for resource in LearningResource.objects.filter(
+                **{unique_field_name: unique_field_value},
                 platform=platform,
-                readable_id=readable_id,
                 resource_type=LearningResourceType.course.name,
-                defaults=resource_data,
-            )
+            ).exclude(readable_id=resource_id):
+                resource.published = False
+                resource.save()
+                resource_unpublished_actions(resource)
+        (
+            learning_resource,
+            created,
+        ) = LearningResource.objects.select_for_update().update_or_create(
+            readable_id=resource_id,
+            platform=platform,
+            resource_type=LearningResourceType.course.name,
+            defaults=resource_data,
+        )
 
         Course.objects.get_or_create(
             learning_resource=learning_resource, defaults=course_data
@@ -301,14 +316,6 @@ def load_course(  # noqa: C901
 
         for course_run_data in runs_data:
             load_run(learning_resource, course_run_data)
-
-        if deduplicated_course_id and not created:
-            most_relevent_run = get_most_relevant_run(learning_resource.runs.all())
-
-            if most_relevent_run.run_id in run_ids_to_update_or_create:
-                for attr, val in resource_data.items():
-                    setattr(learning_resource, attr, val)
-                learning_resource.save()
 
         unpublished_runs = []
         if config.prune:
@@ -684,3 +691,223 @@ def load_podcasts(podcasts_data: list[dict]) -> list[LearningResource]:
     ).exclude(parents__parent__in=ids).update(published=False)
 
     return podcast_resources
+
+
+def load_video(video_data: dict) -> LearningResource:
+    """
+    Load a video into the database
+
+    Args:
+        video_data (dict): the video data
+
+    Returns:
+        LearningResource: the created or updated video resource
+
+    """
+    readable_id = video_data.pop("readable_id")
+    platform = video_data.pop("platform")
+    topics_data = video_data.pop("topics", None)
+    offered_by_data = video_data.pop("offered_by", None)
+    video_fields = video_data.pop("video", {})
+    image_data = video_data.pop("image", None)
+    with transaction.atomic():
+        (
+            learning_resource,
+            created,
+        ) = LearningResource.objects.update_or_create(
+            platform=LearningResourcePlatform.objects.get(code=platform),
+            readable_id=readable_id,
+            resource_type=LearningResourceType.video.name,
+            defaults=video_data,
+        )
+        video, _ = Video.objects.update_or_create(
+            learning_resource=learning_resource, defaults=video_fields
+        )
+        load_image(learning_resource, image_data)
+        if not topics_data:
+            topics_data = similar_topics_action(learning_resource)
+        load_topics(learning_resource, topics_data)
+        load_offered_by(learning_resource, offered_by_data)
+
+    update_index(learning_resource, created)
+
+    return learning_resource
+
+
+def load_videos(videos_data: iter) -> list[LearningResource]:
+    """
+    Load a list of videos into the database
+
+    Args:
+        videos_data (iter of dict): iterable of the video data
+
+    Returns:
+        list of Video:
+            the list of loaded videos
+    """
+
+    return [load_video(video_data) for video_data in videos_data]
+
+
+def load_playlist(video_channel: VideoChannel, playlist_data: dict) -> LearningResource:
+    """
+    Load a video playlist into the database
+
+    Args:
+        video_channel (VideoChannel): the video channel instance this playlist is under
+        playlist_data (dict): the video playlist
+
+    Returns:
+        LearningResource: the created or updated playlist resource
+    """
+
+    playlist_id = playlist_data.pop("playlist_id")
+    videos_data = playlist_data.pop("videos", [])
+    offered_bys_data = playlist_data.pop("offered_by", None)
+
+    with transaction.atomic():
+        playlist_resource, created = LearningResource.objects.update_or_create(
+            readable_id=playlist_id,
+            resource_type=LearningResourceType.video_playlist.name,
+            platform=LearningResourcePlatform.objects.get(
+                code=playlist_data.pop("platform", PlatformType.youtube.name),
+            ),
+            defaults=playlist_data,
+        )
+        playlist, _ = VideoPlaylist.objects.update_or_create(
+            learning_resource=playlist_resource,
+            defaults={"channel": video_channel},
+        )
+        load_offered_by(playlist_resource, offered_bys_data)
+        video_resources = load_videos(videos_data)
+        load_topics(playlist_resource, most_common_topics(video_resources))
+        playlist_resource.resources.clear()
+        for idx, video in enumerate(video_resources):
+            playlist_resource.resources.add(
+                video,
+                through_defaults={
+                    "relation_type": LearningResourceRelationTypes.PLAYLIST_VIDEOS,
+                    "position": idx,
+                },
+            )
+    update_index(playlist_resource, created)
+
+    return playlist_resource
+
+
+def load_playlists(
+    video_channel: VideoChannel, playlists_data: iter
+) -> list[LearningResource]:
+    """
+    Load a list of video playlists into the database
+
+    Args:
+        video_channel (VideoChannel): the video channel instance this playlist is under
+        playlists_data (iter of dict): iterable of the video playlists
+
+    Returns:
+        list of LearningResource:
+            the created or updated LearningResources for the playlists
+    """
+    playlists = [
+        load_playlist(video_channel, playlist_data) for playlist_data in playlists_data
+    ]
+    playlist_ids = [playlist.id for playlist in playlists]
+
+    # remove playlists that no longer exist
+    playlists_to_unpublish = LearningResource.objects.filter(
+        video_playlist__channel=video_channel
+    ).exclude(id__in=playlist_ids)
+
+    playlists_to_unpublish.update(published=False)
+    bulk_resources_unpublished_actions(
+        playlists_to_unpublish.values_list("id", flat=True),
+        LearningResourceType.video_playlist.name,
+    )
+
+    return playlists
+
+
+def load_video_channel(video_channel_data: dict) -> VideoChannel:
+    """
+    Load a single video channel into the database
+
+    Arg:
+        video_channel_data (dict):
+            the normalized video channel data
+    Returns:
+        VideoChannel: the updated or created video channel
+    """
+    channel_id = video_channel_data.pop("channel_id")
+    playlists_data = video_channel_data.pop("playlists", [])
+
+    with transaction.atomic():
+        video_channel, _ = VideoChannel.objects.select_for_update().update_or_create(
+            channel_id=channel_id, defaults=video_channel_data
+        )
+        load_playlists(video_channel, playlists_data)
+
+    return video_channel
+
+
+def load_video_channels(video_channels_data: iter) -> list[VideoChannel]:
+    """
+    Load a list of video channels
+
+    Args:
+        video_channels_data (iter of dict): iterable of the video channels data
+
+    Returns:
+        list of VideoChannel: the loaded video channels
+    """
+    video_channels = []
+    channel_ids = []
+    for video_channel_data in video_channels_data:
+        channel_id = video_channel_data["channel_id"]
+        channel_ids.append(channel_id)
+        try:
+            video_channel = load_video_channel(video_channel_data)
+        except ExtractException:
+            # video_channel_data has lazily evaluated generators,
+            # one of them could raise an extraction error
+            # this is a small pollution of separation of concerns
+            # but this allows us to stream the extracted data w/ generators
+            # as opposed to having to load everything into memory,
+            # which will eventually fail
+            log.exception(
+                "Error with extracted video channel: channel_id=%s", channel_id
+            )
+        else:
+            video_channels.append(video_channel)
+
+    VideoChannel.objects.exclude(channel_id__in=channel_ids).update(published=False)
+
+    # Unpublish any video playlists not included in published channels
+    orphaned_playlist_ids = VideoPlaylist.objects.exclude(
+        channel__channel_id__in=channel_ids
+    ).values_list("learning_resource__id", flat=True)
+    if orphaned_playlist_ids:
+        LearningResource.objects.filter(id__in=orphaned_playlist_ids).update(
+            published=False
+        )
+        bulk_resources_unpublished_actions(
+            orphaned_playlist_ids, LearningResourceType.video_playlist.name
+        )
+
+    # Unpublish any published videos that aren't in at least one published playlist
+    orphaned_video_ids = (
+        LearningResourceRelationship.objects.filter(
+            relation_type=LearningResourceRelationTypes.PLAYLIST_VIDEOS.value
+        )
+        .exclude(parent__published=True)
+        .values_list("child", flat=True)
+    )
+    if orphaned_video_ids:
+        LearningResource.objects.filter(id__in=orphaned_video_ids).update(
+            published=False
+        )
+        bulk_resources_unpublished_actions(
+            orphaned_video_ids, LearningResourceType.video.name
+        )
+
+    return video_channels

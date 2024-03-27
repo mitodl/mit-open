@@ -1,8 +1,13 @@
 """Tests for opensearch serializers"""
 
+from types import SimpleNamespace
+
 import pytest
 from django.http import QueryDict
+from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
+from rest_framework.request import Request
+from rest_framework.test import APIRequestFactory
 
 from learning_resources import factories
 from learning_resources.constants import DEPARTMENTS, LearningResourceType
@@ -18,6 +23,19 @@ from learning_resources_search.serializers import (
     SearchResponseSerializer,
     extract_values,
 )
+
+
+@pytest.fixture()
+def learning_resources_search_view():
+    """Fixture with relevant properties for testing the search view"""
+    return SimpleNamespace(url=reverse("lr_search:v1:learning_resources_search"))
+
+
+def get_request_object(url):
+    """Build and return a django request object"""
+    request_factory = APIRequestFactory()
+    api_request = request_factory.get(url, {"q": "test"})
+    return Request(api_request)
 
 
 @pytest.mark.django_db()
@@ -137,7 +155,6 @@ def test_serialize_content_file_for_bulk():
             "name": "content_file",
             "parent": content_file.run.learning_resource_id,
         },
-        "resource_type": "content_file",
         **ContentFileSerializer(content_file).data,
     }
 
@@ -231,7 +248,6 @@ def test_content_file_search_request_serializer():
         "limit": 1,
         "id": [1],
         "sortby": "-id",
-        "resource_type": ["content_file"],
         "topic": ["Math"],
         "aggregations": ["topic"],
         "content_feature_type": ["Assignment"],
@@ -418,6 +434,8 @@ response_test_raw_data_1 = {
 }
 response_test_response_1 = {
     "count": 9,
+    "next": None,
+    "previous": None,
     "results": [
         {
             "id": 5147,
@@ -501,6 +519,7 @@ response_test_response_1 = {
         "suggest": ["manage"],
     },
 }
+
 response_test_raw_data_2 = {
     "took": 13,
     "timed_out": False,
@@ -651,8 +670,11 @@ response_test_raw_data_2 = {
         ],
     },
 }
+
 response_test_response_2 = {
     "count": 1,
+    "next": None,
+    "previous": None,
     "results": [
         {
             "image": {
@@ -716,8 +738,15 @@ response_test_response_2 = {
         (response_test_raw_data_2, response_test_response_2),
     ],
 )
-def test_learning_resources_search_response_serializer(settings, raw_data, response):
+def test_learning_resources_search_response_serializer(
+    settings, raw_data, response, learning_resources_search_view
+):
+    """
+    Test that the search response serializer processes
+    opensearch results as expected
+    """
     settings.OPENSEARCH_MAX_SUGGEST_HITS = 10
+    request = get_request_object(learning_resources_search_view.url)
     assert JSONRenderer().render(
-        SearchResponseSerializer(raw_data).data
+        SearchResponseSerializer(raw_data, context={"request": request}).data
     ) == JSONRenderer().render(response)

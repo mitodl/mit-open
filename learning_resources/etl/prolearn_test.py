@@ -3,13 +3,17 @@
 import json
 from datetime import datetime
 from decimal import Decimal
+from urllib.parse import urljoin, urlparse
 
 import pytest
 import pytz
 
+from learning_resources.constants import OfferedBy, PlatformType
 from learning_resources.etl import prolearn
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.prolearn import (
+    PROLEARN_BASE_URL,
+    UNIQUE_FIELD,
     get_offered_by,
     parse_date,
     parse_image,
@@ -123,16 +127,16 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
     result = prolearn.transform_programs(extracted_data)
     expected = [
         {
-            "readable_id": program["nid"],
+            "readable_id": f"prolearn-{PlatformType.csail.name}-{program['nid']}",
             "title": program["title"],
             "url": (
                 program["course_link"]
                 or program["course_application_url"]
-                or program["url"]
+                or urljoin(PROLEARN_BASE_URL, program["url"])
             ),
             "image": parse_image(program),
-            "platform": "csail",
-            "offered_by": {"name": "CSAIL"},
+            "platform": PlatformType.csail.name,
+            "offered_by": {"name": OfferedBy.csail.value},
             "etl_source": ETLSource.prolearn.name,
             "professional": True,
             "runs": [
@@ -161,9 +165,11 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                             "run_id": course_id,
                         }
                     ],
+                    "unique_field": UNIQUE_FIELD,
                 }
                 for course_id in sorted(program["field_related_courses_programs"])
             ],
+            "unique_field": UNIQUE_FIELD,
         }
         for program in extracted_data
     ]
@@ -176,9 +182,9 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
     result = list(prolearn.transform_courses(extracted_data))
     expected = [
         {
-            "readable_id": course["nid"],
-            "platform": "mitpe",
-            "offered_by": {"name": "Professional Education"},
+            "readable_id": f"prolearn-{PlatformType.mitpe.name}-{course['nid']}",
+            "platform": PlatformType.mitpe.name,
+            "offered_by": {"name": OfferedBy.mitpe.value},
             "etl_source": ETLSource.prolearn.name,
             "title": course["title"],
             "image": parse_image(course),
@@ -186,10 +192,11 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "published": True,
             "professional": True,
             "topics": parse_topic(course),
-            "url": (
-                course["course_link"]
-                or course["course_application_url"]
-                or course["url"]
+            "url": course["course_link"]
+            if urlparse(course["course_link"]).path
+            else (
+                course["course_application_url"]
+                or urljoin(PROLEARN_BASE_URL, course["url"])
             ),
             "runs": [
                 {
@@ -212,6 +219,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                 )
             ],
             "course": {"course_numbers": []},
+            "unique_field": UNIQUE_FIELD,
         }
         for course in extracted_data
     ]

@@ -1,5 +1,4 @@
 import React, { useCallback } from "react"
-import classNames from "classnames"
 import * as NiceModal from "@ebay/nice-modal-react"
 
 import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
@@ -44,7 +43,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       variant={variant}
       sortable={sortable}
       suppressImage={suppressImage}
-      className={classNames("ic-resource-card", className)}
+      className={className}
       resource={resource}
       imgConfig={imgConfigs[variant]}
       onActivate={console.log}

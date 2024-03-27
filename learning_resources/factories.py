@@ -208,7 +208,20 @@ class LearningResourceFactory(DjangoModelFactory):
             factory_related_name="learning_resource",
         ),
     )
-
+    video = factory.Maybe(
+        "create_video",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.VideoFactory",
+            factory_related_name="learning_resource",
+        ),
+    )
+    video_playlist = factory.Maybe(
+        "create_video_playlist",
+        yes_declaration=factory.RelatedFactory(
+            "learning_resources.factories.VideoPlaylistFactory",
+            factory_related_name="learning_resource",
+        ),
+    )
     runs = factory.Maybe(
         "create_runs",
         yes_declaration=factory.RelatedFactoryList(
@@ -224,6 +237,7 @@ class LearningResourceFactory(DjangoModelFactory):
 
     class Params:
         no_topics = factory.Trait(topics=[])
+        no_content_tags = factory.Trait(content_tags=[])
         no_image = factory.Trait(image=None)
 
         is_course = factory.Trait(
@@ -247,6 +261,18 @@ class LearningResourceFactory(DjangoModelFactory):
                 LearningResourcePlatformFactory, code=PlatformType.podcast.name
             ),
         )
+        is_video = factory.Trait(
+            resource_type=constants.LearningResourceType.video.name,
+            platform=factory.SubFactory(
+                LearningResourcePlatformFactory, code=PlatformType.youtube.name
+            ),
+        )
+        is_video_playlist = factory.Trait(
+            resource_type=constants.LearningResourceType.video_playlist.name,
+            platform=factory.SubFactory(
+                LearningResourcePlatformFactory, code=PlatformType.youtube.name
+            ),
+        )
 
         # these drive the RelatedFactory definitions, it's necessary to do it
         # this way because resource_type can be set by either a Trait or directly
@@ -266,6 +292,13 @@ class LearningResourceFactory(DjangoModelFactory):
         create_podcast_episode = factory.LazyAttribute(
             lambda lr: lr.resource_type
             == constants.LearningResourceType.podcast_episode.name
+        )
+        create_video = factory.LazyAttribute(
+            lambda lr: lr.resource_type == constants.LearningResourceType.video.name
+        )
+        create_video_playlist = factory.LazyAttribute(
+            lambda lr: lr.resource_type
+            == constants.LearningResourceType.video_playlist.name
         )
         create_runs = factory.LazyAttribute(
             lambda lr: lr.resource_type
@@ -355,7 +388,15 @@ class CourseFactory(DjangoModelFactory):
 class LearningResourceRunFactory(DjangoModelFactory):
     """Factory for LearningResourceRuns"""
 
-    learning_resource = factory.SubFactory(LearningResourceFactory)
+    learning_resource = factory.SubFactory(
+        LearningResourceFactory,
+        resource_type=factory.fuzzy.FuzzyChoice(
+            choices=[
+                constants.LearningResourceType.course.name,
+                constants.LearningResourceType.program.name,
+            ]
+        ),
+    )
     run_id = factory.Sequence(lambda n: "RUN%03d.MIT_run" % n)
     title = factory.Faker("word")
     description = factory.Faker("sentence")
@@ -679,4 +720,58 @@ class PodcastFactory(DjangoModelFactory):
 
     class Meta:
         model = models.Podcast
+        skip_postgeneration_save = True
+
+
+class VideoFactory(DjangoModelFactory):
+    """Factory for Videos"""
+
+    learning_resource = factory.SubFactory(
+        LearningResourceFactory,
+        platform=factory.SubFactory(
+            LearningResourcePlatformFactory, code=PlatformType.youtube.name
+        ),
+        is_video=True,
+        create_video=False,
+    )
+    duration = factory.Sequence(lambda n: "PT%02dM%02dS" % (n, n))
+
+    class Meta:
+        model = models.Video
+        skip_postgeneration_save = True
+
+    class Params:
+        is_unpublished = factory.Trait(learning_resource__published=False)
+
+
+class VideoChannelFactory(DjangoModelFactory):
+    """Factory for VideoChannels"""
+
+    channel_id = factory.Sequence(lambda n: "VIDEO-CHANNEL-%03d.MIT" % n)
+    title = factory.Faker("word")
+
+    class Params:
+        is_unpublished = factory.Trait(published=False)
+
+    class Meta:
+        model = models.VideoChannel
+        skip_postgeneration_save = True
+
+
+class VideoPlaylistFactory(DjangoModelFactory):
+    """Factory for Video Playlists"""
+
+    learning_resource = factory.SubFactory(
+        LearningResourceFactory,
+        is_video_playlist=True,
+        create_video_playlist=False,
+    )
+
+    channel = factory.SubFactory("learning_resources.factories.VideoChannelFactory")
+
+    class Params:
+        is_unpublished = factory.Trait(learning_resource__published=False)
+
+    class Meta:
+        model = models.VideoPlaylist
         skip_postgeneration_save = True

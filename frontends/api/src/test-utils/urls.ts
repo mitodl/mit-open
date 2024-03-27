@@ -63,4 +63,19 @@ const articles = {
   details: (id: number) => `/api/v1/articles/${id}/`,
 }
 
-export { learningResources, topics, learningPaths, articles }
+const programLetters = {
+  details: (id: string) => `/api/v1/program_letters/${id}/`,
+}
+
+const search = {
+  resources: () => "/api/v1/learning_resources_search/",
+}
+
+export {
+  learningResources,
+  topics,
+  learningPaths,
+  articles,
+  search,
+  programLetters,
+}

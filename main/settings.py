@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.3.2"
+VERSION = "0.5.1"
 
 log = logging.getLogger()
 
@@ -226,6 +226,10 @@ else:
     DEFAULT_DATABASE_CONFIG["OPTIONS"] = {"sslmode": "require"}
 
 DATABASES = {"default": DEFAULT_DATABASE_CONFIG}
+
+DATABASE_ROUTERS = ["main.routers.ExternalSchemaRouter"]
+
+EXTERNAL_MODELS = ["programcertificate"]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -513,7 +517,7 @@ CACHES = {
 }
 
 # OpenSearch
-OPENSEARCH_DEFAULT_PAGE_SIZE = get_int("OPENSEARCH_DEFAULT_PAGE_SIZE", 6)
+OPENSEARCH_DEFAULT_PAGE_SIZE = get_int("OPENSEARCH_DEFAULT_PAGE_SIZE", 10)
 OPENSEARCH_URL = get_string("OPENSEARCH_URL", None)
 if not OPENSEARCH_URL:
     msg = "Missing OPENSEARCH_URL"
@@ -679,3 +683,5 @@ KEYCLOAK_REALM_NAME = get_string(
     name="KEYCLOAK_REALM_NAME",
     default="olapps",
 )
+
+MICROMASTERS_CMS_API_URL = get_string("MICROMASTERS_CMS_API_URL", None)

@@ -2,6 +2,7 @@ import type { QueryClient, Query } from "@tanstack/react-query"
 import {
   learningResourcesApi,
   learningpathsApi,
+  learningResourcesSearchApi,
   topicsApi,
 } from "../../clients"
 import axiosInstance from "../../axios"
@@ -13,6 +14,7 @@ import type {
   PaginatedLearningResourceList,
   LearningResource,
   PaginatedLearningPathRelationshipList,
+  LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
 } from "../../generated"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
@@ -67,6 +69,15 @@ const learningResources = createQueryKeys("learningResources", {
           learningpathsApi.learningpathsList(params).then((res) => res.data),
       }),
     },
+  },
+  search: (params: LRSearchRequest) => {
+    return {
+      queryKey: [params],
+      queryFn: () =>
+        learningResourcesSearchApi
+          .learningResourcesSearchRetrieve(params)
+          .then((res) => res.data),
+    }
   },
 })
 

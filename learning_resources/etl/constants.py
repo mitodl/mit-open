@@ -10,6 +10,8 @@ COMMON_HEADERS = {
     "User-Agent": f"CourseCatalogBot/{settings.VERSION} ({settings.SITE_BASE_URL})"
 }
 
+READABLE_ID_FIELD = "readable_id"
+
 MIT_OWNER_KEYS = ["MITx", "MITx_PRO"]
 
 
@@ -49,6 +51,7 @@ class ETLSource(Enum):
     ocw = "ocw"
     prolearn = "prolearn"
     podcast = "podcast"
+    youtube = "youtube"
 
 
 class CourseNumberType(Enum):

@@ -159,9 +159,10 @@ class TestSettings(TestCase):
         for key in REQUIRED_SETTINGS:
             required_settings = {**REQUIRED_SETTINGS}
             del required_settings[key]
-            with mock.patch.dict(
-                "os.environ", required_settings, clear=True
-            ), pytest.raises(ImproperlyConfigured):
+            with (
+                mock.patch.dict("os.environ", required_settings, clear=True),
+                pytest.raises(ImproperlyConfigured),
+            ):
                 self.reload_settings()
 
     def test_server_side_cursors_disabled(self):

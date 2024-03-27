@@ -1,6 +1,98 @@
 Release Notes
 =============
 
+Version 0.5.1 (Released March 19, 2024)
+-------------
+
+- Add a Search Page (#618)
+- pushing fix for test failure (#631)
+- shanbady/separate database router and schema for program certificates (#617)
+- Update dependency django-anymail to v10.3 (#627)
+- Update dependency @sentry/react to v7.107.0 (#626)
+- Update react-router monorepo to v6.22.3 (#625)
+- Update material-ui monorepo (#624)
+- Update dependency boto3 to v1.34.64 (#623)
+- Update dependency axios to v1.6.8 (#622)
+- Update dependency @ckeditor/ckeditor5-dev-utils to v39.6.3 (#621)
+- Update dependency @ckeditor/ckeditor5-dev-translations to v39.6.3 (#620)
+- Update all non-major dev-dependencies (#619)
+- Endpoint for user program certificate info and program letter links (#608)
+- Update Node.js to v20 (#507)
+- Program Letter View (#605)
+
+Version 0.5.0 (Released March 13, 2024)
+-------------
+
+- Avoid duplicate courses (#603)
+- Type-specific api endpoints for videos and video playlists (#595)
+- Update dependency ipython to v8.22.2 (#600)
+- Update dependency html-entities to v2.5.2 (#599)
+- Update dependency boto3 to v1.34.59 (#598)
+- Update dependency Django to v4.2.11 (#597)
+- Update all non-major dev-dependencies (#596)
+- Assign topics to videos and playlists (#584)
+- Add daily micromasters ETL task to celerybeat schedule (#585)
+
+Version 0.4.1 (Released March 08, 2024)
+-------------
+
+- resource_type changes (#583)
+- Update nginx Docker tag to v1.25.4 (#544)
+- Youtube video ETL and search (#558)
+
+Version 0.4.0 (Released March 06, 2024)
+-------------
+
+- Update dependency ruff to ^0.3.0 (#577)
+- Update dependency html-entities to v2.5.0 (#576)
+- Update dependency python-rapidjson to v1.16 (#575)
+- Update dependency python-dateutil to v2.9.0 (#574)
+- Update dependency google-api-python-client to v2.120.0 (#573)
+- Update dependency @sentry/react to v7.104.0 (#572)
+- Update react-router monorepo to v6.22.2 (#571)
+- Update dependency storybook-addon-react-router-v6 to v2.0.11 (#570)
+- Update dependency sentry-sdk to v1.40.6 (#569)
+- Update dependency markdown2 to v2.4.13 (#568)
+- Update dependency ddt to v1.7.2 (#567)
+- Update dependency boto3 to v1.34.54 (#566)
+- Update dependency @ckeditor/ckeditor5-dev-utils to v39.6.2 (#565)
+- Update dependency @ckeditor/ckeditor5-dev-translations to v39.6.2 (#564)
+- Update all non-major dev-dependencies (#563)
+- Create program certificate django model (#561)
+- fix OpenAPI response for content_file_search (#559)
+- Update material-ui monorepo (#233)
+- next/previous links for search api (#550)
+- Remove livestream app (#549)
+- Assign best date available to LearningResourceRun.start_date field (#514)
+- Update dependency ipython to v8.22.1 (#547)
+- Update dependency google-api-python-client to v2.119.0 (#546)
+- Update dependency @sentry/react to v7.102.1 (#545)
+- Update mcr.microsoft.com/playwright Docker tag to v1.41.2 (#543)
+- Update dependency sentry-sdk to v1.40.5 (#542)
+- Update dependency iso-639-1 to v3.1.2 (#540)
+- Update dependency boto3 to v1.34.49 (#541)
+- Update all non-major dev-dependencies (#539)
+
+Version 0.3.3 (Released March 04, 2024)
+-------------
+
+- Save user with is_active from SCIM request (#535)
+- Add SCIM client (#513)
+- CI and test fixtures for E2E testing (#481)
+- Update postgres Docker tag to v12.18 (#530)
+- Update dependency responses to ^0.25.0 (#529)
+- Update dependency google-api-python-client to v2.118.0 (#528)
+- Update dependency @sentry/react to v7.101.1 (#527)
+- Update react-router monorepo to v6.22.1 (#526)
+- Update nginx Docker tag to v1.25.4 (#524)
+- Update dependency ruff to v0.2.2 (#525)
+- Update dependency social-auth-core to v4.5.3 (#523)
+- Update dependency sentry-sdk to v1.40.4 (#522)
+- Update dependency iso-639-1 to v3.1.1 (#521)
+- Update dependency boto3 to v1.34.44 (#520)
+- Update all non-major dev-dependencies (#519)
+- Update Node.js to v18.19.1 (#518)
+
 Version 0.3.2 (Released February 20, 2024)
 -------------
 

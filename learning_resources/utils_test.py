@@ -50,32 +50,29 @@ def fixture_test_instructors_data():
 
 
 @pytest.mark.parametrize(
-    ("semester", "year", "ending", "expected"),
+    ("semester", "year", "expected"),
     [
-        ("spring", 2020, True, "2020-05-31"),
-        ("spring", 2020, False, "2020-01-01"),
-        ("fall", 2020, True, "2020-12-31"),
-        ("fall", 2020, False, "2020-09-01"),
-        ("summer", 2021, True, "2021-08-30"),
-        ("summer", 2021, False, "2021-06-01"),
-        ("spring", None, False, None),
-        (None, 2020, False, None),
-        ("something", 2020, False, None),
-        ("something", 2020, True, None),
-        ("January IAP", 2018, False, "2018-01-01"),
-        ("January IAP", 2018, True, "2018-01-31"),
+        ("Spring", 2020, "2020-01-01"),
+        ("Fall", 2020, "2020-09-01"),
+        ("fall", 2020, "2020-09-01"),
+        ("summer", 2021, "2021-06-01"),
+        ("Summer", 2021, "2021-06-01"),
+        ("spring", None, None),
+        (None, 2020, "2020-01-01"),
+        ("something", 2020, "2020-01-01"),
+        ("January IAP", 2018, "2018-01-01"),
     ],
 )
-def test_semester_year_to_date(semester, year, ending, expected):
+def test_semester_year_to_date(semester, year, expected):
     """
     Test that a correct rough date is returned for semester and year
     """
     if expected is None:
-        assert utils.semester_year_to_date(semester, year, ending=ending) is None
+        assert utils.semester_year_to_date(semester, year) is None
     else:
-        assert utils.semester_year_to_date(
-            semester, year, ending=ending
-        ) == datetime.strptime(expected, "%Y-%m-%d").replace(tzinfo=pytz.UTC)
+        assert utils.semester_year_to_date(semester, year) == datetime.strptime(
+            expected, "%Y-%m-%d"
+        ).replace(tzinfo=pytz.UTC)
 
 
 @pytest.mark.parametrize("url", [None, "http://test.me"])
@@ -211,6 +208,18 @@ def test_resource_upserted_actions(mock_plugin_manager, fixture_resource):
     """
     utils.resource_upserted_actions(fixture_resource)
     mock_plugin_manager.hook.resource_upserted.assert_called_once_with(
+        resource=fixture_resource
+    )
+
+
+def test_similar_topics_action(mock_plugin_manager, fixture_resource) -> dict:
+    """
+    similar_topics_action should trigger plugin hook's resource_similar_topics function
+    """
+    mock_topics = [{"name": "Biology"}, {"name": "Chemistry"}]
+    mock_plugin_manager.hook.resource_similar_topics.return_value = [mock_topics]
+    assert utils.similar_topics_action(fixture_resource) == mock_topics
+    mock_plugin_manager.hook.resource_similar_topics.assert_called_once_with(
         resource=fixture_resource
     )
 

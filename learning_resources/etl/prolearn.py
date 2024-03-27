@@ -4,7 +4,7 @@ import logging
 import re
 from datetime import datetime
 from decimal import Decimal
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import pytz
 import requests
@@ -21,6 +21,8 @@ log = logging.getLogger(__name__)
  Currently each department corresponds to an "offered by" value,
  prefixed with "MIT "
 """
+
+PROLEARN_BASE_URL = "https://prolearn.mit.edu"
 
 # List of query fields for prolearn, deduced from its website api calls
 PROLEARN_QUERY_FIELDS = "title\nnid\nurl\ncertificate_name\ncourse_application_url\ncourse_link\nfield_course_or_program\nstart_value\nend_value\ndepartment\ndepartment_url\nbody\nbody_override\nfield_time_commitment\nfield_duration\nfeatured_image_url\nfield_featured_video\nfield_non_degree_credits\nfield_price\nfield_related_courses_programs\nrelated_courses_programs_title\nfield_time_commitment\nucc_hot_topic\nucc_name\nucc_tid\napplication_process\napplication_process_override\nformat_name\nimage_override_url\nvideo_override_url\nfield_new_course_program\nfield_tooltip"  # noqa: E501
@@ -49,6 +51,8 @@ query {
     }
 }
 """  # noqa: E501
+
+UNIQUE_FIELD = "url"
 
 
 def get_offered_by(document: dict) -> LearningResourceOfferor:
@@ -156,10 +160,14 @@ def parse_url(document: dict) -> str:
     Returns:
         str: full url of the course or program
     """
-
-    return (
-        document["course_link"] or document["course_application_url"] or document["url"]
-    )
+    course_link = document.get("course_link")
+    if course_link and not urlparse(course_link).path:
+        # A course link without a path is not helpful
+        course_link = None
+    prolearn_link = document.get("url")
+    if prolearn_link:
+        prolearn_link = urljoin(PROLEARN_BASE_URL, prolearn_link)
+    return course_link or document["course_application_url"] or prolearn_link
 
 
 def extract_data(course_or_program: str) -> list[dict]:
@@ -220,7 +228,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
         if offered_by and platform:
             program_list.append(
                 {
-                    "readable_id": program["nid"],
+                    "readable_id": f'prolearn-{platform}-{program["nid"]}',
                     "title": program["title"],
                     "offered_by": {"name": offered_by.name},
                     "platform": platform,
@@ -253,11 +261,13 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                                     "run_id": course_id,
                                 }
                             ],
+                            "unique_field": UNIQUE_FIELD,
                         }
                         for course_id in sorted(
                             program["field_related_courses_programs"]
                         )
                     ],
+                    "unique_field": UNIQUE_FIELD,
                 }
             )
     return program_list
@@ -304,7 +314,7 @@ def _transform_course(
         dict: normalized course data
     """  # noqa: D401
     return {
-        "readable_id": course["nid"],
+        "readable_id": f'prolearn-{platform}-{course["nid"]}',
         "offered_by": {"name": offered_by.name},
         "platform": platform,
         "etl_source": ETLSource.prolearn.name,
@@ -319,6 +329,7 @@ def _transform_course(
         "published": True,
         "topics": parse_topic(course),
         "runs": _transform_runs(course),
+        "unique_field": UNIQUE_FIELD,
     }
 
 

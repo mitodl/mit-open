@@ -89,30 +89,27 @@ def get_year_and_semester(course_run):
     return year, semester
 
 
-def semester_year_to_date(semester, year, ending=False):  # noqa: FBT002
+def semester_year_to_date(semester, year):
     """
     Convert semester and year to a rough date
 
     Args:
         semester (str): Semester ("Fall", "Spring", etc)
         year (int): Year
-        ending (boolean): True for end of semester, False for beginning
 
     Returns:
         datetime: The rough date of the course
     """
-    if semester is None or year is None:
+    if year is None:
         return None
-    if semester.lower() == "fall":
-        month_day = "12-31" if ending else "09-01"
+    if semester is None:
+        month_day = "01-01"
+    elif semester.lower() == "fall":
+        month_day = "09-01"
     elif semester.lower() == "summer":
-        month_day = "08-30" if ending else "06-01"
-    elif semester.lower() == "spring":
-        month_day = "05-31" if ending else "01-01"
-    elif semester.lower() == "january iap":
-        month_day = "01-31" if ending else "01-01"
+        month_day = "06-01"
     else:
-        return None
+        month_day = "01-01"
     return datetime.strptime(f"{year}-{month_day}", "%Y-%m-%d").replace(tzinfo=pytz.UTC)
 
 
@@ -334,6 +331,17 @@ def resource_unpublished_actions(resource: LearningResource):
     hook.resource_unpublished(resource=resource)
 
 
+def similar_topics_action(resource: LearningResource) -> dict:
+    """
+    Trigger plugin to get similar topics for a resource
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    topics = hook.resource_similar_topics(resource=resource)
+    # The plugin returns the list wrapped in another list for some reason
+    return topics[0] if topics else []
+
+
 def resource_delete_actions(resource: LearningResource):
     """
     Trigger plugin to handle learning resource deletion
@@ -341,6 +349,17 @@ def resource_delete_actions(resource: LearningResource):
     pm = get_plugin_manager()
     hook = pm.hook
     hook.resource_delete(resource=resource)
+
+
+def bulk_resources_unpublished_actions(resource_ids: list[int], resource_type: str):
+    """
+    Trigger plugins when a LearningResource is removed/unpublished
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.bulk_resources_unpublished(
+        resource_ids=resource_ids, resource_type=resource_type
+    )
 
 
 def resource_run_upserted_actions(run: LearningResourceRun):

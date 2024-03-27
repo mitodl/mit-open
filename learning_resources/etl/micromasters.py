@@ -78,7 +78,8 @@ def transform(programs_data):
                                 for instructor in program["instructors"]
                             ],
                             "prices": [program["total_price"]],
-                            "start_date": program["start_date"],
+                            "start_date": program["start_date"]
+                            or program["enrollment_start"],
                             "end_date": program["end_date"],
                             "enrollment_start": program["enrollment_start"],
                         }

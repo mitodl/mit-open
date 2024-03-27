@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
+    "@mitodl/course-search-utils": "^3.0.3",
     "@mui/icons-material": "^5.14.19",
     "@sentry/react": "^7.57.0",
     "@tanstack/react-query": "^4.36.1",
@@ -67,8 +68,8 @@
     "react-dotdotdot": "^1.3.1",
     "react-helmet-async": "^2.0.3",
     "react-infinite-scroller": "^1.2.6",
-    "react-router": "^6.19.0",
-    "react-router-dom": "^6.19.0",
+    "react-router": "^6.22.2",
+    "react-router-dom": "^6.22.2",
     "tiny-invariant": "^1.3.1",
     "yup": "^1.2.0"
   },

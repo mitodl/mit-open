@@ -116,6 +116,8 @@ class SCIMProfile(SCIMUser):
         # Store dict for possible later use when saving user
         self._from_dict_copy = copy.deepcopy(d)
 
+        self.obj.user = User()
+
         self.parse_active(d.get("active"))
 
         self.obj.first_name = d.get("name", {}).get("givenName") or ""
@@ -151,12 +153,11 @@ class SCIMProfile(SCIMUser):
         """
         try:
             with transaction.atomic():
-                user, _ = User.objects.get_or_create(
-                    email=self.obj.email,
-                    username=self.obj.email,
-                    first_name=self.obj.first_name,
-                )
-                self.obj.user = user
+                self.obj.user.email = self.obj.email
+                self.obj.user.username = self.obj.email
+                self.obj.user.first_name = self.obj.first_name
+                self.obj.user.last_name = self.obj.last_name
+                self.obj.user.save()
                 self.obj.name = self.display_name
                 self.obj.save()
                 logger.info("User saved. User id %i", self.obj.id)

@@ -20,6 +20,8 @@ import type {
   PodcastResource,
   PodcastEpisodeResource,
   PaginatedLearningPathRelationshipList,
+  VideoResource,
+  VideoPlaylistResource,
 } from "api"
 import { ResourceTypeEnum, LearningResourceRunLevelInnerCodeEnum } from "api"
 import type { PartialDeep } from "type-fest"
@@ -190,6 +192,10 @@ const learningResource: PartialFactory<LearningResource> = (overrides = {}) => {
       return podcast(overrides)
     case ResourceTypeEnum.PodcastEpisode:
       return podcastEpisode(overrides)
+    case ResourceTypeEnum.VideoPlaylist:
+      return videoPlaylist(overrides)
+    case ResourceTypeEnum.Video:
+      return video(overrides)
     default:
       throw Error(`Invalid resource type: ${overrides.resource_type}`)
   }
@@ -355,6 +361,42 @@ const podcastEpisode: LearningResourceFactory<PodcastEpisodeResource> = (
 
 const podcastEpisodes = makePaginatedFactory(podcastEpisode)
 
+const video: LearningResourceFactory<VideoResource> = (overrides = {}) => {
+  return mergeOverrides<VideoResource>(
+    _learningResourceShared(),
+    { resource_type: ResourceTypeEnum.Video },
+    {
+      video: {
+        duration: faker.datatype.number({ min: 1, max: 70 }).toString(),
+        transcript: faker.lorem.paragraph(),
+      },
+    },
+    overrides,
+  )
+}
+const videos = makePaginatedFactory(video)
+
+const videoPlaylist: LearningResourceFactory<VideoPlaylistResource> = (
+  overrides = {},
+): VideoPlaylistResource => {
+  return mergeOverrides<VideoPlaylistResource>(
+    _learningResourceShared(),
+    { resource_type: ResourceTypeEnum.VideoPlaylist },
+    {
+      video_playlist: {
+        video_count: faker.datatype.number({ min: 1, max: 100 }),
+        channel: {
+          channel_id: faker.helpers.unique(faker.datatype.number).toString(),
+          title: faker.lorem.words(),
+        },
+      },
+    },
+    overrides,
+  )
+}
+
+const videoPlaylists = makePaginatedFactory(videoPlaylist)
+
 export {
   learningResource as resource,
   learningResources as resources,
@@ -375,4 +417,8 @@ export {
   podcasts,
   podcastEpisode,
   podcastEpisodes,
+  video,
+  videos,
+  videoPlaylist,
+  videoPlaylists,
 }

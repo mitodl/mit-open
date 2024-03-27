@@ -14,6 +14,7 @@ from learning_resources.constants import LearningResourceType, PlatformType
 from learning_resources.etl import mitxonline
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.mitxonline import (
+    _parse_datetime,
     _transform_image,
     parse_page_attribute,
 )
@@ -304,3 +305,47 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
         if "PROCTORED EXAM" not in course_data["title"]
     ]
     assert expected == result
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize(
+    ("start_dt", "enrollment_dt", "expected_dt"),
+    [
+        (None, "2019-02-20T15:00:00", "2019-02-20T15:00:00"),
+        ("2024-02-20T15:00:00", None, "2024-02-20T15:00:00"),
+        ("2023-02-20T15:00:00", "2024-02-20T15:00:00", "2023-02-20T15:00:00"),
+        (None, None, None),
+    ],
+)
+def test_course_run_start_date_value(
+    mock_mitxonline_courses_data, start_dt, enrollment_dt, expected_dt
+):
+    """Test that the start date value is correctly determined for course runs"""
+    mock_mitxonline_courses_data[0]["courseruns"][0]["start_date"] = start_dt
+    mock_mitxonline_courses_data[0]["courseruns"][0]["enrollment_start"] = enrollment_dt
+    transformed_courses = mitxonline.transform_courses(mock_mitxonline_courses_data)
+    assert transformed_courses[0]["runs"][0]["start_date"] == _parse_datetime(
+        expected_dt
+    )
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize(
+    ("start_dt", "enrollment_dt", "expected_dt"),
+    [
+        (None, "2019-02-20T15:00:00", "2019-02-20T15:00:00"),
+        ("2024-02-20T15:00:00", None, "2024-02-20T15:00:00"),
+        ("2023-02-20T15:00:00", "2024-02-20T15:00:00", "2023-02-20T15:00:00"),
+        (None, None, None),
+    ],
+)
+def test_program_run_start_date_value(
+    mock_mitxonline_programs_data, start_dt, enrollment_dt, expected_dt
+):
+    """Test that the start date value is correctly determined for program runs"""
+    mock_mitxonline_programs_data[0]["start_date"] = start_dt
+    mock_mitxonline_programs_data[0]["enrollment_start"] = enrollment_dt
+    transformed_programs = mitxonline.transform_programs(mock_mitxonline_programs_data)
+    assert transformed_programs[0]["runs"][0]["start_date"] == _parse_datetime(
+        expected_dt
+    )

@@ -1,4 +1,5 @@
 """Pluggy hooks for learning_resources"""
+
 import logging
 
 import pluggy
@@ -22,6 +23,14 @@ class LearningResourceHooks:
     @hookspec
     def resource_unpublished(self, resource):
         """Trigger actions after a learning resource is unpublished"""
+
+    @hookspec
+    def resource_similar_topics(self, resource) -> list[dict]:
+        """Get similar topics for a learning resource"""
+
+    @hookspec
+    def bulk_resources_unpublished(self, resource_ids, resource_type):
+        """Trigger actions after multiple learning resources are unpublished"""
 
     @hookspec
     def resource_delete(self, resource):

@@ -1,8 +1,10 @@
 """API for general search-related functionality"""
 
 import re
+from collections import Counter
 
 from opensearch_dsl import Search
+from opensearch_dsl.query import MoreLikeThis
 
 from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
 from learning_resources_search.connection import get_default_alias_name
@@ -11,6 +13,7 @@ from learning_resources_search.constants import (
     COURSE_QUERY_FIELDS,
     COURSE_TYPE,
     DEPARTMENT_QUERY_FIELDS,
+    LEARNING_RESOURCE,
     LEARNING_RESOURCE_QUERY_FIELDS,
     LEARNING_RESOURCE_SEARCH_FILTERS,
     LEARNING_RESOURCE_TYPES,
@@ -38,29 +41,26 @@ def gen_content_file_id(content_file_id):
     return f"cf_{content_file_id}"
 
 
-def relevant_indexes(resource_types, aggregations):
+def relevant_indexes(resource_types, aggregations, endpoint):
     """
     Return list of relevent index type for the query
 
     Args:
         resource_types (list): the resource type parameter for the search
         aggregations (list): the aggregations parameter for the search
+        endpoint (string): the endpoint: learning_resource or content_file
 
     Returns:
         Array(string): array of index names
 
     """
+    if endpoint == CONTENT_FILE_TYPE:
+        return [get_default_alias_name(COURSE_TYPE)]
 
     if aggregations and "resource_type" in aggregations:
         return map(get_default_alias_name, LEARNING_RESOURCE_TYPES)
 
-    resource_types_copy = resource_types.copy()
-
-    if CONTENT_FILE_TYPE in resource_types_copy:
-        resource_types_copy.remove(CONTENT_FILE_TYPE)
-        resource_types_copy.append(COURSE_TYPE)
-
-    return map(get_default_alias_name, set(resource_types_copy))
+    return map(get_default_alias_name, set(resource_types))
 
 
 def generate_sort_clause(search_params):
@@ -462,11 +462,16 @@ def execute_learn_search(search_params):
         dict: The opensearch response dict
     """
 
-    if not search_params.get("resource_type"):
+    if (
+        not search_params.get("resource_type")
+        and search_params.get("endpoint") != CONTENT_FILE_TYPE
+    ):
         search_params["resource_type"] = list(LEARNING_RESOURCE_TYPES)
 
     indexes = relevant_indexes(
-        search_params.get("resource_type"), search_params.get("aggregations")
+        search_params.get("resource_type"),
+        search_params.get("aggregations"),
+        search_params.get("endpoint"),
     )
 
     search = Search(index=",".join(indexes))
@@ -484,16 +489,23 @@ def execute_learn_search(search_params):
 
         search = search.sort(sort)
 
+    if search_params.get("endpoint") == CONTENT_FILE_TYPE:
+        query_type_query = {"exists": {"field": "content_type"}}
+    else:
+        query_type_query = {"exists": {"field": "resource_type"}}
+
     if search_params.get("q"):
         text = re.sub("[\u201c\u201d]", '"', search_params.get("q"))
-        if CONTENT_FILE_TYPE in search_params.get("resource_type"):
+        if search_params.get("endpoint") == CONTENT_FILE_TYPE:
             text_query = generate_content_file_text_clause(text)
         else:
             text_query = generate_learning_resources_text_clause(text)
 
         suggest = generate_suggest_clause(text)
-        search = search.query("bool", should=[text_query])
+        search = search.query("bool", must=[text_query], filter=query_type_query)
         search = search.extra(suggest=suggest)
+    else:
+        search = search.query(query_type_query)
 
     filter_clauses = generate_filter_clauses(search_params)
 
@@ -506,3 +518,49 @@ def execute_learn_search(search_params):
         search = search.extra(aggs=aggregation_clauses)
 
     return search.execute().to_dict()
+
+
+def get_similar_topics(
+    value_doc: dict, num_topics: int, min_term_freq: int, min_doc_freq: int
+) -> list[str]:
+    """
+    Get a list of similar topics based on text values
+
+    Args:
+        value_doc (dict):
+            a document representing the data fields we want to search with
+        num_topics (int):
+            number of topics to return
+        min_term_freq (int):
+            minimum times a term needs to show up in input
+        min_doc_freq (int):
+            minimum times a term needs to show up in docs
+
+    Returns:
+        list of str:
+            list of topic values
+    """
+    indexes = relevant_indexes([COURSE_TYPE], [], endpoint=LEARNING_RESOURCE)
+    search = Search(index=",".join(indexes))
+    search = search.filter("term", resource_type=COURSE_TYPE)
+    search = search.query(
+        MoreLikeThis(
+            like=[{"doc": value_doc, "fields": list(value_doc.keys())}],
+            fields=[
+                "course.course_numbers.value",
+                "title",
+                "description",
+                "full_description",
+            ],
+            min_term_freq=min_term_freq,
+            min_doc_freq=min_doc_freq,
+        )
+    )
+    search = search.source(includes="topics")
+
+    response = search.execute()
+
+    topics = [topic.to_dict()["name"] for hit in response.hits for topic in hit.topics]
+
+    counter = Counter(topics)
+    return list(dict(counter.most_common(num_topics)).keys())

@@ -1,5 +1,6 @@
 # pylint: disable=redefined-outer-name
 """Views tests"""
+
 import pytest
 from django.shortcuts import reverse
 from guardian.shortcuts import assign_perm

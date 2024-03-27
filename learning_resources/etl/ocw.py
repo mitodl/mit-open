@@ -36,12 +36,14 @@ from learning_resources.utils import (
     get_s3_object_and_read,
     parse_instructors,
     safe_load_json,
+    semester_year_to_date,
 )
 
 log = logging.getLogger(__name__)
 
 OFFERED_BY = {"code": OfferedBy.ocw.name}
 PRIMARY_COURSE_ID = "primary_course_number"
+UNIQUE_FIELD = "url"
 
 
 def transform_content_files(
@@ -231,13 +233,15 @@ def transform_contentfile(
 def transform_run(course_data: dict) -> dict:
     """Convert ocw course data into a dict for a run"""
     image_src = course_data.get("image_src")
+    semester = course_data.get("term") or None
+    year = course_data.get("year") or None
     return {
         "run_id": course_data["run_id"],
         "published": True,
         "instructors": parse_instructors(course_data.get("instructors", [])),
         "description": course_data.get("course_description"),
-        "year": course_data.get("year") or None,
-        "semester": course_data.get("term") or None,
+        "year": year,
+        "semester": semester,
         "availability": AvailabilityType.current.value,
         "image": {
             "url": urljoin(settings.OCW_BASE_URL, image_src) if image_src else None,
@@ -250,6 +254,7 @@ def transform_run(course_data: dict) -> dict:
                 .get("image-alt")
             ),
         },
+        "start_date": semester_year_to_date(semester, year),
         "level": transform_levels(course_data.get("level", [])),
         "last_modified": course_data.get("last_modified"),
         "title": course_data.get("course_title"),
@@ -340,6 +345,7 @@ def transform_course(course_data: dict) -> dict:
         "topics": topics,
         "runs": [transform_run(course_data)],
         "resource_type": LearningResourceType.course.name,
+        "unique_field": UNIQUE_FIELD,
     }
 
 

@@ -5,10 +5,15 @@ import json
 from os.path import basename, splitext
 
 import pytest
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 
+from learning_resources_search.serializers_test import get_request_object
+from profiles.factories import ProgramCertificateFactory, ProgramLetterFactory
+from profiles.models import ProgramLetter
+from profiles.serializers import ProgramCertificateSerializer, ProgramLetterSerializer
 from profiles.utils import DEFAULT_PROFILE_IMAGE, make_temp_image_file
 
 pytestmark = [pytest.mark.django_db]
@@ -26,6 +31,10 @@ def test_list_users(staff_client, staff_user):
         {
             "id": staff_user.id,
             "username": staff_user.username,
+            "first_name": staff_user.first_name,
+            "last_name": staff_user.last_name,
+            "is_learning_path_editor": True,
+            "is_article_editor": True,
             "profile": {
                 "name": profile.name,
                 "image": profile.image,
@@ -50,7 +59,7 @@ def test_list_users(staff_client, staff_user):
 # These can be removed once all clients have been updated and are sending both these fields
 @pytest.mark.parametrize("email_optin", [None, True, False])
 @pytest.mark.parametrize("toc_optin", [None, True, False])
-def test_create_user(staff_client, staff_user, mocker, email_optin, toc_optin):  # pylint: disable=too-many-arguments
+def test_create_user(staff_client, staff_user, email_optin, toc_optin):  # pylint: disable=too-many-arguments
     """
     Create a user and assert the response
     """
@@ -110,6 +119,10 @@ def test_get_user(staff_client, user):
     assert resp.json() == {
         "id": user.id,
         "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_article_editor": True,
+        "is_learning_path_editor": True,
         "profile": {
             "name": profile.name,
             "image": profile.image,
@@ -182,6 +195,10 @@ def test_patch_user(staff_client, user, email, email_optin, toc_optin):
     assert resp.json() == {
         "id": user.id,
         "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_learning_path_editor": True,
+        "is_article_editor": True,
         "profile": {
             "name": "othername",
             "image": profile.image,
@@ -307,6 +324,10 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
         assert resp.json() == {
             "id": user.id,
             "username": user.username,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "is_learning_path_editor": False,
+            "is_article_editor": False,
             "profile": {
                 "name": profile.name,
                 "image": profile.image,
@@ -323,3 +344,119 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
                 "placename": profile.location.get("value", ""),
             },
         }
+
+
+@pytest.mark.parametrize("is_anonymous", [True, False])
+def test_letter_intercept_view_generates_program_letter(
+    mocker, client, user, is_anonymous, settings
+):
+    """
+    Test that the letter intercept view generates a
+    ProgramLetter and then passes the user along to the display.
+    Also test that anonymous users do not generate letters and cant access this page
+    """
+    settings.DATABASE_ROUTERS = []
+    micromasters_program_id = 1
+    if not is_anonymous:
+        client.force_login(user)
+        cert = ProgramCertificateFactory(
+            user_email=user.email, micromasters_program_id=micromasters_program_id
+        )
+        assert ProgramLetter.objects.filter(user=user).count() == 0
+
+        response = client.get(
+            reverse("profile:program-letter-intercept", args=[micromasters_program_id])
+        )
+        assert ProgramLetter.objects.filter(user=user).count() == 1
+        letter_id = ProgramLetter.objects.get(user=user, certificate=cert).id
+        assert response.url == f"/program_letter/{letter_id}/view"
+    else:
+        cert = ProgramCertificateFactory(
+            user_email=user.email, micromasters_program_id=micromasters_program_id
+        )
+        ProgramLetterFactory(user=user, certificate=cert)
+        response = client.get(
+            reverse("profile:program-letter-intercept", args=[micromasters_program_id])
+        )
+        assert response.status_code == 302
+
+
+@pytest.mark.parametrize("is_anonymous", [True, False])
+def test_program_letter_api_view(mocker, client, user, is_anonymous, settings):
+    """
+    Test that the program letter display page is viewable by
+    all users logged in or not
+    """
+    settings.DATABASE_ROUTERS = []
+    mock_return_value = {
+        "id": 4,
+        "meta": {},
+        "program_letter_footer": "",
+        "program_letter_logo": {},
+        "title": "Supply Chain Management",
+        "program_id": 1,
+        "program_letter_footer_text": "",
+        "program_letter_header_text": "",
+        "program_letter_text": "<p>Congratulations</p>",
+        "program_letter_signatories": [],
+    }
+    mocker.patch(
+        "profiles.serializers.fetch_program_letter_template_data",
+        return_value=mock_return_value,
+    )
+    micromasters_program_id = 1
+    if not is_anonymous:
+        client.force_login(user)
+    cert = ProgramCertificateFactory(
+        user_email=user.email, micromasters_program_id=micromasters_program_id
+    )
+    program_letter = ProgramLetterFactory(user=user, certificate=cert)
+    response = client.get(
+        reverse("lr:v1:program_letters_api-detail", args=[program_letter.id])
+    )
+    assert response.data == ProgramLetterSerializer(instance=program_letter).data
+
+
+@pytest.mark.parametrize("is_anonymous", [True, False])
+def test_program_letter_api_view_returns_404_for_invalid_id(
+    mocker, client, user, is_anonymous
+):
+    """
+    Test that the program letter api responds with 404
+    for malformed uuids
+    """
+    response = client.get(
+        reverse(
+            "lr:v1:program_letters_api-detail",
+            args=["5de96fc0-449e-4668-be89-a119dbdcab799999"],
+        )
+    )
+    assert response.status_code == 404
+
+
+@pytest.mark.parametrize("is_anonymous", [True, False])
+def test_list_user_program_certificates(mocker, client, user, is_anonymous):
+    """
+    Test listing program certificates for a user
+    """
+    settings.DATABASE_ROUTERS = []
+    settings.EXTERNAL_MODELS = []
+    if not is_anonymous:
+        client.force_login(user)
+        certs = ProgramCertificateFactory.create_batch(
+            3,
+            user_email=user.email,
+        )
+    url = reverse("profile:v0:user_program_certificates_api-list")
+    resp = client.get(url)
+    if not is_anonymous:
+        request = get_request_object(url)
+        assert resp.status_code == 200
+        assert (
+            resp.json()
+            == ProgramCertificateSerializer(
+                certs, many=True, context={"request": request}
+            ).data
+        )
+    else:
+        assert resp.status_code == 403
