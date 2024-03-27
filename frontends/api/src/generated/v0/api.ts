@@ -655,6 +655,30 @@ export interface User {
    * @memberof User
    */
   profile: Profile
+  /**
+   *
+   * @type {string}
+   * @memberof User
+   */
+  first_name: string
+  /**
+   *
+   * @type {string}
+   * @memberof User
+   */
+  last_name: string
+  /**
+   *
+   * @type {string}
+   * @memberof User
+   */
+  is_article_editor: string
+  /**
+   *
+   * @type {string}
+   * @memberof User
+   */
+  is_learning_path_editor: string
 }
 /**
  * WidgetInstance serializer
