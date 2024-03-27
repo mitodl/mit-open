@@ -32,15 +32,15 @@ const pageCss = css`
   }
 
   h1 {
-    font-size: ${theme.custom.fontSizeH1}px;
+    font-size: ${theme.custom.fontSizeH1};
   }
 
   h2 {
-    font-size: ${theme.custom.fontSizeH2}px;
+    font-size: ${theme.custom.fontSizeH2};
   }
 
   h4 {
-    font-size: ${theme.custom.fontSizeH4}px;
+    font-size: ${theme.custom.fontSizeH4};
   }
 `
 
