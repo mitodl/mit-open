@@ -3597,10 +3597,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "@mitodl/course-search-utils@npm:3.0.3"
+"@mitodl/course-search-utils@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "@mitodl/course-search-utils@npm:3.0.4"
   dependencies:
+    "@mitodl/open-api-axios": ^2024.3.22
+    "@testing-library/react": 12
+    "@testing-library/user-event": ^14.5.2
     axios: ^1.6.7
     fuse.js: ^7.0.0
     query-string: ^6.13.1
@@ -3618,7 +3621,17 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 1c6799e422729974be8c747c54470b0d9fc19dea544d8a02ab95981178362d3c5ac3be50b989d594afcafec802ad6d429b3c502e1773014c46c58090ca1e70be
+  checksum: 65a3e2424296add21b2fe182a00e08ed8679cf770f93b538af71e36251641e6c1aa244ba03a6d1520d0aad4c6443b344b56b2ed435441662768b97b893494746
+  languageName: node
+  linkType: hard
+
+"@mitodl/open-api-axios@npm:^2024.3.22":
+  version: 2024.3.22
+  resolution: "@mitodl/open-api-axios@npm:2024.3.22"
+  dependencies:
+    "@types/node": ^20.11.19
+    axios: ^1.6.5
+  checksum: 9364fb29b9098883bc6a35c7bba33c4968748a4a9c7808c122626bff9351c5bdd84f21449f743dee01f1ae1fa2ae46dfc36c1b774bd8aaec426d5fce52191e62
   languageName: node
   linkType: hard
 
@@ -6012,6 +6025,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/dom@npm:^8.0.0":
+  version: 8.20.1
+  resolution: "@testing-library/dom@npm:8.20.1"
+  dependencies:
+    "@babel/code-frame": ^7.10.4
+    "@babel/runtime": ^7.12.5
+    "@types/aria-query": ^5.0.1
+    aria-query: 5.1.3
+    chalk: ^4.1.0
+    dom-accessibility-api: ^0.5.9
+    lz-string: ^1.5.0
+    pretty-format: ^27.0.2
+  checksum: 06fc8dc67849aadb726cbbad0e7546afdf8923bd39acb64c576d706249bd7d0d05f08e08a31913fb621162e3b9c2bd0dce15964437f030f9fa4476326fdd3007
+  languageName: node
+  linkType: hard
+
 "@testing-library/dom@npm:^9.0.0":
   version: 9.3.4
   resolution: "@testing-library/dom@npm:9.3.4"
@@ -6061,6 +6090,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/react@npm:12":
+  version: 12.1.5
+  resolution: "@testing-library/react@npm:12.1.5"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@testing-library/dom": ^8.0.0
+    "@types/react-dom": <18.0.0
+  peerDependencies:
+    react: <18.0.0
+    react-dom: <18.0.0
+  checksum: 4abd0490405e709a7df584a0db604e508a4612398bb1326e8fa32dd9393b15badc826dcf6d2f7525437886d507871f719f127b9860ed69ddd204d1fa834f576a
+  languageName: node
+  linkType: hard
+
 "@testing-library/react@npm:^14.1.2":
   version: 14.2.2
   resolution: "@testing-library/react@npm:14.2.2"
@@ -6075,7 +6118,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.5.1":
+"@testing-library/user-event@npm:^14.5.1, @testing-library/user-event@npm:^14.5.2":
   version: 14.5.2
   resolution: "@testing-library/user-event@npm:14.5.2"
   peerDependencies:
@@ -6640,7 +6683,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.11.5":
+"@types/node@npm:*, @types/node@npm:^20.11.19, @types/node@npm:^20.11.5":
   version: 20.11.30
   resolution: "@types/node@npm:20.11.30"
   dependencies:
@@ -6714,6 +6757,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-dom@npm:<18.0.0":
+  version: 17.0.25
+  resolution: "@types/react-dom@npm:17.0.25"
+  dependencies:
+    "@types/react": ^17
+  checksum: d1e582682478e0848c8d54ea3e89d02047bac6d916266b85ce63731b06987575919653ea7159d98fda47ade3362b8c4d5796831549564b83088e7aa9ce8b60ed
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:^18.0.0":
   version: 18.2.18
   resolution: "@types/react-dom@npm:18.2.18"
@@ -6752,6 +6804,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react@npm:^17":
+  version: 17.0.80
+  resolution: "@types/react@npm:17.0.80"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": ^0.16
+    csstype: ^3.0.2
+  checksum: 1c27bfc42305d77ef0da55f8f6d4c4a3471aa02b294fcf29ea0f2cfb0bf02892e5a0a3bc7559fa4a5ba50697b2e31076cb5aa5987f69cfc2e880f6426edb8bdf
+  languageName: node
+  linkType: hard
+
 "@types/resolve@npm:1.17.1":
   version: 1.17.1
   resolution: "@types/resolve@npm:1.17.1"
@@ -6775,7 +6838,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/scheduler@npm:*":
+"@types/scheduler@npm:*, @types/scheduler@npm:^0.16":
   version: 0.16.8
   resolution: "@types/scheduler@npm:0.16.8"
   checksum: 6c091b096daa490093bf30dd7947cd28e5b2cd612ec93448432b33f724b162587fed9309a0acc104d97b69b1d49a0f3fc755a62282054d62975d53d7fd13472d
@@ -8071,7 +8134,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.3, axios@npm:^1.6.7":
+"axios@npm:^1.6.3, axios@npm:^1.6.5, axios@npm:^1.6.7":
   version: 1.6.8
   resolution: "axios@npm:1.6.8"
   dependencies:
@@ -17597,7 +17660,7 @@ __metadata:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
     "@faker-js/faker": ^7.3.0
-    "@mitodl/course-search-utils": ^3.0.3
+    "@mitodl/course-search-utils": ^3.0.4
     "@mui/icons-material": ^5.14.19
     "@sentry/react": ^7.57.0
     "@storybook/addon-essentials": ^7.6.6

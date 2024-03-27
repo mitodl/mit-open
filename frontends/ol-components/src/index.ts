@@ -71,6 +71,9 @@ export type { ListItemTextProps } from "@mui/material/ListItemText"
 export { default as Skeleton } from "@mui/material/Skeleton"
 export type { SkeletonProps } from "@mui/material/Skeleton"
 
+export { default as Stack } from "@mui/material/Stack"
+export type { StackProps } from "@mui/material/Stack"
+
 export { default as Tab } from "@mui/material/Tab"
 export type { TabProps } from "@mui/material/Tab"
 export { default as TabList } from "@mui/lab/TabList"

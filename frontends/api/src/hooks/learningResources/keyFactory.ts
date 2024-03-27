@@ -5,6 +5,7 @@ import {
   learningResourcesSearchApi,
   topicsApi,
   userListsApi,
+  offerorsApi,
 } from "../../clients"
 import axiosInstance from "../../axios"
 import type {
@@ -20,6 +21,7 @@ import type {
   UserlistsApiUserlistsListRequest as ULListRequest,
   PaginatedUserListRelationshipList,
   UserList,
+  OfferorsApiOfferorsListRequest,
 } from "../../generated/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
@@ -112,6 +114,12 @@ const learningResources = createQueryKeys("learningResources", {
           userListsApi.userlistsList(params).then((res) => res.data),
       }),
     },
+  },
+  offerors: (params: OfferorsApiOfferorsListRequest) => {
+    return {
+      queryKey: [params],
+      queryFn: () => offerorsApi.offerorsList(params).then((res) => res.data),
+    }
   },
 })
 
