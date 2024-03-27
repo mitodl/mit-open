@@ -8,6 +8,7 @@ import FieldPage from "@/pages/FieldPage/FieldPage"
 import EditFieldPage from "@/pages/FieldPage/EditFieldPage"
 
 import UserListListingPage from "./pages/UserListListingPage/UserListListingPage"
+import UserListDetailsPage from "./pages/UserListDetailsPage/UserListDetailsPage"
 import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ProgramLetterPage from "@/pages/ProgramLetterPage/ProgramLetterPage"
@@ -46,6 +47,14 @@ const routes: RouteObject[] = [
         element: (
           <RestrictedRoute requires={Permissions.Authenticated}>
             <UserListListingPage />
+          </RestrictedRoute>
+        ),
+      },
+      {
+        path: urls.USERLIST_VIEW,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <UserListDetailsPage />
           </RestrictedRoute>
         ),
       },
