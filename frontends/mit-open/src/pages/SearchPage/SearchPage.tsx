@@ -16,7 +16,6 @@ import { ResourceTypeEnum } from "api"
 import type {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
   LearningResourceOfferor,
-  LearningResourceSearchResponse,
 } from "api"
 import {
   useLearningResourcesSearch,
@@ -232,26 +231,6 @@ const TABS: TabConfig[] = [
 ]
 const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
 
-/**
- * Augment the facet buckets for `groupKey` with active values that have no
- * results.
- */
-const includeActiveZerosInBuckets = (
-  groupKey: string,
-  aggregations: LearningResourceSearchResponse["metadata"]["aggregations"],
-  params: LRSearchRequest,
-) => {
-  const opts = [...(aggregations[groupKey] ?? [])]
-  const active = params[groupKey as keyof LRSearchRequest] ?? []
-  const actives = Array.isArray(active) ? active : [active]
-  actives.forEach((key) => {
-    if (!opts.find((o) => o.key === key)) {
-      opts.push({ key: String(key), doc_count: 0 })
-    }
-  })
-  return opts
-}
-
 const useFacetManifest = () => {
   const offerorsQuery = useOfferorsList()
   const offerors = useMemo(() => {
@@ -311,17 +290,6 @@ const SearchPage: React.FC = () => {
     { keepPreviousData: true },
   )
 
-  const getFacetOptions = useCallback(
-    (groupKey: string) => {
-      return includeActiveZerosInBuckets(
-        groupKey,
-        data?.metadata.aggregations ?? {},
-        params,
-      )
-    },
-    [params, data?.metadata.aggregations],
-  )
-
   return (
     <>
       <MetaTags>
@@ -377,7 +345,9 @@ const SearchPage: React.FC = () => {
                   facetMap={facetManifest}
                   activeFacets={params}
                   onFacetChange={toggleParamValue}
-                  facetOptions={getFacetOptions}
+                  facetOptions={(name) =>
+                    data?.metadata.aggregations?.[name] ?? []
+                  }
                 />
               </FacetStyles>
             </GridColumn>

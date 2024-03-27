@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
-    "@mitodl/course-search-utils": "https://github.com/mitodl/course-search-utils.git#baafa5995878c4c889799d86ec490674b522c405",
+    "@mitodl/course-search-utils": "https://github.com/mitodl/course-search-utils.git#cf37f49ee2ac8c6f99b3adc3278dfb6c7637bae8",
     "@mui/icons-material": "^5.14.19",
     "@sentry/react": "^7.57.0",
     "@tanstack/react-query": "^4.36.1",

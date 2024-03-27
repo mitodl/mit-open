@@ -263,31 +263,6 @@ describe("SearchPage", () => {
     await user.click(screen.getByRole("button", { name: "Search" }))
     expect(location.current.search).toBe("?q=woof")
   })
-
-  test("Active facets show in facet display even if zero count", async () => {
-    setMockApiResponses({
-      search: {
-        metadata: {
-          aggregations: {
-            topic: [
-              { key: "Biology", doc_count: 10 },
-              { key: "Physics", doc_count: 20 },
-            ],
-          },
-          suggestions: [],
-        },
-      },
-    })
-    renderWithProviders(<SearchPage />, {
-      url: "?topic=Biology&topic=Chemistry",
-    })
-    const biology = await screen.findByRole("checkbox", { name: /Biology/ })
-    const chemistry = await screen.findByLabelText("Chemistry")
-    const physics = await screen.findByLabelText("Physics")
-    expect(biology).toBeChecked()
-    expect(chemistry).toBeChecked()
-    expect(physics).not.toBeChecked()
-  })
 })
 
 test("Facet 'Offered By' uses API response for names", async () => {
