@@ -7769,7 +7769,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"api@workspace:*, api@workspace:frontends/api":
+"api@workspace:*, api@workspace:^, api@workspace:frontends/api":
   version: 0.0.0-use.local
   resolution: "api@workspace:frontends/api"
   dependencies:
@@ -18338,6 +18338,7 @@ __metadata:
     "@storybook/react-webpack5": ^7.6.6
     "@testing-library/react": ^14.1.2
     "@testing-library/user-event": ^14.5.1
+    api: "workspace:^"
     lodash: ^4.17.21
     nuka-carousel: ^7.0.0
     ol-test-utilities: "workspace:*"
