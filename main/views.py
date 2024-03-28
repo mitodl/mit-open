@@ -39,10 +39,6 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
             and (is_admin_user(request) or is_learning_path_editor(request)),
             "is_article_editor": is_admin_user(request),
         },
-        "ckeditor_upload_url": settings.CKEDITOR_UPLOAD_URL,
-        "environment": settings.ENVIRONMENT,
-        "sentry_dsn": settings.SENTRY_DSN,
-        "release_version": settings.VERSION,
         "posthog": {
             "api_key": settings.POSTHOG_PROJECT_API_KEY,
             "enabled": settings.POSTHOG_ENABLED,

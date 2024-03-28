@@ -10,7 +10,6 @@ import GlobalStyles from "./GlobalStyles"
 import { PostHogProvider } from "posthog-js/react"
 
 import type { PostHogSettings } from "./types/settings"
-import { InterestsOutlined } from "@mui/icons-material"
 
 interface AppProps {
   router: RouterProviderProps["router"]
@@ -21,7 +20,7 @@ interface AppProps {
  * Renders child with Router, QueryClientProvider, and other such context provides.
  */
 const AppProviders: React.FC<AppProps> = ({ router, queryClient }) => {
-  const phSettings: PostHogSettings = window.SETTINGS.posthog || { "api_key": "", "enabled": false }
+  const phSettings: PostHogSettings = APP_SETTINGS.posthog || { "api_key": "", "enabled": false }
   const phOptions = {
     feature_flag_request_timeout_ms: phSettings.timeout || 3000,
     bootstrap: {
