@@ -1,6 +1,34 @@
 Release Notes
 =============
 
+Version 0.6.0 (Released March 26, 2024)
+-------------
+
+- News & Events API (#638)
+- Update opensearchproject/opensearch Docker tag to v2.12.0 (#669)
+- Update mcr.microsoft.com/playwright Docker tag to v1.42.1 (#667)
+- Update dependency yup to v1.4.0 (#666)
+- Update dependency type-fest to v4.14.0 (#668)
+- Update dependency sentry-sdk to v1.43.0 (#665)
+- Update dependency rc-tooltip to v6.2.0 (#664)
+- Update dependency qs to v6.12.0 (#663)
+- Update dependency pytest-mock to v3.14.0 (#662)
+- Update dependency google-api-python-client to v2.123.0 (#661)
+- Update dependency @sentry/react to v7.108.0 (#660)
+- Update material-ui monorepo (#659)
+- Update dependency ruff to v0.3.4 (#657)
+- Update dependency boto3 to v1.34.69 (#656)
+- Update all non-major dev-dependencies (#654)
+- generate v0 apis (#651)
+- MIT news/events ETL  (#612)
+- Remove all usages of pytz (#646)
+- allow filtering by readable id in the api (#639)
+- Update jest-dom, make TS aware (#637)
+- fixing ordering of response data in test (#634)
+- [pre-commit.ci] pre-commit autoupdate (#610)
+- Update dependency eslint-plugin-testing-library to v6 (#354)
+- Update Yarn to v3.8.1 (#455)
+
 Version 0.5.1 (Released March 19, 2024)
 -------------
 

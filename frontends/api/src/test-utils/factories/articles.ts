@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker/locale/en"
 import { makePaginatedFactory } from "ol-test-utilities"
 import type { Factory } from "ol-test-utilities"
-import type { Article } from "../../generated"
+import type { Article } from "../../generated/v1"
 
 const article: Factory<Article> = (overrides = {}) => ({
   id: faker.datatype.number(),

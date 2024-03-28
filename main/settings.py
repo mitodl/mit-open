@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.5.1"
+VERSION = "0.6.0"
 
 log = logging.getLogger()
 
@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     "openapi",
     "articles",
     "oauth2_provider",
+    "news_events",
 )
 
 SCIM_SERVICE_PROVIDER = {
@@ -338,9 +339,6 @@ AUTHORIZATION_URL = get_string(
 
 # Serve static files with dj-static
 STATIC_URL = "/static/"
-CLOUDFRONT_DIST = get_string("CLOUDFRONT_DIST", None)
-if CLOUDFRONT_DIST:
-    STATIC_URL = urljoin(f"https://{CLOUDFRONT_DIST}.cloudfront.net", STATIC_URL)
 
 STATIC_ROOT = "staticfiles"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontends/mit-open/public")]  # noqa: PTH118
@@ -489,11 +487,7 @@ if MITOPEN_USE_S3 and (
     msg = "You have enabled S3 support, but are missing one of AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, or AWS_STORAGE_BUCKET_NAME"  # noqa: E501
     raise ImproperlyConfigured(msg)
 if MITOPEN_USE_S3:
-    # Configure Django Storages to use Cloudfront distribution for S3 assets
-    if CLOUDFRONT_DIST:
-        AWS_S3_CUSTOM_DOMAIN = f"{CLOUDFRONT_DIST}.cloudfront.net"
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-    AWS_DEFAULT_ACL = "public-read"
 
 IMAGEKIT_SPEC_CACHEFILE_NAMER = "imagekit.cachefiles.namers.source_name_dot_hash"
 IMAGEKIT_CACHEFILE_DIR = get_string("IMAGEKIT_CACHEFILE_DIR", "")

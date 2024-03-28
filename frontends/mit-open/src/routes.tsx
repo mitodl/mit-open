@@ -4,6 +4,10 @@ import HomePage from "@/pages/HomePage/HomePage"
 import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
 import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
 import LearningPathDetailsPage from "@/pages/LearningPathDetailsPage/LearningPathDetailsPage"
+import FieldPage from "@/pages/FieldPage/FieldPage"
+import EditFieldPage from "@/pages/FieldPage/EditFieldPage"
+
+import UserListListingPage from "./pages/UserListListingPage/UserListListingPage"
 import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ProgramLetterPage from "@/pages/ProgramLetterPage/ProgramLetterPage"
@@ -38,6 +42,14 @@ const routes: RouteObject[] = [
         element: <LearningPathDetailsPage />,
       },
       {
+        path: urls.USERLIST_LISTING,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <UserListListingPage />
+          </RestrictedRoute>
+        ),
+      },
+      {
         path: urls.DASHBOARD,
         element: (
           <RestrictedRoute requires={Permissions.Authenticated}>
@@ -52,6 +64,18 @@ const routes: RouteObject[] = [
       {
         path: urls.SEARCH,
         element: <SearchPage />,
+      },
+      {
+        path: urls.FIELD_VIEW,
+        element: <FieldPage />,
+      },
+      {
+        path: urls.FIELD_EDIT_WIDGETS,
+        element: <FieldPage />,
+      },
+      {
+        path: urls.FIELD_EDIT,
+        element: <EditFieldPage />,
       },
       {
         element: <RestrictedRoute requires={Permissions.ArticleEditor} />,

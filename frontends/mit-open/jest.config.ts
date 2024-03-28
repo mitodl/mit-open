@@ -12,6 +12,11 @@ const config: Config.InitialOptions = {
     "^@/(.*)$": path.resolve(__dirname, "src/$1"),
     ...baseConfig.moduleNameMapper,
   },
+  globals: {
+    APP_SETTINGS: {
+      embedlyKey: "embedly_key",
+    },
+  },
 }
 
 export default config

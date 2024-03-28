@@ -1,12 +1,11 @@
 """Next OCW ETL tests"""
 
 import json
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
 import boto3
 import pytest
-import pytz
 from moto import mock_s3
 
 from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3_ocw
@@ -151,7 +150,7 @@ def test_transform_content_file_needs_text_update(
     )
 
     if modified_after_last_import:
-        ContentFile.objects.update(updated_on=datetime(2020, 12, 1, tzinfo=pytz.utc))
+        ContentFile.objects.update(updated_on=datetime(2020, 12, 1, tzinfo=UTC))
 
     content_data = transform_contentfile(
         s3_resource_object.key, resource_json, s3_resource, overwrite

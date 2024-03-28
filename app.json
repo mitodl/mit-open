@@ -54,10 +54,6 @@
       "description": "Max memory to be used by celery worker child",
       "required": false
     },
-    "CLOUDFRONT_DIST": {
-      "description": "Cloudfront distribution",
-      "required": false
-    },
     "CORS_ALLOWED_ORIGINS": {
       "description": "A list of origins that are authorized to make cross-site HTTP requests",
       "required": false
@@ -375,6 +371,18 @@
     "MITOPEN_USE_S3": {
       "description": "Use S3 for storage backend (required on Heroku)",
       "value": "False"
+    },
+    "NEWS_EVENTS_MEDIUM_NEWS_SCHEDULE_SECONDS": {
+      "description": "Time in seconds between periodic syncs of Medium MIT News feed",
+      "required": false
+    },
+    "NEWS_EVENTS_SLOAN_NEWS_SCHEDULE_SECONDS": {
+      "description": "Time in seconds between periodic syncs of Sloan news",
+      "required": false
+    },
+    "NEWS_EVENTS_OL_EVENTS_SCHEDULE_SECONDS": {
+      "description": "Time in seconds between periodic syncs of Open Learning events",
+      "required": false
     },
     "OPEN_PODCAST_DATA_BRANCH": {
       "description": "Branch in the open podcast data repository to use for podcast ingestion",

@@ -51,6 +51,12 @@ const getUserMenuItems = (location: Location): SimpleMenuItem[] => {
       href: urls.DASHBOARD,
     },
     {
+      label: "User Lists",
+      key: "userlists",
+      allow: hasPermission(Permissions.Authenticated),
+      href: urls.USERLIST_LISTING,
+    },
+    {
       label: "Learning Paths",
       key: "learningpaths",
       allow: hasPermission(Permissions.LearningPathEditor),

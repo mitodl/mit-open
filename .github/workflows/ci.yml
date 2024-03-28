@@ -92,7 +92,7 @@ jobs:
           MITOPEN_COOKIE_NAME: cookie_monster
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@v3.1.6
+        uses: codecov/codecov-action@v4.1.1
         with:
           file: ./coverage.xml
 
@@ -140,7 +140,7 @@ jobs:
           NODE_ENV: test
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@v3.1.6
+        uses: codecov/codecov-action@v4.1.1
         with:
           file: coverage/lcov.info
 
@@ -173,14 +173,50 @@ jobs:
           name: pages-site
           path: frontends/github-pages/build
 
-  openapi-generated-client-check:
+  openapi-generated-client-check-v0:
+    # This job checks that the output of openapi-generator-typescript-axios that
+    # is checked into version control is up-to-date.
+    env:
+      OPENAPI_SCHEMA: ./openapi/specs/v0.yaml
+      GENERATOR_IGNORE_FILE: ./frontends/api/.openapi-generator-ignore
+      GENERATOR_OUTPUT_DIR_CI: ./frontends/api/tmp/generated/v0
+      GENERATOR_OUTPUT_DIR_VC: ./frontends/api/src/generated/v0
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18.18.2"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Generate Fresh API Client
+        uses: openapi-generators/openapitools-generator-action@v1
+        with:
+          generator: typescript-axios
+          openapi-file: $OPENAPI_SCHEMA
+          generator-tag: v7.2.0
+          command-args: |
+            --output $GENERATOR_OUTPUT_DIR_CI \
+            --ignore-file-override $GENERATOR_IGNORE_FILE \
+            -c scripts/openapi-configs/typescript-axios-v0.yaml
+      - name: Format freshly generated client
+        run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+      - name: Check VC client is up-to-date
+        run: |
+          diff $GENERATOR_OUTPUT_DIR_CI $GENERATOR_OUTPUT_DIR_VC \
+          || { echo "OpenAPI spec is out of date. Please regenerate via ./scripts/generate_openapi.sh"; exit 1; }
+
+  openapi-generated-client-check-v1:
     # This job checks that the output of openapi-generator-typescript-axios that
     # is checked into version control is up-to-date.
     env:
       OPENAPI_SCHEMA: ./openapi/specs/v1.yaml
       GENERATOR_IGNORE_FILE: ./frontends/api/.openapi-generator-ignore
-      GENERATOR_OUTPUT_DIR_CI: ./frontends/api/tmp/generated
-      GENERATOR_OUTPUT_DIR_VC: ./frontends/api/src/generated
+      GENERATOR_OUTPUT_DIR_CI: ./frontends/api/tmp/generated/v1
+      GENERATOR_OUTPUT_DIR_VC: ./frontends/api/src/generated/v1
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -202,7 +238,7 @@ jobs:
           command-args: |
             --output $GENERATOR_OUTPUT_DIR_CI \
             --ignore-file-override $GENERATOR_IGNORE_FILE \
-            -c scripts/openapi-configs/typescript-axios.yaml
+            -c scripts/openapi-configs/typescript-axios-v1.yaml
       - name: Format freshly generated client
         run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
       - name: Check VC client is up-to-date

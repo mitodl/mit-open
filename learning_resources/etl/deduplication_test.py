@@ -1,9 +1,8 @@
 """Tests for the deduplication ETL functions"""
 
-from datetime import datetime
+from datetime import UTC, datetime
 
 import pytest
-import pytz
 
 from learning_resources.constants import AvailabilityType
 from learning_resources.etl.deduplication import get_most_relevant_run
@@ -17,12 +16,12 @@ def test_get_most_relevant_run():
 
     most_relevant_run = LearningResourceRunFactory.create(
         availability=AvailabilityType.archived.value,
-        start_date=datetime(2019, 10, 1, tzinfo=pytz.utc),
+        start_date=datetime(2019, 10, 1, tzinfo=UTC),
         run_id="1",
     )
     LearningResourceRunFactory.create(
         availability=AvailabilityType.archived.value,
-        start_date=datetime(2018, 10, 1, tzinfo=pytz.utc),
+        start_date=datetime(2018, 10, 1, tzinfo=UTC),
         run_id="2",
     )
 
@@ -33,13 +32,13 @@ def test_get_most_relevant_run():
 
     most_relevant_run = LearningResourceRunFactory.create(
         availability=AvailabilityType.upcoming.value,
-        start_date=datetime(2017, 10, 1, tzinfo=pytz.utc),
+        start_date=datetime(2017, 10, 1, tzinfo=UTC),
         run_id="3",
     )
 
     LearningResourceRunFactory.create(
         availability=AvailabilityType.upcoming.value,
-        start_date=datetime(2020, 10, 1, tzinfo=pytz.utc),
+        start_date=datetime(2020, 10, 1, tzinfo=UTC),
         run_id="4",
     )
 

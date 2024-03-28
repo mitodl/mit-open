@@ -9,7 +9,7 @@ import re
 import uuid
 from collections import Counter
 from collections.abc import Generator
-from datetime import datetime
+from datetime import UTC, datetime
 from hashlib import md5
 from itertools import chain
 from pathlib import Path
@@ -17,7 +17,6 @@ from subprocess import check_call
 from tempfile import TemporaryDirectory
 
 import boto3
-import pytz
 import rapidjson
 import requests
 from django.conf import settings
@@ -257,33 +256,33 @@ def parse_dates(date_string, hour=12):
         start_date = datetime.strptime(
             f"{match.group('start_m')} {match.group('start_d')} {match.group('year')}",
             "%b %d %Y",
-        ).replace(hour=hour, tzinfo=pytz.utc)
+        ).replace(hour=hour, tzinfo=UTC)
         end_date = datetime.strptime(
             f"{match.group('start_m')} {match.group('end_d')} {match.group('year')}",
             "%b %d %Y",
-        ).replace(hour=hour, tzinfo=pytz.utc)
+        ).replace(hour=hour, tzinfo=UTC)
         return start_date, end_date
     match = re.match(pattern_1_year, date_string)
     if match:
         start_date = datetime.strptime(
             f"{match.group('start_m')} {match.group('start_d')} {match.group('year')}",
             "%b %d %Y",
-        ).replace(hour=hour, tzinfo=pytz.utc)
+        ).replace(hour=hour, tzinfo=UTC)
         end_date = datetime.strptime(
             f"{match.group('end_m')} {match.group('end_d')} {match.group('year')}",
             "%b %d %Y",
-        ).replace(hour=hour, tzinfo=pytz.utc)
+        ).replace(hour=hour, tzinfo=UTC)
         return start_date, end_date
     match = re.match(pattern_2_years, date_string)
     if match:
         start_date = datetime.strptime(
             f"{match.group('start_m')} {match.group('start_d')} {match.group('start_y')}",  # noqa: E501
             "%b %d %Y",
-        ).replace(hour=hour, tzinfo=pytz.utc)
+        ).replace(hour=hour, tzinfo=UTC)
         end_date = datetime.strptime(
             f"{match.group('end_m')} {match.group('end_d')} {match.group('end_y')}",
             "%b %d %Y",
-        ).replace(hour=hour, tzinfo=pytz.utc)
+        ).replace(hour=hour, tzinfo=UTC)
         return start_date, end_date
     return None
 

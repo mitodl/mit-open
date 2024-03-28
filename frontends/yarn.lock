@@ -3199,7 +3199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@npm:^3.0.3":
+"@mitodl/course-search-utils@npm:^3.0.4":
   version: 3.0.4
   resolution: "@mitodl/course-search-utils@npm:3.0.4"
   dependencies:
@@ -15651,7 +15651,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@faker-js/faker": "npm:^7.3.0"
-    "@mitodl/course-search-utils": "npm:^3.0.3"
+    "@mitodl/course-search-utils": "npm:^3.0.4"
     "@mui/icons-material": "npm:^5.14.19"
     "@sentry/react": "npm:^7.57.0"
     "@storybook/addon-essentials": "npm:^7.6.6"

@@ -16,6 +16,7 @@ repos:
         exclude: ".hbs$"
       - id: check-yaml
       - id: check-added-large-files
+        exclude: "yarn.lock"
       - id: check-merge-conflict
       - id: check-toml
       - id: debug-statements
@@ -68,7 +69,7 @@ repos:
           - --exclude-files
           - ".*/generated/"
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.3.3"
+    rev: "v0.3.4"
     hooks:
       - id: ruff-format
       - id: ruff

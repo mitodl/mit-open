@@ -2,11 +2,10 @@
 
 import logging
 import re
-from datetime import datetime
+from datetime import UTC, datetime
 from decimal import Decimal
 from urllib.parse import urljoin, urlparse
 
-import pytz
 import requests
 from django.conf import settings
 
@@ -99,7 +98,7 @@ def parse_date(num) -> datetime:
         datetime: start or end date
     """
     if num:
-        return datetime.fromtimestamp(num, tz=pytz.UTC)
+        return datetime.fromtimestamp(num, tz=UTC)
     return None
 
 

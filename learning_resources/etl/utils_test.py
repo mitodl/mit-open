@@ -8,7 +8,6 @@ from tempfile import TemporaryDirectory
 from unittest.mock import ANY
 
 import pytest
-import pytz
 from lxml import etree
 
 from learning_resources.constants import (
@@ -148,18 +147,18 @@ def test_parse_dates():
     """Test that parse_dates returns correct dates"""
     for datestring in ("May 13-30, 2020", "May 13 - 30,2020"):
         assert utils.parse_dates(datestring) == (
-            datetime.datetime(2020, 5, 13, 12, tzinfo=pytz.utc),
-            datetime.datetime(2020, 5, 30, 12, tzinfo=pytz.utc),
+            datetime.datetime(2020, 5, 13, 12, tzinfo=datetime.UTC),
+            datetime.datetime(2020, 5, 30, 12, tzinfo=datetime.UTC),
         )
     for datestring in ("Jun 24-Aug 11, 2020", "Jun  24 -  Aug 11,    2020"):
         assert utils.parse_dates(datestring) == (
-            datetime.datetime(2020, 6, 24, 12, tzinfo=pytz.utc),
-            datetime.datetime(2020, 8, 11, 12, tzinfo=pytz.utc),
+            datetime.datetime(2020, 6, 24, 12, tzinfo=datetime.UTC),
+            datetime.datetime(2020, 8, 11, 12, tzinfo=datetime.UTC),
         )
     for datestring in ("Nov 25, 2020-Jan 26, 2021", "Nov 25,2020  -Jan   26,2021"):
         assert utils.parse_dates(datestring) == (
-            datetime.datetime(2020, 11, 25, 12, tzinfo=pytz.utc),
-            datetime.datetime(2021, 1, 26, 12, tzinfo=pytz.utc),
+            datetime.datetime(2020, 11, 25, 12, tzinfo=datetime.UTC),
+            datetime.datetime(2021, 1, 26, 12, tzinfo=datetime.UTC),
         )
     assert utils.parse_dates("This is not a date") is None
 

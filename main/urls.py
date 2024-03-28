@@ -50,11 +50,14 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"^privacy-statement/", index, name="privacy-statement"),
     re_path(r"^search/", index, name="site-search"),
     re_path(r"^learningpaths/", index, name="learningpaths"),
+    re_path(r"^userlists/", index, name="userlists"),
     re_path(r"^articles/", index, name="articles"),
     re_path(r"^dashboard/", index, name="dashboard"),
     re_path(r"^program_letter/", index, name="programletter"),
+    re_path(r"^fields/", index, name="fields"),
     # Hijack
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
+    re_path(r"", include("news_events.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

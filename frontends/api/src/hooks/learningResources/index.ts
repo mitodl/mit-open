@@ -18,7 +18,10 @@ import type {
   MicroLearningPathRelationship,
   LearningResource,
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
-} from "../../generated"
+  UserlistsApiUserlistsListRequest as ULListRequest,
+  UserlistsApiUserlistsItemsListRequest as ULItemsListRequest,
+  OfferorsApiOfferorsListRequest,
+} from "../../generated/v1"
 import learningResources, { invalidateResourceQueries } from "./keyFactory"
 
 const useLearningResourcesList = (
@@ -158,10 +161,7 @@ const useLearningpathRelationshipCreate = () => {
     },
     onSettled: (response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.child)
-      queryClient.invalidateQueries(
-        learningResources.learningpaths._ctx.detail(vars.parent)._ctx
-          .infiniteItems._def,
-      )
+      invalidateResourceQueries(queryClient, vars.parent)
     },
   })
 }
@@ -188,12 +188,9 @@ const useLearningpathRelationshipDestroy = () => {
         },
       )
     },
-    onSettled: (response, _err, vars) => {
+    onSettled: (_response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.child)
-      queryClient.invalidateQueries(
-        learningResources.learningpaths._ctx.detail(vars.parent)._ctx
-          .infiniteItems._def,
-      )
+      invalidateResourceQueries(queryClient, vars.parent)
     },
   })
 }
@@ -204,6 +201,41 @@ const useLearningResourcesSearch = (
 ) => {
   return useQuery({
     ...learningResources.search(params),
+    ...opts,
+  })
+}
+
+const useUserListList = (
+  params: ULListRequest = {},
+  opts: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useQuery({
+    ...learningResources.userlists._ctx.list(params),
+    ...opts,
+  })
+}
+
+const useInfiniteUserListItems = (
+  params: ULItemsListRequest,
+  options: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useInfiniteQuery({
+    ...learningResources.userlists._ctx
+      .detail(params.userlist_id)
+      ._ctx.infiniteItems(params),
+    getNextPageParam: (lastPage) => {
+      return lastPage.next ?? undefined
+    },
+    ...options,
+  })
+}
+
+const useOfferorsList = (
+  params: OfferorsApiOfferorsListRequest = {},
+  opts: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useQuery({
+    ...learningResources.offerors(params),
     ...opts,
   })
 }
@@ -222,4 +254,7 @@ export {
   useLearningpathRelationshipCreate,
   useLearningpathRelationshipDestroy,
   useLearningResourcesSearch,
+  useUserListList,
+  useInfiniteUserListItems,
+  useOfferorsList,
 }

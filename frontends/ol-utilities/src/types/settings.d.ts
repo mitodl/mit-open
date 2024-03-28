@@ -1,14 +1,11 @@
 /* eslint-disable no-var */
 
 export declare global {
-  interface Window {
-    SETTINGS: SETTINGS
-  }
-
-  /**
-   * Settings injected by Django
-   */
-  interface SETTINGS {
+  declare const APP_SETTINGS: {
     embedlyKey: string
+    ckeditor_upload_url?: string
+    sentry_dsn?: string
+    release_version?: string
+    environment?: string
   }
 }

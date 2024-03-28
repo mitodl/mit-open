@@ -3,12 +3,11 @@ learning_resources tasks
 """
 
 import logging
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Optional
 
 import boto3
 import celery
-import pytz
 from django.conf import settings
 
 from learning_resources.etl import pipelines, youtube
@@ -181,7 +180,7 @@ def get_ocw_courses(
         utc_start_timestamp = datetime.strptime(  # noqa: DTZ007
             utc_start_timestamp, ISOFORMAT
         )
-        utc_start_timestamp = utc_start_timestamp.replace(tzinfo=pytz.UTC)
+        utc_start_timestamp = utc_start_timestamp.replace(tzinfo=UTC)
 
     ocw_courses_etl(
         url_paths=url_paths,

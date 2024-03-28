@@ -12,7 +12,7 @@ import {
 
 import { useToggle, pluralize, MetaTags } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 import ItemsListing from "./ItemsListing"
 
@@ -87,7 +87,9 @@ const LearningPathDetailsPage: React.FC = () => {
                     <Button
                       color="secondary"
                       startIcon={<EditIcon />}
-                      onClick={() => manageListDialogs.upsert(pathQuery.data)}
+                      onClick={() =>
+                        manageLearningPathDialogs.upsert(pathQuery.data)
+                      }
                     >
                       Edit
                     </Button>

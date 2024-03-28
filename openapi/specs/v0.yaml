@@ -217,6 +217,122 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v0/news_events/:
+    get:
+      operationId: news_events_list
+      description: Get a paginated list of feed items.
+      parameters:
+      - in: query
+        name: feed_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - events
+            - news
+        description: |-
+          The type of item
+
+          * `news` - News
+          * `events` - Events
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - news_events
+      responses:
+        '200':
+          description: No response body
+  /api/v0/news_events/{id}/:
+    get:
+      operationId: news_events_retrieve
+      description: Retrieve a single feed item.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this feed item.
+        required: true
+      tags:
+      - news_events
+      responses:
+        '200':
+          description: No response body
+  /api/v0/news_events_sources/:
+    get:
+      operationId: news_events_sources_list
+      description: Get a paginated list of news/event feed sources.
+      parameters:
+      - in: query
+        name: feed_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - events
+            - news
+        description: |-
+          The type of source
+
+          * `news` - News
+          * `events` - Events
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - news_events_sources
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFeedSourceList'
+          description: ''
+  /api/v0/news_events_sources/{id}/:
+    get:
+      operationId: news_events_sources_retrieve
+      description: Retrieve a single news/event feed source.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this feed source.
+        required: true
+      tags:
+      - news_events_sources
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedSource'
+          description: ''
   /api/v0/users/me/:
     get:
       operationId: users_me_retrieve
@@ -230,8 +346,140 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: ''
+  /api/v0/widget_lists/{id}/:
+    get:
+      operationId: widget_lists_retrieve
+      description: API for managing widget lists
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this widget list.
+        required: true
+      tags:
+      - widget_lists
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetList'
+          description: ''
+    put:
+      operationId: widget_lists_update
+      description: API for managing widget lists
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this widget list.
+        required: true
+      tags:
+      - widget_lists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WidgetListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WidgetListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WidgetListRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetList'
+          description: ''
+    patch:
+      operationId: widget_lists_partial_update
+      description: API for managing widget lists
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this widget list.
+        required: true
+      tags:
+      - widget_lists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedWidgetListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedWidgetListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedWidgetListRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetList'
+          description: ''
 components:
   schemas:
+    FeedImage:
+      type: object
+      description: Serializer for FeedImage
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          maxLength: 2048
+        description:
+          type: string
+          maxLength: 1024
+        alt:
+          type: string
+          maxLength: 1024
+      required:
+      - id
+    FeedSource:
+      type: object
+      description: FeedSource serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        image:
+          $ref: '#/components/schemas/FeedImage'
+        title:
+          type: string
+          maxLength: 255
+        url:
+          type: string
+          format: uri
+          maxLength: 200
+        description:
+          type: string
+        feed_type:
+          $ref: '#/components/schemas/FeedTypeEnum'
+      required:
+      - feed_type
+      - id
+      - image
+      - title
+      - url
+    FeedTypeEnum:
+      enum:
+      - news
+      - events
+      type: string
+      description: |-
+        * `news` - News
+        * `events` - Events
     FieldChannel:
       type: object
       description: Serializer for FieldChannel
@@ -257,6 +505,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
+          nullable: true
           description: Learning path featured in this field.
         lists:
           type: array
@@ -265,17 +514,21 @@ components:
           readOnly: true
         avatar:
           type: string
+          nullable: true
           description: Get the avatar image URL
         avatar_medium:
           type: string
+          nullable: true
           description: Get the avatar image medium URL
           readOnly: true
         avatar_small:
           type: string
+          nullable: true
           description: Get the avatar image small URL
           readOnly: true
         banner:
           type: string
+          nullable: true
           description: Get the banner image URL
         widget_list:
           type: integer
@@ -404,6 +657,26 @@ components:
       required:
       - id
       - title
+    PaginatedFeedSourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedSource'
     PaginatedFieldChannelList:
       type: object
       properties:
@@ -451,11 +724,22 @@ components:
           description: Learng paths in this field.
         avatar:
           type: string
+          nullable: true
           description: Get the avatar image URL
         banner:
           type: string
+          nullable: true
           description: Get the banner image URL
         about:
+          nullable: true
+    PatchedWidgetListRequest:
+      type: object
+      description: Serializer for WidgetLists
+      properties:
+        widgets:
+          type: array
+          items:
+            $ref: '#/components/schemas/WidgetInstance'
           nullable: true
     Profile:
       type: object
@@ -561,3 +845,73 @@ components:
       - last_name
       - profile
       - username
+    WidgetInstance:
+      type: object
+      description: WidgetInstance serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        widget_type:
+          $ref: '#/components/schemas/WidgetTypeEnum'
+        title:
+          type: string
+          maxLength: 200
+        configuration:
+          type: string
+        json:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - json
+      - title
+      - widget_type
+    WidgetList:
+      type: object
+      description: Serializer for WidgetLists
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        widgets:
+          type: array
+          items:
+            $ref: '#/components/schemas/WidgetInstance'
+          nullable: true
+        available_widgets:
+          type: array
+          items:
+            type: object
+            properties:
+              widget_type:
+                type: string
+              description:
+                type: string
+              form_spec:
+                type: object
+          readOnly: true
+      required:
+      - available_widgets
+      - id
+    WidgetListRequest:
+      type: object
+      description: Serializer for WidgetLists
+      properties:
+        widgets:
+          type: array
+          items:
+            $ref: '#/components/schemas/WidgetInstance'
+          nullable: true
+    WidgetTypeEnum:
+      enum:
+      - Markdown
+      - URL
+      - RSS Feed
+      - People
+      type: string
+      description: |-
+        * `Markdown` - Markdown
+        * `URL` - URL
+        * `RSS Feed` - RSS Feed
+        * `People` - People
