@@ -31,6 +31,6 @@ export declare global {
     sentry_dsn?: string
     release_version?: string
     environment?: string
-    embedlyKey: string
+    posthog?: PostHogSettings
   }
 }

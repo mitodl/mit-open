@@ -10,6 +10,7 @@ import GlobalStyles from "./GlobalStyles"
 import { PostHogProvider } from "posthog-js/react"
 
 import type { PostHogSettings } from "./types/settings"
+import { InterestsOutlined } from "@mui/icons-material"
 
 interface AppProps {
   router: RouterProviderProps["router"]
