@@ -12,7 +12,10 @@ import {
   act,
 } from "../../test-utils"
 import ItemsListing from "./ItemsListing"
-import type { ItemsListingProps } from "./ItemsListing"
+import type {
+  ItemsListingProps,
+  LearningResourceListItem,
+} from "./ItemsListing"
 import { ControlledPromise } from "ol-test-utilities"
 import invariant from "tiny-invariant"
 import {
@@ -103,7 +106,7 @@ describe("ItemsListing", () => {
         <ItemsListing
           listType={listType}
           emptyMessage={emptyMessage}
-          items={paginatedRelationships.results}
+          items={paginatedRelationships.results as LearningResourceListItem[]}
         />,
       )
       const emptyMessageElement = screen.queryByText(emptyMessage)
@@ -133,7 +136,7 @@ describe("ItemsListing", () => {
         faker.datatype.number({ min: 2, max: 4 }),
         faker.datatype.number(),
       )
-      const items = paginatedRelationships.results
+      const items = paginatedRelationships.results as LearningResourceListItem[]
       renderWithProviders(
         <ItemsListing
           listType={listType}
@@ -164,7 +167,7 @@ describe("Sorting ItemListing", () => {
       5,
       parentId,
     )
-    const items = paginatedRelationships.results
+    const items = paginatedRelationships.results as LearningResourceListItem[]
     const defaultProps: ItemsListingProps = {
       listType: listType,
       items: items,
