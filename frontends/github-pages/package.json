@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "eslint-config-react-app": "^7.0.1",
     "swc-loader": "^0.2.3"
   }
 }

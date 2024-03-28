@@ -19,7 +19,7 @@
     "watch:rc": "yarn workspace mit-open watch:rc",
     "watch:prod": "yarn workspace mit-open watch:prod",
     "build": "yarn workspace mit-open build",
-    "lint-check": "eslint --ignore-path .gitignore . --ext .js,.jsx,.ts,.tsx,.mdx",
+    "lint-check": "eslint . --ext .js,.jsx,.ts,.tsx,.mdx",
     "lint-fix": "yarn lint-check --fix",
     "fmt-check": "prettier --check .",
     "fmt-fix": "prettier --write .",
