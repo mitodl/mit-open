@@ -35,8 +35,8 @@
     "@ckeditor/ckeditor5-ui": "^40.1.0",
     "axios": "^1.6.3",
     "classnames": "^2.3.2",
-    "ol-components": "workspace:*",
-    "ol-utilities": "workspace:*"
+    "ol-components": "0.0.0",
+    "ol-utilities": "0.0.0"
   },
   "devDependencies": {
     "@testing-library/react": "^14.1.2"
