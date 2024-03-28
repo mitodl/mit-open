@@ -98,6 +98,9 @@ jobs:
 
   javascript-tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontends
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -143,7 +146,9 @@ jobs:
 
   build-storybook:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./frontends
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -184,8 +189,9 @@ jobs:
           node-version: "18.18.2"
           cache: "yarn"
 
-      - name: Install dependencies
-        run: yarn install --immutable
+      # - name: Install dependencies
+      #   working-directory: ./frontends
+      #   run: yarn install --immutable
 
       - name: Generate Fresh API Client
         uses: openapi-generators/openapitools-generator-action@v1
@@ -206,6 +212,9 @@ jobs:
 
   e2e-tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontends
 
     steps:
       - uses: actions/checkout@v4
