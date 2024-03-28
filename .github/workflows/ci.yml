@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./frontends
+        working-directory: frontends
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -148,7 +148,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./frontends
+        working-directory: frontends
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -185,11 +185,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        working-directory: frontends
         with:
           node-version: "18.18.2"
           cache: "yarn"
 
       - name: Install dependencies
+        working-directory: frontends
         run: yarn install --immutable
 
       - name: Generate Fresh API Client
@@ -220,14 +222,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
+        working-directory: frontends
         with:
           node-version: "18.18.2"
           cache: "yarn"
 
-      # - name: Install dependencies
-      #   working-directory: ./frontends
-      #   run: yarn install --immutable
+      - name: Install dependencies
+        working-directory: frontends
+        run: yarn install --immutable
 
       - name: Generate Fresh API Client
         uses: openapi-generators/openapitools-generator-action@v1
@@ -250,7 +254,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./frontends
+        working-directory: frontends
 
     steps:
       - uses: actions/checkout@v4
