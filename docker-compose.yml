@@ -12,8 +12,6 @@ x-environment: &py-environment
   CELERY_TASK_ALWAYS_EAGER: "False"
   CELERY_BROKER_URL: redis://redis:6379/4
   CELERY_RESULT_BACKEND: redis://redis:6379/4
-  # DOCKER_HOST: ${DOCKER_HOST:-missing}
-
   TIKA_SERVER_ENDPOINT: ${TIKA_SERVER_ENDPOINT:-http://tika:9998/}
   TIKA_CLIENT_ONLY: "True"
 
@@ -24,6 +22,8 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   redis:
     image: redis:5.0.14
@@ -80,32 +80,19 @@ services:
       - db
       - opensearch-node-mitopen
       - redis
-      - watch
     volumes:
-      # - .:/src
       - django_media:/var/media
 
   watch:
     build:
       context: ./frontends
-      # dockerfile: Dockerfile-node
-    # working_dir: /src
-    # command: ./scripts/run-watch-dev.sh
-    ports:
-      - "8081:8080"
-      # - "8052:8052"
-      # - "8062:8062"
-      # - "6006:6006"
+    command: >
+      /bin/sh -c 'yarn rebuild && yarn watch:docker'
     environment:
-      # DOCKER_HOST: ${DOCKER_HOST:-missing}
-      ENVIRONMENT: ${ENVIRONMENT:-local}
       NODE_ENV: ${NODE_ENV:-development}
-      # CONTAINER_NAME: "watch"
-      # WEBPACK_PORT_MITOPEN: 8062
     env_file: .env
     volumes:
       - ./frontends:/src
-      # - yarn-cache:/home/mitodl/.cache/yarn
 
   celery:
     build:
@@ -134,3 +121,4 @@ volumes:
   opensearch-data1:
   django_media:
   yarn-cache:
+  pgdata:

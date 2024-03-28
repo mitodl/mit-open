@@ -32,11 +32,6 @@ The following settings must be configured before running the app:
   is not needed. It's recommended that you eventually configure the site to be able
   to send emails. Those configuration steps can be found [below](#enabling-email).
 
-- `MITOPEN_HOSTNAME`
-
-  Sets the hostname required by webpack for building the frontend. Should likely be whatever you set
-  the host to in your /etc/hosts or the hostname that you're accessing it from. Likely `od.odl.local`.
-
 ### Loading Data
 
 The MIT Open platform aggregates data from many sources. These data are populated by ETL (extract, transform, load) pipelines that run automatically on a regular schedule. Django [management commands](https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/) are also available to force the pipelines to run—particularly useful for local development.

@@ -1,12 +1,8 @@
 {
   "name": "api",
-<<<<<<< HEAD
   "version": "0.0.0",
-  "packageManager": "yarn@3.7.0",
+  "packageManager": "yarn@4.1.1",
   "private": true,
-=======
-  "packageManager": "yarn@3.8.1",
->>>>>>> shanbady/endpoint-to-retrieve-session-data
   "sideEffects": false,
   "exports": {
     ".": "./src/generated/api.ts",

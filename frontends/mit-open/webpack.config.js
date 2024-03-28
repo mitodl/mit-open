@@ -7,43 +7,26 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 const { withCKEditor } = require("ol-ckeditor/webpack-utils")
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const CopyPlugin = require("copy-webpack-plugin")
 
-const STATS_FILEPATH = path.resolve(
-  __dirname,
-  // "../../webpack-stats/mit-open.json",
-  "webpack-stats.json",
-)
+const { NODE_ENV, PORT, API_BASE_URL, WEBPACK_ANALYZE } = process.env
 
-const { ENVIRONMENT, MITOPEN_HOSTNAME, WEBPACK_PORT_MITOPEN } = process.env
-
-const getPublicPath = (mode) => {
-  if (ENVIRONMENT === "local") {
-    return "/"
-  }
-  if (mode === "production") {
+const getPublicPath = (isProduction) => {
+  if (isProduction) {
     return "/static/mit-open/"
   }
-  if (!MITOPEN_HOSTNAME || !WEBPACK_PORT_MITOPEN) {
-    throw new Error(
-      "Hostname (MITOPEN_HOSTNAME) and port (WEBPACK_PORT_MITOPEN) should be set on the environment",
-    )
-  }
-  return `http://${MITOPEN_HOSTNAME}:${WEBPACK_PORT_MITOPEN}/`
+  return "auto"
 }
 
-const validateEnv = (mode) => {
-  if (mode === "production" || ENVIRONMENT === "local") {
-    return
-  }
-  if (!process.env.WEBPACK_PORT_MITOPEN) {
-    throw new Error("WEBPACK_PORT_MITOPEN should be defined")
-  }
-}
+module.exports = (env, argv) => {
+  const mode = argv.mode || NODE_ENV || "production"
 
-const getWebpackConfig = ({ mode, analyzeBundle }) => {
+  console.info("Webpack build mode is:", mode)
+
   const isProduction = mode === "production"
-  validateEnv(mode)
-  const publicPath = getPublicPath(mode)
+
+  const publicPath = getPublicPath(isProduction)
+
   console.info("Public path is:", publicPath)
 
   const config = {
@@ -55,7 +38,7 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
     },
     output: {
       path: path.resolve(__dirname, "build"),
-      ...(isProduction
+      ...(mode === "production"
         ? {
             filename: "[name]-[chunkhash].js",
             chunkFilename: "[id]-[chunkhash].js",
@@ -66,6 +49,7 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
             filename: "[name].js",
           }),
       publicPath,
+      clean: true,
     },
     module: {
       rules: [
@@ -90,7 +74,13 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       new HtmlWebpackPlugin({
         template: "public/index.html",
       }),
-      new BundleTracker({ filename: STATS_FILEPATH }),
+      new CopyPlugin({
+        patterns: [{ from: "public/images", to: "static/images" }],
+      }),
+      new BundleTracker({
+        // path: path.join(__dirname, "assets"),
+        filename: "webpack-stats.json",
+      }),
       new webpack.DefinePlugin({
         "process.env": {
           env: { NODE_ENV: JSON.stringify(mode) },
@@ -109,7 +99,7 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
           : [],
       )
       .concat(
-        analyzeBundle
+        WEBPACK_ANALYZE === "True"
           ? [
               new BundleAnalyzerPlugin({
                 analyzerMode: "static",
@@ -145,34 +135,30 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       emitOnErrors: false,
     },
     devServer: {
+      port: PORT || 8080,
       allowedHosts: "all",
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
+      hot: true,
       host: "::",
-      port: 8080,
+      historyApiFallback: true,
       static: {
         directory: path.join(__dirname, "public"),
         publicPath: "/static",
       },
       proxy: [
         {
-          context: ["/api", "/login"],
-          target: process.env.API_BASE_URL || "",
+          context: ["/api", "/login", "/admin", "/static/admin"],
+          target: API_BASE_URL,
           changeOrigin: true,
+          secure: false,
+          headers: {
+            Origin: API_BASE_URL,
+          },
         },
       ],
     },
   }
   return withCKEditor(config)
-}
-
-module.exports = (_env, argv) => {
-  const mode = argv.mode || process.env.NODE_ENV || "production"
-
-  console.info("Mode is:", mode)
-
-  const analyzeBundle = process.env.WEBPACK_ANALYZE === "True"
-  const settings = { mode, analyzeBundle }
-  return getWebpackConfig(settings)
 }

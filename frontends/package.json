@@ -15,6 +15,7 @@
   "scripts": {
     "foreach": "yarn workspaces foreach -pvi --exclude=root run",
     "watch": "yarn workspace mit-open watch",
+    "watch:docker": "yarn workspace mit-open watch:docker",
     "watch:rc": "yarn workspace mit-open watch:rc",
     "watch:prod": "yarn workspace mit-open watch:prod",
     "build": "yarn workspace mit-open build",
@@ -76,6 +77,7 @@
     "syncpack": "^11.2.1",
     "ts-node": "^10.9.1",
     "type-fest": "^4.8.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "webpack-dev-server": "^5.0.4"
   }
 }
