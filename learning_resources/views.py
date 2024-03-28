@@ -174,7 +174,9 @@ class NewResourcesViewSetMixin(GenericAPIView):
     @extend_schema(summary="List New")
     @action(methods=["GET"], detail=False, name="New Resources")
     def new(self, request: Request) -> QuerySet:  # noqa: ARG002
-        page = self.paginate_queryset(self.get_queryset().order_by("-created_on"))
+        queryset = self.get_queryset()
+        filtered_queryset = self.filter_queryset(queryset)
+        page = self.paginate_queryset(filtered_queryset.order_by("-created_on"))
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 
@@ -209,16 +211,17 @@ class UpcomingResourcesViewSetMixin(GenericAPIView):
             QuerySet of LearningResource objects with future runs
 
         """
+
+        queryset = self.get_queryset()
+        filtered_queryset = self.filter_queryset(queryset)
         page = self.paginate_queryset(
-            self._get_base_queryset()
-            .filter(
+            filtered_queryset.filter(
                 Q(runs__published=True)
                 & (
                     Q(runs__start_date__gt=timezone.now())
                     | Q(runs__enrollment_start__gt=timezone.now())
                 )
-            )
-            .order_by("runs__start_date")
+            ).order_by("runs__start_date")
         )
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
