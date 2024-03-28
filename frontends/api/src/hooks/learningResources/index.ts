@@ -5,7 +5,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
-import { learningpathsApi } from "../../clients"
+import { learningpathsApi, userListsApi } from "../../clients"
 import type {
   LearningResourcesApiLearningResourcesListRequest as LRListRequest,
   TopicsApiTopicsListRequest as TopicsListRequest,
@@ -244,6 +244,57 @@ const useOfferorsList = (
   })
 }
 
+/* The `LIST_TYPE_` constants are used to differentiate between
+  different types of lists in the application. In this specific code
+  snippet, `LIST_TYPE_LEARNING_PATH` and `LIST_TYPE_USER_LIST` are
+  used to specify the type of list being operated on when moving
+  items within a list. This helps in determining whether the item
+  should be moved within a learning path or a user list. */
+interface ListItemMoveRequest {
+  listType: string
+  parent: number
+  id: number
+  position?: number
+}
+const useListItemMove = (
+  learningPathListType: string,
+  userListListType: string,
+) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ listType, parent, id, position }: ListItemMoveRequest) =>
+      new Promise<void>((resolve) => {
+        if (listType === learningPathListType) {
+          learningpathsApi.learningpathsItemsPartialUpdate({
+            learning_resource_id: parent,
+            id,
+            PatchedLearningPathRelationshipRequest: { position },
+          })
+        } else if (listType === userListListType) {
+          userListsApi.userlistsItemsPartialUpdate({
+            userlist_id: parent,
+            id,
+            PatchedUserListRelationshipRequest: { position },
+          })
+        }
+        resolve()
+      }),
+    onSettled: (_data, _err, vars) => {
+      if (vars.listType === learningPathListType) {
+        queryClient.invalidateQueries(
+          learningResources.learningpaths._ctx.detail(vars.parent)._ctx
+            .infiniteItems._def,
+        )
+      } else if (vars.listType === userListListType) {
+        queryClient.invalidateQueries(
+          learningResources.userlists._ctx.detail(vars.parent)._ctx
+            .infiniteItems._def,
+        )
+      }
+    },
+  })
+}
+
 export {
   useLearningResourcesList,
   useLearningResourcesDetail,
@@ -262,4 +313,5 @@ export {
   useUserListsDetail,
   useInfiniteUserListItems,
   useOfferorsList,
+  useListItemMove,
 }

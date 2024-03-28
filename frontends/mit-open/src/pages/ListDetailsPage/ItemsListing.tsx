@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react"
-import type { LearningPathRelationship } from "api"
+import type { LearningResource } from "api"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import {
   SortableItem,
@@ -10,15 +10,28 @@ import {
   LoadingSpinner,
   styled,
 } from "ol-components"
-import { useLearningpathRelationshipMove } from "api/hooks/learningResources"
+import { useListItemMove } from "api/hooks/learningResources"
 import CardRowList from "@/components/CardRowList/CardRowList"
+import {
+  LIST_TYPE_LEARNING_PATH,
+  LIST_TYPE_USER_LIST,
+} from "@/common/constants"
 
 const EmptyMessage = styled.p({
   fontStyle: "italic",
 })
 
+type LearningResourceListItem = {
+  id: number
+  resource: LearningResource
+  position: number
+  parent: number
+  child: number
+}
+
 type ItemsListingProps = {
-  items?: LearningPathRelationship[]
+  listType: string
+  items?: LearningResourceListItem[]
   isLoading?: boolean
   isRefetching?: boolean
   emptyMessage: string
@@ -45,10 +58,12 @@ const ItemsListingViewOnly: React.FC<{
 }
 
 const ItemsListingSortable: React.FC<{
+  listType: NonNullable<ItemsListingProps["listType"]>
   items: NonNullable<ItemsListingProps["items"]>
   isRefetching?: boolean
-}> = ({ items, isRefetching }) => {
-  const move = useLearningpathRelationshipMove()
+}> = ({ listType, items, isRefetching }) => {
+  const move = useListItemMove(LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST)
+  const [sorted, setSorted] = React.useState<LearningResourceListItem[]>([])
   /**
    * `sorted` is a local copy of `items`:
    *  - `onSortEnd`, we'll update `sorted` copy immediately to prevent UI from
@@ -56,10 +71,9 @@ const ItemsListingSortable: React.FC<{
    *  - `items` is the source of truth (most likely, this is coming from an API)
    *    so sync `items` -> `sorted` when `items` changes.
    */
-  const [sorted, setSorted] = React.useState<LearningPathRelationship[]>([])
   useEffect(() => setSorted(items), [items])
   const renderDragging: RenderActive = useCallback((active) => {
-    const item = active.data.current as LearningPathRelationship
+    const item = active.data.current as LearningResourceListItem
     return (
       <LearningResourceCard
         sortable
@@ -72,19 +86,20 @@ const ItemsListingSortable: React.FC<{
   const onSortEnd: OnSortEnd<number> = useCallback(
     async (e) => {
       const active = e.active.data
-        .current as unknown as LearningPathRelationship
-      const over = e.over.data.current as unknown as LearningPathRelationship
+        .current as unknown as LearningResourceListItem
+      const over = e.over.data.current as unknown as LearningResourceListItem
       setSorted((current) => {
         const newOrder = arrayMove(current, e.activeIndex, e.overIndex)
         return newOrder
       })
       move.mutate({
+        listType: listType,
         id: active.id,
         parent: active.parent,
         position: over.position,
       })
     },
-    [move],
+    [listType, move],
   )
   const disabled = isRefetching || move.isLoading
   return (
@@ -124,6 +139,7 @@ const ItemsListingSortable: React.FC<{
 }
 
 const ItemsListing: React.FC<ItemsListingProps> = ({
+  listType,
   items = [],
   isLoading,
   isRefetching,
@@ -136,7 +152,11 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
       {items.length === 0 ? (
         <EmptyMessage>{emptyMessage}</EmptyMessage>
       ) : sortable ? (
-        <ItemsListingSortable items={items} isRefetching={isRefetching} />
+        <ItemsListingSortable
+          listType={listType}
+          items={items}
+          isRefetching={isRefetching}
+        />
       ) : (
         <ItemsListingViewOnly items={items} />
       )}
@@ -145,4 +165,4 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
 }
 
 export default ItemsListing
-export type { ItemsListingProps }
+export type { ItemsListingProps, LearningResourceListItem }

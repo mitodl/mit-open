@@ -3,12 +3,10 @@ import { RouteObject, Outlet } from "react-router"
 import HomePage from "@/pages/HomePage/HomePage"
 import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
 import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
-import LearningPathDetailsPage from "@/pages/LearningPathDetailsPage/LearningPathDetailsPage"
 import FieldPage from "@/pages/FieldPage/FieldPage"
 import EditFieldPage from "@/pages/FieldPage/EditFieldPage"
 
 import UserListListingPage from "./pages/UserListListingPage/UserListListingPage"
-import UserListDetailsPage from "./pages/UserListDetailsPage/UserListDetailsPage"
 import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ProgramLetterPage from "@/pages/ProgramLetterPage/ProgramLetterPage"
@@ -18,6 +16,8 @@ import * as urls from "@/common/urls"
 import Header from "@/page-components/Header/Header"
 import { Permissions } from "@/common/permissions"
 import SearchPage from "./pages/SearchPage/SearchPage"
+import UserListDetailsPage from "./pages/UserListDetailsPage/UserListDetailsPage"
+import LearningPathDetailsPage from "./pages/LearningPathDetailsPage/LearningPathDetailsPage"
 
 const routes: RouteObject[] = [
   {

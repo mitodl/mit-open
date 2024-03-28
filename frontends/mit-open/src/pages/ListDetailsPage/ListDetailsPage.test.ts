@@ -66,7 +66,7 @@ const setup = ({
   }
 }
 
-describe("LearningPathDetailsPage", () => {
+describe("ListDetailsPage", () => {
   it("Renders list title", async () => {
     const path = factories.learningResources.learningPath()
     setup({ path })
