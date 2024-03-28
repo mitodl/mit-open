@@ -21,11 +21,7 @@ services:
   db:
     image: postgres:12.18
     ports:
-<<<<<<< HEAD
       - 5432:5432
-=======
-      - "5432:5432"
->>>>>>> 133529f0 (undoing postgres port change)
     environment:
       - POSTGRES_PASSWORD=postgres
 
