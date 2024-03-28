@@ -54,10 +54,6 @@
       "description": "Max memory to be used by celery worker child",
       "required": false
     },
-    "CLOUDFRONT_DIST": {
-      "description": "Cloudfront distribution",
-      "required": false
-    },
     "CORS_ALLOWED_ORIGINS": {
       "description": "A list of origins that are authorized to make cross-site HTTP requests",
       "required": false
