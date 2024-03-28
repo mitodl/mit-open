@@ -5,6 +5,7 @@ import {
   ArticlesApi,
   ProgramLettersApi,
   LearningResourcesSearchApi,
+  UsersApi,
 } from "./generated/api"
 import axiosInstance from "./axios"
 
@@ -36,6 +37,9 @@ const programLettersApi = new ProgramLettersApi(
   BASE_PATH,
   axiosInstance,
 )
+
+const usersApi = new UsersApi(undefined, BASE_PATH, axiosInstance)
+
 export {
   learningResourcesApi,
   learningpathsApi,

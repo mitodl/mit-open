@@ -15,7 +15,7 @@ const getPublicPath = (isProduction) => {
   if (isProduction) {
     return "/static/mit-open/"
   }
-  return "auto"
+  return "/"
 }
 
 module.exports = (env, argv) => {

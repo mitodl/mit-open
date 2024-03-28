@@ -11,7 +11,7 @@ module.exports = {
   settings: {
     "import/resolver": {
       typescript: {
-        project: "frontends/*/tsconfig.json",
+        project: "*/tsconfig.json",
       },
     },
   },

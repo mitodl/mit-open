@@ -12,7 +12,7 @@ x-environment: &py-environment
   CELERY_TASK_ALWAYS_EAGER: "False"
   CELERY_BROKER_URL: redis://redis:6379/4
   CELERY_RESULT_BACKEND: redis://redis:6379/4
-  # DOCKER_HOST: ${DOCKER_HOST:-missing}
+  DOCKER_HOST: ${DOCKER_HOST:-missing}
   WEBPACK_DEV_SERVER_HOST: ${WEBPACK_DEV_SERVER_HOST:-localhost}
   TIKA_SERVER_ENDPOINT: ${TIKA_SERVER_ENDPOINT:-http://tika:9998/}
   TIKA_CLIENT_ONLY: "True"

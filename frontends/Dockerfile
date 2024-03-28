@@ -11,4 +11,6 @@ RUN yarn install
 # Rebuilds for the case that the lockfile contains platform-specific dependencies
 RUN yarn rebuild
 
+RUN yarn build-storybook
+
 CMD ["yarn", "watch:docker"]
