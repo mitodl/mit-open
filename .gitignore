@@ -111,12 +111,7 @@ celerybeat-schedule
 docs/_site
 
 .pnp.*
-frontends/.yarn
-!frontends/yarn/patches
-!frontends/yarn/plugins
-!frontends/yarn/releases
-!frontends/yarn/sdks
-!frontends/yarn/versions
+frontends/.yarn/cache
 
 # Typescript
 tsconfig.tsbuildinfo
@@ -137,4 +132,3 @@ storybook-static/
 !/e2e_testing/.env
 
 e2e_testing/.yarn/cache
-.yarn/cache
