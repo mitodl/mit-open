@@ -7,6 +7,8 @@ import { useChannelDetail } from "api/hooks/fields"
 import WidgetsList from "./WidgetsList"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { makeFieldViewPath } from "@/common/urls"
+import FieldSearch from "./FieldSearch"
+import type { Facets, FacetKey } from "@mitodl/course-search-utils"
 
 type RouteParams = {
   channelType: string
@@ -42,6 +44,15 @@ const FieldPage: React.FC = () => {
     navigate(makeFieldViewPath(String(channelType), String(name)))
   }, [navigate, channelType, name])
 
+  const searchParams: Facets = {}
+
+  if (fieldQuery.data?.search_filter) {
+    const urlParams = new URLSearchParams(fieldQuery.data.search_filter)
+    for (const [key, value] of urlParams.entries()) {
+      searchParams[key as FacetKey] = value.split(",")
+    }
+  }
+
   return (
     <FieldPageSkeleton name={name} channelType={channelType}>
       <TabContext value={tabValue}>
@@ -68,6 +79,9 @@ const FieldPage: React.FC = () => {
             <GridColumn variant="main-2-wide-main">
               <TabPanel value="home">
                 <p>{fieldQuery.data?.public_description}</p>
+                {fieldQuery.data?.search_filter && (
+                  <FieldSearch constantSearchParams={searchParams} />
+                )}
               </TabPanel>
               <TabPanel value="about"></TabPanel>
             </GridColumn>

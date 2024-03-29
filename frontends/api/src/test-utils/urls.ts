@@ -12,6 +12,7 @@ import type {
   ArticlesApi,
   UserlistsApi,
   OfferorsApi,
+  PlatformsApi,
 } from "../generated/v1"
 import type { BaseAPI } from "../generated/v1/base"
 
@@ -42,6 +43,11 @@ const learningResources = {
 const offerors = {
   list: (params?: Params<OfferorsApi, "offerorsList">) =>
     `/api/v1/offerors/${query(params)}`,
+}
+
+const platforms = {
+  list: (params?: Params<PlatformsApi, "platformsList">) =>
+    `/api/v1/platforms/${query(params)}`,
 }
 
 const topics = {
@@ -118,4 +124,5 @@ export {
   fields,
   widgetLists,
   offerors,
+  platforms,
 }

@@ -58,6 +58,7 @@ export { default as Grid } from "@mui/material/Grid"
 export type { GridProps } from "@mui/material/Grid"
 export { default as IconButton } from "@mui/material/IconButton"
 export type { IconButtonProps } from "@mui/material/IconButton"
+export { default as InputLabel } from "@mui/material/InputLabel"
 
 export { default as List } from "@mui/material/List"
 export type { ListProps } from "@mui/material/List"
@@ -67,6 +68,10 @@ export { default as ListItemButton } from "@mui/material/ListItemButton"
 export type { ListItemButtonProps } from "@mui/material/ListItemButton"
 export { default as ListItemText } from "@mui/material/ListItemText"
 export type { ListItemTextProps } from "@mui/material/ListItemText"
+export { default as OutlinedInput } from "@mui/material/OutlinedInput"
+
+export { default as Select } from "@mui/material/Select"
+export type { SelectChangeEvent } from "@mui/material/Select"
 
 export { default as Skeleton } from "@mui/material/Skeleton"
 export type { SkeletonProps } from "@mui/material/Skeleton"
