@@ -21,6 +21,11 @@ const imgConfigs = {
     width: 220,
     height: 170,
   },
+  large: {
+    key: APP_SETTINGS.embedlyKey,
+    width: 385,
+    height: 200,
+  },
 } satisfies Record<string, EmbedlyConfig>
 
 export { imgConfigs }
