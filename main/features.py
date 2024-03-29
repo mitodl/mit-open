@@ -140,7 +140,7 @@ def is_enabled(
             efforts.
 
     Returns:
-        bool: True if the feature flag is enablede
+        bool: True if the feature flag is enabled
     """
     unique_id = opt_unique_id or default_unique_id()
     person_properties = _get_person_properties(unique_id)
