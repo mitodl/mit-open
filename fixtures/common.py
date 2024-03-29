@@ -34,15 +34,10 @@ def warnings_as_errors():  # noqa: PT004
         warnings.filterwarnings("ignore", category=InsecureRequestWarning)
         warnings.filterwarnings("ignore", category=PytestMockWarning)
         warnings.filterwarnings("ignore", category=ResourceWarning)
-        warnings.filterwarnings(
-            "ignore",
-            message="'async' and 'await' will become reserved keywords in Python 3.7",
-            category=DeprecationWarning,
-        )
         # Ignore deprecation warnings in third party libraries
         warnings.filterwarnings(
             "ignore",
-            module=".*(api_jwt|api_jws|rest_framework_jwt|astroid|celery|factory).*",
+            module=".*(api_jwt|api_jws|rest_framework_jwt|astroid|celery|factory|botocore).*",
             category=DeprecationWarning,
         )
         yield
