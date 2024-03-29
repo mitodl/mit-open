@@ -20,15 +20,7 @@ type ListDetailsPageProps = {
   handleEdit: OnEdit
 }
 
-const ListDetailsPage: React.FC<{
-  listType: NonNullable<ListDetailsPageProps["listType"]>
-  title: ListDetailsPageProps["title"]
-  description: ListDetailsPageProps["description"]
-  items: ListDetailsPageProps["items"]
-  isLoading: ListDetailsPageProps["isLoading"]
-  isFetching: ListDetailsPageProps["isFetching"]
-  handleEdit: ListDetailsPageProps["handleEdit"]
-}> = ({
+const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
   listType,
   title,
   description,
