@@ -16,8 +16,8 @@ import * as urls from "@/common/urls"
 import Header from "@/page-components/Header/Header"
 import { Permissions } from "@/common/permissions"
 import SearchPage from "./pages/SearchPage/SearchPage"
-import UserListDetailsPage from "./pages/UserListDetailsPage/UserListDetailsPage"
-import LearningPathDetailsPage from "./pages/LearningPathDetailsPage/LearningPathDetailsPage"
+import UserListDetailsPage from "./pages/ListDetailsPage/UserListDetailsPage"
+import LearningPathDetailsPage from "./pages/ListDetailsPage/LearningPathDetailsPage"
 
 const routes: RouteObject[] = [
   {

@@ -7,9 +7,9 @@ import {
   useUserListsDetail,
 } from "api/hooks/learningResources"
 
-import { LIST_TYPE_USER_LIST } from "@/common/constants"
-import { LearningResourceListItem } from "../ListDetailsPage/ItemsListing"
-import ListDetailsPage from "../ListDetailsPage/ListDetailsPage"
+import { LIST_TYPE_USER_LIST } from "../../../../api/src/common/constants"
+import { LearningResourceListItem } from "./ItemsListing"
+import ListDetailsPage from "./ListDetailsPage"
 
 type RouteParams = {
   id: string

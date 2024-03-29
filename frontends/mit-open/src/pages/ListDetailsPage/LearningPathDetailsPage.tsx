@@ -7,10 +7,10 @@ import {
   useLearningPathsDetail,
 } from "api/hooks/learningResources"
 
-import { LIST_TYPE_LEARNING_PATH } from "@/common/constants"
-import ListDetailsPage from "../ListDetailsPage/ListDetailsPage"
-import { LearningResourceListItem } from "../ListDetailsPage/ItemsListing"
+import ListDetailsPage from "./ListDetailsPage"
+import { LearningResourceListItem } from "./ItemsListing"
 import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { LIST_TYPE_LEARNING_PATH } from "../../../../api/src/common/constants"
 
 type RouteParams = {
   id: string
