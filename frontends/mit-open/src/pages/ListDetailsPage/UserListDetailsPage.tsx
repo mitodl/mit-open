@@ -8,7 +8,6 @@ import {
 } from "api/hooks/learningResources"
 
 import { ListType } from "api/constants"
-import { LearningResourceListItem } from "./ItemsListing"
 import ListDetailsPage from "./ListDetailsPage"
 
 type RouteParams = {
@@ -21,11 +20,7 @@ const UserListDetailsPage: React.FC = () => {
   const itemsQuery = useInfiniteUserListItems({ userlist_id: id })
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages
-    return (
-      pages?.flatMap(
-        (p) => (p.results as unknown as LearningResourceListItem) ?? [],
-      ) ?? []
-    )
+    return pages?.flatMap((p) => p.results ?? []) ?? []
   }, [itemsQuery.data])
 
   return (

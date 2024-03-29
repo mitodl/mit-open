@@ -8,7 +8,6 @@ import {
 } from "api/hooks/learningResources"
 
 import ListDetailsPage from "./ListDetailsPage"
-import { LearningResourceListItem } from "./ItemsListing"
 import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { ListType } from "api/constants"
 
@@ -22,11 +21,7 @@ const LearningPathDetailsPage: React.FC = () => {
   const itemsQuery = useInfiniteLearningPathItems({ learning_resource_id: id })
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages
-    return (
-      pages?.flatMap(
-        (p) => (p.results as unknown as LearningResourceListItem) ?? [],
-      ) ?? []
-    )
+    return pages?.flatMap((p) => p.results ?? []) ?? []
   }, [itemsQuery.data])
 
   return (

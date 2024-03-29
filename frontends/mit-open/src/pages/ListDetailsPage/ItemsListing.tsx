@@ -20,7 +20,7 @@ const EmptyMessage = styled.p({
 type LearningResourceListItem = {
   id: number
   resource: LearningResource
-  position: number
+  position?: number
   parent: number
   child: number
 }
