@@ -578,6 +578,18 @@
     "KEYCLOAK_BASE_URL": {
       "description": "The base URL for a Keycloak configuration.",
       "required": true
+    },
+    "POSTHOG_ENABLED": {
+      "description": "Whether to enable Posthog feature flags",
+      "required": false
+    },
+    "POSTHOG_API_HOST": {
+      "description": "API host for PostHog",
+      "required": false
+    },
+    "POSTHOG_PROJECT_API_KEY": {
+      "description": "Private API key to communicate with PostHog",
+      "required": false
     }
   },
   "keywords": ["Django", "Python", "MIT", "Office of Digital Learning"],
