@@ -3,7 +3,7 @@ import CardTemplate from "../CardTemplate/CardTemplate"
 import { UserList } from "api"
 
 type CardVariant = "column" | "row" | "row-reverse"
-type OnActivateCard<U extends UserList> = (userList: U) => void
+type OnActivateCard = (userList: UserList) => void
 type UserListCardTemplateProps<U extends UserList = UserList> = {
   /**
    * Whether the course picture and info display as a column or row.
@@ -12,7 +12,7 @@ type UserListCardTemplateProps<U extends UserList = UserList> = {
   userList: U
   sortable?: boolean
   className?: string
-  onActivate?: OnActivateCard<U>
+  onActivate?: OnActivateCard
 }
 
 const UserListCardTemplate = <U extends UserList>({
