@@ -18,6 +18,7 @@ import CardRowList from "@/components/CardRowList/CardRowList"
 import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserListCardTemplate"
 import { useNavigate } from "react-router"
 import * as urls from "@/common/urls"
+import { imgConfigs } from "@/common/constants"
 
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
@@ -35,6 +36,7 @@ const ListCard: React.FC<ListCardProps> = ({ list, onActivate }) => {
       variant="row-reverse"
       userList={list}
       className="ic-resource-card"
+      imgConfig={imgConfigs["row-reverse-small"]}
       onActivate={onActivate}
     />
   )
