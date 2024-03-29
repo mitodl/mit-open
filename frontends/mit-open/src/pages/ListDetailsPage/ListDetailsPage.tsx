@@ -6,7 +6,8 @@ import SwapVertIcon from "@mui/icons-material/SwapVert"
 import { useToggle, pluralize, MetaTags } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
-import ItemsListing, { LearningResourceListItem } from "./ItemsListing"
+import ItemsListing from "./ItemsListing"
+import type { LearningResourceListItem } from "./ItemsListing"
 
 type OnEdit = () => void
 type ListDetailsPageProps = {
