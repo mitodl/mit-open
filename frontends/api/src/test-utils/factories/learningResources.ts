@@ -284,6 +284,7 @@ const learningPathRelationship: Factory<LearningPathRelationship> = (
     ...overrides,
   }
 }
+
 const learningPathRelationships = ({
   count,
   parent,

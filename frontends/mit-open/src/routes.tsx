@@ -3,7 +3,6 @@ import { RouteObject, Outlet } from "react-router"
 import HomePage from "@/pages/HomePage/HomePage"
 import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
 import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
-import LearningPathDetailsPage from "@/pages/LearningPathDetailsPage/LearningPathDetailsPage"
 import FieldPage from "@/pages/FieldPage/FieldPage"
 import EditFieldPage from "@/pages/FieldPage/EditFieldPage"
 
@@ -17,6 +16,8 @@ import * as urls from "@/common/urls"
 import Header from "@/page-components/Header/Header"
 import { Permissions } from "@/common/permissions"
 import SearchPage from "./pages/SearchPage/SearchPage"
+import UserListDetailsPage from "./pages/ListDetailsPage/UserListDetailsPage"
+import LearningPathDetailsPage from "./pages/ListDetailsPage/LearningPathDetailsPage"
 
 const routes: RouteObject[] = [
   {
@@ -46,6 +47,14 @@ const routes: RouteObject[] = [
         element: (
           <RestrictedRoute requires={Permissions.Authenticated}>
             <UserListListingPage />
+          </RestrictedRoute>
+        ),
+      },
+      {
+        path: urls.USERLIST_VIEW,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <UserListDetailsPage />
           </RestrictedRoute>
         ),
       },

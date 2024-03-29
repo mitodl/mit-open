@@ -5,7 +5,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
-import { learningpathsApi } from "../../clients"
+import { learningpathsApi, userListsApi } from "../../clients"
 import type {
   LearningResourcesApiLearningResourcesListRequest as LRListRequest,
   TopicsApiTopicsListRequest as TopicsListRequest,
@@ -23,6 +23,7 @@ import type {
   OfferorsApiOfferorsListRequest,
 } from "../../generated/v1"
 import learningResources, { invalidateResourceQueries } from "./keyFactory"
+import { ListType } from "../../common/constants"
 
 const useLearningResourcesList = (
   params: LRListRequest = {},
@@ -215,6 +216,10 @@ const useUserListList = (
   })
 }
 
+const useUserListsDetail = (id: number) => {
+  return useQuery(learningResources.userlists._ctx.detail(id))
+}
+
 const useInfiniteUserListItems = (
   params: ULItemsListRequest,
   options: Pick<UseQueryOptions, "enabled"> = {},
@@ -240,6 +245,51 @@ const useOfferorsList = (
   })
 }
 
+interface ListItemMoveRequest {
+  listType: string
+  parent: number
+  id: number
+  position?: number
+}
+const useListItemMove = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async ({
+      listType,
+      parent,
+      id,
+      position,
+    }: ListItemMoveRequest) => {
+      if (listType === ListType.LearningPath) {
+        await learningpathsApi.learningpathsItemsPartialUpdate({
+          learning_resource_id: parent,
+          id,
+          PatchedLearningPathRelationshipRequest: { position },
+        })
+      } else if (listType === ListType.UserList) {
+        await userListsApi.userlistsItemsPartialUpdate({
+          userlist_id: parent,
+          id,
+          PatchedUserListRelationshipRequest: { position },
+        })
+      }
+    },
+    onSettled: (_data, _err, vars) => {
+      if (vars.listType === ListType.LearningPath) {
+        queryClient.invalidateQueries(
+          learningResources.learningpaths._ctx.detail(vars.parent)._ctx
+            .infiniteItems._def,
+        )
+      } else if (vars.listType === ListType.UserList) {
+        queryClient.invalidateQueries(
+          learningResources.userlists._ctx.detail(vars.parent)._ctx
+            .infiniteItems._def,
+        )
+      }
+    },
+  })
+}
+
 export {
   useLearningResourcesList,
   useLearningResourcesDetail,
@@ -255,6 +305,8 @@ export {
   useLearningpathRelationshipDestroy,
   useLearningResourcesSearch,
   useUserListList,
+  useUserListsDetail,
   useInfiniteUserListItems,
   useOfferorsList,
+  useListItemMove,
 }
