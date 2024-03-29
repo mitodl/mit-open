@@ -7,7 +7,7 @@ import {
   useUserListsDetail,
 } from "api/hooks/learningResources"
 
-import { LIST_TYPE_USER_LIST } from "../../../../api/src/common/constants"
+import { ListType } from "api/constants"
 import { LearningResourceListItem } from "./ItemsListing"
 import ListDetailsPage from "./ListDetailsPage"
 
@@ -30,7 +30,7 @@ const UserListDetailsPage: React.FC = () => {
 
   return (
     <ListDetailsPage
-      listType={LIST_TYPE_USER_LIST}
+      listType={ListType.UserList}
       title={pathQuery?.data?.title}
       description={pathQuery.data?.description}
       items={items}

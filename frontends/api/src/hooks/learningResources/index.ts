@@ -23,10 +23,7 @@ import type {
   OfferorsApiOfferorsListRequest,
 } from "../../generated/v1"
 import learningResources, { invalidateResourceQueries } from "./keyFactory"
-import {
-  LIST_TYPE_LEARNING_PATH,
-  LIST_TYPE_USER_LIST,
-} from "../../common/constants"
+import { ListType } from "../../common/constants"
 
 const useLearningResourcesList = (
   params: LRListRequest = {},
@@ -248,12 +245,6 @@ const useOfferorsList = (
   })
 }
 
-/* The `LIST_TYPE_` constants are used to differentiate between
-  different types of lists in the application. In this specific code
-  snippet, `LIST_TYPE_LEARNING_PATH` and `LIST_TYPE_USER_LIST` are
-  used to specify the type of list being operated on when moving
-  items within a list. This helps in determining whether the item
-  should be moved within a learning path or a user list. */
 interface ListItemMoveRequest {
   listType: string
   parent: number
@@ -269,13 +260,13 @@ const useListItemMove = () => {
       id,
       position,
     }: ListItemMoveRequest) => {
-      if (listType === LIST_TYPE_LEARNING_PATH) {
+      if (listType === ListType.LearningPath) {
         await learningpathsApi.learningpathsItemsPartialUpdate({
           learning_resource_id: parent,
           id,
           PatchedLearningPathRelationshipRequest: { position },
         })
-      } else if (listType === LIST_TYPE_USER_LIST) {
+      } else if (listType === ListType.UserList) {
         await userListsApi.userlistsItemsPartialUpdate({
           userlist_id: parent,
           id,
@@ -284,12 +275,12 @@ const useListItemMove = () => {
       }
     },
     onSettled: (_data, _err, vars) => {
-      if (vars.listType === LIST_TYPE_LEARNING_PATH) {
+      if (vars.listType === ListType.LearningPath) {
         queryClient.invalidateQueries(
           learningResources.learningpaths._ctx.detail(vars.parent)._ctx
             .infiniteItems._def,
         )
-      } else if (vars.listType === LIST_TYPE_USER_LIST) {
+      } else if (vars.listType === ListType.UserList) {
         queryClient.invalidateQueries(
           learningResources.userlists._ctx.detail(vars.parent)._ctx
             .infiniteItems._def,

@@ -18,10 +18,7 @@ import type {
 } from "./ItemsListing"
 import { ControlledPromise } from "ol-test-utilities"
 import invariant from "tiny-invariant"
-import {
-  LIST_TYPE_LEARNING_PATH,
-  LIST_TYPE_USER_LIST,
-} from "../../../../api/src/common/constants"
+import { ListType } from "api/constants"
 
 jest.mock("ol-components", () => {
   const actual = jest.requireActual("ol-components")
@@ -45,12 +42,12 @@ const getPaginatedRelationships = (
   count: number,
   parent: number,
 ) => {
-  if (listType === LIST_TYPE_LEARNING_PATH) {
+  if (listType === ListType.LearningPath) {
     return learningResourcesFactory.learningPathRelationships({
       count,
       parent,
     })
-  } else if (listType === LIST_TYPE_USER_LIST) {
+  } else if (listType === ListType.UserList) {
     return userListsFactory.userListRelationships({
       count,
       parent,
@@ -60,7 +57,7 @@ const getPaginatedRelationships = (
   }
 }
 
-describe.each([LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST])(
+describe.each([ListType.LearningPath, ListType.UserList])(
   "ItemsListing",
   (listType: string) => {
     test("Shows loading message while loading", () => {
@@ -80,15 +77,15 @@ describe.each([LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST])(
     })
 
     test.each([
-      { listType: LIST_TYPE_LEARNING_PATH, count: 0, hasEmptyMessage: true },
+      { listType: ListType.LearningPath, count: 0, hasEmptyMessage: true },
       {
-        listType: LIST_TYPE_LEARNING_PATH,
+        listType: ListType.LearningPath,
         count: faker.datatype.number({ min: 1, max: 5 }),
         hasEmptyMessage: false,
       },
-      { listType: LIST_TYPE_LEARNING_PATH, count: 0, hasEmptyMessage: true },
+      { listType: ListType.LearningPath, count: 0, hasEmptyMessage: true },
       {
-        listType: LIST_TYPE_USER_LIST,
+        listType: ListType.UserList,
         count: faker.datatype.number({ min: 1, max: 5 }),
         hasEmptyMessage: false,
       },
@@ -114,15 +111,15 @@ describe.each([LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST])(
     )
 
     test.each([
-      { listType: LIST_TYPE_LEARNING_PATH, sortable: false, cardProps: {} },
+      { listType: ListType.LearningPath, sortable: false, cardProps: {} },
       {
-        listType: LIST_TYPE_LEARNING_PATH,
+        listType: ListType.LearningPath,
         sortable: true,
         cardProps: { sortable: true },
       },
-      { listType: LIST_TYPE_USER_LIST, sortable: false, cardProps: {} },
+      { listType: ListType.UserList, sortable: false, cardProps: {} },
       {
-        listType: LIST_TYPE_USER_LIST,
+        listType: ListType.UserList,
         sortable: true,
         cardProps: { sortable: true },
       },
@@ -158,7 +155,7 @@ describe.each([LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST])(
   },
 )
 
-describe.each([LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST])(
+describe.each([ListType.LearningPath, ListType.UserList])(
   "Sorting ItemListing",
   (listType: string) => {
     const setup = (props: Partial<ItemsListingProps> = {}) => {
@@ -206,12 +203,12 @@ describe.each([LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST])(
       }
 
       const patchUrl = (listType: string, id: number) => {
-        if (listType === LIST_TYPE_LEARNING_PATH) {
+        if (listType === ListType.LearningPath) {
           return urls.learningPaths.resourceDetails({
             learning_resource_id: parentId,
             id,
           })
-        } else if (listType === LIST_TYPE_USER_LIST) {
+        } else if (listType === ListType.UserList) {
           return urls.userLists.resourceDetails({
             userlist_id: parentId,
             id,

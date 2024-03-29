@@ -10,7 +10,7 @@ import {
 import ListDetailsPage from "./ListDetailsPage"
 import { LearningResourceListItem } from "./ItemsListing"
 import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-import { LIST_TYPE_LEARNING_PATH } from "../../../../api/src/common/constants"
+import { ListType } from "api/constants"
 
 type RouteParams = {
   id: string
@@ -31,7 +31,7 @@ const LearningPathDetailsPage: React.FC = () => {
 
   return (
     <ListDetailsPage
-      listType={LIST_TYPE_LEARNING_PATH}
+      listType={ListType.LearningPath}
       title={pathQuery?.data?.title}
       description={pathQuery.data?.description}
       items={items}

@@ -1,4 +1,5 @@
-const LIST_TYPE_LEARNING_PATH = "LearningPath"
-const LIST_TYPE_USER_LIST = "UserList"
-
-export { LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST }
+export const ListType = {
+  LearningPath: "LearningPath",
+  UserList: "UserList",
+} as const
+export type ListType = (typeof ListType)[keyof typeof ListType]
