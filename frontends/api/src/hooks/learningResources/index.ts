@@ -23,6 +23,10 @@ import type {
   OfferorsApiOfferorsListRequest,
 } from "../../generated/v1"
 import learningResources, { invalidateResourceQueries } from "./keyFactory"
+import {
+  LIST_TYPE_LEARNING_PATH,
+  LIST_TYPE_USER_LIST,
+} from "../../common/constants"
 
 const useLearningResourcesList = (
   params: LRListRequest = {},
@@ -256,21 +260,18 @@ interface ListItemMoveRequest {
   id: number
   position?: number
 }
-const useListItemMove = (
-  learningPathListType: string,
-  userListListType: string,
-) => {
+const useListItemMove = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ listType, parent, id, position }: ListItemMoveRequest) =>
       new Promise<void>((resolve) => {
-        if (listType === learningPathListType) {
+        if (listType === LIST_TYPE_LEARNING_PATH) {
           learningpathsApi.learningpathsItemsPartialUpdate({
             learning_resource_id: parent,
             id,
             PatchedLearningPathRelationshipRequest: { position },
           })
-        } else if (listType === userListListType) {
+        } else if (listType === LIST_TYPE_USER_LIST) {
           userListsApi.userlistsItemsPartialUpdate({
             userlist_id: parent,
             id,
@@ -280,12 +281,12 @@ const useListItemMove = (
         resolve()
       }),
     onSettled: (_data, _err, vars) => {
-      if (vars.listType === learningPathListType) {
+      if (vars.listType === LIST_TYPE_LEARNING_PATH) {
         queryClient.invalidateQueries(
           learningResources.learningpaths._ctx.detail(vars.parent)._ctx
             .infiniteItems._def,
         )
-      } else if (vars.listType === userListListType) {
+      } else if (vars.listType === LIST_TYPE_USER_LIST) {
         queryClient.invalidateQueries(
           learningResources.userlists._ctx.detail(vars.parent)._ctx
             .infiniteItems._def,

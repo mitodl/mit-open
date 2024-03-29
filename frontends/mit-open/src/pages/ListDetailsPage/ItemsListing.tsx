@@ -12,10 +12,6 @@ import {
 } from "ol-components"
 import { useListItemMove } from "api/hooks/learningResources"
 import CardRowList from "@/components/CardRowList/CardRowList"
-import {
-  LIST_TYPE_LEARNING_PATH,
-  LIST_TYPE_USER_LIST,
-} from "@/common/constants"
 
 const EmptyMessage = styled.p({
   fontStyle: "italic",
@@ -62,7 +58,7 @@ const ItemsListingSortable: React.FC<{
   items: NonNullable<ItemsListingProps["items"]>
   isRefetching?: boolean
 }> = ({ listType, items, isRefetching }) => {
-  const move = useListItemMove(LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST)
+  const move = useListItemMove()
   const [sorted, setSorted] = React.useState<LearningResourceListItem[]>([])
   /**
    * `sorted` is a local copy of `items`:

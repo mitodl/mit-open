@@ -23,7 +23,4 @@ const imgConfigs = {
   },
 } satisfies Record<string, EmbedlyConfig>
 
-const LIST_TYPE_LEARNING_PATH = "LearningPath"
-const LIST_TYPE_USER_LIST = "UserList"
-
-export { imgConfigs, LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST }
+export { imgConfigs }

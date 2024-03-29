@@ -18,10 +18,7 @@ import type {
 } from "./ItemsListing"
 import { ControlledPromise } from "ol-test-utilities"
 import invariant from "tiny-invariant"
-import {
-  LIST_TYPE_LEARNING_PATH,
-  LIST_TYPE_USER_LIST,
-} from "@/common/constants"
+import { LIST_TYPE_LEARNING_PATH, LIST_TYPE_USER_LIST } from "api/constants/"
 
 jest.mock("ol-components", () => {
   const actual = jest.requireActual("ol-components")
