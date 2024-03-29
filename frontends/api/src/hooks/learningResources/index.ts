@@ -263,23 +263,26 @@ interface ListItemMoveRequest {
 const useListItemMove = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ listType, parent, id, position }: ListItemMoveRequest) =>
-      new Promise<void>((resolve) => {
-        if (listType === LIST_TYPE_LEARNING_PATH) {
-          learningpathsApi.learningpathsItemsPartialUpdate({
-            learning_resource_id: parent,
-            id,
-            PatchedLearningPathRelationshipRequest: { position },
-          })
-        } else if (listType === LIST_TYPE_USER_LIST) {
-          userListsApi.userlistsItemsPartialUpdate({
-            userlist_id: parent,
-            id,
-            PatchedUserListRelationshipRequest: { position },
-          })
-        }
-        resolve()
-      }),
+    mutationFn: async ({
+      listType,
+      parent,
+      id,
+      position,
+    }: ListItemMoveRequest) => {
+      if (listType === LIST_TYPE_LEARNING_PATH) {
+        await learningpathsApi.learningpathsItemsPartialUpdate({
+          learning_resource_id: parent,
+          id,
+          PatchedLearningPathRelationshipRequest: { position },
+        })
+      } else if (listType === LIST_TYPE_USER_LIST) {
+        await userListsApi.userlistsItemsPartialUpdate({
+          userlist_id: parent,
+          id,
+          PatchedUserListRelationshipRequest: { position },
+        })
+      }
+    },
     onSettled: (_data, _err, vars) => {
       if (vars.listType === LIST_TYPE_LEARNING_PATH) {
         queryClient.invalidateQueries(
