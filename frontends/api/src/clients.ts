@@ -1,6 +1,4 @@
-import {
-  UsersApi
-, FieldsApi, WidgetListsApi } from "./generated/v0/api"
+import { UsersApi, FieldsApi, WidgetListsApi } from "./generated/v0/api"
 
 import {
   LearningResourcesApi,
@@ -12,7 +10,6 @@ import {
   ProgramLettersApi,
   LearningResourcesSearchApi,
 } from "./generated/v1/api"
-
 
 import axiosInstance from "./axios"
 
@@ -66,5 +63,5 @@ export {
   learningResourcesSearchApi,
   fieldsApi,
   widgetListsApi,
-  usersApi
+  usersApi,
 }

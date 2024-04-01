@@ -1,56 +1,93 @@
 import React from "react"
 import {
   renderRoutesWithProviders,
-  renderWithProviders,
   screen,
+  setMockResponse,
+  waitFor,
 } from "../../test-utils"
 import RestrictedRoute from "./RestrictedRoute"
 import { ForbiddenError, Permissions } from "@/common/permissions"
 import { allowConsoleErrors } from "ol-test-utilities"
+import { useRouteError } from "react-router"
+
+const ErrorRecord: React.FC<{ errors: unknown[] }> = ({ errors }) => {
+  const error = useRouteError()
+  if (error) {
+    errors.push(error)
+  }
+  return null
+}
 
 test("Renders children if permission check satisfied", () => {
-  renderWithProviders(
-    <RestrictedRoute requires={Permissions.Authenticated}>
-      Hello, world!
-    </RestrictedRoute>,
-    { user: { is_authenticated: true } },
-  )
+  const errors: unknown[] = []
+
+  setMockResponse.get("/api/v0/users/me/", {
+    [Permissions.Authenticated]: true,
+  })
+
+  renderRoutesWithProviders([
+    {
+      path: "*",
+      element: (
+        <RestrictedRoute requires={Permissions.Authenticated}>
+          Hello, world!
+        </RestrictedRoute>
+      ),
+      errorElement: <ErrorRecord errors={errors} />,
+    },
+  ])
+
   screen.getByText("Hello, world!")
+  expect(!errors.length).toBe(true)
 })
 
 test("Renders child routes if permission check satisfied.", () => {
-  renderRoutesWithProviders(
-    [
-      {
-        element: <RestrictedRoute requires={Permissions.Authenticated} />,
-        children: [
-          {
-            element: "Hello, world!",
-            path: "*",
-          },
-        ],
-      },
-    ],
-    { user: { is_authenticated: true } },
-  )
+  const errors: unknown[] = []
+
+  setMockResponse.get("/api/v0/users/me/", {
+    [Permissions.Authenticated]: true,
+  })
+
+  renderRoutesWithProviders([
+    {
+      element: <RestrictedRoute requires={Permissions.Authenticated} />,
+      children: [
+        {
+          element: "Hello, world!",
+          path: "*",
+        },
+      ],
+      errorElement: <ErrorRecord errors={errors} />,
+    },
+  ])
+
   screen.getByText("Hello, world!")
+  expect(!errors.length).toBe(true)
 })
 
 test.each(Object.values(Permissions))(
   "Throws error if and only if lacking required permission",
-  (permission) => {
-    allowConsoleErrors()
-    expect(() => {
-      renderWithProviders(
-        <RestrictedRoute requires={permission}>Hello, world!</RestrictedRoute>,
-      )
-    }).toThrow(ForbiddenError)
+  async (permission) => {
+    const errors: unknown[] = []
 
-    expect(() => {
-      renderWithProviders(
-        <RestrictedRoute requires={permission}>Hello, world!</RestrictedRoute>,
-        { user: { [permission]: true } },
-      )
-    }).not.toThrow()
+    setMockResponse.get("/api/v0/users/me/", { [permission]: false })
+
+    allowConsoleErrors()
+
+    renderRoutesWithProviders([
+      {
+        path: "*",
+        element: (
+          <RestrictedRoute requires={permission}>Hello, world!</RestrictedRoute>
+        ),
+        errorElement: <ErrorRecord errors={errors} />,
+      },
+    ])
+
+    await waitFor(() => {
+      expect(errors.length > 0).toBe(true)
+    })
+
+    expect(errors[0]).toBeInstanceOf(ForbiddenError)
   },
 )

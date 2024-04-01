@@ -83,11 +83,12 @@ const UserMenu: React.FC = () => {
     },
   ]
 
-
   return (
     <SimpleMenu
       onVisibilityChange={setVisible}
-      items={items.filter(({ allow }) => allow).map(({ allow, ...item }) => item)}
+      items={items
+        .filter(({ allow }) => allow)
+        .map(({ allow, ...item }) => item)}
       trigger={
         <StyledBadge
           overlap="circular"

@@ -8,7 +8,6 @@ import { render } from "@testing-library/react"
 import { setMockResponse } from "./mockAxios"
 import { createQueryClient } from "@/services/react-query/react-query"
 import type { User } from "../types/settings"
-import { makeUserSettings } from "./factories"
 
 interface TestAppOptions {
   url: string
@@ -40,9 +39,6 @@ const renderRoutesWithProviders = (
   options: Partial<TestAppOptions> = {},
 ) => {
   const { url } = { ...defaultTestAppOptions, ...options }
-
-  // window.SETTINGS is reset during tests via afterEach hook.
-  window.SETTINGS.user = makeUserSettings(options.user)
 
   const router = createMemoryRouter(routes, { initialEntries: [url] })
   const queryClient = createQueryClient()
@@ -144,6 +140,7 @@ export {
   within,
   fireEvent,
   waitFor,
+  renderHook,
 } from "@testing-library/react"
 export { default as user } from "@testing-library/user-event"
 

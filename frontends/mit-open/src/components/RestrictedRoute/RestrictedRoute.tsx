@@ -1,9 +1,6 @@
 import React from "react"
 import { Outlet } from "react-router"
-import {
-  ForbiddenError,
-  Permissions,
-} from "@/common/permissions"
+import { ForbiddenError, Permissions } from "@/common/permissions"
 import { useUserMe } from "api/hooks/user"
 
 type RestrictedRouteProps = {

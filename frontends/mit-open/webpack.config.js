@@ -164,7 +164,14 @@ module.exports = (env, argv) => {
       },
       proxy: [
         {
-          context: ["/api", "/login", "/logout", "/admin", "/static/admin", "/static/hijack"],
+          context: [
+            "/api",
+            "/login",
+            "/logout",
+            "/admin",
+            "/static/admin",
+            "/static/hijack",
+          ],
           target: API_BASE_URL,
           changeOrigin: true,
           secure: false,
