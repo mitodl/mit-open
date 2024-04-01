@@ -24,7 +24,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="programcertificate",
             name="record_hash",
-            field=models.UUIDField(default=uuid.uuid4, unique=True),
+            field=models.CharField(
+                max_length=256, unique=True, blank=False, null=False
+            ),
         ),
         migrations.AlterModelOptions(
             name="programcertificate",

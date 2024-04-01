@@ -140,9 +140,12 @@ class UserWebsite(models.Model):
 class ProgramCertificate(models.Model):
     """An external model that syncs with data from our data platform"""
 
-    record_hash = models.UUIDField(
+    # an external hash that hightouch uses for the sync
+    record_hash = models.CharField(
         unique=True,
-        default=uuid4,
+        max_length=256,
+        blank=False,
+        null=False,
         editable=False,
     )
 
