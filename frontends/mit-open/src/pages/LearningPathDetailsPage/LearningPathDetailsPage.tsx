@@ -1,9 +1,9 @@
 import React, { useMemo } from "react"
+import { useParams } from "react-router"
 import { Container, Grid, Button, BannerPage } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
 import SwapVertIcon from "@mui/icons-material/SwapVert"
-
-import { useParams } from "react-router"
+import { useUserMe } from "api/hooks/user"
 
 import {
   useInfiniteLearningPathItems,
@@ -25,13 +25,14 @@ const LearningPathDetailsPage: React.FC = () => {
   const pathQuery = useLearningPathsDetail(id)
   const itemsQuery = useInfiniteLearningPathItems({ learning_resource_id: id })
   const [isSorting, toggleIsSorting] = useToggle(false)
+  const { data: user } = useUserMe()
 
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages
     return pages?.flatMap((p) => p.results ?? []) ?? []
   }, [itemsQuery.data])
 
-  const canEdit = window.SETTINGS.user.is_learning_path_editor
+  const canEdit = user?.is_learning_path_editor
   const showSort = canEdit && !!items.length
   const description = pathQuery.data?.description
   const count = pathQuery?.data?.learning_path?.item_count

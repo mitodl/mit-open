@@ -61,7 +61,7 @@ services:
       - web
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
-      - ./:/src
+      - ./frontends/mit-open/build:/src/frontends/mit-open/build
 
   web:
     build:

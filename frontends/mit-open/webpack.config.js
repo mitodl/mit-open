@@ -159,9 +159,12 @@ module.exports = (env, argv) => {
         directory: path.join(__dirname, "public"),
         publicPath: "/static",
       },
+      devMiddleware: {
+        index: false,
+      },
       proxy: [
         {
-          context: ["/api", "/login", "/admin", "/static/admin"],
+          context: ["/api", "/login", "/logout", "/admin", "/static/admin", "/static/hijack"],
           target: API_BASE_URL,
           changeOrigin: true,
           secure: false,

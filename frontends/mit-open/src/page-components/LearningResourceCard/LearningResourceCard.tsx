@@ -8,6 +8,7 @@ import { IconButton } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import AddToListDialog from "./AddToListDialog"
 import { LearningResource } from "api"
+import { useUserMe } from "api/hooks/user"
 
 type LearningResourceCardProps = Pick<
   LearningResourceCardTemplateProps<LearningResource>,
@@ -36,7 +37,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return
   }, [resource])
 
-  const { user } = window.SETTINGS
+  const { data: user } = useUserMe()
 
   return (
     <LearningResourceCardTemplate
@@ -49,7 +50,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       onActivate={console.log}
       footerActionSlot={
         <div>
-          {user.is_learning_path_editor && (
+          {user?.is_learning_path_editor && (
             <IconButton
               size="small"
               aria-label="Add to Learning Path"

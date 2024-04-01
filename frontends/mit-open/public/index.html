@@ -1,11 +1,6 @@
 <!doctype html>
-<!-- {% load render_bundle from webpack_loader %}
-{% load noindex_meta %}
--->
 <html lang="en">
   <head>
-    <!-- {% spaceless %}
-    -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -17,38 +12,8 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
-    <!-- {% endspaceless %}
-    {{ js_settings|json_script:'js-settings' }}
-    {% noindex_meta %}
-    -->
-    <!-- <script type="text/javascript">
-      var SETTINGS = JSON.parse(
-        document.getElementById('js-settings').textContent,
-      )
-    </script> -->
-    <script>
-      window.SETTINGS = {
-        embedlyKey: '###',
-        ocw_next_base_url: 'https://live-qa.ocw.mit.edu/',
-        search_page_size: 6,
-        user: {
-          id: null,
-          first_name: null,
-          last_name: null,
-          is_authenticated: false,
-          is_learning_path_editor: false,
-          is_article_editor: false,
-        },
-        ckeditor_upload_url: 'https://35904.cke-cs.com/easyimage/upload/',
-        environment: 'rc',
-        sentry_dsn: '',
-        release_version: '0.3.2',
-      }
-    </script>
   </head>
   <body>
     <div id="app-container"></div>
-    <!-- {% render_bundle 'root' %}
-    -->
   </body>
 </html>
