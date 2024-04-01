@@ -77,8 +77,8 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const Image = styled.img<{ aspectRation: number }>`
-  aspect-ratio: ${({ aspectRation }) => aspectRation};
+const Image = styled.img<{ aspectRatio: number }>`
+  aspect-ratio: ${({ aspectRatio }) => aspectRatio};
 `
 
 const DisplayTemplate: React.FC<
@@ -91,7 +91,7 @@ const DisplayTemplate: React.FC<
     (resource?.image ? (
       <Image
         src={resourceThumbnailSrc(resource.image, imgConfig)}
-        aspectRation={imgConfig.width / imgConfig.height}
+        aspectRatio={imgConfig.width / imgConfig.height}
       />
     ) : (
       <Skeleton
@@ -142,7 +142,11 @@ const VideoDisplay: React.FC<ResourceDisplayProps<VideoResource>> = ({
       imgConfig={imgConfig}
       media={
         resource?.url ? (
-          <EmbedlyCard url={resource.url} embedlyKey={imgConfig.key} />
+          <EmbedlyCard
+            aspectRatio={imgConfig.width / imgConfig.height}
+            url={resource.url}
+            embedlyKey={imgConfig.key}
+          />
         ) : undefined
       }
     />

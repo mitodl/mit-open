@@ -27,8 +27,9 @@ const meta: Meta<typeof ExpandedLearningResourceDisplay> = {
   },
   argTypes: {
     resource: {
-      options: Object.values(LRT),
+      options: ["Loading", ...Object.values(LRT)],
       mapping: {
+        Loading: undefined,
         [LRT.Course]: makeResource({ resource_type: LRT.Course }),
         [LRT.Program]: makeResource({ resource_type: LRT.Program }),
         [LRT.Video]: makeResource({

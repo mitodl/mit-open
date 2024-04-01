@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
+import styled from "@emotion/styled"
 import isURL from "validator/lib/isURL"
 import {
   createStylesheet,
@@ -12,6 +13,7 @@ type EmbedlyCardProps = {
   url: string
   className?: string
   embedlyKey?: string
+  aspectRatio?: number
 }
 
 /**
@@ -35,6 +37,10 @@ const insertCardStylesheet = (e: Event) => {
   createStylesheet(e.target.contentDocument, stylesheet)
 }
 
+const Container = styled.div<{ aspectRatio: number }>`
+  ${({ aspectRatio }) => (aspectRatio ? `aspect-ratio: ${aspectRatio};` : "")}
+`
+
 /**
  * Renders the given URL as an [embedly card](https://embed.ly/cards).
  *
@@ -46,6 +52,7 @@ const EmbedlyCard: React.FC<EmbedlyCardProps> = ({
   className,
   url,
   embedlyKey,
+  aspectRatio,
 }) => {
   const [container, setContainer] = useState<HTMLElement | null>(null)
 
@@ -84,7 +91,13 @@ const EmbedlyCard: React.FC<EmbedlyCardProps> = ({
     container.appendChild(a)
   }, [embedlyKey, container, url])
 
-  return <div className={className} ref={renderCard} />
+  return (
+    <Container
+      aspectRatio={aspectRatio}
+      className={className}
+      ref={renderCard}
+    />
+  )
 }
 
 export type { EmbedlyCardProps }
