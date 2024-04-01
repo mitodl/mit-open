@@ -8,6 +8,7 @@ import { IconButton } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import AddToListDialog from "./AddToListDialog"
 import { LearningResource } from "api"
+import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
 type LearningResourceCardProps = Pick<
   LearningResourceCardTemplateProps<LearningResource>,
@@ -37,6 +38,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   }, [resource])
 
   const { user } = window.SETTINGS
+  const openLRDrawer = useOpenLearningResourceDrawer()
 
   return (
     <LearningResourceCardTemplate
@@ -46,7 +48,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       className={className}
       resource={resource}
       imgConfig={imgConfigs[variant]}
-      onActivate={console.log}
+      onActivate={(r) => openLRDrawer(r.id)}
       footerActionSlot={
         <div>
           {user.is_learning_path_editor && (

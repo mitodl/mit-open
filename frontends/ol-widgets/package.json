@@ -13,7 +13,7 @@
     "ol-utilities": "workspace:*",
     "react-markdown": "6.0.3",
     "remark-gfm": "1.0.0",
-    "validator": "^13.7.0",
+    "validator": "^13.11.0",
     "yup": "^1.2.0"
   },
   "devDependencies": {

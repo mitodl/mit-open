@@ -6,7 +6,7 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import {
   DEFAULT_RESOURCE_IMG,
   EmbedlyConfig,
-  embedlyThumbnail,
+  embedlyCroppedImage,
 } from "ol-utilities"
 
 type CardVariant = "column" | "row" | "row-reverse"
@@ -167,7 +167,7 @@ const CardImage: React.FC<ImageProps> = ({
       component="img"
       variant={variant}
       sx={dims}
-      src={embedlyThumbnail(imgUrl ?? DEFAULT_RESOURCE_IMG, imgConfig)}
+      src={embedlyCroppedImage(imgUrl ?? DEFAULT_RESOURCE_IMG, imgConfig)}
       alt=""
     />
   )

@@ -11,19 +11,21 @@ const readableResourceTypes: Record<ResourceTypeEnum, string> = {
   [ResourceTypeEnum.Video]: "Video",
   [ResourceTypeEnum.VideoPlaylist]: "Video Playlist",
 }
-const getReadableResourceType = (
-  resource: Pick<LearningResource, "resource_type">,
-): string => readableResourceTypes[resource.resource_type]
+const getReadableResourceType = (resourceType: ResourceTypeEnum): string =>
+  readableResourceTypes[resourceType]
 
-const BLANK_THUMBNAIL = new URL(
+const BLANK_IMAGE = new URL(
   "/static/images/blank.png",
   window.location.origin,
 ).toString()
 
-const embedlyThumbnail = (url: string, { key, width, height }: EmbedlyConfig) =>
+const embedlyCroppedImage = (
+  url: string,
+  { key, width, height }: EmbedlyConfig,
+) =>
   `https://i.embed.ly/1/display/crop/?key=${key}&url=${encodeURIComponent(
     url,
-  )}&height=${height}&width=${width}&grow=true&animate=false&errorurl=${BLANK_THUMBNAIL}`
+  )}&height=${height}&width=${width}&grow=true&animate=false&errorurl=${BLANK_IMAGE}`
 
 const DEFAULT_RESOURCE_IMG = new URL(
   "/static/images/default_resource_thumb.jpg",
@@ -39,7 +41,7 @@ type EmbedlyConfig = {
 const resourceThumbnailSrc = (
   image: LearningResource["image"],
   config: EmbedlyConfig,
-) => embedlyThumbnail(image?.url ?? DEFAULT_RESOURCE_IMG, config)
+) => embedlyCroppedImage(image?.url ?? DEFAULT_RESOURCE_IMG, config)
 
 const DATE_FORMAT = "YYYY-MM-DD[T]HH:mm:ss[Z]"
 /**
@@ -96,7 +98,7 @@ const findBestRun = (
 
 export {
   DEFAULT_RESOURCE_IMG,
-  embedlyThumbnail,
+  embedlyCroppedImage,
   resourceThumbnailSrc,
   getReadableResourceType,
   findBestRun,

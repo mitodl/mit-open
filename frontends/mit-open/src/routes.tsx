@@ -18,6 +18,7 @@ import { Permissions } from "@/common/permissions"
 import SearchPage from "./pages/SearchPage/SearchPage"
 import UserListDetailsPage from "./pages/ListDetailsPage/UserListDetailsPage"
 import LearningPathDetailsPage from "./pages/ListDetailsPage/LearningPathDetailsPage"
+import LearningResourceDrawer from "./page-components/LearningResourceDrawer/LearningResourceDrawer"
 
 const routes: RouteObject[] = [
   {
@@ -25,6 +26,7 @@ const routes: RouteObject[] = [
       <>
         <Header />
         <Outlet />
+        <LearningResourceDrawer />
       </>
     ),
     errorElement: <ErrorPage />,

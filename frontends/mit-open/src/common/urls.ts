@@ -61,3 +61,5 @@ export const login = ({
 export const DASHBOARD = "/dashboard/"
 
 export const SEARCH = "/search/"
+
+export const RESOURCE_DRAWER_QUERY_PARAM = "resource"

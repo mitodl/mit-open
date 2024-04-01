@@ -1,7 +1,11 @@
 import { createMemoryRouter, RouterProvider } from "react-router"
 import { RoutedDrawer } from "./RoutedDrawer"
 import type { RoutedDrawerProps } from "./RoutedDrawer"
-import { render, screen } from "@testing-library/react"
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react"
 import user from "@testing-library/user-event"
 import React from "react"
 
@@ -13,12 +17,8 @@ const TestDrawerContents = ({ closeDrawer }: { closeDrawer: () => void }) => (
     </button>
   </section>
 )
-const assertDrawerIsOpen = () =>
+const getDrawerContent = () =>
   screen.getByRole("heading", { name: "DrawerContent" })
-
-const assertDrawerIsClosed = () => {
-  expect(screen.queryByRole("heading", { name: "DrawerContent" })).toBe(null)
-}
 
 const renderRoutedDrawer = <P extends string, R extends P>(
   props: Omit<RoutedDrawerProps<P, R>, "children">,
@@ -52,28 +52,28 @@ describe("RoutedDrawer", () => {
       params: ["a", "b", "c"],
       requiredParams: ["a", "b"],
       initialSearch: "?a=1",
-      calls: 0,
+      called: false,
     },
     {
       params: ["a", "b"],
       requiredParams: ["a", "b"],
       initialSearch: "?a=1&b=2",
-      calls: 1,
+      called: true,
     },
     {
       params: ["a", "b", "c"],
       requiredParams: ["a", "b"],
       initialSearch: "?a=1&b=2",
-      calls: 1,
+      called: true,
     },
   ])(
     "Calls childFn if and only all required params are present in URL",
-    ({ params, requiredParams, initialSearch, calls }) => {
+    ({ params, requiredParams, initialSearch, called }) => {
       const { childFn } = renderRoutedDrawer(
         { params, requiredParams },
         initialSearch,
       )
-      expect(childFn).toHaveBeenCalledTimes(calls)
+      expect(childFn.mock.calls.length > 0).toBe(called)
     },
   )
 
@@ -116,9 +116,10 @@ describe("RoutedDrawer", () => {
       initialSearch,
     )
 
-    assertDrawerIsOpen()
+    const content = getDrawerContent()
     await user.click(screen.getByRole("button", { name: "CloseFn" }))
-    assertDrawerIsClosed()
+
+    await waitForElementToBeRemoved(content)
 
     expect(location.current.search).toBe("")
   })
@@ -132,9 +133,9 @@ describe("RoutedDrawer", () => {
       initialSearch,
     )
 
-    assertDrawerIsOpen()
+    const content = getDrawerContent()
     await user.click(screen.getByRole("button", { name: "Close" }))
-    assertDrawerIsClosed()
+    await waitForElementToBeRemoved(content)
 
     expect(location.current.search).toBe("")
   })

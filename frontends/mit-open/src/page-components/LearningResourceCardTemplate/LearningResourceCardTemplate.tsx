@@ -1,5 +1,6 @@
 import React, { useCallback } from "react"
-import { ResourceTypeEnum, type LearningResource } from "api"
+import { ResourceTypeEnum } from "api"
+import type { LearningResource } from "api"
 import { Chip, styled } from "ol-components"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 import {
@@ -125,7 +126,7 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
   const imgUrl = resource.image?.url ?? DEFAULT_RESOURCE_IMG
   const extraDetails = (
     <TypeRow>
-      <span>{getReadableResourceType(resource)}</span>
+      <span>{getReadableResourceType(resource.resource_type)}</span>
       {resource.certification && (
         <CertificateIcon
           alt="Receive a certificate upon completion"

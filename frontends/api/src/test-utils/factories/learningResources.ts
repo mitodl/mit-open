@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker/locale/en"
-import { mergeWith } from "lodash"
+import { mergeWith, startCase } from "lodash"
 import type { Factory, PartialFactory } from "ol-test-utilities"
 import { makePaginatedFactory } from "ol-test-utilities"
 import type {
@@ -168,10 +168,11 @@ const _learningResourceShared = (): Partial<
     course_feature: repeat(faker.lorem.word),
     runs: [],
     published: faker.datatype.boolean(),
-    title: faker.lorem.words(),
+    title: startCase(faker.lorem.words()),
     topics: repeat(learningResourceTopic),
     learning_path_parents: [],
     user_list_parents: [],
+    url: faker.internet.url(),
   }
 }
 
