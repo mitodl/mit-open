@@ -2,9 +2,6 @@
 main views
 """
 
-import logging
-
-from django.conf import settings
 from django.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
@@ -18,16 +15,11 @@ from learning_resources.permissions import is_learning_path_editor
 from main.features import get_all_feature_flags, is_enabled
 from main.permissions import is_admin_user
 
-log = logging.getLogger(__name__)
-
 
 def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
     """Render the example app"""
 
     user = request.user
-    all_flags = get_all_feature_flags(user.username if user.is_authenticated else None)
-
-    # Should we limit these to just relevant front-end flags?
 
     js_settings = {
         "user": {
@@ -38,12 +30,6 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
             "is_learning_path_editor": user.is_authenticated
             and (is_admin_user(request) or is_learning_path_editor(request)),
             "is_article_editor": is_admin_user(request),
-        },
-        "posthog": {
-            "api_key": settings.POSTHOG_PROJECT_API_KEY,
-            "enabled": settings.POSTHOG_ENABLED,
-            "timeout": settings.POSTHOG_TIMEOUT_MS,
-            "bootstrap_flags": all_flags,
         },
     }
 

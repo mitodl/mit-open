@@ -3,10 +3,6 @@
 import hashlib
 import json
 import logging
-
-import hashlib
-import json
-import logging
 from enum import StrEnum
 from functools import wraps
 from typing import Optional
@@ -20,14 +16,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from authentication.backends.ol_open_id_connect import OlOpenIdConnectAuth
 
 log = logging.getLogger()
-User = get_user_model()
-durable_cache = caches["durable"]
-
-from authentication.backends.ol_open_id_connect import OlOpenIdConnectAuth
-
-log = logging.getLogger()
-
-
 User = get_user_model()
 durable_cache = caches["durable"]
 
@@ -132,13 +120,6 @@ def get_all_feature_flags(opt_unique_id: Optional[str] = None):
 
     return flag_data
 
-    [
-        durable_cache.set(generate_cache_key(k, unique_id, person_properties), v)
-        for k, v in flag_data.items()
-    ]
-
-    return flag_data
-
 
 def is_enabled(
     name: str,
@@ -159,7 +140,7 @@ def is_enabled(
             efforts.
 
     Returns:
-        bool: True if the feature flag is enablede
+        bool: True if the feature flag is enabled
     """
     unique_id = opt_unique_id or default_unique_id()
     person_properties = _get_person_properties(unique_id)
