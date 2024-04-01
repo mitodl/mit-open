@@ -17,10 +17,10 @@ describe("PostHogProvider", () => {
 
     renderWithProviders(<div data-testid="some-children" />)
 
-    const phProvider = screen.getAllByTestId("phProvider")
+        const phProvider = screen.getAllByTestId("phProvider")
 
-    expect(phProvider.length).toBe(1)
-  })
+        expect(phProvider.length).toBe(1)
+    })
 
   it("Renders without PostHog support if disabled", async () => {
     APP_SETTINGS.posthog = {
@@ -30,8 +30,8 @@ describe("PostHogProvider", () => {
 
     renderWithProviders(<div data-testid="some-children" />)
 
-    const phProvider = screen.queryAllByTestId("phProvider")
+        const phProvider = screen.queryAllByTestId("phProvider")
 
-    expect(phProvider.length).toBe(0)
-  })
+        expect(phProvider.length).toBe(0)
+    })
 })
