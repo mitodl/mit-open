@@ -4,8 +4,9 @@ import type { RoutedDrawerProps } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
 import { imgConfigs } from "@/common/constants"
 import { useSearchParams } from "react-router-dom"
+import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 
-const RESOURCE_DRAWER_PARAMS = ["resource"] as const
+const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
 const DrawerContent: React.FC<{
   resourceId: number
@@ -44,7 +45,7 @@ const useOpenLearningResourceDrawer = () => {
     (resourceId: number) => {
       setSearchParams((current) => {
         const copy = new URLSearchParams(current)
-        copy.set("resource", resourceId.toString())
+        copy.set(RESOURCE_DRAWER_QUERY_PARAM, resourceId.toString())
         return copy
       })
     },

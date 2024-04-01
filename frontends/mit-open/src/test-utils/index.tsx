@@ -83,7 +83,7 @@ const renderWithProviders = (
  */
 const expectProps = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fc: jest.Mock<any, any>,
+  fc: (...args: any[]) => void,
   partialProps: unknown,
 ) => {
   expect(fc).toHaveBeenCalledWith(

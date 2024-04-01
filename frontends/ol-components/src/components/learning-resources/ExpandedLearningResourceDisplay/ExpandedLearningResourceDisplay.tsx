@@ -92,6 +92,7 @@ const DisplayTemplate: React.FC<
       <Image
         src={resourceThumbnailSrc(resource.image, imgConfig)}
         aspectRatio={imgConfig.width / imgConfig.height}
+        alt={resource.image.alt ?? ""}
       />
     ) : (
       <Skeleton

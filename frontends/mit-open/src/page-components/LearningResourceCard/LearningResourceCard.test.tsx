@@ -6,6 +6,7 @@ import LearningResourceCard from "./LearningResourceCard"
 import type { LearningResourceCardProps } from "./LearningResourceCard"
 import AddToListDialog from "./AddToListDialog"
 import * as factories from "api/test-utils/factories"
+import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 
 jest.mock("@ebay/nice-modal-react", () => {
   const actual = jest.requireActual("@ebay/nice-modal-react")
@@ -24,11 +25,11 @@ describe("LearningResourceCard", () => {
   }
   const setup = ({ userSettings: user, props = {} }: SetupOptions = {}) => {
     const { resource = makeResource(), variant = "column" } = props
-    const { view } = renderWithProviders(
+    const { view, location } = renderWithProviders(
       <LearningResourceCard {...props} resource={resource} variant={variant} />,
       { user },
     )
-    return { resource, view }
+    return { resource, view, location }
   }
 
   const labels = {
@@ -75,5 +76,16 @@ describe("LearningResourceCard", () => {
     expect(showModal).toHaveBeenCalledWith(AddToListDialog, {
       resourceId: resource.id,
     })
+  })
+
+  test("Clicking card title opens resource drawer", async () => {
+    const { resource, location } = setup()
+    const cardTitle = screen.getByRole("heading", { name: resource.title })
+    await user.click(cardTitle)
+    expect(
+      new URLSearchParams(location.current.search).get(
+        RESOURCE_DRAWER_QUERY_PARAM,
+      ),
+    ).toBe(String(resource.id))
   })
 })
