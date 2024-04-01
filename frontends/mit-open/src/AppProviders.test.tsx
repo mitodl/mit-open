@@ -36,7 +36,7 @@ describe("PostHogProvider", () => {
       ...window.SETTINGS,
       posthog: {
         api_key: "", // pragma: allowlist secret
-        enabled: true,
+        enabled: false,
       },
     }
 
