@@ -8,7 +8,8 @@
       "enabled": false
     },
     {
-      "matchSourceUrls": ["https://github.com/ckeditor/ckeditor5"]
+      "matchSourceUrlPrefixes": ["https://github.com/ckeditor/ckeditor5/"],
+      "groupName": "ckeditor5"
     }
   ]
 }
