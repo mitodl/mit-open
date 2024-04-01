@@ -11,8 +11,8 @@ from channels.factories import (
 )
 from channels.models import FieldChannelGroupRole
 from channels.serializers import (
+    FieldChannelBaseSerializer,
     FieldChannelCreateSerializer,
-    FieldChannelSerializer,
     FieldChannelWriteSerializer,
     FieldModeratorSerializer,
     LearningPathPreviewSerializer,
@@ -68,7 +68,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
 
     field_lists = FieldListFactory.create_batch(3, field_channel=field_channel)
 
-    assert FieldChannelSerializer(field_channel).data == {
+    assert FieldChannelBaseSerializer(field_channel).data == {
         "name": field_channel.name,
         "title": field_channel.title,
         "avatar": field_channel.avatar.url if has_avatar else None,
@@ -134,10 +134,10 @@ def test_create_and_write_response_serialization():
     field_channel = FieldChannelFactory.create()
     assert FieldChannelCreateSerializer().to_representation(
         field_channel
-    ) == FieldChannelSerializer().to_representation(field_channel)
+    ) == FieldChannelBaseSerializer().to_representation(field_channel)
     assert FieldChannelWriteSerializer().to_representation(
         field_channel
-    ) == FieldChannelSerializer().to_representation(field_channel)
+    ) == FieldChannelBaseSerializer().to_representation(field_channel)
 
 
 def test_create_field_channel_private_list(base_field_data):

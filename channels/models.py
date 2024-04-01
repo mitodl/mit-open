@@ -86,7 +86,7 @@ class FieldChannel(BaseChannel, TimestampedModel):
     channel_type = models.CharField(
         max_length=100, choices=ChannelType.as_tuple(), default=ChannelType.pathway.name
     )
-    configuration = models.JSONField(blank=True, default={})
+    configuration = models.JSONField(null=True, default={})
     search_filter = models.CharField(max_length=2048, blank=True, default="")
     public_description = models.TextField(blank=True, default="")
 
@@ -105,7 +105,12 @@ class FieldChannel(BaseChannel, TimestampedModel):
 class ChannelTopicDetail(TimestampedModel):
     """Fields specific to topic channels"""
 
-    channel = models.ForeignKey(FieldChannel, on_delete=models.CASCADE)
+    channel = models.OneToOneField(
+        FieldChannel,
+        primary_key=True,
+        on_delete=models.CASCADE,
+        related_name="topic_detail",
+    )
     topic = models.ForeignKey(
         LearningResourceTopic, null=True, on_delete=models.SET_NULL
     )
@@ -114,7 +119,12 @@ class ChannelTopicDetail(TimestampedModel):
 class ChannelDepartmentDetail(TimestampedModel):
     """Fields specific to department channels"""
 
-    channel = models.ForeignKey(FieldChannel, on_delete=models.CASCADE)
+    channel = models.OneToOneField(
+        FieldChannel,
+        primary_key=True,
+        on_delete=models.CASCADE,
+        related_name="department_detail",
+    )
     department = models.ForeignKey(
         LearningResourceDepartment, null=True, on_delete=models.SET_NULL
     )
@@ -123,7 +133,12 @@ class ChannelDepartmentDetail(TimestampedModel):
 class ChannelOfferorDetail(TimestampedModel):
     """Fields specific to offeror channels"""
 
-    channel = models.ForeignKey(FieldChannel, on_delete=models.CASCADE)
+    channel = models.OneToOneField(
+        FieldChannel,
+        primary_key=True,
+        on_delete=models.CASCADE,
+        related_name="offeror_detail",
+    )
     offeror = models.ForeignKey(
         LearningResourceOfferor, null=True, on_delete=models.SET_NULL
     )
@@ -132,7 +147,12 @@ class ChannelOfferorDetail(TimestampedModel):
 class ChannelPathwayDetail(TimestampedModel):
     """Fields specific to pathway channels"""
 
-    channel = models.ForeignKey(FieldChannel, on_delete=models.CASCADE)
+    channel = models.OneToOneField(
+        FieldChannel,
+        primary_key=True,
+        on_delete=models.CASCADE,
+        related_name="pathway_detail",
+    )
 
 
 class FieldList(TimestampedModel):

@@ -69,8 +69,7 @@ class FieldChannelViewSet(
     pagination_class = LargePagination
     permission_classes = (HasFieldPermission,)
     http_method_names = VALID_HTTP_METHODS
-    lookup_field = "name"
-    lookup_url_kwarg = "field_name"
+    lookup_url_kwarg = "id"
 
     def get_queryset(self):
         """Return a queryset"""
@@ -85,9 +84,9 @@ class FieldChannelViewSet(
             return FieldChannelCreateSerializer
         return FieldChannelWriteSerializer
 
-    def delete(self, request, *args, **kwargs):  # noqa: ARG002
-        """Remove the user from the moderator groups for this field channel"""
-        FieldChannel.objects.get_object_or_404(name=kwargs["field_name"]).delete()
+    def perform_destroy(self, instance):
+        """Remove the field channel"""
+        instance.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
 

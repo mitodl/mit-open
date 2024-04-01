@@ -14,7 +14,7 @@ from channels.factories import (
     SubfieldFactory,
 )
 from channels.models import FieldChannel
-from channels.serializers import FieldChannelSerializer
+from channels.serializers import FieldChannelBaseSerializer
 from learning_resources.constants import LearningResourceType
 from learning_resources.factories import LearningResourceFactory
 from main.factories import UserFactory
@@ -29,7 +29,9 @@ def test_list_field_channels(user_client):
     field_list = sorted(user_client.get(url).json()["results"], key=lambda f: f["id"])
     assert len(field_list) == len(field_channels)
     for idx, field_channel in enumerate(field_channels):
-        assert field_list[idx] == FieldChannelSerializer(instance=field_channel).data
+        assert (
+            field_list[idx] == FieldChannelBaseSerializer(instance=field_channel).data
+        )
 
 
 @pytest.mark.parametrize("is_moderator", [True, False])
