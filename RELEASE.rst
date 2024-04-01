@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.6.1
+Version 0.6.1 (Released April 01, 2024)
 -------------
 
 - Search page cleanup (#675)
