@@ -15,7 +15,6 @@ describe("PostHogProvider", () => {
         window.SETTINGS = {
             ...window.SETTINGS,
             "posthog": {
-                "api_key": "a string",
                 "enabled": true,
             }
         }
