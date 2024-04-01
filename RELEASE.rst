@@ -1,6 +1,17 @@
 Release Notes
 =============
 
+Version 0.6.1 (Released April 01, 2024)
+-------------
+
+- Search page cleanup (#675)
+- Shanbady/retrieve environment config (#653)
+- Update codecov/codecov-action action to v4 (#671)
+- Add userlists page and refactor LearningResourceCardTemplate (#650)
+- fields pages (#633)
+- [pre-commit.ci] pre-commit autoupdate (#677)
+- fix learningpath invalidation (#635)
+
 Version 0.6.0 (Released March 26, 2024)
 -------------
 
