@@ -1,13 +1,13 @@
 import React, { useCallback } from "react"
 import { ResourceTypeEnum, type LearningResource } from "api"
-import { Chip, CardMedia, styled } from "ol-components"
+import { Chip, styled } from "ol-components"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 import {
   formatDate,
   pluralize,
-  resourceThumbnailSrc,
   getReadableResourceType,
   findBestRun,
+  DEFAULT_RESOURCE_IMG,
 } from "ol-utilities"
 import type { EmbedlyConfig } from "ol-utilities"
 import CardTemplate from "../CardTemplate/CardTemplate"
@@ -71,46 +71,6 @@ const ResourceFooterDetails: React.FC<
   return <CalendarChip avatar={<CalendarTodayIcon />} label={formattedDate} />
 }
 
-const CardMediaImage = styled(CardMedia)<{
-  variant: CardVariant
-  component: string
-  alt: string
-}>`
-  ${({ variant }) =>
-    variant === "row"
-      ? "margin-right: 16px;"
-      : variant === "row-reverse"
-        ? "margin-left: 16px;"
-        : ""}
-`
-
-type LRCImageProps = Pick<
-  LearningResourceCardTemplateProps,
-  "resource" | "imgConfig" | "suppressImage" | "variant"
->
-const LRCImage: React.FC<LRCImageProps> = ({
-  resource,
-  imgConfig,
-  suppressImage,
-  variant,
-}) => {
-  if (suppressImage) return null
-  const dims =
-    variant === "column"
-      ? { height: imgConfig.height }
-      : { width: imgConfig.width, height: imgConfig.height }
-
-  return (
-    <CardMediaImage
-      component="img"
-      variant={variant}
-      sx={dims}
-      src={resourceThumbnailSrc(resource.image ?? null, imgConfig)}
-      alt=""
-    />
-  )
-}
-
 const OfferedByText = styled.span`
   color: ${LIGHT_TEXT_COLOR};
   padding-right: 0.25em;
@@ -162,14 +122,7 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
     [resource, onActivate],
   )
 
-  const image = (
-    <LRCImage
-      variant={variant}
-      suppressImage={suppressImage}
-      resource={resource}
-      imgConfig={imgConfig}
-    />
-  )
+  const imgUrl = resource.image?.url ?? DEFAULT_RESOURCE_IMG
   const extraDetails = (
     <TypeRow>
       <span>{getReadableResourceType(resource)}</span>
@@ -190,15 +143,18 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
       className={className}
       handleActivate={handleActivate}
       extraDetails={extraDetails}
-      imageSlot={image}
+      imgUrl={imgUrl}
+      imgConfig={imgConfig}
       title={resource.title}
       bodySlot={body}
       footerSlot={footer}
       footerActionSlot={footerActionSlot}
       sortable={sortable}
+      suppressImage={suppressImage}
     ></CardTemplate>
   )
 }
 
 export default LearningResourceCardTemplate
+export { TypeRow }
 export type { LearningResourceCardTemplateProps }

@@ -94,5 +94,11 @@ const findBestRun = (
   return past[0] ?? sorted[0]
 }
 
-export { resourceThumbnailSrc, getReadableResourceType, findBestRun }
+export {
+  DEFAULT_RESOURCE_IMG,
+  embedlyThumbnail,
+  resourceThumbnailSrc,
+  getReadableResourceType,
+  findBestRun,
+}
 export type { EmbedlyConfig }
