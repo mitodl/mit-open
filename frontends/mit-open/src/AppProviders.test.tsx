@@ -16,37 +16,37 @@ describe("PostHogProvider", () => {
     window.SETTINGS = {
       ...window.SETTINGS,
       posthog: {
-        api_key: "a string",
+        api_key: "", // pragma: allowlist secret
         enabled: true,
       },
     }
 
-        const resources = factory.resources({ count: 4 })
-        setMockResponse.get(urls.learningResources.list(), resources)
+    const resources = factory.resources({ count: 4 })
+    setMockResponse.get(urls.learningResources.list(), resources)
 
-        renderTestApp()
+    renderTestApp()
 
-        const phProvider = screen.getAllByTestId("phProvider")
+    const phProvider = screen.getAllByTestId("phProvider")
 
-        expect(phProvider.length).toBe(1)
-    })
+    expect(phProvider.length).toBe(1)
+  })
 
-    it("Renders without PostHog support if disabled", async () => {
-        window.SETTINGS = {
-            ...window.SETTINGS,
-            "posthog": {
-                "api_key": "", // pragma: allowlist secret
-                "enabled": true,
-            }
-        }
+  it("Renders without PostHog support if disabled", async () => {
+    window.SETTINGS = {
+      ...window.SETTINGS,
+      posthog: {
+        api_key: "", // pragma: allowlist secret
+        enabled: true,
+      },
+    }
 
-        const resources = factory.resources({ count: 4 })
-        setMockResponse.get(urls.learningResources.list(), resources)
+    const resources = factory.resources({ count: 4 })
+    setMockResponse.get(urls.learningResources.list(), resources)
 
-        renderTestApp()
+    renderTestApp()
 
-        const phProvider = screen.queryAllByTestId("phProvider")
+    const phProvider = screen.queryAllByTestId("phProvider")
 
-        expect(phProvider.length).toBe(0)
-    })
+    expect(phProvider.length).toBe(0)
+  })
 })
