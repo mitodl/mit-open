@@ -98,7 +98,7 @@ const findBestRun = (
 
 export {
   DEFAULT_RESOURCE_IMG,
-  embedlyThumbnail,
+  embedlyCroppedImage,
   resourceThumbnailSrc,
   getReadableResourceType,
   findBestRun,
