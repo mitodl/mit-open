@@ -1,6 +1,33 @@
 Release Notes
 =============
 
+Version 0.7.0
+-------------
+
+- Basic learning resources drawer (#686)
+- Update actions/configure-pages action to v5 (#706)
+- display image and description in userlists (#695)
+- Update dependency sentry-sdk to v1.44.0 (#705)
+- Update dependency google-api-python-client to v2.124.0 (#704)
+- Update dependency @sentry/react to v7.109.0 (#703)
+- Update Node.js to v20.12.0 (#702)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.19 (#701)
+- Update dependency safety to v2.3.5 (#700)
+- Update dependency nh3 to v0.2.17 (#699)
+- Update dependency boto3 to v1.34.74 (#698)
+- Update all non-major dev-dependencies (#696)
+- Update dependency @emotion/styled to v11.11.5 (#697)
+- Add botocore to ignored deprecation warnings, remove old python 3.7 ignore line (#692)
+- Add UserListDetails page (#691)
+- Add Posthog integration to backend (#682)
+- Update postgres Docker tag to v12.18 (#670)
+- remove depricated ACL setting (#690)
+- fix new upcoming (#684)
+- Remove Cloudfront references (#689)
+- updating spec (#688)
+- Shanbady/endpoint to retrieve session data (#647)
+- Sloan Executive Education blog ETL (#679)
+
 Version 0.6.1 (Released April 01, 2024)
 -------------
 
