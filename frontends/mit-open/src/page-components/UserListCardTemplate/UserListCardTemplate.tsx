@@ -1,7 +1,7 @@
 import React, { useCallback } from "react"
 import CardTemplate from "../CardTemplate/CardTemplate"
 import { UserList } from "api"
-import { EmbedlyConfig } from "ol-utilities"
+import { EmbedlyConfig, pluralize } from "ol-utilities"
 import { TypeRow } from "../LearningResourceCardTemplate/LearningResourceCardTemplate"
 
 type CardVariant = "column" | "row" | "row-reverse"
@@ -45,6 +45,11 @@ const UserListCardTemplate = <U extends UserList>({
       extraDetails={extraDetails}
       sortable={sortable}
       handleActivate={handleActivate}
+      footerSlot={
+        <span>
+          {userList.item_count} {pluralize("item", userList.item_count)}
+        </span>
+      }
     ></CardTemplate>
   )
 }
