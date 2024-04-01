@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.7.0
+Version 0.7.0 (Released April 01, 2024)
 -------------
 
 - Basic learning resources drawer (#686)
