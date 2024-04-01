@@ -140,6 +140,12 @@ class UserWebsite(models.Model):
 class ProgramCertificate(models.Model):
     """An external model that syncs with data from our data platform"""
 
+    record_hash = models.UUIDField(
+        unique=True,
+        default=uuid4,
+        editable=False,
+    )
+
     user_edxorg_id = models.IntegerField(null=True, blank=True)
 
     micromasters_program_id = models.IntegerField(null=True, blank=True)
