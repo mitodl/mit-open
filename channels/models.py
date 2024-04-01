@@ -7,8 +7,13 @@ from django.db.models import JSONField, deletion
 from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFit
 
-from channels.constants import FIELD_ROLE_CHOICES
-from learning_resources.models import LearningResource
+from channels.constants import FIELD_ROLE_CHOICES, ChannelType
+from learning_resources.models import (
+    LearningResource,
+    LearningResourceDepartment,
+    LearningResourceOfferor,
+    LearningResourceTopic,
+)
 from main.models import TimestampedModel
 from profiles.utils import avatar_uri, banner_uri
 from widgets.models import WidgetList
@@ -76,8 +81,13 @@ class BaseChannel(models.Model):
 
 
 class FieldChannel(BaseChannel, TimestampedModel):
-    """Field of study"""
+    """Channel for any field/subject"""
 
+    channel_type = models.CharField(
+        max_length=100, choices=ChannelType.as_tuple(), default=ChannelType.pathway.name
+    )
+    configuration = models.JSONField(blank=True, default={})
+    search_filter = models.CharField(max_length=2048, blank=True, default="")
     public_description = models.TextField(blank=True, default="")
 
     featured_list = models.ForeignKey(
@@ -92,8 +102,41 @@ class FieldChannel(BaseChannel, TimestampedModel):
     )
 
 
+class ChannelTopicDetail(TimestampedModel):
+    """Fields specific to topic channels"""
+
+    channel = models.ForeignKey(FieldChannel, on_delete=models.CASCADE)
+    topic = models.ForeignKey(
+        LearningResourceTopic, null=True, on_delete=models.SET_NULL
+    )
+
+
+class ChannelDepartmentDetail(TimestampedModel):
+    """Fields specific to department channels"""
+
+    channel = models.ForeignKey(FieldChannel, on_delete=models.CASCADE)
+    department = models.ForeignKey(
+        LearningResourceDepartment, null=True, on_delete=models.SET_NULL
+    )
+
+
+class ChannelOfferorDetail(TimestampedModel):
+    """Fields specific to offeror channels"""
+
+    channel = models.ForeignKey(FieldChannel, on_delete=models.CASCADE)
+    offeror = models.ForeignKey(
+        LearningResourceOfferor, null=True, on_delete=models.SET_NULL
+    )
+
+
+class ChannelPathwayDetail(TimestampedModel):
+    """Fields specific to pathway channels"""
+
+    channel = models.ForeignKey(FieldChannel, on_delete=models.CASCADE)
+
+
 class FieldList(TimestampedModel):
-    """LearningPath and position (list order) for a field channel"""
+    """LearningPath and position (list order) for a channel"""
 
     field_list = models.ForeignKey(LearningResource, on_delete=models.CASCADE)
     field_channel = models.ForeignKey(
