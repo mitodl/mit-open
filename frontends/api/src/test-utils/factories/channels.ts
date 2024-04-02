@@ -24,6 +24,6 @@ const field: Factory<FieldChannel> = (overrides = {}) => ({
   ...overrides,
 })
 
-const fields = makePaginatedFactory(field)
+const channels = makePaginatedFactory(field)
 
-export { fields, field }
+export { channels, field }
