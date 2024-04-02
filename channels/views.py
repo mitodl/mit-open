@@ -46,7 +46,6 @@ def extend_schema_responses(serializer):
     return decorate
 
 
-@extend_schema_responses(FieldChannelSerializer)
 @extend_schema_view(
     list=extend_schema(summary="List"),
     retrieve=extend_schema(summary="Retrieve"),

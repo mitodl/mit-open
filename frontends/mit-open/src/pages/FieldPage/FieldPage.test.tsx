@@ -106,7 +106,9 @@ describe("FieldPage", () => {
       await user.click(await screen.findByRole("button", { name: btnName }))
 
       await waitFor(() => {
-        expect(location.current.pathname).toBe(makeFieldViewPath(field.name))
+        expect(location.current.pathname).toBe(
+          makeFieldViewPath(field.channel_type, field.name),
+        )
       })
     },
   )

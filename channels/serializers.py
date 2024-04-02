@@ -224,7 +224,7 @@ class FieldChannelSerializer(serializers.Serializer):
     }
 
     def to_representation(self, instance):
-        """Serialize a LearningResource based on resource_type"""
+        """Serialize a FieldChannel based on channel_type"""
         serializer_cls = self.serializer_cls_mapping[instance.channel_type]
 
         return serializer_cls(instance=instance, context=self.context).data
@@ -245,7 +245,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             published=True,
             resource_type=LearningResourceType.learning_path.name,
         ),
-        help_text="Learng path featured in this field.",
+        help_text="Learning path featured in this field.",
     )
     lists = serializers.PrimaryKeyRelatedField(
         many=True,
@@ -256,7 +256,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             published=True,
             resource_type=LearningResourceType.learning_path.name,
         ),
-        help_text="Learng paths in this field.",
+        help_text="Learning paths in this field.",
     )
     subfields = serializers.SlugRelatedField(
         slug_field="name",

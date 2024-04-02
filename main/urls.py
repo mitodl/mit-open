@@ -58,7 +58,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"^articles/", index, name="articles"),
     re_path(r"^dashboard/", index, name="dashboard"),
     re_path(r"^program_letter/", index, name="programletter"),
-    re_path(r"^fields/", index, name="fields"),
+    re_path(r"^channels/", index, name="channels"),
     re_path(r"", include(features_router.urls)),
     # Hijack
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),

@@ -1,20 +1,26 @@
-import { fieldsApi } from "../../clients"
-import type { FieldsApiFieldsListRequest as FieldsApiListRequest } from "../../generated/v0"
+import { channelsApi } from "../../clients"
+import type { ChannelsApiChannelsListRequest as FieldsApiListRequest } from "../../generated/v0"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
-const fields = createQueryKeys("field", {
-  detail: (fieldName: string) => ({
-    queryKey: [fieldName],
+const channels = createQueryKeys("channel", {
+  detailByType: (channelType: string, name: string) => ({
+    queryKey: [channelType, name],
     queryFn: () => {
-      return fieldsApi
-        .fieldsRetrieve({ field_name: fieldName })
+      return channelsApi
+        .channelsTypeRetrieve({ channel_type: channelType, name: name })
         .then((res) => res.data)
+    },
+  }),
+  detail: (id: number) => ({
+    queryKey: [id],
+    queryFn: () => {
+      return channelsApi.channelsRetrieve({ id: id }).then((res) => res.data)
     },
   }),
   list: (params: FieldsApiListRequest) => ({
     queryKey: [params],
-    queryFn: () => fieldsApi.fieldsList(params).then((res) => res.data),
+    queryFn: () => channelsApi.channelsList(params).then((res) => res.data),
   }),
 })
 
-export default fields
+export default channels

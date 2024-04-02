@@ -5,45 +5,54 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 
-import { fieldsApi } from "../../clients"
+import { channelsApi } from "../../clients"
 import type {
-  FieldsApiFieldsListRequest as FieldsApiListRequest,
+  ChannelsApiChannelsListRequest as ChannelsApiListRequest,
   PatchedFieldChannelWriteRequest,
 } from "../../generated/v0"
-import fields from "./keyFactory"
+import channels from "./keyFactory"
 
-const useFieldsList = (
-  params: FieldsApiListRequest = {},
+const useChannelsList = (
+  params: ChannelsApiListRequest = {},
   opts: Pick<UseQueryOptions, "enabled"> = {},
 ) => {
   return useQuery({
-    ...fields.list(params),
+    ...channels.list(params),
     ...opts,
   })
 }
 
-const useFieldDetail = (fieldName: string | undefined) => {
+const useChannelDetail = (id: number) => {
   return useQuery({
-    ...fields.detail(fieldName ?? ""),
+    ...channels.detail(id),
   })
 }
 
-const useFieldPartialUpdate = () => {
+const useChannelDetailByType = (channelType: string, fieldName: string) => {
+  return useQuery({
+    ...channels.detailByType(channelType, fieldName),
+  })
+}
+
+const useChannelPartialUpdate = () => {
   const client = useQueryClient()
   return useMutation({
-    mutationFn: (
-      data: PatchedFieldChannelWriteRequest & { field_name: string },
-    ) =>
-      fieldsApi
-        .fieldsPartialUpdate({
-          field_name: data.field_name,
+    mutationFn: (data: PatchedFieldChannelWriteRequest & { id: number }) =>
+      channelsApi
+        .channelsPartialUpdate({
+          id: data.id,
           PatchedFieldChannelWriteRequest: data,
         })
         .then((response) => response.data),
     onSuccess: (_data) => {
-      client.invalidateQueries(fields._def)
+      client.invalidateQueries(channels._def)
     },
   })
 }
 
-export { useFieldDetail, useFieldsList, useFieldPartialUpdate }
+export {
+  useChannelDetail,
+  useChannelDetailByType,
+  useChannelsList,
+  useChannelPartialUpdate,
+}
