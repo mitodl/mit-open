@@ -2,6 +2,7 @@ import { Factory, makePaginatedFactory } from "ol-test-utilities"
 import {
   MicroUserListRelationship,
   PaginatedUserListRelationshipList,
+  PrivacyLevelEnum,
   UserList,
   UserListRelationship,
 } from "api"
@@ -12,6 +13,8 @@ const userList: Factory<UserList> = (overrides = {}) => {
   const list: UserList = {
     id: faker.helpers.unique(faker.datatype.number),
     title: faker.helpers.unique(faker.lorem.words),
+    description: faker.helpers.unique(faker.lorem.paragraph),
+    privacy_level: PrivacyLevelEnum.Private,
     item_count: 4,
     image: {},
     author: faker.helpers.unique(faker.datatype.number),
