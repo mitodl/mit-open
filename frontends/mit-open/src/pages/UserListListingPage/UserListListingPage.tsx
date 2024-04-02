@@ -19,6 +19,7 @@ import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserLis
 import { useNavigate } from "react-router"
 import * as urls from "@/common/urls"
 import { imgConfigs } from "@/common/constants"
+import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
@@ -53,6 +54,9 @@ const UserListListingPage: React.FC = () => {
     },
     [navigate],
   )
+  const handleCreate = useCallback(() => {
+    manageLearningPathDialogs.upsertUserList()
+  }, [])
 
   return (
     <BannerPage
@@ -76,7 +80,9 @@ const UserListListingPage: React.FC = () => {
                 alignItems="center"
                 display="flex"
               >
-                <Button variant="contained">Create new list</Button>
+                <Button variant="contained" onClick={handleCreate}>
+                  Create new list
+                </Button>
               </Grid>
             </ListHeaderGrid>
             <section>
