@@ -144,7 +144,7 @@ class FieldChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerial
 
     class Meta:
         model = FieldChannel
-        exclude = COMMON_IGNORED_FIELDS
+        exclude = []
 
 
 class ChannelTopicDetailSerializer(serializers.ModelSerializer):
@@ -178,7 +178,7 @@ class DepartmentChannelSerializer(FieldChannelBaseSerializer):
     department_detail = ChannelDepartmentDetailSerializer()
 
 
-class OfferorChannelDetailSerializer(serializers.ModelSerializer):
+class ChannelOfferorDetailSerializer(serializers.ModelSerializer):
     """Serializer for the ChannelOfferorDetail model"""
 
     class Meta:
@@ -191,10 +191,10 @@ class OfferorChannelSerializer(FieldChannelBaseSerializer):
 
     channel_type = ChannelTypeField(default=ChannelType.offeror.name)
 
-    offeror_detail = OfferorChannelDetailSerializer()
+    offeror_detail = ChannelOfferorDetailSerializer()
 
 
-class PathwayChannelDetailSerializer(serializers.ModelSerializer):
+class ChannelPathwayDetailSerializer(serializers.ModelSerializer):
     """Serializer for the ChannelPathwayDetail model"""
 
     class Meta:
@@ -207,7 +207,7 @@ class PathwayChannelSerializer(FieldChannelBaseSerializer):
 
     channel_type = ChannelTypeField(default=ChannelType.pathway.name)
 
-    pathway_detail = PathwayChannelDetailSerializer()
+    pathway_detail = ChannelPathwayDetailSerializer()
 
 
 class FieldChannelSerializer(serializers.Serializer):
@@ -270,10 +270,10 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
     department_detail = ChannelDepartmentDetailSerializer(
         allow_null=True, many=False, required=False
     )
-    offeror_detail = OfferorChannelDetailSerializer(
+    offeror_detail = ChannelOfferorDetailSerializer(
         allow_null=True, many=False, required=False
     )
-    pathway_detail = PathwayChannelDetailSerializer(
+    pathway_detail = ChannelPathwayDetailSerializer(
         allow_null=True, many=False, required=False
     )
 

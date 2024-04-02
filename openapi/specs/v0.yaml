@@ -472,6 +472,21 @@ components:
           type: string
           minLength: 1
           nullable: true
+    ChannelOfferorDetail:
+      type: object
+      description: Serializer for the ChannelOfferorDetail model
+      properties:
+        offeror:
+          type: string
+          nullable: true
+    ChannelOfferorDetailRequest:
+      type: object
+      description: Serializer for the ChannelOfferorDetail model
+      properties:
+        offeror:
+          type: string
+          minLength: 1
+          nullable: true
     ChannelTopicDetail:
       type: object
       description: Serializer for the ChannelTopicDetail model
@@ -562,6 +577,14 @@ components:
           readOnly: true
         department_detail:
           $ref: '#/components/schemas/ChannelDepartmentDetail'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
         name:
           type: string
           pattern: ^[A-Za-z0-9_]+$
@@ -588,6 +611,7 @@ components:
       - avatar_medium
       - avatar_small
       - channel_type
+      - created_on
       - department_detail
       - featured_list
       - id
@@ -596,6 +620,7 @@ components:
       - name
       - subfields
       - title
+      - updated_on
     DepartmentChannelChannelTypeEnum:
       type: string
       enum:
@@ -723,7 +748,7 @@ components:
           nullable: true
         offeror_detail:
           allOf:
-          - $ref: '#/components/schemas/OfferorChannelDetail'
+          - $ref: '#/components/schemas/ChannelOfferorDetail'
           nullable: true
       required:
       - name
@@ -789,7 +814,7 @@ components:
           nullable: true
         offeror_detail:
           allOf:
-          - $ref: '#/components/schemas/OfferorChannelDetailRequest'
+          - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
           nullable: true
       required:
       - name
@@ -849,7 +874,7 @@ components:
           nullable: true
         offeror_detail:
           allOf:
-          - $ref: '#/components/schemas/OfferorChannelDetail'
+          - $ref: '#/components/schemas/ChannelOfferorDetail'
           nullable: true
       required:
       - name
@@ -949,7 +974,15 @@ components:
           default: offeror
           readOnly: true
         offeror_detail:
-          $ref: '#/components/schemas/OfferorChannelDetail'
+          $ref: '#/components/schemas/ChannelOfferorDetail'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
         name:
           type: string
           pattern: ^[A-Za-z0-9_]+$
@@ -976,6 +1009,7 @@ components:
       - avatar_medium
       - avatar_small
       - channel_type
+      - created_on
       - featured_list
       - id
       - is_moderator
@@ -984,25 +1018,11 @@ components:
       - offeror_detail
       - subfields
       - title
+      - updated_on
     OfferorChannelChannelTypeEnum:
       type: string
       enum:
       - offeror
-    OfferorChannelDetail:
-      type: object
-      description: Serializer for the ChannelOfferorDetail model
-      properties:
-        offeror:
-          type: string
-          nullable: true
-    OfferorChannelDetailRequest:
-      type: object
-      description: Serializer for the ChannelOfferorDetail model
-      properties:
-        offeror:
-          type: string
-          minLength: 1
-          nullable: true
     PaginatedFeedSourceList:
       type: object
       properties:
@@ -1097,7 +1117,7 @@ components:
           nullable: true
         offeror_detail:
           allOf:
-          - $ref: '#/components/schemas/OfferorChannelDetailRequest'
+          - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
           nullable: true
     PatchedWidgetListRequest:
       type: object
@@ -1158,6 +1178,14 @@ components:
           - $ref: '#/components/schemas/PathwayChannelChannelTypeEnum'
           default: pathway
           readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
         name:
           type: string
           pattern: ^[A-Za-z0-9_]+$
@@ -1184,6 +1212,7 @@ components:
       - avatar_medium
       - avatar_small
       - channel_type
+      - created_on
       - featured_list
       - id
       - is_moderator
@@ -1191,6 +1220,7 @@ components:
       - name
       - subfields
       - title
+      - updated_on
     PathwayChannelChannelTypeEnum:
       type: string
       enum:
@@ -1319,6 +1349,14 @@ components:
           readOnly: true
         topic_detail:
           $ref: '#/components/schemas/ChannelTopicDetail'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
         name:
           type: string
           pattern: ^[A-Za-z0-9_]+$
@@ -1345,6 +1383,7 @@ components:
       - avatar_medium
       - avatar_small
       - channel_type
+      - created_on
       - featured_list
       - id
       - is_moderator
@@ -1353,6 +1392,7 @@ components:
       - subfields
       - title
       - topic_detail
+      - updated_on
     TopicChannelChannelTypeEnum:
       type: string
       enum:

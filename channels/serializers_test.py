@@ -1,23 +1,38 @@
 """Tests for channels.serializers"""
 
+from types import SimpleNamespace
+
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from channels.constants import FIELD_ROLE_MODERATORS
+from channels.constants import FIELD_ROLE_MODERATORS, ChannelType
 from channels.factories import (
+    ChannelDepartmentDetailFactory,
+    ChannelOfferorDetailFactory,
+    ChannelPathwayDetailFactory,
+    ChannelTopicDetailFactory,
     FieldChannelFactory,
     FieldListFactory,
     SubfieldFactory,
 )
 from channels.models import FieldChannelGroupRole
 from channels.serializers import (
-    FieldChannelBaseSerializer,
+    ChannelDepartmentDetailSerializer,
+    ChannelOfferorDetailSerializer,
+    ChannelPathwayDetailSerializer,
+    ChannelTopicDetailSerializer,
     FieldChannelCreateSerializer,
+    FieldChannelSerializer,
     FieldChannelWriteSerializer,
     FieldModeratorSerializer,
     LearningPathPreviewSerializer,
 )
-from learning_resources.factories import LearningPathFactory
+from learning_resources.factories import (
+    LearningPathFactory,
+    LearningResourceDepartmentFactory,
+    LearningResourceOfferorFactory,
+    LearningResourceTopicFactory,
+)
 from main.factories import UserFactory
 
 # pylint:disable=redefined-outer-name
@@ -29,6 +44,28 @@ small_gif = (
     b"\x01\x0a\x00\x01\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02"
     b"\x02\x4c\x01\x00\x3b"
 )
+
+
+@pytest.fixture()
+def channel_detail():
+    """Return possible related objects for a channel"""
+    topic = LearningResourceTopicFactory.create()
+    department = LearningResourceDepartmentFactory.create()
+    offeror = LearningResourceOfferorFactory.create()
+    return SimpleNamespace(
+        topic=ChannelTopicDetailSerializer(
+            instance=ChannelTopicDetailFactory.build(topic=topic)
+        ).data,
+        department=ChannelDepartmentDetailSerializer(
+            instance=ChannelDepartmentDetailFactory.build(department=department)
+        ).data,
+        offeror=ChannelOfferorDetailSerializer(
+            instance=ChannelOfferorDetailFactory.build(offeror=offeror)
+        ).data,
+        pathway=ChannelPathwayDetailSerializer(
+            instance=ChannelPathwayDetailFactory.build()
+        ).data,
+    )
 
 
 def mock_image_file(filename):
@@ -64,11 +101,12 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         avatar=mock_image_file("avatar.jpg") if has_avatar else None,
         about={"foo": "bar"} if has_about else None,
         ga_tracking_id=ga_tracking_id,
+        channel_type=ChannelType.topic.name,
     )
 
     field_lists = FieldListFactory.create_batch(3, field_channel=field_channel)
 
-    assert FieldChannelBaseSerializer(field_channel).data == {
+    assert FieldChannelSerializer(field_channel).data == {
         "name": field_channel.name,
         "title": field_channel.title,
         "avatar": field_channel.avatar.url if has_avatar else None,
@@ -92,10 +130,17 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "featured_list": None,
         "public_description": field_channel.public_description,
         "is_moderator": False,
+        "configuration": {},
+        "search_filter": "",
+        "channel_type": ChannelType.topic.name,
+        "topic_detail": {
+            "topic": field_channel.topic_detail.topic.id,
+        },
     }
 
 
-def test_create_field_channel(base_field_data):
+@pytest.mark.parametrize("channel_type", ChannelType.names())
+def test_create_field_channel(base_field_data, channel_detail, channel_type):
     """
     Test creating a field channel
     """
@@ -104,8 +149,12 @@ def test_create_field_channel(base_field_data):
         key=lambda list: list.id,  # noqa: A002
         reverse=True,
     )
+
+    detail = {f"{channel_type}_detail": getattr(channel_detail, f"{channel_type}")}
+
     data = {
         **base_field_data,
+        **detail,
         "featured_list": user_lists[0].id,
         "lists": [list.id for list in user_lists],  # noqa: A001
     }
@@ -134,10 +183,10 @@ def test_create_and_write_response_serialization():
     field_channel = FieldChannelFactory.create()
     assert FieldChannelCreateSerializer().to_representation(
         field_channel
-    ) == FieldChannelBaseSerializer().to_representation(field_channel)
+    ) == FieldChannelSerializer().to_representation(field_channel)
     assert FieldChannelWriteSerializer().to_representation(
         field_channel
-    ) == FieldChannelBaseSerializer().to_representation(field_channel)
+    ) == FieldChannelSerializer().to_representation(field_channel)
 
 
 def test_create_field_channel_private_list(base_field_data):

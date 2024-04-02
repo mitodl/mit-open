@@ -66,6 +66,32 @@ export interface ChannelDepartmentDetailRequest {
   department?: string | null
 }
 /**
+ * Serializer for the ChannelOfferorDetail model
+ * @export
+ * @interface ChannelOfferorDetail
+ */
+export interface ChannelOfferorDetail {
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelOfferorDetail
+   */
+  offeror?: string | null
+}
+/**
+ * Serializer for the ChannelOfferorDetail model
+ * @export
+ * @interface ChannelOfferorDetailRequest
+ */
+export interface ChannelOfferorDetailRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelOfferorDetailRequest
+   */
+  offeror?: string | null
+}
+/**
  * Serializer for the ChannelTopicDetail model
  * @export
  * @interface ChannelTopicDetail
@@ -195,6 +221,18 @@ export interface DepartmentChannel {
    * @memberof DepartmentChannel
    */
   department_detail: ChannelDepartmentDetail
+  /**
+   *
+   * @type {string}
+   * @memberof DepartmentChannel
+   */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof DepartmentChannel
+   */
+  updated_on: string
   /**
    *
    * @type {string}
@@ -473,10 +511,10 @@ export interface FieldChannelCreate {
   department_detail?: ChannelDepartmentDetail | null
   /**
    *
-   * @type {OfferorChannelDetail}
+   * @type {ChannelOfferorDetail}
    * @memberof FieldChannelCreate
    */
-  offeror_detail?: OfferorChannelDetail | null
+  offeror_detail?: ChannelOfferorDetail | null
 }
 
 /**
@@ -571,10 +609,10 @@ export interface FieldChannelCreateRequest {
   department_detail?: ChannelDepartmentDetailRequest | null
   /**
    *
-   * @type {OfferorChannelDetailRequest}
+   * @type {ChannelOfferorDetailRequest}
    * @memberof FieldChannelCreateRequest
    */
-  offeror_detail?: OfferorChannelDetailRequest | null
+  offeror_detail?: ChannelOfferorDetailRequest | null
 }
 
 /**
@@ -669,10 +707,10 @@ export interface FieldChannelWrite {
   department_detail?: ChannelDepartmentDetail | null
   /**
    *
-   * @type {OfferorChannelDetail}
+   * @type {ChannelOfferorDetail}
    * @memberof FieldChannelWrite
    */
-  offeror_detail?: OfferorChannelDetail | null
+  offeror_detail?: ChannelOfferorDetail | null
 }
 
 /**
@@ -812,10 +850,22 @@ export interface OfferorChannel {
   channel_type: OfferorChannelChannelTypeEnum
   /**
    *
-   * @type {OfferorChannelDetail}
+   * @type {ChannelOfferorDetail}
    * @memberof OfferorChannel
    */
-  offeror_detail: OfferorChannelDetail
+  offeror_detail: ChannelOfferorDetail
+  /**
+   *
+   * @type {string}
+   * @memberof OfferorChannel
+   */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof OfferorChannel
+   */
+  updated_on: string
   /**
    *
    * @type {string}
@@ -879,32 +929,6 @@ export const OfferorChannelChannelTypeEnum = {
 export type OfferorChannelChannelTypeEnum =
   (typeof OfferorChannelChannelTypeEnum)[keyof typeof OfferorChannelChannelTypeEnum]
 
-/**
- * Serializer for the ChannelOfferorDetail model
- * @export
- * @interface OfferorChannelDetail
- */
-export interface OfferorChannelDetail {
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannelDetail
-   */
-  offeror?: string | null
-}
-/**
- * Serializer for the ChannelOfferorDetail model
- * @export
- * @interface OfferorChannelDetailRequest
- */
-export interface OfferorChannelDetailRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannelDetailRequest
-   */
-  offeror?: string | null
-}
 /**
  *
  * @export
@@ -1053,10 +1077,10 @@ export interface PatchedFieldChannelWriteRequest {
   department_detail?: ChannelDepartmentDetailRequest | null
   /**
    *
-   * @type {OfferorChannelDetailRequest}
+   * @type {ChannelOfferorDetailRequest}
    * @memberof PatchedFieldChannelWriteRequest
    */
-  offeror_detail?: OfferorChannelDetailRequest | null
+  offeror_detail?: ChannelOfferorDetailRequest | null
 }
 
 /**
@@ -1138,6 +1162,18 @@ export interface PathwayChannel {
    * @memberof PathwayChannel
    */
   channel_type: PathwayChannelChannelTypeEnum
+  /**
+   *
+   * @type {string}
+   * @memberof PathwayChannel
+   */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof PathwayChannel
+   */
+  updated_on: string
   /**
    *
    * @type {string}
@@ -1383,6 +1419,18 @@ export interface TopicChannel {
    * @memberof TopicChannel
    */
   topic_detail: ChannelTopicDetail
+  /**
+   *
+   * @type {string}
+   * @memberof TopicChannel
+   */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof TopicChannel
+   */
+  updated_on: string
   /**
    *
    * @type {string}
