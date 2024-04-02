@@ -63,7 +63,7 @@ const formCss = css`
 
   form .form-row,
   .form-header .form-row {
-    margin: 10px 0 24px 0;
+    margin: 10px 0 24px;
   }
 
   .MuiDialogContent-root {
