@@ -3032,6 +3032,12 @@ export interface ProgramCertificate {
   program_letter_share_url: string
   /**
    *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  record_hash: string
+  /**
+   *
    * @type {number}
    * @memberof ProgramCertificate
    */

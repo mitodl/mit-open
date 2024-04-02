@@ -9933,6 +9933,9 @@ components:
         program_letter_share_url:
           type: string
           readOnly: true
+        record_hash:
+          type: string
+          readOnly: true
         user_edxorg_id:
           type: integer
           maximum: 2147483647
@@ -9999,6 +10002,7 @@ components:
       - program_letter_generate_url
       - program_letter_share_url
       - program_title
+      - record_hash
       - user_email
     ProgramLetter:
       type: object
