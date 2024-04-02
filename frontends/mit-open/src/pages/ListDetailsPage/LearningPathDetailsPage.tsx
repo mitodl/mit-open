@@ -32,7 +32,9 @@ const LearningPathDetailsPage: React.FC = () => {
       items={items}
       isLoading={itemsQuery.isLoading}
       isFetching={itemsQuery.isFetching}
-      handleEdit={() => manageLearningPathDialogs.upsert(pathQuery.data)}
+      handleEdit={() =>
+        manageLearningPathDialogs.upsertLearningPath(pathQuery.data)
+      }
     />
   )
 }

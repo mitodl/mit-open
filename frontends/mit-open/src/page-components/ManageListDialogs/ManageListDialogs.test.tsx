@@ -70,7 +70,7 @@ describe("manageListDialogs.upsert", () => {
     renderWithProviders(null, opts)
 
     act(() => {
-      manageLearningPathDialogs.upsert(resource)
+      manageLearningPathDialogs.upsertLearningPath(resource)
     })
 
     return { topics }
@@ -216,7 +216,7 @@ describe("manageListDialogs.destroy", () => {
     const resource = factories.learningResources.learningPath()
     renderWithProviders(null)
     act(() => {
-      manageLearningPathDialogs.destroy(resource)
+      manageLearningPathDialogs.destroyLearningPath(resource)
     })
     return { resource }
   }

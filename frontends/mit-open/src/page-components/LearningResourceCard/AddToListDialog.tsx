@@ -189,7 +189,7 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
             })}
             <ListItem className="add-to-list-new">
               <ListItemButton
-                onClick={() => manageLearningPathDialogs.upsert()}
+                onClick={() => manageLearningPathDialogs.upsertLearningPath()}
               >
                 <AddIcon />
                 <ListItemText primary="Create a new list" />
