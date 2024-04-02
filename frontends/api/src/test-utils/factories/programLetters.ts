@@ -4,6 +4,7 @@ import type { ProgramLetter } from "../../generated/v1"
 
 const programLetter: Factory<ProgramLetter> = (overrides = {}) => ({
   id: faker.datatype.uuid(),
+  record_hash: faker.datatype.uuid(),
   template_fields: {
     meta: {},
     id: faker.datatype.number(),

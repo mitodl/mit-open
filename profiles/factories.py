@@ -60,9 +60,11 @@ class ProgramCertificateFactory(DjangoModelFactory):
     user_full_name = Faker("name")
     user_email = Faker("email")
     micromasters_program_id = Faker("random_int")
+    record_hash = Faker("text", max_nb_chars=200)
 
     class Meta:
         model = ProgramCertificate
+        django_get_or_create = ("record_hash",)
 
 
 class ProgramLetterFactory(DjangoModelFactory):
