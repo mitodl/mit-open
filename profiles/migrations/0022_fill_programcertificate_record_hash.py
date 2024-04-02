@@ -10,7 +10,7 @@ def gen_uuid(apps, schema_editor):
     while ProgramCertificate.objects.filter(record_hash__isnull=True).exists():
         with transaction.atomic():
             for row in ProgramCertificate.objects.filter(record_hash__isnull=True):
-                row.record_hash = uuid.uuid4()
+                row.record_hash = str(uuid.uuid4())
                 row.save()
 
 
