@@ -515,12 +515,12 @@ The current structure as of November 2023, for reference:
 │ │ │ │ ├── components
 │ │ │ │ │ ├── FieldAvatar.tsx
 │ │ │ │ │ └── FieldMenu.tsx
-│ │ │ │ ├── EditFieldAppearanceForm.tsx
+│ │ │ │ ├── EditChannelAppearanceForm.tsx
 │ │ │ │ ├── EditFieldBasicForm.tsx
-│ │ │ │ ├── EditFieldPage.tsx
+│ │ │ │ ├── EditChannelPage.tsx
 │ │ │ │ ├── FieldAdminApp.tsx
-│ │ │ │ ├── FieldPage.tsx
-│ │ │ │ ├── FieldPageSkeleton.tsx
+│ │ │ │ ├── ChannelPage.tsx
+│ │ │ │ ├── ChannelPageSkeleton.tsx
 │ │ │ │ └── WidgetsList.tsx
 │ │ │ ├── routes.ts
 │ │ │ ├── SearchPage.tsx

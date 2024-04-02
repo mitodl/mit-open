@@ -7,8 +7,8 @@ import { MetaTags } from "ol-utilities"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { useChannelDetail } from "api/hooks/fields"
-import EditFieldAppearanceForm from "./EditFieldAppearanceForm"
-import FieldPageSkeleton from "./FieldPageSkeleton"
+import EditChannelAppearanceForm from "./EditChannelAppearanceForm"
+import FieldPageSkeleton from "./ChannelPageSkeleton"
 type RouteParams = {
   id: string
 }
@@ -19,7 +19,7 @@ const keyFromHash = (hash: string) => {
   return match ?? "appearance"
 }
 
-const EditFieldPage: React.FC = () => {
+const EditChannelPage: React.FC = () => {
   const { id } = useParams<RouteParams>()
   const navigate = useNavigate()
   const { hash } = useLocation()
@@ -69,7 +69,7 @@ const EditFieldPage: React.FC = () => {
               <GridColumn variant="main-2">
                 <TabPanel value="appearance" className="page-nav-content">
                   <div>
-                    <EditFieldAppearanceForm field={field.data} />
+                    <EditChannelAppearanceForm field={field.data} />
                   </div>
                 </TabPanel>
                 <TabPanel value="moderators" className="page-nav-content">
@@ -94,4 +94,4 @@ const EditFieldPage: React.FC = () => {
   ) : null
 }
 
-export default EditFieldPage
+export default EditChannelPage
