@@ -320,7 +320,7 @@ const UpsertUserListDialog = NiceModal.create(
         />
         <RadioChoiceField
           className="form-row"
-          name="published"
+          name="privacy_level"
           label="Privacy"
           choices={USER_LIST_PRIVACY_CHOICES}
           value={formik.values.privacy_level}
