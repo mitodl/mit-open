@@ -266,7 +266,7 @@ const UpsertUserListDialog = NiceModal.create(
       enableReinitialize: true,
       initialValues:
         userList ?? (userListFormSchema.getDefault() as UserListFormValues),
-      validationSchema: learningPathFormSchema,
+      validationSchema: userListFormSchema,
       onSubmit: handleSubmit,
       validateOnChange: false,
       validateOnBlur: false,
