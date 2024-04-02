@@ -1,9 +1,6 @@
 import React from "react"
 
-import { urls, setMockResponse } from "api/test-utils"
-import { learningResources as factory } from "api/test-utils/factories"
-
-import { renderTestApp, screen } from "./test-utils"
+import { renderWithProviders, screen } from "./test-utils"
 
 jest.mock("posthog-js/react", () => ({
   PostHogProvider: (props: { children: React.ReactNode }) => (
@@ -21,10 +18,7 @@ describe("PostHogProvider", () => {
       },
     }
 
-    const resources = factory.resources({ count: 4 })
-    setMockResponse.get(urls.learningResources.list(), resources)
-
-    renderTestApp()
+    renderWithProviders(<div data-testid="some-children" />)
 
     const phProvider = screen.getAllByTestId("phProvider")
 
@@ -40,10 +34,7 @@ describe("PostHogProvider", () => {
       },
     }
 
-    const resources = factory.resources({ count: 4 })
-    setMockResponse.get(urls.learningResources.list(), resources)
-
-    renderTestApp()
+    renderWithProviders(<div data-testid="some-children" />)
 
     const phProvider = screen.queryAllByTestId("phProvider")
 
