@@ -4,7 +4,6 @@ import type { ProgramLetter } from "../../generated/v1"
 
 const programLetter: Factory<ProgramLetter> = (overrides = {}) => ({
   id: faker.datatype.uuid(),
-  record_hash: faker.datatype.uuid(),
   template_fields: {
     meta: {},
     id: faker.datatype.number(),
@@ -34,6 +33,7 @@ const programLetter: Factory<ProgramLetter> = (overrides = {}) => ({
   },
   certificate: {
     id: faker.datatype.number(),
+    record_hash: faker.datatype.uuid(),
     micromasters_program_id: faker.datatype.number(),
     user_email: faker.internet.email(),
     program_title: faker.lorem.words(),
