@@ -16,6 +16,7 @@ type UserListCardTemplateProps<U extends UserList = UserList> = {
   className?: string
   imgConfig: EmbedlyConfig
   onActivate?: OnActivateCard
+  footerActionSlot?: React.ReactNode
 }
 
 const UserListCardTemplate = <U extends UserList>({
@@ -25,6 +26,7 @@ const UserListCardTemplate = <U extends UserList>({
   imgConfig,
   sortable,
   onActivate,
+  footerActionSlot,
 }: UserListCardTemplateProps<U>) => {
   const handleActivate = useCallback(
     () => onActivate?.(userList),
@@ -50,6 +52,7 @@ const UserListCardTemplate = <U extends UserList>({
           {userList.item_count} {pluralize("item", userList.item_count)}
         </span>
       }
+      footerActionSlot={footerActionSlot}
     ></CardTemplate>
   )
 }

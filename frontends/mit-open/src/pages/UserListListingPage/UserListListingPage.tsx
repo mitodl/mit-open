@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useMemo } from "react"
 import {
   Button,
   Grid,
@@ -6,7 +6,13 @@ import {
   BannerPage,
   Container,
   styled,
+  SimpleMenuItem,
+  SimpleMenu,
+  IconButton,
 } from "ol-components"
+import EditIcon from "@mui/icons-material/Edit"
+import MoreVertIcon from "@mui/icons-material/MoreVert"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 import { MetaTags } from "ol-utilities"
 import type { UserList } from "api"
@@ -26,6 +32,40 @@ const ListHeaderGrid = styled(Grid)`
   margin-bottom: 1rem;
 `
 
+type EditUserListMenuProps = {
+  userList: UserList
+}
+
+const EditUserListMenu: React.FC<EditUserListMenuProps> = ({ userList }) => {
+  const items: SimpleMenuItem[] = useMemo(
+    () => [
+      {
+        key: "edit",
+        label: "Edit",
+        icon: <EditIcon />,
+        onClick: () => manageLearningPathDialogs.upsertUserList(userList),
+      },
+      {
+        key: "delete",
+        label: "Delete",
+        icon: <DeleteIcon />,
+        onClick: () => manageLearningPathDialogs.destroyUserList(userList),
+      },
+    ],
+    [userList],
+  )
+  return (
+    <SimpleMenu
+      trigger={
+        <IconButton size="small" aria-label={`Edit list ${userList.title}`}>
+          <MoreVertIcon fontSize="inherit" />
+        </IconButton>
+      }
+      items={items}
+    />
+  )
+}
+
 type ListCardProps = {
   list: UserList
   onActivate: (userList: UserList) => void
@@ -39,6 +79,7 @@ const ListCard: React.FC<ListCardProps> = ({ list, onActivate }) => {
       className="ic-resource-card"
       imgConfig={imgConfigs["row-reverse-small"]}
       onActivate={onActivate}
+      footerActionSlot={<EditUserListMenu userList={list} />}
     />
   )
 }

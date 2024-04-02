@@ -5,12 +5,14 @@ import {
   screen,
   renderWithProviders,
   setMockResponse,
+  user,
   expectProps,
   waitFor,
 } from "../../test-utils"
 import type { User } from "../../types/settings"
 import UserListListingPage from "./UserListListingPage"
 import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserListCardTemplate"
+import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 jest.mock(
   "../../page-components/UserListCardTemplate/UserListCardTemplate",
@@ -69,5 +71,73 @@ describe("UserListListingPage", () => {
     paths.results.forEach((userList) => {
       expectProps(spyULCardTemplate, { userList: userList })
     })
+  })
+
+  test("Clicking edit -> Edit on opens the editing dialog", async () => {
+    const editList = jest
+      .spyOn(manageLearningPathDialogs, "upsertUserList")
+      .mockImplementationOnce(jest.fn())
+
+    const { paths } = setup()
+    const path = faker.helpers.arrayElement(paths.results)
+
+    const menuButton = await screen.findByRole("button", {
+      name: `Edit list ${path.title}`,
+    })
+    await user.click(menuButton)
+    const editButton = screen.getByRole("menuitem", { name: "Edit" })
+    await user.click(editButton)
+
+    expect(editList).toHaveBeenCalledWith(path)
+  })
+
+  test("Clicking edit -> Delete opens the deletion dialog", async () => {
+    const deleteList = jest
+      .spyOn(manageLearningPathDialogs, "destroyUserList")
+      .mockImplementationOnce(jest.fn())
+
+    const { paths } = setup()
+    const path = faker.helpers.arrayElement(paths.results)
+
+    const menuButton = await screen.findByRole("button", {
+      name: `Edit list ${path.title}`,
+    })
+    await user.click(menuButton)
+    const deleteButton = screen.getByRole("menuitem", { name: "Delete" })
+
+    await user.click(deleteButton)
+
+    // Check details of this dialog elsewhere
+    expect(deleteList).toHaveBeenCalledWith(path)
+  })
+
+  test("Clicking new list opens the creation dialog", async () => {
+    const createList = jest
+      .spyOn(manageLearningPathDialogs, "upsertUserList")
+      .mockImplementationOnce(jest.fn())
+    setup()
+    const newListButton = await screen.findByRole("button", {
+      name: "Create new list",
+    })
+
+    expect(createList).not.toHaveBeenCalled()
+    await user.click(newListButton)
+
+    // Check details of this dialog elsewhere
+    expect(createList).toHaveBeenCalledWith()
+  })
+
+  test("Clicking on list title navigates to list page", async () => {
+    const { location, paths } = setup()
+    const path = faker.helpers.arrayElement(paths.results)
+    const listTitle = await screen.findByRole("heading", { name: path.title })
+    await user.click(listTitle)
+    expect(location.current).toEqual(
+      expect.objectContaining({
+        pathname: `/userlists/${path.id}`,
+        search: "",
+        hash: "",
+      }),
+    )
   })
 })
