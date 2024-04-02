@@ -100,7 +100,7 @@ describe("LearningPathListingPage", () => {
 
   test("Clicking edit -> Edit on opens the editing dialog", async () => {
     const editList = jest
-      .spyOn(manageLearningPathDialogs, "upsert")
+      .spyOn(manageLearningPathDialogs, "upsertLearningPath")
       .mockImplementationOnce(jest.fn())
 
     const { paths } = setup()
@@ -118,7 +118,7 @@ describe("LearningPathListingPage", () => {
 
   test("Clicking edit -> Delete opens the deletion dialog", async () => {
     const deleteList = jest
-      .spyOn(manageLearningPathDialogs, "destroy")
+      .spyOn(manageLearningPathDialogs, "destroyLearningPath")
       .mockImplementationOnce(jest.fn())
 
     const { paths } = setup()
@@ -138,7 +138,7 @@ describe("LearningPathListingPage", () => {
 
   test("Clicking new list opens the creation dialog", async () => {
     const createList = jest
-      .spyOn(manageLearningPathDialogs, "upsert")
+      .spyOn(manageLearningPathDialogs, "upsertLearningPath")
       .mockImplementationOnce(jest.fn())
     setup()
     const newListButton = await screen.findByRole("button", {

@@ -141,7 +141,7 @@ describe("ListDetailsPage", () => {
     setup({ path, userSettings: { is_learning_path_editor: true } })
     const editButton = await screen.findByRole("button", { name: "Edit" })
 
-    const editList = jest.spyOn(manageLearningPathDialogs, "upsert")
+    const editList = jest.spyOn(manageLearningPathDialogs, "upsertLearningPath")
     editList.mockImplementationOnce(jest.fn())
 
     expect(editList).not.toHaveBeenCalled()

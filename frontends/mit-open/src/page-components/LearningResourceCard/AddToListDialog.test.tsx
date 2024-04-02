@@ -163,7 +163,7 @@ describe("AddToListDialog", () => {
   test("Clicking 'Create a new list' opens the create list dialog", async () => {
     // Don't actually open the 'Create List' modal, or we'll need to mock API responses.
     const createList = jest
-      .spyOn(manageLearningPathDialogs, "upsert")
+      .spyOn(manageLearningPathDialogs, "upsertLearningPath")
       .mockImplementationOnce(jest.fn())
 
     setup()
