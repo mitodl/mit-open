@@ -389,3 +389,42 @@ describe("manageListDialogs.destroyLearningPath", () => {
     await waitForElementToBeRemoved(dialog)
   })
 })
+
+describe("manageListDialogs.destroyUserList", () => {
+  const setup = () => {
+    const userList = factories.userLists.userList()
+    renderWithProviders(null)
+    act(() => {
+      manageLearningPathDialogs.destroyUserList(userList)
+    })
+    return { userList: userList }
+  }
+
+  test("Dialog title is 'Delete list'", async () => {
+    setup()
+    const dialog = screen.getByRole("heading", { name: "Delete User List" })
+    expect(dialog).toBeVisible()
+  })
+
+  test("Deleting a $label calls correct API", async () => {
+    const { userList } = setup()
+
+    const dialog = screen.getByRole("dialog")
+    const url = urls.userLists.details({ id: userList.id })
+    setMockResponse.delete(url, undefined)
+    await user.click(inputs.delete())
+
+    expect(makeRequest).toHaveBeenCalledWith("delete", url, undefined)
+    await waitForElementToBeRemoved(dialog)
+  })
+
+  test("Clicking cancel does not delete list", async () => {
+    setup()
+
+    const dialog = screen.getByRole("dialog")
+    await user.click(inputs.cancel())
+
+    expect(makeRequest).not.toHaveBeenCalled()
+    await waitForElementToBeRemoved(dialog)
+  })
+})

@@ -257,7 +257,7 @@ const useUserListDestroy = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (params: ULDestroyRequest) =>
-      learningpathsApi.learningpathsDestroy(params),
+      userListsApi.userlistsDestroy(params),
     onSettled: (_data, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.id)
     },
