@@ -4,8 +4,8 @@ import logging
 
 from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework import viewsets
-from rest_framework.generics import ListCreateAPIView
+from rest_framework import mixins, viewsets
+from rest_framework.generics import ListCreateAPIView, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
@@ -22,6 +22,7 @@ from channels.serializers import (
 )
 from learning_resources.views import LargePagination
 from main.constants import VALID_HTTP_METHODS
+from main.permissions import AnonymousAccessReadonlyPermission
 
 log = logging.getLogger(__name__)
 
@@ -84,6 +85,28 @@ class FieldChannelViewSet(
         """Remove the field channel"""
         instance.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+
+@extend_schema_view(
+    get=extend_schema(summary="Field Detail Lookup by channel type and name"),
+)
+class ChannelByTypeNameDetailView(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    View for retrieving a field channel by type and name
+    """
+
+    serializer_class = FieldChannelSerializer
+    permission_classes = (AnonymousAccessReadonlyPermission,)
+
+    def get_object(self):
+        """
+        Return the field channel by type and name
+        """
+        return get_object_or_404(
+            FieldChannel,
+            channel_type=self.kwargs["channel_type"],
+            name=self.kwargs["name"],
+        )
 
 
 @extend_schema_view(

@@ -4,6 +4,7 @@ from django.urls import include, re_path
 from rest_framework.routers import DefaultRouter
 
 from channels.views import (
+    ChannelByTypeNameDetailView,
     FieldChannelViewSet,
     FieldModeratorDetailView,
     FieldModeratorListView,
@@ -13,6 +14,11 @@ v0_router = DefaultRouter()
 v0_router.register(r"channels", FieldChannelViewSet, basename="field_channels_api")
 
 v0_urls = [
+    re_path(
+        r"^channels/type/(?P<channel_type>[A-Za-z0-9_]+)/(?P<name>[A-Za-z0-9_]+)/$",
+        ChannelByTypeNameDetailView.as_view({"get": "retrieve"}),
+        name="field_by_type_name_api-detail",
+    ),
     re_path(
         r"^channels/(?P<id>\d+)/moderators/$",
         FieldModeratorListView.as_view(),

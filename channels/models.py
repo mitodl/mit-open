@@ -28,7 +28,6 @@ class BaseChannel(models.Model):
     # Channel configuration
     name = models.CharField(
         max_length=100,
-        unique=True,
         validators=[
             RegexValidator(
                 regex=r"^[A-Za-z0-9_]+$",
@@ -100,6 +99,9 @@ class FieldChannel(BaseChannel, TimestampedModel):
         null=True,
         related_name="field_channel",
     )
+
+    class Meta:
+        unique_together = ("name", "channel_type")
 
 
 class ChannelTopicDetail(TimestampedModel):
