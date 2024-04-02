@@ -23,15 +23,8 @@ from channels.models import (
 from learning_resources.constants import LearningResourceType
 from learning_resources.models import (
     LearningResource,
-    LearningResourceDepartment,
-    LearningResourceOfferor,
-    LearningResourceTopic,
 )
-from learning_resources.serializers import (
-    LearningResourceDepartmentSerializer,
-    LearningResourceOfferorSerializer,
-    LearningResourceTopicSerializer,
-)
+from main.serializers import COMMON_IGNORED_FIELDS
 from profiles.models import Profile
 
 User = get_user_model()
@@ -151,17 +144,15 @@ class FieldChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerial
 
     class Meta:
         model = FieldChannel
-        exclude = []
+        exclude = COMMON_IGNORED_FIELDS
 
 
 class ChannelTopicDetailSerializer(serializers.ModelSerializer):
     """Serializer for the ChannelTopicDetail model"""
 
-    topic = LearningResourceTopicSerializer(many=False, allow_null=True)
-
     class Meta:
         model = ChannelTopicDetail
-        exclude = ("channel",)
+        exclude = ("channel", *COMMON_IGNORED_FIELDS)
 
 
 class TopicChannelSerializer(FieldChannelBaseSerializer):
@@ -174,11 +165,9 @@ class TopicChannelSerializer(FieldChannelBaseSerializer):
 class ChannelDepartmentDetailSerializer(serializers.ModelSerializer):
     """Serializer for the ChannelDepartmentDetail model"""
 
-    department = LearningResourceDepartmentSerializer(many=True, allow_null=True)
-
     class Meta:
-        model = ChannelTopicDetail
-        exclude = ("channel",)
+        model = ChannelDepartmentDetail
+        exclude = ("channel", *COMMON_IGNORED_FIELDS)
 
 
 class DepartmentChannelSerializer(FieldChannelBaseSerializer):
@@ -192,11 +181,9 @@ class DepartmentChannelSerializer(FieldChannelBaseSerializer):
 class OfferorChannelDetailSerializer(serializers.ModelSerializer):
     """Serializer for the ChannelOfferorDetail model"""
 
-    offeror = LearningResourceOfferorSerializer(many=True, allow_null=True)
-
     class Meta:
         model = ChannelOfferorDetail
-        exclude = ("channel",)
+        exclude = ("channel", *COMMON_IGNORED_FIELDS)
 
 
 class OfferorChannelSerializer(FieldChannelBaseSerializer):
@@ -212,7 +199,7 @@ class PathwayChannelDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ChannelPathwayDetail
-        exclude = ("channel",)
+        exclude = ("channel", *COMMON_IGNORED_FIELDS)
 
 
 class PathwayChannelSerializer(FieldChannelBaseSerializer):
@@ -243,43 +230,7 @@ class FieldChannelSerializer(serializers.Serializer):
         return serializer_cls(instance=instance, context=self.context).data
 
 
-class FieldChannelDetailsUpsertMixin(serializers.Serializer):
-    topic = serializers.PrimaryKeyRelatedField(
-        many=False,
-        allow_null=True,
-        allow_empty=True,
-        required=False,
-        queryset=LearningResourceTopic.objects.all(),
-        help_text="Associated topic",
-    )
-    department = serializers.PrimaryKeyRelatedField(
-        many=False,
-        allow_null=True,
-        allow_empty=True,
-        required=False,
-        queryset=LearningResourceDepartment.objects.all(),
-        help_text="Associated department",
-    )
-    offeror = serializers.PrimaryKeyRelatedField(
-        many=False,
-        allow_null=True,
-        allow_empty=True,
-        required=False,
-        queryset=LearningResourceOfferor.objects.all(),
-        help_text="Associated ofefror",
-    )
-
-    class Meta:
-        fields = (
-            "topic",
-            "department",
-            "offeror",
-        )
-
-
-class FieldChannelCreateSerializer(
-    serializers.ModelSerializer, FieldChannelDetailsUpsertMixin
-):
+class FieldChannelCreateSerializer(serializers.ModelSerializer):
     """
     Write serializer for FieldChannel. Uses primary keys for referenced objects
     during requests, and delegates to FieldChannelSerializer for responses.
@@ -313,6 +264,18 @@ class FieldChannelCreateSerializer(
         queryset=FieldChannel.objects.all(),
         required=False,
     )
+    topic_detail = ChannelTopicDetailSerializer(
+        allow_null=True, many=False, required=False
+    )
+    department_detail = ChannelDepartmentDetailSerializer(
+        allow_null=True, many=False, required=False
+    )
+    offeror_detail = OfferorChannelDetailSerializer(
+        allow_null=True, many=False, required=False
+    )
+    pathway_detail = PathwayChannelDetailSerializer(
+        allow_null=True, many=False, required=False
+    )
 
     class Meta:
         model = FieldChannel
@@ -329,12 +292,10 @@ class FieldChannelCreateSerializer(
             "channel_type",
             "search_filter",
             "configuration",
-            "topic",
-            "department",
-            "offeror",
-            "topic",
-            "department",
-            "offeror",
+            "topic_detail",
+            "department_detail",
+            "offeror_detail",
+            "pathway_detail",
         )
 
     def upsert_field_lists(self, instance, validated_data):
@@ -387,31 +348,39 @@ class FieldChannelCreateSerializer(
                 field_channel__name__in=removed_subfields
             ).delete()
 
+    def upsert_details(self, channel, validated_data):
+        """Update/create details for a new or updated channel"""
+        channel_detail_map = {
+            ChannelType.topic.name: ChannelTopicDetail,
+            ChannelType.department.name: ChannelDepartmentDetail,
+            ChannelType.offeror.name: ChannelOfferorDetail,
+            ChannelType.pathway.name: ChannelPathwayDetail,
+        }
+        for key in ChannelType.names():
+            details_data = validated_data.pop(f"{key}_detail", None)
+            if key != channel.channel_type:
+                channel_detail_map[key].objects.filter(channel=channel).delete()
+            else:
+                channel_detail_map[key].objects.update_or_create(
+                    channel=channel, defaults=details_data
+                )
+
     def create(self, validated_data):
         base_field_data = copy.deepcopy(validated_data)
-        for key in ("subfields", "lists", "topic", "department", "offeror"):
+        for key in (
+            "subfields",
+            "lists",
+            "topic_detail",
+            "department_detail",
+            "offeror_detail",
+            "pathway_detail",
+        ):
             base_field_data.pop(key, None)
         with transaction.atomic():
             field_channel = super().create(base_field_data)
             self.upsert_field_lists(field_channel, validated_data)
             self.upsert_subfields(field_channel, validated_data)
-            channel_type = validated_data.get("channel_type")
-            if channel_type == ChannelType.topic.name:
-                ChannelTopicDetail.objects.get_or_create(
-                    channel=field_channel, topic=validated_data.get("topic")
-                )
-            elif channel_type == ChannelType.department.name:
-                ChannelDepartmentDetail.objects.get_or_create(
-                    channel=field_channel, department=validated_data.get("department")
-                )
-            elif channel_type == ChannelType.offeror.name:
-                ChannelDepartmentDetail.objects.get_or_create(
-                    channel=field_channel, offeror=validated_data.get("offeror")
-                )
-            elif channel_type == ChannelType.pathway.name:
-                ChannelPathwayDetail.objects.get_or_create(
-                    channel=field_channel,
-                )
+            self.upsert_details(field_channel, validated_data)
             return field_channel
 
     def to_representation(self, data):
@@ -430,6 +399,7 @@ class FieldChannelWriteSerializer(FieldChannelCreateSerializer, ChannelAppearanc
         """Update an existing field channel"""
         self.upsert_field_lists(instance, validated_data)
         self.upsert_subfields(instance, validated_data)
+        self.upsert_details(instance, validated_data)
 
         avatar = validated_data.pop("avatar", None)
         if avatar:
@@ -444,28 +414,6 @@ class FieldChannelWriteSerializer(FieldChannelCreateSerializer, ChannelAppearanc
                 f"field_channel_banner_{instance.name}.jpg", banner, save=False
             )
             instance.save(update_fields=["banner"])
-        channel_type = validated_data.get("channel_type")
-        if instance.channel_type != channel_type:
-            ChannelTopicDetail.objects.filter(channel=instance).delete()
-            ChannelDepartmentDetail.objects.filter(channel=instance).delete()
-            ChannelOfferorDetail.objects.filter(channel=instance).delete()
-            ChannelPathwayDetail.objects.filter(channel=instance).delete()
-        if channel_type == ChannelType.topic.name:
-            ChannelTopicDetail.objects.update_or_create(
-                channel=instance, topic=validated_data.get("topic")
-            )
-        elif channel_type == ChannelType.department.name:
-            ChannelDepartmentDetail.objects.update_or_create(
-                channel=instance, department=validated_data.get("department")
-            )
-        elif channel_type == ChannelType.offeror.name:
-            ChannelDepartmentDetail.objects.update_or_create(
-                channel=instance, offeror=validated_data.get("offeror")
-            )
-        elif channel_type == ChannelType.pathway.name:
-            ChannelPathwayDetail.objects.update_or_create(
-                channel=instance,
-            )
         return super().update(instance, validated_data)
 
 

@@ -63,4 +63,4 @@ class HasFieldPermission(BasePermission):
         elif request.method == "DELETE":
             return request.user.is_staff
         else:
-            return is_field_moderator(request, view)
+            return is_field_moderator(request, view) or request.user.is_staff

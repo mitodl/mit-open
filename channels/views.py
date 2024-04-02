@@ -4,7 +4,7 @@ import logging
 
 from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework import mixins, viewsets
+from rest_framework import viewsets
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_204_NO_CONTENT
@@ -54,12 +54,7 @@ def extend_schema_responses(serializer):
     partial_update=extend_schema(summary="Update"),
 )
 class FieldChannelViewSet(
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet,
+    viewsets.ModelViewSet,
 ):
     """
     CRUD Operations related to Fields. Fields may represent groups or organizations
@@ -69,6 +64,7 @@ class FieldChannelViewSet(
     pagination_class = LargePagination
     permission_classes = (HasFieldPermission,)
     http_method_names = VALID_HTTP_METHODS
+    lookup_field = "id"
     lookup_url_kwarg = "id"
 
     def get_queryset(self):

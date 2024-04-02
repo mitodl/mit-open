@@ -2,6 +2,8 @@
 
 from rest_framework import serializers
 
+COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
+
 
 class WriteableSerializerMethodField(serializers.SerializerMethodField):
     """
