@@ -330,13 +330,22 @@ const UserListToggleList: React.FC<UserListToggleListProps> = ({
     const adding = isAdding(list)
     const removing = isRemoving(list)
     const disabled = adding || removing
+    const privateLevel = PrivacyLevelEnum.Private[0]
+      .toUpperCase()
+      .concat(PrivacyLevelEnum.Private.slice(1))
+    const unlistedLevel = PrivacyLevelEnum.Unlisted[0]
+      .toUpperCase()
+      .concat(PrivacyLevelEnum.Unlisted.slice(1))
+    const privacyLevel = list.privacy_level
+      ? list.privacy_level[0].toUpperCase().concat(list.privacy_level.slice(1))
+      : privateLevel
     return (
       <ListItem
         key={list.id}
         secondaryAction={
           <PrivacyChip
-            publicOption={PrivacyLevelEnum.Unlisted}
-            selectedOption={list.privacy_level}
+            publicOption={unlistedLevel}
+            selectedOption={privacyLevel}
           />
         }
       >
