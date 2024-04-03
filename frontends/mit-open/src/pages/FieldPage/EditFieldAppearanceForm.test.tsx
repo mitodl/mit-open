@@ -9,13 +9,14 @@ import { fields as factory } from "api/test-utils/factories"
 import { urls, setMockResponse } from "api/test-utils"
 import { makeFieldViewPath, makeFieldEditPath } from "@/common/urls"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
-import type { PatchedFieldChannelWriteRequest } from "api/v0"
+import type { FieldChannel } from "api/v0"
 
-const setupApis = (
-  fieldOverrides: Partial<PatchedFieldChannelWriteRequest>,
-) => {
+const setupApis = (fieldOverrides: Partial<FieldChannel>) => {
   const field = factory.field({ is_moderator: true, ...fieldOverrides })
-  setMockResponse.get(urls.channels.details(field.id), field)
+  setMockResponse.get(
+    urls.fields.details(field.channel_type, field.name),
+    field,
+  )
   setMockResponse.get(
     urls.widgetLists.details(field.widget_list || -1),
     makeWidgetListResponse({}, { count: 0 }),
@@ -28,7 +29,7 @@ describe("EditFieldAppearanceForm", () => {
     const field = setupApis({})
     expect(field.is_moderator).toBeTruthy()
     renderTestApp({
-      url: `${makeFieldEditPath(field.id.toString())}/#appearance`,
+      url: `${makeFieldEditPath(field.channel_type, field.name)}/#appearance`,
     })
     const descInput = (await screen.findByLabelText(
       "Description",
@@ -43,7 +44,7 @@ describe("EditFieldAppearanceForm", () => {
   it("Shows an error if a required field is blank", async () => {
     const field = setupApis({})
     renderTestApp({
-      url: `${makeFieldEditPath(field.id.toString())}/#appearance`,
+      url: `${makeFieldEditPath(field.channel_type, field.name)}/#appearance`,
     })
     const titleInput = await screen.findByLabelText("Title")
     const titleError = screen.queryByText("Title is required.")
@@ -68,9 +69,12 @@ describe("EditFieldAppearanceForm", () => {
       title: newTitle,
       public_description: newDesc,
     }
-    setMockResponse.patch(urls.channels.details(field.id), updatedValues)
+    setMockResponse.patch(
+      urls.fields.details(field.channel_type, field.name),
+      updatedValues,
+    )
     const { location } = renderTestApp({
-      url: `${makeFieldEditPath(field.id.toString())}/#appearance`,
+      url: `${makeFieldEditPath(field.channel_type, field.name)}/#appearance`,
     })
     const titleInput = (await screen.findByLabelText(
       "Title",
@@ -78,13 +82,17 @@ describe("EditFieldAppearanceForm", () => {
     const descInput = (await screen.findByLabelText(
       "Description",
     )) as HTMLInputElement
+    const channelTypeInput = (await screen.findByLabelText(
+      "Channel Type",
+    )) as HTMLInputElement
     const submitBtn = await screen.findByText("Save")
+    channelTypeInput.value = field.channel_type
     titleInput.setSelectionRange(0, titleInput.value.length)
     await user.type(titleInput, newTitle)
     descInput.setSelectionRange(0, descInput.value.length)
     await user.type(descInput, newDesc)
     // Expected field values after submit
-    setMockResponse.get(urls.channels.details(field.id), updatedValues)
+    setMockResponse.get(urls.fields.upsert(field.id), updatedValues)
     await user.click(submitBtn)
 
     await waitFor(() => {

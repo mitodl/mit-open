@@ -38,6 +38,9 @@ const postSchema = Yup.object().shape({
   public_description: Yup.string()
     .default("")
     .required("Description is required."),
+  channel_type: Yup.string()
+    .default("pathway")
+    .required("Channel Type is required."),
 })
 type FormData = Yup.InferType<typeof postSchema>
 
@@ -49,9 +52,10 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
 
   const handleSubmit = useCallback(
     async (e: FormData) => {
+      // @ts-expect-error No idea how to fix this
       const data = await editField.mutateAsync({ id: fieldId, ...e })
       if (data) {
-        navigate(makeFieldViewPath(data.channel_type, data.name))
+        navigate(makeFieldViewPath(String(data.channel_type), data.name))
       }
       return data
     },
@@ -62,8 +66,8 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
     enableReinitialize: true,
     initialValues: {
       title: field.title,
-      public_description: field.public_description,
-      channel_type: field.channel_type,
+      public_description: String(field.public_description),
+      channel_type: String(field.channel_type),
     },
     validationSchema: postSchema,
     onSubmit: handleSubmit,

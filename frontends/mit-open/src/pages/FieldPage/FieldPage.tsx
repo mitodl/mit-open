@@ -39,7 +39,7 @@ const FieldPage: React.FC = () => {
   const tabValue = keyFromHash(hash)
 
   const leaveWidgetManagement = useCallback(() => {
-    navigate(makeFieldViewPath(channelType, name))
+    navigate(makeFieldViewPath(String(channelType), String(name)))
   }, [navigate, channelType, name])
 
   return (

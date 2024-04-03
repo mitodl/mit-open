@@ -25,7 +25,7 @@ const EditFieldPage: React.FC = () => {
   const navigate = useNavigate()
   const { hash } = useLocation()
   const tabValue = keyFromHash(hash)
-  const field = useChannelDetail(channelType, name)
+  const field = useChannelDetail(String(channelType), String(name))
   const handleChange = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
       navigate({ hash: newValue }, { replace: true })

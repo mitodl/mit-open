@@ -70,7 +70,10 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                 </h1>
                 <FieldControls>
                   {field.data?.is_moderator ? (
-                    <FieldMenu channelType={channelType} name={name} />
+                    <FieldMenu
+                      channelType={String(channelType)}
+                      name={String(name)}
+                    />
                   ) : null}
                 </FieldControls>
               </>

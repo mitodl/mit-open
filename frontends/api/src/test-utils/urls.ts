@@ -87,10 +87,10 @@ const articles = {
   details: (id: number) => `/api/v1/articles/${id}/`,
 }
 
-const channels = {
-  details: (id: number) => `/api/v0/channels/${id}/`,
-  detailsByType: (channelType: string, name: string) =>
+const fields = {
+  details: (channelType: string, name: string) =>
     `/api/v0/channels/type/${channelType}/${name}/`,
+  upsert: (id: number) => `/api/v0/channels/${id}/`,
 }
 
 const widgetLists = {
@@ -113,7 +113,7 @@ export {
   search,
   userLists,
   programLetters,
-  channels,
+  fields,
   widgetLists,
   offerors,
 }

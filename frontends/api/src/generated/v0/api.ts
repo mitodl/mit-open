@@ -422,104 +422,6 @@ export type FieldChannel =
 /**
  * Write serializer for FieldChannel. Uses primary keys for referenced objects during requests, and delegates to FieldChannelSerializer for responses.
  * @export
- * @interface FieldChannelCreate
- */
-export interface FieldChannelCreate {
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof FieldChannelCreate
-   */
-  subfields?: Array<string>
-  /**
-   * Learning path featured in this field.
-   * @type {number}
-   * @memberof FieldChannelCreate
-   */
-  featured_list?: number | null
-  /**
-   * Learning paths in this field.
-   * @type {Array<number>}
-   * @memberof FieldChannelCreate
-   */
-  lists?: Array<number>
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  avatar?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  banner?: string | null
-  /**
-   *
-   * @type {any}
-   * @memberof FieldChannelCreate
-   */
-  about?: any | null
-  /**
-   *
-   * @type {ChannelTypeAe2Enum}
-   * @memberof FieldChannelCreate
-   */
-  channel_type?: ChannelTypeAe2Enum
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreate
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {any}
-   * @memberof FieldChannelCreate
-   */
-  configuration?: any | null
-  /**
-   *
-   * @type {ChannelTopicDetail}
-   * @memberof FieldChannelCreate
-   */
-  topic_detail?: ChannelTopicDetail | null
-  /**
-   *
-   * @type {ChannelDepartmentDetail}
-   * @memberof FieldChannelCreate
-   */
-  department_detail?: ChannelDepartmentDetail | null
-  /**
-   *
-   * @type {ChannelOfferorDetail}
-   * @memberof FieldChannelCreate
-   */
-  offeror_detail?: ChannelOfferorDetail | null
-}
-
-/**
- * Write serializer for FieldChannel. Uses primary keys for referenced objects during requests, and delegates to FieldChannelSerializer for responses.
- * @export
  * @interface FieldChannelCreateRequest
  */
 export interface FieldChannelCreateRequest {
@@ -613,104 +515,6 @@ export interface FieldChannelCreateRequest {
    * @memberof FieldChannelCreateRequest
    */
   offeror_detail?: ChannelOfferorDetailRequest | null
-}
-
-/**
- * Similar to FieldChannelCreateSerializer, with read-only name
- * @export
- * @interface FieldChannelWrite
- */
-export interface FieldChannelWrite {
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof FieldChannelWrite
-   */
-  subfields?: Array<string>
-  /**
-   * Learning path featured in this field.
-   * @type {number}
-   * @memberof FieldChannelWrite
-   */
-  featured_list?: number | null
-  /**
-   * Learning paths in this field.
-   * @type {Array<number>}
-   * @memberof FieldChannelWrite
-   */
-  lists?: Array<number>
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  avatar?: string | null
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  banner?: string | null
-  /**
-   *
-   * @type {any}
-   * @memberof FieldChannelWrite
-   */
-  about?: any | null
-  /**
-   *
-   * @type {ChannelTypeAe2Enum}
-   * @memberof FieldChannelWrite
-   */
-  channel_type?: ChannelTypeAe2Enum
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelWrite
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {any}
-   * @memberof FieldChannelWrite
-   */
-  configuration?: any | null
-  /**
-   *
-   * @type {ChannelTopicDetail}
-   * @memberof FieldChannelWrite
-   */
-  topic_detail?: ChannelTopicDetail | null
-  /**
-   *
-   * @type {ChannelDepartmentDetail}
-   * @memberof FieldChannelWrite
-   */
-  department_detail?: ChannelDepartmentDetail | null
-  /**
-   *
-   * @type {ChannelOfferorDetail}
-   * @memberof FieldChannelWrite
-   */
-  offeror_detail?: ChannelOfferorDetail | null
 }
 
 /**
@@ -2149,10 +1953,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       FieldChannelCreateRequest: FieldChannelCreateRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<FieldChannelCreate>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.channelsCreate(
         FieldChannelCreateRequest,
@@ -2338,10 +2139,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<FieldChannelWrite>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsPartialUpdate(
@@ -2441,7 +2239,7 @@ export const ChannelsApiFactory = function (
     channelsCreate(
       requestParameters: ChannelsApiChannelsCreateRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldChannelCreate> {
+    ): AxiosPromise<FieldChannel> {
       return localVarFp
         .channelsCreate(requestParameters.FieldChannelCreateRequest, options)
         .then((request) => request(axios, basePath))
@@ -2543,7 +2341,7 @@ export const ChannelsApiFactory = function (
     channelsPartialUpdate(
       requestParameters: ChannelsApiChannelsPartialUpdateRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldChannelWrite> {
+    ): AxiosPromise<FieldChannel> {
       return localVarFp
         .channelsPartialUpdate(
           requestParameters.id,

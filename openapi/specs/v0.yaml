@@ -58,7 +58,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannelCreate'
+                $ref: '#/components/schemas/FieldChannel'
           description: ''
   /api/v0/channels/{id}/:
     get:
@@ -114,7 +114,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannelWrite'
+                $ref: '#/components/schemas/FieldChannel'
           description: ''
     delete:
       operationId: channels_destroy
@@ -690,69 +690,6 @@ components:
           department: '#/components/schemas/DepartmentChannel'
           offeror: '#/components/schemas/OfferorChannel'
           pathway: '#/components/schemas/PathwayChannel'
-    FieldChannelCreate:
-      type: object
-      description: |-
-        Write serializer for FieldChannel. Uses primary keys for referenced objects
-        during requests, and delegates to FieldChannelSerializer for responses.
-      properties:
-        name:
-          type: string
-          pattern: ^[A-Za-z0-9_]+$
-          maxLength: 100
-        title:
-          type: string
-          maxLength: 100
-        public_description:
-          type: string
-        subfields:
-          type: array
-          items:
-            type: string
-        featured_list:
-          type: integer
-          nullable: true
-          description: Learning path featured in this field.
-        lists:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Learning paths in this field.
-        avatar:
-          type: string
-          format: uri
-          nullable: true
-        banner:
-          type: string
-          format: uri
-          nullable: true
-        about:
-          nullable: true
-        channel_type:
-          allOf:
-          - $ref: '#/components/schemas/ChannelTypeAe2Enum'
-          default: pathway
-        search_filter:
-          type: string
-          maxLength: 2048
-        configuration:
-          nullable: true
-        topic_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelTopicDetail'
-          nullable: true
-        department_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelDepartmentDetail'
-          nullable: true
-        offeror_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelOfferorDetail'
-          nullable: true
-      required:
-      - name
-      - title
     FieldChannelCreateRequest:
       type: object
       description: |-
@@ -815,66 +752,6 @@ components:
         offeror_detail:
           allOf:
           - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
-          nullable: true
-      required:
-      - name
-      - title
-    FieldChannelWrite:
-      type: object
-      description: Similar to FieldChannelCreateSerializer, with read-only name
-      properties:
-        name:
-          type: string
-          readOnly: true
-        title:
-          type: string
-          maxLength: 100
-        public_description:
-          type: string
-        subfields:
-          type: array
-          items:
-            type: string
-        featured_list:
-          type: integer
-          nullable: true
-          description: Learning path featured in this field.
-        lists:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Learning paths in this field.
-        avatar:
-          type: string
-          nullable: true
-          description: Get the avatar image URL
-        banner:
-          type: string
-          nullable: true
-          description: Get the banner image URL
-        about:
-          nullable: true
-        channel_type:
-          allOf:
-          - $ref: '#/components/schemas/ChannelTypeAe2Enum'
-          default: pathway
-        search_filter:
-          type: string
-          maxLength: 2048
-        configuration:
-          nullable: true
-        topic_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelTopicDetail'
-          nullable: true
-        department_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelDepartmentDetail'
-          nullable: true
-        offeror_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelOfferorDetail'
           nullable: true
       required:
       - name
