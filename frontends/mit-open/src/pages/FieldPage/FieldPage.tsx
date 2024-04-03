@@ -2,7 +2,7 @@ import React, { useCallback } from "react"
 import { useParams, useLocation, useNavigate } from "react-router"
 import { Tab, TabContext, TabList, TabPanel, Container } from "ol-components"
 import { Link } from "react-router-dom"
-import FieldPageSkeleton from "./ChannelPageSkeleton"
+import FieldPageSkeleton from "./FieldPageSkeleton"
 import { useChannelDetailByType } from "api/hooks/fields"
 import WidgetsList from "./WidgetsList"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
@@ -21,7 +21,7 @@ const keyFromHash = (hash: string) => {
 
 const MANAGE_WIDGETS_SUFFIX = "manage/widgets"
 
-const ChannelPage: React.FC = () => {
+const FieldPage: React.FC = () => {
   const { channelType, name } = useParams<RouteParams>()
   const navigate = useNavigate()
   const { hash, pathname } = useLocation()
@@ -87,4 +87,4 @@ const ChannelPage: React.FC = () => {
   )
 }
 
-export default ChannelPage
+export default FieldPage

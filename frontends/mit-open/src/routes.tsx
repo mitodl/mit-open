@@ -3,8 +3,8 @@ import { RouteObject, Outlet } from "react-router"
 import HomePage from "@/pages/HomePage/HomePage"
 import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
 import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
-import ChannelPage from "@/pages/ChannelPage/ChannelPage"
-import EditChannelPage from "@/pages/ChannelPage/EditChannelPage"
+import FieldPage from "@/pages/FieldPage/FieldPage"
+import EditFieldPage from "@/pages/FieldPage/EditFieldPage"
 
 import UserListListingPage from "./pages/UserListListingPage/UserListListingPage"
 import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
@@ -78,15 +78,15 @@ const routes: RouteObject[] = [
       },
       {
         path: urls.FIELD_VIEW,
-        element: <ChannelPage />,
+        element: <FieldPage />,
       },
       {
         path: urls.FIELD_EDIT_WIDGETS,
-        element: <ChannelPage />,
+        element: <FieldPage />,
       },
       {
         path: urls.FIELD_EDIT,
-        element: <EditChannelPage />,
+        element: <EditFieldPage />,
       },
       {
         element: <RestrictedRoute requires={Permissions.ArticleEditor} />,

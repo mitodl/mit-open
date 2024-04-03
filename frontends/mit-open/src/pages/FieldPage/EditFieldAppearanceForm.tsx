@@ -41,7 +41,7 @@ const postSchema = Yup.object().shape({
 })
 type FormData = Yup.InferType<typeof postSchema>
 
-const EditChannelAppearanceForm = (props: FormProps): JSX.Element => {
+const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
   const { field } = props
   const fieldId = field.id
   const editField = useChannelPartialUpdate()
@@ -120,4 +120,4 @@ const EditChannelAppearanceForm = (props: FormProps): JSX.Element => {
   )
 }
 
-export default EditChannelAppearanceForm
+export default EditFieldAppearanceForm
