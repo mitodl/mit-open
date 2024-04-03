@@ -196,6 +196,22 @@ def test_patch_field_channel_image(client, field_channel, attribute):
             assert len(size_image.read()) > 0
 
 
+def test_channel_by_type_name_detail(user_client):
+    """ChannelByTypeNameDetailView should return expected result"""
+    channel = FieldChannelFactory.create(is_topic=True)
+    url = reverse(
+        "channels:v0:field_by_type_name_api-detail",
+        kwargs={"channel_type": ChannelType.topic.name, "name": channel.name},
+    )
+    response = user_client.get(url)
+    assert response.json() == FieldChannelSerializer(instance=channel).data
+    FieldChannel.objects.filter(id=channel.id).update(
+        channel_type=ChannelType.department.name
+    )
+    response = user_client.get(url)
+    assert response.status_code == 404
+
+
 def test_update_field_channel_forbidden(field_channel, user_client):
     """A normal user should not be able to update a field channel"""
     url = reverse(
