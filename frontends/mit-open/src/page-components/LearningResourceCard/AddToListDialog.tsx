@@ -226,9 +226,15 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
   isReady,
 }) => {
   const modal = NiceModal.useModal()
+  let dialogTitle = "Add to list"
+  if (listType === ListType.LearningPath) {
+    dialogTitle = "Add to Learning List"
+  } else if (listType === ListType.UserList) {
+    dialogTitle = "Add to User List"
+  }
   return (
     <StyledBasicDialog
-      title="Add to Learning List"
+      title={dialogTitle}
       showFooter={false}
       {...NiceModal.muiDialogV5(modal)}
     >
