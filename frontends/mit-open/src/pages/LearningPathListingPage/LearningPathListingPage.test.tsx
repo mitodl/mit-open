@@ -1,7 +1,7 @@
 import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { factories, urls } from "api/test-utils"
-import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import LearningPathListingPage from "./LearningPathListingPage"
 import {
@@ -100,7 +100,7 @@ describe("LearningPathListingPage", () => {
 
   test("Clicking edit -> Edit on opens the editing dialog", async () => {
     const editList = jest
-      .spyOn(manageLearningPathDialogs, "upsertLearningPath")
+      .spyOn(manageListDialogs, "upsertLearningPath")
       .mockImplementationOnce(jest.fn())
 
     const { paths } = setup()
@@ -118,7 +118,7 @@ describe("LearningPathListingPage", () => {
 
   test("Clicking edit -> Delete opens the deletion dialog", async () => {
     const deleteList = jest
-      .spyOn(manageLearningPathDialogs, "destroyLearningPath")
+      .spyOn(manageListDialogs, "destroyLearningPath")
       .mockImplementationOnce(jest.fn())
 
     const { paths } = setup()
@@ -138,7 +138,7 @@ describe("LearningPathListingPage", () => {
 
   test("Clicking new list opens the creation dialog", async () => {
     const createList = jest
-      .spyOn(manageLearningPathDialogs, "upsertLearningPath")
+      .spyOn(manageListDialogs, "upsertLearningPath")
       .mockImplementationOnce(jest.fn())
     setup()
     const newListButton = await screen.findByRole("button", {

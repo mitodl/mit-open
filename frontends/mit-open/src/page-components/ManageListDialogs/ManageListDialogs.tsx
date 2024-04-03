@@ -390,7 +390,7 @@ const DeleteUserListDialog = NiceModal.create(
   },
 )
 
-const manageLearningPathDialogs = {
+const manageListDialogs = {
   upsertLearningPath: (resource?: LearningPathResource) => {
     const title = resource ? "Edit Learning Path" : "Create Learning Path"
     NiceModal.show(UpsertLearningPathDialog, { title, resource })
@@ -405,4 +405,4 @@ const manageLearningPathDialogs = {
     NiceModal.show(DeleteUserListDialog, { userList }),
 }
 
-export { manageLearningPathDialogs }
+export { manageListDialogs }

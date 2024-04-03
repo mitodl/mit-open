@@ -25,7 +25,7 @@ import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserLis
 import { useNavigate } from "react-router"
 import * as urls from "@/common/urls"
 import { imgConfigs } from "@/common/constants"
-import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
@@ -43,13 +43,13 @@ const EditUserListMenu: React.FC<EditUserListMenuProps> = ({ userList }) => {
         key: "edit",
         label: "Edit",
         icon: <EditIcon />,
-        onClick: () => manageLearningPathDialogs.upsertUserList(userList),
+        onClick: () => manageListDialogs.upsertUserList(userList),
       },
       {
         key: "delete",
         label: "Delete",
         icon: <DeleteIcon />,
-        onClick: () => manageLearningPathDialogs.destroyUserList(userList),
+        onClick: () => manageListDialogs.destroyUserList(userList),
       },
     ],
     [userList],
@@ -96,7 +96,7 @@ const UserListListingPage: React.FC = () => {
     [navigate],
   )
   const handleCreate = useCallback(() => {
-    manageLearningPathDialogs.upsertUserList()
+    manageListDialogs.upsertUserList()
   }, [])
 
   return (

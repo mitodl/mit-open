@@ -7,7 +7,7 @@ import {
   type UserList,
 } from "api"
 import { allowConsoleErrors, getDescriptionFor } from "ol-test-utilities"
-import { manageLearningPathDialogs } from "./ManageListDialogs"
+import { manageListDialogs } from "./ManageListDialogs"
 import {
   screen,
   renderWithProviders,
@@ -77,7 +77,7 @@ describe("manageListDialogs.upsertLearningPath", () => {
     renderWithProviders(null, opts)
 
     act(() => {
-      manageLearningPathDialogs.upsertLearningPath(resource)
+      manageListDialogs.upsertLearningPath(resource)
     })
 
     return { topics }
@@ -231,7 +231,7 @@ describe("manageListDialogs.upsertUserList", () => {
     renderWithProviders(null, opts)
 
     act(() => {
-      manageLearningPathDialogs.upsertUserList(userList)
+      manageListDialogs.upsertUserList(userList)
     })
   }
 
@@ -356,7 +356,7 @@ describe("manageListDialogs.destroyLearningPath", () => {
     const resource = factories.learningResources.learningPath()
     renderWithProviders(null)
     act(() => {
-      manageLearningPathDialogs.destroyLearningPath(resource)
+      manageListDialogs.destroyLearningPath(resource)
     })
     return { resource }
   }
@@ -395,7 +395,7 @@ describe("manageListDialogs.destroyUserList", () => {
     const userList = factories.userLists.userList()
     renderWithProviders(null)
     act(() => {
-      manageLearningPathDialogs.destroyUserList(userList)
+      manageListDialogs.destroyUserList(userList)
     })
     return { userList: userList }
   }

@@ -12,7 +12,7 @@ import {
 import type { User } from "../../types/settings"
 import UserListListingPage from "./UserListListingPage"
 import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserListCardTemplate"
-import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 jest.mock(
   "../../page-components/UserListCardTemplate/UserListCardTemplate",
@@ -75,7 +75,7 @@ describe("UserListListingPage", () => {
 
   test("Clicking edit -> Edit on opens the editing dialog", async () => {
     const editList = jest
-      .spyOn(manageLearningPathDialogs, "upsertUserList")
+      .spyOn(manageListDialogs, "upsertUserList")
       .mockImplementationOnce(jest.fn())
 
     const { paths } = setup()
@@ -93,7 +93,7 @@ describe("UserListListingPage", () => {
 
   test("Clicking edit -> Delete opens the deletion dialog", async () => {
     const deleteList = jest
-      .spyOn(manageLearningPathDialogs, "destroyUserList")
+      .spyOn(manageListDialogs, "destroyUserList")
       .mockImplementationOnce(jest.fn())
 
     const { paths } = setup()
@@ -113,7 +113,7 @@ describe("UserListListingPage", () => {
 
   test("Clicking new list opens the creation dialog", async () => {
     const createList = jest
-      .spyOn(manageLearningPathDialogs, "upsertUserList")
+      .spyOn(manageListDialogs, "upsertUserList")
       .mockImplementationOnce(jest.fn())
     setup()
     const newListButton = await screen.findByRole("button", {
