@@ -73,7 +73,7 @@ class FeaturesViewSet(ViewSet):
     View for getting the currently available feature flags
     """
 
-    def list(self, request):  # noqa: ARG002, A003
+    def list(self, request):  # noqa: ARG002
         """
         Return a list of all feature flags.
         """
