@@ -6,7 +6,8 @@ import type { LearningResourceCardTemplateProps } from "@/page-components/Learni
 import { imgConfigs } from "@/common/constants"
 import { IconButton } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
-import { AddToLearningPathDialog } from "./AddToListDialog"
+import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined"
+import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
 import { LearningResource } from "api"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
@@ -36,6 +37,10 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     NiceModal.show(AddToLearningPathDialog, { resourceId: resource.id })
     return
   }, [resource])
+  const showAddToUserListDialog = useCallback(() => {
+    NiceModal.show(AddToUserListDialog, { resourceId: resource.id })
+    return
+  }, [resource])
 
   const { user } = window.SETTINGS
   const openLRDrawer = useOpenLearningResourceDrawer()
@@ -60,6 +65,13 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
               <PlaylistAddIcon />
             </IconButton>
           )}
+          <IconButton
+            size="small"
+            aria-label="Add to Learning Path"
+            onClick={showAddToUserListDialog}
+          >
+            <BookmarkOutlinedIcon />
+          </IconButton>
         </div>
       }
     />
