@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useMemo } from "react"
 import {
   Button,
   Grid,
@@ -6,7 +6,13 @@ import {
   BannerPage,
   Container,
   styled,
+  SimpleMenuItem,
+  SimpleMenu,
+  IconButton,
 } from "ol-components"
+import EditIcon from "@mui/icons-material/Edit"
+import MoreVertIcon from "@mui/icons-material/MoreVert"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 import { MetaTags } from "ol-utilities"
 import type { UserList } from "api"
@@ -19,11 +25,46 @@ import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserLis
 import { useNavigate } from "react-router"
 import * as urls from "@/common/urls"
 import { imgConfigs } from "@/common/constants"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
   margin-bottom: 1rem;
 `
+
+type EditUserListMenuProps = {
+  userList: UserList
+}
+
+const EditUserListMenu: React.FC<EditUserListMenuProps> = ({ userList }) => {
+  const items: SimpleMenuItem[] = useMemo(
+    () => [
+      {
+        key: "edit",
+        label: "Edit",
+        icon: <EditIcon />,
+        onClick: () => manageListDialogs.upsertUserList(userList),
+      },
+      {
+        key: "delete",
+        label: "Delete",
+        icon: <DeleteIcon />,
+        onClick: () => manageListDialogs.destroyUserList(userList),
+      },
+    ],
+    [userList],
+  )
+  return (
+    <SimpleMenu
+      trigger={
+        <IconButton size="small" aria-label={`Edit list ${userList.title}`}>
+          <MoreVertIcon fontSize="inherit" />
+        </IconButton>
+      }
+      items={items}
+    />
+  )
+}
 
 type ListCardProps = {
   list: UserList
@@ -38,6 +79,7 @@ const ListCard: React.FC<ListCardProps> = ({ list, onActivate }) => {
       className="ic-resource-card"
       imgConfig={imgConfigs["row-reverse-small"]}
       onActivate={onActivate}
+      footerActionSlot={<EditUserListMenu userList={list} />}
     />
   )
 }
@@ -53,6 +95,9 @@ const UserListListingPage: React.FC = () => {
     },
     [navigate],
   )
+  const handleCreate = useCallback(() => {
+    manageListDialogs.upsertUserList()
+  }, [])
 
   return (
     <BannerPage
@@ -76,7 +121,9 @@ const UserListListingPage: React.FC = () => {
                 alignItems="center"
                 display="flex"
               >
-                <Button variant="contained">Create new list</Button>
+                <Button variant="contained" onClick={handleCreate}>
+                  Create new list
+                </Button>
               </Grid>
             </ListHeaderGrid>
             <section>

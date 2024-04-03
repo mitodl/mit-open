@@ -9,6 +9,7 @@ import {
 
 import { ListType } from "api/constants"
 import ListDetailsPage from "./ListDetailsPage"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 type RouteParams = {
   id: string
@@ -31,7 +32,7 @@ const UserListDetailsPage: React.FC = () => {
       items={items}
       isLoading={itemsQuery.isLoading}
       isFetching={itemsQuery.isFetching}
-      handleEdit={() => {}}
+      handleEdit={() => manageListDialogs.upsertUserList(pathQuery.data)}
     />
   )
 }

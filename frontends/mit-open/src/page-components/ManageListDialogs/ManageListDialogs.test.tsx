@@ -1,11 +1,13 @@
 import { faker } from "@faker-js/faker/locale/en"
 import { factories, urls, makeRequest } from "api/test-utils"
-import type {
-  LearningPathResource,
-  PaginatedLearningResourceTopicList,
+import {
+  PrivacyLevelEnum,
+  type LearningPathResource,
+  type PaginatedLearningResourceTopicList,
+  type UserList,
 } from "api"
 import { allowConsoleErrors, getDescriptionFor } from "ol-test-utilities"
-import { manageLearningPathDialogs } from "./ManageListDialogs"
+import { manageListDialogs } from "./ManageListDialogs"
 import {
   screen,
   renderWithProviders,
@@ -39,6 +41,11 @@ const inputs = {
     const element = screen.getByLabelText(value ? "Public" : "Private")
     return element as HTMLInputElement
   },
+  privacy_level: (value?: string) => {
+    invariant(value !== undefined)
+    const element = screen.getByDisplayValue(value)
+    return element as HTMLInputElement
+  },
   title: () => screen.getByLabelText("Title", { exact: false }),
   description: () => screen.getByLabelText("Description", { exact: false }),
   topics: () => screen.getByLabelText("Subjects", { exact: false }),
@@ -47,7 +54,7 @@ const inputs = {
   delete: () => screen.getByRole("button", { name: "Yes, delete" }),
 }
 
-describe("manageListDialogs.upsert", () => {
+describe("manageListDialogs.upsertLearningPath", () => {
   const setup = ({
     resource,
     topics = factories.learningResources.topics({ count: 10 }),
@@ -70,7 +77,7 @@ describe("manageListDialogs.upsert", () => {
     renderWithProviders(null, opts)
 
     act(() => {
-      manageLearningPathDialogs.upsert(resource)
+      manageListDialogs.upsertLearningPath(resource)
     })
 
     return { topics }
@@ -211,12 +218,145 @@ describe("manageListDialogs.upsert", () => {
   })
 })
 
-describe("manageListDialogs.destroy", () => {
+describe("manageListDialogs.upsertUserList", () => {
+  const setup = ({
+    userList,
+    opts = {
+      user: { is_authenticated: true },
+    },
+  }: {
+    userList?: UserList
+    opts?: Partial<TestAppOptions>
+  } = {}) => {
+    renderWithProviders(null, opts)
+
+    act(() => {
+      manageListDialogs.upsertUserList(userList)
+    })
+  }
+
+  test.each([
+    {
+      userList: undefined,
+      expectedTitle: "Create User List",
+    },
+    {
+      userList: factories.userLists.userList(),
+      expectedTitle: "Edit User List",
+    },
+  ])(
+    "Dialog title is $expectedTitle when userList=$userList",
+    async ({ userList, expectedTitle }) => {
+      setup({ userList })
+      const dialog = screen.getByRole("heading", { name: expectedTitle })
+      expect(dialog).toBeVisible()
+    },
+  )
+
+  test("'Cancel' closes dialog (and does not make request)", async () => {
+    // behavior does not depend on stafflist / userlist, so just pick one
+    setup({
+      userList: factories.userLists.userList(),
+    })
+    const dialog = screen.getByRole("dialog")
+    await user.click(inputs.cancel())
+    expect(makeRequest).not.toHaveBeenCalledWith(
+      "patch",
+      expect.anything(),
+      expect.anything(),
+    )
+    await waitForElementToBeRemoved(dialog)
+  })
+
+  test("Validates required fields", async () => {
+    setup()
+    await user.click(inputs.submit())
+
+    const titleInput = inputs.title()
+    const titleFeedback = getDescriptionFor(titleInput)
+    expect(titleInput).toBeInvalid()
+    expect(titleFeedback).toHaveTextContent("Title is required.")
+
+    const descriptionInput = inputs.description()
+    const descriptionFeedback = getDescriptionFor(descriptionInput)
+    expect(descriptionInput).toBeInvalid()
+    expect(descriptionFeedback).toHaveTextContent("Description is required.")
+  })
+
+  test("Form defaults are set", () => {
+    setup()
+    expect(inputs.title()).toHaveValue("")
+    expect(inputs.description()).toHaveValue("")
+    expect(inputs.privacy_level(PrivacyLevelEnum.Private).checked).toBe(true)
+    expect(inputs.privacy_level(PrivacyLevelEnum.Unlisted).checked).toBe(false)
+  })
+
+  test("Editing form values", async () => {
+    const userList = factories.userLists.userList()
+    setup({ userList: userList })
+    const patch = {
+      title: faker.lorem.words(),
+      description: faker.lorem.paragraph(),
+      privacy_level: PrivacyLevelEnum.Unlisted,
+    }
+
+    // Title
+    expect(inputs.title()).toHaveValue(userList.title)
+    await user.click(inputs.title())
+    await user.clear(inputs.title())
+    await user.paste(patch.title)
+
+    // Description
+    expect(inputs.description()).toHaveValue(userList.description)
+    await user.click(inputs.description())
+    await user.clear(inputs.description())
+    await user.paste(patch.description)
+
+    // Privacy Level
+    expect(inputs.privacy_level(PrivacyLevelEnum.Private).checked).toBe(true)
+    expect(inputs.privacy_level(PrivacyLevelEnum.Unlisted).checked).toBe(false)
+    await user.click(inputs.privacy_level(patch.privacy_level))
+
+    // Submit
+    const patchUrl = urls.userLists.details({ id: userList.id })
+    setMockResponse.patch(patchUrl, { ...userList, ...patch })
+    await user.click(inputs.submit())
+
+    expect(makeRequest).toHaveBeenCalledWith(
+      "patch",
+      patchUrl,
+      expect.objectContaining({ ...patch }),
+    )
+  })
+
+  test("Displays overall error if form validates but API call fails", async () => {
+    allowConsoleErrors()
+    const userList = factories.userLists.userList()
+    await setup({ userList: userList })
+
+    const patchUrl = urls.userLists.details({ id: userList.id })
+    setMockResponse.patch(patchUrl, {}, { code: 408 })
+    await user.click(inputs.submit())
+
+    expect(makeRequest).toHaveBeenCalledWith(
+      "patch",
+      patchUrl,
+      expect.anything(),
+    )
+    const alertMessage = await screen.findByRole("alert")
+
+    expect(alertMessage).toHaveTextContent(
+      "There was a problem saving your list.",
+    )
+  })
+})
+
+describe("manageListDialogs.destroyLearningPath", () => {
   const setup = () => {
     const resource = factories.learningResources.learningPath()
     renderWithProviders(null)
     act(() => {
-      manageLearningPathDialogs.destroy(resource)
+      manageListDialogs.destroyLearningPath(resource)
     })
     return { resource }
   }
@@ -232,6 +372,45 @@ describe("manageListDialogs.destroy", () => {
 
     const dialog = screen.getByRole("dialog")
     const url = urls.learningPaths.details({ id: resource.id })
+    setMockResponse.delete(url, undefined)
+    await user.click(inputs.delete())
+
+    expect(makeRequest).toHaveBeenCalledWith("delete", url, undefined)
+    await waitForElementToBeRemoved(dialog)
+  })
+
+  test("Clicking cancel does not delete list", async () => {
+    setup()
+
+    const dialog = screen.getByRole("dialog")
+    await user.click(inputs.cancel())
+
+    expect(makeRequest).not.toHaveBeenCalled()
+    await waitForElementToBeRemoved(dialog)
+  })
+})
+
+describe("manageListDialogs.destroyUserList", () => {
+  const setup = () => {
+    const userList = factories.userLists.userList()
+    renderWithProviders(null)
+    act(() => {
+      manageListDialogs.destroyUserList(userList)
+    })
+    return { userList: userList }
+  }
+
+  test("Dialog title is 'Delete list'", async () => {
+    setup()
+    const dialog = screen.getByRole("heading", { name: "Delete User List" })
+    expect(dialog).toBeVisible()
+  })
+
+  test("Deleting a $label calls correct API", async () => {
+    const { userList } = setup()
+
+    const dialog = screen.getByRole("dialog")
+    const url = urls.userLists.details({ id: userList.id })
     setMockResponse.delete(url, undefined)
     await user.click(inputs.delete())
 

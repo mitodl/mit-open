@@ -8,7 +8,7 @@ import {
 } from "api/hooks/learningResources"
 
 import ListDetailsPage from "./ListDetailsPage"
-import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { ListType } from "api/constants"
 
 type RouteParams = {
@@ -32,7 +32,7 @@ const LearningPathDetailsPage: React.FC = () => {
       items={items}
       isLoading={itemsQuery.isLoading}
       isFetching={itemsQuery.isFetching}
-      handleEdit={() => manageLearningPathDialogs.upsert(pathQuery.data)}
+      handleEdit={() => manageListDialogs.upsertLearningPath(pathQuery.data)}
     />
   )
 }

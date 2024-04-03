@@ -19,8 +19,11 @@ import type {
   LearningResource,
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
   UserlistsApiUserlistsListRequest as ULListRequest,
+  UserlistsApiUserlistsCreateRequest as ULCreateRequest,
+  UserlistsApiUserlistsDestroyRequest as ULDestroyRequest,
   UserlistsApiUserlistsItemsListRequest as ULItemsListRequest,
   OfferorsApiOfferorsListRequest,
+  UserList,
 } from "../../generated/v1"
 import learningResources, { invalidateResourceQueries } from "./keyFactory"
 import { ListType } from "../../common/constants"
@@ -220,6 +223,43 @@ const useUserListsDetail = (id: number) => {
   return useQuery(learningResources.userlists._ctx.detail(id))
 }
 
+const useUserListCreate = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (params: ULCreateRequest["UserListRequest"]) =>
+      userListsApi.userlistsCreate({
+        UserListRequest: params,
+      }),
+    onSettled: () => {
+      queryClient.invalidateQueries(learningResources.userlists._ctx.list._def)
+    },
+  })
+}
+const useUserListUpdate = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (params: Pick<UserList, "id"> & Partial<UserList>) =>
+      userListsApi.userlistsPartialUpdate({
+        id: params.id,
+        PatchedUserListRequest: params,
+      }),
+    onSettled: (_data, _err, vars) => {
+      invalidateResourceQueries(queryClient, vars.id)
+    },
+  })
+}
+
+const useUserListDestroy = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (params: ULDestroyRequest) =>
+      userListsApi.userlistsDestroy(params),
+    onSettled: (_data, _err, vars) => {
+      invalidateResourceQueries(queryClient, vars.id)
+    },
+  })
+}
+
 const useInfiniteUserListItems = (
   params: ULItemsListRequest,
   options: Pick<UseQueryOptions, "enabled"> = {},
@@ -306,6 +346,9 @@ export {
   useLearningResourcesSearch,
   useUserListList,
   useUserListsDetail,
+  useUserListCreate,
+  useUserListUpdate,
+  useUserListDestroy,
   useInfiniteUserListItems,
   useOfferorsList,
   useListItemMove,
