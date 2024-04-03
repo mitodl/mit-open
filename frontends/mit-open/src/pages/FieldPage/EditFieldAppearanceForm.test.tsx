@@ -13,6 +13,7 @@ import type { FieldChannel } from "api/v0"
 
 const setupApis = (fieldOverrides: Partial<FieldChannel>) => {
   const field = factory.field({ is_moderator: true, ...fieldOverrides })
+  field.id = 11111
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
     field,
@@ -63,16 +64,15 @@ describe("EditFieldAppearanceForm", () => {
     })
     const newTitle = "New Title"
     const newDesc = "New Description"
+    const newChannelType = "topic"
     // Initial field values
     const updatedValues = {
       ...field,
       title: newTitle,
       public_description: newDesc,
+      channel_type: newChannelType,
     }
-    setMockResponse.patch(
-      urls.fields.details(field.channel_type, field.name),
-      updatedValues,
-    )
+    setMockResponse.patch(urls.fields.patch(field.id), updatedValues)
     const { location } = renderTestApp({
       url: `${makeFieldEditPath(field.channel_type, field.name)}/#appearance`,
     })
@@ -86,18 +86,21 @@ describe("EditFieldAppearanceForm", () => {
       "Channel Type",
     )) as HTMLInputElement
     const submitBtn = await screen.findByText("Save")
-    channelTypeInput.value = field.channel_type
+    channelTypeInput.setAttribute("channel_type", newChannelType)
     titleInput.setSelectionRange(0, titleInput.value.length)
     await user.type(titleInput, newTitle)
     descInput.setSelectionRange(0, descInput.value.length)
     await user.type(descInput, newDesc)
     // Expected field values after submit
-    setMockResponse.get(urls.fields.upsert(field.id), updatedValues)
+    setMockResponse.get(
+      urls.fields.details(newChannelType, field.name),
+      updatedValues,
+    )
     await user.click(submitBtn)
 
     await waitFor(() => {
       expect(location.current.pathname).toBe(
-        makeFieldViewPath(field.channel_type, field.name),
+        makeFieldViewPath(newChannelType, field.name),
       )
     })
     await screen.findByText(newTitle)

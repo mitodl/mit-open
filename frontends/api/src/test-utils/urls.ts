@@ -90,7 +90,7 @@ const articles = {
 const fields = {
   details: (channelType: string, name: string) =>
     `/api/v0/channels/type/${channelType}/${name}/`,
-  upsert: (id: number) => `/api/v0/channels/${id}/`,
+  patch: (id: number) => `/api/v0/channels/${id}/`,
 }
 
 const widgetLists = {
