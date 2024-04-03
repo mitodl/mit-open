@@ -190,6 +190,7 @@ const HomePage: React.FC = () => {
           </div>
         </Grid>
       </TopContainer>
+      <h3>Hello world</h3>
       <HomePageCarousel
         title={<h2>Upcoming Courses</h2>}
         query={resourcesQuery}
