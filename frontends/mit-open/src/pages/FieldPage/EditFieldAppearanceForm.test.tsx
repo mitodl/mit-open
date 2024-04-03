@@ -13,7 +13,6 @@ import type { FieldChannel } from "api/v0"
 
 const setupApis = (fieldOverrides: Partial<FieldChannel>) => {
   const field = factory.field({ is_moderator: true, ...fieldOverrides })
-  field.id = 11111
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
     field,
