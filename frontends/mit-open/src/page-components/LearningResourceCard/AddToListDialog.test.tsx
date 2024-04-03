@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker/locale/en"
 import * as NiceModal from "@ebay/nice-modal-react"
-import AddToListDialog from "./AddToListDialog"
+import AddToLearningPathDialog from "./AddToListDialog"
 
 import { setMockResponse, makeRequest, factories, urls } from "api/test-utils"
 
@@ -64,7 +64,7 @@ const setup = ({
 
   if (dialogOpen) {
     act(() => {
-      NiceModal.show(AddToListDialog, { resourceId: resource.id })
+      NiceModal.show(AddToLearningPathDialog, { resourceId: resource.id })
     })
   }
 
@@ -183,7 +183,7 @@ describe("AddToListDialog", () => {
 
     // Close the dialog
     act(() => {
-      NiceModal.hide(AddToListDialog)
+      NiceModal.hide(AddToLearningPathDialog)
     })
     await waitForElementToBeRemoved(dialog1)
 
@@ -194,7 +194,7 @@ describe("AddToListDialog", () => {
       resource2,
     )
     act(() => {
-      NiceModal.show(AddToListDialog, { resourceId: resource2.id })
+      NiceModal.show(AddToLearningPathDialog, { resourceId: resource2.id })
     })
     const dialog2 = await screen.findByRole("dialog")
     await within(dialog2).findByText(resource2.title, { exact: false })

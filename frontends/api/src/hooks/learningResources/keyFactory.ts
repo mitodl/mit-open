@@ -185,5 +185,14 @@ const invalidateResourceQueries = (
   })
 }
 
+const invalidateUserListQueries = (
+  queryClient: QueryClient,
+  userListId: UserList["id"],
+) => {
+  queryClient.invalidateQueries(
+    learningResources.userlists._ctx.detail(userListId).queryKey,
+  )
+}
+
 export default learningResources
-export { invalidateResourceQueries }
+export { invalidateResourceQueries, invalidateUserListQueries }

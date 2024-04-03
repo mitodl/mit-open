@@ -17,21 +17,26 @@ import LockIcon from "@mui/icons-material/Lock"
 import AddIcon from "@mui/icons-material/Add"
 import * as NiceModal from "@ebay/nice-modal-react"
 
-import type { LearningPathResource, LearningResource } from "api"
+import {
+  PrivacyLevelEnum,
+  type LearningPathResource,
+  type LearningResource,
+  type UserList,
+} from "api"
 
 import {
   useLearningPathsList,
   useLearningResourcesDetail,
   useLearningpathRelationshipCreate,
   useLearningpathRelationshipDestroy,
+  useUserListList,
+  useUserListRelationshipCreate,
+  useUserListRelationshipDestroy,
 } from "api/hooks/learningResources"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { ListType } from "api/constants"
 
-type AddToListDialogProps = {
-  resourceId: number
-}
-
-const useRequestRecord = () => {
+const useLearningPathRequestRecord = () => {
   const [pending, setPending] = useState<Map<string, "delete" | "add">>(
     new Map(),
   )
@@ -56,8 +61,33 @@ const useRequestRecord = () => {
   return { get, set, clear }
 }
 
-const useToggleItemInList = (resource?: LearningResource) => {
-  const requestRecord = useRequestRecord()
+const useUserListRequestRecord = () => {
+  const [pending, setPending] = useState<Map<string, "delete" | "add">>(
+    new Map(),
+  )
+  const key = (resource: LearningResource, list: UserList) =>
+    `${resource.id}-${list.id}`
+  const get = (resource: LearningResource, list: UserList) =>
+    pending.get(key(resource, list))
+  const set = (
+    resource: LearningResource,
+    list: UserList,
+    value: "delete" | "add",
+  ) => {
+    setPending((current) => new Map(current).set(key(resource, list), value))
+  }
+  const clear = (resource: LearningResource, list: UserList) => {
+    setPending((current) => {
+      const next = new Map(current)
+      next.delete(key(resource, list))
+      return next
+    })
+  }
+  return { get, set, clear }
+}
+
+const useToggleItemInLearningPath = (resource?: LearningResource) => {
+  const requestRecord = useLearningPathRequestRecord()
   const addTo = useLearningpathRelationshipCreate()
   const deleteFrom = useLearningpathRelationshipDestroy()
   const handleAdd = async (list: LearningPathResource) => {
@@ -98,6 +128,48 @@ const useToggleItemInList = (resource?: LearningResource) => {
   return { handleToggle, isChecked, isAdding, isRemoving }
 }
 
+const useToggleItemInUserList = (resource?: LearningResource) => {
+  const requestRecord = useUserListRequestRecord()
+  const addTo = useUserListRelationshipCreate()
+  const deleteFrom = useUserListRelationshipDestroy()
+  const handleAdd = async (list: UserList) => {
+    if (!resource) return
+    requestRecord.set(resource, list, "add")
+    try {
+      await addTo.mutateAsync({ child: resource.id, parent: list.id })
+    } finally {
+      requestRecord.clear(resource, list)
+    }
+  }
+  const handleRemove = async (list: UserList) => {
+    if (!resource) return
+    requestRecord.set(resource, list, "delete")
+    const relationship = resource.user_list_parents?.find(
+      ({ parent }) => parent === list.id,
+    )
+    if (!relationship) return // should not happen
+    try {
+      await deleteFrom.mutateAsync(relationship)
+    } finally {
+      requestRecord.clear(resource, list)
+    }
+  }
+
+  const isChecked = (list: UserList): boolean =>
+    resource?.user_list_parents?.some(({ parent }) => parent === list.id) ??
+    false
+
+  const isAdding = (list: UserList) =>
+    !!resource && requestRecord.get(resource, list) === "add"
+  const isRemoving = (list: UserList) =>
+    !!resource && requestRecord.get(resource, list) === "delete"
+
+  const handleToggle = (list: UserList) => async () => {
+    return isChecked(list) ? handleRemove(list) : handleAdd(list)
+  }
+  return { handleToggle, isChecked, isAdding, isRemoving }
+}
+
 const StyledBasicDialog = styled(BasicDialog)`
   .MuiDialog-paper {
     width: 325px;
@@ -128,27 +200,32 @@ const Listing = styled(List)`
   }
 `
 
-type PrivacyChipProps = { isPublic?: boolean }
-const PrivacyChip: React.FC<PrivacyChipProps> = ({ isPublic = false }) => {
+type PrivacyChipProps = {
+  publicOption: string
+  selectedOption: string | undefined
+}
+const PrivacyChip: React.FC<PrivacyChipProps> = ({
+  publicOption,
+  selectedOption,
+}) => {
+  const isPublic = selectedOption === publicOption
   const icon = isPublic ? <LockOpenIcon /> : <LockIcon />
-  const label = isPublic ? "Public" : "Private"
-  return <Chip icon={icon} label={label} size="small" />
+  return <Chip icon={icon} label={selectedOption} size="small" />
 }
 
-const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
-  resourceId,
+type AddToListDialogInnerProps = {
+  listType: ListType
+  resource: LearningResource | undefined
+  lists: LearningPathResource[] | UserList[]
+  isReady: boolean
+}
+const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
+  listType,
+  resource,
+  lists,
+  isReady,
 }) => {
   const modal = NiceModal.useModal()
-  const resourceQuery = useLearningResourcesDetail(resourceId)
-  const resource = resourceQuery.data
-  const listsQuery = useLearningPathsList()
-
-  const { handleToggle, isChecked, isAdding, isRemoving } =
-    useToggleItemInList(resource)
-
-  const isReady = resource && listsQuery.isSuccess
-  const lists = listsQuery.data?.results ?? []
-
   return (
     <StyledBasicDialog
       title="Add to Learning List"
@@ -158,35 +235,20 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
       {isReady ? (
         <>
           <Description>
-            Adding <ResourceTitle>{resource.title}</ResourceTitle>
+            Adding <ResourceTitle>{resource?.title}</ResourceTitle>
           </Description>
           <Listing>
-            {lists.map((list) => {
-              const adding = isAdding(list)
-              const removing = isRemoving(list)
-              const disabled = adding || removing
-              const checked = adding || isChecked(list)
-              return (
-                <ListItem
-                  key={list.id}
-                  secondaryAction={<PrivacyChip isPublic={list.published} />}
-                >
-                  <ListItemButton
-                    aria-disabled={disabled}
-                    onClick={disabled ? undefined : handleToggle(list)}
-                  >
-                    <Checkbox
-                      edge="start"
-                      disabled={disabled}
-                      checked={checked}
-                      tabIndex={-1}
-                      disableRipple
-                    />
-                    <ListItemText primary={list.title} />
-                  </ListItemButton>
-                </ListItem>
-              )
-            })}
+            {listType === ListType.LearningPath ? (
+              <LearningPathToggleList
+                resource={resource}
+                lists={lists as LearningPathResource[]}
+              />
+            ) : (
+              <UserListToggleList
+                resource={resource}
+                lists={lists as UserList[]}
+              />
+            )}
             <ListItem className="add-to-list-new">
               <ListItemButton
                 onClick={() => manageListDialogs.upsertLearningPath()}
@@ -204,7 +266,134 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
   )
 }
 
-const AddToListDialog = NiceModal.create(AddToListDialogInner)
+type LearningPathToggleListProps = {
+  resource: LearningResource | undefined
+  lists: LearningPathResource[]
+}
+const LearningPathToggleList: React.FC<LearningPathToggleListProps> = ({
+  resource,
+  lists,
+}) => {
+  const { handleToggle, isChecked, isAdding, isRemoving } =
+    useToggleItemInLearningPath(resource)
+  return lists.map((list) => {
+    const checked = isChecked(list)
+    const adding = isAdding(list)
+    const removing = isRemoving(list)
+    const disabled = adding || removing
+    return (
+      <ListItem
+        key={list.id}
+        secondaryAction={
+          <PrivacyChip
+            publicOption="Public"
+            selectedOption={list.published ? "Public" : "Private"}
+          />
+        }
+      >
+        <ListItemButton
+          aria-disabled={disabled}
+          onClick={disabled ? undefined : handleToggle(list)}
+        >
+          <Checkbox
+            edge="start"
+            disabled={disabled}
+            checked={checked}
+            tabIndex={-1}
+            disableRipple
+          />
+          <ListItemText primary={list.title} />
+        </ListItemButton>
+      </ListItem>
+    )
+  })
+}
 
-export default AddToListDialog
-export type { AddToListDialogProps }
+type UserListToggleListProps = {
+  resource: LearningResource | undefined
+  lists: UserList[]
+}
+const UserListToggleList: React.FC<UserListToggleListProps> = ({
+  resource,
+  lists,
+}) => {
+  const { handleToggle, isChecked, isAdding, isRemoving } =
+    useToggleItemInUserList(resource)
+  return lists.map((list) => {
+    const checked = isChecked(list)
+    const adding = isAdding(list)
+    const removing = isRemoving(list)
+    const disabled = adding || removing
+    return (
+      <ListItem
+        key={list.id}
+        secondaryAction={
+          <PrivacyChip
+            publicOption={PrivacyLevelEnum.Unlisted}
+            selectedOption={list.privacy_level}
+          />
+        }
+      >
+        <ListItemButton
+          aria-disabled={disabled}
+          onClick={disabled ? undefined : handleToggle(list)}
+        >
+          <Checkbox
+            edge="start"
+            disabled={disabled}
+            checked={checked}
+            tabIndex={-1}
+            disableRipple
+          />
+          <ListItemText primary={list.title} />
+        </ListItemButton>
+      </ListItem>
+    )
+  })
+}
+
+type AddToListDialogProps = {
+  resourceId: number
+}
+const AddToLearningPathDialogInner: React.FC<AddToListDialogProps> = ({
+  resourceId,
+}) => {
+  const resourceQuery = useLearningResourcesDetail(resourceId)
+  const resource = resourceQuery.data
+  const listsQuery = useLearningPathsList()
+
+  const isReady = !!(resource && listsQuery.isSuccess)
+  const lists = listsQuery.data?.results ?? []
+  return (
+    <AddToListDialogInner
+      listType={ListType.LearningPath}
+      resource={resource}
+      lists={lists}
+      isReady={isReady}
+    />
+  )
+}
+
+const AddToUserListDialogInner: React.FC<AddToListDialogProps> = ({
+  resourceId,
+}) => {
+  const resourceQuery = useLearningResourcesDetail(resourceId)
+  const resource = resourceQuery.data
+  const listsQuery = useUserListList()
+
+  const isReady = !!(resource && listsQuery.isSuccess)
+  const lists = listsQuery.data?.results ?? []
+  return (
+    <AddToListDialogInner
+      listType={ListType.UserList}
+      resource={resource}
+      lists={lists}
+      isReady={isReady}
+    />
+  )
+}
+
+const AddToLearningPathDialog = NiceModal.create(AddToLearningPathDialogInner)
+const AddToUserListDialog = NiceModal.create(AddToUserListDialogInner)
+
+export { AddToLearningPathDialog, AddToUserListDialog }

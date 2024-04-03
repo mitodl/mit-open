@@ -6,7 +6,7 @@ import type { LearningResourceCardTemplateProps } from "@/page-components/Learni
 import { imgConfigs } from "@/common/constants"
 import { IconButton } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
-import AddToListDialog from "./AddToListDialog"
+import { AddToLearningPathDialog } from "./AddToListDialog"
 import { LearningResource } from "api"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
@@ -33,7 +33,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   suppressImage,
 }) => {
   const showAddToLearningPathDialog = useCallback(() => {
-    NiceModal.show(AddToListDialog, { resourceId: resource.id })
+    NiceModal.show(AddToLearningPathDialog, { resourceId: resource.id })
     return
   }, [resource])
 
