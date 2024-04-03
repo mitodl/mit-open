@@ -101,6 +101,11 @@ const _fieldShared = (): Partial<Omit<FieldChannel, "channel_type">> => {
     created_on: faker.date.recent().toString(),
     id: faker.datatype.number(),
     ga_tracking_id: faker.lorem.slug(),
+    configuration: faker.datatype.json(),
+    search_filter: faker.helpers.mustache("{key}={value}", {
+      key: faker.lorem.slug(),
+      value: faker.lorem.slug(),
+    }),
   }
 }
 
