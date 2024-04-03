@@ -313,8 +313,12 @@ describe("manageListDialogs.upsertUserList", () => {
     await user.paste(patch.description)
 
     // Privacy Level
-    expect(inputs.privacy_level(PrivacyLevelEnum.Private).checked).toBe(true)
-    expect(inputs.privacy_level(PrivacyLevelEnum.Unlisted).checked).toBe(false)
+    expect(inputs.privacy_level(PrivacyLevelEnum.Private).checked).toBe(
+      userList.privacy_level === PrivacyLevelEnum.Private,
+    )
+    expect(inputs.privacy_level(PrivacyLevelEnum.Unlisted).checked).toBe(
+      userList.privacy_level === PrivacyLevelEnum.Unlisted,
+    )
     await user.click(inputs.privacy_level(patch.privacy_level))
 
     // Submit
