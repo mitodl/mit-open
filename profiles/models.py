@@ -47,6 +47,10 @@ SOCIAL_SITE_NAME_MAP = {
 User = get_user_model()
 
 
+def certificate_id():
+    return str(uuid4())
+
+
 def filter_profile_props(data):
     """
     Filters the passed profile data to valid profile fields
@@ -139,6 +143,17 @@ class UserWebsite(models.Model):
 
 class ProgramCertificate(models.Model):
     """An external model that syncs with data from our data platform"""
+
+    # an external hash that hightouch uses for the sync
+    record_hash = models.CharField(
+        unique=True,
+        primary_key=True,
+        max_length=256,
+        blank=False,
+        default=certificate_id,
+        null=False,
+        editable=False,
+    )
 
     user_edxorg_id = models.IntegerField(null=True, blank=True)
 

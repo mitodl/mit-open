@@ -78,8 +78,10 @@ def test_program_letter_model_strings(user, settings):
     return what we expect
     """
     settings.DATABASE_ROUTERS = []
-    cert = ProgramCertificateFactory(
-        user_full_name="test user", program_title="test program"
+    settings.EXTERNAL_MODELS = []
+    cert = ProgramCertificateFactory.create(
+        user_full_name="test user",
+        program_title="test program",
     )
     letter = ProgramLetterFactory(user=user, certificate=cert)
     assert str(cert) == "program certificate: test user - test program"

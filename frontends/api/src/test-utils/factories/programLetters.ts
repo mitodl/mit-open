@@ -32,7 +32,7 @@ const programLetter: Factory<ProgramLetter> = (overrides = {}) => ({
     ],
   },
   certificate: {
-    id: faker.datatype.number(),
+    record_hash: faker.datatype.uuid(),
     micromasters_program_id: faker.datatype.number(),
     user_email: faker.internet.email(),
     program_title: faker.lorem.words(),

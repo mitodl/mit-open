@@ -9924,8 +9924,8 @@ components:
       type: object
       description: Serializer for Program Certificates
       properties:
-        id:
-          type: integer
+        record_hash:
+          type: string
           readOnly: true
         program_letter_generate_url:
           type: string
@@ -9995,10 +9995,10 @@ components:
           format: date-time
           nullable: true
       required:
-      - id
       - program_letter_generate_url
       - program_letter_share_url
       - program_title
+      - record_hash
       - user_email
     ProgramLetter:
       type: object
