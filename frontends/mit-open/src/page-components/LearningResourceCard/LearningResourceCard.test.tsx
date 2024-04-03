@@ -19,10 +19,10 @@ jest.mock("@ebay/nice-modal-react", () => {
 describe("LearningResourceCard", () => {
   const makeResource = factories.learningResources.resource
   type SetupOptions = {
-    userSettings?: Partial<User>
+    user?: Partial<User>
     props?: Partial<LearningResourceCardProps>
   }
-  const setup = ({ userSettings: user, props = {} }: SetupOptions = {}) => {
+  const setup = ({ user, props = {} }: SetupOptions = {}) => {
     const { resource = makeResource(), variant = "column" } = props
     const { view } = renderWithProviders(
       <LearningResourceCard {...props} resource={resource} variant={variant} />,
@@ -36,23 +36,23 @@ describe("LearningResourceCard", () => {
   }
 
   test("Applies className to the resource card", () => {
-    const { view } = setup({ props: { className: "test-class" } })
+    const { view } = setup({ user: {}, props: { className: "test-class" } })
     expect(view.container.firstChild).toHaveClass("test-class")
   })
 
   test.each([
     {
-      userSettings: { is_learning_path_editor: false },
+      user: { is_learning_path_editor: false },
       expectButton: false,
     },
     {
-      userSettings: { is_learning_path_editor: true },
+      user: { is_learning_path_editor: true },
       expectButton: true,
     },
   ])(
     "Shows LearningPaths button if and only if user has editing privileges",
-    async ({ userSettings, expectButton }) => {
-      setup({ userSettings })
+    async ({ user, expectButton }) => {
+      setup({ user })
       const button = screen.queryByRole("button", {
         name: labels.addToLearningPaths,
       })
@@ -64,7 +64,7 @@ describe("LearningResourceCard", () => {
     const showModal = jest.mocked(NiceModal.show)
 
     const { resource } = setup({
-      userSettings: { is_learning_path_editor: true },
+      user: { is_learning_path_editor: true },
     })
     const button = screen.getByRole("button", {
       name: labels.addToLearningPaths,

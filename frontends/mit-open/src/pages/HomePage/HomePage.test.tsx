@@ -1,7 +1,5 @@
 import React from "react"
-
 import HomePage from "./HomePage"
-
 import { urls, setMockResponse } from "api/test-utils"
 import { learningResources as factory } from "api/test-utils/factories"
 import { renderWithProviders, screen, within, user } from "../../test-utils"
@@ -39,6 +37,8 @@ describe("HomePage", () => {
     const resources = factory.resources({ count: 4 })
     setMockResponse.get(urls.learningResources.list(), resources)
     renderWithProviders(<HomePage />)
+
+    setMockResponse.get(urls.userMe.get(), {})
 
     const title = await screen.findByRole("heading", {
       name: "Upcoming Courses",

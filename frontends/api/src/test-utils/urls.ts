@@ -103,6 +103,10 @@ const search = {
   resources: () => "/api/v1/learning_resources_search/",
 }
 
+const userMe = {
+  get: () => "/api/v0/users/me/",
+}
+
 export {
   learningResources,
   topics,
@@ -114,4 +118,5 @@ export {
   fields,
   widgetLists,
   offerors,
+  userMe,
 }

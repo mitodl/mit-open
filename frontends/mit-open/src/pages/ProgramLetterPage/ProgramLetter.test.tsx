@@ -9,6 +9,7 @@ const setup = ({ programLetter }: { programLetter: ProgramLetter }) => {
     urls.programLetters.details(programLetter.id),
     programLetter,
   )
+  setMockResponse.get(urls.userMe.get(), {})
   renderTestApp({
     url: programLetterView(programLetter.id),
   })

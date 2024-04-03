@@ -107,6 +107,7 @@ jobs:
         with:
           node-version: "18.18.2"
           cache: "yarn"
+          cache-dependency-path: "frontends/yarn.lock"
 
       - name: Setup environment
         run: sudo apt-get install libelf1
@@ -157,6 +158,7 @@ jobs:
         with:
           node-version: "18.18.2"
           cache: "yarn"
+          cache-dependency-path: "frontends/yarn.lock"
 
       - run: yarn install
 
@@ -188,7 +190,7 @@ jobs:
         with:
           node-version: "18.18.2"
           cache: "yarn"
-          cache-dependency-path: "frontends"
+          cache-dependency-path: "frontends/yarn.lock"
 
       - name: Install dependencies
         working-directory: frontends
@@ -227,7 +229,7 @@ jobs:
         with:
           node-version: "18.18.2"
           cache: "yarn"
-          cache-dependency-path: "frontends"
+          cache-dependency-path: "frontends/yarn.lock"
 
       - name: Install dependencies
         working-directory: frontends
@@ -263,6 +265,7 @@ jobs:
         with:
           node-version: "18.18.2"
           cache: "yarn"
+          cache-dependency-path: "frontends/yarn.lock"
 
       - name: Install dependencies
         run: yarn install --immutable

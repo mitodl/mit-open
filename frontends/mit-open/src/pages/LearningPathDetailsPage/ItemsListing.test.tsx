@@ -38,6 +38,7 @@ describe("ItemsListing", () => {
 
     const { view } = renderWithProviders(
       <ItemsListing emptyMessage={emptyMessage} isLoading />,
+      { user: {} },
     )
     screen.getByLabelText("Loading")
     view.rerender(<ItemsListing emptyMessage={emptyMessage} />)
@@ -62,6 +63,7 @@ describe("ItemsListing", () => {
           emptyMessage={emptyMessage}
           items={paginatedRelationships.results}
         />,
+        { user: {} },
       )
       const emptyMessageElement = screen.queryByText(emptyMessage)
       expect(!!emptyMessageElement).toBe(hasEmptyMessage)
@@ -86,6 +88,7 @@ describe("ItemsListing", () => {
           items={items}
           sortable={sortable}
         />,
+        { user: {} },
       )
       const titles = items.map((item) => item.resource.title)
       const headings = screen.getAllByRole("heading", {
@@ -115,7 +118,7 @@ describe("Sorting ItemListing", () => {
       emptyMessage,
     }
     const allProps = { ...defaultProps, ...props }
-    renderWithProviders(<ItemsListing {...allProps} />)
+    renderWithProviders(<ItemsListing {...allProps} />, { user: {} })
 
     const onSortEnd = spySortableList.mock.lastCall?.[0]?.onSortEnd
     invariant(onSortEnd)
@@ -156,6 +159,7 @@ describe("Sorting ItemListing", () => {
     const active = items[from]
     const over = items[to]
 
+    setMockResponse.get(urls.userMe.get(), {})
     setMockResponse.patch(patchUrl(active.id))
 
     act(() => simulateDrag(from, to))
@@ -171,6 +175,8 @@ describe("Sorting ItemListing", () => {
     const { simulateDrag, items, patchUrl } = setup()
     const [from, to] = [1, 3]
     const active = items[from]
+
+    setMockResponse.get(urls.userMe.get(), {})
 
     const patchResponse = new ControlledPromise<void>()
     setMockResponse.patch(patchUrl(active.id), patchResponse)
@@ -200,6 +206,8 @@ describe("Sorting ItemListing", () => {
     const [from, to] = [1, 3]
     const active = items[from]
 
+    setMockResponse.get(urls.userMe.get(), {})
+
     const patchResponse = new ControlledPromise<void>()
     setMockResponse.patch(patchUrl(active.id), patchResponse)
 
@@ -226,6 +234,8 @@ describe("Sorting ItemListing", () => {
 
   test("Sorting is disabled when isRefetching=true", async () => {
     setup({ isRefetching: true })
+    setMockResponse.get(urls.userMe.get(), {})
+
     expectProps(spySortableItem, { disabled: true })
   })
 })

@@ -26,6 +26,7 @@ const mockWidgetList = jest.mocked(WidgetList)
 const setupApis = (fieldPatch?: Partial<FieldChannel>) => {
   const field = factory.field(fieldPatch)
 
+  setMockResponse.get(urls.userMe.get(), {})
   setMockResponse.get(urls.fields.details(field.name), field)
 
   const widgetsList = makeWidgetListResponse()

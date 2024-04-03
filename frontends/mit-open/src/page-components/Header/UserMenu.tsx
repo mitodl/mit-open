@@ -33,7 +33,7 @@ type AuthMenuItem = SimpleMenuItem & {
 const UserIcon: React.FC<{ user: User }> = ({ user }) => {
   const first = user.first_name?.[0] ?? ""
   const last = user.last_name?.[0] ?? ""
-  return `${first}${last}`
+  return `${first}${last}` || <PersonIcon />
 }
 
 const UserMenu: React.FC = () => {

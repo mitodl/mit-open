@@ -37,7 +37,10 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return
   }, [resource])
 
-  const { data: user } = useUserMe()
+  const { isLoading, data: user } = useUserMe()
+  if (isLoading) {
+    return null
+  }
 
   return (
     <LearningResourceCardTemplate

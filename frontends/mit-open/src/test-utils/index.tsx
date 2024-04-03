@@ -8,10 +8,13 @@ import { render } from "@testing-library/react"
 import { setMockResponse } from "./mockAxios"
 import { createQueryClient } from "@/services/react-query/react-query"
 import type { User } from "../types/settings"
+import { QueryKey } from "@tanstack/react-query"
 
 interface TestAppOptions {
   url: string
   user: Partial<User>
+  queryClient?: ReturnType<typeof createQueryClient>
+  initialQueryData?: [QueryKey, unknown][]
 }
 
 const defaultTestAppOptions = {
@@ -38,10 +41,22 @@ const renderRoutesWithProviders = (
   routes: RouteObject[],
   options: Partial<TestAppOptions> = {},
 ) => {
-  const { url } = { ...defaultTestAppOptions, ...options }
+  const { url, user, initialQueryData } = {
+    ...defaultTestAppOptions,
+    ...options,
+  }
 
   const router = createMemoryRouter(routes, { initialEntries: [url] })
-  const queryClient = createQueryClient()
+  const queryClient = options.queryClient || createQueryClient()
+
+  if (user) {
+    queryClient.setQueryData(["userMe"], { is_authenticated: true, ...user })
+  }
+  if (initialQueryData) {
+    initialQueryData.forEach(([queryKey, data]) => {
+      queryClient.setQueryData(queryKey, data)
+    })
+  }
   const view = render(
     <AppProviders queryClient={queryClient} router={router}></AppProviders>,
   )

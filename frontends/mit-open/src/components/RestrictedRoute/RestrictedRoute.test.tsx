@@ -5,6 +5,7 @@ import {
   setMockResponse,
   waitFor,
 } from "../../test-utils"
+import { urls } from "api/test-utils"
 import RestrictedRoute from "./RestrictedRoute"
 import { ForbiddenError, Permissions } from "@/common/permissions"
 import { allowConsoleErrors } from "ol-test-utilities"
@@ -21,7 +22,7 @@ const ErrorRecord: React.FC<{ errors: unknown[] }> = ({ errors }) => {
 test("Renders children if permission check satisfied", () => {
   const errors: unknown[] = []
 
-  setMockResponse.get("/api/v0/users/me/", {
+  setMockResponse.get(urls.userMe.get(), {
     [Permissions.Authenticated]: true,
   })
 
@@ -44,7 +45,7 @@ test("Renders children if permission check satisfied", () => {
 test("Renders child routes if permission check satisfied.", () => {
   const errors: unknown[] = []
 
-  setMockResponse.get("/api/v0/users/me/", {
+  setMockResponse.get(urls.userMe.get(), {
     [Permissions.Authenticated]: true,
   })
 
@@ -70,7 +71,7 @@ test.each(Object.values(Permissions))(
   async (permission) => {
     const errors: unknown[] = []
 
-    setMockResponse.get("/api/v0/users/me/", { [permission]: false })
+    setMockResponse.get(urls.userMe.get(), { [permission]: false })
 
     allowConsoleErrors()
 
