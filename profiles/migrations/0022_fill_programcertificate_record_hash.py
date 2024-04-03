@@ -21,11 +21,20 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(gen_uuid),
+        migrations.RemoveField(
+            model_name="programcertificate",
+            name="id",
+        ),
         migrations.AlterField(
             model_name="programcertificate",
             name="record_hash",
             field=models.CharField(
-                max_length=256, unique=True, blank=False, null=False
+                editable=False,
+                max_length=256,
+                primary_key=True,
+                null=False,
+                serialize=False,
+                unique=True,
             ),
         ),
         migrations.AlterModelOptions(

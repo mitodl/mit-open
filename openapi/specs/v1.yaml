@@ -9924,16 +9924,13 @@ components:
       type: object
       description: Serializer for Program Certificates
       properties:
-        id:
-          type: integer
+        record_hash:
+          type: string
           readOnly: true
         program_letter_generate_url:
           type: string
           readOnly: true
         program_letter_share_url:
-          type: string
-          readOnly: true
-        record_hash:
           type: string
           readOnly: true
         user_edxorg_id:
@@ -9998,7 +9995,6 @@ components:
           format: date-time
           nullable: true
       required:
-      - id
       - program_letter_generate_url
       - program_letter_share_url
       - program_title

@@ -1,6 +1,6 @@
 """Factories for making test data"""
 
-from factory import Faker
+from factory import Faker, Sequence, SubFactory
 from factory.django import DjangoModelFactory, ImageField
 from faker.providers import BaseProvider
 
@@ -60,7 +60,12 @@ class ProgramCertificateFactory(DjangoModelFactory):
     user_full_name = Faker("name")
     user_email = Faker("email")
     micromasters_program_id = Faker("random_int")
-    record_hash = Faker("text", max_nb_chars=200)
+    """
+    necesary for non int pk fields see:
+    https://factoryboy.readthedocs.io/en/latest/reference.html
+    "forcing-a-sequence-counter" section
+    """
+    record_hash = Sequence(str)
 
     class Meta:
         model = ProgramCertificate
@@ -68,5 +73,7 @@ class ProgramCertificateFactory(DjangoModelFactory):
 
 
 class ProgramLetterFactory(DjangoModelFactory):
+    certificate = SubFactory(ProgramCertificateFactory)
+
     class Meta:
         model = ProgramLetter
