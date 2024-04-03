@@ -223,14 +223,10 @@ const useUserListsDetail = (id: number) => {
   return useQuery(learningResources.userlists._ctx.detail(id))
 }
 
-type UserListCreateRequest = Omit<
-  ULCreateRequest["UserListRequest"],
-  "readable_id" | "resource_type"
->
 const useUserListCreate = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (params: UserListCreateRequest) =>
+    mutationFn: (params: ULCreateRequest["UserListRequest"]) =>
       userListsApi.userlistsCreate({
         UserListRequest: params,
       }),
