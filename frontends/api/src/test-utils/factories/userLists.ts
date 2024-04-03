@@ -14,7 +14,7 @@ const userList: Factory<UserList> = (overrides = {}) => {
     id: faker.helpers.unique(faker.datatype.number),
     title: faker.helpers.unique(faker.lorem.words),
     description: faker.helpers.unique(faker.lorem.paragraph),
-    privacy_level: PrivacyLevelEnum.Private,
+    privacy_level: faker.helpers.arrayElement(Object.values(PrivacyLevelEnum)),
     item_count: 4,
     image: {},
     author: faker.helpers.unique(faker.datatype.number),
