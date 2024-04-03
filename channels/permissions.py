@@ -16,11 +16,11 @@ log = logging.getLogger()
 
 def field_exists(view: APIView) -> bool:
     """
-    Return True if a FieldChannel object exists for a field_name in the view, or there is no field name.
+    Return True if a FieldChannel object exists for a id in the view, or there is no field id.
     Raises 404 if the FieldChannel does not exist.
     """  # noqa: E501
-    field_name = view.kwargs.get("field_name", None)
-    if not field_name or FieldChannel.objects.filter(name=field_name).exists():
+    field_id = view.kwargs.get("id", None)
+    if not field_id or FieldChannel.objects.filter(id=field_id).exists():
         return True
     raise Http404
 
@@ -29,7 +29,7 @@ def is_field_moderator(request: Request, view: APIView) -> bool:
     """
     Determine if the user is a moderator for a field channel (or a staff user)
     """
-    return is_moderator(request.user, view.kwargs.get("field_name", None))
+    return is_moderator(request.user, view.kwargs.get("id", None))
 
 
 class FieldModeratorPermissions(BasePermission):
@@ -63,4 +63,4 @@ class HasFieldPermission(BasePermission):
         elif request.method == "DELETE":
             return request.user.is_staff
         else:
-            return is_field_moderator(request, view) or request.user.is_staff
+            return is_field_moderator(request, view)

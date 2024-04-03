@@ -69,7 +69,7 @@ class ChannelAppearanceMixin(serializers.Serializer):
     def get_is_moderator(self, instance) -> bool:
         """Return true if user is a moderator for the channel"""
         request = self.context.get("request")
-        if request and is_moderator(request.user, instance.name):
+        if request and is_moderator(request.user, instance.id):
             return True
         return False
 
@@ -465,7 +465,7 @@ class FieldModeratorSerializer(serializers.Serializer):
         return {"email": value}
 
     def create(self, validated_data):
-        field_name = self.context["view"].kwargs["field_name"]
+        field_id = self.context["view"].kwargs["id"]
         moderator_name = validated_data.get("moderator_name")
         email = validated_data.get("email")
 
@@ -483,6 +483,6 @@ class FieldModeratorSerializer(serializers.Serializer):
 
         user = User.objects.get(username=username)
         add_user_role(
-            FieldChannel.objects.get(name=field_name), FIELD_ROLE_MODERATORS, user
+            FieldChannel.objects.get(id=field_id), FIELD_ROLE_MODERATORS, user
         )
         return user

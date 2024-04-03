@@ -10,7 +10,8 @@ import { useChannelDetail } from "api/hooks/fields"
 import EditFieldAppearanceForm from "./EditFieldAppearanceForm"
 import FieldPageSkeleton from "./FieldPageSkeleton"
 type RouteParams = {
-  id: string
+  channelType: string
+  name: string
 }
 
 const keyFromHash = (hash: string) => {
@@ -20,11 +21,11 @@ const keyFromHash = (hash: string) => {
 }
 
 const EditFieldPage: React.FC = () => {
-  const { id } = useParams<RouteParams>()
+  const { channelType, name } = useParams<RouteParams>()
   const navigate = useNavigate()
   const { hash } = useLocation()
   const tabValue = keyFromHash(hash)
-  const field = useChannelDetail(Number(id))
+  const field = useChannelDetail(channelType, name)
   const handleChange = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
       navigate({ hash: newValue }, { replace: true })

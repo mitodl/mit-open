@@ -7,16 +7,19 @@ from django.contrib.auth.models import Group, User
 from django.urls import reverse
 
 from channels.api import add_user_role
-from channels.constants import FIELD_ROLE_MODERATORS
+from channels.constants import FIELD_ROLE_MODERATORS, ChannelType
 from channels.factories import (
     FieldChannelFactory,
     FieldListFactory,
     SubfieldFactory,
 )
-from channels.models import FieldChannel
-from channels.serializers import FieldChannelBaseSerializer
+from channels.models import ChannelTopicDetail, FieldChannel
+from channels.serializers import FieldChannelSerializer
 from learning_resources.constants import LearningResourceType
-from learning_resources.factories import LearningResourceFactory
+from learning_resources.factories import (
+    LearningResourceFactory,
+    LearningResourceTopicFactory,
+)
 from main.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
@@ -29,9 +32,7 @@ def test_list_field_channels(user_client):
     field_list = sorted(user_client.get(url).json()["results"], key=lambda f: f["id"])
     assert len(field_list) == len(field_channels)
     for idx, field_channel in enumerate(field_channels):
-        assert (
-            field_list[idx] == FieldChannelBaseSerializer(instance=field_channel).data
-        )
+        assert field_list[idx] == FieldChannelSerializer(instance=field_channel).data
 
 
 @pytest.mark.parametrize("is_moderator", [True, False])
@@ -43,7 +44,7 @@ def test_field_channel_is_moderator(field_channel, client, is_moderator):
     client.force_login(field_user)
     url = reverse(
         "channels:v0:field_channels_api-detail",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     assert client.get(url).json()["is_moderator"] == is_moderator
 
@@ -51,9 +52,17 @@ def test_field_channel_is_moderator(field_channel, client, is_moderator):
 def test_create_field_channel(admin_client):
     """An admin should be able to create a new field channel"""
     url = reverse("channels:v0:field_channels_api-list")
-    data = {"name": "biology", "title": "Biology", "about": {}}
+    topic = LearningResourceTopicFactory.create()
+    data = {
+        "name": "biology",
+        "title": "Biology",
+        "about": {},
+        "channel_type": ChannelType.topic.name,
+        "topic_detail": {"topic": topic.id},
+    }
     admin_client.post(url, data=data).json()
     assert FieldChannel.objects.filter(name=data["name"]).exists()
+    assert ChannelTopicDetail.objects.filter(channel__name=data["name"]).exists()
 
 
 def test_create_field_channel_missing_name(admin_client):
@@ -89,11 +98,11 @@ def test_partial_update_field_channel_featured_list_only_learning_path(
     field_channel = FieldChannelFactory.create()
     url = reverse(
         "channels:v0:field_channels_api-detail",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
-    resoure = LearningResourceFactory.create(resource_type=resource_type.name)
+    resource = LearningResourceFactory.create(resource_type=resource_type.name)
     status = 200 if resource_type == LearningResourceType.learning_path else 400
-    data = {"featured_list": resoure.id}
+    data = {"featured_list": resource.id}
     response = admin_client.patch(url, data=data, content_type="application/json")
     assert response.status_code == status
 
@@ -118,7 +127,7 @@ def test_partial_update_field_channel_lists_only_learning_path(
     field_channel = FieldChannelFactory.create()
     url = reverse(
         "channels:v0:field_channels_api-detail",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     resoure = LearningResourceFactory.create(resource_type=resource_type.name)
     status = 200 if resource_type == LearningResourceType.learning_path else 400
@@ -140,7 +149,7 @@ def test_update_field_channel(field_channel, client):
     """A moderator should be able to update a field channel"""
     url = reverse(
         "channels:v0:field_channels_api-detail",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     data = {"title": "NEW TITLE", "about": {}}
     field_user = UserFactory.create()
@@ -160,7 +169,7 @@ def test_patch_field_channel_image(client, field_channel, attribute):
     """
     url = reverse(
         "channels:v0:field_channels_api-detail",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     png_file = os.path.join(  # noqa: PTH118
         os.path.dirname(__file__),  # noqa: PTH120
@@ -191,7 +200,7 @@ def test_update_field_channel_forbidden(field_channel, user_client):
     """A normal user should not be able to update a field channel"""
     url = reverse(
         "channels:v0:field_channels_api-detail",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     response = user_client.patch(url, data={"title": "new"})
     assert response.status_code == 403
@@ -201,7 +210,7 @@ def test_delete_field_channel(field_channel, client):
     """An admin should be able to delete a field channel"""
     url = reverse(
         "channels:v0:field_channels_api-detail",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     client.force_login(UserFactory.create(is_staff=True))
     response = client.delete(url)
@@ -212,7 +221,7 @@ def test_delete_field_channel_forbidden(field_channel, client):
     """A moderator should npt be able to delete a field channel"""
     url = reverse(
         "channels:v0:field_channels_api-detail",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     field_user = UserFactory.create()
     add_user_role(field_channel, FIELD_ROLE_MODERATORS, field_user)
@@ -225,7 +234,7 @@ def test_list_moderators(field_channel, client):
     """A field moderator should be able to view other moderators for the channel"""
     url = reverse(
         "channels:v0:field_moderators_api-list",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     field_user = UserFactory.create()
     other_mod = UserFactory.create()
@@ -248,7 +257,7 @@ def test_list_moderators_forbidden(field_channel, user_client):
     """A normal user should not be able to view other moderators for the field channel"""
     url = reverse(
         "channels:v0:field_moderators_api-list",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     assert user_client.get(url).status_code == 403
 
@@ -259,7 +268,7 @@ def test_add_moderator(field_channel, client):
     add_user_role(field_channel, FIELD_ROLE_MODERATORS, field_user)
     url = reverse(
         "channels:v0:field_moderators_api-list",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     client.force_login(field_user)
     other_user_1 = UserFactory.create()
@@ -275,7 +284,7 @@ def test_add_moderator_forbidden(field_channel, user_client):
     """A normal user should not be able to add other moderators"""
     url = reverse(
         "channels:v0:field_moderators_api-list",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     assert (
         user_client.post(url, data={"email": UserFactory.create().email}).status_code
@@ -292,7 +301,7 @@ def test_delete_moderator(field_channel, client):
         add_user_role(field_channel, FIELD_ROLE_MODERATORS, user)
     url = reverse(
         "channels:v0:field_moderators_api-detail",
-        kwargs={"field_name": field_channel.name, "moderator_name": other_mod.username},
+        kwargs={"id": field_channel.id, "moderator_name": other_mod.username},
     )
     client.force_login(field_user)
     assert client.delete(url).status_code == 204
@@ -305,7 +314,7 @@ def test_delete_moderator_forbidden(field_channel, user_client):
     url = reverse(
         "channels:v0:field_moderators_api-detail",
         kwargs={
-            "field_name": field_channel.name,
+            "id": field_channel.id,
             "moderator_name": field_user.username,
         },
     )
@@ -319,7 +328,7 @@ def test_no_excess_queries(user_client, django_assert_num_queries, related_count
     subfields / lists.
     """
     # This isn't too important; we care it does not scale with number of related items
-    expected_query_count = 7
+    expected_query_count = 9
 
     field_channel = FieldChannelFactory.create()
     FieldListFactory.create_batch(related_count, field_channel=field_channel)
@@ -327,7 +336,7 @@ def test_no_excess_queries(user_client, django_assert_num_queries, related_count
 
     url = reverse(
         "channels:v0:field_channels_api-detail",
-        kwargs={"field_name": field_channel.name},
+        kwargs={"id": field_channel.id},
     )
     with django_assert_num_queries(expected_query_count):
         user_client.get(url)

@@ -22,15 +22,16 @@ export const articlesView = (id: number) =>
 export const articlesEditView = (id: number) =>
   generatePath(ARTICLES_EDIT, { id: String(id) })
 
-export const FIELD_VIEW = "/channels/type/:channelType/:name" as const
-export const FIELD_EDIT = "/channels/:id/manage/" as const
-export const FIELD_EDIT_WIDGETS = "/channels/:id/manage/widgets/" as const
+export const FIELD_VIEW = "/c/:channelType/:name" as const
+export const FIELD_EDIT = "/c/:channelType/:name/manage/" as const
+export const FIELD_EDIT_WIDGETS =
+  "/c/:channelType/:name/manage/widgets/" as const
 export const makeFieldViewPath = (channelType: string, name: string) =>
   generatePath(FIELD_VIEW, { channelType, name })
-export const makeFieldEditPath = (id: string | null) =>
-  generatePath(FIELD_EDIT, { id })
-export const makeFieldManageWidgetsPath = (id: string | null) =>
-  generatePath(FIELD_EDIT_WIDGETS, { id })
+export const makeFieldEditPath = (channelType: string, name: string) =>
+  generatePath(FIELD_EDIT, { channelType, name })
+export const makeFieldManageWidgetsPath = (channelType: string, name: string) =>
+  generatePath(FIELD_EDIT_WIDGETS, { channelType, name })
 
 export const LOGIN = "/login/ol-oidc/"
 export const LOGOUT = "/logout/"

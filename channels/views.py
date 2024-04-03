@@ -122,10 +122,10 @@ class FieldModeratorListView(ListCreateAPIView):
 
     def get_queryset(self):
         """
-        Builds a queryset of relevant users with moderator permissions for this field channel
-        """  # noqa: D401, E501
+        Build a queryset of relevant users with moderator permissions for this channel
+        """
         field_group_name = get_group_role_name(
-            self.kwargs["field_name"],
+            self.kwargs["id"],
             FIELD_ROLE_MODERATORS,
         )
 
@@ -146,8 +146,7 @@ class FieldModeratorDetailView(APIView):
     def delete(self, request, *args, **kwargs):  # noqa: ARG002
         """Remove the user from the moderator groups for this website"""
         user = User.objects.get(username=self.kwargs["moderator_name"])
-        field_name = self.kwargs["field_name"]
         remove_user_role(
-            FieldChannel.objects.get(name=field_name), FIELD_ROLE_MODERATORS, user
+            FieldChannel.objects.get(id=self.kwargs["id"]), FIELD_ROLE_MODERATORS, user
         )
         return Response(status=HTTP_204_NO_CONTENT)

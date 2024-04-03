@@ -4,21 +4,24 @@ import { SimpleMenu, IconButton } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import SettingsIcon from "@mui/icons-material/Settings"
 
-const FieldMenu: React.FC<{ id: number }> = ({ id }) => {
+const FieldMenu: React.FC<{ channelType: string; name: string }> = ({
+  channelType,
+  name,
+}) => {
   const items: SimpleMenuItem[] = useMemo(() => {
     return [
       {
         key: "settings",
         label: "Field Settings",
-        href: routes.makeFieldEditPath(id.toString()),
+        href: routes.makeFieldEditPath(channelType, name),
       },
       {
         key: "widget",
         label: "Manage Widgets",
-        href: routes.makeFieldManageWidgetsPath(id.toString()),
+        href: routes.makeFieldManageWidgetsPath(channelType, name),
       },
     ]
-  }, [id])
+  }, [channelType, name])
   return (
     <SimpleMenu
       items={items}

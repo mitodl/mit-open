@@ -22,13 +22,7 @@ const useChannelsList = (
   })
 }
 
-const useChannelDetail = (id: number) => {
-  return useQuery({
-    ...channels.detail(id),
-  })
-}
-
-const useChannelDetailByType = (channelType: string, fieldName: string) => {
+const useChannelDetail = (channelType: string, fieldName: string) => {
   return useQuery({
     ...channels.detailByType(channelType, fieldName),
   })
@@ -50,9 +44,4 @@ const useChannelPartialUpdate = () => {
   })
 }
 
-export {
-  useChannelDetail,
-  useChannelDetailByType,
-  useChannelsList,
-  useChannelPartialUpdate,
-}
+export { useChannelDetail, useChannelsList, useChannelPartialUpdate }

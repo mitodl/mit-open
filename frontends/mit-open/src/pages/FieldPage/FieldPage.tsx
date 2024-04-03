@@ -3,7 +3,7 @@ import { useParams, useLocation, useNavigate } from "react-router"
 import { Tab, TabContext, TabList, TabPanel, Container } from "ol-components"
 import { Link } from "react-router-dom"
 import FieldPageSkeleton from "./FieldPageSkeleton"
-import { useChannelDetailByType } from "api/hooks/fields"
+import { useChannelDetail } from "api/hooks/fields"
 import WidgetsList from "./WidgetsList"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { makeFieldViewPath } from "@/common/urls"
@@ -25,7 +25,7 @@ const FieldPage: React.FC = () => {
   const { channelType, name } = useParams<RouteParams>()
   const navigate = useNavigate()
   const { hash, pathname } = useLocation()
-  const fieldQuery = useChannelDetailByType(channelType || "", name || "")
+  const fieldQuery = useChannelDetail(channelType || "", name || "")
   const handleChange = useCallback(
     (_event: React.SyntheticEvent, newValue: string) => {
       navigate({ hash: newValue }, { replace: true })

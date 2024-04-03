@@ -295,7 +295,7 @@ def test_moderator_serializer(mocker, field_channel, use_email):
         data = {"moderator_name": field_user.username}
     serializer = FieldModeratorSerializer(
         data=data,
-        context={"view": mocker.Mock(kwargs={"field_name": field_channel.name})},
+        context={"view": mocker.Mock(kwargs={"id": field_channel.id})},
     )
     serializer.is_valid()
     serializer.create(serializer.validated_data)

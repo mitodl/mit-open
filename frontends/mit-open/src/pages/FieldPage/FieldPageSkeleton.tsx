@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
 import { BannerPage, styled, Container } from "ol-components"
-import { useChannelDetailByType } from "api/hooks/fields"
+import { useChannelDetail } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
 
@@ -45,7 +45,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   channelType,
   name,
 }) => {
-  const field = useChannelDetailByType(channelType, name)
+  const field = useChannelDetail(channelType || "", name || "")
 
   return (
     <BannerPage
@@ -70,7 +70,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                 </h1>
                 <FieldControls>
                   {field.data?.is_moderator ? (
-                    <FieldMenu id={field.data.id} />
+                    <FieldMenu channelType={channelType} name={name} />
                   ) : null}
                 </FieldControls>
               </>

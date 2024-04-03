@@ -54,7 +54,7 @@ def test_can_edit_field_channel_details(mocker, field_channel, is_moderator):
     assert (
         permissions.HasFieldPermission().has_object_permission(
             mocker.Mock(user=field_user, method="PATCH"),
-            mocker.Mock(kwargs={"field_name": field_channel.name}),
+            mocker.Mock(kwargs={"id": field_channel.id}),
             field_channel,
         )
         is is_moderator
@@ -68,7 +68,7 @@ def test_can_delete_field_channel(mocker, field_channel, is_staff):
     assert (
         permissions.HasFieldPermission().has_object_permission(
             mocker.Mock(user=field_user, method="DELETE"),
-            mocker.Mock(kwargs={"field_name": field_channel.name}),
+            mocker.Mock(kwargs={"id": field_channel.id}),
             field_channel,
         )
         is is_staff
@@ -88,10 +88,10 @@ def test_can_view_create_moderators(  # pylint:disable=too-many-arguments
         user.refresh_from_db()
     assert permissions.FieldModeratorPermissions().has_permission(
         mocker.Mock(user=user, method=method),
-        mocker.Mock(kwargs={"field_name": field_channel.name}),
+        mocker.Mock(kwargs={"id": field_channel.id}),
     ) is (is_moderator or is_staff)
     assert permissions.FieldModeratorPermissions().has_object_permission(
         mocker.Mock(user=user, method=method),
-        mocker.Mock(kwargs={"field_name": field_channel.name}),
+        mocker.Mock(kwargs={"id": field_channel.id}),
         field_channel,
     ) is (is_moderator or is_staff)
