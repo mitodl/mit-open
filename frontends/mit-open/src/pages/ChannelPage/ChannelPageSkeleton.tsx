@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
 import { BannerPage, styled, Container } from "ol-components"
-import { useChannelDetailByType } from "../../../../api/src/hooks/channels"
+import { useChannelDetailByType } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
 

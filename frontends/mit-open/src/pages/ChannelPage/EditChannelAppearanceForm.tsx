@@ -6,7 +6,7 @@ import * as Yup from "yup"
 
 import type { FieldChannel } from "api/v0"
 import { makeFieldViewPath } from "@/common/urls"
-import { useChannelPartialUpdate } from "../../../../api/src/hooks/channels"
+import { useChannelPartialUpdate } from "api/hooks/fields"
 
 type FormProps = {
   field: FieldChannel

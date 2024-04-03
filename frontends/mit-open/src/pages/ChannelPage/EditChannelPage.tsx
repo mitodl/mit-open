@@ -6,7 +6,7 @@ import { Container, TabList, Tab, TabContext, TabPanel } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import { useChannelDetail } from "../../../../api/src/hooks/channels"
+import { useChannelDetail } from "api/hooks/fields"
 import EditChannelAppearanceForm from "./EditChannelAppearanceForm"
 import FieldPageSkeleton from "./ChannelPageSkeleton"
 type RouteParams = {
