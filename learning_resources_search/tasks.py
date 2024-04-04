@@ -138,11 +138,10 @@ def bulk_deindex_learning_resources(ids, resource_type):
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
 def bulk_deindex_percolators(ids):
     """
-    Deindex learning resourse by a list of ids
+    Deindex percolators by a list of ids
 
     Args:
-        ids(list of int): List of learning resource ids
-        resource_type: the resource type
+        ids(list of int): List of percolator ids
 
     """
     try:
@@ -162,8 +161,9 @@ def bulk_index_percolate_queries(percolate_ids, index_types):
     Bulk index percolate queries for provided percolate query Ids
 
     Args:
-        percolate_backing_index (string): name of percolate backing index
-        percolate_ids (list of int): Ids of percolates queries to index
+        percolate_ids (list of int): List of percolator ids
+        index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
     """
     try:
         percolates = PercolateQuery.objects.filter(id__in=percolate_ids)
@@ -493,7 +493,7 @@ def get_update_courses_tasks(blocklisted_ids, etl_source):
 
 def get_update_percolator_tasks():
     """
-    Get list of tasks to update non-course learning resources
+    Get list of tasks to update percolators
     """
     index_tasks = [
         bulk_index_percolate_queries.si(

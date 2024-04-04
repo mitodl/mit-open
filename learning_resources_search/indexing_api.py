@@ -281,11 +281,11 @@ def deindex_learning_resources(ids, resource_type):
 
 def deindex_percolators(ids):
     """
-    Deindex a list of learning resources by id
+    Deindex a list of percolators by id
 
     Args:
-        ids(list of int): List of learning resource ids
-        resource_type: resource type
+        ids(list of int): List of percolator ids
+
     """
     deindex_items(
         serialize_bulk_percolators_for_deletion(ids),

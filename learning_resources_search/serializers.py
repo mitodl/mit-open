@@ -514,7 +514,7 @@ def serialize_bulk_learning_resources_for_deletion(ids):
 
 def serialize_bulk_percolators_for_deletion(ids):
     """
-    Serialize learning_resource for bulk deletion
+    Serialize percolators for bulk deletion
 
     Args:
         ids(list of int): List of learning resource id's
