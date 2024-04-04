@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker/locale/en"
 import * as NiceModal from "@ebay/nice-modal-react"
-import AddToLearningPathDialog from "./AddToListDialog"
+import { AddToLearningPathDialog } from "./AddToListDialog"
 
 import { setMockResponse, makeRequest, factories, urls } from "api/test-utils"
 
