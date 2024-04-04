@@ -14558,11 +14558,11 @@ __metadata:
   dependencies:
     "@craco/craco": "npm:^7.1.0"
     eslint-config-react-app: "npm:^7.0.1"
-    ol-components: "workspace:*"
+    ol-components: "npm:0.0.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-scripts: "npm:5.0.1"
-    swc-loader: "npm:^0.2.3"
+    swc-loader: "npm:^0.2.6"
   languageName: unknown
   linkType: soft
 
@@ -20028,7 +20028,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"ol-components@npm:0.0.0, ol-components@workspace:*, ol-components@workspace:ol-components":
+"ol-components@npm:0.0.0, ol-components@workspace:ol-components":
   version: 0.0.0-use.local
   resolution: "ol-components@workspace:ol-components"
   dependencies:
