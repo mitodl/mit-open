@@ -25,16 +25,18 @@ from learning_resources_search.constants import (
     ALL_INDEX_TYPES,
     COURSE_TYPE,
     MAPPING,
+    PERCOLATE_INDEX_TYPE,
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError
 from learning_resources_search.serializers import (
     serialize_bulk_learning_resources,
     serialize_bulk_learning_resources_for_deletion,
+    serialize_bulk_percolators_for_deletion,
     serialize_content_file_for_bulk,
     serialize_content_file_for_bulk_deletion,
+    serialize_percolate_query,
 )
-from learning_resources_search.utils import remove_child_queries
 from main.utils import chunks
 
 log = logging.getLogger(__name__)
@@ -281,24 +283,6 @@ def index_items(documents, object_type, index_types, **kwargs):
                     raise ReindexError(msg)
 
 
-def _serialize_percolate_query(query):
-    """
-    Serialize PercolateQuery for Opensearch indexing
-
-    Args:
-        query (PercolateQuery): A PercolateQuery instance
-
-    Returns:
-        dict:
-            This is the query dict value with `_id` set to the database id so that
-            OpenSearch can update this in place.
-    """
-    return {
-        "query": {**remove_child_queries(query.query)},
-        "_id": query.id,
-    }
-
-
 def get_percolate_documents(percolate_queries):
     """
     Get a generator for percolate query documents
@@ -310,7 +294,7 @@ def get_percolate_documents(percolate_queries):
         for each PercolateQuery:
             a document in dict form
     """
-    return (_serialize_percolate_query(query) for query in percolate_queries)
+    return (serialize_percolate_query(query) for query in percolate_queries)
 
 
 def index_learning_resources(ids, resource_type, index_types):
@@ -346,6 +330,21 @@ def deindex_learning_resources(ids, resource_type):
             learning_resource_id__in=ids
         ).values_list("id", flat=True):
             deindex_run_content_files(run_id, unpublished_only=False)
+
+
+def deindex_percolators(ids):
+    """
+    Deindex a list of learning resources by id
+
+    Args:
+        ids(list of int): List of learning resource ids
+        resource_type: resource type
+    """
+    deindex_items(
+        serialize_bulk_percolators_for_deletion(ids),
+        PERCOLATE_INDEX_TYPE,
+        index_types=IndexestoUpdate.all_indexes.value,
+    )
 
 
 def index_course_content_files(learning_resource_ids, index_types):
