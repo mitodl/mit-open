@@ -151,59 +151,6 @@ def upsert_document(doc_id, doc, object_type, *, retry_on_conflict=0, **kwargs):
     )
 
 
-def _index_chunk(chunk, *, index):
-    """
-    Add/update a list of records in Opensearch
-
-    Args:
-        chunk (list):
-            List of serialized items to index
-        index (str): An Opensearch index
-
-    Returns:
-        int: Number of items inserted into Opensearch
-    """
-
-    conn = get_conn()
-    insert_count, errors = bulk(
-        conn,
-        chunk,
-        index=index,
-    )
-    if len(errors) > 0:
-        error_message = f"{errors}"
-        raise ReindexError(error_message)
-
-    refresh_index(index)
-    return insert_count
-
-
-def index_chunks(items, *, index, chunk_size=100):
-    """
-    Add/update records in Opensearch.
-
-    Args:
-        items (iterable):
-            Iterable of serialized items to index
-        index (str): An Opensearch index
-        chunk_size (int):
-            How many items to index at once.
-
-    Returns:
-        int: Number of indexed items
-    """
-    # Use an iterator so we can keep track of what's been indexed already
-    log.info("Indexing chunk pairs, chunk_size=%d...", chunk_size)
-    count = 0
-    for chunk in chunks(items, chunk_size=chunk_size):
-        count += _index_chunk(chunk, index=index)
-        log.info("Indexed %d items...", count)
-    log.info("Indexing done, refreshing index...")
-    refresh_index(index)
-    log.info("Finished indexing")
-    return count
-
-
 def deindex_items(documents, object_type, index_types, **kwargs):
     """
     Call index_items with error catching around not_found for objects that don't exist

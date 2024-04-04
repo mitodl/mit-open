@@ -168,12 +168,6 @@ def bulk_index_percolate_queries(percolate_ids, index_types):
     try:
         percolates = PercolateQuery.objects.filter(id__in=percolate_ids)
         log.info("Indexing %d percolator queries...", percolates.count())
-        """
-        api.index_chunks(
-            api.get_percolate_documents(percolates.iterator()),
-            index=percolate_backing_index,
-        )
-        """
         api.index_items(
             serialize_bulk_percolators(percolate_ids),
             PERCOLATE_INDEX_TYPE,
