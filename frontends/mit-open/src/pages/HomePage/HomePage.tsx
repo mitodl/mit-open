@@ -14,7 +14,7 @@ import TabbedCarousel, {
   TabbedCarouselProps,
 } from "@/page-components/TabbedCarousel/TabbedCarousel"
 
-const UPCOMING_COURSES: TabbedCarouselProps["config"] = [
+const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
   {
     label: "All",
     pageSize: 4,
@@ -237,7 +237,7 @@ const HomePage: React.FC = () => {
         </Grid>
       </TopContainer>
       <h2>Upcoming Courses</h2>
-      <TabbedCarousel config={UPCOMING_COURSES} />
+      <TabbedCarousel config={UPCOMING_COURSES_CAROUSEL} />
       <h2>Media</h2>
       <TabbedCarousel config={MEDIA_CAROUSEL} />
     </HomePageContainer>
