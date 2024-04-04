@@ -68,7 +68,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
           {user.is_authenticated && (
             <IconButton
               size="small"
-              aria-label="Add to Learning Path"
+              aria-label="Add to User List"
               onClick={showAddToUserListDialog}
             >
               <BookmarkOutlinedIcon />
