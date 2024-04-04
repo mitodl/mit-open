@@ -8,7 +8,10 @@ from functools import partial
 from django.conf import settings
 from opensearch_dsl.connections import connections
 
-from learning_resources_search.constants import LEARNING_RESOURCE_TYPES, IndexestoUpdate
+from learning_resources_search.constants import (
+    ALL_INDEX_TYPES,
+    IndexestoUpdate,
+)
 
 
 def configure_connections():
@@ -95,7 +98,7 @@ def get_active_aliases(
         list of str: Aliases which exist
     """
     if not object_types:
-        object_types = LEARNING_RESOURCE_TYPES
+        object_types = ALL_INDEX_TYPES
 
     if index_types == IndexestoUpdate.all_indexes.value:
         return [

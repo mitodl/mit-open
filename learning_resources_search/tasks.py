@@ -23,6 +23,7 @@ from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
     COURSE_TYPE,
     LEARNING_PATH_TYPE,
+    PERCOLATE_INDEX_TYPE,
     PODCAST_EPISODE_TYPE,
     PODCAST_TYPE,
     PROGRAM_TYPE,
@@ -32,6 +33,7 @@ from learning_resources_search.constants import (
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
+from learning_resources_search.models import PercolateQuery
 from learning_resources_search.serializers import (
     serialize_content_file_for_update,
     serialize_learning_resource_for_update,
@@ -128,6 +130,31 @@ def bulk_deindex_learning_resources(ids, resource_type):
         raise
     except:  # noqa: E722
         error = "bulk_deindex_learning_resources threw an error"
+        log.exception(error)
+        return error
+
+
+@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+def bulk_index_percolate_queries(percolate_ids, percolate_backing_index):
+    """
+    Bulk index percolate queries for provided percolate query Ids
+
+    Args:
+        percolate_backing_index (string): name of percolate backing index
+        percolate_ids (list of int): Ids of percolates queries to index
+    """
+    try:
+        percolates = PercolateQuery.objects.filter(id__in=percolate_ids)
+        log.info("Indexing %d percolator queries...", percolates.count())
+
+        api.index_chunks(
+            api.get_percolate_documents(percolates.iterator()),
+            index=percolate_backing_index,
+        )
+    except (RetryError, Ignore):
+        raise
+    except:  # noqa: E722
+        error = "bulk_index_percolate_queries threw an error"
         log.exception(error)
         return error
 
@@ -232,6 +259,17 @@ def start_recreate_index(self, indexes):
         log.info("starting to index %s objects...", ", ".join(indexes))
 
         index_tasks = []
+
+        if PERCOLATE_INDEX_TYPE in indexes:
+            index_tasks = index_tasks + [
+                bulk_index_percolate_queries.si(
+                    percolate_ids, new_backing_indices[PERCOLATE_INDEX_TYPE]
+                )
+                for percolate_ids in chunks(
+                    PercolateQuery.objects.order_by("id").values_list("id", flat=True),
+                    chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                )
+            ]
 
         if COURSE_TYPE in indexes:
             blocklisted_ids = load_course_blocklist()

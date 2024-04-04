@@ -22,8 +22,8 @@ from learning_resources_search.connection import (
 )
 from learning_resources_search.constants import (
     ALIAS_ALL_INDICES,
+    ALL_INDEX_TYPES,
     COURSE_TYPE,
-    LEARNING_RESOURCE_TYPES,
     MAPPING,
     IndexestoUpdate,
 )
@@ -34,6 +34,7 @@ from learning_resources_search.serializers import (
     serialize_content_file_for_bulk,
     serialize_content_file_for_bulk_deletion,
 )
+from learning_resources_search.utils import remove_child_queries
 from main.utils import chunks
 
 log = logging.getLogger(__name__)
@@ -80,7 +81,7 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
         skip_mapping (bool): If true, don't set any mapping
         object_type(str): The type of document (post, comment)
     """
-    if object_type not in LEARNING_RESOURCE_TYPES:
+    if object_type not in ALL_INDEX_TYPES:
         msg = (
             "A valid object type must be specified when clearing and creating an index"
         )
@@ -146,6 +147,59 @@ def upsert_document(doc_id, doc, object_type, *, retry_on_conflict=0, **kwargs):
         retry_on_conflict=retry_on_conflict,
         **kwargs,
     )
+
+
+def _index_chunk(chunk, *, index):
+    """
+    Add/update a list of records in Opensearch
+
+    Args:
+        chunk (list):
+            List of serialized items to index
+        index (str): An Opensearch index
+
+    Returns:
+        int: Number of items inserted into Opensearch
+    """
+
+    conn = get_conn()
+    insert_count, errors = bulk(
+        conn,
+        chunk,
+        index=index,
+    )
+    if len(errors) > 0:
+        error_message = f"{errors}"
+        raise ReindexError(error_message)
+
+    refresh_index(index)
+    return insert_count
+
+
+def index_chunks(items, *, index, chunk_size=100):
+    """
+    Add/update records in Opensearch.
+
+    Args:
+        items (iterable):
+            Iterable of serialized items to index
+        index (str): An Opensearch index
+        chunk_size (int):
+            How many items to index at once.
+
+    Returns:
+        int: Number of indexed items
+    """
+    # Use an iterator so we can keep track of what's been indexed already
+    log.info("Indexing chunk pairs, chunk_size=%d...", chunk_size)
+    count = 0
+    for chunk in chunks(items, chunk_size=chunk_size):
+        count += _index_chunk(chunk, index=index)
+        log.info("Indexed %d items...", count)
+    log.info("Indexing done, refreshing index...")
+    refresh_index(index)
+    log.info("Finished indexing")
+    return count
 
 
 def deindex_items(documents, object_type, index_types, **kwargs):
@@ -225,6 +279,38 @@ def index_items(documents, object_type, index_types, **kwargs):
                     log.error(errors)
                     msg = f"Error during bulk {object_type} insert: {errors}"
                     raise ReindexError(msg)
+
+
+def _serialize_percolate_query(query):
+    """
+    Serialize PercolateQuery for Opensearch indexing
+
+    Args:
+        query (PercolateQuery): A PercolateQuery instance
+
+    Returns:
+        dict:
+            This is the query dict value with `_id` set to the database id so that
+            OpenSearch can update this in place.
+    """
+    return {
+        "query": {**remove_child_queries(query.query)},
+        "_id": query.id,
+    }
+
+
+def get_percolate_documents(percolate_queries):
+    """
+    Get a generator for percolate query documents
+
+    Args:
+        percolate_queries (iterable of PercolateQuery): An iterable of PercolateQuery
+
+    Yields:
+        for each PercolateQuery:
+            a document in dict form
+    """
+    return (_serialize_percolate_query(query) for query in percolate_queries)
 
 
 def index_learning_resources(ids, resource_type, index_types):
