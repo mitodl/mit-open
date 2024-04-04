@@ -56,7 +56,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       onActivate={(r) => openLRDrawer(r.id)}
       footerActionSlot={
         <div>
-          {user.is_learning_path_editor && (
+          {user.is_authenticated && user.is_learning_path_editor && (
             <IconButton
               size="small"
               aria-label="Add to Learning Path"
