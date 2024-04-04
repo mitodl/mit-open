@@ -806,6 +806,12 @@ export interface PatchedFieldChannelWriteRequest {
    * @type {string}
    * @memberof PatchedFieldChannelWriteRequest
    */
+  name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedFieldChannelWriteRequest
+   */
   title?: string
   /**
    *
