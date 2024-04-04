@@ -243,27 +243,38 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
           <Description>
             Adding <ResourceTitle>{resource?.title}</ResourceTitle>
           </Description>
-          <Listing>
-            {listType === ListType.LearningPath ? (
+          {listType === ListType.LearningPath ? (
+            <Listing>
               <LearningPathToggleList
                 resource={resource}
                 lists={lists as LearningPathResource[]}
               />
-            ) : (
+              <ListItem className="add-to-list-new">
+                <ListItemButton
+                  onClick={() => manageListDialogs.upsertLearningPath()}
+                >
+                  <AddIcon />
+                  <ListItemText primary="Create a new list" />
+                </ListItemButton>
+              </ListItem>
+            </Listing>
+          ) : null}
+          {listType === ListType.UserList ? (
+            <Listing>
               <UserListToggleList
                 resource={resource}
                 lists={lists as UserList[]}
               />
-            )}
-            <ListItem className="add-to-list-new">
-              <ListItemButton
-                onClick={() => manageListDialogs.upsertLearningPath()}
-              >
-                <AddIcon />
-                <ListItemText primary="Create a new list" />
-              </ListItemButton>
-            </ListItem>
-          </Listing>
+              <ListItem className="add-to-list-new">
+                <ListItemButton
+                  onClick={() => manageListDialogs.upsertUserList()}
+                >
+                  <AddIcon />
+                  <ListItemText primary="Create a new list" />
+                </ListItemButton>
+              </ListItem>
+            </Listing>
+          ) : null}
         </>
       ) : (
         <LoadingSpinner loading={!isReady} />

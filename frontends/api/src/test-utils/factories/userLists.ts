@@ -24,7 +24,7 @@ const userList: Factory<UserList> = (overrides = {}) => {
 }
 const userLists = makePaginatedFactory(userList)
 
-const microRelationship: Factory<MicroUserListRelationship> = (
+const microUserListRelationship: Factory<MicroUserListRelationship> = (
   overrides = {},
 ) => {
   return {
@@ -38,7 +38,7 @@ const microRelationship: Factory<MicroUserListRelationship> = (
 const userListRelationship: Factory<UserListRelationship> = (
   overrides = {},
 ) => {
-  const micro = microRelationship()
+  const micro = microUserListRelationship()
   const resource = learningResource({
     id: micro.child,
     user_list_parents: [micro],
@@ -80,4 +80,10 @@ const userListRelationships = ({
   } satisfies PaginatedUserListRelationshipList
 }
 
-export { userList, userLists, userListRelationship, userListRelationships }
+export {
+  userList,
+  userLists,
+  userListRelationship,
+  userListRelationships,
+  microUserListRelationship,
+}

@@ -259,7 +259,7 @@ const learningPath: LearningResourceFactory<LearningPathResource> = (
 }
 const learningPaths = makePaginatedFactory(learningPath)
 
-const microRelationship: Factory<MicroLearningPathRelationship> = (
+const microLearningPathRelationship: Factory<MicroLearningPathRelationship> = (
   overrides = {},
 ) => {
   return {
@@ -273,7 +273,7 @@ const microRelationship: Factory<MicroLearningPathRelationship> = (
 const learningPathRelationship: Factory<LearningPathRelationship> = (
   overrides = {},
 ) => {
-  const micro = microRelationship()
+  const micro = microLearningPathRelationship()
   const resource = learningResource({
     id: micro.child,
     learning_path_parents: [micro],
@@ -410,7 +410,7 @@ export {
   learningResourceOfferors as offerors,
   learningPath,
   learningPaths,
-  microRelationship,
+  microLearningPathRelationship,
   learningPathRelationship,
   learningPathRelationships,
   program,
