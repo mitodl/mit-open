@@ -21,7 +21,8 @@ import type {
 import { LearningResource } from "api"
 import LearningResourceCard from "../LearningResourceCard/LearningResourceCard"
 
-type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = T & {
+type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
+  dataConfig: T
   children: ({
     resources,
     isLoading,
@@ -31,42 +32,53 @@ type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = T & {
   }) => React.ReactNode
 }
 
-const ResourcesData: React.FC<
-  Omit<DataPanelProps<ResourceDataSource>, "type">
-> = ({ params, children }) => {
-  const { data, isLoading } = useLearningResourcesList(params)
-  return children({ resources: data?.results ?? [], isLoading })
-}
-
-const UpcomingResourcesData: React.FC<
-  Omit<DataPanelProps<UpcomingDataSource>, "type">
-> = ({ params, children }) => {
-  const { data, isLoading } = useLearningResourcesUpcoming(params)
-  return children({ resources: data?.results ?? [], isLoading })
-}
-
-const SearchData: React.FC<Omit<DataPanelProps<SearchDataSource>, "type">> = ({
-  params,
+const ResourcesData: React.FC<DataPanelProps<ResourceDataSource>> = ({
+  dataConfig,
   children,
 }) => {
-  const { data, isLoading } = useLearningResourcesSearch(params)
+  const { data, isLoading } = useLearningResourcesList(dataConfig.params)
   return children({ resources: data?.results ?? [], isLoading })
 }
 
-const DataPanel: React.FC<DataPanelProps> = ({ type, params, children }) => {
-  switch (type) {
+const UpcomingResourcesData: React.FC<DataPanelProps<UpcomingDataSource>> = ({
+  dataConfig,
+  children,
+}) => {
+  const { data, isLoading } = useLearningResourcesUpcoming(dataConfig.params)
+  return children({ resources: data?.results ?? [], isLoading })
+}
+
+const SearchData: React.FC<DataPanelProps<SearchDataSource>> = ({
+  dataConfig,
+  children,
+}) => {
+  const { data, isLoading } = useLearningResourcesSearch(dataConfig.params)
+  return children({ resources: data?.results ?? [], isLoading })
+}
+
+/**
+ * A wrapper to load data based `TabConfig.data`.
+ *
+ * For each `TabConfig.data.type`, a different API endpoint, and hence
+ * react-query hook, is used. Since hooks can't be called conditionally within
+ * a single component, each type of data is handled in a separate component.
+ */
+const DataPanel: React.FC<DataPanelProps> = ({ dataConfig, children }) => {
+  switch (dataConfig.type) {
     case "resources":
-      return <ResourcesData params={params}>{children}</ResourcesData>
+      return <ResourcesData dataConfig={dataConfig}>{children}</ResourcesData>
     case "lr_search":
-      return <SearchData params={params}>{children}</SearchData>
+      return <SearchData dataConfig={dataConfig}>{children}</SearchData>
     case "resources_upcoming":
       return (
-        <UpcomingResourcesData params={params}>
+        <UpcomingResourcesData dataConfig={dataConfig}>
           {children}
         </UpcomingResourcesData>
       )
     default:
-      throw new Error(`Unknown data type: ${type}`)
+      // @ts-expect-error This will always be an error if the switch statement
+      // is exhaustive since dataConfig will have type `never`
+      throw new Error(`Unknown data type: ${dataConfig.type}`)
   }
 }
 
@@ -88,6 +100,13 @@ const LearningResourceCardStyled = styled(LearningResourceCard)({
 type TabbedCarouselProps = {
   config: TabConfig[]
 }
+
+/**
+ * A tabbed carousel that fetches resources based on the configuration provided.
+ *  - each TabConfig generates a tab + tabpanel that pulls data from an API based
+ *    on the config
+ *  - data is lazily when the tabpanel first becomes visible
+ */
 const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
   const [tab, setTab] = React.useState("0")
 
@@ -100,7 +119,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
       </TabList>
       {config.map(({ data, pageSize }, index) => (
         <TabPanel key={index} value={index.toString()}>
-          <DataPanel {...data}>
+          <DataPanel dataConfig={data}>
             {({ resources }) => (
               <CarouselStyled pageSize={pageSize}>
                 {resources.map((resource) => (

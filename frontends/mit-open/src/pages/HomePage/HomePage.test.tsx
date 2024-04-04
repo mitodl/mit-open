@@ -4,7 +4,7 @@ import HomePage from "./HomePage"
 
 import { urls, setMockResponse } from "api/test-utils"
 import { learningResources as factory } from "api/test-utils/factories"
-import { renderWithProviders, screen, user } from "../../test-utils"
+import { renderWithProviders, screen, user, within } from "../../test-utils"
 
 describe("HomePage", () => {
   const setup = () => {
@@ -35,5 +35,15 @@ describe("HomePage", () => {
         search: "?q=physics",
       }),
     )
+  })
+
+  test("Tabbed Carousel sanity check", () => {
+    setup()
+    const [upcoming, media] = screen.getAllByRole("tablist")
+    within(upcoming).getByRole("tab", { name: "All" })
+    within(upcoming).getByRole("tab", { name: "Professional" })
+    within(media).getByRole("tab", { name: "All" })
+    within(media).getByRole("tab", { name: "Videos" })
+    within(media).getByRole("tab", { name: "Podcasts" })
   })
 })

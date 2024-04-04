@@ -20,7 +20,7 @@ const UPCOMING_COURSES: TabbedCarouselProps["config"] = [
     pageSize: 4,
     data: {
       type: "resources_upcoming",
-      params: { resource_type: ["course"] },
+      params: { resource_type: ["course"], limit: 12 },
     },
   },
   {
@@ -28,7 +28,7 @@ const UPCOMING_COURSES: TabbedCarouselProps["config"] = [
     pageSize: 4,
     data: {
       type: "resources_upcoming",
-      params: { professional: true, resource_type: ["course"] },
+      params: { professional: true, resource_type: ["course"], limit: 12 },
     },
   },
 ]
@@ -39,7 +39,7 @@ const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
     pageSize: 6,
     data: {
       type: "resources",
-      params: { resource_type: ["video", "podcast"] },
+      params: { resource_type: ["video", "podcast"], limit: 12 },
     },
   },
   {
@@ -47,7 +47,7 @@ const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
     pageSize: 6,
     data: {
       type: "resources",
-      params: { resource_type: ["video"] },
+      params: { resource_type: ["video"], limit: 12 },
     },
   },
   {
@@ -55,7 +55,7 @@ const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
     pageSize: 6,
     data: {
       type: "resources",
-      params: { resource_type: ["podcast"] },
+      params: { resource_type: ["podcast"], limit: 12 },
     },
   },
 ]
