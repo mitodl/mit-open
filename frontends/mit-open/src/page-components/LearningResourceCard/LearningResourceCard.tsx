@@ -6,7 +6,7 @@ import type { LearningResourceCardTemplateProps } from "@/page-components/Learni
 import { imgConfigs } from "@/common/constants"
 import { IconButton } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
-import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined"
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
 import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
 import { LearningResource } from "api"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
@@ -71,7 +71,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
               aria-label="Add to User List"
               onClick={showAddToUserListDialog}
             >
-              <BookmarkOutlinedIcon />
+              <BookmarkBorderIcon />
             </IconButton>
           )}
         </div>
