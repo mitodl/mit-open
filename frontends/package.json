@@ -3,6 +3,7 @@
   "private": true,
   "workspaces": [
     "api",
+    "github-pages",
     "mit-open",
     "ol-ckeditor",
     "ol-common",

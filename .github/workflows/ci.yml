@@ -106,8 +106,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18.18.2"
-          cache: "yarn"
-          cache-dependency-path: "frontends/yarn.lock"
+          cache: yarn
+          cache-dependency-path: frontends/yarn.lock
 
       - name: Setup environment
         run: sudo apt-get install libelf1
@@ -157,8 +157,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18.18.2"
-          cache: "yarn"
-          cache-dependency-path: "frontends/yarn.lock"
+          cache: yarn
+          cache-dependency-path: frontends/yarn.lock
 
       - run: yarn install
 
@@ -189,8 +189,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18.18.2"
-          cache: "yarn"
-          cache-dependency-path: "frontends/yarn.lock"
+          cache: yarn
+          cache-dependency-path: frontends/yarn.lock
 
       - name: Install dependencies
         working-directory: frontends
@@ -208,7 +208,8 @@ jobs:
             -c scripts/openapi-configs/typescript-axios-v0.yaml
 
       - name: Format freshly generated client
-        run: cd frontends && npx prettier ../$GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+        working-directory: frontends
+        run: npx prettier ../$GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
 
       - name: Check VC client is up-to-date
         run: |
@@ -230,8 +231,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18.18.2"
-          cache: "yarn"
-          cache-dependency-path: "frontends/yarn.lock"
+          cache: yarn
+          cache-dependency-path: frontends/yarn.lock
 
       - name: Install dependencies
         working-directory: frontends
@@ -247,8 +248,11 @@ jobs:
             --output $GENERATOR_OUTPUT_DIR_CI \
             --ignore-file-override $GENERATOR_IGNORE_FILE \
             -c scripts/openapi-configs/typescript-axios-v1.yaml
+
       - name: Format freshly generated client
-        run: cd frontends && npx prettier ../$GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+        working-directory: frontends
+        run: npx prettier ../$GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+
       - name: Check VC client is up-to-date
         run: |
           diff $GENERATOR_OUTPUT_DIR_CI $GENERATOR_OUTPUT_DIR_VC \
@@ -263,8 +267,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18.18.2"
-          cache: "yarn"
-          cache-dependency-path: "e2e_testing/yarn.lock"
+          cache: yarn
+          cache-dependency-path: e2e_testing/yarn.lock
 
       - name: Install dependencies
         run: yarn install --immutable
