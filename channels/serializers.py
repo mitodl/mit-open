@@ -356,14 +356,16 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             ChannelType.offeror.name: ChannelOfferorDetail,
             ChannelType.pathway.name: ChannelPathwayDetail,
         }
+        channel_type = validated_data.get("channel_type", channel.channel_type)
+
         for key in ChannelType.names():
             details_data = validated_data.pop(f"{key}_detail", None)
-            if key != channel.channel_type:
-                channel_detail_map[key].objects.filter(channel=channel).delete()
-            else:
+            if key == channel_type:
                 channel_detail_map[key].objects.update_or_create(
                     channel=channel, defaults=details_data
                 )
+            else:
+                channel_detail_map[key].objects.filter(channel=channel).delete()
 
     def create(self, validated_data):
         base_field_data = copy.deepcopy(validated_data)
