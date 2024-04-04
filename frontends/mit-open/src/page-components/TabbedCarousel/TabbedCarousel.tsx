@@ -1,6 +1,7 @@
 import React from "react"
 import {
   useLearningResourcesList,
+  useLearningResourcesUpcoming,
   useLearningResourcesSearch,
 } from "api/hooks/learningResources"
 import {
@@ -11,7 +12,12 @@ import {
   Carousel,
   styled,
 } from "ol-components"
-import type { TabConfig, ResourceDataSource, SearchDataSource } from "./types"
+import type {
+  TabConfig,
+  ResourceDataSource,
+  SearchDataSource,
+  UpcomingDataSource,
+} from "./types"
 import { LearningResource } from "api"
 import LearningResourceCard from "../LearningResourceCard/LearningResourceCard"
 
@@ -32,6 +38,13 @@ const ResourcesData: React.FC<
   return children({ resources: data?.results ?? [], isLoading })
 }
 
+const UpcomingResourcesData: React.FC<
+  Omit<DataPanelProps<UpcomingDataSource>, "type">
+> = ({ params, children }) => {
+  const { data, isLoading } = useLearningResourcesUpcoming(params)
+  return children({ resources: data?.results ?? [], isLoading })
+}
+
 const SearchData: React.FC<Omit<DataPanelProps<SearchDataSource>, "type">> = ({
   params,
   children,
@@ -46,10 +59,27 @@ const DataPanel: React.FC<DataPanelProps> = ({ type, params, children }) => {
       return <ResourcesData params={params}>{children}</ResourcesData>
     case "lr_search":
       return <SearchData params={params}>{children}</SearchData>
+    case "resources_upcoming":
+      return (
+        <UpcomingResourcesData params={params}>
+          {children}
+        </UpcomingResourcesData>
+      )
     default:
       throw new Error(`Unknown data type: ${type}`)
   }
 }
+
+const CarouselStyled = styled(Carousel)`
+  .slider-list {
+    /**
+    Prevent shift while loading.
+    This is a bit arbitrary and would be bettr handled by placeholder "skeleton"
+    cards.
+    */
+    min-height: 354px;
+  }
+`
 
 const LearningResourceCardStyled = styled(LearningResourceCard)({
   height: "100%",
@@ -72,7 +102,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
         <TabPanel key={index} value={index.toString()}>
           <DataPanel {...data}>
             {({ resources }) => (
-              <Carousel pageSize={pageSize}>
+              <CarouselStyled pageSize={pageSize}>
                 {resources.map((resource) => (
                   <LearningResourceCardStyled
                     key={resource.id}
@@ -80,7 +110,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
                     resource={resource}
                   />
                 ))}
-              </Carousel>
+              </CarouselStyled>
             )}
           </DataPanel>
         </TabPanel>

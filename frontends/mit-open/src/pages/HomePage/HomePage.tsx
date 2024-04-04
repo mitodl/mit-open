@@ -9,9 +9,56 @@ import {
 } from "ol-components"
 import type { SearchInputProps } from "ol-components"
 import { GridContainer } from "@/components/GridLayout/GridLayout"
-import { useLearningResourcesList } from "api/hooks/learningResources"
-import HomePageCarousel from "./HomePageCarousel"
 import { useNavigate } from "react-router"
+import TabbedCarousel, {
+  TabbedCarouselProps,
+} from "@/page-components/TabbedCarousel/TabbedCarousel"
+
+const UPCOMING_COURSES: TabbedCarouselProps["config"] = [
+  {
+    label: "All",
+    pageSize: 4,
+    data: {
+      type: "resources_upcoming",
+      params: { resource_type: ["course"] },
+    },
+  },
+  {
+    label: "Professional",
+    pageSize: 4,
+    data: {
+      type: "resources_upcoming",
+      params: { professional: true, resource_type: ["course"] },
+    },
+  },
+]
+
+const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
+  {
+    label: "All",
+    pageSize: 6,
+    data: {
+      type: "resources",
+      params: { resource_type: ["video", "podcast"] },
+    },
+  },
+  {
+    label: "Videos",
+    pageSize: 6,
+    data: {
+      type: "resources",
+      params: { resource_type: ["video"] },
+    },
+  },
+  {
+    label: "Podcasts",
+    pageSize: 6,
+    data: {
+      type: "resources",
+      params: { resource_type: ["podcast"] },
+    },
+  },
+]
 
 const EXPLORE_BUTTONS = [
   {
@@ -148,7 +195,6 @@ const HomePage: React.FC = () => {
     },
     [navigate],
   )
-  const resourcesQuery = useLearningResourcesList()
 
   return (
     <HomePageContainer className="homepage">
@@ -190,11 +236,10 @@ const HomePage: React.FC = () => {
           </div>
         </Grid>
       </TopContainer>
-      <h3>Hello world</h3>
-      <HomePageCarousel
-        title={<h2>Upcoming Courses</h2>}
-        query={resourcesQuery}
-      />
+      <h3>Upcoming Courses</h3>
+      <TabbedCarousel config={UPCOMING_COURSES} />
+      <h3>Media</h3>
+      <TabbedCarousel config={MEDIA_CAROUSEL} />
     </HomePageContainer>
   )
 }
