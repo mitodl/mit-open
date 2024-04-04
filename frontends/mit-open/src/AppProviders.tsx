@@ -20,7 +20,7 @@ interface AppProps {
  * Renders child with Router, QueryClientProvider, and other such context provides.
  */
 const AppProviders: React.FC<AppProps> = ({ router, queryClient }) => {
-  const phSettings: PostHogSettings = window.SETTINGS.posthog || {
+  const phSettings: PostHogSettings = APP_SETTINGS.posthog || {
     api_key: "",
     enabled: false,
   }
