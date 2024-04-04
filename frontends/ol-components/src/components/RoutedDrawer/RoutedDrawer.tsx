@@ -18,6 +18,7 @@ type ChildParams<K extends string, R extends K> = Record<K, string | null> &
 type RoutedDrawerProps<K extends string = string, R extends K = K> = {
   params?: readonly K[]
   requiredParams: readonly R[]
+  onView?: (params: readonly K[]) => void
   children: (childProps: {
     params: ChildParams<K, R>
     closeDrawer: () => void
@@ -27,7 +28,7 @@ type RoutedDrawerProps<K extends string = string, R extends K = K> = {
 const RoutedDrawer = <K extends string, R extends K = K>(
   props: RoutedDrawerProps<K, R>,
 ) => {
-  const { requiredParams, children, ...others } = props
+  const { requiredParams, children, onView, ...others } = props
   const { params = requiredParams } = props
   const [searchParams, setSearchParams] = useSearchParams()
   const [open, setOpen] = useToggle(false)
@@ -45,10 +46,14 @@ const RoutedDrawer = <K extends string, R extends K = K>(
   useEffect(() => {
     if (requiredArePresent) {
       setOpen(true)
+      console.log("we can trigger the page view here??")
+      if (onView) {
+        onView(requiredParams)
+      }
     } else {
       setOpen(false)
     }
-  }, [requiredArePresent, setOpen])
+  }, [requiredArePresent, setOpen, onView, requiredParams])
 
   const removeUrlParams = useCallback(() => {
     setSearchParams((current) => {

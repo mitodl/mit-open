@@ -5,6 +5,7 @@ import { useLearningResourcesDetail } from "api/hooks/learningResources"
 import { imgConfigs } from "@/common/constants"
 import { useSearchParams } from "react-router-dom"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
+import PostHogView from "@/components/PostHogView/PostHogView"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
@@ -29,13 +30,13 @@ const PAPER_PROPS: RoutedDrawerProps["PaperProps"] = {
 
 const LearningResourceDrawer = () => {
   return (
-    <RoutedDrawer
+    <PostHogView
       anchor="right"
       requiredParams={RESOURCE_DRAWER_PARAMS}
       PaperProps={PAPER_PROPS}
     >
       {({ params }) => <DrawerContent resourceId={Number(params.resource)} />}
-    </RoutedDrawer>
+    </PostHogView>
   )
 }
 
