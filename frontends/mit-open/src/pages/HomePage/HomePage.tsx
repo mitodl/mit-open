@@ -236,10 +236,14 @@ const HomePage: React.FC = () => {
           </div>
         </Grid>
       </TopContainer>
-      <h2>Upcoming Courses</h2>
-      <TabbedCarousel config={UPCOMING_COURSES_CAROUSEL} />
-      <h2>Media</h2>
-      <TabbedCarousel config={MEDIA_CAROUSEL} />
+      <section>
+        <h2>Upcoming Courses</h2>
+        <TabbedCarousel config={UPCOMING_COURSES_CAROUSEL} />
+      </section>
+      <section>
+        <h2>Media</h2>
+        <TabbedCarousel config={MEDIA_CAROUSEL} />
+      </section>
     </HomePageContainer>
   )
 }
