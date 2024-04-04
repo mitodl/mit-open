@@ -21,27 +21,7 @@ class PercolateQuery(TimestampedModel):
     source_type = models.CharField(
         max_length=255, choices=[(choice, choice) for choice in SOURCE_TYPES]
     )
+    users = models.ManyToManyField(User, related_name="percolate_queries")
 
     def __str__(self):
         return f"Percolate query {self.id}: {self.query}"
-
-
-class PercolateQueryUser(TimestampedModel):
-    """
-    A user's membership in a PercolateQuery.
-    """
-
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="percolate_query_users",
-    )
-    query = models.ForeignKey(
-        PercolateQuery, on_delete=models.CASCADE, related_name="percolate_query_users"
-    )
-
-    def __str__(self):
-        return f"Percolate query user: {self.user_id}, query: {self.query_id}"
-
-    class Meta:
-        unique_together = (("user", "query"),)
