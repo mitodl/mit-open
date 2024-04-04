@@ -65,13 +65,15 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
               <PlaylistAddIcon />
             </IconButton>
           )}
-          <IconButton
-            size="small"
-            aria-label="Add to Learning Path"
-            onClick={showAddToUserListDialog}
-          >
-            <BookmarkOutlinedIcon />
-          </IconButton>
+          {user.is_authenticated && (
+            <IconButton
+              size="small"
+              aria-label="Add to Learning Path"
+              onClick={showAddToUserListDialog}
+            >
+              <BookmarkOutlinedIcon />
+            </IconButton>
+          )}
         </div>
       }
     />
