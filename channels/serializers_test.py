@@ -102,6 +102,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         about={"foo": "bar"} if has_about else None,
         ga_tracking_id=ga_tracking_id,
         channel_type=ChannelType.topic.name,
+        search_filter="topic=Biology&platform=ocw",
     )
 
     field_lists = FieldListFactory.create_batch(3, field_channel=channel)
@@ -131,7 +132,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "public_description": channel.public_description,
         "is_moderator": False,
         "configuration": {},
-        "search_filter": "",
+        "search_filter": channel.search_filter,
         "channel_type": ChannelType.topic.name,
         "topic_detail": {
             "topic": channel.topic_detail.topic.id,
