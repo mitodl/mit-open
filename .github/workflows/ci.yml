@@ -270,7 +270,7 @@ jobs:
           cache: yarn
           cache-dependency-path: e2e_testing/yarn.lock
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         working-directory: frontends
         run: yarn install --immutable
 
@@ -286,6 +286,10 @@ jobs:
 
       - name: Apply test data
         run: ./e2e_testing/scripts/apply-fixtures.sh
+
+      - name: Install E2E test dependencies
+        working-directory: e2e_testing
+        run: yarn install --immutable
 
       - name: Install Playwright browsers
         working-directory: e2e_testing
