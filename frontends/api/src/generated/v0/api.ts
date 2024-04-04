@@ -1479,7 +1479,7 @@ export const ChannelsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
      * @param {*} [options] Override http request option.
@@ -1533,7 +1533,7 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Destroy
      * @param {number} id A unique integer value identifying this field channel.
      * @param {*} [options] Override http request option.
@@ -1579,7 +1579,7 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -1787,7 +1787,7 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Update
      * @param {number} id A unique integer value identifying this field channel.
      * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
@@ -1842,7 +1842,7 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this field channel.
      * @param {*} [options] Override http request option.
@@ -1888,7 +1888,7 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * View for retrieving a field channel by type and name
+     * View for retrieving an individual field channel by type and name
      * @param {string} channel_type
      * @param {string} name
      * @param {*} [options] Override http request option.
@@ -1949,7 +1949,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ChannelsApiAxiosParamCreator(configuration)
   return {
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
      * @param {*} [options] Override http request option.
@@ -1977,7 +1977,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Destroy
      * @param {number} id A unique integer value identifying this field channel.
      * @param {*} [options] Override http request option.
@@ -2005,7 +2005,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -2133,7 +2133,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Update
      * @param {number} id A unique integer value identifying this field channel.
      * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
@@ -2165,7 +2165,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Retrieve
      * @param {number} id A unique integer value identifying this field channel.
      * @param {*} [options] Override http request option.
@@ -2191,7 +2191,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * View for retrieving a field channel by type and name
+     * View for retrieving an individual field channel by type and name
      * @param {string} channel_type
      * @param {string} name
      * @param {*} [options] Override http request option.
@@ -2236,7 +2236,7 @@ export const ChannelsApiFactory = function (
   const localVarFp = ChannelsApiFp(configuration)
   return {
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -2251,7 +2251,7 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Destroy
      * @param {ChannelsApiChannelsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -2266,7 +2266,7 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
      * @param {ChannelsApiChannelsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -2338,7 +2338,7 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Update
      * @param {ChannelsApiChannelsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -2357,7 +2357,7 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Retrieve
      * @param {ChannelsApiChannelsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -2372,7 +2372,7 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * View for retrieving a field channel by type and name
+     * View for retrieving an individual field channel by type and name
      * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2561,7 +2561,7 @@ export interface ChannelsApiChannelsTypeRetrieveRequest {
  */
 export class ChannelsApi extends BaseAPI {
   /**
-   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Create
    * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -2578,7 +2578,7 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Destroy
    * @param {ChannelsApiChannelsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -2595,7 +2595,7 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary List
    * @param {ChannelsApiChannelsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -2671,7 +2671,7 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Update
    * @param {ChannelsApiChannelsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -2692,7 +2692,7 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * CRUD Operations related to Fields. Fields may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Retrieve
    * @param {ChannelsApiChannelsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -2709,7 +2709,7 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * View for retrieving a field channel by type and name
+   * View for retrieving an individual field channel by type and name
    * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

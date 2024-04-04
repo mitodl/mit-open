@@ -8,8 +8,8 @@ paths:
     get:
       operationId: channels_list
       description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
+        CRUD Operations related to FieldChannels. Channels may represent groups
+        or organizations at MIT and are a high-level categorization of content.
       summary: List
       parameters:
       - name: limit
@@ -36,8 +36,8 @@ paths:
     post:
       operationId: channels_create
       description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
+        CRUD Operations related to FieldChannels. Channels may represent groups
+        or organizations at MIT and are a high-level categorization of content.
       summary: Create
       tags:
       - channels
@@ -64,8 +64,8 @@ paths:
     get:
       operationId: channels_retrieve
       description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
+        CRUD Operations related to FieldChannels. Channels may represent groups
+        or organizations at MIT and are a high-level categorization of content.
       summary: Retrieve
       parameters:
       - in: path
@@ -86,8 +86,8 @@ paths:
     patch:
       operationId: channels_partial_update
       description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
+        CRUD Operations related to FieldChannels. Channels may represent groups
+        or organizations at MIT and are a high-level categorization of content.
       summary: Update
       parameters:
       - in: path
@@ -119,8 +119,8 @@ paths:
     delete:
       operationId: channels_destroy
       description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
+        CRUD Operations related to FieldChannels. Channels may represent groups
+        or organizations at MIT and are a high-level categorization of content.
       summary: Destroy
       parameters:
       - in: path
@@ -214,7 +214,7 @@ paths:
   /api/v0/channels/type/{channel_type}/{name}/:
     get:
       operationId: channels_type_retrieve
-      description: View for retrieving a field channel by type and name
+      description: View for retrieving an individual field channel by type and name
       parameters:
       - in: path
         name: channel_type

@@ -58,8 +58,8 @@ class FieldChannelViewSet(
     viewsets.ModelViewSet,
 ):
     """
-    CRUD Operations related to Fields. Fields may represent groups or organizations
-    at MIT and are a high-level categorization of content.
+    CRUD Operations related to FieldChannels. Channels may represent groups
+    or organizations at MIT and are a high-level categorization of content.
     """
 
     pagination_class = LargePagination
@@ -88,11 +88,11 @@ class FieldChannelViewSet(
 
 
 @extend_schema_view(
-    get=extend_schema(summary="Field Detail Lookup by channel type and name"),
+    get=extend_schema(summary="FieldChannel Detail Lookup by channel type and name"),
 )
 class ChannelByTypeNameDetailView(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
-    View for retrieving a field channel by type and name
+    View for retrieving an individual field channel by type and name
     """
 
     serializer_class = FieldChannelSerializer
