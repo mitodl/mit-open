@@ -288,11 +288,11 @@ jobs:
         run: ./e2e_testing/scripts/apply-fixtures.sh
 
       - name: Install Playwright browsers
-        working-directory: frontends
+        working-directory: e2e_testing
         run: yarn playwright install --with-deps chromium
 
       - name: Run E2E tests
-        working-directory: frontends
+        working-directory: e2e_testing
         run: BASE_URL=http://localhost:8063 CI=true yarn test
 
       - name: Setup Pages
