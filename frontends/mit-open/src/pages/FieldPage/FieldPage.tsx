@@ -25,7 +25,7 @@ const FieldPage: React.FC = () => {
   const { channelType, name } = useParams<RouteParams>()
   const navigate = useNavigate()
   const { hash, pathname } = useLocation()
-  const fieldQuery = useChannelDetail(channelType || "", name || "")
+  const fieldQuery = useChannelDetail(String(channelType), String(name))
   const handleChange = useCallback(
     (_event: React.SyntheticEvent, newValue: string) => {
       navigate({ hash: newValue }, { replace: true })

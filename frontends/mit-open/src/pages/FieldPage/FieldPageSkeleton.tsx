@@ -45,7 +45,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   channelType,
   name,
 }) => {
-  const field = useChannelDetail(channelType || "", name || "")
+  const field = useChannelDetail(String(channelType), String(name))
 
   return (
     <BannerPage
