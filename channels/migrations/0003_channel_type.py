@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="fieldchannel",
             name="configuration",
-            field=models.JSONField(default={}, null=True),
+            field=models.JSONField(default=dict, null=True),
         ),
         migrations.AddField(
             model_name="fieldchannel",
