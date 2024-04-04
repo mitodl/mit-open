@@ -236,9 +236,9 @@ const HomePage: React.FC = () => {
           </div>
         </Grid>
       </TopContainer>
-      <h3>Upcoming Courses</h3>
+      <h2>Upcoming Courses</h2>
       <TabbedCarousel config={UPCOMING_COURSES} />
-      <h3>Media</h3>
+      <h2>Media</h2>
       <TabbedCarousel config={MEDIA_CAROUSEL} />
     </HomePageContainer>
   )

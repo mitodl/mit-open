@@ -104,19 +104,21 @@ const Carousel: React.FC<CarouselProps> = ({
       <Stack direction="row" justifyContent="end" spacing={3} marginTop={3}>
         <FilledIconButton
           variant="contained"
+          size="small"
           onClick={pageDown}
           disabled={!canPageDown}
           aria-label="Previous"
         >
-          <NavigateNextIcon fontSize="large" />
+          <NavigateNextIcon fontSize="small" />
         </FilledIconButton>
         <FilledIconButton
           variant="contained"
+          size="small"
           onClick={pageUp}
           disabled={!canPageUp}
           aria-label="Next"
         >
-          <NavigateNextIcon fontSize="large" />
+          <NavigateNextIcon fontSize="small" />
         </FilledIconButton>
       </Stack>
     </ContainerComponent>
