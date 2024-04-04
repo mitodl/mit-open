@@ -4,7 +4,7 @@ import { useFormik } from "formik"
 import { RadioChoiceField, Button, TextField } from "ol-components"
 import * as Yup from "yup"
 
-import type { FieldChannel } from "api/v0"
+import { ChannelTypeAe2Enum, FieldChannel } from "api/v0"
 import { makeFieldViewPath } from "@/common/urls"
 import { useChannelPartialUpdate } from "api/hooks/fields"
 
@@ -39,6 +39,7 @@ const postSchema = Yup.object().shape({
     .default("")
     .required("Description is required."),
   channel_type: Yup.string()
+    .oneOf(Object.values(ChannelTypeAe2Enum))
     .default("pathway")
     .required("Channel Type is required."),
 })
@@ -52,10 +53,9 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
 
   const handleSubmit = useCallback(
     async (e: FormData) => {
-      // @ts-expect-error No idea how to fix this
       const data = await editField.mutateAsync({ id: fieldId, ...e })
       if (data) {
-        navigate(makeFieldViewPath(String(data.channel_type), data.name))
+        navigate(makeFieldViewPath(data.channel_type, data.name))
       }
       return data
     },
@@ -67,7 +67,7 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
     initialValues: {
       title: field.title,
       public_description: String(field.public_description),
-      channel_type: String(field.channel_type),
+      channel_type: field.channel_type,
     },
     validationSchema: postSchema,
     onSubmit: handleSubmit,
