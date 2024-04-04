@@ -3014,10 +3014,10 @@ export interface Program {
 export interface ProgramCertificate {
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof ProgramCertificate
    */
-  id: number
+  record_hash: string
   /**
    *
    * @type {string}

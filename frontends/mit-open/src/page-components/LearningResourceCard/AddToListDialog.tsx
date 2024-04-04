@@ -25,7 +25,7 @@ import {
   useLearningpathRelationshipCreate,
   useLearningpathRelationshipDestroy,
 } from "api/hooks/learningResources"
-import { manageLearningPathDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 type AddToListDialogProps = {
   resourceId: number
@@ -189,7 +189,7 @@ const AddToListDialogInner: React.FC<AddToListDialogProps> = ({
             })}
             <ListItem className="add-to-list-new">
               <ListItemButton
-                onClick={() => manageLearningPathDialogs.upsert()}
+                onClick={() => manageListDialogs.upsertLearningPath()}
               >
                 <AddIcon />
                 <ListItemText primary="Create a new list" />

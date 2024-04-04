@@ -1,8 +1,13 @@
 import React from "react"
 import Dotdotdot from "react-dotdotdot"
 import invariant from "tiny-invariant"
-import { Card, CardContent, styled } from "ol-components"
+import { Card, CardContent, CardMedia, styled } from "ol-components"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
+import {
+  DEFAULT_RESOURCE_IMG,
+  EmbedlyConfig,
+  embedlyCroppedImage,
+} from "ol-utilities"
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard = () => void
@@ -11,15 +16,17 @@ type CardTemplateProps = {
    * Whether the course picture and info display as a column or row.
    */
   variant: CardVariant
-  sortable?: boolean
   className?: string
   handleActivate?: OnActivateCard
   extraDetails?: React.ReactNode
-  imageSlot?: React.ReactNode
+  imgUrl: string
+  imgConfig: EmbedlyConfig
   title?: string
   bodySlot?: React.ReactNode
   footerSlot?: React.ReactNode
   footerActionSlot?: React.ReactNode
+  sortable?: boolean
+  suppressImage?: boolean
 }
 
 const LIGHT_TEXT_COLOR = "#8c8c8c"
@@ -126,28 +133,79 @@ const DragHandle = styled.div`
   margin-right: 16px;
 `
 
+const CardMediaImage = styled(CardMedia)<{
+  variant: CardVariant
+  component: string
+  alt: string
+}>`
+  ${({ variant }) =>
+    variant === "row"
+      ? "margin-right: 16px;"
+      : variant === "row-reverse"
+        ? "margin-left: 16px;"
+        : ""}
+`
+
+type ImageProps = Pick<
+  CardTemplateProps,
+  "imgUrl" | "imgConfig" | "suppressImage" | "variant"
+>
+const CardImage: React.FC<ImageProps> = ({
+  imgUrl,
+  imgConfig,
+  suppressImage,
+  variant,
+}) => {
+  if (suppressImage) return null
+  const dims =
+    variant === "column"
+      ? { height: imgConfig.height }
+      : { width: imgConfig.width, height: imgConfig.height }
+
+  return (
+    <CardMediaImage
+      component="img"
+      variant={variant}
+      sx={dims}
+      src={embedlyCroppedImage(imgUrl ?? DEFAULT_RESOURCE_IMG, imgConfig)}
+      alt=""
+    />
+  )
+}
+
 const CardTemplate = ({
   variant,
   className,
   handleActivate,
   extraDetails,
-  imageSlot,
+  imgUrl,
+  imgConfig,
   title,
   bodySlot,
   footerSlot,
   footerActionSlot,
   sortable = false,
+  suppressImage = false,
 }: CardTemplateProps) => {
   invariant(
     !sortable || variant === "row-reverse",
     "sortable only supported for variant='row-reverse'",
   )
 
+  const image = (
+    <CardImage
+      variant={variant}
+      imgUrl={imgUrl}
+      imgConfig={imgConfig}
+      suppressImage={suppressImage}
+    />
+  )
+
   return (
     <StyledCard className={className}>
-      {variant === "column" ? imageSlot : null}
+      {variant === "column" ? image : null}
       <StyledCardContent variant={variant} sortable={sortable}>
-        {variant !== "column" ? imageSlot : null}
+        {variant !== "column" ? image : null}
         <Details>
           {extraDetails}
           {handleActivate ? (

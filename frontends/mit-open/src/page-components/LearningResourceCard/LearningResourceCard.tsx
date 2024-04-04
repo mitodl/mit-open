@@ -9,6 +9,7 @@ import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import AddToListDialog from "./AddToListDialog"
 import { LearningResource } from "api"
 import { useUserMe } from "api/hooks/user"
+import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
 type LearningResourceCardProps = Pick<
   LearningResourceCardTemplateProps<LearningResource>,
@@ -38,6 +39,8 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   }, [resource])
 
   const { isLoading, data: user } = useUserMe()
+  const openLRDrawer = useOpenLearningResourceDrawer()
+
   if (isLoading) {
     return null
   }
@@ -50,7 +53,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       className={className}
       resource={resource}
       imgConfig={imgConfigs[variant]}
-      onActivate={console.log}
+      onActivate={(r) => openLRDrawer(r.id)}
       footerActionSlot={
         <div>
           {user?.is_learning_path_editor && (

@@ -1,21 +1,22 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo } from "react"
 import Drawer from "@mui/material/Drawer"
 import type { DrawerProps } from "@mui/material/Drawer"
 import IconButton from "@mui/material/IconButton"
 import CloseIcon from "@mui/icons-material/Close"
 import { useSearchParams } from "react-router-dom"
+import { useToggle } from "ol-utilities"
 
 const closeSx: React.CSSProperties = {
   position: "absolute",
-  top: "8px",
-  right: "8px",
+  top: "0px",
+  right: "0px",
 }
 
 type ChildParams<K extends string, R extends K> = Record<K, string | null> &
   Record<R, string>
 
-type RoutedDrawerProps<K extends string, R extends K> = {
-  params: readonly K[]
+type RoutedDrawerProps<K extends string = string, R extends K = K> = {
+  params?: readonly K[]
   requiredParams: readonly R[]
   children: (childProps: {
     params: ChildParams<K, R>
@@ -23,51 +24,66 @@ type RoutedDrawerProps<K extends string, R extends K> = {
   }) => React.ReactNode
 } & Omit<DrawerProps, "open" | "onClose" | "children">
 
-const RoutedDrawer = <K extends string, R extends K>(
+const RoutedDrawer = <K extends string, R extends K = K>(
   props: RoutedDrawerProps<K, R>,
 ) => {
-  const { params, requiredParams, children, ...others } = props
+  const { requiredParams, children, ...others } = props
+  const { params = requiredParams } = props
   const [searchParams, setSearchParams] = useSearchParams()
+  const [open, setOpen] = useToggle(false)
 
-  const looseChildParams = useMemo(() => {
+  const childParams = useMemo(() => {
     return Object.fromEntries(
       params.map((name) => [name, searchParams.get(name)] as const),
     ) as Record<K, string | null>
   }, [searchParams, params])
 
-  const [childParams, setChildParams] = useState<ChildParams<K, R> | null>()
-
   const requiredArePresent = requiredParams.every(
-    (name) => looseChildParams[name] !== null,
+    (name) => childParams[name] !== null,
   )
+
   useEffect(() => {
     if (requiredArePresent) {
-      setChildParams(looseChildParams as ChildParams<K, R>)
+      setOpen(true)
+    } else {
+      setOpen(false)
     }
-  }, [requiredArePresent, looseChildParams])
+  }, [requiredArePresent, setOpen])
 
   const removeUrlParams = useCallback(() => {
-    const newSearchParams = new URLSearchParams(searchParams)
-    props.params.forEach((param) => {
-      newSearchParams.delete(param)
+    setSearchParams((current) => {
+      const newSearchParams = new URLSearchParams(current)
+      params.forEach((param) => {
+        newSearchParams.delete(param)
+      })
+      return newSearchParams
     })
-    setSearchParams(newSearchParams)
-  }, [searchParams, setSearchParams, props.params])
+  }, [setSearchParams, params])
 
   return (
-    <Drawer open={requiredArePresent} onClose={removeUrlParams} {...others}>
-      {childParams && (
+    <Drawer
+      open={open}
+      onTransitionExited={removeUrlParams}
+      onClose={setOpen.off}
+      {...others}
+    >
+      {
         <>
-          {children?.({ params: childParams, closeDrawer: removeUrlParams })}
+          {requiredArePresent &&
+            children?.({
+              params: childParams as Record<K, string>,
+              closeDrawer: setOpen.off,
+            })}
           <IconButton
-            style={closeSx}
-            onClick={removeUrlParams}
+            sx={closeSx}
+            size="small"
+            onClick={setOpen.off}
             aria-label="Close"
           >
             <CloseIcon fontSize="large" />
           </IconButton>
         </>
-      )}
+      }
     </Drawer>
   )
 }

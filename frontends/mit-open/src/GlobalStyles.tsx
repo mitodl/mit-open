@@ -32,15 +32,15 @@ const pageCss = css`
   }
 
   h1 {
-    font-size: ${theme.custom.fontSizeH1}px;
+    font-size: ${theme.custom.fontSizeH1};
   }
 
   h2 {
-    font-size: ${theme.custom.fontSizeH2}px;
+    font-size: ${theme.custom.fontSizeH2};
   }
 
   h4 {
-    font-size: ${theme.custom.fontSizeH4}px;
+    font-size: ${theme.custom.fontSizeH4};
   }
 `
 
@@ -63,7 +63,7 @@ const formCss = css`
 
   form .form-row,
   .form-header .form-row {
-    margin: 10px 10px 24px 0;
+    margin: 10px 0 24px;
   }
 
   .MuiDialogContent-root {

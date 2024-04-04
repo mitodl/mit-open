@@ -3,12 +3,13 @@
   "extends": ["local>mitodl/.github:renovate-config"],
   "packageRules": [
     {
-      "matchFiles": ["frontends/mit-open/package.json"],
+      "matchFileNames": ["frontends/mit-open/package.json"],
       "matchUpdateTypes": ["major"],
       "enabled": false
     },
     {
-      "matchSourceUrls": ["https://github.com/ckeditor/ckeditor5"]
+      "matchSourceUrlPrefixes": ["https://github.com/ckeditor/ckeditor5/"],
+      "groupName": "ckeditor5"
     }
   ]
 }

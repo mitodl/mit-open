@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.6.0"
+VERSION = "0.7.0"
 
 log = logging.getLogger()
 
@@ -499,9 +499,15 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
         "LOCATION": "local-in-memory-cache",
     },
+    # cache specific to widgets
     "external_assets": {
         "BACKEND": "django.core.cache.backends.db.DatabaseCache",
         "LOCATION": "external_asset_cache",
+    },
+    # general durable cache (redis should be considered ephemeral)
+    "durable": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "durable_cache",
     },
     "redis": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -679,3 +685,16 @@ KEYCLOAK_REALM_NAME = get_string(
 )
 
 MICROMASTERS_CMS_API_URL = get_string("MICROMASTERS_CMS_API_URL", None)
+
+POSTHOG_ENABLED = get_bool(
+    name="POSTHOG_ENABLED",
+    default=False,
+)
+POSTHOG_PROJECT_API_KEY = get_string(
+    name="POSTHOG_PROJECT_API_KEY",
+    default="",
+)
+POSTHOG_API_HOST = get_string(
+    name="POSTHOG_API_HOST",
+    default="https://us.posthog.com",
+)

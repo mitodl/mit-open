@@ -114,6 +114,7 @@ export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"
 export * from "./components/ButtonLink/ButtonLink"
 export * from "./components/ChipLink/ChipLink"
+export * from "./components/EmbedlyCard/EmbedlyCard"
 export * from "./components/FormDialog/FormDialog"
 export * from "./components/RoutedDrawer/RoutedDrawer"
 export * from "./components/SearchInput/SearchInput"
@@ -124,6 +125,8 @@ export * from "./components/TitledCarousel/TitledCarousel"
 export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/RadioChoiceField/RadioChoiceField"
+
+export * from "./components/learning-resources/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay"
 
 export * from "./hooks/useBreakpoint"
 
