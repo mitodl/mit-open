@@ -11,23 +11,12 @@ const CopyPlugin = require("copy-webpack-plugin")
 
 const { NODE_ENV, PORT, API_BASE_URL, WEBPACK_ANALYZE } = process.env
 
-const getPublicPath = (isProduction) => {
-  if (isProduction) {
-    return "/static/mit-open/"
-  }
-  return "/"
-}
-
 module.exports = (env, argv) => {
   const mode = argv.mode || NODE_ENV || "production"
 
   console.info("Webpack build mode is:", mode)
 
   const isProduction = mode === "production"
-
-  const publicPath = getPublicPath(isProduction)
-
-  console.info("Public path is:", publicPath)
 
   const config = {
     mode,
@@ -48,7 +37,7 @@ module.exports = (env, argv) => {
         : {
             filename: "[name].js",
           }),
-      publicPath,
+      publicPath: "/",
       clean: true,
     },
     module: {
@@ -75,7 +64,13 @@ module.exports = (env, argv) => {
         template: "public/index.html",
       }),
       new CopyPlugin({
-        patterns: [{ from: "public/images", to: "static/images" }],
+        patterns: [
+          {
+            from: "public",
+            to: "static",
+            globOptions: { ignore: ["public/index.html"] },
+          },
+        ],
       }),
       new BundleTracker({
         // path: path.join(__dirname, "assets"),

@@ -52,7 +52,7 @@
     "@types/react-infinite-scroller": "^1.2.3",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "cross-fetch": "^4.0.0",
-    "eslint": "^8.18.0",
+    "eslint": "^8.57.0",
     "eslint-config-mitodl": "^1.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.6.1",

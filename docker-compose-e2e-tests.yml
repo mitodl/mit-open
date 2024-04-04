@@ -23,6 +23,7 @@ services:
       - web
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
+      - ./frontends/mit-open/build:/src/frontends/mit-open/build
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8063"]
       interval: 30s

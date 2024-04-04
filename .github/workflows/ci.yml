@@ -271,12 +271,12 @@ jobs:
           cache-dependency-path: e2e_testing/yarn.lock
 
       - name: Install dependencies
+        working-directory: frontends
         run: yarn install --immutable
-        working-directory: e2e_testing
 
       - name: Build frontend
-        run: NODE_ENV=production yarn build
         working-directory: frontends
+        run: NODE_ENV=production yarn build
 
       - name: Build services
         run: docker compose -f docker-compose-e2e-tests.yml build
@@ -288,10 +288,12 @@ jobs:
         run: ./e2e_testing/scripts/apply-fixtures.sh
 
       - name: Install Playwright browsers
-        run: yarn workspace e2e_testing playwright install --with-deps chromium
+        working-directory: frontends
+        run: yarn playwright install --with-deps chromium
 
       - name: Run E2E tests
-        run: BASE_URL=http://localhost:8063 CI=true yarn workspace e2e_testing test
+        working-directory: frontends
+        run: BASE_URL=http://localhost:8063 CI=true yarn test
 
       - name: Setup Pages
         if: always()
