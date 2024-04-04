@@ -54,7 +54,7 @@ describe("TabbedCarousel", () => {
         },
       },
     ]
-    const { list, search, upcoming } = setupApis(config)
+    const { list, search, upcoming } = setupApis()
     renderWithProviders(<TabbedCarousel config={config} />)
     const tabs = screen.getAllByRole("tab")
     expect(tabs).toHaveLength(3)
