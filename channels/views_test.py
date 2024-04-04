@@ -222,6 +222,31 @@ def test_update_field_channel_forbidden(field_channel, user_client):
     assert response.status_code == 403
 
 
+def test_update_field_channel_conflict(client):
+    """An error should occur if there is a channel_type/name conflict"""
+    channel_1 = FieldChannelFactory.create(is_topic=True, name="biology")
+    channel_2 = FieldChannelFactory.create(is_department=True, name="biology")
+
+    field_user = UserFactory.create()
+    add_user_role(channel_1, FIELD_ROLE_MODERATORS, field_user)
+    client.force_login(field_user)
+
+    url = reverse(
+        "channels:v0:field_channels_api-detail",
+        kwargs={"id": channel_1.id},
+    )
+    data = {"channel_type": ChannelType.department.name}
+    response = client.patch(url, data=data)
+    assert response.status_code == 400
+    assert (
+        response.json()["non_field_errors"][0]
+        == "The fields name, channel_type must make a unique set."
+    )
+    channel_2.delete()
+    response = client.patch(url, data=data)
+    assert response.status_code == 200
+
+
 def test_delete_field_channel(field_channel, client):
     """An admin should be able to delete a field channel"""
     url = reverse(

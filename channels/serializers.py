@@ -395,7 +395,7 @@ class FieldChannelWriteSerializer(FieldChannelCreateSerializer, ChannelAppearanc
     class Meta:
         model = FieldChannel
         fields = FieldChannelCreateSerializer.Meta.fields
-        read_only_fields = ("name",)
+        read_only_fields = ("id",)
 
     def update(self, instance, validated_data):
         """Update an existing field channel"""

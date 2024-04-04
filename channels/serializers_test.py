@@ -265,6 +265,7 @@ def test_update_field_channel():
     """
     new_field_title = "Biology"
     new_about = {"foo": "bar"}
+    new_name = "biology"
 
     department = LearningResourceDepartmentFactory.create()
     channel = FieldChannelFactory.create(is_topic=True)
@@ -275,6 +276,7 @@ def test_update_field_channel():
     subfields = SubfieldFactory.create_batch(2, parent_channel=channel)
     data = {
         "title": new_field_title,
+        "name": new_name,
         "about": new_about,
         "lists": [lists[0].field_list.id],
         "subfields": [subfields[1].field_channel.name],
