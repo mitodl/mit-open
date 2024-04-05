@@ -14,7 +14,11 @@ hookspec = app_config.hookspec
 
 
 class LearningResourceHooks:
-    """Pluggy hooks specs for authentication"""
+    """Pluggy hooks specs for Learning Resources"""
+
+    @hookspec
+    def percolate_query_deleted(self, percolate_query):
+        """Trigger actions after a percolate query is deleted"""
 
     @hookspec
     def resource_upserted(self, resource):

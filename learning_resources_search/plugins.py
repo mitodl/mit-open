@@ -8,6 +8,7 @@ from learning_resources_search import tasks
 from learning_resources_search.api import get_similar_topics
 from learning_resources_search.constants import (
     COURSE_TYPE,
+    PERCOLATE_INDEX_TYPE,
 )
 from main import settings
 from main.utils import chunks
@@ -29,6 +30,13 @@ class SearchIndexPlugin:
     """Perform search index updates on learning resources"""
 
     hookimpl = apps.get_app_config("learning_resources").hookimpl
+
+    def percolate_query_deleted(self, percolate_query):
+        try_with_retry_as_task(
+            tasks.deindex_document,
+            percolate_query.id,
+            PERCOLATE_INDEX_TYPE,
+        )
 
     @hookimpl
     def resource_upserted(self, resource):
