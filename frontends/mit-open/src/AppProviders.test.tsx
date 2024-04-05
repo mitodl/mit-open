@@ -10,12 +10,9 @@ jest.mock("posthog-js/react", () => ({
 
 describe("PostHogProvider", () => {
   it("Renders with PostHog support if enabled", async () => {
-    window.SETTINGS = {
-      ...window.SETTINGS,
-      posthog: {
-        api_key: "", // pragma: allowlist secret
-        enabled: true,
-      },
+    APP_SETTINGS.posthog = {
+      api_key: "", // pragma: allowlist secret
+      enabled: true,
     }
 
     renderWithProviders(<div data-testid="some-children" />)
@@ -26,12 +23,9 @@ describe("PostHogProvider", () => {
   })
 
   it("Renders without PostHog support if disabled", async () => {
-    window.SETTINGS = {
-      ...window.SETTINGS,
-      posthog: {
-        api_key: "", // pragma: allowlist secret
-        enabled: false,
-      },
+    APP_SETTINGS.posthog = {
+      api_key: "", // pragma: allowlist secret
+      enabled: false,
     }
 
     renderWithProviders(<div data-testid="some-children" />)
