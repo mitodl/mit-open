@@ -24,8 +24,13 @@ import type {
   UserlistsApiUserlistsItemsListRequest as ULItemsListRequest,
   OfferorsApiOfferorsListRequest,
   UserList,
+  UserListRelationshipRequest,
+  MicroUserListRelationship,
 } from "../../generated/v1"
-import learningResources, { invalidateResourceQueries } from "./keyFactory"
+import learningResources, {
+  invalidateResourceQueries,
+  invalidateUserListQueries,
+} from "./keyFactory"
 import { ListType } from "../../common/constants"
 
 const useLearningResourcesList = (
@@ -126,7 +131,7 @@ const useLearningpathDestroy = () => {
   })
 }
 
-interface LearningpathMoveRequest {
+interface ListMoveRequest {
   parent: number
   id: number
   position?: number
@@ -134,7 +139,7 @@ interface LearningpathMoveRequest {
 const useLearningpathRelationshipMove = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ parent, id, position }: LearningpathMoveRequest) =>
+    mutationFn: ({ parent, id, position }: ListMoveRequest) =>
       learningpathsApi.learningpathsItemsPartialUpdate({
         learning_resource_id: parent,
         id,
@@ -260,6 +265,74 @@ const useUserListDestroy = () => {
   })
 }
 
+const useUserListRelationshipMove = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ parent, id, position }: ListMoveRequest) =>
+      userListsApi.userlistsItemsPartialUpdate({
+        userlist_id: parent,
+        id,
+        PatchedUserListRelationshipRequest: { position },
+      }),
+    onSettled: (_data, _err, vars) => {
+      queryClient.invalidateQueries(
+        learningResources.userlists._ctx.detail(vars.parent)._ctx.infiniteItems
+          ._def,
+      )
+    },
+  })
+}
+
+const useUserListRelationshipCreate = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (params: UserListRelationshipRequest) =>
+      userListsApi.userlistsItemsCreate({
+        userlist_id: params.parent,
+        UserListRelationshipRequest: params,
+      }),
+    onSuccess: (response, _vars) => {
+      queryClient.setQueryData(
+        learningResources.detail(response.data.child).queryKey,
+        response.data.resource,
+      )
+    },
+    onSettled: (response, _err, vars) => {
+      invalidateResourceQueries(queryClient, vars.child)
+      invalidateUserListQueries(queryClient, vars.parent)
+    },
+  })
+}
+
+const useUserListRelationshipDestroy = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (params: MicroUserListRelationship) =>
+      userListsApi.userlistsItemsDestroy({
+        id: params.id,
+        userlist_id: params.parent,
+      }),
+    onSuccess: (_response, vars) => {
+      queryClient.setQueryData(
+        learningResources.detail(vars.child).queryKey,
+        (old: LearningResource | undefined) => {
+          if (!old) return
+          const parents =
+            old.user_list_parents?.filter(({ id }) => vars.id !== id) ?? []
+          return {
+            ...old,
+            user_list_parents: parents,
+          }
+        },
+      )
+    },
+    onSettled: (_response, _err, vars) => {
+      invalidateResourceQueries(queryClient, vars.child)
+      invalidateUserListQueries(queryClient, vars.parent)
+    },
+  })
+}
+
 const useInfiniteUserListItems = (
   params: ULItemsListRequest,
   options: Pick<UseQueryOptions, "enabled"> = {},
@@ -349,6 +422,9 @@ export {
   useUserListCreate,
   useUserListUpdate,
   useUserListDestroy,
+  useUserListRelationshipMove,
+  useUserListRelationshipCreate,
+  useUserListRelationshipDestroy,
   useInfiniteUserListItems,
   useOfferorsList,
   useListItemMove,
