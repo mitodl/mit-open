@@ -17,8 +17,6 @@ const MITOPEN_FEATURES_PREFIX = "FEATURE_"
 const getFeatureFlags = () => {
   const bootstrapFeatureFlags = {}
 
-  console.log(process.env)
-
   for (const [key, value] of Object.entries(process.env)) {
     if (key.startsWith(MITOPEN_FEATURES_PREFIX)) {
       bootstrapFeatureFlags[key.replace(MITOPEN_FEATURES_PREFIX, "")] =
