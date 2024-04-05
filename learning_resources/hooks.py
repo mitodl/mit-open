@@ -17,7 +17,11 @@ class LearningResourceHooks:
     """Pluggy hooks specs for Learning Resources"""
 
     @hookspec
-    def percolate_query_deleted(self, percolate_query):
+    def percolate_query_upserted(self, percolate_query):
+        """Trigger actions after a percolate query is created/saved"""
+
+    @hookspec
+    def percolate_query_delete(self, percolate_query):
         """Trigger actions after a percolate query is deleted"""
 
     @hookspec

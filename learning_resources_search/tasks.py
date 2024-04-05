@@ -38,6 +38,7 @@ from learning_resources_search.serializers import (
     serialize_bulk_percolators,
     serialize_content_file_for_update,
     serialize_learning_resource_for_update,
+    serialize_percolate_query_for_update,
 )
 from main.celery import app
 from main.utils import chunks, merge_strings
@@ -69,6 +70,19 @@ def upsert_content_file(file_id):
         COURSE_TYPE,
         retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
         routing=content_file_obj.run.learning_resource_id,
+    )
+
+
+@app.task
+def upsert_percolate_query(percolate_id):
+    """Task that makes a request to add an ES document"""
+    percolate_query = PercolateQuery.objects.get(id=percolate_id)
+    serialized = serialize_percolate_query_for_update(percolate_query)
+    api.upsert_document(
+        percolate_id,
+        serialized,
+        PERCOLATE_INDEX_TYPE,
+        retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
     )
 
 

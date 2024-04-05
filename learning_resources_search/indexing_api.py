@@ -32,6 +32,7 @@ from learning_resources_search.exceptions import ReindexError
 from learning_resources_search.serializers import (
     serialize_bulk_learning_resources,
     serialize_bulk_learning_resources_for_deletion,
+    serialize_bulk_percolators,
     serialize_bulk_percolators_for_deletion,
     serialize_content_file_for_bulk,
     serialize_content_file_for_bulk_deletion,
@@ -291,6 +292,23 @@ def deindex_percolators(ids):
         serialize_bulk_percolators_for_deletion(ids),
         PERCOLATE_INDEX_TYPE,
         index_types=IndexestoUpdate.all_indexes.value,
+    )
+
+
+def index_percolators(ids, index_types):
+    """
+    Index a list of percolators by id
+
+    Args:
+        ids(list of int): List of percolator ids
+    index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
+
+    """
+    index_items(
+        serialize_bulk_percolators(ids),
+        PERCOLATE_INDEX_TYPE,
+        index_types=index_types,
     )
 
 

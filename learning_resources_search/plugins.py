@@ -31,12 +31,23 @@ class SearchIndexPlugin:
 
     hookimpl = apps.get_app_config("learning_resources").hookimpl
 
-    def percolate_query_deleted(self, percolate_query):
+    @hookimpl
+    def percolate_query_delete(self, percolate_query):
         try_with_retry_as_task(
             tasks.deindex_document,
             percolate_query.id,
             PERCOLATE_INDEX_TYPE,
         )
+
+    @hookimpl
+    def percolate_query_upserted(self, percolate_query):
+        """
+        Upsert a created/modified percolate_query to the search index
+
+        Args:
+            resource(PercolateQuery): The Learning Resource that was upserted
+        """
+        try_with_retry_as_task(tasks.upsert_percolate_query, percolate_query.id)
 
     @hookimpl
     def resource_upserted(self, resource):
