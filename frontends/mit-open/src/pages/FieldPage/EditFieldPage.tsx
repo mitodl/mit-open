@@ -6,10 +6,11 @@ import { Container, TabList, Tab, TabContext, TabPanel } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import { useFieldDetail } from "api/hooks/fields"
+import { useChannelDetail } from "api/hooks/fields"
 import EditFieldAppearanceForm from "./EditFieldAppearanceForm"
 import FieldPageSkeleton from "./FieldPageSkeleton"
 type RouteParams = {
+  channelType: string
   name: string
 }
 
@@ -20,11 +21,11 @@ const keyFromHash = (hash: string) => {
 }
 
 const EditFieldPage: React.FC = () => {
-  const { name } = useParams<RouteParams>()
+  const { channelType, name } = useParams<RouteParams>()
   const navigate = useNavigate()
   const { hash } = useLocation()
   const tabValue = keyFromHash(hash)
-  const field = useFieldDetail(name)
+  const field = useChannelDetail(String(channelType), String(name))
   const handleChange = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
       navigate({ hash: newValue }, { replace: true })
@@ -33,7 +34,10 @@ const EditFieldPage: React.FC = () => {
   )
 
   return field.data ? (
-    <FieldPageSkeleton name={name || ""}>
+    <FieldPageSkeleton
+      name={field.data?.name}
+      channelType={field.data?.channel_type}
+    >
       <MetaTags>
         <title>Edit {field.data.title} Channel</title>
       </MetaTags>

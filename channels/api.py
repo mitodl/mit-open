@@ -47,19 +47,20 @@ def remove_user_role(field_channel: FieldChannel, role: str, user: User):
     get_role_model(field_channel, role).group.user_set.remove(user)
 
 
-def get_group_role_name(field_name: str, role: str) -> str:
+def get_group_role_name(field_id: int, role: str) -> str:
     """Get the group name for a FieldChannel and role"""
+    field_name = FieldChannel.objects.get(id=field_id).name
     return f"field_{field_name}_{role}"
 
 
-def is_moderator(user: User, field_name: str) -> bool:
+def is_moderator(user: User, field_id: int) -> bool:
     """
     Determine if the user is a moderator for a field channel (or a staff user)
     """
-    if not user or not field_name:
+    if not user or not field_id:
         return False
     group_names = set(user.groups.values_list("name", flat=True))
     return (
         user.is_staff
-        or get_group_role_name(field_name, FIELD_ROLE_MODERATORS) in group_names
+        or get_group_role_name(field_id, FIELD_ROLE_MODERATORS) in group_names
     )

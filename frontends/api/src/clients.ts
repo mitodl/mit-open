@@ -1,5 +1,3 @@
-import { UsersApi, FieldsApi, WidgetListsApi } from "./generated/v0/api"
-
 import {
   LearningResourcesApi,
   LearningpathsApi,
@@ -10,6 +8,8 @@ import {
   ProgramLettersApi,
   LearningResourcesSearchApi,
 } from "./generated/v1/api"
+
+import { ChannelsApi, WidgetListsApi, UsersApi } from "./generated/v0/api"
 
 import axiosInstance from "./axios"
 
@@ -46,7 +46,7 @@ const programLettersApi = new ProgramLettersApi(
   axiosInstance,
 )
 
-const fieldsApi = new FieldsApi(undefined, BASE_PATH, axiosInstance)
+const channelsApi = new ChannelsApi(undefined, BASE_PATH, axiosInstance)
 
 const widgetListsApi = new WidgetListsApi(undefined, BASE_PATH, axiosInstance)
 
@@ -61,7 +61,7 @@ export {
   offerorsApi,
   programLettersApi,
   learningResourcesSearchApi,
-  fieldsApi,
+  channelsApi,
   widgetListsApi,
   usersApi,
 }

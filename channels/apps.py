@@ -13,3 +13,4 @@ class ChannelsConfig(AppConfig):
         Ready handler. Import signals.
         """
         import channels.signals  # noqa: F401
+        from channels import schema  # noqa: F401

@@ -5,7 +5,7 @@ import logging
 from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import mixins, viewsets
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
@@ -22,6 +22,7 @@ from channels.serializers import (
 )
 from learning_resources.views import LargePagination
 from main.constants import VALID_HTTP_METHODS
+from main.permissions import AnonymousAccessReadonlyPermission
 
 log = logging.getLogger(__name__)
 
@@ -54,23 +55,18 @@ def extend_schema_responses(serializer):
     partial_update=extend_schema(summary="Update"),
 )
 class FieldChannelViewSet(
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet,
+    viewsets.ModelViewSet,
 ):
     """
-    CRUD Operations related to Fields. Fields may represent groups or organizations
-    at MIT and are a high-level categorization of content.
+    CRUD Operations related to FieldChannels. Channels may represent groups
+    or organizations at MIT and are a high-level categorization of content.
     """
 
     pagination_class = LargePagination
     permission_classes = (HasFieldPermission,)
     http_method_names = VALID_HTTP_METHODS
-    lookup_field = "name"
-    lookup_url_kwarg = "field_name"
+    lookup_field = "id"
+    lookup_url_kwarg = "id"
 
     def get_queryset(self):
         """Return a queryset"""
@@ -85,10 +81,32 @@ class FieldChannelViewSet(
             return FieldChannelCreateSerializer
         return FieldChannelWriteSerializer
 
-    def delete(self, request, *args, **kwargs):  # noqa: ARG002
-        """Remove the user from the moderator groups for this field channel"""
-        FieldChannel.objects.get_object_or_404(name=kwargs["field_name"]).delete()
+    def perform_destroy(self, instance):
+        """Remove the field channel"""
+        instance.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+
+@extend_schema_view(
+    get=extend_schema(summary="FieldChannel Detail Lookup by channel type and name"),
+)
+class ChannelByTypeNameDetailView(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    View for retrieving an individual field channel by type and name
+    """
+
+    serializer_class = FieldChannelSerializer
+    permission_classes = (AnonymousAccessReadonlyPermission,)
+
+    def get_object(self):
+        """
+        Return the field channel by type and name
+        """
+        return get_object_or_404(
+            FieldChannel,
+            channel_type=self.kwargs["channel_type"],
+            name=self.kwargs["name"],
+        )
 
 
 @extend_schema_view(
@@ -105,10 +123,10 @@ class FieldModeratorListView(ListCreateAPIView):
 
     def get_queryset(self):
         """
-        Builds a queryset of relevant users with moderator permissions for this field channel
-        """  # noqa: D401, E501
+        Build a queryset of relevant users with moderator permissions for this channel
+        """
         field_group_name = get_group_role_name(
-            self.kwargs["field_name"],
+            self.kwargs["id"],
             FIELD_ROLE_MODERATORS,
         )
 
@@ -129,8 +147,7 @@ class FieldModeratorDetailView(APIView):
     def delete(self, request, *args, **kwargs):  # noqa: ARG002
         """Remove the user from the moderator groups for this website"""
         user = User.objects.get(username=self.kwargs["moderator_name"])
-        field_name = self.kwargs["field_name"]
         remove_user_role(
-            FieldChannel.objects.get(name=field_name), FIELD_ROLE_MODERATORS, user
+            FieldChannel.objects.get(id=self.kwargs["id"]), FIELD_ROLE_MODERATORS, user
         )
         return Response(status=HTTP_204_NO_CONTENT)

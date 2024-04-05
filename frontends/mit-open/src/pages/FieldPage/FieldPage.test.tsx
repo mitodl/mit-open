@@ -27,7 +27,10 @@ const setupApis = (fieldPatch?: Partial<FieldChannel>) => {
   const field = factory.field(fieldPatch)
 
   setMockResponse.get(urls.userMe.get(), {})
-  setMockResponse.get(urls.fields.details(field.name), field)
+  setMockResponse.get(
+    urls.fields.details(field.channel_type, field.name),
+    field,
+  )
 
   const widgetsList = makeWidgetListResponse()
   setMockResponse.get(
@@ -44,7 +47,7 @@ const setupApis = (fieldPatch?: Partial<FieldChannel>) => {
 describe("FieldPage", () => {
   it("Displays the field title, banner, and avatar", async () => {
     const { field } = setupApis()
-    renderTestApp({ url: `/fields/${field.name}` })
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
 
     const title = await screen.findByText(field.title)
     const header = title.closest("header")
@@ -64,14 +67,15 @@ describe("FieldPage", () => {
 
   it.each([
     {
-      getUrl: (field: FieldChannel) => `/fields/${field.name}`,
+      getUrl: (field: FieldChannel) => `/c/${field.channel_type}/${field.name}`,
       isEditing: false,
-      urlDesc: "/fields/:name/",
+      urlDesc: "/c/:channelType/:name/",
     },
     {
-      getUrl: (field: FieldChannel) => `/fields/${field.name}/manage/widgets/`,
+      getUrl: (field: FieldChannel) =>
+        `/c/${field.channel_type}/${field.name}/manage/widgets/`,
       isEditing: true,
-      urlDesc: "/fields/:name/manage/widgets/",
+      urlDesc: "/c/:channelType/:name/manage/widgets/",
     },
   ])(
     "Renders readonly WidgetList at $urlDesc",
@@ -101,13 +105,15 @@ describe("FieldPage", () => {
     "When managing widgets, $text returns to field page",
     async ({ btnName }) => {
       const { field } = setupApis()
-      const url = `/fields/${field.name}/manage/widgets/`
+      const url = `/c/${field.channel_type}/${field.name}/manage/widgets/`
       const { location } = renderTestApp({ url })
       // click done without an edit
       await user.click(await screen.findByRole("button", { name: btnName }))
 
       await waitFor(() => {
-        expect(location.current.pathname).toBe(makeFieldViewPath(field.name))
+        expect(location.current.pathname).toBe(
+          makeFieldViewPath(field.channel_type, field.name),
+        )
       })
     },
   )

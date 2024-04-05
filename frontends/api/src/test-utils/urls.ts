@@ -88,7 +88,9 @@ const articles = {
 }
 
 const fields = {
-  details: (fieldName: string) => `/api/v0/fields/${fieldName}/`,
+  details: (channelType: string, name: string) =>
+    `/api/v0/channels/type/${channelType}/${name}/`,
+  patch: (id: number) => `/api/v0/channels/${id}/`,
 }
 
 const widgetLists = {

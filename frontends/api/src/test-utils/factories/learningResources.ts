@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker/locale/en"
-import { mergeWith, startCase } from "lodash"
+import { startCase } from "lodash"
 import type { Factory, PartialFactory } from "ol-test-utilities"
 import { makePaginatedFactory } from "ol-test-utilities"
 import type {
@@ -24,7 +24,7 @@ import type {
   VideoPlaylistResource,
 } from "api"
 import { ResourceTypeEnum, LearningResourceRunLevelInnerCodeEnum } from "api"
-import type { PartialDeep } from "type-fest"
+import { mergeOverrides } from "./index"
 
 const maybe = faker.helpers.maybe
 type RepeatOptins = { min?: number; max?: number }
@@ -314,23 +314,6 @@ const learningPathRelationships = ({
     results,
   } satisfies PaginatedLearningPathRelationshipList
 }
-
-const mergeOverrides = <T>(
-  object: Partial<T>,
-  ...sources: PartialDeep<T>[]
-): T =>
-  mergeWith(
-    object,
-    ...sources,
-    // arrays overwrite existing values, this way tests can force a singular value for arrays
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    (objValue: any, srcValue: any) => {
-      if (Array.isArray(objValue)) {
-        return srcValue
-      }
-      return undefined
-    },
-  )
 
 const podcast: LearningResourceFactory<PodcastResource> = (overrides = {}) => {
   return mergeOverrides<PodcastResource>(

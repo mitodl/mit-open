@@ -3,12 +3,13 @@ import { useParams, useLocation, useNavigate } from "react-router"
 import { Tab, TabContext, TabList, TabPanel, Container } from "ol-components"
 import { Link } from "react-router-dom"
 import FieldPageSkeleton from "./FieldPageSkeleton"
-import { useFieldDetail } from "api/hooks/fields"
+import { useChannelDetail } from "api/hooks/fields"
 import WidgetsList from "./WidgetsList"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { makeFieldViewPath } from "@/common/urls"
 
 type RouteParams = {
+  channelType: string
   name: string
 }
 
@@ -21,10 +22,10 @@ const keyFromHash = (hash: string) => {
 const MANAGE_WIDGETS_SUFFIX = "manage/widgets"
 
 const FieldPage: React.FC = () => {
-  const { name } = useParams<RouteParams>()
+  const { channelType, name } = useParams<RouteParams>()
   const navigate = useNavigate()
   const { hash, pathname } = useLocation()
-  const fieldQuery = useFieldDetail(name)
+  const fieldQuery = useChannelDetail(String(channelType), String(name))
   const handleChange = useCallback(
     (_event: React.SyntheticEvent, newValue: string) => {
       navigate({ hash: newValue }, { replace: true })
@@ -38,11 +39,11 @@ const FieldPage: React.FC = () => {
   const tabValue = keyFromHash(hash)
 
   const leaveWidgetManagement = useCallback(() => {
-    navigate(makeFieldViewPath(name || ""))
-  }, [navigate, name])
+    navigate(makeFieldViewPath(String(channelType), String(name)))
+  }, [navigate, channelType, name])
 
   return (
-    <FieldPageSkeleton name={name || ""}>
+    <FieldPageSkeleton name={name} channelType={channelType}>
       <TabContext value={tabValue}>
         <div>
           <Container>
