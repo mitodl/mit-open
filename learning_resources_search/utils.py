@@ -3,6 +3,10 @@ from learning_resources_search.models import PercolateQuery
 
 
 def remove_child_queries(query):
+    """
+    Recursively removes 'has_child'/joins from a query
+    so it is works with percolate
+    """
     if isinstance(query, dict):
         if "has_child" in query:
             del query["has_child"]
