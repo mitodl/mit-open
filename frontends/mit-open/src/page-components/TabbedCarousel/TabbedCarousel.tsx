@@ -86,7 +86,7 @@ const CarouselStyled = styled(Carousel)`
   .slider-list {
     /**
     Prevent shift while loading.
-    This is a bit arbitrary and would be bettr handled by placeholder "skeleton"
+    This is a bit arbitrary and would be better handled by placeholder "skeleton"
     cards.
     */
     min-height: 354px;

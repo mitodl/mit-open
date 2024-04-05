@@ -4,6 +4,7 @@ import { clamp } from "lodash"
 import type { CarouselProps as NukaCarouselProps } from "nuka-carousel"
 import styled from "@emotion/styled"
 import NavigateNextIcon from "@mui/icons-material/NavigateNext"
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore"
 import { FilledIconButton } from "../FilledIconButton/FilledIconButton"
 import Stack from "@mui/material/Stack"
 
@@ -109,7 +110,7 @@ const Carousel: React.FC<CarouselProps> = ({
           disabled={!canPageDown}
           aria-label="Previous"
         >
-          <NavigateNextIcon fontSize="small" />
+          <NavigateBeforeIcon fontSize="small" />
         </FilledIconButton>
         <FilledIconButton
           variant="contained"
