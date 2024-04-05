@@ -4,21 +4,12 @@ info:
   version: 0.0.1 (v0)
   description: MIT public API
 paths:
-  /api/v0/ckeditor/:
+  /api/v0/channels/:
     get:
-      operationId: ckeditor_retrieve
-      description: Get the JWT to authenticate for CKEditor
-      tags:
-      - ckeditor
-      responses:
-        '200':
-          description: No response body
-  /api/v0/fields/:
-    get:
-      operationId: fields_list
+      operationId: channels_list
       description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
+        CRUD Operations related to FieldChannels. Channels may represent groups
+        or organizations at MIT and are a high-level categorization of content.
       summary: List
       parameters:
       - name: limit
@@ -34,7 +25,7 @@ paths:
         schema:
           type: integer
       tags:
-      - fields
+      - channels
       responses:
         '200':
           content:
@@ -43,13 +34,13 @@ paths:
                 $ref: '#/components/schemas/PaginatedFieldChannelList'
           description: ''
     post:
-      operationId: fields_create
+      operationId: channels_create
       description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
+        CRUD Operations related to FieldChannels. Channels may represent groups
+        or organizations at MIT and are a high-level categorization of content.
       summary: Create
       tags:
-      - fields
+      - channels
       requestBody:
         content:
           application/json:
@@ -69,21 +60,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/FieldChannel'
           description: ''
-  /api/v0/fields/{field_name}/:
+  /api/v0/channels/{id}/:
     get:
-      operationId: fields_retrieve
+      operationId: channels_retrieve
       description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
+        CRUD Operations related to FieldChannels. Channels may represent groups
+        or organizations at MIT and are a high-level categorization of content.
       summary: Retrieve
       parameters:
       - in: path
-        name: field_name
+        name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this field channel.
         required: true
       tags:
-      - fields
+      - channels
       responses:
         '200':
           content:
@@ -92,19 +84,20 @@ paths:
                 $ref: '#/components/schemas/FieldChannel'
           description: ''
     patch:
-      operationId: fields_partial_update
+      operationId: channels_partial_update
       description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
+        CRUD Operations related to FieldChannels. Channels may represent groups
+        or organizations at MIT and are a high-level categorization of content.
       summary: Update
       parameters:
       - in: path
-        name: field_name
+        name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this field channel.
         required: true
       tags:
-      - fields
+      - channels
       requestBody:
         content:
           application/json:
@@ -124,36 +117,37 @@ paths:
                 $ref: '#/components/schemas/FieldChannel'
           description: ''
     delete:
-      operationId: fields_destroy
+      operationId: channels_destroy
       description: |-
-        CRUD Operations related to Fields. Fields may represent groups or organizations
-        at MIT and are a high-level categorization of content.
+        CRUD Operations related to FieldChannels. Channels may represent groups
+        or organizations at MIT and are a high-level categorization of content.
       summary: Destroy
       parameters:
       - in: path
-        name: field_name
+        name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this field channel.
         required: true
       tags:
-      - fields
+      - channels
       responses:
         '204':
           description: No response body
-  /api/v0/fields/{field_name}/moderators/:
+  /api/v0/channels/{id}/moderators/:
     get:
-      operationId: fields_moderators_list
+      operationId: channels_moderators_list
       description: View for listing and adding moderators
       summary: Field Moderators List
       parameters:
       - in: path
-        name: field_name
+        name: id
         schema:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^\d+$
         required: true
       tags:
-      - fields
+      - channels
       responses:
         '200':
           content:
@@ -164,18 +158,18 @@ paths:
                   $ref: '#/components/schemas/FieldModerator'
           description: ''
     post:
-      operationId: fields_moderators_create
+      operationId: channels_moderators_create
       description: View for listing and adding moderators
       summary: Field Moderators Create
       parameters:
       - in: path
-        name: field_name
+        name: id
         schema:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^\d+$
         required: true
       tags:
-      - fields
+      - channels
       requestBody:
         content:
           application/json:
@@ -194,17 +188,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/FieldModerator'
           description: ''
-  /api/v0/fields/{field_name}/moderators/{moderator_name}/:
+  /api/v0/channels/{id}/moderators/{moderator_name}/:
     delete:
-      operationId: fields_moderators_destroy
+      operationId: channels_moderators_destroy
       description: Remove the user from the moderator groups for this website
       summary: Field Moderators Destroy
       parameters:
       - in: path
-        name: field_name
+        name: id
         schema:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^\d+$
         required: true
       - in: path
         name: moderator_name
@@ -213,9 +207,44 @@ paths:
           pattern: ^[A-Za-z0-9_]+$
         required: true
       tags:
-      - fields
+      - channels
       responses:
         '204':
+          description: No response body
+  /api/v0/channels/type/{channel_type}/{name}/:
+    get:
+      operationId: channels_type_retrieve
+      description: View for retrieving an individual field channel by type and name
+      parameters:
+      - in: path
+        name: channel_type
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+        required: true
+      - in: path
+        name: name
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+        required: true
+      tags:
+      - channels
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldChannel'
+          description: ''
+  /api/v0/ckeditor/:
+    get:
+      operationId: ckeditor_retrieve
+      description: Get the JWT to authenticate for CKEditor
+      tags:
+      - ckeditor
+      responses:
+        '200':
           description: No response body
   /api/v0/news_events/:
     get:
@@ -428,6 +457,174 @@ paths:
           description: ''
 components:
   schemas:
+    ChannelDepartmentDetail:
+      type: object
+      description: Serializer for the ChannelDepartmentDetail model
+      properties:
+        department:
+          type: string
+          nullable: true
+    ChannelDepartmentDetailRequest:
+      type: object
+      description: Serializer for the ChannelDepartmentDetail model
+      properties:
+        department:
+          type: string
+          minLength: 1
+          nullable: true
+    ChannelOfferorDetail:
+      type: object
+      description: Serializer for the ChannelOfferorDetail model
+      properties:
+        offeror:
+          type: string
+          nullable: true
+    ChannelOfferorDetailRequest:
+      type: object
+      description: Serializer for the ChannelOfferorDetail model
+      properties:
+        offeror:
+          type: string
+          minLength: 1
+          nullable: true
+    ChannelTopicDetail:
+      type: object
+      description: Serializer for the ChannelTopicDetail model
+      properties:
+        topic:
+          type: integer
+          nullable: true
+    ChannelTopicDetailRequest:
+      type: object
+      description: Serializer for the ChannelTopicDetail model
+      properties:
+        topic:
+          type: integer
+          nullable: true
+    ChannelTypeAe2Enum:
+      enum:
+      - topic
+      - department
+      - offeror
+      - pathway
+      type: string
+      description: |-
+        * `topic` - Topic
+        * `department` - Department
+        * `offeror` - Offeror
+        * `pathway` - Pathway
+    ChannelTypeEnum:
+      enum:
+      - topic
+      - department
+      - offeror
+      - pathway
+      type: string
+      description: |-
+        * `topic` - topic
+        * `department` - department
+        * `offeror` - offeror
+        * `pathway` - pathway
+    DepartmentChannel:
+      type: object
+      description: Serializer for Channel model of type department
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        avatar:
+          type: string
+          nullable: true
+          description: Get the avatar image URL
+        avatar_small:
+          type: string
+          nullable: true
+          description: Get the avatar image small URL
+          readOnly: true
+        avatar_medium:
+          type: string
+          nullable: true
+          description: Get the avatar image medium URL
+          readOnly: true
+        banner:
+          type: string
+          nullable: true
+          description: Get the banner image URL
+        is_moderator:
+          type: boolean
+          description: Return true if user is a moderator for the channel
+          readOnly: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+        featured_list:
+          allOf:
+          - $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+          nullable: true
+          description: Learning path featured in this field.
+        subfields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subfield'
+          readOnly: true
+        channel_type:
+          allOf:
+          - $ref: '#/components/schemas/DepartmentChannelChannelTypeEnum'
+          default: department
+          readOnly: true
+        department_detail:
+          $ref: '#/components/schemas/ChannelDepartmentDetail'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+          maxLength: 100
+        title:
+          type: string
+          maxLength: 100
+        about:
+          nullable: true
+        ga_tracking_id:
+          type: string
+          maxLength: 24
+        configuration:
+          nullable: true
+        search_filter:
+          type: string
+          maxLength: 2048
+        public_description:
+          type: string
+        widget_list:
+          type: integer
+          nullable: true
+      required:
+      - avatar_medium
+      - avatar_small
+      - channel_type
+      - created_on
+      - department_detail
+      - featured_list
+      - id
+      - is_moderator
+      - lists
+      - name
+      - subfields
+      - title
+      - updated_on
+    DepartmentChannelChannelTypeEnum:
+      type: string
+      enum:
+      - department
     FeedImage:
       type: object
       description: Serializer for FeedImage
@@ -481,93 +678,18 @@ components:
         * `news` - News
         * `events` - Events
     FieldChannel:
-      type: object
-      description: Serializer for FieldChannel
-      properties:
-        name:
-          type: string
-          readOnly: true
-        title:
-          type: string
-          readOnly: true
-        about:
-          readOnly: true
-          nullable: true
-        public_description:
-          type: string
-          readOnly: true
-        subfields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subfield'
-          readOnly: true
-        featured_list:
-          allOf:
-          - $ref: '#/components/schemas/LearningPathPreview'
-          readOnly: true
-          nullable: true
-          description: Learning path featured in this field.
-        lists:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningPathPreview'
-          readOnly: true
-        avatar:
-          type: string
-          nullable: true
-          description: Get the avatar image URL
-        avatar_medium:
-          type: string
-          nullable: true
-          description: Get the avatar image medium URL
-          readOnly: true
-        avatar_small:
-          type: string
-          nullable: true
-          description: Get the avatar image small URL
-          readOnly: true
-        banner:
-          type: string
-          nullable: true
-          description: Get the banner image URL
-        widget_list:
-          type: integer
-          readOnly: true
-          nullable: true
-        updated_on:
-          type: string
-          format: date-time
-          readOnly: true
-        created_on:
-          type: string
-          format: date-time
-          readOnly: true
-        id:
-          type: integer
-          readOnly: true
-        ga_tracking_id:
-          type: string
-          readOnly: true
-        is_moderator:
-          type: boolean
-          description: Return true if user is a moderator for the channel
-          readOnly: true
-      required:
-      - about
-      - avatar_medium
-      - avatar_small
-      - created_on
-      - featured_list
-      - ga_tracking_id
-      - id
-      - is_moderator
-      - lists
-      - name
-      - public_description
-      - subfields
-      - title
-      - updated_on
-      - widget_list
+      oneOf:
+      - $ref: '#/components/schemas/TopicChannel'
+      - $ref: '#/components/schemas/DepartmentChannel'
+      - $ref: '#/components/schemas/OfferorChannel'
+      - $ref: '#/components/schemas/PathwayChannel'
+      discriminator:
+        propertyName: channel_type
+        mapping:
+          topic: '#/components/schemas/TopicChannel'
+          department: '#/components/schemas/DepartmentChannel'
+          offeror: '#/components/schemas/OfferorChannel'
+          pathway: '#/components/schemas/PathwayChannel'
     FieldChannelCreateRequest:
       type: object
       description: |-
@@ -593,13 +715,13 @@ components:
         featured_list:
           type: integer
           nullable: true
-          description: Learng path featured in this field.
+          description: Learning path featured in this field.
         lists:
           type: array
           items:
             type: integer
             nullable: true
-          description: Learng paths in this field.
+          description: Learning paths in this field.
         avatar:
           type: string
           format: binary
@@ -609,6 +731,27 @@ components:
           format: binary
           nullable: true
         about:
+          nullable: true
+        channel_type:
+          allOf:
+          - $ref: '#/components/schemas/ChannelTypeAe2Enum'
+          default: pathway
+        search_filter:
+          type: string
+          maxLength: 2048
+        configuration:
+          nullable: true
+        topic_detail:
+          allOf:
+          - $ref: '#/components/schemas/ChannelTopicDetailRequest'
+          nullable: true
+        department_detail:
+          allOf:
+          - $ref: '#/components/schemas/ChannelDepartmentDetailRequest'
+          nullable: true
+        offeror_detail:
+          allOf:
+          - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
           nullable: true
       required:
       - name
@@ -657,6 +800,106 @@ components:
       required:
       - id
       - title
+    OfferorChannel:
+      type: object
+      description: Serializer for Channel model of type offeror
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        avatar:
+          type: string
+          nullable: true
+          description: Get the avatar image URL
+        avatar_small:
+          type: string
+          nullable: true
+          description: Get the avatar image small URL
+          readOnly: true
+        avatar_medium:
+          type: string
+          nullable: true
+          description: Get the avatar image medium URL
+          readOnly: true
+        banner:
+          type: string
+          nullable: true
+          description: Get the banner image URL
+        is_moderator:
+          type: boolean
+          description: Return true if user is a moderator for the channel
+          readOnly: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+        featured_list:
+          allOf:
+          - $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+          nullable: true
+          description: Learning path featured in this field.
+        subfields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subfield'
+          readOnly: true
+        channel_type:
+          allOf:
+          - $ref: '#/components/schemas/OfferorChannelChannelTypeEnum'
+          default: offeror
+          readOnly: true
+        offeror_detail:
+          $ref: '#/components/schemas/ChannelOfferorDetail'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+          maxLength: 100
+        title:
+          type: string
+          maxLength: 100
+        about:
+          nullable: true
+        ga_tracking_id:
+          type: string
+          maxLength: 24
+        configuration:
+          nullable: true
+        search_filter:
+          type: string
+          maxLength: 2048
+        public_description:
+          type: string
+        widget_list:
+          type: integer
+          nullable: true
+      required:
+      - avatar_medium
+      - avatar_small
+      - channel_type
+      - created_on
+      - featured_list
+      - id
+      - is_moderator
+      - lists
+      - name
+      - offeror_detail
+      - subfields
+      - title
+      - updated_on
+    OfferorChannelChannelTypeEnum:
+      type: string
+      enum:
+      - offeror
     PaginatedFeedSourceList:
       type: object
       properties:
@@ -701,6 +944,11 @@ components:
       type: object
       description: Similar to FieldChannelCreateSerializer, with read-only name
       properties:
+        name:
+          type: string
+          minLength: 1
+          pattern: ^[A-Za-z0-9_]+$
+          maxLength: 100
         title:
           type: string
           minLength: 1
@@ -715,13 +963,13 @@ components:
         featured_list:
           type: integer
           nullable: true
-          description: Learng path featured in this field.
+          description: Learning path featured in this field.
         lists:
           type: array
           items:
             type: integer
             nullable: true
-          description: Learng paths in this field.
+          description: Learning paths in this field.
         avatar:
           type: string
           nullable: true
@@ -732,6 +980,27 @@ components:
           description: Get the banner image URL
         about:
           nullable: true
+        channel_type:
+          allOf:
+          - $ref: '#/components/schemas/ChannelTypeAe2Enum'
+          default: pathway
+        search_filter:
+          type: string
+          maxLength: 2048
+        configuration:
+          nullable: true
+        topic_detail:
+          allOf:
+          - $ref: '#/components/schemas/ChannelTopicDetailRequest'
+          nullable: true
+        department_detail:
+          allOf:
+          - $ref: '#/components/schemas/ChannelDepartmentDetailRequest'
+          nullable: true
+        offeror_detail:
+          allOf:
+          - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
+          nullable: true
     PatchedWidgetListRequest:
       type: object
       description: Serializer for WidgetLists
@@ -741,6 +1010,103 @@ components:
           items:
             $ref: '#/components/schemas/WidgetInstance'
           nullable: true
+    PathwayChannel:
+      type: object
+      description: Serializer for Channel model of type pathway
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        avatar:
+          type: string
+          nullable: true
+          description: Get the avatar image URL
+        avatar_small:
+          type: string
+          nullable: true
+          description: Get the avatar image small URL
+          readOnly: true
+        avatar_medium:
+          type: string
+          nullable: true
+          description: Get the avatar image medium URL
+          readOnly: true
+        banner:
+          type: string
+          nullable: true
+          description: Get the banner image URL
+        is_moderator:
+          type: boolean
+          description: Return true if user is a moderator for the channel
+          readOnly: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+        featured_list:
+          allOf:
+          - $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+          nullable: true
+          description: Learning path featured in this field.
+        subfields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subfield'
+          readOnly: true
+        channel_type:
+          allOf:
+          - $ref: '#/components/schemas/PathwayChannelChannelTypeEnum'
+          default: pathway
+          readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+          maxLength: 100
+        title:
+          type: string
+          maxLength: 100
+        about:
+          nullable: true
+        ga_tracking_id:
+          type: string
+          maxLength: 24
+        configuration:
+          nullable: true
+        search_filter:
+          type: string
+          maxLength: 2048
+        public_description:
+          type: string
+        widget_list:
+          type: integer
+          nullable: true
+      required:
+      - avatar_medium
+      - avatar_small
+      - channel_type
+      - created_on
+      - featured_list
+      - id
+      - is_moderator
+      - lists
+      - name
+      - subfields
+      - title
+      - updated_on
+    PathwayChannelChannelTypeEnum:
+      type: string
+      enum:
+      - pathway
     Profile:
       type: object
       description: Serializer for Profile
@@ -813,6 +1179,106 @@ components:
       required:
       - field_channel
       - parent_field
+    TopicChannel:
+      type: object
+      description: Serializer for Channel model of type topic
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        avatar:
+          type: string
+          nullable: true
+          description: Get the avatar image URL
+        avatar_small:
+          type: string
+          nullable: true
+          description: Get the avatar image small URL
+          readOnly: true
+        avatar_medium:
+          type: string
+          nullable: true
+          description: Get the avatar image medium URL
+          readOnly: true
+        banner:
+          type: string
+          nullable: true
+          description: Get the banner image URL
+        is_moderator:
+          type: boolean
+          description: Return true if user is a moderator for the channel
+          readOnly: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+        featured_list:
+          allOf:
+          - $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+          nullable: true
+          description: Learning path featured in this field.
+        subfields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subfield'
+          readOnly: true
+        channel_type:
+          allOf:
+          - $ref: '#/components/schemas/TopicChannelChannelTypeEnum'
+          default: topic
+          readOnly: true
+        topic_detail:
+          $ref: '#/components/schemas/ChannelTopicDetail'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+          maxLength: 100
+        title:
+          type: string
+          maxLength: 100
+        about:
+          nullable: true
+        ga_tracking_id:
+          type: string
+          maxLength: 24
+        configuration:
+          nullable: true
+        search_filter:
+          type: string
+          maxLength: 2048
+        public_description:
+          type: string
+        widget_list:
+          type: integer
+          nullable: true
+      required:
+      - avatar_medium
+      - avatar_small
+      - channel_type
+      - created_on
+      - featured_list
+      - id
+      - is_moderator
+      - lists
+      - name
+      - subfields
+      - title
+      - topic_detail
+      - updated_on
+    TopicChannelChannelTypeEnum:
+      type: string
+      enum:
+      - topic
     User:
       type: object
       description: Serializer for User

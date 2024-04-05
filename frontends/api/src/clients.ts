@@ -9,7 +9,7 @@ import {
   LearningResourcesSearchApi,
 } from "./generated/v1/api"
 
-import { FieldsApi, WidgetListsApi } from "./generated/v0/api"
+import { ChannelsApi, WidgetListsApi } from "./generated/v0/api"
 
 import axiosInstance from "./axios"
 
@@ -46,7 +46,7 @@ const programLettersApi = new ProgramLettersApi(
   axiosInstance,
 )
 
-const fieldsApi = new FieldsApi(undefined, BASE_PATH, axiosInstance)
+const channelsApi = new ChannelsApi(undefined, BASE_PATH, axiosInstance)
 const widgetListsApi = new WidgetListsApi(undefined, BASE_PATH, axiosInstance)
 
 export {
@@ -58,6 +58,6 @@ export {
   offerorsApi,
   programLettersApi,
   learningResourcesSearchApi,
-  fieldsApi,
+  channelsApi,
   widgetListsApi,
 }

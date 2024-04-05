@@ -10,11 +10,14 @@ import { fields as factory } from "api/test-utils/factories"
 describe("FieldMenu", () => {
   it("Includes links to field management and widget management", async () => {
     const field = factory.field()
-    setMockResponse.get(urls.fields.details(field.name), field)
+    setMockResponse.get(
+      urls.fields.details(field.channel_type, field.name),
+      field,
+    )
 
     render(
       <BrowserRouter>
-        <FieldMenu fieldName={field.name} />
+        <FieldMenu channelType={field.channel_type} name={field.name} />
       </BrowserRouter>,
     )
     const dropdown = await screen.findByRole("button")
@@ -22,12 +25,12 @@ describe("FieldMenu", () => {
 
     const item1 = screen.getByRole("menuitem", { name: "Field Settings" })
     expect((item1 as HTMLAnchorElement).href).toContain(
-      `/fields/${field.name}/manage`,
+      `/c/${field.channel_type}/${field.name}/manage`,
     )
 
     const item2 = screen.getByRole("menuitem", { name: "Manage Widgets" })
     expect((item2 as HTMLAnchorElement).href).toContain(
-      `/fields/${field.name}/manage/widgets`,
+      `/c/${field.channel_type}/${field.name}/manage/widgets`,
     )
   })
 })

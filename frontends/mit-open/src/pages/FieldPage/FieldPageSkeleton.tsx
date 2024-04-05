@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
 import { BannerPage, styled, Container } from "ol-components"
-import { useFieldDetail } from "api/hooks/fields"
+import { useChannelDetail } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
 
@@ -31,7 +31,8 @@ export const FieldControls = styled.div`
 
 interface FieldSkeletonProps {
   children: React.ReactNode
-  name: string
+  channelType: string | undefined
+  name: string | undefined
 }
 
 /**
@@ -41,9 +42,10 @@ interface FieldSkeletonProps {
  */
 const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   children,
+  channelType,
   name,
 }) => {
-  const field = useFieldDetail(name)
+  const field = useChannelDetail(String(channelType), String(name))
 
   return (
     <BannerPage
@@ -57,13 +59,21 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
               <>
                 <FieldAvatar field={field.data} imageSize="medium" />
                 <h1>
-                  <Link to={routes.makeFieldViewPath(field.data.name)}>
+                  <Link
+                    to={routes.makeFieldViewPath(
+                      field.data.channel_type,
+                      field.data.name,
+                    )}
+                  >
                     {field.data.title}
                   </Link>
                 </h1>
                 <FieldControls>
                   {field.data?.is_moderator ? (
-                    <FieldMenu fieldName={field.data.name} />
+                    <FieldMenu
+                      channelType={String(channelType)}
+                      name={String(name)}
+                    />
                   ) : null}
                 </FieldControls>
               </>

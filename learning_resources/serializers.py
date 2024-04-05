@@ -14,9 +14,7 @@ from rest_framework.exceptions import ValidationError
 from learning_resources import constants, models
 from learning_resources.constants import LearningResourceType, LevelType
 from learning_resources.etl.loaders import update_index
-from main.serializers import WriteableSerializerMethodField
-
-COMMON_IGNORED_FIELDS = ("created_on", "updated_on")
+from main.serializers import COMMON_IGNORED_FIELDS, WriteableSerializerMethodField
 
 log = logging.getLogger(__name__)
 
