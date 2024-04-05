@@ -20,14 +20,10 @@ const config = {
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-interactions"),
+    getAbsolutePath("@storybook/addon-webpack5-compiler-swc"),
   ],
   framework: {
     name: getAbsolutePath("@storybook/react-webpack5"),
-    options: {
-      builder: {
-        useSWC: true,
-      },
-    },
   },
   docs: {
     autodocs: "tag",

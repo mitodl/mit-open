@@ -31,14 +31,14 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
-    "@storybook/addon-actions": "^7.6.7",
-    "@storybook/addon-essentials": "^7.6.6",
-    "@storybook/addon-interactions": "^7.6.6",
-    "@storybook/addon-links": "^7.6.6",
-    "@storybook/blocks": "^7.6.6",
-    "@storybook/preview-api": "^7.6.7",
-    "@storybook/react": "^7.6.6",
-    "@storybook/react-webpack5": "^7.6.6",
+    "@storybook/addon-actions": "^8.0.6",
+    "@storybook/addon-essentials": "^8.0.6",
+    "@storybook/addon-interactions": "^8.0.6",
+    "@storybook/addon-links": "^8.0.6",
+    "@storybook/blocks": "^8.0.6",
+    "@storybook/preview-api": "^8.0.6",
+    "@storybook/react": "^8.0.6",
+    "@storybook/react-webpack5": "^8.0.6",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.1",
     "api": "workspace:*",
@@ -46,6 +46,6 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook-addon-react-router-v6": "^2.0.10"
+    "storybook-addon-react-router-v6": "^2.0.15"
   }
 }
