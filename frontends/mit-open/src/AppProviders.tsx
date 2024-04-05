@@ -7,6 +7,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { Provider as NiceModalProvider } from "@ebay/nice-modal-react"
 import { ThemeProvider } from "ol-components"
 import GlobalStyles from "./GlobalStyles"
+import { PostHogProvider } from "posthog-js/react"
+
+import type { PostHogSettings } from "./types/settings"
 
 interface AppProps {
   router: RouterProviderProps["router"]
@@ -17,23 +20,42 @@ interface AppProps {
  * Renders child with Router, QueryClientProvider, and other such context provides.
  */
 const AppProviders: React.FC<AppProps> = ({ router, queryClient }) => {
-  return (
+  const phSettings: PostHogSettings = APP_SETTINGS.posthog || {
+    api_key: "",
+    enabled: false,
+  }
+  const phOptions = {
+    feature_flag_request_timeout_ms: phSettings.timeout || 3000,
+    bootstrap: {
+      featureFlags: phSettings.bootstrap_flags,
+    },
+  }
+
+  const interiorElements = (
+    <ThemeProvider>
+      <GlobalStyles />
+      <QueryClientProvider client={queryClient}>
+        <HelmetProvider>
+          <NiceModalProvider>
+            <RouterProvider router={router} />
+          </NiceModalProvider>
+        </HelmetProvider>
+        <ReactQueryDevtools
+          initialIsOpen={false}
+          toggleButtonProps={{ style: { opacity: 0.5 } }}
+        />
+      </QueryClientProvider>
+    </ThemeProvider>
+  )
+
+  return phSettings.enabled ? (
     <StrictMode>
-      <ThemeProvider>
-        <GlobalStyles />
-        <QueryClientProvider client={queryClient}>
-          <HelmetProvider>
-            <NiceModalProvider>
-              <RouterProvider router={router} />
-            </NiceModalProvider>
-          </HelmetProvider>
-          <ReactQueryDevtools
-            initialIsOpen={false}
-            toggleButtonProps={{ style: { opacity: 0.5 } }}
-          />
-        </QueryClientProvider>
-      </ThemeProvider>
+      <PostHogProvider apiKey={phSettings.api_key} options={phOptions}>
+        {interiorElements}
+      </PostHogProvider>
     </StrictMode>
+  ) : (
+    <StrictMode>{interiorElements}</StrictMode>
   )
 }
 
