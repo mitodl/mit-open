@@ -1,4 +1,6 @@
-# Yarn Workspaces in MIT Open
+## MIT Open Frontend
+
+## Yarn Workspaces
 
 This project uses [yarn workspaces](https://yarnpkg.com/features/workspaces) to help organize frontend code. Yarn workspaces are a tool for managing node packages, in this case _local_ node packages.
 
@@ -31,7 +33,60 @@ Most workspaces are shared dependencies built using typescript and tested with j
 
 ```bash
 # Lint the ol-utilities workspace
-> docker compose run --rm watch yarn workspace ol-utilities run globa:lint-fix
+> docker compose run --rm watch yarn workspace ol-utilities run global:lint-fix
 ```
 
 Again, `global:lint-fix` is defined at the root workspace, not within `ol-utilities`. This works because [yarn commands containing a colon can be run from any workspace](https://yarnpkg.com/getting-started/qa#how-to-share-scripts-between-workspaces).
+
+## Frontend Development
+
+### Docker Compose stack
+
+The frontend and backend stack can be started locally for development with Docker compose:
+
+```bash
+docker compose up
+```
+
+For front end development, at minumum we need these containers.
+
+```bash
+docker compose up nginx web db watch
+```
+
+In this mode, the watch container listens for changes and builds the front end (with `webpack build --watch`) to the local filesystem at `./frontends/mit-open/build`. This is mounted to the `nginx` container for it to serve the static bundle, while routing backend paths to the `web` service.
+
+The application is served at `http://localhost:8063` and changes are reflected on page refresh.
+
+### Frontend Dev Server with Local Backend
+
+In this mode the front end is served with Wepback Dev Server, enabling Hot Module Replacement and faster feedback to changes. Dev Server proxies API requests through to a locally running backend stack.
+
+Run the front end with:
+
+```bash
+yarn watch
+```
+
+At minimum we need these containers for the backend:
+
+```bash
+docker compose up nginx web db
+```
+
+The front end is served at `http://localhost:8080` and changes are hot reloaded into the page.
+
+Note that in this mode the frontend bundle is kept in Wepback Dev Server memory anf not written to the filesystem - the application is still served on port 8063, but changes are only reflected there if the watch container is running or when the front end is built manually.
+
+### Frontend Dev Server proxying to RC or Prod
+
+When working on the front end in isolation or to test changes against APIs already running in RC and Prod, the frontend dev server is configured to run against our hosted API environments without running the backend stack locally.
+
+Run the front end with one of:
+
+```bash
+yarn watch:rc
+yarn watch:prod
+```
+
+The front end is served at `http://localhost:8080` and changes are hot reloaded into the page.

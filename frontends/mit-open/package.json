@@ -9,7 +9,6 @@
     "url": "https://github.com/mitodl/mit-open.git"
   },
   "scripts": {
-    "start-dev": "webpack serve",
     "watch": "API_BASE_URL=http://localhost:8063 NODE_ENV=development webpack serve",
     "watch:docker": "API_BASE_URL=http://nginx:8063 NODE_ENV=development webpack build --watch",
     "watch:rc": "API_BASE_URL=https://mitopen-rc.odl.mit.edu/ NODE_ENV=development webpack serve",
