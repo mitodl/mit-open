@@ -2,6 +2,7 @@
 Tests for the indexing API
 """
 
+import json
 from types import SimpleNamespace
 
 import pytest
@@ -36,6 +37,7 @@ from learning_resources_search.indexing_api import (
     index_run_content_files,
     switch_indices,
 )
+from learning_resources_search.utils import remove_child_queries
 from main.utils import chunks
 
 pytestmark = [pytest.mark.django_db, pytest.mark.usefixtures("mocked_es")]
@@ -553,3 +555,37 @@ def test_deindex_run_content_files_no_files(mocker, has_files):
         ContentFileFactory.create(run=run, published=False)
     deindex_run_content_files(run.id, unpublished_only=True)
     assert mock_deindex_items.call_count == (1 if has_files else 0)
+
+
+def test_percolate_query_format():
+    percolate_query = {
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "has_child": {
+                            "type": "content_file",
+                            "query": {
+                                "multi_match": {
+                                    "query": "test",
+                                    "fields": [
+                                        "content",
+                                        "title.english^3",
+                                        "short_description.english^2",
+                                        "content_feature_type",
+                                    ],
+                                }
+                            },
+                            "score_mode": "avg",
+                        }
+                    }
+                }
+            ],
+            "filter": [{"exists": {"field": "resource_type"}}],
+        }
+    }
+    query_str = json.dumps(percolate_query)
+    assert "has_child" in query_str
+    query = remove_child_queries(percolate_query)
+    query_str = json.dumps(query)
+    assert "has_child" not in query_str
