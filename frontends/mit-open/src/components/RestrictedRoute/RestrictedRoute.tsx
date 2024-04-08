@@ -39,7 +39,7 @@ const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
   requires,
 }) => {
   const { isLoading, data: user } = useUserMe()
-if (isLoading) return null
+  if (isLoading) return null
   if (!isLoading && !user?.[requires]) {
     // This error should be caught by an [`errorElement`](https://reactrouter.com/en/main/route/error-element).
     throw new ForbiddenError("Not allowed.")
