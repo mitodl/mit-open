@@ -698,3 +698,7 @@ POSTHOG_API_HOST = get_string(
     name="POSTHOG_API_HOST",
     default="https://us.posthog.com",
 )
+POSTHOG_TIMEOUT_MS = get_int(
+    name="POSTHOG_TIMEOUT_MS",
+    default=3000,
+)

@@ -1,5 +1,12 @@
 /* eslint-disable no-var */
 
+export type PostHogSettings = {
+  api_key: string
+  enabled: boolean
+  timeout?: int
+  bootstrap_flags?: Record<string, string | boolean>
+}
+
 export declare global {
   declare const APP_SETTINGS: {
     embedlyKey: string
@@ -7,5 +14,6 @@ export declare global {
     sentry_dsn?: string
     release_version?: string
     environment?: string
+    posthog?: PostHogSettings
   }
 }

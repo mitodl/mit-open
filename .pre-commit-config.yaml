@@ -85,6 +85,8 @@ repos:
         args: []
         exclude: "(node_modules/|.yarn/)"
         require_serial: false
+        additional_dependencies:
+          - eslint@8
       - id: style-lint
         name: style-lint
         description: "Lint CSS"

@@ -1,11 +1,5 @@
 import React from "react"
-import {
-  renderRoutesWithProviders,
-  screen,
-  setMockResponse,
-  waitFor,
-} from "../../test-utils"
-import { urls } from "api/test-utils"
+import { renderRoutesWithProviders, screen, waitFor } from "../../test-utils"
 import RestrictedRoute from "./RestrictedRoute"
 import { ForbiddenError, Permissions } from "@/common/permissions"
 import { allowConsoleErrors } from "ol-test-utilities"
@@ -22,21 +16,22 @@ const ErrorRecord: React.FC<{ errors: unknown[] }> = ({ errors }) => {
 test("Renders children if permission check satisfied", () => {
   const errors: unknown[] = []
 
-  setMockResponse.get(urls.userMe.get(), {
-    [Permissions.Authenticated]: true,
-  })
-
-  renderRoutesWithProviders([
+  renderRoutesWithProviders(
+    [
+      {
+        path: "*",
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            Hello, world!
+          </RestrictedRoute>
+        ),
+        errorElement: <ErrorRecord errors={errors} />,
+      },
+    ],
     {
-      path: "*",
-      element: (
-        <RestrictedRoute requires={Permissions.Authenticated}>
-          Hello, world!
-        </RestrictedRoute>
-      ),
-      errorElement: <ErrorRecord errors={errors} />,
+      user: { [Permissions.Authenticated]: true },
     },
-  ])
+  )
 
   screen.getByText("Hello, world!")
   expect(!errors.length).toBe(true)
@@ -45,22 +40,23 @@ test("Renders children if permission check satisfied", () => {
 test("Renders child routes if permission check satisfied.", () => {
   const errors: unknown[] = []
 
-  setMockResponse.get(urls.userMe.get(), {
-    [Permissions.Authenticated]: true,
-  })
-
-  renderRoutesWithProviders([
+  renderRoutesWithProviders(
+    [
+      {
+        element: <RestrictedRoute requires={Permissions.Authenticated} />,
+        children: [
+          {
+            element: "Hello, world!",
+            path: "*",
+          },
+        ],
+        errorElement: <ErrorRecord errors={errors} />,
+      },
+    ],
     {
-      element: <RestrictedRoute requires={Permissions.Authenticated} />,
-      children: [
-        {
-          element: "Hello, world!",
-          path: "*",
-        },
-      ],
-      errorElement: <ErrorRecord errors={errors} />,
+      user: { [Permissions.Authenticated]: true },
     },
-  ])
+  )
 
   screen.getByText("Hello, world!")
   expect(!errors.length).toBe(true)
@@ -71,19 +67,24 @@ test.each(Object.values(Permissions))(
   async (permission) => {
     const errors: unknown[] = []
 
-    setMockResponse.get(urls.userMe.get(), { [permission]: false })
-
     allowConsoleErrors()
 
-    renderRoutesWithProviders([
+    renderRoutesWithProviders(
+      [
+        {
+          path: "*",
+          element: (
+            <RestrictedRoute requires={permission}>
+              Hello, world!
+            </RestrictedRoute>
+          ),
+          errorElement: <ErrorRecord errors={errors} />,
+        },
+      ],
       {
-        path: "*",
-        element: (
-          <RestrictedRoute requires={permission}>Hello, world!</RestrictedRoute>
-        ),
-        errorElement: <ErrorRecord errors={errors} />,
+        user: { [permission]: false },
       },
-    ])
+    )
 
     await waitFor(() => {
       expect(errors.length > 0).toBe(true)

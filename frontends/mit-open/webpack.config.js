@@ -11,6 +11,36 @@ const CopyPlugin = require("copy-webpack-plugin")
 
 const { NODE_ENV, PORT, API_BASE_URL, WEBPACK_ANALYZE } = process.env
 
+const MITOPEN_FEATURES_PREFIX = "FEATURE_"
+
+const getFeatureFlags = () => {
+  const bootstrapFeatureFlags = {}
+
+  for (const [key, value] of Object.entries(process.env)) {
+    if (key.startsWith(MITOPEN_FEATURES_PREFIX)) {
+      bootstrapFeatureFlags[key.replace(MITOPEN_FEATURES_PREFIX, "")] =
+        value === "True" ? true : JSON.stringify(value)
+    }
+  }
+
+  return bootstrapFeatureFlags
+}
+
+const getPostHogSettings = () => {
+  if (process.env.POSTHOG_ENABLED && process.env.POSTHOG_PROJECT_API_KEY) {
+    getFeatureFlags()
+
+    return {
+      api_key: JSON.stringify(process.env.POSTHOG_PROJECT_API_KEY),
+      timeout: JSON.stringify(process.env.POSTHOG_TIMEOUT_MS),
+      enabled: true,
+      bootstrap_flags: getFeatureFlags(),
+    }
+  }
+
+  return undefined
+}
+
 module.exports = (env, argv) => {
   const mode = argv.mode || NODE_ENV || "production"
 
@@ -91,6 +121,7 @@ module.exports = (env, argv) => {
           environment: JSON.stringify(process.env.ENVIRONMENT),
           sentry_dsn: JSON.stringify(process.env.SENTRY_DSN),
           release_version: JSON.stringify(process.env.VERSION),
+          posthog: getPostHogSettings(),
         },
       }),
     ]

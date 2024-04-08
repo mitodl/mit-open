@@ -4,7 +4,7 @@ import { renderWithProviders, user, screen } from "../../test-utils"
 import type { User } from "../../test-utils"
 import LearningResourceCard from "./LearningResourceCard"
 import type { LearningResourceCardProps } from "./LearningResourceCard"
-import AddToListDialog from "./AddToListDialog"
+import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
 import * as factories from "api/test-utils/factories"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 
@@ -34,6 +34,7 @@ describe("LearningResourceCard", () => {
 
   const labels = {
     addToLearningPaths: "Add to Learning Path",
+    addToUserList: "Add to User List",
   }
 
   test("Applies className to the resource card", () => {
@@ -43,37 +44,59 @@ describe("LearningResourceCard", () => {
 
   test.each([
     {
-      user: { is_learning_path_editor: false },
-      expectButton: false,
+      user: { is_authenticated: true, is_learning_path_editor: false },
+      expectAddToLearningPathButton: false,
+      expectAddToUserListButton: true,
     },
     {
-      user: { is_learning_path_editor: true },
-      expectButton: true,
+      user: { is_authenticated: true, is_learning_path_editor: true },
+      expectAddToLearningPathButton: true,
+      expectAddToUserListButton: true,
+    },
+    {
+      user: { is_authenticated: false },
+      expectAddToLearningPathButton: false,
+      expectAddToUserListButton: false,
     },
   ])(
-    "Shows LearningPaths button if and only if user has editing privileges",
-    async ({ user, expectButton }) => {
+    "Shows add to list buttons if and only if user is authenticated and has editing privileges",
+    async ({
+      user,
+      expectAddToLearningPathButton,
+      expectAddToUserListButton,
+    }) => {
       setup({ user })
-      const button = screen.queryByRole("button", {
+      const addToLearningPathButton = screen.queryByRole("button", {
         name: labels.addToLearningPaths,
       })
-      expect(!!button).toBe(expectButton)
+      const addToUserListButton = screen.queryByRole("button", {
+        name: labels.addToUserList,
+      })
+      expect(!!addToLearningPathButton).toBe(expectAddToLearningPathButton)
+      expect(!!addToUserListButton).toBe(expectAddToUserListButton)
     },
   )
 
-  test("Clicking LearningPath button opens AddToListDialog", async () => {
+  test("Clicking add to list button opens AddToListDialog", async () => {
     const showModal = jest.mocked(NiceModal.show)
 
     const { resource } = setup({
       user: { is_learning_path_editor: true },
     })
-    const button = screen.getByRole("button", {
+    const addToLearningPathButton = screen.getByRole("button", {
       name: labels.addToLearningPaths,
+    })
+    const addToUserListButton = screen.getByRole("button", {
+      name: labels.addToUserList,
     })
 
     expect(showModal).not.toHaveBeenCalled()
-    await user.click(button)
-    expect(showModal).toHaveBeenCalledWith(AddToListDialog, {
+    await user.click(addToLearningPathButton)
+    expect(showModal).toHaveBeenLastCalledWith(AddToLearningPathDialog, {
+      resourceId: resource.id,
+    })
+    await user.click(addToUserListButton)
+    expect(showModal).toHaveBeenLastCalledWith(AddToUserListDialog, {
       resourceId: resource.id,
     })
   })

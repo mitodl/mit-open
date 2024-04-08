@@ -6,7 +6,8 @@ import type { LearningResourceCardTemplateProps } from "@/page-components/Learni
 import { imgConfigs } from "@/common/constants"
 import { IconButton } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
-import AddToListDialog from "./AddToListDialog"
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
+import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
 import { LearningResource } from "api"
 import { useUserMe } from "api/hooks/user"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
@@ -34,7 +35,11 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   suppressImage,
 }) => {
   const showAddToLearningPathDialog = useCallback(() => {
-    NiceModal.show(AddToListDialog, { resourceId: resource.id })
+    NiceModal.show(AddToLearningPathDialog, { resourceId: resource.id })
+    return
+  }, [resource])
+  const showAddToUserListDialog = useCallback(() => {
+    NiceModal.show(AddToUserListDialog, { resourceId: resource.id })
     return
   }, [resource])
 
@@ -56,13 +61,22 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       onActivate={(r) => openLRDrawer(r.id)}
       footerActionSlot={
         <div>
-          {user?.is_learning_path_editor && (
+          {user?.is_authenticated && user?.is_learning_path_editor && (
             <IconButton
               size="small"
               aria-label="Add to Learning Path"
               onClick={showAddToLearningPathDialog}
             >
               <PlaylistAddIcon />
+            </IconButton>
+          )}
+          {user?.is_authenticated && (
+            <IconButton
+              size="small"
+              aria-label="Add to User List"
+              onClick={showAddToUserListDialog}
+            >
+              <BookmarkBorderIcon />
             </IconButton>
           )}
         </div>
