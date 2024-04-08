@@ -23,11 +23,13 @@ from learning_resources_search.constants import (
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError
+from learning_resources_search.factories import PercolateQueryFactory
 from learning_resources_search.indexing_api import (
     clear_and_create_index,
     create_backing_index,
     deindex_document,
     deindex_learning_resources,
+    deindex_percolators,
     deindex_run_content_files,
     delete_orphaned_indices,
     get_reindexing_alias_name,
@@ -37,6 +39,7 @@ from learning_resources_search.indexing_api import (
     index_run_content_files,
     switch_indices,
 )
+from learning_resources_search.models import PercolateQuery
 from learning_resources_search.utils import remove_child_queries
 from main.utils import chunks
 
@@ -590,3 +593,32 @@ def test_percolate_query_format():
     query = remove_child_queries(percolate_query)
     query_str = json.dumps(query)
     assert "has_child" not in query_str
+
+
+def test_deindex_percolate_query(mocker):
+    """Test that deleting a percolate query removes it from the index"""
+    mock_deindex = mocker.patch("learning_resources_search.indexing_api.deindex_items")
+    og_query = {"test1": "test1"}
+    query = PercolateQueryFactory.create(original_query=og_query, query=og_query)
+    assert PercolateQuery.objects.count() == 1
+    deindex_percolators([query.id])
+    mock_deindex.assert_called_once()
+
+
+def test_index_percolate_query(mocker):
+    """Test that adding a percolate query adds it to the OpenSearch index"""
+
+    mock_index_percolators = mocker.patch(
+        "learning_resources_search.indexing_api.index_percolators", autospec=True
+    )
+    query = PercolateQueryFactory.create(
+        original_query={"test": "test"}, query={"test": "test"}
+    )
+    mock_index_percolators(
+        [query.id],
+        IndexestoUpdate.current_index.value,
+    )
+
+    mock_index_percolators.assert_any_call(
+        [query.id], IndexestoUpdate.current_index.value
+    )
