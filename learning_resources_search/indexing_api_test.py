@@ -558,6 +558,7 @@ def test_deindex_run_content_files_no_files(mocker, has_files):
 
 
 def test_percolate_query_format():
+    """Test utility function to remove related queries from percolate"""
     percolate_query = {
         "bool": {
             "must": [
