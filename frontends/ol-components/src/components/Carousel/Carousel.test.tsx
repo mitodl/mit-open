@@ -3,8 +3,8 @@ import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { render, screen } from "@testing-library/react"
 import user from "@testing-library/user-event"
-import { TitledCarousel } from "./TitledCarousel"
-import type { TitledCarouselProps } from "./TitledCarousel"
+import { Carousel } from "./Carousel"
+import type { CarouselProps } from "./Carousel"
 import TrueNukaCarousel from "nuka-carousel"
 
 jest.mock("nuka-carousel", () => {
@@ -18,27 +18,21 @@ jest.mock("nuka-carousel", () => {
 
 const NukaCarousel = jest.mocked(TrueNukaCarousel)
 
-const setupCarousel = (props?: Partial<TitledCarouselProps>) =>
+const setupCarousel = (props?: Partial<CarouselProps>) =>
   render(
-    <TitledCarousel
-      title="My Cool Title"
-      pageSize={2}
-      previous={<button>PrevPage!</button>}
-      next={<button>NextPage!</button>}
-      {...props}
-    >
+    <Carousel pageSize={2} {...props}>
       <div>Child 1</div>
       <div>Child 2</div>
       <div>Child 3</div>
       <div>Child 4</div>
       <div>Child 5</div>
-    </TitledCarousel>,
+    </Carousel>,
   )
 
-const getNextPageButton = () => screen.getByText("NextPage!")
-const getPrevPageButton = () => screen.getByText("PrevPage!")
+const getNextPageButton = () => screen.getByRole("button", { name: "Next" })
+const getPrevPageButton = () => screen.getByRole("button", { name: "Previous" })
 
-describe("Card component", () => {
+describe("Carousel", () => {
   it("passes pageSize to NukaCarousel", async () => {
     const pageSize = faker.datatype.number({ min: 2, max: 4 })
     setupCarousel({ pageSize })

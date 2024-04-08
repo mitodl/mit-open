@@ -10,6 +10,7 @@ import {
 import axiosInstance from "../../axios"
 import type {
   LearningResourcesApiLearningResourcesListRequest as LRListRequest,
+  LearningResourcesApiLearningResourcesUpcomingListRequest as LRUpcomingListRequest,
   TopicsApiTopicsListRequest as TopicsListRequest,
   LearningpathsApiLearningpathsItemsListRequest as LPResourcesListRequest,
   LearningpathsApiLearningpathsListRequest as LPListRequest,
@@ -39,6 +40,13 @@ const learningResources = createQueryKeys("learningResources", {
     queryFn: () =>
       learningResourcesApi
         .learningResourcesList(params)
+        .then((res) => res.data),
+  }),
+  upcoming: (params: LRUpcomingListRequest) => ({
+    queryKey: [params],
+    queryFn: () =>
+      learningResourcesApi
+        .learningResourcesUpcomingList(params)
         .then((res) => res.data),
   }),
   topics: (params: TopicsListRequest) => ({
@@ -170,6 +178,7 @@ const invalidateResourceQueries = (
    */
   const lists = [
     learningResources.list._def,
+    learningResources.upcoming._def,
     learningResources.learningpaths._ctx.list._def,
     learningResources.userlists._ctx.list._def,
   ]
