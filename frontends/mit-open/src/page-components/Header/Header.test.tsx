@@ -10,7 +10,6 @@ import {
 import invariant from "tiny-invariant"
 import * as urlConstants from "@/common/urls"
 import { setMockResponse, urls } from "api/test-utils"
-import { createQueryClient } from "@/services/react-query/react-query"
 
 describe("Header", () => {
   it("Includes a link to MIT Homepage", async () => {
@@ -33,11 +32,9 @@ describe("UserMenu", () => {
   }
 
   test("Trigger button shows PersonIcon for unauthenticated users", async () => {
-    const queryClient = createQueryClient()
-    queryClient.setQueryData(["userMe"], { is_authenticated: false })
-
-    renderWithProviders(<Header />, { queryClient })
-    const trigger = screen.getByRole("button", { name: "User Menu" })
+    setMockResponse.get(urls.userMe.get(), { is_authenticated: false })
+    renderWithProviders(<Header />)
+    const trigger = await screen.findByRole("button", { name: "User Menu" })
     within(trigger).getByTestId("PersonIcon")
   })
 
@@ -47,13 +44,11 @@ describe("UserMenu", () => {
   ])(
     "Trigger button shows PersonIcon for authenticated users w/o initials",
     async (userSettings) => {
-      renderWithProviders(<Header />, {
-        initialQueryData: [
-          [["userMe"], { is_authenticated: true, ...userSettings }],
-        ],
-      })
+      setMockResponse.get(urls.userMe.get(), userSettings)
 
-      const trigger = screen.getByRole("button", { name: "User Menu" })
+      renderWithProviders(<Header />)
+
+      const trigger = await screen.findByRole("button", { name: "User Menu" })
       within(trigger).getByTestId("PersonIcon")
     },
   )
@@ -73,14 +68,11 @@ describe("UserMenu", () => {
     },
   ])(
     "Trigger button shows initials if available",
-    ({ userSettings, expectedInitials }) => {
-      const queryClient = createQueryClient()
-      queryClient.setQueryData(["userMe"], {
-        is_authenticated: true,
-        ...userSettings,
-      })
-      renderWithProviders(<Header />, { queryClient })
-      const trigger = screen.getByRole("button", { name: "User Menu" })
+    async ({ userSettings, expectedInitials }) => {
+      setMockResponse.get(urls.userMe.get(), userSettings)
+
+      renderWithProviders(<Header />)
+      const trigger = await screen.findByRole("button", { name: "User Menu" })
       expect(trigger.textContent).toBe(expectedInitials)
     },
   )
