@@ -111,7 +111,8 @@ celerybeat-schedule
 docs/_site
 
 .pnp.*
-frontends/.yarn/cache
+frontends/.yarn
+!frontends/.yarn/releases
 
 # Typescript
 tsconfig.tsbuildinfo
