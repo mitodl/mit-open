@@ -474,13 +474,9 @@ def serialize_bulk_percolators(ids):
         ids(list of int): List of percolator id's
     """
     for percolator in PercolateQuery.objects.filter(id__in=ids):
-        yield serialize_percolate_query_for_bulk(percolator)
-
-
-def serialize_percolate_query_for_bulk(query):
-    return {
-        "_id": query.id,
-    }
+        yield {
+            "_id": percolator.id,
+        }
 
 
 def serialize_percolate_query(query):
