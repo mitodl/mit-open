@@ -30,6 +30,8 @@ interface SearchInputProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>
   onClear: React.MouseEventHandler
   onSubmit: SearchSubmitHandler
+  size?: OutlinedInputProps["size"]
+  fullWidth?: boolean
 }
 
 const searchIconAdjustments = {
@@ -61,6 +63,8 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
   const muiInputProps = useMemo(() => ({ "aria-label": "Search for" }), [])
   return (
     <OutlinedInput
+      fullWidth={props.fullWidth}
+      size={props.size}
       inputProps={muiInputProps}
       autoFocus={props.autoFocus}
       className={props.className}
@@ -70,7 +74,18 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
       onChange={props.onChange}
       onKeyDown={onInputKeyDown}
       startAdornment={
-        <InputAdornment position="start">
+        <InputAdornment position="start" color="secondary">
+          <IconButton
+            aria-label="Search"
+            className={props.classNameSearch}
+            onClick={handleSubmit}
+          >
+            <SearchIcon sx={searchIconAdjustments} />
+          </IconButton>
+        </InputAdornment>
+      }
+      endAdornment={
+        <InputAdornment position="end">
           {props.value && (
             <IconButton
               className={props.classNameClear}
@@ -80,17 +95,6 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
               <ClearIcon />
             </IconButton>
           )}
-        </InputAdornment>
-      }
-      endAdornment={
-        <InputAdornment position="end" color="secondary">
-          <IconButton
-            aria-label="Search"
-            className={props.classNameSearch}
-            onClick={handleSubmit}
-          >
-            <SearchIcon sx={searchIconAdjustments} />
-          </IconButton>
         </InputAdornment>
       }
     />

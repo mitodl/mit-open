@@ -18118,6 +18118,7 @@ __metadata:
     "@mui/icons-material": ^5.14.19
     "@mui/lab": ^5.0.0-alpha.150
     "@mui/material": ^5.14.15
+    "@mui/system": ^5.15.15
     "@storybook/addon-actions": ^8.0.6
     "@storybook/addon-essentials": ^8.0.6
     "@storybook/addon-interactions": ^8.0.6
