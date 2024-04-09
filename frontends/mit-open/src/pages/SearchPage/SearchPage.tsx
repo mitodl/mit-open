@@ -210,7 +210,8 @@ const PaginationContainer = styled.div`
 
 const PAGE_SIZE = 10
 const MAX_PAGE = 50
-const getLastPage = (count: number): number => {
+
+export const getLastPage = (count: number): number => {
   const pages = Math.ceil(count / PAGE_SIZE)
   return pages > MAX_PAGE ? MAX_PAGE : pages
 }

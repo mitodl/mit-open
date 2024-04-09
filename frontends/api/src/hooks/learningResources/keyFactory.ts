@@ -6,6 +6,7 @@ import {
   topicsApi,
   userListsApi,
   offerorsApi,
+  platformsApi,
 } from "../../clients"
 import axiosInstance from "../../axios"
 import type {
@@ -23,6 +24,7 @@ import type {
   PaginatedUserListRelationshipList,
   UserList,
   OfferorsApiOfferorsListRequest,
+  PlatformsApiPlatformsListRequest,
 } from "../../generated/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
@@ -127,6 +129,12 @@ const learningResources = createQueryKeys("learningResources", {
     return {
       queryKey: [params],
       queryFn: () => offerorsApi.offerorsList(params).then((res) => res.data),
+    }
+  },
+  platforms: (params: PlatformsApiPlatformsListRequest) => {
+    return {
+      queryKey: [params],
+      queryFn: () => platformsApi.platformsList(params).then((res) => res.data),
     }
   },
 })

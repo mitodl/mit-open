@@ -1,7 +1,8 @@
 import { assertInstanceOf } from "ol-utilities"
-import { urls } from "api/test-utils"
+import { urls, factories } from "api/test-utils"
 import type { FieldChannel } from "api/v0"
-import { fields as factory } from "api/test-utils/factories"
+import type { LearningResourceSearchResponse } from "api"
+
 import WidgetList from "./WidgetsList"
 import {
   renderTestApp,
@@ -13,6 +14,7 @@ import {
 } from "../../test-utils"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import { makeFieldViewPath } from "@/common/urls"
+import FieldSearch from "./FieldSearch"
 
 jest.mock("./WidgetsList", () => {
   const actual = jest.requireActual("./WidgetsList")
@@ -23,8 +25,20 @@ jest.mock("./WidgetsList", () => {
 })
 const mockWidgetList = jest.mocked(WidgetList)
 
-const setupApis = (fieldPatch?: Partial<FieldChannel>) => {
-  const field = factory.field(fieldPatch)
+jest.mock("./FieldSearch", () => {
+  const actual = jest.requireActual("./FieldSearch")
+  return {
+    __esModule: true,
+    default: jest.fn(actual.default),
+  }
+})
+const mockedFieldSearch = jest.mocked(FieldSearch)
+
+const setupApis = (
+  fieldPatch?: Partial<FieldChannel>,
+  search?: Partial<LearningResourceSearchResponse>,
+) => {
+  const field = factories.fields.field(fieldPatch)
 
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
@@ -36,6 +50,23 @@ const setupApis = (fieldPatch?: Partial<FieldChannel>) => {
     urls.widgetLists.details(field.widget_list || -1),
     widgetsList,
   )
+
+  setMockResponse.get(
+    urls.platforms.list(),
+    factories.learningResources.platforms({ count: 5 }),
+  )
+
+  setMockResponse.get(expect.stringContaining(urls.search.resources()), {
+    count: 0,
+    next: null,
+    previous: null,
+    results: [],
+    metadata: {
+      aggregations: {},
+      suggestions: [],
+    },
+    ...search,
+  })
 
   return {
     field,
@@ -62,6 +93,30 @@ describe("FieldPage", () => {
       expect.objectContaining({ src: field.banner, alt: "" }),
       expect.objectContaining({ src: field.avatar_medium, alt: "" }),
     ])
+  })
+
+  it("Displays the field search if search_filter is not undefined", async () => {
+    const { field } = setupApis({ search_filter: "platform=ocw" })
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+    await screen.findByText(field.title)
+    const expectedProps = expect.objectContaining({
+      constantSearchParams: { platform: ["ocw"] },
+    })
+    const expectedContext = expect.anything()
+
+    expect(mockedFieldSearch).toHaveBeenLastCalledWith(
+      expectedProps,
+      expectedContext,
+    )
+  })
+
+  it("Does not display the field search if search_filter is undefined", async () => {
+    const { field } = setupApis()
+    field.search_filter = undefined
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+    await screen.findByText(field.title)
+
+    expect(mockedFieldSearch).toHaveBeenCalledTimes(0)
   })
 
   it.each([
