@@ -85,7 +85,7 @@ class FieldChannel(BaseChannel, TimestampedModel):
     channel_type = models.CharField(
         max_length=100, choices=ChannelType.as_tuple(), default=ChannelType.pathway.name
     )
-    configuration = models.JSONField(null=True, default=dict)
+    configuration = models.JSONField(null=True, default=dict, blank=True)
     search_filter = models.CharField(max_length=2048, blank=True, default="")
     public_description = models.TextField(blank=True, default="")
 
