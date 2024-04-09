@@ -3,6 +3,7 @@ import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles"
+import { createBreakpoints } from "@mui/system"
 
 const colors = {
   colorGray1: "#fff",
@@ -75,6 +76,17 @@ const custom = {
   muiAppBarZIndex: "11000",
 }
 
+const BREAKPOINTS = {
+  values: {
+    // These match our theme breakpoints in breakpoints.scss
+    xs: 0,
+    sm: 600,
+    md: 905,
+    lg: 1240,
+    xl: 1440,
+  },
+}
+
 const themeOptions = {
   custom: custom,
   palette: {
@@ -86,16 +98,7 @@ const themeOptions = {
     },
     testing: "#a31f34",
   },
-  breakpoints: {
-    values: {
-      // These match our theme breakpoints in breakpoints.scss
-      xs: 0, // mui default
-      sm: 600, // mui default
-      md: 840, // custom
-      lg: 1200, // mui default
-      xl: 1536, // mui default
-    },
-  },
+  breakpoints: BREAKPOINTS,
   components: {
     MuiButton: {
       defaultProps: { disableElevation: true },
