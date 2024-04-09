@@ -85,6 +85,7 @@ describe("RoutedDrawer", () => {
       childProps: {
         params: { a: "1", b: "2", c: "3" },
         closeDrawer: expect.any(Function),
+        open: false,
       },
     },
     {
@@ -94,6 +95,7 @@ describe("RoutedDrawer", () => {
       childProps: {
         params: { a: "1", b: "2", c: null },
         closeDrawer: expect.any(Function),
+        open: true,
       },
     },
   ])(

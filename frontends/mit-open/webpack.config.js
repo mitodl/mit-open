@@ -28,7 +28,10 @@ const getFeatureFlags = () => {
 }
 
 const getPostHogSettings = () => {
-  if (process.env.POSTHOG_ENABLED && process.env.POSTHOG_PROJECT_API_KEY) {
+  if (
+    process.env.POSTHOG_ENABLED === "True" &&
+    process.env.POSTHOG_PROJECT_API_KEY
+  ) {
     getFeatureFlags()
 
     return {

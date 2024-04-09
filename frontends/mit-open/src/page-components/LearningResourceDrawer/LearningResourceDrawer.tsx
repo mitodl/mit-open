@@ -5,7 +5,7 @@ import { useLearningResourcesDetail } from "api/hooks/learningResources"
 import { imgConfigs } from "@/common/constants"
 import { useSearchParams } from "react-router-dom"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
-import PostHogView from "@/components/PostHogView/PostHogView"
+import { usePostHog } from "posthog-js/react"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
@@ -28,15 +28,39 @@ const PAPER_PROPS: RoutedDrawerProps["PaperProps"] = {
   },
 }
 
+const CapturePageView: React.FC<{
+  resourceId: number
+  open: boolean
+}> = (props) => {
+  const { resourceId, open } = props
+  const resource = useLearningResourcesDetail(Number(resourceId))
+  const posthog = usePostHog()
+
+  if (APP_SETTINGS.posthog?.enabled && resource.isSuccess && open) {
+    posthog.capture("lrd_view", {
+      resourceId: resourceId || "unknown",
+      readableId: resource.data.readable_id,
+      platformCode: resource.data.platform?.code,
+      resourceType: resource.data.resource_type,
+    })
+  }
+  return <></>
+}
+
 const LearningResourceDrawer = () => {
   return (
-    <PostHogView
+    <RoutedDrawer
       anchor="right"
       requiredParams={RESOURCE_DRAWER_PARAMS}
       PaperProps={PAPER_PROPS}
     >
-      {({ params }) => <DrawerContent resourceId={Number(params.resource)} />}
-    </PostHogView>
+      {({ params, open }) => (
+        <>
+          <DrawerContent resourceId={Number(params.resource)} />
+          <CapturePageView open={open} resourceId={Number(params.resource)} />
+        </>
+      )}
+    </RoutedDrawer>
   )
 }
 

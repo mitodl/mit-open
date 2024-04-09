@@ -18,9 +18,10 @@ type ChildParams<K extends string, R extends K> = Record<K, string | null> &
 type RoutedDrawerProps<K extends string = string, R extends K = K> = {
   params?: readonly K[]
   requiredParams: readonly R[]
-  onView?: (params: readonly K[]) => void
+  onView?: () => void
   children: (childProps: {
     params: ChildParams<K, R>
+    open: boolean
     closeDrawer: () => void
   }) => React.ReactNode
 } & Omit<DrawerProps, "open" | "onClose" | "children">
@@ -46,14 +47,10 @@ const RoutedDrawer = <K extends string, R extends K = K>(
   useEffect(() => {
     if (requiredArePresent) {
       setOpen(true)
-      console.log("we can trigger the page view here??")
-      if (onView) {
-        onView(requiredParams)
-      }
     } else {
       setOpen(false)
     }
-  }, [requiredArePresent, setOpen, onView, requiredParams])
+  }, [requiredArePresent, setOpen, requiredParams])
 
   const removeUrlParams = useCallback(() => {
     setSearchParams((current) => {
@@ -77,6 +74,7 @@ const RoutedDrawer = <K extends string, R extends K = K>(
           {requiredArePresent &&
             children?.({
               params: childParams as Record<K, string>,
+              open: open,
               closeDrawer: setOpen.off,
             })}
           <IconButton
