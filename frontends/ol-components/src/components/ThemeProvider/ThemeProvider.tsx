@@ -3,7 +3,11 @@ import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles"
-import { createBreakpoints } from "@mui/system"
+import type { ThemeOptions } from "@mui/material/styles"
+import type {} from "@mui/lab/themeAugmentation"
+import * as typography from "./typography"
+import * as buttons from "./buttons"
+import * as inputs from "./inputs"
 
 const colors = {
   colorGray1: "#fff",
@@ -78,16 +82,15 @@ const custom = {
 
 const BREAKPOINTS = {
   values: {
-    // These match our theme breakpoints in breakpoints.scss
     xs: 0,
     sm: 600,
-    md: 905,
-    lg: 1240,
-    xl: 1440,
+    md: 900,
+    lg: 1280,
+    xl: 1536,
   },
 }
 
-const themeOptions = {
+const themeOptions: ThemeOptions = {
   custom: custom,
   palette: {
     primary: {
@@ -96,13 +99,17 @@ const themeOptions = {
     secondary: {
       main: "#03152d",
     },
-    testing: "#a31f34",
   },
+  shape: {
+    borderRadius: 8,
+  },
+  typography: typography.globalSettings,
   breakpoints: BREAKPOINTS,
   components: {
-    MuiButton: {
-      defaultProps: { disableElevation: true },
-    },
+    MuiButton: buttons.buttonComponent,
+    MuiTypography: typography.component,
+    MuiInputBase: inputs.inputBaseComponent,
+    MuiOutlinedInput: inputs.outlinedInputComponent,
     MuiTabPanel: {
       styleOverrides: {
         root: {
