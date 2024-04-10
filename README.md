@@ -51,6 +51,12 @@ docker compose run --rm web python manage.py backpopulate_xpro_data
 
 See [learning_resources/management/commands](learning_resources/management/commands) and [main/settings_course_etl.py](main/settings_course_etl.py) for more ETL commands and their relevant environment variables.
 
+### Frontend Development
+
+The frontend package root is at [./frontends](./frontends). A `watch` container is provided to rebuild the front end when there are changes to source files, which is started alongside backing services with `docker compose up`.
+
+Package scripts are also provided for building and serving the frontend in isolation. More detail can be found in the [Frontend README](./frontends/README.md#frontend-development).
+
 ## Code Generation
 
 MIT Open uses [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest/) to generate and OpenAPI spec from Django views. Additionally, we use [OpenAPITools/openapi-generator](https://github.com/OpenAPITools/openapi-generator) to generate Typescript declarations and an API Client. These generated files are checked into source control; CI checks that they are up-to-date. To regenerate these files, run

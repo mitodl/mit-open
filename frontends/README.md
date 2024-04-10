@@ -80,13 +80,12 @@ Note that in this mode the frontend bundle is kept in Wepback Dev Server memory 
 
 ### Frontend Dev Server proxying to RC or Prod
 
-When working on the front end in isolation or to test changes against APIs already running in RC and Prod, the frontend dev server is configured to run against our hosted API environments without running the backend stack locally.
+When working on the front end in isolation or to test changes against APIs already running in RC, the frontend dev server is configured to run against our hosted RC API without running the backend stack locally.
 
-Run the front end with one of:
+Run the front end with:
 
 ```bash
 yarn watch:rc
-yarn watch:prod
 ```
 
 The front end is served at `http://localhost:8080` and changes are hot reloaded into the page.
