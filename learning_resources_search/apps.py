@@ -10,6 +10,9 @@ class SearchAppConfig(AppConfig):
 
     def ready(self):
         """Application is ready"""
-        from learning_resources_search import connection
+        from learning_resources_search import (
+            connection,
+            receivers,  # noqa: F401
+        )
 
         connection.configure_connections()
