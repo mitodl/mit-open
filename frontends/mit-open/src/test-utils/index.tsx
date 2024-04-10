@@ -6,7 +6,7 @@ import appRoutes from "../routes"
 import { render } from "@testing-library/react"
 import { createQueryClient } from "@/services/react-query/react-query"
 import { useUserMe, User } from "api/hooks/user"
-import { QueryCache } from "@tanstack/react-query"
+// import { QueryCache } from "@tanstack/react-query"
 import { setMockResponse, urls } from "api/test-utils"
 import { allowConsoleErrors } from "ol-test-utilities"
 
@@ -42,7 +42,7 @@ const RethrowError = () => {
  * has returned null as the user hook isLoading, vs user has loaded and we are ready
  * to make the negative assertion).
  */
-const setMockUser = (user: Partial<User>, queryCache: QueryCache) => {
+const setMockUser = (user: Partial<User> /*, queryCache: QueryCache */) => {
   let resolve: (value: User | undefined) => void
 
   setMockResponse.get(urls.userMe.get(), user)
@@ -59,9 +59,9 @@ const setMockUser = (user: Partial<User>, queryCache: QueryCache) => {
      * How do we wrap the React Query state changes that are triggering the re-render in act()?
      * allowConsoleErrors() supresses the warning but not a solution.
      */
-    if (queryCache.find(["userMe"])?.state.status !== "success") {
-      return null
-    }
+    // if (queryCache.find(["userMe"])?.state.status !== "success") {
+    //   return null
+    // }
 
     if (isLoading) {
       return null
@@ -97,7 +97,7 @@ const renderRoutesWithProviders = (
   const queryCache = queryClient.getQueryCache()
 
   if (user) {
-    const { _waitForUser, WithAuthStatus } = setMockUser(user, queryCache)
+    const { _waitForUser, WithAuthStatus } = setMockUser(user /*, queryCache */)
     waitForUser = () => _waitForUser
     routes = routes.map((route) => ({
       ...route,
