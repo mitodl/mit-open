@@ -72,30 +72,14 @@ describe("LearningResourceCard", () => {
       const { waitForUser } = setup({ user })
       await waitForUser!()
 
-      if (expectAddToLearningPathButton) {
-        await screen.findByRole("button", {
-          name: labels.addToLearningPaths,
-        })
-      } else {
-        expect(
-          screen.queryByRole("button", {
-            name: labels.addToLearningPaths,
-          }),
-        ).not.toBeInTheDocument()
-      }
-      if (expectAddToUserListButton) {
-        await screen.findByRole("button", {
-          name: labels.addToUserList,
-        })
-      } else {
-        await waitFor(() => {
-          expect(
-            screen.queryByRole("button", {
-              name: labels.addToUserList,
-            }),
-          ).not.toBeInTheDocument()
-        })
-      }
+      const addToLearningPathButton = screen.queryByRole("button", {
+        name: labels.addToLearningPaths,
+      })
+      const addToUserListButton = screen.queryByRole("button", {
+        name: labels.addToUserList,
+      })
+      expect(!!addToLearningPathButton).toBe(expectAddToLearningPathButton)
+      expect(!!addToUserListButton).toBe(expectAddToUserListButton)
     },
   )
 
