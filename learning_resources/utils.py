@@ -22,9 +22,11 @@ from learning_resources.constants import (
 from learning_resources.hooks import get_plugin_manager
 from learning_resources.models import (
     LearningResource,
+    LearningResourceDepartment,
     LearningResourceOfferor,
     LearningResourcePlatform,
     LearningResourceRun,
+    LearningResourceTopic,
 )
 from main.utils import generate_filepath
 
@@ -285,10 +287,11 @@ def upsert_offered_by_data():
         with transaction.atomic():
             for offeror in offered_by_json:
                 offeror_fields = offeror["fields"]
-                LearningResourceOfferor.objects.update_or_create(
+                offered_by, _ = LearningResourceOfferor.objects.update_or_create(
                     name=offeror_fields["name"],
                     defaults=offeror_fields,
                 )
+                offeror_upserted_actions(offered_by)
                 offerors.append(offeror_fields["name"])
             LearningResourceOfferor.objects.exclude(name__in=offerors).delete()
 
@@ -386,3 +389,30 @@ def resource_run_delete_actions(run: LearningResourceRun):
     pm = get_plugin_manager()
     hook = pm.hook
     hook.resource_run_delete(run=run)
+
+
+def topic_upserted_actions(topic: LearningResourceTopic):
+    """
+    Trigger plugins when a LearningResourceTopic is created or updated
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.topic_upserted(topic=topic)
+
+
+def department_upserted_actions(department: LearningResourceDepartment):
+    """
+    Trigger plugins when a LearningResourceDepartment is created or updated
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.department_upserted(department=department)
+
+
+def offeror_upserted_actions(offeror: LearningResourceOfferor):
+    """
+    Trigger plugins when a LearningResourceOfferor is created or updated
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.offeror_upserted(offeror=offeror)

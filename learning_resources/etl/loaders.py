@@ -47,6 +47,7 @@ from learning_resources.utils import (
     resource_unpublished_actions,
     resource_upserted_actions,
     similar_topics_action,
+    topic_upserted_actions,
 )
 
 log = logging.getLogger()
@@ -77,6 +78,7 @@ def load_topics(resource, topics_data):
             topic, _ = LearningResourceTopic.objects.get_or_create(
                 name=topic_data["name"]
             )
+            topic_upserted_actions(topic)
             topics.append(topic)
 
         resource.topics.set(topics)
