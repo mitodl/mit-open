@@ -2,7 +2,9 @@
 
 from types import SimpleNamespace
 
+import factory
 import pytest
+from django.db.models import signals
 from django.http import QueryDict
 from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
@@ -754,7 +756,12 @@ def test_learning_resources_search_response_serializer(
     ) == JSONRenderer().render(response)
 
 
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_percolate_serializer():
+    """
+    Test that percolator queries are serialized correctly
+    """
     query = {
         "query": {
             "has_child": {
