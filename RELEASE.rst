@@ -1,6 +1,26 @@
 Release Notes
 =============
 
+Version 0.8.0
+-------------
+
+- Channel Search (#740)
+- fixing readonly exception in migration (#741)
+- fix channel configuration (#743)
+- Configurable, Tabbed Carousels (#731)
+- add userlist bookmark button and add to user list modal (#732)
+- Adds Posthog support to the frontend. (#693)
+- Channel types (#725)
+- Remove dupe line from urls.py file (#730)
+- adding initial models for user subscription (#723)
+- Shanbady/add record hash field for hightouch sync (#717)
+- fix flaky test (#720)
+- Revert "bump to 2024.3.22" (#719)
+- add UserList modals and wire up buttons (#718)
+- bump to 2024.3.22
+- Migrate config renovate.json (#713)
+- try ckeditor grouping again (#711)
+
 Version 0.7.0 (Released April 01, 2024)
 -------------
 
