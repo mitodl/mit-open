@@ -1,6 +1,81 @@
 import React, { useState, useCallback } from "react"
 import { useNavigate } from "react-router"
-import { Grid, Typography, SearchInput, SearchInputProps } from "ol-components"
+import {
+  Typography,
+  SearchInput,
+  SearchInputProps,
+  Stack,
+  styled,
+  ChipLink,
+} from "ol-components"
+import type { ChipLinkProps } from "ol-components"
+
+type SearchChip = {
+  label: string
+  href: string
+  variant?: ChipLinkProps["variant"]
+  color?: ChipLinkProps["color"]
+}
+
+const SEARCH_CHIPS: SearchChip[] = [
+  {
+    label: "Newest",
+    href: "/search",
+  },
+  {
+    label: "Most Popular",
+    href: "/search",
+  },
+  {
+    label: "AI Courses",
+    href: "/search",
+  },
+  {
+    label: "Engineering Courses",
+    href: "/search",
+  },
+  {
+    label: "Explore All",
+    href: "/search",
+    variant: "filled",
+    color: "primary",
+  },
+]
+
+const ImageContainer = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 110px;
+  padding-bottom: 110px;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    padding-top: 55px;
+    padding-bottom: 55px;
+  }
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    display: none;
+  }
+
+  img {
+    max-width: 100%;
+  }
+`
+const SearchContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    min-height: 272px;
+  }
+`
+
+const SearchInputStyled = styled(SearchInput)`
+  margin-top: 20px;
+  margin-bottom: 20px;
+`
 
 const HeroSearch: React.FC = () => {
   const [searchText, setSearchText] = useState("")
@@ -19,28 +94,14 @@ const HeroSearch: React.FC = () => {
     [navigate],
   )
   return (
-    <Grid container justifyContent="center">
-      <Grid
-        item
-        xs={12}
-        sm={8}
-        md={6}
-        container
-        sx={(theme) => ({
-          [theme.breakpoints.only("xs")]: {
-            alignItems: "center",
-          },
-        })}
-      >
-        <Typography
-          sx={{
-            typography: { xs: "h3", sm: "h2", md: "h1" },
-          }}
-        >
+    <Stack direction="row">
+      <SearchContainer>
+        <Typography typography={{ xs: "h3", md: "h1", paddingBottom: "8px" }}>
           Learn with MIT
         </Typography>
         <Typography>A place for all non-degree learning.</Typography>
-        <SearchInput
+        <SearchInputStyled
+          placeholder="Search for subject, department, professor, or course"
           size="hero"
           fullWidth
           value={searchText}
@@ -48,11 +109,24 @@ const HeroSearch: React.FC = () => {
           onClear={onSearchClear}
           onSubmit={onSearchSubmit}
         />
-      </Grid>
-      <Grid item xs={12} sm={4} md={4} display={{ xs: "none", sm: "flex" }}>
-        <img style={{ minWidth: 0 }} src="/static/images/hero_woman.svg" />
-      </Grid>
-    </Grid>
+        <Typography variant="subtitle1" sx={{ marginBottom: "8px" }}>
+          Popular Searches
+        </Typography>
+        <Stack direction="row" columnGap={1} flexWrap="wrap" rowGap={1}>
+          {SEARCH_CHIPS.map(({ label, ...others }, index) => (
+            <ChipLink
+              key={index}
+              size="small"
+              label={<Typography variant="subtitle4">{label}</Typography>}
+              {...others}
+            />
+          ))}
+        </Stack>
+      </SearchContainer>
+      <ImageContainer>
+        <img src="/static/images/hero_woman.svg" />
+      </ImageContainer>
+    </Stack>
   )
 }
 

@@ -1,6 +1,5 @@
 import React from "react"
-import { styled, ChipLink, Container } from "ol-components"
-import { GridContainer } from "@/components/GridLayout/GridLayout"
+import { Container } from "ol-components"
 import TabbedCarousel, {
   TabbedCarouselProps,
 } from "@/page-components/TabbedCarousel/TabbedCarousel"
@@ -51,51 +50,6 @@ const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
     },
   },
 ]
-
-const EXPLORE_BUTTONS = [
-  {
-    label: "Courses",
-  },
-  {
-    label: "Videos",
-  },
-  {
-    label: "Podcasts",
-  },
-  {
-    label: "Learning Paths",
-  },
-  {
-    label: "By Department",
-  },
-  {
-    label: "By Subject",
-  },
-  {
-    label: "From OCW",
-  },
-  {
-    label: "From MITx",
-  },
-  {
-    label: "With Certificate",
-  },
-  {
-    label: "Micromasters",
-  },
-  {
-    label: "Professional Education",
-  },
-]
-
-const TopContainer = styled(GridContainer)`
-  margin-top: 3.5rem;
-  margin-bottom: 3.5rem;
-`
-
-const StyledChipLink = styled(ChipLink)`
-  margin: 8px 16px 8px 0;
-`
 
 const HomePage: React.FC = () => {
   return (

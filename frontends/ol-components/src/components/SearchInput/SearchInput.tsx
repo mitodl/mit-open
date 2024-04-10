@@ -85,8 +85,8 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
         </InputAdornment>
       }
       endAdornment={
-        <InputAdornment position="end">
-          {props.value && (
+        props.value && (
+          <InputAdornment position="end">
             <IconButton
               className={props.classNameClear}
               aria-label="Clear search text"
@@ -94,8 +94,8 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
             >
               <ClearIcon />
             </IconButton>
-          )}
-        </InputAdornment>
+          </InputAdornment>
+        )
       }
     />
   )
