@@ -56,10 +56,6 @@ const filteredResultsWithLabels = (
   return newResults
 }
 
-const humanize = (key: string) => {
-  return key.replace("_", " ")
-}
-
 const AvailableFacetsDropdowns: React.FC<
   Omit<FacetDisplayProps, "clearAllFilters">
 > = ({
@@ -93,36 +89,46 @@ const AvailableFacetsDropdowns: React.FC<
 
   return (
     <>
-      {facetMap.map((facetSetting) => (
-        <FormControl key={facetSetting.name}>
-          <Select
-            multiple
-            displayEmpty
-            value={activeFacets[facetSetting.name as FacetKey] || []}
-            renderValue={() => {
-              return humanize(facetSetting.name)
-            }}
-            onChange={getHandleChangeForFacet(
-              activeFacets[facetSetting.name as FacetKey] || [],
-              facetSetting.name,
-            )}
-            sx={{ m: 1, minWidth: 140 }}
-          >
-            {filteredResultsWithLabels(
-              facetOptions(facetSetting.name) || [],
-              facetSetting.labelFunction || null,
-              constantSearchParams[facetSetting.name as FacetKey] || null,
-            ).map((facet) => (
-              <MenuItem
-                value={facet.key.toLowerCase()}
-                key={facetSetting.name.concat(":", facet.key)}
+      {facetMap.map((facetSetting) => {
+        const facetItems = filteredResultsWithLabels(
+          facetOptions(facetSetting.name) || [],
+          facetSetting.labelFunction || null,
+          constantSearchParams[facetSetting.name as FacetKey] || null,
+        )
+
+        return (
+          facetItems.length > 0 && (
+            <FormControl key={facetSetting.name}>
+              <Select
+                multiple
+                displayEmpty
+                value={activeFacets[facetSetting.name as FacetKey] || []}
+                renderValue={() => {
+                  return facetSetting.title
+                }}
+                onChange={getHandleChangeForFacet(
+                  activeFacets[facetSetting.name as FacetKey] || [],
+                  facetSetting.name,
+                )}
+                sx={{ m: 1, minWidth: 140 }}
               >
-                {facet.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      ))}
+                {filteredResultsWithLabels(
+                  facetOptions(facetSetting.name) || [],
+                  facetSetting.labelFunction || null,
+                  constantSearchParams[facetSetting.name as FacetKey] || null,
+                ).map((facet) => (
+                  <MenuItem
+                    value={facet.key}
+                    key={facetSetting.name.concat(":", facet.key)}
+                  >
+                    {facet.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )
+        )
+      })}
     </>
   )
 }

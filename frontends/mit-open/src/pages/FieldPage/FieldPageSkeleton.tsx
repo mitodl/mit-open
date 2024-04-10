@@ -31,8 +31,8 @@ export const FieldControls = styled.div`
 
 interface FieldSkeletonProps {
   children: React.ReactNode
-  channelType: string | undefined
-  name: string | undefined
+  channelType: string
+  name: string
 }
 
 /**
