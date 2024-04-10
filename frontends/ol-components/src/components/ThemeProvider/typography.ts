@@ -73,12 +73,7 @@ const styles = {
 } as const
 
 const globalSettings: ThemeOptions["typography"] = {
-  fontFamily: [
-    '"Neue Haas Grotesk Display Pro"',
-    '"Helvetica Neue"',
-    "Arial",
-    "sans-serif",
-  ].join(","),
+  fontFamily: ['"Helvetica Neue"', "Arial", "sans-serif"].join(","),
   ...styles,
 }
 const component: NonNullable<ThemeOptions["components"]>["MuiTypography"] = {
