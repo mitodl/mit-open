@@ -104,6 +104,7 @@ const themeOptions: ThemeOptions = {
   shape: {
     borderRadius: 8,
   },
+  spacing: 8,
   typography: typography.globalSettings,
   breakpoints: BREAKPOINTS,
   components: {

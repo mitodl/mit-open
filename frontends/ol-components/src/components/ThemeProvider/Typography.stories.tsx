@@ -45,16 +45,16 @@ export const Paragraphs: Story = {
     return (
       <ul>
         <li>
-          <Typography variant="p1">Body level 1, {text}</Typography>
+          <Typography variant="body1">Body level 1, {text}</Typography>
         </li>
         <li>
-          <Typography variant="p2">Body level 2, {text}</Typography>
+          <Typography variant="body2">Body level 2, {text}</Typography>
         </li>
         <li>
-          <Typography variant="p3">Body level 3, {text}</Typography>
+          <Typography variant="body3">Body level 3, {text}</Typography>
         </li>
         <li>
-          <Typography variant="p4">Body level 4, {text}</Typography>
+          <Typography variant="body4">Body level 4, {text}</Typography>
         </li>
       </ul>
     )

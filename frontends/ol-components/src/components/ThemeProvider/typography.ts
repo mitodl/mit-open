@@ -79,10 +79,10 @@ const globalSettings: ThemeOptions["typography"] = {
 const component: NonNullable<ThemeOptions["components"]>["MuiTypography"] = {
   defaultProps: {
     variantMapping: {
-      p1: "p",
-      p2: "p",
-      p3: "p",
-      p4: "p",
+      body1: "p",
+      body2: "p",
+      body3: "p",
+      body4: "p",
       subtitle1: "p",
       subtitle2: "p",
       subtitle3: "p",
