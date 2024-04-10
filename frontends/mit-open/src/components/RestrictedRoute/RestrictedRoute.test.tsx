@@ -1,8 +1,7 @@
 import React from "react"
-import { renderRoutesWithProviders, screen, waitFor } from "../../test-utils"
+import { renderRoutesWithProviders, screen } from "../../test-utils"
 import RestrictedRoute from "./RestrictedRoute"
 import { ForbiddenError, Permissions } from "@/common/permissions"
-import { allowConsoleErrors } from "ol-test-utilities"
 import { useRouteError } from "react-router"
 
 const ErrorRecord: React.FC<{ errors: unknown[] }> = ({ errors }) => {
@@ -13,10 +12,10 @@ const ErrorRecord: React.FC<{ errors: unknown[] }> = ({ errors }) => {
   return null
 }
 
-test("Renders children if permission check satisfied", () => {
+test("Renders children if permission check satisfied", async () => {
   const errors: unknown[] = []
 
-  renderRoutesWithProviders(
+  const { waitForUser } = renderRoutesWithProviders(
     [
       {
         path: "*",
@@ -33,16 +32,19 @@ test("Renders children if permission check satisfied", () => {
     },
   )
 
+  await waitForUser!()
+
   screen.getByText("Hello, world!")
   expect(!errors.length).toBe(true)
 })
 
-test("Renders child routes if permission check satisfied.", () => {
+test("Renders child routes if permission check satisfied.", async () => {
   const errors: unknown[] = []
 
-  renderRoutesWithProviders(
+  const { waitForUser } = renderRoutesWithProviders(
     [
       {
+        path: "*",
         element: <RestrictedRoute requires={Permissions.Authenticated} />,
         children: [
           {
@@ -58,6 +60,8 @@ test("Renders child routes if permission check satisfied.", () => {
     },
   )
 
+  await waitForUser!()
+
   screen.getByText("Hello, world!")
   expect(!errors.length).toBe(true)
 })
@@ -67,9 +71,7 @@ test.each(Object.values(Permissions))(
   async (permission) => {
     const errors: unknown[] = []
 
-    allowConsoleErrors()
-
-    renderRoutesWithProviders(
+    const { waitForUser } = renderRoutesWithProviders(
       [
         {
           path: "*",
@@ -86,10 +88,9 @@ test.each(Object.values(Permissions))(
       },
     )
 
-    await waitFor(() => {
-      expect(errors.length > 0).toBe(true)
-    })
+    await waitForUser!()
 
+    expect(errors.length > 0).toBe(true)
     expect(errors[0]).toBeInstanceOf(ForbiddenError)
   },
 )

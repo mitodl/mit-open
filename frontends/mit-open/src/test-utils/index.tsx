@@ -1,20 +1,18 @@
 import React from "react"
 import { createMemoryRouter, useRouteError } from "react-router"
 import type { RouteObject } from "react-router"
-
 import AppProviders from "../AppProviders"
 import appRoutes from "../routes"
 import { render } from "@testing-library/react"
-import { setMockResponse } from "./mockAxios"
 import { createQueryClient } from "@/services/react-query/react-query"
-import type { User } from "../types/settings"
-import { QueryKey } from "@tanstack/react-query"
+import { useUserMe, User } from "api/hooks/user"
+import { QueryCache } from "@tanstack/react-query"
+import { setMockResponse, urls } from "api/test-utils"
+import { allowConsoleErrors } from "ol-test-utilities"
 
 interface TestAppOptions {
   url: string
   user: Partial<User>
-  queryClient?: ReturnType<typeof createQueryClient>
-  initialQueryData?: [QueryKey, unknown][]
 }
 
 const defaultTestAppOptions = {
@@ -35,28 +33,80 @@ const RethrowError = () => {
 }
 
 /**
+ * Mocks the autheniticated user API response and provides a promise to wait for
+ * the user to be loaded.
+ *
+ * This allows us to explicitly wait for components dependent on the user to
+ * have rendered so we can make assertions on the absence of elements where
+ * we otherwise cannot differentiate between first render cycles (e.g. component
+ * has returned null as the user hook isLoading, vs user has loaded and we are ready
+ * to make the negative assertion).
+ */
+const setMockUser = (user: Partial<User>, queryCache: QueryCache) => {
+  let resolve: (value: User | undefined) => void
+
+  setMockResponse.get(urls.userMe.get(), user)
+
+  const _waitForUser = new Promise((_resolve) => (resolve = _resolve))
+
+  const WithAuthStatus: React.FC<{ children?: React.ReactNode }> = ({
+    children,
+  }) => {
+    const { isLoading, data } = useUserMe()
+
+    /* Looking for solutions to "Warning: An update to mockConstructor inside a test was not wrapped in act(...)."
+     * Some info here: https://github.com/TanStack/query/issues/432
+     * How do we wrap the React Query state changes that are triggering the re-render in act()?
+     * allowConsoleErrors() supresses the warning but not a solution.
+     */
+    if (queryCache.find(["userMe"])?.state.status !== "success") {
+      return null
+    }
+
+    if (isLoading) {
+      return null
+    }
+
+    resolve(data)
+    return children
+  }
+
+  allowConsoleErrors()
+
+  return {
+    _waitForUser,
+    WithAuthStatus,
+  }
+}
+
+/**
  * Render routes in a test environment using same providers used by App.
  */
 const renderRoutesWithProviders = (
   routes: RouteObject[],
   options: Partial<TestAppOptions> = {},
 ) => {
-  const { url, user, initialQueryData } = {
+  const { url, user } = {
     ...defaultTestAppOptions,
     ...options,
   }
 
-  const router = createMemoryRouter(routes, { initialEntries: [url] })
-  const queryClient = options.queryClient || createQueryClient()
+  let waitForUser = null
+
+  const queryClient = createQueryClient()
+  const queryCache = queryClient.getQueryCache()
 
   if (user) {
-    queryClient.setQueryData(["userMe"], { is_authenticated: true, ...user })
+    const { _waitForUser, WithAuthStatus } = setMockUser(user, queryCache)
+    waitForUser = () => _waitForUser
+    routes = routes.map((route) => ({
+      ...route,
+      element: <WithAuthStatus>{route.element}</WithAuthStatus>,
+    }))
   }
-  if (initialQueryData) {
-    initialQueryData.forEach(([queryKey, data]) => {
-      queryClient.setQueryData(queryKey, data)
-    })
-  }
+
+  const router = createMemoryRouter(routes, { initialEntries: [url] })
+
   const view = render(
     <AppProviders queryClient={queryClient} router={router}></AppProviders>,
   )
@@ -67,7 +117,7 @@ const renderRoutesWithProviders = (
     },
   }
 
-  return { view, queryClient, location }
+  return { view, queryClient, location, waitForUser, queryCache }
 }
 
 const renderTestApp = (options?: Partial<TestAppOptions>) =>
@@ -81,8 +131,13 @@ const renderWithProviders = (
   options?: Partial<TestAppOptions>,
 ) => {
   const routes: RouteObject[] = [
-    { element, path: "*", errorElement: <RethrowError /> },
+    {
+      element,
+      path: "*",
+      errorElement: <RethrowError />,
+    },
   ]
+
   return renderRoutesWithProviders(routes, options)
 }
 

@@ -1,6 +1,6 @@
 import React from "react"
 import * as NiceModal from "@ebay/nice-modal-react"
-import { renderWithProviders, user, screen } from "../../test-utils"
+import { renderWithProviders, user, screen, waitFor } from "../../test-utils"
 import type { User } from "../../test-utils"
 import LearningResourceCard from "./LearningResourceCard"
 import type { LearningResourceCardProps } from "./LearningResourceCard"
@@ -25,11 +25,12 @@ describe("LearningResourceCard", () => {
   }
   const setup = ({ user, props = {} }: SetupOptions = {}) => {
     const { resource = makeResource(), variant = "column" } = props
-    const { view, location } = renderWithProviders(
+
+    const { view, location, waitForUser } = renderWithProviders(
       <LearningResourceCard {...props} resource={resource} variant={variant} />,
       { user },
     )
-    return { resource, view, location }
+    return { resource, view, location, waitForUser }
   }
 
   const labels = {
@@ -37,9 +38,12 @@ describe("LearningResourceCard", () => {
     addToUserList: "Add to User List",
   }
 
-  test("Applies className to the resource card", () => {
+  test("Applies className to the resource card", async () => {
     const { view } = setup({ user: {}, props: { className: "test-class" } })
-    expect(view.container.firstChild).toHaveClass("test-class")
+
+    await waitFor(() =>
+      expect(view.container.firstChild).toHaveClass("test-class"),
+    )
   })
 
   test.each([
@@ -65,24 +69,45 @@ describe("LearningResourceCard", () => {
       expectAddToLearningPathButton,
       expectAddToUserListButton,
     }) => {
-      setup({ user })
-      const addToLearningPathButton = screen.queryByRole("button", {
-        name: labels.addToLearningPaths,
-      })
-      const addToUserListButton = screen.queryByRole("button", {
-        name: labels.addToUserList,
-      })
-      expect(!!addToLearningPathButton).toBe(expectAddToLearningPathButton)
-      expect(!!addToUserListButton).toBe(expectAddToUserListButton)
+      const { waitForUser } = setup({ user })
+      await waitForUser!()
+
+      if (expectAddToLearningPathButton) {
+        await screen.findByRole("button", {
+          name: labels.addToLearningPaths,
+        })
+      } else {
+        expect(
+          screen.queryByRole("button", {
+            name: labels.addToLearningPaths,
+          }),
+        ).not.toBeInTheDocument()
+      }
+      if (expectAddToUserListButton) {
+        await screen.findByRole("button", {
+          name: labels.addToUserList,
+        })
+      } else {
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("button", {
+              name: labels.addToUserList,
+            }),
+          ).not.toBeInTheDocument()
+        })
+      }
     },
   )
 
   test("Clicking add to list button opens AddToListDialog", async () => {
     const showModal = jest.mocked(NiceModal.show)
 
-    const { resource } = setup({
+    const { resource, waitForUser } = setup({
       user: { is_learning_path_editor: true },
     })
+
+    await waitForUser!()
+
     const addToLearningPathButton = screen.getByRole("button", {
       name: labels.addToLearningPaths,
     })
@@ -102,9 +127,12 @@ describe("LearningResourceCard", () => {
   })
 
   test("Clicking card title opens resource drawer", async () => {
-    const { resource, location } = setup({
+    const { resource, location, waitForUser } = setup({
       user: { is_learning_path_editor: true },
     })
+
+    await waitForUser!()
+
     const cardTitle = screen.getByRole("heading", { name: resource.title })
     await user.click(cardTitle)
     expect(
