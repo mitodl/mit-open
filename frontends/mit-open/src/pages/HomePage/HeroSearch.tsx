@@ -96,7 +96,10 @@ const HeroSearch: React.FC = () => {
   return (
     <Stack direction="row">
       <SearchContainer>
-        <Typography typography={{ xs: "h3", md: "h1", paddingBottom: "8px" }}>
+        <Typography
+          typography={{ xs: "h3", md: "h1" }}
+          sx={{ paddingBottom: 1 }}
+        >
           Learn with MIT
         </Typography>
         <Typography>A place for all non-degree learning.</Typography>
@@ -109,7 +112,7 @@ const HeroSearch: React.FC = () => {
           onClear={onSearchClear}
           onSubmit={onSearchSubmit}
         />
-        <Typography variant="subtitle1" sx={{ marginBottom: "8px" }}>
+        <Typography variant="subtitle1" sx={{ marginBottom: 1 }}>
           Popular Searches
         </Typography>
         <Stack direction="row" columnGap={1} flexWrap="wrap" rowGap={1}>
