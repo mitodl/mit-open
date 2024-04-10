@@ -5,7 +5,7 @@ import Button from "@mui/material/Button"
 import Stack from "@mui/material/Stack"
 
 const meta: Meta<typeof Typography> = {
-  title: "ol-components/Typography",
+  title: "smoot-design/Typography",
 }
 
 export default meta
@@ -41,14 +41,22 @@ export const Subtitles: Story = {
 
 export const Paragraphs: Story = {
   render: () => {
-    const text = "The quick brown fox jumps over the lazy dog. ".repeat(5)
+    const text = "The quick brown fox jumps over the lazy dog. ".repeat(10)
     return (
-      <>
-        <Typography variant="p1">Body level 1, {text}</Typography>
-        <Typography variant="p2">Body level 2, {text}</Typography>
-        <Typography variant="p3">Body level 3, {text}</Typography>
-        <Typography variant="p4">Body level 4, {text}</Typography>
-      </>
+      <ul>
+        <li>
+          <Typography variant="p1">Body level 1, {text}</Typography>
+        </li>
+        <li>
+          <Typography variant="p2">Body level 2, {text}</Typography>
+        </li>
+        <li>
+          <Typography variant="p3">Body level 3, {text}</Typography>
+        </li>
+        <li>
+          <Typography variant="p4">Body level 4, {text}</Typography>
+        </li>
+      </ul>
     )
   },
 }
