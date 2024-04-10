@@ -14,7 +14,7 @@ const config = {
     "../src/**/*.mdx",
     "../src/**/*.stories.tsx",
     "../../ol-components/src/**/*.mdx",
-    "../../ol-components/src/**/*.stories.tsx",
+    "../../ol-components/src/**/*.stories.@(tsx|ts)",
   ],
   addons: [
     getAbsolutePath("@storybook/addon-links"),

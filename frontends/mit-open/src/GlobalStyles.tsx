@@ -79,10 +79,6 @@ const formCss = css`
 
 const muiCss = css`
   #app-container {
-    .MuiChip-root.MuiChip-filled {
-      background-color: ${theme.custom.colorBackground};
-    }
-
     .MuiCardContent-root {
       padding-bottom: 16px;
 

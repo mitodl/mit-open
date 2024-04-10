@@ -8,6 +8,7 @@ import type {} from "@mui/lab/themeAugmentation"
 import * as typography from "./typography"
 import * as buttons from "./buttons"
 import * as inputs from "./inputs"
+import * as chips from "./chips"
 
 const colors = {
   colorGray1: "#fff",
@@ -118,6 +119,7 @@ const themeOptions: ThemeOptions = {
         },
       },
     },
+    MuiChip: chips.chipComponent,
   },
 }
 
