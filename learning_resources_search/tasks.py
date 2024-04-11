@@ -23,6 +23,7 @@ from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
     COURSE_TYPE,
     LEARNING_PATH_TYPE,
+    PERCOLATE_INDEX_TYPE,
     PODCAST_EPISODE_TYPE,
     PODCAST_TYPE,
     PROGRAM_TYPE,
@@ -32,9 +33,12 @@ from learning_resources_search.constants import (
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
+from learning_resources_search.models import PercolateQuery
 from learning_resources_search.serializers import (
+    serialize_bulk_percolators,
     serialize_content_file_for_update,
     serialize_learning_resource_for_update,
+    serialize_percolate_query_for_update,
 )
 from main.celery import app
 from main.utils import chunks, merge_strings
@@ -66,6 +70,19 @@ def upsert_content_file(file_id):
         COURSE_TYPE,
         retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
         routing=content_file_obj.run.learning_resource_id,
+    )
+
+
+@app.task
+def upsert_percolate_query(percolate_id):
+    """Task that makes a request to add an ES document"""
+    percolate_query = PercolateQuery.objects.get(id=percolate_id)
+    serialized = serialize_percolate_query_for_update(percolate_query)
+    api.upsert_document(
+        percolate_id,
+        serialized,
+        PERCOLATE_INDEX_TYPE,
+        retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
     )
 
 
@@ -128,6 +145,52 @@ def bulk_deindex_learning_resources(ids, resource_type):
         raise
     except:  # noqa: E722
         error = "bulk_deindex_learning_resources threw an error"
+        log.exception(error)
+        return error
+
+
+@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+def bulk_deindex_percolators(ids):
+    """
+    Deindex percolators by a list of ids
+
+    Args:
+        ids(list of int): List of percolator ids
+
+    """
+    try:
+        with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
+            api.deindex_percolators(ids)
+    except (RetryError, Ignore):
+        raise
+    except:  # noqa: E722
+        error = "bulk_deindex_percolators threw an error"
+        log.exception(error)
+        return error
+
+
+@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+def bulk_index_percolate_queries(percolate_ids, index_types):
+    """
+    Bulk index percolate queries for provided percolate query Ids
+
+    Args:
+        percolate_ids (list of int): List of percolator ids
+        index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
+    """
+    try:
+        percolates = PercolateQuery.objects.filter(id__in=percolate_ids)
+        log.info("Indexing %d percolator queries...", percolates.count())
+        api.index_items(
+            serialize_bulk_percolators(percolate_ids),
+            PERCOLATE_INDEX_TYPE,
+            index_types,
+        )
+    except (RetryError, Ignore):
+        raise
+    except:  # noqa: E722
+        error = "bulk_index_percolate_queries threw an error"
         log.exception(error)
         return error
 
@@ -233,6 +296,17 @@ def start_recreate_index(self, indexes):
 
         index_tasks = []
 
+        if PERCOLATE_INDEX_TYPE in indexes:
+            index_tasks = index_tasks + [
+                bulk_index_percolate_queries.si(
+                    percolate_ids, IndexestoUpdate.reindexing_index.value
+                )
+                for percolate_ids in chunks(
+                    PercolateQuery.objects.order_by("id").values_list("id", flat=True),
+                    chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                )
+            ]
+
         if COURSE_TYPE in indexes:
             blocklisted_ids = load_course_blocklist()
             index_tasks = (
@@ -328,6 +402,8 @@ def start_update_index(self, indexes, etl_source):
             index_tasks = index_tasks + get_update_resource_files_tasks(
                 blocklisted_ids, etl_source
             )
+        if PERCOLATE_INDEX_TYPE in indexes:
+            index_tasks = index_tasks + get_update_percolator_tasks()
 
         for resource_type in [
             PROGRAM_TYPE,
@@ -424,6 +500,29 @@ def get_update_courses_tasks(blocklisted_ids, etl_source):
         bulk_deindex_learning_resources.si(ids, COURSE_TYPE)
         for ids in chunks(
             course_deletion_query.values_list("id", flat=True),
+            chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+        )
+    ]
+
+
+def get_update_percolator_tasks():
+    """
+    Get list of tasks to update percolators
+    """
+    index_tasks = [
+        bulk_index_percolate_queries.si(
+            percolate_ids, index_types=IndexestoUpdate.current_index.value
+        )
+        for percolate_ids in chunks(
+            PercolateQuery.objects.order_by("id").values_list("id", flat=True),
+            chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+        )
+    ]
+
+    return index_tasks + [
+        bulk_deindex_percolators.si(ids)
+        for ids in chunks(
+            PercolateQuery.objects.all().order_by("id").values_list("id", flat=True),
             chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
         )
     ]

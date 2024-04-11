@@ -29,6 +29,8 @@ from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
 )
+from learning_resources_search.models import PercolateQuery
+from learning_resources_search.utils import remove_child_queries
 
 log = logging.getLogger()
 
@@ -464,6 +466,56 @@ def serialize_bulk_learning_resources(ids):
         yield serialize_learning_resource_for_bulk(learning_resource)
 
 
+def serialize_bulk_percolators(ids):
+    """
+    Serialize percolators for bulk indexing
+
+    Args:
+        ids(list of int): List of percolator id's
+    """
+    for percolator in PercolateQuery.objects.filter(id__in=ids):
+        yield {
+            "_id": percolator.id,
+            "query": {**remove_child_queries(percolator.query)},
+        }
+
+
+def serialize_percolate_query(query):
+    """
+    Serialize PercolateQuery for Opensearch indexing
+
+    Args:
+        query (PercolateQuery): A PercolateQuery instance
+
+    Returns:
+        dict:
+            This is the query dict value with `_id` set to the database id so that
+            OpenSearch can update this in place.
+    """
+    return {
+        "query": {**remove_child_queries(query.query)},
+        "_id": query.id,
+    }
+
+
+def serialize_percolate_query_for_update(query):
+    """
+    Serialize PercolateQuery for Opensearch update
+
+    Args:
+        query (PercolateQuery): A PercolateQuery instance
+
+    Returns:
+        dict:
+            This is the query dict value with `_id` set to the database id so that
+            OpenSearch can update this in place.
+    """
+    return {
+        "query": {**remove_child_queries(query.query)},
+        "id": query.id,
+    }
+
+
 def serialize_bulk_learning_resources_for_deletion(ids):
     """
     Serialize learning_resource for bulk deletion
@@ -473,6 +525,17 @@ def serialize_bulk_learning_resources_for_deletion(ids):
     """
     for learning_resource_id in ids:
         yield serialize_for_deletion(learning_resource_id)
+
+
+def serialize_bulk_percolators_for_deletion(ids):
+    """
+    Serialize percolators for bulk deletion
+
+    Args:
+        ids(list of int): List of learning resource id's
+    """
+    for percolate_id in ids:
+        yield serialize_for_deletion(percolate_id)
 
 
 def serialize_learning_resource_for_bulk(learning_resource_obj):

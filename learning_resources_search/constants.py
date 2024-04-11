@@ -15,7 +15,7 @@ PODCAST_EPISODE_TYPE = "podcast_episode"
 LEARNING_PATH_TYPE = "learning_path"
 VIDEO_TYPE = "video"
 VIDEO_PLAYLIST_TYPE = "video_playlist"
-
+PERCOLATE_INDEX_TYPE = "percolator"
 CURRENT_INDEX = "current_index"
 REINDEXING_INDEX = "reindexing_index"
 BOTH_INDEXES = "all_indexes"
@@ -43,6 +43,9 @@ LEARNING_RESOURCE_TYPES = (
     VIDEO_PLAYLIST_TYPE,
 )
 
+BASE_INDEXES = (PERCOLATE_INDEX_TYPE,)
+
+ALL_INDEX_TYPES = BASE_INDEXES + LEARNING_RESOURCE_TYPES
 
 SCRIPTING_LANG = "painless"
 UPDATE_CONFLICT_SETTING = "proceed"
@@ -254,6 +257,8 @@ CONTENT_FILE_MAP = {
 }
 
 
+PERCOLATE_INDEX_MAP = {"query": {"type": "percolator"}}
+
 LEARNING_RESOURCE_QUERY_FIELDS = [
     "title.english^3",
     "description.english^2",
@@ -301,6 +306,11 @@ MAPPING = {
     LEARNING_PATH_TYPE: LEARNING_RESOURCE_MAP,
     VIDEO_TYPE: LEARNING_RESOURCE_MAP,
     VIDEO_PLAYLIST_TYPE: LEARNING_RESOURCE_MAP,
+    PERCOLATE_INDEX_TYPE: {
+        **PERCOLATE_INDEX_MAP,
+        **LEARNING_RESOURCE_MAP,
+        **CONTENT_FILE_MAP,
+    },
 }
 
 SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)

@@ -3,14 +3,11 @@
 from django.core.management.base import BaseCommand, CommandError
 
 from learning_resources.etl.constants import ETLSource
-from learning_resources_search.constants import (
-    CONTENT_FILE_TYPE,
-    LEARNING_RESOURCE_TYPES,
-)
+from learning_resources_search.constants import ALL_INDEX_TYPES, CONTENT_FILE_TYPE
 from learning_resources_search.tasks import start_update_index
 from main.utils import now_in_utc
 
-valid_object_types = [*list(LEARNING_RESOURCE_TYPES), CONTENT_FILE_TYPE]
+valid_object_types = [*list(ALL_INDEX_TYPES), CONTENT_FILE_TYPE]
 
 
 class Command(BaseCommand):

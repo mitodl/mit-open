@@ -25,3 +25,6 @@ class PercolateQuery(TimestampedModel):
 
     def __str__(self):
         return f"Percolate query {self.id}: {self.query}"
+
+    class Meta:
+        unique_together = (("source_type", "query"),)
