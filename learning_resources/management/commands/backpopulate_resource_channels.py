@@ -38,7 +38,7 @@ class Command(BaseCommand):
             )
         super().add_arguments(parser)
 
-    def handle(self, *args, **options):  # noqa: ARG002
+    def handle(self, *args, **options):  # noqa: ARG002, C901
         """Create channels for topics, departments, offerors"""
         start = now_in_utc()
         pm = get_plugin_manager()
@@ -61,9 +61,16 @@ class Command(BaseCommand):
         if options["all"] or options[ChannelType.topic.name]:
             created = 0
             self.stdout.write("Creating topic channels")
-            for topic in LearningResourceTopic.objects.all():
+            for topic in LearningResourceTopic.objects.filter(
+                learningresource__isnull=False
+            ):
                 if hook.topic_upserted(topic=topic)[0][1]:
                     created += 1
+            # Remove topics and channels without any associated learning resources
+            for topic in LearningResourceTopic.objects.filter(
+                learningresource__isnull=True
+            ):
+                hook.topic_delete(topic=topic)
             self.stdout.write(f"Finished creating channels for {created} topics")
         total_seconds = (now_in_utc() - start).total_seconds()
         self.stdout.write(

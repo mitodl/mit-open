@@ -293,7 +293,11 @@ def upsert_offered_by_data():
                 )
                 offeror_upserted_actions(offered_by)
                 offerors.append(offeror_fields["name"])
-            LearningResourceOfferor.objects.exclude(name__in=offerors).delete()
+            invalid_offerors = LearningResourceOfferor.objects.exclude(
+                name__in=offerors
+            )
+            for offeror in invalid_offerors:
+                offeror_delete_actions(offeror)
 
 
 def upsert_platform_data():
@@ -400,6 +404,15 @@ def topic_upserted_actions(topic: LearningResourceTopic):
     hook.topic_upserted(topic=topic)
 
 
+def topic_delete_actions(topic: LearningResourceTopic):
+    """
+    Trigger plugin function to delete a LearningResourceTopic
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.topic_delete(topic=topic)
+
+
 def department_upserted_actions(department: LearningResourceDepartment):
     """
     Trigger plugins when a LearningResourceDepartment is created or updated
@@ -409,6 +422,15 @@ def department_upserted_actions(department: LearningResourceDepartment):
     hook.department_upserted(department=department)
 
 
+def department_delete_actions(department: LearningResourceDepartment):
+    """
+    Trigger plugin function to delete a LearningResourceDepartment
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.department_delete(department=department)
+
+
 def offeror_upserted_actions(offeror: LearningResourceOfferor):
     """
     Trigger plugins when a LearningResourceOfferor is created or updated
@@ -416,3 +438,12 @@ def offeror_upserted_actions(offeror: LearningResourceOfferor):
     pm = get_plugin_manager()
     hook = pm.hook
     hook.offeror_upserted(offeror=offeror)
+
+
+def offeror_delete_actions(offeror: LearningResourceOfferor):
+    """
+    Trigger plugin function to delete a LearningResourceOfferor
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.offeror_delete(offeror=offeror)

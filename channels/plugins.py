@@ -40,6 +40,18 @@ class ChannelPlugin:
         return topic_detail.channel, False
 
     @hookimpl
+    def topic_delete(self, topic):
+        """
+        Delete the topic and any existing channel for that topic
+
+        Args:
+            offeror(LearningResourceOfferor): The offeror to delete
+
+        """
+        FieldChannel.objects.filter(topic_detail__topic=topic).delete()
+        topic.delete()
+
+    @hookimpl
     def department_upserted(self, department):
         """
         Create a channel for the department if it doesn't already exist
@@ -63,6 +75,18 @@ class ChannelPlugin:
         return dept_detail.channel, False
 
     @hookimpl
+    def department_delete(self, department):
+        """
+        Delete the department and any existing channel for that department
+
+        Args:
+            department(LearningResourceDepartment): The department to delete
+
+        """
+        FieldChannel.objects.filter(department_detail__department=department).delete()
+        department.delete()
+
+    @hookimpl
     def offeror_upserted(self, offeror):
         """
         Create a channel for the offeror if it doesn't already exist
@@ -80,3 +104,15 @@ class ChannelPlugin:
             ChannelOfferorDetail.objects.create(channel=channel, offeror=offeror)
             return channel, True
         return offeror_detail.channel, False
+
+    @hookimpl
+    def offeror_delete(self, offeror):
+        """
+        Delete the offeror and any existing channel for that offeror
+
+        Args:
+            offeror(LearningResourceOfferor): The offeror to delete
+
+        """
+        FieldChannel.objects.filter(offeror_detail__offeror=offeror).delete()
+        offeror.delete()
