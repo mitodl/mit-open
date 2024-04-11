@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.8.0
+Version 0.8.0 (Released April 11, 2024)
 -------------
 
 - Channel Search (#740)
