@@ -19,20 +19,12 @@ type SearchChip = {
 
 const SEARCH_CHIPS: SearchChip[] = [
   {
-    label: "Newest",
-    href: "/search",
-  },
-  {
-    label: "Most Popular",
-    href: "/search",
-  },
-  {
     label: "AI Courses",
-    href: "/search",
+    href: "/search?topic=Artificial+Intelligence&resource_type=course",
   },
   {
     label: "Engineering Courses",
-    href: "/search",
+    href: "/search?topic=Engineering&resource_type=course",
   },
   {
     label: "Explore All",
@@ -47,12 +39,6 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 110px;
-  padding-bottom: 110px;
-  ${({ theme }) => theme.breakpoints.down("md")} {
-    padding-top: 55px;
-    padding-bottom: 55px;
-  }
   ${({ theme }) => theme.breakpoints.down("sm")} {
     display: none;
   }
@@ -61,6 +47,16 @@ const ImageContainer = styled.div`
     max-width: 100%;
   }
 `
+
+const HeroContainer = styled.div`
+  display: flex;
+  margin-top: 75px;
+  margin-bottom: 55px;
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    margin-top: 55px;
+  }
+`
+
 const SearchContainer = styled.div`
   flex: 1;
   display: flex;
@@ -94,7 +90,7 @@ const HeroSearch: React.FC = () => {
     [navigate],
   )
   return (
-    <Stack direction="row">
+    <HeroContainer>
       <SearchContainer>
         <Typography
           typography={{ xs: "h3", md: "h1" }}
@@ -129,7 +125,7 @@ const HeroSearch: React.FC = () => {
       <ImageContainer>
         <img src="/static/images/hero_woman.svg" />
       </ImageContainer>
-    </Stack>
+    </HeroContainer>
   )
 }
 
