@@ -53,7 +53,7 @@ See [learning_resources/management/commands](learning_resources/management/comma
 
 ### Frontend Development
 
-The frontend package root is at [./frontends](./frontends). A `watch` container is provided to rebuild the front end when there are changes to source files, which is started alongside backing services with `docker compose up`.
+The frontend package root is at [./frontends](./frontends). A `watch` container is provided to serve and rebuild the front end when there are changes to source files, which is started alongside backing services with `docker compose up`.
 
 Package scripts are also provided for building and serving the frontend in isolation. More detail can be found in the [Frontend README](./frontends/README.md#frontend-development).
 

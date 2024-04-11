@@ -54,13 +54,19 @@ For front end development, at minumum we need these containers.
 docker compose up nginx web db watch
 ```
 
-In this mode, the watch container listens for changes and builds the front end (with `webpack build --watch`) to the local filesystem at `./frontends/mit-open/build`. This is mounted to the `nginx` container for it to serve the static bundle, while routing backend paths to the `web` service.
+In this mode, the watch container starts Webpack Dev Server and listens for changes, and building the front end to the local filesystem at `./frontends/mit-open/build`. This is mounted to the `nginx` container for it to serve the static bundle, while routing backend paths to the `web` service.
 
-The application is served at `http://localhost:8063` and changes are reflected on page refresh.
+#### Serving on 8063
+
+The application is served at `http://localhost:8063` and changes are reflected on page refresh. Note that there is no [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) on port 8063.
+
+#### Serving on 8062
+
+The Webpack Dev Server running in the `watch` container can be reached directly at `http://localhost:8062` to load from its live in-memory bundle and make use of the Hot Module Replacement socket.
 
 ### Frontend Dev Server with Local Backend
 
-In this mode the front end is served with Wepback Dev Server, enabling Hot Module Replacement and faster feedback to changes. Dev Server proxies API requests through to a locally running backend stack.
+In this mode we run Wepback Dev Server directly outside of Docker. Dev Server proxies API requests through to a locally running backend stack.
 
 Run the front end with:
 

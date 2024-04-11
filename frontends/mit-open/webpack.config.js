@@ -9,7 +9,8 @@ const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 
-const { NODE_ENV, PORT, API_BASE_URL, WEBPACK_ANALYZE } = process.env
+const { NODE_ENV, ENVIRONMENT, PORT, API_BASE_URL, WEBPACK_ANALYZE } =
+  process.env
 
 const MITOPEN_FEATURES_PREFIX = "FEATURE_"
 
@@ -124,6 +125,9 @@ module.exports = (env, argv) => {
           posthog: getPostHogSettings(),
         },
       }),
+      new webpack.EnvironmentPlugin({
+        ENVIRONMENT: "production",
+      }),
     ]
       .concat(
         isProduction
@@ -178,16 +182,18 @@ module.exports = (env, argv) => {
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
-      hot: true,
-      host: "::",
+      hot: "only",
+      liveReload: false,
       historyApiFallback: true,
       static: {
         directory: path.join(__dirname, "public"),
         publicPath: "/static",
       },
       devMiddleware: {
-        index: false,
+        writeToDisk: ENVIRONMENT === "docker",
       },
+
+      host: ENVIRONMENT === "docker" ? "0.0.0.0" : "::",
       proxy: [
         {
           context: [

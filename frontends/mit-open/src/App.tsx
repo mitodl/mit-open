@@ -13,6 +13,12 @@ Sentry.init({
   environment: APP_SETTINGS.environment,
 })
 
+// This is needed for HMR to work, pending Webpack fix for https://github.com/webpack-contrib/webpack-hot-middleware/issues/390
+if (["local", "docker"].includes(process.env.ENVIRONMENT!)) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ;(module as any).hot?.accept()
+}
+
 const container = document.getElementById("app-container")
 invariant(container, "Could not find container element")
 const root = createRoot(container)

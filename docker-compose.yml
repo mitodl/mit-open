@@ -88,7 +88,10 @@ services:
       /bin/sh -c 'yarn rebuild && yarn watch:docker'
     environment:
       NODE_ENV: ${NODE_ENV:-development}
+      PORT: 8062
     env_file: .env
+    ports:
+      - "8062:8062"
     volumes:
       - ./frontends:/src
 
