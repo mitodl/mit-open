@@ -2,7 +2,6 @@ import React from "react"
 import { ThemeProvider } from "ol-components"
 
 import { Preview } from "@storybook/react"
-import { IndexEntry } from "@storybook/types"
 import GlobalStyles from "../src/GlobalStyles"
 
 const preview: Preview = {
