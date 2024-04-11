@@ -476,6 +476,7 @@ def serialize_bulk_percolators(ids):
     for percolator in PercolateQuery.objects.filter(id__in=ids):
         yield {
             "_id": percolator.id,
+            "query": {**remove_child_queries(percolator.query)},
         }
 
 
