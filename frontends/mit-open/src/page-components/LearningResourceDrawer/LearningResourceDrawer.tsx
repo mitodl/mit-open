@@ -9,10 +9,27 @@ import { usePostHog } from "posthog-js/react"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
+const useCapturePageView = (resourceId: number, isOpen: boolean) => {
+  const resource = useLearningResourcesDetail(Number(resourceId))
+  const posthog = usePostHog()
+
+  if (APP_SETTINGS.posthog?.enabled && resource.isSuccess && isOpen) {
+    posthog.capture("lrd_view", {
+      resourceId: resource.data.id || "unknown",
+      readableId: resource.data.readable_id,
+      platformCode: resource.data.platform?.code,
+      resourceType: resource.data.resource_type,
+    })
+  }
+}
+
 const DrawerContent: React.FC<{
   resourceId: number
-}> = ({ resourceId }) => {
+  isOpen: boolean
+}> = ({ resourceId, isOpen }) => {
   const resource = useLearningResourcesDetail(Number(resourceId))
+  useCapturePageView(Number(resourceId), isOpen)
+
   return (
     <ExpandedLearningResourceDisplay
       imgConfig={imgConfigs.large}
@@ -28,25 +45,6 @@ const PAPER_PROPS: RoutedDrawerProps["PaperProps"] = {
   },
 }
 
-const CapturePageView: React.FC<{
-  resourceId: number
-  open: boolean
-}> = (props) => {
-  const { resourceId, open } = props
-  const resource = useLearningResourcesDetail(Number(resourceId))
-  const posthog = usePostHog()
-
-  if (APP_SETTINGS.posthog?.enabled && resource.isSuccess && open) {
-    posthog.capture("lrd_view", {
-      resourceId: resourceId || "unknown",
-      readableId: resource.data.readable_id,
-      platformCode: resource.data.platform?.code,
-      resourceType: resource.data.resource_type,
-    })
-  }
-  return <></>
-}
-
 const LearningResourceDrawer = () => {
   return (
     <RoutedDrawer
@@ -54,12 +52,13 @@ const LearningResourceDrawer = () => {
       requiredParams={RESOURCE_DRAWER_PARAMS}
       PaperProps={PAPER_PROPS}
     >
-      {({ params, open }) => (
-        <>
-          <DrawerContent resourceId={Number(params.resource)} />
-          <CapturePageView open={open} resourceId={Number(params.resource)} />
-        </>
-      )}
+      {({ params, open }) => {
+        return (
+          <>
+            <DrawerContent resourceId={Number(params.resource)} isOpen={open} />
+          </>
+        )
+      }}
     </RoutedDrawer>
   )
 }
