@@ -48,15 +48,6 @@ const ImageContainer = styled.div`
   }
 `
 
-const HeroContainer = styled.div`
-  display: flex;
-  margin-top: 75px;
-  margin-bottom: 55px;
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    margin-top: 55px;
-  }
-`
-
 const SearchContainer = styled.div`
   flex: 1;
   display: flex;
@@ -90,7 +81,7 @@ const HeroSearch: React.FC = () => {
     [navigate],
   )
   return (
-    <HeroContainer>
+    <Stack direction="row">
       <SearchContainer>
         <Typography
           typography={{ xs: "h3", md: "h1" }}
@@ -116,6 +107,7 @@ const HeroSearch: React.FC = () => {
             <ChipLink
               key={index}
               size="small"
+              color="default"
               label={<Typography variant="subtitle4">{label}</Typography>}
               {...others}
             />
@@ -125,7 +117,7 @@ const HeroSearch: React.FC = () => {
       <ImageContainer>
         <img src="/static/images/hero_woman.svg" />
       </ImageContainer>
-    </HeroContainer>
+    </Stack>
   )
 }
 

@@ -1,5 +1,5 @@
 import React from "react"
-import { Container } from "ol-components"
+import { Container, styled } from "ol-components"
 import TabbedCarousel, {
   TabbedCarouselProps,
 } from "@/page-components/TabbedCarousel/TabbedCarousel"
@@ -51,19 +51,40 @@ const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
   },
 ]
 
+const FullWidthBackground = styled.div`
+  background-image: linear-gradient(
+      90deg,
+      rgb(255 255 255 / 100%) 0%,
+      rgb(255 255 255 / 80%) 100%
+    ),
+    url("/static/images/hero-background-texture.jpeg");
+  background-size: cover;
+  padding-top: 75px;
+
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    padding-top: 55px;
+  }
+`
+
 const HomePage: React.FC = () => {
   return (
-    <Container>
-      <HeroSearch />
-      <section>
-        <h2>Upcoming Courses</h2>
-        <TabbedCarousel config={UPCOMING_COURSES_CAROUSEL} />
-      </section>
-      <section>
-        <h2>Media</h2>
-        <TabbedCarousel config={MEDIA_CAROUSEL} />
-      </section>
-    </Container>
+    <>
+      <FullWidthBackground>
+        <Container>
+          <HeroSearch />
+        </Container>
+      </FullWidthBackground>
+      <Container>
+        <section>
+          <h2>Upcoming Courses</h2>
+          <TabbedCarousel config={UPCOMING_COURSES_CAROUSEL} />
+        </section>
+        <section>
+          <h2>Media</h2>
+          <TabbedCarousel config={MEDIA_CAROUSEL} />
+        </section>
+      </Container>
+    </>
   )
 }
 
