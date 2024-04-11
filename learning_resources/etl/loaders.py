@@ -75,10 +75,11 @@ def load_topics(resource, topics_data):
         topics = []
 
         for topic_data in topics_data:
-            topic, _ = LearningResourceTopic.objects.get_or_create(
+            topic, created = LearningResourceTopic.objects.get_or_create(
                 name=topic_data["name"]
             )
-            topic_upserted_actions(topic)
+            if created:
+                topic_upserted_actions(topic)
             topics.append(topic)
 
         resource.topics.set(topics)

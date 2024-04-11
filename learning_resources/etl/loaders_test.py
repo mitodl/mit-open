@@ -553,7 +553,7 @@ def test_load_topics(mocker, parent_factory, topics_exist):
     load_topics(parent.learning_resource, [{"name": topic.name} for topic in topics])
 
     assert parent.learning_resource.topics.count() == len(topics)
-    assert mock_pluggy.call_count == len(topics)
+    assert mock_pluggy.call_count == (0 if topics_exist else len(topics))
 
     load_topics(parent.learning_resource, None)
 
