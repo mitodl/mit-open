@@ -12,7 +12,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-adapter-ckfinder": "^40.1.0",
     "@ckeditor/ckeditor5-autoformat": "^40.1.0",
-    "@ckeditor/ckeditor5-basic-styles": "^40.1.0",
+    "@ckeditor/ckeditor5-basic-styles": "^41.0.0",
     "@ckeditor/ckeditor5-block-quote": "^40.1.0",
     "@ckeditor/ckeditor5-cloud-services": "^40.1.0",
     "@ckeditor/ckeditor5-core": "^40.1.0",
