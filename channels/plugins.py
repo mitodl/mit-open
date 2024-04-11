@@ -79,4 +79,4 @@ class ChannelPlugin:
             )
             ChannelOfferorDetail.objects.create(channel=channel, offeror=offeror)
             return channel, True
-        return offeror_detail, False
+        return offeror_detail.channel, False
