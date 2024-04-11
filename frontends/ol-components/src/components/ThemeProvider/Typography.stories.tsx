@@ -65,9 +65,6 @@ export const Buttons: Story = {
   render: () => {
     return (
       <Stack spacing={2} direction="row" alignItems="center">
-        <Button size="micro" variant="outlined">
-          Micro
-        </Button>
         <Button size="small" variant="outlined">
           Small
         </Button>

@@ -19,13 +19,6 @@ const buttonComponent: NonNullable<ThemeOptions["components"]>["MuiButton"] = {
         fontSize: pxToRem(12),
       },
     },
-    {
-      props: { size: "micro" },
-      style: {
-        fontSize: pxToRem(10),
-        padding: "2px 3px",
-      },
-    },
   ],
 }
 
