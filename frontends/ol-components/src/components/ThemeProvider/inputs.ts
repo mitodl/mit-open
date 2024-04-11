@@ -10,7 +10,7 @@ const inputBaseComponent: NonNullable<
       props: { size: "hero" },
       style: {
         padding: "8px 16px",
-        lineHeight: pxToRem(40),
+        height: pxToRem(56),
       },
     },
     {

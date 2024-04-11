@@ -16,9 +16,9 @@ const colors = {
   colorGray3: "#b0b0b0",
   colorGray4: "#898a8b",
   colorGray5: "#000",
-  colorRed1: "#e3d5d5",
-  colorRed2: "#d6b2b3",
-  colorRed3: "#a31f34",
+  colorRed1: "#d6b2b3",
+  colorRed2: "#a31f34",
+  colorRed3: "#750014",
   colorRed4: "#57081a",
   colorRed5: "#30020e",
   colorBlue1: "#edeff5",
@@ -47,7 +47,7 @@ const custom = {
   colorBackground: colors.colorBlue1,
   colorBackgroundLight: colors.colorGray1,
   fontColorLight: colors.colorGray3,
-  fontColorDefault: colors.colorBlue5,
+  fontColorDefault: "#000",
   fontFamilyDefault: "Roboto, helvetica, arial, sans-serif !important",
   fontSizeSmall: 12,
   fontSizeNormal: 16,
@@ -94,8 +94,11 @@ const BREAKPOINTS = {
 const themeOptions: ThemeOptions = {
   custom: custom,
   palette: {
+    text: {
+      primary: "#000",
+    },
     primary: {
-      main: "#a31f34",
+      main: "#750014",
     },
     secondary: {
       main: "#03152d",

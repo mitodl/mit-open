@@ -19,7 +19,6 @@ const ChipLink = React.forwardRef<HTMLAnchorElement, ChipLinkProps>(
     <Chip
       variant="outlined"
       {...others}
-      color="primary"
       ref={ref}
       // Use React Router's Link
       component={Link}
