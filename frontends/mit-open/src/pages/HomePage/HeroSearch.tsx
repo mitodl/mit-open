@@ -7,6 +7,7 @@ import {
   Stack,
   styled,
   ChipLink,
+  useMuiBreakpointAtLeast,
 } from "ol-components"
 import type { ChipLinkProps } from "ol-components"
 
@@ -80,6 +81,10 @@ const HeroSearch: React.FC = () => {
     },
     [navigate],
   )
+  const isMobile = !useMuiBreakpointAtLeast("sm")
+  const placeholder = isMobile
+    ? "Search subject, dept, professor, or course"
+    : "Search for non-degree subject, dept, professor, or course"
   return (
     <Stack direction="row">
       <SearchContainer>
@@ -91,8 +96,8 @@ const HeroSearch: React.FC = () => {
         </Typography>
         <Typography>A place for all non-degree learning.</Typography>
         <SearchInputStyled
-          placeholder="Search for subject, department, professor, or course"
-          size="hero"
+          placeholder={placeholder}
+          size={isMobile ? "medium" : "hero"}
           fullWidth
           value={searchText}
           onChange={onSearchChange}

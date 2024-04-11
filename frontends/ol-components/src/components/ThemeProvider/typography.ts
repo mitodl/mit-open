@@ -1,4 +1,5 @@
 import type { ThemeOptions } from "@mui/material/styles"
+import { createTheme } from "@mui/material/styles"
 
 /**
  * This function converts from pixels to rems, assuming a base font size of 16px
@@ -92,4 +93,10 @@ const component: NonNullable<ThemeOptions["components"]>["MuiTypography"] = {
   },
 }
 
-export { globalSettings, component, pxToRem }
+const { typography } = createTheme({
+  typography: globalSettings,
+  // @ts-expect-error: we only care about typography from this theme
+  custom: {},
+})
+
+export { globalSettings, component, pxToRem, typography }

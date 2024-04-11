@@ -79,8 +79,9 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
             aria-label="Search"
             className={props.classNameSearch}
             onClick={handleSubmit}
+            size="small"
           >
-            <SearchIcon sx={searchIconAdjustments} />
+            <SearchIcon fontSize="inherit" sx={searchIconAdjustments} />
           </IconButton>
         </InputAdornment>
       }

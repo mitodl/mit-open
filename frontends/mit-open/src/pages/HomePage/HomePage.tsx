@@ -59,10 +59,12 @@ const FullWidthBackground = styled.div`
     ),
     url("/static/images/hero-background-texture.jpeg");
   background-size: cover;
-  padding-top: 75px;
+  padding-top: 120px;
+  padding-bottom: 120px;
 
   ${({ theme }) => theme.breakpoints.down("sm")} {
     padding-top: 55px;
+    padding-bottom: 55px;
   }
 `
 
