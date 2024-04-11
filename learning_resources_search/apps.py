@@ -12,7 +12,7 @@ class SearchAppConfig(AppConfig):
         """Application is ready"""
         from learning_resources_search import (
             connection,
-            receivers,  # noqa: F401
+            signals,  # noqa: F401
         )
 
         connection.configure_connections()
