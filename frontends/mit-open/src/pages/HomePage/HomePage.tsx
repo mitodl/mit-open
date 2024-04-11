@@ -9,9 +9,56 @@ import {
 } from "ol-components"
 import type { SearchInputProps } from "ol-components"
 import { GridContainer } from "@/components/GridLayout/GridLayout"
-import { useLearningResourcesList } from "api/hooks/learningResources"
-import HomePageCarousel from "./HomePageCarousel"
 import { useNavigate } from "react-router"
+import TabbedCarousel, {
+  TabbedCarouselProps,
+} from "@/page-components/TabbedCarousel/TabbedCarousel"
+
+const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
+  {
+    label: "All",
+    pageSize: 4,
+    data: {
+      type: "resources_upcoming",
+      params: { resource_type: ["course"], limit: 12 },
+    },
+  },
+  {
+    label: "Professional",
+    pageSize: 4,
+    data: {
+      type: "resources_upcoming",
+      params: { professional: true, resource_type: ["course"], limit: 12 },
+    },
+  },
+]
+
+const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
+  {
+    label: "All",
+    pageSize: 6,
+    data: {
+      type: "resources",
+      params: { resource_type: ["video", "podcast"], limit: 12 },
+    },
+  },
+  {
+    label: "Videos",
+    pageSize: 6,
+    data: {
+      type: "resources",
+      params: { resource_type: ["video"], limit: 12 },
+    },
+  },
+  {
+    label: "Podcasts",
+    pageSize: 6,
+    data: {
+      type: "resources",
+      params: { resource_type: ["podcast"], limit: 12 },
+    },
+  },
+]
 
 const EXPLORE_BUTTONS = [
   {
@@ -148,7 +195,6 @@ const HomePage: React.FC = () => {
     },
     [navigate],
   )
-  const resourcesQuery = useLearningResourcesList()
 
   return (
     <HomePageContainer className="homepage">
@@ -190,10 +236,14 @@ const HomePage: React.FC = () => {
           </div>
         </Grid>
       </TopContainer>
-      <HomePageCarousel
-        title={<h2>Upcoming Courses</h2>}
-        query={resourcesQuery}
-      />
+      <section>
+        <h2>Upcoming Courses</h2>
+        <TabbedCarousel config={UPCOMING_COURSES_CAROUSEL} />
+      </section>
+      <section>
+        <h2>Media</h2>
+        <TabbedCarousel config={MEDIA_CAROUSEL} />
+      </section>
     </HomePageContainer>
   )
 }

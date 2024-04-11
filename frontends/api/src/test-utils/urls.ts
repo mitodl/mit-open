@@ -12,6 +12,7 @@ import type {
   ArticlesApi,
   UserlistsApi,
   OfferorsApi,
+  PlatformsApi,
 } from "../generated/v1"
 import type { BaseAPI } from "../generated/v1/base"
 
@@ -33,6 +34,8 @@ type Params<API extends BaseAPI, K extends keyof API> = API[K] extends Callable
 const learningResources = {
   list: (params?: Params<LRApi, "learningResourcesList">) =>
     `/api/v1/learning_resources/${query(params)}`,
+  upcoming: (params?: Params<LRApi, "learningResourcesUpcomingList">) =>
+    `/api/v1/learning_resources/upcoming/${query(params)}`,
   details: (params: Params<LRApi, "learningResourcesRetrieve">) =>
     `/api/v1/learning_resources/${params.id}/`,
 }
@@ -40,6 +43,11 @@ const learningResources = {
 const offerors = {
   list: (params?: Params<OfferorsApi, "offerorsList">) =>
     `/api/v1/offerors/${query(params)}`,
+}
+
+const platforms = {
+  list: (params?: Params<PlatformsApi, "platformsList">) =>
+    `/api/v1/platforms/${query(params)}`,
 }
 
 const topics = {
@@ -121,4 +129,5 @@ export {
   widgetLists,
   offerors,
   userMe,
+  platforms,
 }

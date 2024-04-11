@@ -6,10 +6,12 @@ import {
   topicsApi,
   userListsApi,
   offerorsApi,
+  platformsApi,
 } from "../../clients"
 import axiosInstance from "../../axios"
 import type {
   LearningResourcesApiLearningResourcesListRequest as LRListRequest,
+  LearningResourcesApiLearningResourcesUpcomingListRequest as LRUpcomingListRequest,
   TopicsApiTopicsListRequest as TopicsListRequest,
   LearningpathsApiLearningpathsItemsListRequest as LPResourcesListRequest,
   LearningpathsApiLearningpathsListRequest as LPListRequest,
@@ -22,6 +24,7 @@ import type {
   PaginatedUserListRelationshipList,
   UserList,
   OfferorsApiOfferorsListRequest,
+  PlatformsApiPlatformsListRequest,
 } from "../../generated/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
@@ -39,6 +42,13 @@ const learningResources = createQueryKeys("learningResources", {
     queryFn: () =>
       learningResourcesApi
         .learningResourcesList(params)
+        .then((res) => res.data),
+  }),
+  upcoming: (params: LRUpcomingListRequest) => ({
+    queryKey: [params],
+    queryFn: () =>
+      learningResourcesApi
+        .learningResourcesUpcomingList(params)
         .then((res) => res.data),
   }),
   topics: (params: TopicsListRequest) => ({
@@ -121,6 +131,12 @@ const learningResources = createQueryKeys("learningResources", {
       queryFn: () => offerorsApi.offerorsList(params).then((res) => res.data),
     }
   },
+  platforms: (params: PlatformsApiPlatformsListRequest) => {
+    return {
+      queryKey: [params],
+      queryFn: () => platformsApi.platformsList(params).then((res) => res.data),
+    }
+  },
 })
 
 const learningPathHasResource =
@@ -170,6 +186,7 @@ const invalidateResourceQueries = (
    */
   const lists = [
     learningResources.list._def,
+    learningResources.upcoming._def,
     learningResources.learningpaths._ctx.list._def,
     learningResources.userlists._ctx.list._def,
   ]

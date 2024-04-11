@@ -26,6 +26,7 @@ import type {
   UserList,
   UserListRelationshipRequest,
   MicroUserListRelationship,
+  PlatformsApiPlatformsListRequest,
 } from "../../generated/v1"
 import learningResources, {
   invalidateResourceQueries,
@@ -39,6 +40,16 @@ const useLearningResourcesList = (
 ) => {
   return useQuery({
     ...learningResources.list(params),
+    ...opts,
+  })
+}
+
+const useLearningResourcesUpcoming = (
+  params: LRListRequest = {},
+  opts: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useQuery({
+    ...learningResources.upcoming(params),
     ...opts,
   })
 }
@@ -403,8 +414,19 @@ const useListItemMove = () => {
   })
 }
 
+const usePlatformsList = (
+  params: PlatformsApiPlatformsListRequest = {},
+  opts: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useQuery({
+    ...learningResources.platforms(params),
+    ...opts,
+  })
+}
+
 export {
   useLearningResourcesList,
+  useLearningResourcesUpcoming,
   useLearningResourcesDetail,
   useLearningResourceTopics,
   useLearningPathsList,
@@ -428,4 +450,5 @@ export {
   useInfiniteUserListItems,
   useOfferorsList,
   useListItemMove,
+  usePlatformsList,
 }
