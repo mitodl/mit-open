@@ -1669,7 +1669,7 @@ export interface PaginatedArticleList {
    * @type {number}
    * @memberof PaginatedArticleList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1687,7 +1687,7 @@ export interface PaginatedArticleList {
    * @type {Array<Article>}
    * @memberof PaginatedArticleList
    */
-  results?: Array<Article>
+  results: Array<Article>
 }
 /**
  *
@@ -1700,7 +1700,7 @@ export interface PaginatedContentFileList {
    * @type {number}
    * @memberof PaginatedContentFileList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1718,7 +1718,7 @@ export interface PaginatedContentFileList {
    * @type {Array<ContentFile>}
    * @memberof PaginatedContentFileList
    */
-  results?: Array<ContentFile>
+  results: Array<ContentFile>
 }
 /**
  *
@@ -1731,7 +1731,7 @@ export interface PaginatedCourseResourceList {
    * @type {number}
    * @memberof PaginatedCourseResourceList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1749,7 +1749,7 @@ export interface PaginatedCourseResourceList {
    * @type {Array<CourseResource>}
    * @memberof PaginatedCourseResourceList
    */
-  results?: Array<CourseResource>
+  results: Array<CourseResource>
 }
 /**
  *
@@ -1762,7 +1762,7 @@ export interface PaginatedLearningPathRelationshipList {
    * @type {number}
    * @memberof PaginatedLearningPathRelationshipList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1780,7 +1780,7 @@ export interface PaginatedLearningPathRelationshipList {
    * @type {Array<LearningPathRelationship>}
    * @memberof PaginatedLearningPathRelationshipList
    */
-  results?: Array<LearningPathRelationship>
+  results: Array<LearningPathRelationship>
 }
 /**
  *
@@ -1793,7 +1793,7 @@ export interface PaginatedLearningPathResourceList {
    * @type {number}
    * @memberof PaginatedLearningPathResourceList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1811,7 +1811,7 @@ export interface PaginatedLearningPathResourceList {
    * @type {Array<LearningPathResource>}
    * @memberof PaginatedLearningPathResourceList
    */
-  results?: Array<LearningPathResource>
+  results: Array<LearningPathResource>
 }
 /**
  *
@@ -1824,7 +1824,7 @@ export interface PaginatedLearningResourceContentTagList {
    * @type {number}
    * @memberof PaginatedLearningResourceContentTagList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1842,7 +1842,7 @@ export interface PaginatedLearningResourceContentTagList {
    * @type {Array<LearningResourceContentTag>}
    * @memberof PaginatedLearningResourceContentTagList
    */
-  results?: Array<LearningResourceContentTag>
+  results: Array<LearningResourceContentTag>
 }
 /**
  *
@@ -1855,7 +1855,7 @@ export interface PaginatedLearningResourceDepartmentList {
    * @type {number}
    * @memberof PaginatedLearningResourceDepartmentList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1873,7 +1873,7 @@ export interface PaginatedLearningResourceDepartmentList {
    * @type {Array<LearningResourceDepartment>}
    * @memberof PaginatedLearningResourceDepartmentList
    */
-  results?: Array<LearningResourceDepartment>
+  results: Array<LearningResourceDepartment>
 }
 /**
  *
@@ -1886,7 +1886,7 @@ export interface PaginatedLearningResourceList {
    * @type {number}
    * @memberof PaginatedLearningResourceList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1904,7 +1904,7 @@ export interface PaginatedLearningResourceList {
    * @type {Array<LearningResource>}
    * @memberof PaginatedLearningResourceList
    */
-  results?: Array<LearningResource>
+  results: Array<LearningResource>
 }
 /**
  *
@@ -1917,7 +1917,7 @@ export interface PaginatedLearningResourceOfferorList {
    * @type {number}
    * @memberof PaginatedLearningResourceOfferorList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1935,7 +1935,7 @@ export interface PaginatedLearningResourceOfferorList {
    * @type {Array<LearningResourceOfferor>}
    * @memberof PaginatedLearningResourceOfferorList
    */
-  results?: Array<LearningResourceOfferor>
+  results: Array<LearningResourceOfferor>
 }
 /**
  *
@@ -1948,7 +1948,7 @@ export interface PaginatedLearningResourcePlatformList {
    * @type {number}
    * @memberof PaginatedLearningResourcePlatformList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1966,7 +1966,7 @@ export interface PaginatedLearningResourcePlatformList {
    * @type {Array<LearningResourcePlatform>}
    * @memberof PaginatedLearningResourcePlatformList
    */
-  results?: Array<LearningResourcePlatform>
+  results: Array<LearningResourcePlatform>
 }
 /**
  *
@@ -1979,7 +1979,7 @@ export interface PaginatedLearningResourceRelationshipList {
    * @type {number}
    * @memberof PaginatedLearningResourceRelationshipList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -1997,7 +1997,7 @@ export interface PaginatedLearningResourceRelationshipList {
    * @type {Array<LearningResourceRelationship>}
    * @memberof PaginatedLearningResourceRelationshipList
    */
-  results?: Array<LearningResourceRelationship>
+  results: Array<LearningResourceRelationship>
 }
 /**
  *
@@ -2010,7 +2010,7 @@ export interface PaginatedLearningResourceTopicList {
    * @type {number}
    * @memberof PaginatedLearningResourceTopicList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -2028,7 +2028,7 @@ export interface PaginatedLearningResourceTopicList {
    * @type {Array<LearningResourceTopic>}
    * @memberof PaginatedLearningResourceTopicList
    */
-  results?: Array<LearningResourceTopic>
+  results: Array<LearningResourceTopic>
 }
 /**
  *
@@ -2041,7 +2041,7 @@ export interface PaginatedPodcastEpisodeResourceList {
    * @type {number}
    * @memberof PaginatedPodcastEpisodeResourceList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -2059,7 +2059,7 @@ export interface PaginatedPodcastEpisodeResourceList {
    * @type {Array<PodcastEpisodeResource>}
    * @memberof PaginatedPodcastEpisodeResourceList
    */
-  results?: Array<PodcastEpisodeResource>
+  results: Array<PodcastEpisodeResource>
 }
 /**
  *
@@ -2072,7 +2072,7 @@ export interface PaginatedPodcastResourceList {
    * @type {number}
    * @memberof PaginatedPodcastResourceList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -2090,7 +2090,7 @@ export interface PaginatedPodcastResourceList {
    * @type {Array<PodcastResource>}
    * @memberof PaginatedPodcastResourceList
    */
-  results?: Array<PodcastResource>
+  results: Array<PodcastResource>
 }
 /**
  *
@@ -2103,7 +2103,7 @@ export interface PaginatedProgramResourceList {
    * @type {number}
    * @memberof PaginatedProgramResourceList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -2121,7 +2121,7 @@ export interface PaginatedProgramResourceList {
    * @type {Array<ProgramResource>}
    * @memberof PaginatedProgramResourceList
    */
-  results?: Array<ProgramResource>
+  results: Array<ProgramResource>
 }
 /**
  *
@@ -2134,7 +2134,7 @@ export interface PaginatedUserListList {
    * @type {number}
    * @memberof PaginatedUserListList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -2152,7 +2152,7 @@ export interface PaginatedUserListList {
    * @type {Array<UserList>}
    * @memberof PaginatedUserListList
    */
-  results?: Array<UserList>
+  results: Array<UserList>
 }
 /**
  *
@@ -2165,7 +2165,7 @@ export interface PaginatedUserListRelationshipList {
    * @type {number}
    * @memberof PaginatedUserListRelationshipList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -2183,7 +2183,7 @@ export interface PaginatedUserListRelationshipList {
    * @type {Array<UserListRelationship>}
    * @memberof PaginatedUserListRelationshipList
    */
-  results?: Array<UserListRelationship>
+  results: Array<UserListRelationship>
 }
 /**
  *
@@ -2196,7 +2196,7 @@ export interface PaginatedVideoPlaylistResourceList {
    * @type {number}
    * @memberof PaginatedVideoPlaylistResourceList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -2214,7 +2214,7 @@ export interface PaginatedVideoPlaylistResourceList {
    * @type {Array<VideoPlaylistResource>}
    * @memberof PaginatedVideoPlaylistResourceList
    */
-  results?: Array<VideoPlaylistResource>
+  results: Array<VideoPlaylistResource>
 }
 /**
  *
@@ -2227,7 +2227,7 @@ export interface PaginatedVideoResourceList {
    * @type {number}
    * @memberof PaginatedVideoResourceList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -2245,7 +2245,7 @@ export interface PaginatedVideoResourceList {
    * @type {Array<VideoResource>}
    * @memberof PaginatedVideoResourceList
    */
-  results?: Array<VideoResource>
+  results: Array<VideoResource>
 }
 /**
  * Serializer for LearningResourceInstructor model
