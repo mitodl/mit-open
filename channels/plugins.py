@@ -33,7 +33,7 @@ class ChannelPlugin:
             channel, _ = FieldChannel.objects.get_or_create(
                 name=slugify(topic.name),
                 channel_type=ChannelType.topic.name,
-                defaults={"title": topic.name},
+                defaults={"title": topic.name, "search_filter": f"topic={topic.name}"},
             )
             ChannelTopicDetail.objects.create(channel=channel, topic=topic)
             return channel, True
@@ -66,7 +66,10 @@ class ChannelPlugin:
             channel, _ = FieldChannel.objects.get_or_create(
                 name=slugify(department.name),
                 channel_type=ChannelType.department.name,
-                defaults={"title": department.name},
+                defaults={
+                    "title": department.name,
+                    "search_filter": f"department={department.department_id}",
+                },
             )
             ChannelDepartmentDetail.objects.create(
                 channel=channel, department=department
@@ -99,7 +102,10 @@ class ChannelPlugin:
             channel, _ = FieldChannel.objects.get_or_create(
                 name=offeror.code,
                 channel_type=ChannelType.offeror.name,
-                defaults={"title": offeror.name},
+                defaults={
+                    "title": offeror.name,
+                    "search_filter": f"offeror={offeror.code}",
+                },
             )
             ChannelOfferorDetail.objects.create(channel=channel, offeror=offeror)
             return channel, True

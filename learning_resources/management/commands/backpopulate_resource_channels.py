@@ -22,6 +22,7 @@ class Command(BaseCommand):
             "--all",
             dest="all",
             action="store_true",
+            default=True,
             help="Create channels for all types",
         )
 
@@ -43,7 +44,6 @@ class Command(BaseCommand):
         start = now_in_utc()
         pm = get_plugin_manager()
         hook = pm.hook
-
         if options["all"] or options[ChannelType.department.name]:
             created = 0
             self.stdout.write("Creating department channels")

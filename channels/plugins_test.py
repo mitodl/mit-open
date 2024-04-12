@@ -27,6 +27,7 @@ def test_search_index_plugin_topic_upserted():
     assert channel.topic_detail.topic == topic
     assert channel.title == topic.name
     assert channel.channel_type == ChannelType.topic.name
+    assert channel.search_filter == f"topic={topic.name}"
     same_channel, created = ChannelPlugin().topic_upserted(topic)
     assert channel == same_channel
     assert created is False
@@ -51,6 +52,7 @@ def test_search_index_plugin_department_upserted():
     assert channel.department_detail.department == department
     assert channel.title == department.name
     assert channel.channel_type == ChannelType.department.name
+    assert channel.search_filter == f"department={department.department_id}"
     same_channel, created = ChannelPlugin().department_upserted(department)
     assert channel == same_channel
     assert created is False
@@ -80,6 +82,7 @@ def test_search_index_plugin_offeror_upserted():
     assert channel.offeror_detail.offeror == offeror
     assert channel.title == offeror.name
     assert channel.channel_type == ChannelType.offeror.name
+    assert channel.search_filter == f"offeror={offeror.code}"
     same_channel, created = ChannelPlugin().offeror_upserted(offeror)
     assert channel == same_channel
     assert created is False
