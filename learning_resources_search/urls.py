@@ -5,6 +5,7 @@ from django.urls import include, re_path
 from learning_resources_search.views import (
     ContentFileSearchView,
     LearningResourcesSearchView,
+    SearchSubscriptionView,
 )
 
 v1_urls = [
@@ -17,6 +18,11 @@ v1_urls = [
         r"content_file_search/",
         ContentFileSearchView.as_view(),
         name="content_file_search",
+    ),
+    re_path(
+        r"learning_resources_search_subscribe/",
+        SearchSubscriptionView.as_view(),
+        name="learning_resources_search_subscribe",
     ),
 ]
 

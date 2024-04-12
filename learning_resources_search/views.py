@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -56,6 +57,44 @@ class LearningResourcesSearchView(ESView):
     @extend_schema(summary="Search")
     def get(self, request):
         request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
+
+        if request_data.is_valid():
+            response = execute_learn_search(
+                request_data.data | {"endpoint": LEARNING_RESOURCE}
+            )
+            return Response(
+                SearchResponseSerializer(response, context={"request": request}).data
+            )
+        else:
+            errors = {}
+            for key, errors_obj in request_data.errors.items():
+                if isinstance(errors_obj, list):
+                    errors[key] = errors_obj
+                else:
+                    errors[key] = list(set(chain(*errors_obj.values())))
+            return Response(errors, status=400)
+
+
+@method_decorator(blocked_ip_exempt, name="dispatch")
+@extend_schema_view(
+    get=extend_schema(
+        parameters=[LearningResourcesSearchRequestSerializer()],
+        responses=LearningResourceSearchResponseSerializer(),
+    ),
+)
+@action(
+    methods=["POST"], detail=False, name="Subscribe/Unsubscribe User to Search Query"
+)
+class SearchSubscriptionView(ESView):
+    """
+    Subscribe a user to a search query
+    """
+
+    permission_classes = (IsAuthenticated,)
+
+    @extend_schema(summary="Search")
+    def post(self, request):
+        request_data = LearningResourcesSearchRequestSerializer(data=request.POST)
 
         if request_data.is_valid():
             response = execute_learn_search(
