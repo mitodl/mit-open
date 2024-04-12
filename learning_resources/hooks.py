@@ -56,6 +56,30 @@ class LearningResourceHooks:
     def resource_run_delete(self, run):
         """Trigger actions to remove a learning resource run"""
 
+    @hookspec
+    def topic_upserted(self, topic, overwrite):
+        """Trigger actions after a learning resource topic is created or updated"""
+
+    @hookspec
+    def topic_delete(self, topic):
+        """Trigger actions to delete a learning resource topic"""
+
+    @hookspec
+    def department_upserted(self, department, overwrite):
+        """Trigger actions after a learning resource department is created or updated"""
+
+    @hookspec
+    def department_delete(self, department):
+        """Trigger actions to delete a learning resource department"""
+
+    @hookspec
+    def offeror_upserted(self, offeror, overwrite):
+        """Trigger actions after a learning resource offeror is created or updated"""
+
+    @hookspec
+    def offeror_delete(self, offeror):
+        """Trigger actions to delete a learning resource offeror"""
+
 
 def get_plugin_manager():
     """Return the plugin manager for learning_resources hooks"""

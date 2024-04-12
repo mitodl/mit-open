@@ -220,13 +220,13 @@ paths:
         name: channel_type
         schema:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_\-]+$
         required: true
       - in: path
         name: name
         schema:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_\-]+$
         required: true
       tags:
       - channels

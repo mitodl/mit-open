@@ -24,6 +24,8 @@ class FieldChannelAdmin(admin.ModelAdmin):
     model = FieldChannel
     exclude = ("widget_list",)
     search_fields = ("name", "title")
+    list_display = ("title", "name", "channel_type")
+    list_filter = ("channel_type",)
     readonly_fields = (
         "field_widget_list",
         "updated_on",
