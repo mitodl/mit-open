@@ -19,18 +19,19 @@ from learning_resources.models import (
 
 
 @pytest.mark.django_db()
-def test_search_index_plugin_topic_upserted():
+@pytest.mark.parametrize("overwrite", [True, False])
+def test_search_index_plugin_topic_upserted(overwrite):
     """The plugin function should create a topic channel"""
     topic = LearningResourceTopicFactory.create()
-    channel, created = ChannelPlugin().topic_upserted(topic)
+    channel, created = ChannelPlugin().topic_upserted(topic, overwrite)
     assert created is True
     assert channel.topic_detail.topic == topic
     assert channel.title == topic.name
     assert channel.channel_type == ChannelType.topic.name
     assert channel.search_filter == f"topic={topic.name}"
-    same_channel, created = ChannelPlugin().topic_upserted(topic)
+    same_channel, upserted = ChannelPlugin().topic_upserted(topic, overwrite)
     assert channel == same_channel
-    assert created is False
+    assert upserted is overwrite
 
 
 @pytest.mark.django_db()
@@ -45,17 +46,18 @@ def test_search_index_plugin_topic_delete():
 
 
 @pytest.mark.django_db()
-def test_search_index_plugin_department_upserted():
+@pytest.mark.parametrize("overwrite", [True, False])
+def test_search_index_plugin_department_upserted(overwrite):
     """The plugin function should create a department channel"""
     department = LearningResourceDepartmentFactory.create()
-    channel, created = ChannelPlugin().department_upserted(department)
+    channel, created = ChannelPlugin().department_upserted(department, overwrite)
     assert channel.department_detail.department == department
     assert channel.title == department.name
     assert channel.channel_type == ChannelType.department.name
     assert channel.search_filter == f"department={department.department_id}"
-    same_channel, created = ChannelPlugin().department_upserted(department)
+    same_channel, upserted = ChannelPlugin().department_upserted(department, overwrite)
     assert channel == same_channel
-    assert created is False
+    assert upserted is overwrite
 
 
 @pytest.mark.django_db()
@@ -75,17 +77,18 @@ def test_search_index_plugin_department_delete():
 
 
 @pytest.mark.django_db()
-def test_search_index_plugin_offeror_upserted():
+@pytest.mark.parametrize("overwrite", [True, False])
+def test_search_index_plugin_offeror_upserted(overwrite):
     """The plugin function should create an offeror channel"""
     offeror = LearningResourceOfferorFactory.create()
-    channel, created = ChannelPlugin().offeror_upserted(offeror)
+    channel, created = ChannelPlugin().offeror_upserted(offeror, overwrite)
     assert channel.offeror_detail.offeror == offeror
     assert channel.title == offeror.name
     assert channel.channel_type == ChannelType.offeror.name
-    assert channel.search_filter == f"offeror={offeror.code}"
-    same_channel, created = ChannelPlugin().offeror_upserted(offeror)
+    assert channel.search_filter == f"offered_by={offeror.code}"
+    same_channel, upserted = ChannelPlugin().offeror_upserted(offeror, overwrite)
     assert channel == same_channel
-    assert created is False
+    assert upserted is overwrite
 
 
 @pytest.mark.django_db()

@@ -26,6 +26,14 @@ class Command(BaseCommand):
             help="Create channels for all types",
         )
 
+        parser.add_argument(
+            "--overwrite",
+            dest="overwrite",
+            action="store_true",
+            default=False,
+            help="Overwrite existing channels",
+        )
+
         for channeL_type in [
             ChannelType.topic.name,
             ChannelType.department.name,
@@ -44,18 +52,20 @@ class Command(BaseCommand):
         start = now_in_utc()
         pm = get_plugin_manager()
         hook = pm.hook
+        overwrite = options["overwrite"]
+        self.stdout.write(f"Overwriting existing channels?: {overwrite}")
         if options["all"] or options[ChannelType.department.name]:
             created = 0
             self.stdout.write("Creating department channels")
             for dept in LearningResourceDepartment.objects.all():
-                if hook.department_upserted(department=dept)[0][1]:
+                if hook.department_upserted(department=dept, overwrite=overwrite)[0][1]:
                     created += 1
             self.stdout.write(f"Created channels for {created} departments")
         if options["all"] or options[ChannelType.offeror.name]:
             created = 0
             self.stdout.write("Creating offeror channels")
             for offeror in LearningResourceOfferor.objects.all():
-                if hook.offeror_upserted(offeror=offeror)[0][1]:
+                if hook.offeror_upserted(offeror=offeror, overwrite=overwrite)[0][1]:
                     created += 1
             self.stdout.write(f"Finished creating channels for {created} offerors")
         if options["all"] or options[ChannelType.topic.name]:
@@ -64,7 +74,7 @@ class Command(BaseCommand):
             for topic in LearningResourceTopic.objects.filter(
                 learningresource__isnull=False
             ):
-                if hook.topic_upserted(topic=topic)[0][1]:
+                if hook.topic_upserted(topic=topic, overwrite=overwrite)[0][1]:
                     created += 1
             # Remove topics and channels without any associated learning resources
             for topic in LearningResourceTopic.objects.filter(

@@ -395,13 +395,13 @@ def resource_run_delete_actions(run: LearningResourceRun):
     hook.resource_run_delete(run=run)
 
 
-def topic_upserted_actions(topic: LearningResourceTopic):
+def topic_upserted_actions(topic: LearningResourceTopic, *, overwrite: bool = False):
     """
     Trigger plugins when a LearningResourceTopic is created or updated
     """
     pm = get_plugin_manager()
     hook = pm.hook
-    hook.topic_upserted(topic=topic)
+    hook.topic_upserted(topic=topic, overwrite=overwrite)
 
 
 def topic_delete_actions(topic: LearningResourceTopic):
@@ -413,13 +413,15 @@ def topic_delete_actions(topic: LearningResourceTopic):
     hook.topic_delete(topic=topic)
 
 
-def department_upserted_actions(department: LearningResourceDepartment):
+def department_upserted_actions(
+    department: LearningResourceDepartment, *, overwrite: bool = False
+):
     """
     Trigger plugins when a LearningResourceDepartment is created or updated
     """
     pm = get_plugin_manager()
     hook = pm.hook
-    hook.department_upserted(department=department)
+    hook.department_upserted(department=department, overwrite=overwrite)
 
 
 def department_delete_actions(department: LearningResourceDepartment):
@@ -431,13 +433,15 @@ def department_delete_actions(department: LearningResourceDepartment):
     hook.department_delete(department=department)
 
 
-def offeror_upserted_actions(offeror: LearningResourceOfferor):
+def offeror_upserted_actions(
+    offeror: LearningResourceOfferor, *, overwrite: bool = False
+):
     """
     Trigger plugins when a LearningResourceOfferor is created or updated
     """
     pm = get_plugin_manager()
     hook = pm.hook
-    hook.offeror_upserted(offeror=offeror)
+    hook.offeror_upserted(offeror=offeror, overwrite=overwrite)
 
 
 def offeror_delete_actions(offeror: LearningResourceOfferor):

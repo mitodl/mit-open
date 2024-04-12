@@ -18,24 +18,25 @@ class ChannelPlugin:
     hookimpl = apps.get_app_config("learning_resources").hookimpl
 
     @hookimpl
-    def topic_upserted(self, topic):
+    def topic_upserted(self, topic, overwrite):
         """
         Create a channel for the topic if it doesn't already exist
 
         Args:
             topic(LearningResourceTopic): The topic that was upserted
+            overwrite(bool): Whether to overwrite the existing channel
 
         Returns:
-            tuple(FieldChannel, bool): Channel and "created" boolean
+            tuple(FieldChannel, bool): Channel and "upserted" boolean
         """
         topic_detail = ChannelTopicDetail.objects.filter(topic=topic).first()
-        if not topic_detail:
-            channel, _ = FieldChannel.objects.get_or_create(
+        if overwrite or not topic_detail:
+            channel, _ = FieldChannel.objects.update_or_create(
                 name=slugify(topic.name),
                 channel_type=ChannelType.topic.name,
                 defaults={"title": topic.name, "search_filter": f"topic={topic.name}"},
             )
-            ChannelTopicDetail.objects.create(channel=channel, topic=topic)
+            ChannelTopicDetail.objects.update_or_create(channel=channel, topic=topic)
             return channel, True
         return topic_detail.channel, False
 
@@ -52,18 +53,23 @@ class ChannelPlugin:
         topic.delete()
 
     @hookimpl
-    def department_upserted(self, department):
+    def department_upserted(self, department, overwrite):
         """
         Create a channel for the department if it doesn't already exist
 
         Args:
             department(LearningResourceDepartment): The department that was upserted
+            overwrite(bool): Whether to overwrite the existing channel
+
+
+        Returns:
+            tuple(FieldChannel, bool): Channel and "upserted" boolean
         """
         dept_detail = ChannelDepartmentDetail.objects.filter(
             department=department
         ).first()
-        if not dept_detail:
-            channel, _ = FieldChannel.objects.get_or_create(
+        if overwrite or not dept_detail:
+            channel, _ = FieldChannel.objects.update_or_create(
                 name=slugify(department.name),
                 channel_type=ChannelType.department.name,
                 defaults={
@@ -71,7 +77,7 @@ class ChannelPlugin:
                     "search_filter": f"department={department.department_id}",
                 },
             )
-            ChannelDepartmentDetail.objects.create(
+            ChannelDepartmentDetail.objects.update_or_create(
                 channel=channel, department=department
             )
             return channel, True
@@ -90,24 +96,30 @@ class ChannelPlugin:
         department.delete()
 
     @hookimpl
-    def offeror_upserted(self, offeror):
+    def offeror_upserted(self, offeror, overwrite):
         """
         Create a channel for the offeror if it doesn't already exist
 
         Args:
             offeror(LearningResourceOfferor): The offeror that was upserted
+            overwrite(bool): Whether to overwrite the existing channel
+
+        Returns:
+            tuple(FieldChannel, bool): Channel and "upserted" boolean
         """
         offeror_detail = ChannelOfferorDetail.objects.filter(offeror=offeror).first()
-        if not offeror_detail:
-            channel, _ = FieldChannel.objects.get_or_create(
+        if overwrite or not offeror_detail:
+            channel, _ = FieldChannel.objects.update_or_create(
                 name=offeror.code,
                 channel_type=ChannelType.offeror.name,
                 defaults={
                     "title": offeror.name,
-                    "search_filter": f"offeror={offeror.code}",
+                    "search_filter": f"offered_by={offeror.code}",
                 },
             )
-            ChannelOfferorDetail.objects.create(channel=channel, offeror=offeror)
+            ChannelOfferorDetail.objects.update_or_create(
+                channel=channel, offeror=offeror
+            )
             return channel, True
         return offeror_detail.channel, False
 

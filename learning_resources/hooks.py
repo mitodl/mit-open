@@ -57,7 +57,7 @@ class LearningResourceHooks:
         """Trigger actions to remove a learning resource run"""
 
     @hookspec
-    def topic_upserted(self, topic):
+    def topic_upserted(self, topic, overwrite):
         """Trigger actions after a learning resource topic is created or updated"""
 
     @hookspec
@@ -65,7 +65,7 @@ class LearningResourceHooks:
         """Trigger actions to delete a learning resource topic"""
 
     @hookspec
-    def department_upserted(self, department):
+    def department_upserted(self, department, overwrite):
         """Trigger actions after a learning resource department is created or updated"""
 
     @hookspec
@@ -73,7 +73,7 @@ class LearningResourceHooks:
         """Trigger actions to delete a learning resource department"""
 
     @hookspec
-    def offeror_upserted(self, offeror):
+    def offeror_upserted(self, offeror, overwrite):
         """Trigger actions after a learning resource offeror is created or updated"""
 
     @hookspec
