@@ -67,4 +67,4 @@ def adjust_search_for_percolator(search):
 
 def adjust_query_for_percolator(query_params):
     search = construct_search(query_params)
-    return adjust_search_for_percolator(search).to_dict()
+    return adjust_search_for_percolator(search).to_dict()["query"]
