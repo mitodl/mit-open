@@ -12,7 +12,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from authentication.decorators import blocked_ip_exempt
-from learning_resources_search.api import execute_learn_search
+from learning_resources_search.api import (
+    execute_learn_search,
+    subscribe_user_to_search_query,
+)
 from learning_resources_search.constants import CONTENT_FILE_TYPE, LEARNING_RESOURCE
 from learning_resources_search.serializers import (
     ContentFileeSearchResponseSerializer,
@@ -97,12 +100,10 @@ class SearchSubscriptionView(ESView):
         request_data = LearningResourcesSearchRequestSerializer(data=request.POST)
 
         if request_data.is_valid():
-            response = execute_learn_search(
-                request_data.data | {"endpoint": LEARNING_RESOURCE}
+            response = subscribe_user_to_search_query(
+                request.user, request_data.data | {"endpoint": LEARNING_RESOURCE}
             )
-            return Response(
-                SearchResponseSerializer(response, context={"request": request}).data
-            )
+            return Response(response)
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():

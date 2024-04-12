@@ -1,3 +1,8 @@
+from opensearch_dsl import Search
+
+from learning_resources_search.api import construct_search
+
+
 def remove_child_queries(query):
     """
     Recursively removes 'has_child'/joins from a query
@@ -27,3 +32,39 @@ def remove_child_queries(query):
         else:
             return None
     return query
+
+
+def adjust_search_for_percolator(search):
+    """
+    Return an updated Search which can be used with percolator.
+
+    Percolated queries can only store the query portion of the search object
+    (see https://github.com/elastic/elasticsearch/issues/19680).
+    This will modify the original search query to add post_filter arguments
+    to the query part of the search. Then all parts of the Search other than query
+    will be removed and has_child queries are filtered out.
+
+
+    Args:
+        search (Search): A search object
+
+    Returns:
+        Search: updated search object
+    """
+    search_dict = remove_child_queries(search.to_dict())
+    if "post_filter" in search_dict:
+        search = search.filter(search_dict["post_filter"])
+
+    # Remove all other keys besides query
+    updated_search_dict = {}
+    search_dict = search.to_dict()
+    if "query" in search_dict:
+        updated_search_dict["query"] = search_dict["query"]
+    updated_search = Search(index=search._index)  # noqa: SLF001
+    updated_search.update_from_dict(updated_search_dict)
+    return updated_search
+
+
+def adjust_query_for_percolator(query_params):
+    search = construct_search(query_params)
+    return adjust_search_for_percolator(search).to_dict()

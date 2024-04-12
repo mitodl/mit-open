@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import JSONField
 
-from learning_resources_search.utils import remove_child_queries
+from learning_resources_search.utils import adjust_query_for_percolator
 from main.models import TimestampedModel
 
 User = get_user_model()
@@ -28,8 +28,8 @@ class PercolateQuery(TimestampedModel):
         return f"Percolate query {self.id}: {self.query}"
 
     def save(self, *args, **kwargs):
+        self.query = adjust_query_for_percolator(self.original_query)
         super().save(*args, **kwargs)
-        self.query = remove_child_queries(self.original_query)
 
     class Meta:
         unique_together = (("source_type", "query"),)

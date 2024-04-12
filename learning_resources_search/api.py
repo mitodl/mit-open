@@ -23,7 +23,6 @@ from learning_resources_search.constants import (
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
-from learning_resources_search.models import PercolateQuery
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
@@ -540,6 +539,8 @@ def execute_learn_search(search_params):
 
 
 def subscribe_user_to_search_query(user, search_params):
+    from learning_resources_search.models import PercolateQuery
+
     """
     Subscribe a user to a search query
 
@@ -553,14 +554,12 @@ def subscribe_user_to_search_query(user, search_params):
         dict: The opensearch response dict
     """
 
-    search = construct_search(search_params)
-
     percolate_query, _ = PercolateQuery.objects.get_or_create(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
-        original_query=search.to_dict(),
+        original_query=search_params,
     )
     percolate_query.users.add(user)
-    return percolate_query
+    return percolate_query.query
 
 
 def get_similar_topics(
