@@ -23,6 +23,7 @@ from learning_resources_search.constants import (
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
+from learning_resources_search.models import PercolateQuery
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
@@ -449,9 +450,9 @@ def generate_aggregation_clauses(search_params, filter_clauses):
     return aggregation_clauses
 
 
-def execute_learn_search(search_params):
+def construct_search(search_params):
     """
-    Execute a learning resources search based on the query
+    Construct a learning resources search based on the query
 
 
     Args:
@@ -459,7 +460,7 @@ def execute_learn_search(search_params):
         LearningResourcesSearchRequestSerializer
 
     Returns:
-        dict: The opensearch response dict
+        opensearch_dsl.Search: an opensearch search instance
     """
 
     if (
@@ -517,7 +518,49 @@ def execute_learn_search(search_params):
         )
         search = search.extra(aggs=aggregation_clauses)
 
+    return search
+
+
+def execute_learn_search(search_params):
+    """
+    Execute a learning resources search based on the query
+
+
+    Args:
+        search_params (dict): The opensearch query params returned from
+        LearningResourcesSearchRequestSerializer
+
+    Returns:
+        dict: The opensearch response dict
+    """
+
+    search = construct_search(search_params)
+
     return search.execute().to_dict()
+
+
+def subscribe_user_to_search_query(user, search_params):
+    """
+    Subscribe a user to a search query
+
+
+    Args:
+        user: The User to subscribee
+        search_params (dict): The opensearch query params returned from
+        LearningResourcesSearchRequestSerializer
+
+    Returns:
+        dict: The opensearch response dict
+    """
+
+    search = construct_search(search_params)
+
+    percolate_query, _ = PercolateQuery.objects.get_or_create(
+        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        original_query=search.to_dict(),
+    )
+    percolate_query.users.add(user)
+    return percolate_query
 
 
 def get_similar_topics(
