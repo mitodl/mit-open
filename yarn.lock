@@ -20221,12 +20221,12 @@ __metadata:
   linkType: hard
 
 "posthog-js@npm:^1.116.6":
-  version: 1.116.6
-  resolution: "posthog-js@npm:1.116.6"
+  version: 1.121.2
+  resolution: "posthog-js@npm:1.121.2"
   dependencies:
     fflate: ^0.4.8
     preact: ^10.19.3
-  checksum: 015106749229332de1ff6eddbd235f250437c2b39bf2a550d1c8906d52fbeadb150e860e54547de33baa8df597496c11833adf723028a2aaf9b53b83feb1e139
+  checksum: 1d1f4511190c4e6019ba67e141591f5e98046c1e8c03fb6e18f6f5b07d56d61b85dce50ed420404122566e1d9fbfdf32516445cae604cc3767238b8453c6ce92
   languageName: node
   linkType: hard
 
