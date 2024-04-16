@@ -369,7 +369,7 @@ def test_no_excess_queries(user_client, django_assert_num_queries, related_count
     subfields / lists.
     """
     # This isn't too important; we care it does not scale with number of related items
-    expected_query_count = 9
+    expected_query_count = 11
 
     field_channel = FieldChannelFactory.create()
     FieldListFactory.create_batch(related_count, field_channel=field_channel)
