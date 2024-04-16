@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.0
+Version 0.9.0 (Released April 16, 2024)
 -------------
 
 - Customize channel page facets by channel type (#756)
