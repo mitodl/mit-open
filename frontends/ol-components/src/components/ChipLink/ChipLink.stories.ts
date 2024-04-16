@@ -15,7 +15,7 @@ type Story = StoryObj<typeof ChipLink>
 export const Simple: Story = {
   args: {
     label: "Chip Link",
-    to: "#link",
+    href: "#link",
   },
 }
 

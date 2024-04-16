@@ -1,7 +1,7 @@
 import type { Theme as MuiTheme } from "@mui/material/styles"
-
 import "@emotion/react"
 import "@emotion/styled"
+import "./typography"
 
 interface CustomTheme {
   colorGray1: string
@@ -71,6 +71,19 @@ declare module "@mui/material/styles" {
 
   interface ThemeOptions {
     custom: CustomTheme
+  }
+}
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsSizeOverrides {
+    medium: false
+  }
+}
+
+declare module "@mui/material/InputBase" {
+  interface InputBasePropsSizeOverrides {
+    hero: true
+    small: false
   }
 }
 
