@@ -371,13 +371,13 @@ def test_no_excess_queries(user_client, django_assert_num_queries, related_count
     # This isn't too important; we care it does not scale with number of related items
     expected_query_count = 11
 
-    field_channel = FieldChannelFactory.create()
-    FieldListFactory.create_batch(related_count, field_channel=field_channel)
-    SubfieldFactory.create_batch(related_count, parent_channel=field_channel)
+    topic_channel = FieldChannelFactory.create(is_topic=True)
+    FieldListFactory.create_batch(related_count, field_channel=topic_channel)
+    SubfieldFactory.create_batch(related_count, parent_channel=topic_channel)
 
     url = reverse(
         "channels:v0:field_channels_api-detail",
-        kwargs={"id": field_channel.id},
+        kwargs={"id": topic_channel.id},
     )
     with django_assert_num_queries(expected_query_count):
         user_client.get(url)
