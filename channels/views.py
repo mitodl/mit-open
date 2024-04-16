@@ -3,6 +3,7 @@
 import logging
 
 from django.contrib.auth.models import User
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import mixins, viewsets
 from rest_framework.generics import ListCreateAPIView, get_object_or_404
@@ -67,11 +68,19 @@ class FieldChannelViewSet(
     http_method_names = VALID_HTTP_METHODS
     lookup_field = "id"
     lookup_url_kwarg = "id"
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["channel_type"]
 
     def get_queryset(self):
         """Return a queryset"""
-        return FieldChannel.objects.all().prefetch_related(
-            "subfields", "subfields__field_channel"
+        return (
+            FieldChannel.objects.prefetch_related(
+                "lists", "subfields", "subfields__field_channel"
+            )
+            .select_related(
+                "featured_list", "topic_detail", "department_detail", "offeror_detail"
+            )
+            .all()
         )
 
     def get_serializer_class(self):

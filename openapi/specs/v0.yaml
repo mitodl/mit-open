@@ -12,6 +12,20 @@ paths:
         or organizations at MIT and are a high-level categorization of content.
       summary: List
       parameters:
+      - in: query
+        name: channel_type
+        schema:
+          type: string
+          enum:
+          - department
+          - offeror
+          - pathway
+          - topic
+        description: |-
+          * `topic` - Topic
+          * `department` - Department
+          * `offeror` - Offeror
+          * `pathway` - Pathway
       - name: limit
         required: false
         in: query
