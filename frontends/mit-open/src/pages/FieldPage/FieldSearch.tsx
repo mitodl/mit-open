@@ -11,17 +11,22 @@ import { getReadableResourceType } from "ol-utilities"
 import {
   ResourceTypeEnum,
   LearningResourcePlatform,
+  LearningResourceOfferor,
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
 } from "api"
+import { ChannelTypeEnum } from "api/v0"
 import {
   useLearningResourcesSearch,
   usePlatformsList,
+  useOfferorsList,
 } from "api/hooks/learningResources"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import {
   useResourceSearchParams,
   UseResourceSearchParamsProps,
+  getDepartmentName,
+  getLevelName,
 } from "@mitodl/course-search-utils"
 import type { Facets } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
@@ -29,33 +34,72 @@ import LearningResourceCard from "@/page-components/LearningResourceCard/Learnin
 import CardRowList from "@/components/CardRowList/CardRowList"
 import _ from "lodash"
 import AvailableFacetsDropdowns from "./FieldSearchFacetDisplay"
-import type { FacetManifest } from "./FieldSearchFacetDisplay"
+import type {
+  FacetManifest,
+  SingleFacetOptions,
+} from "./FieldSearchFacetDisplay"
 import { getLastPage } from "../SearchPage/SearchPage"
+
+const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
+  [ChannelTypeEnum.Topic]: [
+    "resource_type",
+    "offered_by",
+    "department",
+    "level",
+  ],
+  [ChannelTypeEnum.Department]: [
+    "resource_type",
+    "offered_by",
+    "topic",
+    "level",
+  ],
+  [ChannelTypeEnum.Offeror]: ["resource_type", "topic", "Platform"],
+  [ChannelTypeEnum.Pathway]: [],
+}
+
 const getFacetManifest = (
+  channelType: ChannelTypeEnum,
+  offerors: Record<string, LearningResourceOfferor>,
   platforms: Record<string, LearningResourcePlatform>,
   constantSearchParams: Facets,
 ): FacetManifest => {
   return [
     {
+      name: "department",
+      title: "Department",
+      labelFunction: (key: string) => getDepartmentName(key) || key,
+    },
+    {
+      name: "level",
+      title: "Level",
+      labelFunction: (key: string) => getLevelName(key) || key,
+    },
+    {
       name: "resource_type",
-      title: "Learning Resource",
+      title: "Resource Type",
       labelFunction: (key: string) =>
         getReadableResourceType(key as ResourceTypeEnum) || key,
     },
     {
       name: "topic",
-      title: "Topics",
+      title: "Topic",
     },
     {
       name: "platform",
-      title: "Platforn",
+      title: "Platform",
       labelFunction: (key: string) => platforms[key]?.name ?? key,
     },
-  ].filter((facetSetting) => !(facetSetting.name in constantSearchParams))
+    {
+      name: "offered_by",
+      title: "Offered By",
+      labelFunction: (key: string) => offerors[key]?.name ?? key,
+    },
+  ].filter(
+    (facetSetting: SingleFacetOptions) =>
+      !Object.keys(constantSearchParams).includes(facetSetting.name) &&
+      (FACETS_BY_CHANNEL_TYPE[channelType] || []).includes(facetSetting.name),
+  )
 }
-const FACET_NAMES = getFacetManifest({}, {}).map(
-  (f) => f.name,
-) as UseResourceSearchParamsProps["facets"]
 
 const SearchField = styled(SearchInput)`
   background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
@@ -83,21 +127,22 @@ const PAGE_SIZE = 10
 
 interface FeildSearchProps {
   constantSearchParams: Facets
+  channelType: ChannelTypeEnum
 }
 
-const FieldSearch: React.FC<FeildSearchProps> = ({ constantSearchParams }) => {
-  const useFacetManifest = () => {
-    const platformsQuery = usePlatformsList()
+const FieldSearch: React.FC<FeildSearchProps> = ({
+  constantSearchParams,
+  channelType,
+}) => {
+  const platformsQuery = usePlatformsList()
+  const platforms = useMemo(() => {
+    return _.keyBy(platformsQuery.data?.results ?? [], (p) => p.code)
+  }, [platformsQuery.data?.results])
 
-    const platforms = useMemo(() => {
-      return _.keyBy(platformsQuery.data?.results ?? [], (p) => p.code)
-    }, [platformsQuery.data?.results])
-    const facetManifest = useMemo(
-      () => getFacetManifest(platforms, constantSearchParams),
-      [platforms],
-    )
-    return facetManifest
-  }
+  const offerorsQuery = useOfferorsList()
+  const offerors = useMemo(() => {
+    return _.keyBy(offerorsQuery.data?.results ?? [], (o) => o.code)
+  }, [offerorsQuery.data?.results])
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -120,6 +165,16 @@ const FieldSearch: React.FC<FeildSearchProps> = ({ constantSearchParams }) => {
     setPage(1)
   }, [setPage])
 
+  const facetManifest = useMemo(
+    () =>
+      getFacetManifest(channelType, offerors, platforms, constantSearchParams),
+    [platforms, offerors, channelType, constantSearchParams],
+  )
+
+  const facetNames = facetManifest.map(
+    (f) => f.name,
+  ) as UseResourceSearchParamsProps["facets"]
+
   const {
     params,
     toggleParamValue,
@@ -129,7 +184,7 @@ const FieldSearch: React.FC<FeildSearchProps> = ({ constantSearchParams }) => {
   } = useResourceSearchParams({
     searchParams,
     setSearchParams,
-    facets: FACET_NAMES,
+    facets: facetNames,
     onFacetsChange,
   })
 
@@ -137,14 +192,12 @@ const FieldSearch: React.FC<FeildSearchProps> = ({ constantSearchParams }) => {
     return { ...constantSearchParams, ...params }
   }, [params, constantSearchParams])
 
-  const facetManifest = useFacetManifest()
-
   const page = +(searchParams.get("page") ?? "1")
 
   const { data } = useLearningResourcesSearch(
     {
       ...(allParams as LRSearchRequest),
-      aggregations: FACET_NAMES as LRSearchRequest["aggregations"],
+      aggregations: facetNames as LRSearchRequest["aggregations"],
       offset: (page - 1) * PAGE_SIZE,
     },
     { keepPreviousData: false },

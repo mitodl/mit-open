@@ -56,6 +56,11 @@ const setupApis = (
     factories.learningResources.platforms({ count: 5 }),
   )
 
+  setMockResponse.get(
+    urls.offerors.list(),
+    factories.learningResources.offerors({ count: 5 }),
+  )
+
   setMockResponse.get(expect.stringContaining(urls.search.resources()), {
     count: 0,
     next: null,
