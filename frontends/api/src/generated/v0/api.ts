@@ -1581,12 +1581,14 @@ export const ChannelsApiAxiosParamCreator = function (
     /**
      * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
+     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;offeror&#x60; - Offeror * &#x60;pathway&#x60; - Pathway
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     channelsList: async (
+      channel_type?: ChannelsListChannelTypeEnum,
       limit?: number,
       offset?: number,
       options: RawAxiosRequestConfig = {},
@@ -1606,6 +1608,10 @@ export const ChannelsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (channel_type !== undefined) {
+        localVarQueryParameter["channel_type"] = channel_type
+      }
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
@@ -2007,12 +2013,14 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
     /**
      * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
+     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;offeror&#x60; - Offeror * &#x60;pathway&#x60; - Pathway
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async channelsList(
+      channel_type?: ChannelsListChannelTypeEnum,
       limit?: number,
       offset?: number,
       options?: RawAxiosRequestConfig,
@@ -2023,6 +2031,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedFieldChannelList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.channelsList(
+        channel_type,
         limit,
         offset,
         options,
@@ -2278,6 +2287,7 @@ export const ChannelsApiFactory = function (
     ): AxiosPromise<PaginatedFieldChannelList> {
       return localVarFp
         .channelsList(
+          requestParameters.channel_type,
           requestParameters.limit,
           requestParameters.offset,
           options,
@@ -2426,6 +2436,13 @@ export interface ChannelsApiChannelsDestroyRequest {
  * @interface ChannelsApiChannelsListRequest
  */
 export interface ChannelsApiChannelsListRequest {
+  /**
+   * * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;offeror&#x60; - Offeror * &#x60;pathway&#x60; - Pathway
+   * @type {'department' | 'offeror' | 'pathway' | 'topic'}
+   * @memberof ChannelsApiChannelsList
+   */
+  readonly channel_type?: ChannelsListChannelTypeEnum
+
   /**
    * Number of results to return per page.
    * @type {number}
@@ -2607,7 +2624,12 @@ export class ChannelsApi extends BaseAPI {
     options?: RawAxiosRequestConfig,
   ) {
     return ChannelsApiFp(this.configuration)
-      .channelsList(requestParameters.limit, requestParameters.offset, options)
+      .channelsList(
+        requestParameters.channel_type,
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -2728,6 +2750,18 @@ export class ChannelsApi extends BaseAPI {
       .then((request) => request(this.axios, this.basePath))
   }
 }
+
+/**
+ * @export
+ */
+export const ChannelsListChannelTypeEnum = {
+  Department: "department",
+  Offeror: "offeror",
+  Pathway: "pathway",
+  Topic: "topic",
+} as const
+export type ChannelsListChannelTypeEnum =
+  (typeof ChannelsListChannelTypeEnum)[keyof typeof ChannelsListChannelTypeEnum]
 
 /**
  * CkeditorApi - axios parameter creator
