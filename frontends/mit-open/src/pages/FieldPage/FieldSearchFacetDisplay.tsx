@@ -4,8 +4,11 @@ import type {
   Bucket,
   Facets,
   FacetKey,
+  BooleanFacets,
+  BooleanFacetKey,
 } from "@mitodl/course-search-utils"
-import { FormControl, Select, MenuItem, SelectChangeEvent } from "ol-components"
+import { BOOLEAN_FACET_NAMES } from "@mitodl/course-search-utils"
+import { FormControl, Select, MenuItem } from "ol-components"
 export type KeyWithLabel = { key: string; label: string }
 
 export type SingleFacetOptions = {
@@ -25,10 +28,10 @@ interface FacetDisplayProps {
    * automatically be included in the facet options.
    */
   facetOptions: (group: string) => Aggregation | null
-  activeFacets: Facets
+  activeFacets: Facets & BooleanFacets
   clearAllFilters: () => void
-  onFacetChange: (name: string, value: string, isEnabled: boolean) => void
-  constantSearchParams: Facets
+  onFacetChange: (name: string, value: string | string[]) => void
+  constantSearchParams: Facets & BooleanFacets
 }
 
 const filteredResultsWithLabels = (
@@ -65,28 +68,6 @@ const AvailableFacetsDropdowns: React.FC<
   onFacetChange,
   constantSearchParams,
 }) => {
-  const getHandleChangeForFacet = (active: string[], facetName: string) => {
-    const handleChange = (event: SelectChangeEvent<string[]>) => {
-      const {
-        target: { value },
-      } = event
-
-      for (const selected of value) {
-        if (!(active || []).includes(selected)) {
-          onFacetChange(facetName, selected, true)
-        }
-      }
-
-      for (const current of active || []) {
-        if (!value.includes(current)) {
-          onFacetChange(facetName, current, false)
-        }
-      }
-    }
-
-    return handleChange
-  }
-
   return (
     <>
       {facetMap.map((facetSetting) => {
@@ -96,22 +77,48 @@ const AvailableFacetsDropdowns: React.FC<
           constantSearchParams[facetSetting.name as FacetKey] || null,
         )
 
+        const isMultiple = BOOLEAN_FACET_NAMES.includes(facetSetting.name)
+          ? false
+          : true
+
+        let displayValue
+        if (BOOLEAN_FACET_NAMES.includes(facetSetting.name)) {
+          displayValue =
+            activeFacets[facetSetting.name as BooleanFacetKey] === true ||
+            activeFacets[facetSetting.name as BooleanFacetKey] === false
+              ? (
+                  activeFacets[facetSetting.name as BooleanFacetKey] as boolean
+                ).toString()
+              : ""
+        } else {
+          displayValue = activeFacets[facetSetting.name as FacetKey] || []
+        }
+
         return (
           facetItems.length > 0 && (
             <FormControl key={facetSetting.name}>
               <Select
-                multiple
+                multiple={isMultiple}
                 displayEmpty
-                value={activeFacets[facetSetting.name as FacetKey] || []}
+                value={displayValue}
                 renderValue={() => {
                   return facetSetting.title
                 }}
-                onChange={getHandleChangeForFacet(
-                  activeFacets[facetSetting.name as FacetKey] || [],
-                  facetSetting.name,
-                )}
+                onChange={(e) =>
+                  onFacetChange(facetSetting.name, e.target.value)
+                }
                 sx={{ m: 1, minWidth: 140 }}
               >
+                {!isMultiple ? (
+                  <MenuItem
+                    value=""
+                    key={facetSetting.name.concat(":", "unselect")}
+                  >
+                    no selection
+                  </MenuItem>
+                ) : (
+                  ""
+                )}
                 {filteredResultsWithLabels(
                   facetOptions(facetSetting.name) || [],
                   facetSetting.labelFunction || null,
