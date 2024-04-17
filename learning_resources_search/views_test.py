@@ -647,3 +647,24 @@ def test_user_subscribed_to_search(
     assert user.percolate_queries.count() == 0
     response = client.get(url, params).json()
     assert not response["is_subscribed"]
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_user_sort_limit_ordering_params_generate_same_query(
+    client, user, learning_resources_search_subscribe_view
+):
+    """Test that the sortby, limit, and offset params lead to the same percolate query"""
+    client.force_login(user)
+    url = learning_resources_search_subscribe_view.url
+    assert user.percolate_queries.count() == 0
+    params = {"q": "monkey", "offset": 100, "limit": 1}
+    client.post(url, json.dumps(params), content_type="application/json")
+
+    params = {"q": "monkey", "sortby": "title"}
+    client.post(url, json.dumps(params), content_type="application/json")
+
+    params = {"q": "monkey", "offset": 0}
+    client.post(url, json.dumps(params), content_type="application/json")
+
+    assert user.percolate_queries.count() == 1

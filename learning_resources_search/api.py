@@ -449,6 +449,20 @@ def generate_aggregation_clauses(search_params, filter_clauses):
     return aggregation_clauses
 
 
+def adjust_original_query_for_percolate(query):
+    """
+    Remove keys that are irrelevent when storing original queries
+    for percolate uniqueness such as "limit" and "offset"
+    """
+    if "limit" in query:
+        del query["limit"]
+    if "offset" in query:
+        del query["offset"]
+    if "sortby" in query:
+        del query["offset"]
+    return query
+
+
 def construct_search(search_params):
     """
     Construct a learning resources search based on the query
@@ -556,7 +570,7 @@ def subscribe_user_to_search_query(user, search_params):
 
     percolate_query, _ = PercolateQuery.objects.get_or_create(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
-        original_query=search_params,
+        original_query=adjust_original_query_for_percolate(search_params),
     )
     if not percolate_query.users.filter(id=user.id).exists():
         percolate_query.users.add(user)
@@ -580,7 +594,7 @@ def unsubscribe_user_to_search_query(user, search_params):
     """
     percolate_query, _ = PercolateQuery.objects.get_or_create(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
-        original_query=search_params,
+        original_query=adjust_original_query_for_percolate(search_params),
     )
     if percolate_query.users.filter(id=user.id).exists():
         percolate_query.users.remove(user)
@@ -605,7 +619,7 @@ def user_subscribed_to_query(user, search_params):
     try:
         percolate_query = PercolateQuery.objects.get(
             source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
-            original_query=search_params,
+            original_query=adjust_original_query_for_percolate(search_params),
         )
         return percolate_query.users.filter(id=user.id).exists()
     except PercolateQuery.DoesNotExist:

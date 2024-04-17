@@ -32,4 +32,4 @@ class PercolateQuery(TimestampedModel):
         super().save(*args, **kwargs)
 
     class Meta:
-        unique_together = (("source_type", "query"),)
+        unique_together = (("source_type", "original_query"),)
