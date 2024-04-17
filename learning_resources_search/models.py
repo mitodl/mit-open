@@ -28,7 +28,7 @@ class PercolateQuery(TimestampedModel):
         return f"Percolate query {self.id}: {self.query}"
 
     def save(self, *args, **kwargs):
-        self.query = adjust_query_for_percolator(self.original_query)
+        self.query = adjust_query_for_percolator(self.original_query.copy())
         super().save(*args, **kwargs)
 
     class Meta:

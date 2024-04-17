@@ -16,6 +16,7 @@ from learning_resources_search.api import (
     execute_learn_search,
     subscribe_user_to_search_query,
     unsubscribe_user_to_search_query,
+    user_subscribed_to_query,
 )
 from learning_resources_search.constants import CONTENT_FILE_TYPE, LEARNING_RESOURCE
 from learning_resources_search.serializers import (
@@ -106,6 +107,23 @@ class SearchSubscriptionView(ESView):
                 request.user, request_data.data | {"endpoint": LEARNING_RESOURCE}
             )
             return Response(response)
+        else:
+            errors = {}
+            for key, errors_obj in request_data.errors.items():
+                if isinstance(errors_obj, list):
+                    errors[key] = errors_obj
+                else:
+                    errors[key] = list(set(chain(*errors_obj.values())))
+            return Response(errors, status=400)
+
+    @extend_schema(summary="Subscribe")
+    def get(self, request):
+        request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
+        if request_data.is_valid():
+            is_subscribed = user_subscribed_to_query(
+                request.user, request_data.data | {"endpoint": LEARNING_RESOURCE}
+            )
+            return Response({"is_subscribed": is_subscribed})
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():

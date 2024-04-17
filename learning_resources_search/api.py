@@ -558,7 +558,8 @@ def subscribe_user_to_search_query(user, search_params):
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
         original_query=search_params,
     )
-    percolate_query.users.add(user)
+    if not percolate_query.users.filter(id=user.id).exists():
+        percolate_query.users.add(user)
     return percolate_query.query
 
 
@@ -577,13 +578,38 @@ def unsubscribe_user_to_search_query(user, search_params):
     Returns:
         dict: The opensearch response dict
     """
-
     percolate_query, _ = PercolateQuery.objects.get_or_create(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
         original_query=search_params,
     )
-    percolate_query.users.remove(user)
+    if percolate_query.users.filter(id=user.id).exists():
+        percolate_query.users.remove(user)
     return percolate_query.query
+
+
+def user_subscribed_to_query(user, search_params):
+    from learning_resources_search.models import PercolateQuery
+
+    """
+    Check if a user is subscribed to a search query
+
+
+    Args:
+        user: The User to check
+        search_params (dict): The opensearch query params returned from
+        LearningResourcesSearchRequestSerializer
+
+    Returns:
+        bool: Whether or not the user has subscribed to the query
+    """
+    try:
+        percolate_query = PercolateQuery.objects.get(
+            source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+            original_query=search_params,
+        )
+        return percolate_query.users.filter(id=user.id).exists()
+    except PercolateQuery.DoesNotExist:
+        return False
 
 
 def get_similar_topics(

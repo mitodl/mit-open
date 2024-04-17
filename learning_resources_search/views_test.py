@@ -627,3 +627,23 @@ def test_user_unsubscribe_to_search(
     assert user.percolate_queries.count() == 1
     client.delete(url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 0
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_user_subscribed_to_search(
+    client, user, learning_resources_search_subscribe_view
+):
+    """Test user subscribed get"""
+    client.force_login(user)
+    params = {"q": "monkey"}
+    assert user.percolate_queries.count() == 0
+    url = learning_resources_search_subscribe_view.url
+    client.post(url, json.dumps(params), content_type="application/json")
+    assert user.percolate_queries.count() == 1
+    response = client.get(url, params).json()
+    assert response["is_subscribed"]
+    client.delete(url, json.dumps(params), content_type="application/json")
+    assert user.percolate_queries.count() == 0
+    response = client.get(url, params).json()
+    assert response["is_subscribed"]
