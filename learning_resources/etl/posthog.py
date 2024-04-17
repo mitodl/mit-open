@@ -3,14 +3,17 @@
 import dataclasses
 import json
 import logging
+from collections.abc import Generator
 from datetime import datetime
 from http import HTTPStatus
 from urllib.parse import urljoin
 
+import pytz
 import requests
 from django.conf import settings
 
 from learning_resources.exceptions import PostHogAuthenticationError, PostHogQueryError
+from learning_resources.models import LearningResource, LearningResourceViewEvent
 
 log = logging.getLogger(__name__)
 
@@ -122,61 +125,150 @@ def posthog_run_query(query: str) -> list[PostHogEvent]:
 
         raise PostHogQueryError(error_result)
 
-    # PostHog returns query results with the keys separate, so now combine.
-
-    ph_result = query_result.json()
-
-    formatted_results = []
-
-    for result in ph_result["results"]:
-        formatted_result = {}
-
-        for i, column in enumerate(ph_result["columns"]):
-            formatted_result[column.replace("$", "dollar_")] = result[i]
-
-        formatted_results.append(PostHogEvent(**formatted_result))
-
-    return formatted_results
+    return query_result.json()
 
 
-def posthog_extract_lrd_view_events(
-    last_date: datetime | None = None,
-) -> list[PostHogLearningResourceViewEvent]:
+def posthog_extract_lrd_view_events() -> Generator[PostHogEvent, None, None]:
     """
-    Retrieve a list of lrd_view events specifically.
+    Retrieve lrd_view events from the PostHog Query API.
 
-    This has a noqa S608 in here because the HogQL stuff looks like SQL.
+    This will filter results based on the last record retrieved:
+    - If there are any stored events, the query will start after the last event
+      date
+    - If there aren't any stored events, no filter is applied and you will get
+      all events to date
 
-    But this should retrieve the last event and start from there, rather than
-    get you to specify the limit time.
+    Due to limitations on the PostHog API side, this will pass the day of the
+    last event to the query API so you will likely get some overlap if there are
+    existing events recorded. (Specifically, it doesn't seem to like timestamps
+    that involve times.)
+
+    Returns:
+    - Generator that yields PostHogEvent
     """
 
-    time_constraint = ""
+    last_event = LearningResourceViewEvent.objects.order_by("-event_date").first()
 
-    if last_date is not None:
-        date_limit = last_date.date().isoformat()
-        time_constraint = f" and timestamp >= '{date_limit}'"
-
-    lrd_view_query = (
-        "select * from events where event = 'lrd_view'"  # noqa: S608
-        f"{time_constraint}"
-    )
-
-    query_result = posthog_run_query(lrd_view_query)
-
-    lrd_view_events = []
-
-    for result in query_result:
-        props = json.loads(result.properties)
-
-        lrd_view_events.append(
-            PostHogLearningResourceViewEvent(
-                resourceType=props["resourceType"] or "",
-                platformCode=props["platformCode"] or "",
-                resourceId=props["resourceId"] or "",
-                readableId=props["readableId"] or "",
-                event_date=result.timestamp,
-            )
+    if last_event:
+        last_event_day = (
+            last_event.event_date.astimezone(pytz.utc).replace(tzinfo=None).isoformat()
         )
 
-    return lrd_view_events
+        query = f"select * from events where timestamp > '{last_event_day}'"  # noqa: S608
+    else:
+        query = "select * from events"
+
+    int_query = "{} limit {} offset {}"
+
+    limit = 100
+    offset = 0
+    has_next_page = True
+
+    def _run_query() -> dict:
+        return posthog_run_query(int_query.format(query, limit, offset), raw=True)
+
+    results = _run_query()
+
+    cols = results["columns"]
+
+    while has_next_page:
+        for result in results["results"]:
+            formatted_result = {}
+
+            for i, column in enumerate(cols):
+                formatted_result[column.replace("$", "dollar_")] = result[i]
+
+            yield PostHogEvent(**formatted_result)
+
+        if len(results["results"]) == limit:
+            offset += limit
+            results = _run_query()
+        else:
+            has_next_page = False
+
+
+def posthog_transform_lrd_view_events(
+    events: iter,
+) -> Generator[PostHogLearningResourceViewEvent, None, None]:
+    """
+    Transform PostHogEvents into PostHogLearningResourceViewEvents.
+
+    Args:
+    - events (list[PostHogEvent]) - list of events to process
+    Returns:
+    Generator that yields PostHogLearningResourceViewEvent
+    """
+
+    for result in events:
+        props = json.loads(result.properties)
+
+        yield PostHogLearningResourceViewEvent(
+            resourceType=props.get("resourceType", ""),
+            platformCode=props.get("platformCode", ""),
+            resourceId=props.get("resourceId", ""),
+            readableId=props.get("readableId", ""),
+            event_date=result.timestamp,
+        )
+
+
+def load_posthog_lrd_view_event(
+    event: PostHogLearningResourceViewEvent,
+) -> LearningResourceViewEvent | None:
+    """
+    Load a PostHogLearningResourceViewEvent into the database.
+
+    Args:
+    - event (PostHogLearningResourceViewEvent): the event to load
+    Returns:
+    LearningResourceViewEvent of the event
+    """
+
+    try:
+        learning_resource = LearningResource.objects.filter(pk=event.resourceId).get()
+    except LearningResource.DoesNotExist:
+        skip_warning = (
+            f"WARNING: skipping event for resource ID {event.resourceId}"
+            " - resource not found"
+        )
+        log.warning(skip_warning)
+        return None
+    except LearningResource.MultipleObjectsReturned:
+        skip_warning = (
+            f"WARNING: skipping event for resource ID {event.resourceId}"
+            " - multiple objects returned"
+        )
+        log.warning(skip_warning)
+        return None
+    except ValueError:
+        skip_warning = (
+            f"WARNING: skipping event for resource ID {event.resourceId}"
+            " - invalid ID"
+        )
+        log.warning(skip_warning)
+        return None
+
+    lr_event, _ = LearningResourceViewEvent.objects.update_or_create(
+        learning_resource=learning_resource,
+        event_date=event.event_date,
+        defaults={
+            "learning_resource": learning_resource,
+            "event_date": event.event_date,
+        },
+    )
+
+    return lr_event
+
+
+def load_posthog_lrd_view_events(
+    events: iter,
+) -> list[LearningResourceViewEvent]:
+    """
+    Load a list of PostHogLearningResourceViewEvent into the database.
+
+    Args:
+    - events (list[PostHogLearningResourceViewEvent]): the events to load
+    Returns:
+    List of LearningResourceViewEvent
+    """
+
+    return [load_posthog_lrd_view_event(event) for event in events]

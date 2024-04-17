@@ -76,6 +76,12 @@ class LearningResourceRunInline(TabularInline):
     )
 
 
+class LearningResourceViewEvent(admin.ModelAdmin):
+    """LearningResourceViewEvent admin"""
+
+    model = models.LearningResourceViewEvent
+
+
 class CourseInline(TabularInline):
     """Inline list items for Courses"""
 
