@@ -115,7 +115,7 @@ class SearchSubscriptionView(ESView):
                     errors[key] = list(set(chain(*errors_obj.values())))
             return Response(errors, status=400)
 
-    @extend_schema(summary="UnSubscribe")
+    @extend_schema(summary="Unsubscribe")
     def delete(self, request):
         request_data = LearningResourcesSearchRequestSerializer(data=request.data)
         if request_data.is_valid():

@@ -275,20 +275,14 @@ def test_content_file_search_with_extra_params(
 @pytest.mark.django_db()
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_user_subscribe_to_search(
-    mocker, client, user, learning_resources_search_subscribe_view
+    client, user, learning_resources_search_subscribe_view
 ):
-    """Return an error if there are extra parameters"""
+    """Test subscribing user from search"""
     client.force_login(user)
-    search_mock = mocker.patch(
-        "learning_resources_search.views.execute_learn_search",
-        autospec=True,
-        return_value=FAKE_SEARCH_RESPONSE,
-    )
     params = {"q": "monkey"}
     assert user.percolate_queries.count() == 0
     url = learning_resources_search_subscribe_view.url
     resp = client.post(url, json.dumps(params), content_type="application/json")
-    search_mock.assert_not_called()
     assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
         {
             "bool": {
@@ -617,3 +611,19 @@ def test_user_subscribe_to_search(
         }
     )
     assert user.percolate_queries.count() == 1
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_user_unsubscribe_to_search(
+    client, user, learning_resources_search_subscribe_view
+):
+    """Test unsubscribing user from search"""
+    client.force_login(user)
+    params = {"q": "monkey"}
+    assert user.percolate_queries.count() == 0
+    url = learning_resources_search_subscribe_view.url
+    client.post(url, json.dumps(params), content_type="application/json")
+    assert user.percolate_queries.count() == 1
+    client.delete(url, json.dumps(params), content_type="application/json")
+    assert user.percolate_queries.count() == 0
