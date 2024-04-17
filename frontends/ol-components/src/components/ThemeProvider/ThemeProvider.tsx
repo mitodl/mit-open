@@ -35,13 +35,10 @@ const shadow = {
 }
 
 // To replace ../scss/theme.scss for #236 as we refactor it out
-const custom = {
+const custom: ThemeOptions["custom"] = {
   ...colors,
   ...shadow,
   colorPrimary: colors.colorRed3,
-
-  colorPrimaryTest: colors.colorRed3,
-
   colorSecondaryLight: colors.colorBlue1,
   colorSecondary: colors.colorBlue5,
   colorBackground: colors.colorBlue1,
@@ -79,6 +76,29 @@ const custom = {
   fontSm: "0.875rem",
   fontXs: "0.75rem",
   muiAppBarZIndex: "11000",
+  colors: {
+    red: {
+      light: "#D02E44",
+      main: "#A31F34",
+      rgb: "161, 31, 52",
+      dark: "#83192A",
+      contrastText: "#fff",
+    },
+    blue: {
+      light: "#99EBFF",
+      main: "#1966FF",
+      rgb: "25, 102, 255",
+      dark: "#002896",
+      contrastText: "#fff",
+    },
+    disabled: {
+      light: "#8B959E",
+      main: "#8B959E",
+      rgb: "139, 149, 158",
+      dark: "#8B959E",
+      contrastText: "#fff",
+    },
+  },
 }
 
 const BREAKPOINTS = {

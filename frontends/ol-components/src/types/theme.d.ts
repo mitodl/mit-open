@@ -3,6 +3,14 @@ import "@emotion/react"
 import "@emotion/styled"
 import "./typography"
 
+interface Color {
+  light: string
+  main: string
+  dark: string
+  rgb: string
+  contrastText: string
+}
+
 interface CustomTheme {
   colorGray1: string
   colorGray2: string
@@ -62,6 +70,12 @@ interface CustomTheme {
   fontSm: string
   fontXs: string
   muiAppBarZIndex: string
+
+  colors: {
+    red: Color
+    blue: Color
+    disabled: Color
+  }
 }
 
 declare module "@mui/material/styles" {
