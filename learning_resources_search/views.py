@@ -97,8 +97,7 @@ class SearchSubscriptionView(ESView):
 
     @extend_schema(summary="Search")
     def post(self, request):
-        request_data = LearningResourcesSearchRequestSerializer(data=request.POST)
-
+        request_data = LearningResourcesSearchRequestSerializer(data=request.data)
         if request_data.is_valid():
             response = subscribe_user_to_search_query(
                 request.user, request_data.data | {"endpoint": LEARNING_RESOURCE}
