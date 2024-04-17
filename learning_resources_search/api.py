@@ -546,7 +546,7 @@ def subscribe_user_to_search_query(user, search_params):
 
 
     Args:
-        user: The User to subscribee
+        user: The User to subscribe
         search_params (dict): The opensearch query params returned from
         LearningResourcesSearchRequestSerializer
 
@@ -559,6 +559,30 @@ def subscribe_user_to_search_query(user, search_params):
         original_query=search_params,
     )
     percolate_query.users.add(user)
+    return percolate_query.query
+
+
+def unsubscribe_user_to_search_query(user, search_params):
+    from learning_resources_search.models import PercolateQuery
+
+    """
+    Unsubscribe a user to a search query
+
+
+    Args:
+        user: The User to unsubscribe
+        search_params (dict): The opensearch query params returned from
+        LearningResourcesSearchRequestSerializer
+
+    Returns:
+        dict: The opensearch response dict
+    """
+
+    percolate_query, _ = PercolateQuery.objects.get_or_create(
+        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        original_query=search_params,
+    )
+    percolate_query.users.remove(user)
     return percolate_query.query
 
 
