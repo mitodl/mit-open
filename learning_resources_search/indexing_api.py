@@ -22,17 +22,21 @@ from learning_resources_search.connection import (
 )
 from learning_resources_search.constants import (
     ALIAS_ALL_INDICES,
+    ALL_INDEX_TYPES,
     COURSE_TYPE,
-    LEARNING_RESOURCE_TYPES,
     MAPPING,
+    PERCOLATE_INDEX_TYPE,
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError
 from learning_resources_search.serializers import (
     serialize_bulk_learning_resources,
     serialize_bulk_learning_resources_for_deletion,
+    serialize_bulk_percolators,
+    serialize_bulk_percolators_for_deletion,
     serialize_content_file_for_bulk,
     serialize_content_file_for_bulk_deletion,
+    serialize_percolate_query,
 )
 from main.utils import chunks
 
@@ -80,7 +84,7 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
         skip_mapping (bool): If true, don't set any mapping
         object_type(str): The type of document (post, comment)
     """
-    if object_type not in LEARNING_RESOURCE_TYPES:
+    if object_type not in ALL_INDEX_TYPES:
         msg = (
             "A valid object type must be specified when clearing and creating an index"
         )
@@ -227,6 +231,20 @@ def index_items(documents, object_type, index_types, **kwargs):
                     raise ReindexError(msg)
 
 
+def get_percolate_documents(percolate_queries):
+    """
+    Get a generator for percolate query documents
+
+    Args:
+        percolate_queries (iterable of PercolateQuery): An iterable of PercolateQuery
+
+    Yields:
+        for each PercolateQuery:
+            a document in dict form
+    """
+    return (serialize_percolate_query(query) for query in percolate_queries)
+
+
 def index_learning_resources(ids, resource_type, index_types):
     """
     Index a list of learning resources by id
@@ -260,6 +278,38 @@ def deindex_learning_resources(ids, resource_type):
             learning_resource_id__in=ids
         ).values_list("id", flat=True):
             deindex_run_content_files(run_id, unpublished_only=False)
+
+
+def deindex_percolators(ids):
+    """
+    Deindex a list of percolators by id
+
+    Args:
+        ids(list of int): List of percolator ids
+
+    """
+    deindex_items(
+        serialize_bulk_percolators_for_deletion(ids),
+        PERCOLATE_INDEX_TYPE,
+        index_types=IndexestoUpdate.all_indexes.value,
+    )
+
+
+def index_percolators(ids, index_types):
+    """
+    Index a list of percolators by id
+
+    Args:
+        ids(list of int): List of percolator ids
+    index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
+
+    """
+    index_items(
+        serialize_bulk_percolators(ids),
+        PERCOLATE_INDEX_TYPE,
+        index_types=index_types,
+    )
 
 
 def index_course_content_files(learning_resource_ids, index_types):

@@ -197,7 +197,6 @@ module.exports = (env, argv) => {
       devMiddleware: {
         writeToDisk: ENVIRONMENT === "docker",
       },
-
       host: ENVIRONMENT === "docker" ? "0.0.0.0" : "::",
       proxy: [
         {

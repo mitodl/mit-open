@@ -1,6 +1,51 @@
 Release Notes
 =============
 
+Version 0.9.0 (Released April 16, 2024)
+-------------
+
+- Customize channel page facets by channel type (#756)
+- Update dependency sentry-sdk to v1.45.0 (#775)
+- Update dependency posthog-js to v1.121.2 (#774)
+- Update dependency ipython to v8.23.0 (#773)
+- Update dependency google-api-python-client to v2.125.0 (#772)
+- Update all non-major dev-dependencies (#768)
+- Update dependency @testing-library/react to v14.3.1 (#771)
+- Update dependency @sentry/react to v7.110.0 (#770)
+- Update codecov/codecov-action action to v4.3.0 (#769)
+- Update material-ui monorepo (#767)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.20 (#765)
+- Update dependency uwsgi to v2.0.25 (#766)
+- Update dependency ruff to v0.3.7 (#763)
+- Update dependency qs to v6.12.1 (#762)
+- Update dependency drf-spectacular to v0.27.2 (#761)
+- Update dependency boto3 to v1.34.84 (#760)
+- Update Node.js to v20.12.2 (#759)
+- Pin dependency @types/react to 18.2.73 (#758)
+- Add a channel for every topic, department, offeror (#749)
+- Update dependency djangorestframework to v3.15.1 (#628)
+- Shanbady/define percolate index schema (#737)
+
+Version 0.8.0 (Released April 11, 2024)
+-------------
+
+- Channel Search (#740)
+- fixing readonly exception in migration (#741)
+- fix channel configuration (#743)
+- Configurable, Tabbed Carousels (#731)
+- add userlist bookmark button and add to user list modal (#732)
+- Adds Posthog support to the frontend. (#693)
+- Channel types (#725)
+- Remove dupe line from urls.py file (#730)
+- adding initial models for user subscription (#723)
+- Shanbady/add record hash field for hightouch sync (#717)
+- fix flaky test (#720)
+- Revert "bump to 2024.3.22" (#719)
+- add UserList modals and wire up buttons (#718)
+- bump to 2024.3.22
+- Migrate config renovate.json (#713)
+- try ckeditor grouping again (#711)
+
 Version 0.7.0 (Released April 01, 2024)
 -------------
 

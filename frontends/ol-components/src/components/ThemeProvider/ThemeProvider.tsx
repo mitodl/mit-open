@@ -3,6 +3,12 @@ import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles"
+import type { ThemeOptions } from "@mui/material/styles"
+import type {} from "@mui/lab/themeAugmentation"
+import * as typography from "./typography"
+import * as buttons from "./buttons"
+import * as inputs from "./inputs"
+import * as chips from "./chips"
 
 const colors = {
   colorGray1: "#fff",
@@ -10,9 +16,9 @@ const colors = {
   colorGray3: "#b0b0b0",
   colorGray4: "#898a8b",
   colorGray5: "#000",
-  colorRed1: "#e3d5d5",
-  colorRed2: "#d6b2b3",
-  colorRed3: "#a31f34",
+  colorRed1: "#d6b2b3",
+  colorRed2: "#a31f34",
+  colorRed3: "#750014",
   colorRed4: "#57081a",
   colorRed5: "#30020e",
   colorBlue1: "#edeff5",
@@ -41,7 +47,7 @@ const custom = {
   colorBackground: colors.colorBlue1,
   colorBackgroundLight: colors.colorGray1,
   fontColorLight: colors.colorGray3,
-  fontColorDefault: colors.colorBlue5,
+  fontColorDefault: "#000",
   fontFamilyDefault: "Roboto, helvetica, arial, sans-serif !important",
   fontSizeSmall: 12,
   fontSizeNormal: 16,
@@ -75,31 +81,40 @@ const custom = {
   muiAppBarZIndex: "11000",
 }
 
-const themeOptions = {
+const BREAKPOINTS = {
+  values: {
+    xs: 0,
+    sm: 600,
+    md: 900,
+    lg: 1280,
+    xl: 1536,
+  },
+}
+
+const themeOptions: ThemeOptions = {
   custom: custom,
   palette: {
+    text: {
+      primary: "#000",
+    },
     primary: {
-      main: "#a31f34",
+      main: "#750014",
     },
     secondary: {
       main: "#03152d",
     },
-    testing: "#a31f34",
   },
-  breakpoints: {
-    values: {
-      // These match our theme breakpoints in breakpoints.scss
-      xs: 0, // mui default
-      sm: 600, // mui default
-      md: 840, // custom
-      lg: 1200, // mui default
-      xl: 1536, // mui default
-    },
+  shape: {
+    borderRadius: 8,
   },
+  spacing: 8,
+  typography: typography.globalSettings,
+  breakpoints: BREAKPOINTS,
   components: {
-    MuiButton: {
-      defaultProps: { disableElevation: true },
-    },
+    MuiButton: buttons.buttonComponent,
+    MuiTypography: typography.component,
+    MuiInputBase: inputs.inputBaseComponent,
+    MuiOutlinedInput: inputs.outlinedInputComponent,
     MuiTabPanel: {
       styleOverrides: {
         root: {
@@ -108,6 +123,7 @@ const themeOptions = {
         },
       },
     },
+    MuiChip: chips.chipComponent,
   },
 }
 

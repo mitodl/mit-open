@@ -14,7 +14,15 @@ hookspec = app_config.hookspec
 
 
 class LearningResourceHooks:
-    """Pluggy hooks specs for authentication"""
+    """Pluggy hooks specs for Learning Resources"""
+
+    @hookspec
+    def percolate_query_upserted(self, percolate_query):
+        """Trigger actions after a percolate query is created/saved"""
+
+    @hookspec
+    def percolate_query_delete(self, percolate_query):
+        """Trigger actions after a percolate query is deleted"""
 
     @hookspec
     def resource_upserted(self, resource):
@@ -47,6 +55,30 @@ class LearningResourceHooks:
     @hookspec
     def resource_run_delete(self, run):
         """Trigger actions to remove a learning resource run"""
+
+    @hookspec
+    def topic_upserted(self, topic, overwrite):
+        """Trigger actions after a learning resource topic is created or updated"""
+
+    @hookspec
+    def topic_delete(self, topic):
+        """Trigger actions to delete a learning resource topic"""
+
+    @hookspec
+    def department_upserted(self, department, overwrite):
+        """Trigger actions after a learning resource department is created or updated"""
+
+    @hookspec
+    def department_delete(self, department):
+        """Trigger actions to delete a learning resource department"""
+
+    @hookspec
+    def offeror_upserted(self, offeror, overwrite):
+        """Trigger actions after a learning resource offeror is created or updated"""
+
+    @hookspec
+    def offeror_delete(self, offeror):
+        """Trigger actions to delete a learning resource offeror"""
 
 
 def get_plugin_manager():

@@ -4,6 +4,7 @@ import type { LearningResourceSearchResponse } from "api"
 import invariant from "tiny-invariant"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import type { FieldChannel } from "api/v0"
+import { ChannelTypeEnum } from "api/v0"
 
 const setMockApiResponses = ({
   search,
@@ -28,6 +29,11 @@ const setMockApiResponses = ({
   setMockResponse.get(
     urls.platforms.list(),
     factories.learningResources.platforms({ count: 5 }),
+  )
+
+  setMockResponse.get(
+    urls.offerors.list(),
+    factories.learningResources.offerors({ count: 5 }),
   )
 
   setMockResponse.get(expect.stringContaining(urls.search.resources()), {
@@ -97,17 +103,17 @@ describe("FieldSearch", () => {
       expected: { offered_by: "ocw", topic: "physics" },
     },
     {
-      searchFilter: "resource_type=program,course",
-      url: "?resource_type=course",
-      expected: { resource_type: "course" },
+      searchFilter: "offered_by=ocw,xpro",
+      url: "?offered_by=xpro&topic=physics",
+      expected: { offered_by: "xpro", topic: "physics" },
     },
     {
-      searchFilter: "resource_type=program",
-      url: "?resource_type=course",
-      expected: { resource_type: "course" },
+      searchFilter: "offered_by=ocw",
+      url: "?offered_by=xpro&topic=physics",
+      expected: { offered_by: "xpro", topic: "physics" },
     },
   ])(
-    "Makes API call with correct facets and aggregations",
+    "Filters by combined parameters from the search_filter and the url",
     async ({ searchFilter, url, expected }) => {
       const { field } = setMockApiResponses({
         fieldPatch: { search_filter: searchFilter },
@@ -119,6 +125,11 @@ describe("FieldSearch", () => {
                 { key: "physics", doc_count: 100 },
                 { key: "chemistry", doc_count: 200 },
               ],
+              department: [{ key: "1", doc_count: 100 }],
+              level: [{ key: "graduate", doc_count: 100 }],
+              resource_type: [{ key: "course", doc_count: 100 }],
+              platform: [{ key: "ocw", doc_count: 100 }],
+              offered_by: [{ key: "ocw", doc_count: 100 }],
             },
             suggestions: [],
           },
@@ -132,29 +143,89 @@ describe("FieldSearch", () => {
         expect(makeRequest.mock.calls.length > 0).toBe(true)
       })
       const apiSearchParams = getLastApiSearchParams()
-      expect(apiSearchParams.getAll("aggregations").sort()).toEqual([
-        "platform",
-        "resource_type",
-        "topic",
-      ])
       expect(Object.fromEntries(apiSearchParams.entries())).toEqual(
         expect.objectContaining(expected),
       )
     },
   )
 
-  test("Displaying and toggling facets", async () => {
+  test.each([
+    {
+      fieldType: ChannelTypeEnum.Topic,
+      displayedFacets: ["Resource Type", "Offered By", "Department", "Level"],
+    },
+    {
+      fieldType: ChannelTypeEnum.Department,
+      displayedFacets: ["Resource Type", "Offered By", "Topic", "Level"],
+    },
+    {
+      fieldType: ChannelTypeEnum.Offeror,
+      displayedFacets: ["Resource Type", "Topic", "Platform"],
+    },
+    {
+      fieldType: ChannelTypeEnum.Pathway,
+      displayedFacets: [],
+    },
+  ])(
+    "Displays the correct facets for the fieldType",
+    async ({ fieldType, displayedFacets }) => {
+      const { field } = setMockApiResponses({
+        fieldPatch: { channel_type: fieldType },
+        search: {
+          count: 700,
+          metadata: {
+            aggregations: {
+              topic: [
+                { key: "physics", doc_count: 100 },
+                { key: "chemistry", doc_count: 200 },
+              ],
+              department: [{ key: "1", doc_count: 100 }],
+              level: [{ key: "graduate", doc_count: 100 }],
+              resource_type: [{ key: "course", doc_count: 100 }],
+              platform: [{ key: "ocw", doc_count: 100 }],
+              offered_by: [{ key: "ocw", doc_count: 100 }],
+            },
+            suggestions: [],
+          },
+        },
+      })
+
+      setMockResponse.get(urls.userMe.get(), {})
+
+      renderTestApp({ url: `/c/${field.channel_type}/${field.name}/` })
+
+      await waitFor(() => {
+        expect(makeRequest.mock.calls.length > 0).toBe(true)
+      })
+
+      for (const dropdownName of [
+        "Department",
+        "Level",
+        "Learning Resource",
+        "Level",
+        "Offered By",
+        "Platforn",
+        "Topic",
+      ]) {
+        if (dropdownName in displayedFacets) {
+          await screen.findByText(dropdownName)
+        } else {
+          expect(screen.queryByText(dropdownName)).toBeNull()
+        }
+      }
+    },
+  )
+
+  test("Selected Facets should be displayed and toggleable", async () => {
     const { field } = setMockApiResponses({
-      fieldPatch: { search_filter: "topic=physics,chemistry" },
+      fieldPatch: {
+        channel_type: ChannelTypeEnum.Department,
+        search_filter: "offered_by=ocw",
+      },
       search: {
         count: 700,
         metadata: {
           aggregations: {
-            topic: [
-              { key: "physics", doc_count: 100 },
-              { key: "chemistry", doc_count: 200 },
-              { key: "literature", doc_count: 200 },
-            ],
             resource_type: [
               { key: "course", doc_count: 100 },
               { key: "program", doc_count: 100 },
@@ -162,6 +233,7 @@ describe("FieldSearch", () => {
           },
           suggestions: [],
         },
+        results: [],
       },
     })
     setMockResponse.get(urls.userMe.get(), {})
@@ -171,9 +243,7 @@ describe("FieldSearch", () => {
     })
     expect(location.current.search).toBe("")
 
-    const resourceTypeDropdown = await screen.findByText("resource type")
-
-    expect(screen.queryByText("topic")).toBeNull()
+    let resourceTypeDropdown = await screen.findByText("Resource Type")
 
     await user.click(resourceTypeDropdown)
 
@@ -187,6 +257,10 @@ describe("FieldSearch", () => {
 
     expect(location.current.search).toBe("?resource_type=course")
 
+    resourceTypeDropdown = await screen.findByText("Resource Type")
+
+    await user.click(resourceTypeDropdown)
+
     courseSelect = await screen.findByRole("option", {
       name: /Course/i,
     })
@@ -197,9 +271,7 @@ describe("FieldSearch", () => {
 
     expect(location.current.search).toBe("")
 
-    courseSelect = await screen.findByRole("option", {
-      name: /Course/i,
-    })
+    courseSelect = await screen.findByText("Course")
 
     expect(courseSelect).toHaveAttribute("aria-selected", "false")
   })

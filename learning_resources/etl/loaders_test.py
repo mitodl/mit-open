@@ -535,8 +535,9 @@ def test_load_run(run_exists):
 
 @pytest.mark.parametrize("parent_factory", [CourseFactory, ProgramFactory])
 @pytest.mark.parametrize("topics_exist", [True, False])
-def test_load_topics(parent_factory, topics_exist):
+def test_load_topics(mocker, parent_factory, topics_exist):
     """Test that load_topics creates and/or assigns topics to the parent object"""
+    mock_pluggy = mocker.patch("learning_resources.etl.loaders.topic_upserted_actions")
     topics = (
         LearningResourceTopicFactory.create_batch(3)
         if topics_exist
@@ -547,10 +548,12 @@ def test_load_topics(parent_factory, topics_exist):
     load_topics(parent.learning_resource, [])
 
     assert parent.learning_resource.topics.count() == 0
+    mock_pluggy.assert_not_called()
 
     load_topics(parent.learning_resource, [{"name": topic.name} for topic in topics])
 
     assert parent.learning_resource.topics.count() == len(topics)
+    assert mock_pluggy.call_count == (0 if topics_exist else len(topics))
 
     load_topics(parent.learning_resource, None)
 

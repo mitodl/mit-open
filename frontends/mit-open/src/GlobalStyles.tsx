@@ -79,18 +79,6 @@ const formCss = css`
 
 const muiCss = css`
   #app-container {
-    .MuiTab-root {
-      text-transform: none;
-    }
-
-    .MuiChip-root.MuiChip-filled {
-      background-color: ${theme.custom.colorBackground};
-    }
-
-    .MuiButtonBase-root {
-      text-transform: none;
-    }
-
     .MuiCardContent-root {
       padding-bottom: 16px;
 

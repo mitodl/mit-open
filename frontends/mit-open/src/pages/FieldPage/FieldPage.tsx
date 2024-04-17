@@ -9,9 +9,10 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { makeFieldViewPath } from "@/common/urls"
 import FieldSearch from "./FieldSearch"
 import type { Facets, FacetKey } from "@mitodl/course-search-utils"
+import { ChannelTypeEnum } from "api/v0"
 
 type RouteParams = {
-  channelType: string
+  channelType: ChannelTypeEnum
   name: string
 }
 
@@ -54,50 +55,56 @@ const FieldPage: React.FC = () => {
   }
 
   return (
-    <FieldPageSkeleton name={name} channelType={channelType}>
-      <TabContext value={tabValue}>
-        <div>
+    name &&
+    channelType && (
+      <FieldPageSkeleton name={name} channelType={channelType}>
+        <TabContext value={tabValue}>
+          <div>
+            <Container>
+              <GridContainer>
+                <GridColumn variant="main-2-wide-main">
+                  <TabList onChange={handleChange}>
+                    <Tab component={Link} to="#" label="Home" value="home" />
+                    <Tab
+                      component={Link}
+                      to="#about"
+                      label="About"
+                      value="about"
+                    />
+                  </TabList>
+                </GridColumn>
+                <GridColumn variant="sidebar-2-wide-main" />
+              </GridContainer>
+            </Container>
+          </div>
           <Container>
             <GridContainer>
               <GridColumn variant="main-2-wide-main">
-                <TabList onChange={handleChange}>
-                  <Tab component={Link} to="#" label="Home" value="home" />
-                  <Tab
-                    component={Link}
-                    to="#about"
-                    label="About"
-                    value="about"
-                  />
-                </TabList>
+                <TabPanel value="home">
+                  <p>{fieldQuery.data?.public_description}</p>
+                  {fieldQuery.data?.search_filter && (
+                    <FieldSearch
+                      constantSearchParams={searchParams}
+                      channelType={channelType}
+                    />
+                  )}
+                </TabPanel>
+                <TabPanel value="about"></TabPanel>
               </GridColumn>
-              <GridColumn variant="sidebar-2-wide-main" />
+              <GridColumn variant="sidebar-2-wide-main">
+                {fieldQuery.data?.widget_list && (
+                  <WidgetsList
+                    widgetListId={fieldQuery.data.widget_list}
+                    isEditing={isEditingWidgets}
+                    onFinishEditing={leaveWidgetManagement}
+                  />
+                )}
+              </GridColumn>
             </GridContainer>
           </Container>
-        </div>
-        <Container>
-          <GridContainer>
-            <GridColumn variant="main-2-wide-main">
-              <TabPanel value="home">
-                <p>{fieldQuery.data?.public_description}</p>
-                {fieldQuery.data?.search_filter && (
-                  <FieldSearch constantSearchParams={searchParams} />
-                )}
-              </TabPanel>
-              <TabPanel value="about"></TabPanel>
-            </GridColumn>
-            <GridColumn variant="sidebar-2-wide-main">
-              {fieldQuery.data?.widget_list && (
-                <WidgetsList
-                  widgetListId={fieldQuery.data.widget_list}
-                  isEditing={isEditingWidgets}
-                  onFinishEditing={leaveWidgetManagement}
-                />
-              )}
-            </GridColumn>
-          </GridContainer>
-        </Container>
-      </TabContext>
-    </FieldPageSkeleton>
+        </TabContext>
+      </FieldPageSkeleton>
+    )
   )
 }
 

@@ -2,7 +2,9 @@
 
 from types import SimpleNamespace
 
+import factory
 import pytest
+from django.db.models import signals
 from django.http import QueryDict
 from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
@@ -16,12 +18,14 @@ from learning_resources.models import LearningResource
 from learning_resources.serializers import LearningResourceSerializer
 from learning_resources_search import serializers
 from learning_resources_search.api import gen_content_file_id
+from learning_resources_search.factories import PercolateQueryFactory
 from learning_resources_search.serializers import (
     ContentFileSearchRequestSerializer,
     ContentFileSerializer,
     LearningResourcesSearchRequestSerializer,
     SearchResponseSerializer,
     extract_values,
+    serialize_percolate_query,
 )
 
 
@@ -750,3 +754,44 @@ def test_learning_resources_search_response_serializer(
     assert JSONRenderer().render(
         SearchResponseSerializer(raw_data, context={"request": request}).data
     ) == JSONRenderer().render(response)
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_percolate_serializer():
+    """
+    Test that percolator queries are serialized correctly
+    """
+    query = {
+        "query": {
+            "has_child": {
+                "type": "content_file",
+                "query": {
+                    "multi_match": {
+                        "query": "new",
+                        "fields": [
+                            "content",
+                            "title.english^3",
+                            "short_description.english^2",
+                            "content_feature_type",
+                        ],
+                    }
+                },
+                "score_mode": "avg",
+            }
+        },
+        "size": 10,
+        "_source": {
+            "excludes": [
+                "course.course_numbers.sort_coursenum",
+                "course.course_numbers.primary",
+                "created_on",
+                "resource_relations",
+            ]
+        },
+    }
+    percolate_query = PercolateQueryFactory(query=query, original_query=query)
+    serialized = serialize_percolate_query(percolate_query)
+    assert "_id" in serialized
+    assert "query" in serialized
+    assert "has_child" not in serialized["query"]
