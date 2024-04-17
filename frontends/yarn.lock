@@ -12210,6 +12210,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^16.4.5":
+  version: 16.4.5
+  resolution: "dotenv@npm:16.4.5"
+  checksum: 10c0/48d92870076832af0418b13acd6e5a5a3e83bb00df690d9812e94b24aff62b88ade955ac99a05501305b8dc8f1b0ee7638b18493deb6fe93d680e5220936292f
+  languageName: node
+  linkType: hard
+
 "duplexer@npm:^0.1.2":
   version: 0.1.2
   resolution: "duplexer@npm:0.1.2"
@@ -19327,6 +19334,7 @@ __metadata:
     classnames: "npm:^2.3.2"
     copy-webpack-plugin: "npm:^12.0.2"
     css-loader: "npm:^6.9.0"
+    dotenv: "npm:^16.4.5"
     formik: "npm:^2.4.5"
     html-webpack-plugin: "npm:^5.6.0"
     lodash: "npm:^4.17.21"

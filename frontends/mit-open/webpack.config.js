@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path")
+require("dotenv").config({
+  path: path.resolve(__dirname, "../../.env"),
+})
+
 const webpack = require("webpack")
 const BundleTracker = require("webpack-bundle-tracker")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")

@@ -80,9 +80,7 @@ At minimum we need these containers for the backend:
 docker compose up nginx web db
 ```
 
-The front end is served at `http://localhost:8062` and changes are hot reloaded into the page.
-
-Note that in this mode the frontend bundle is kept in Wepback Dev Server memory and not written to the filesystem - the application is still served on port 8063, but changes are only reflected there if the watch container is running or when the front end is built manually.
+The front end is served at `http://localhost:8062` and changes are hot reloaded into the page. Changes are also built to disk and available on 8063 on page refresh (if the backend is running in Docker).
 
 ### Frontend Dev Server proxying to RC or Prod
 
@@ -94,4 +92,4 @@ Run the front end with:
 yarn watch:rc
 ```
 
-The front end is served at `http://localhost:8080` and changes are hot reloaded into the page.
+The front end is served at `http://localhost:8062` and changes are hot reloaded into the page.
