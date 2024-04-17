@@ -646,4 +646,4 @@ def test_user_subscribed_to_search(
     client.delete(url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 0
     response = client.get(url, params).json()
-    assert response["is_subscribed"]
+    assert not response["is_subscribed"]
