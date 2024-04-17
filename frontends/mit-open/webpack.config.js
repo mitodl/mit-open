@@ -8,6 +8,7 @@ const { withCKEditor } = require("ol-ckeditor/webpack-utils")
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
 
 const { NODE_ENV, ENVIRONMENT, PORT, API_BASE_URL, WEBPACK_ANALYZE } =
   process.env
@@ -138,7 +139,7 @@ module.exports = (env, argv) => {
                 filename: "[name]-[contenthash].css",
               }),
             ]
-          : [],
+          : [new ReactRefreshWebpackPlugin()],
       )
       .concat(
         WEBPACK_ANALYZE === "True"
@@ -177,7 +178,7 @@ module.exports = (env, argv) => {
       emitOnErrors: false,
     },
     devServer: {
-      port: PORT || 8080,
+      port: PORT || 8062,
       allowedHosts: "all",
       headers: {
         "Access-Control-Allow-Origin": "*",

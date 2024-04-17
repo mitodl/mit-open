@@ -80,7 +80,7 @@ At minimum we need these containers for the backend:
 docker compose up nginx web db
 ```
 
-The front end is served at `http://localhost:8080` and changes are hot reloaded into the page.
+The front end is served at `http://localhost:8062` and changes are hot reloaded into the page.
 
 Note that in this mode the frontend bundle is kept in Wepback Dev Server memory and not written to the filesystem - the application is still served on port 8063, but changes are only reflected there if the watch container is running or when the front end is built manually.
 
