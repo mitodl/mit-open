@@ -60,7 +60,7 @@ The application is served at `http://localhost:8063`.
 
 ### Local Frontend Dev Server with Local Backend
 
-The `watch` container is slower to respond to changes to the filesystem. If [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) is slow for you, we can run Wepback Dev Server directly outside of Docker. Dev Server proxies API requests through to a locally running backend stack.
+The `watch` container can be slow to respond to changes to the filesystem mounted onto Docker. If [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) is slow for you, we can run Wepback Dev Server directly outside of Docker. Dev Server proxies API requests through to a locally running backend stack.
 
 Run the front end with:
 
