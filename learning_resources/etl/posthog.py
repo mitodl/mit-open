@@ -76,7 +76,7 @@ class PostHogApiAuth(requests.auth.AuthBase):
         return request
 
 
-def posthog_run_query(query: str) -> list[PostHogEvent]:
+def posthog_run_query(query: str) -> dict:
     """
     Run a HogQL query agains the PostHog private API.
 
@@ -89,7 +89,7 @@ def posthog_run_query(query: str) -> list[PostHogEvent]:
     Args:
     - query (str): the HogQL query to run
     Returns:
-    - list of PostHogEvent
+    - dict, the de-JSONified data from PostHog
     """
 
     ph_api_key = settings.POSTHOG_PERSONAL_API_KEY or None
