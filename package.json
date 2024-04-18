@@ -29,7 +29,7 @@
     "build-storybook": "yarn workspace mit-open build-storybook"
   },
   "version": "0.0.0",
-  "packageManager": "yarn@3.8.1",
+  "packageManager": "yarn@4.1.1",
   "devDependencies": {
     "@swc/core": "^1.4.11",
     "@swc/jest": "^0.2.26",
