@@ -2,6 +2,8 @@ import React from "react"
 import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
 import type { Theme } from "@mui/material/styles"
+import tinycolor from "tinycolor2"
+import { Link } from "react-router-dom"
 
 type ButtonVariant = "outlined" | "filled" | "text"
 type ButtonSize = "small" | "medium" | "large"
@@ -89,7 +91,9 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       }[size],
       color: colors[color].main,
       ":hover:not(:disabled)": {
-        backgroundColor: `rgb(${colors[color].rgb}, 0.06)`,
+        backgroundColor: tinycolor(colors[color].main)
+          .setAlpha(0.06)
+          .toString(),
       },
       ":disabled": {
         color: colors.disabled.main,
@@ -137,12 +141,22 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ],
 )
 
-type ButtonProps = ButtonStyleProps & React.ComponentProps<"button">
+const LinkStyled = styled(ButtonStyled.withComponent(Link))({
+  ":hover": {
+    textDecoration: "none",
+  },
+})
+
+type ButtonProps = ButtonStyleProps &
+  (
+    | (React.ComponentProps<"button"> & { as?: undefined })
+    | (React.ComponentProps<"a"> & { as: "link"; href: string })
+  )
 
 const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
   const { size = defaultProps.size } = props
-  return (
-    <ButtonStyled {...props}>
+  const content = (
+    <>
       {props.startIcon ? (
         <IconContainer size={size} side="start">
           {props.startIcon}
@@ -154,8 +168,18 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
           {props.endIcon}
         </IconContainer>
       ) : null}
-    </ButtonStyled>
+    </>
   )
+  if (props.as === "link") {
+    const { href, ...others } = props
+    return (
+      <LinkStyled to={href} {...others}>
+        {content}
+      </LinkStyled>
+    )
+  } else {
+    return <ButtonStyled {...props}>{content}</ButtonStyled>
+  }
 }
 
 export { Button }

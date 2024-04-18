@@ -8,6 +8,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
+import { withRouter } from "storybook-addon-react-router-v6"
 
 const meta: Meta<typeof Button> = {
   title: "smoot-design/Button",
@@ -138,6 +139,22 @@ const EXTRA_PROPS = [
   { endIcon: <ArrowForwardIcon /> },
 ]
 
+export const LinkStory: Story = {
+  decorators: [withRouter],
+  render: () => (
+    <Stack direction="row" gap={2} sx={{ my: 2 }}>
+      <Button as="link" href="" variant="filled">
+        Link
+      </Button>
+      <Button as="link" href="" variant="outlined">
+        Link
+      </Button>
+      <Button as="link" href="" variant="text">
+        Link
+      </Button>
+    </Stack>
+  ),
+}
 export const AllStory: Story = {
   render: () => (
     <Grid container rowGap={2} sx={{ maxWidth: "500px" }}>

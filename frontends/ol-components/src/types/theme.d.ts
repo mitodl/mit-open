@@ -7,7 +7,6 @@ interface Color {
   light: string
   main: string
   dark: string
-  rgb: string
   contrastText: string
 }
 

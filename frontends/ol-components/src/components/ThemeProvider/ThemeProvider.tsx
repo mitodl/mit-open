@@ -80,21 +80,18 @@ const custom: ThemeOptions["custom"] = {
     red: {
       light: "#D02E44",
       main: "#A31F34",
-      rgb: "161, 31, 52",
       dark: "#83192A",
       contrastText: "#fff",
     },
     blue: {
       light: "#99EBFF",
       main: "#1966FF",
-      rgb: "25, 102, 255",
       dark: "#002896",
       contrastText: "#fff",
     },
     disabled: {
       light: "#8B959E",
       main: "#8B959E",
-      rgb: "139, 149, 158",
       dark: "#8B959E",
       contrastText: "#fff",
     },
