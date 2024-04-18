@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.9.2
+-------------
+
+- adding manual migration to fix foreign key type (#752)
+- Add channel url to topic, department, and offeror serializers (#778)
+- Filter channels api by channel_type (#779)
+
 Version 0.9.1 (Released April 18, 2024)
 -------------
 
