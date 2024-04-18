@@ -16,7 +16,6 @@ const useCapturePageView = (resourceId: number) => {
   useEffect(() => {
     if (!APP_SETTINGS.posthog?.enabled) return
     if (!isSuccess) return
-    console.log("making posthog capture")
     posthog.capture("lrd_view", {
       resourceId: data?.id || "unknown",
       readableId: data?.readable_id,
@@ -36,9 +35,9 @@ const useCapturePageView = (resourceId: number) => {
 const DrawerContent: React.FC<{
   resourceId: number
   isOpen: boolean
-}> = ({ resourceId, isOpen }) => {
+}> = ({ resourceId }) => {
   const resource = useLearningResourcesDetail(Number(resourceId))
-  useCapturePageView(Number(resourceId), isOpen)
+  useCapturePageView(Number(resourceId))
 
   return (
     <ExpandedLearningResourceDisplay

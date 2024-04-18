@@ -21,7 +21,6 @@ type RoutedDrawerProps<K extends string = string, R extends K = K> = {
   onView?: () => void
   children: (childProps: {
     params: ChildParams<K, R>
-    open: boolean
     closeDrawer: () => void
   }) => React.ReactNode
 } & Omit<DrawerProps, "open" | "onClose" | "children">
@@ -74,7 +73,6 @@ const RoutedDrawer = <K extends string, R extends K = K>(
           {requiredArePresent &&
             children?.({
               params: childParams as Record<K, string>,
-              open: open,
               closeDrawer: setOpen.off,
             })}
           <IconButton
