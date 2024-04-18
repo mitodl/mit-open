@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.9.1 (Released April 18, 2024)
+-------------
+
+- Homepage hero section (#754)
+- Add necessary celery client configurables for celery monitoring (#780)
+
 Version 0.9.0 (Released April 16, 2024)
 -------------
 
