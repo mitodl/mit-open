@@ -994,6 +994,12 @@ export interface LearningResourceDepartment {
    * @memberof LearningResourceDepartment
    */
   name: string
+  /**
+   * Get the channel url for the department if it exists
+   * @type {string}
+   * @memberof LearningResourceDepartment
+   */
+  channel_url: string | null
 }
 /**
  * Serializer for LearningResourceDepartment
@@ -1144,6 +1150,12 @@ export interface LearningResourceOfferor {
    * @memberof LearningResourceOfferor
    */
   name: string
+  /**
+   * Get the channel url for the offeror if it exists
+   * @type {string}
+   * @memberof LearningResourceOfferor
+   */
+  channel_url: string | null
 }
 /**
  * Serializer for LearningResourceOfferor
@@ -1607,6 +1619,12 @@ export interface LearningResourceTopic {
    * @memberof LearningResourceTopic
    */
   name: string
+  /**
+   * Get the channel url for the topic if it exists
+   * @type {string}
+   * @memberof LearningResourceTopic
+   */
+  channel_url: string | null
 }
 /**
  * Serializer containing only parent and child ids for a learning path relationship

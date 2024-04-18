@@ -97,7 +97,9 @@ class FieldChannelViewSet(
 
 
 @extend_schema_view(
-    get=extend_schema(summary="FieldChannel Detail Lookup by channel type and name"),
+    retrieve=extend_schema(
+        summary="FieldChannel Detail Lookup by channel type and name"
+    ),
 )
 class ChannelByTypeNameDetailView(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """

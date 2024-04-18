@@ -61,6 +61,7 @@ const learningPathFormSchema = Yup.object().shape({
       Yup.object().shape({
         id: Yup.number().required(),
         name: Yup.string().required(),
+        channel_url: Yup.string().nullable().required(),
       }),
     )
     .min(1, "Select between 1 and 3 subjects.")

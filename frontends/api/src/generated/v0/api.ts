@@ -199,6 +199,12 @@ export interface DepartmentChannel {
   lists: Array<LearningPathPreview>
   /**
    *
+   * @type {string}
+   * @memberof DepartmentChannel
+   */
+  channel_url: string
+  /**
+   *
    * @type {DepartmentChannelFeaturedList}
    * @memberof DepartmentChannel
    */
@@ -636,6 +642,12 @@ export interface OfferorChannel {
   lists: Array<LearningPathPreview>
   /**
    *
+   * @type {string}
+   * @memberof OfferorChannel
+   */
+  channel_url: string
+  /**
+   *
    * @type {DepartmentChannelFeaturedList}
    * @memberof OfferorChannel
    */
@@ -956,6 +968,12 @@ export interface PathwayChannel {
   lists: Array<LearningPathPreview>
   /**
    *
+   * @type {string}
+   * @memberof PathwayChannel
+   */
+  channel_url: string
+  /**
+   *
    * @type {DepartmentChannelFeaturedList}
    * @memberof PathwayChannel
    */
@@ -1205,6 +1223,12 @@ export interface TopicChannel {
    * @memberof TopicChannel
    */
   lists: Array<LearningPathPreview>
+  /**
+   *
+   * @type {string}
+   * @memberof TopicChannel
+   */
+  channel_url: string
   /**
    *
    * @type {DepartmentChannelFeaturedList}
@@ -1895,6 +1919,7 @@ export const ChannelsApiAxiosParamCreator = function (
     },
     /**
      * View for retrieving an individual field channel by type and name
+     * @summary FieldChannel Detail Lookup by channel type and name
      * @param {string} channel_type
      * @param {string} name
      * @param {*} [options] Override http request option.
@@ -2201,6 +2226,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
     },
     /**
      * View for retrieving an individual field channel by type and name
+     * @summary FieldChannel Detail Lookup by channel type and name
      * @param {string} channel_type
      * @param {string} name
      * @param {*} [options] Override http request option.
@@ -2383,6 +2409,7 @@ export const ChannelsApiFactory = function (
     },
     /**
      * View for retrieving an individual field channel by type and name
+     * @summary FieldChannel Detail Lookup by channel type and name
      * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2732,6 +2759,7 @@ export class ChannelsApi extends BaseAPI {
 
   /**
    * View for retrieving an individual field channel by type and name
+   * @summary FieldChannel Detail Lookup by channel type and name
    * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

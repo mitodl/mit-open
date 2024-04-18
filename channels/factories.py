@@ -108,7 +108,9 @@ class FieldChannelFactory(DjangoModelFactory):
 class ChannelTopicDetailFactory(DjangoModelFactory):
     """Factory for a channels.models.ChannelTopicDetail object"""
 
-    channel = factory.SubFactory(FieldChannelFactory, is_topic=True)
+    channel = factory.SubFactory(
+        FieldChannelFactory, is_topic=True, create_topic_detail=False
+    )
     topic = factory.SubFactory(LearningResourceTopicFactory)
 
     class Meta:
@@ -118,7 +120,9 @@ class ChannelTopicDetailFactory(DjangoModelFactory):
 class ChannelDepartmentDetailFactory(DjangoModelFactory):
     """Factory for a channels.models.ChannelDepartmentDetail object"""
 
-    channel = factory.SubFactory(FieldChannelFactory, is_department=True)
+    channel = factory.SubFactory(
+        FieldChannelFactory, is_department=True, create_department_detail=False
+    )
     department = factory.SubFactory(LearningResourceDepartmentFactory)
 
     class Meta:
@@ -128,7 +132,9 @@ class ChannelDepartmentDetailFactory(DjangoModelFactory):
 class ChannelOfferorDetailFactory(DjangoModelFactory):
     """Factory for a channels.models.ChannelOfferorDetail object"""
 
-    channel = factory.SubFactory(FieldChannelFactory, is_offeror=True)
+    channel = factory.SubFactory(
+        FieldChannelFactory, is_offeror=True, create_offeror_detail=False
+    )
     offeror = factory.SubFactory(LearningResourceOfferorFactory)
 
     class Meta:
