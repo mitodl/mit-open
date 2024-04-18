@@ -1,6 +1,6 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { Button } from "./Button"
+import { Button, ButtonLink } from "./Button"
 import Grid from "@mui/material/Grid"
 import Stack from "@mui/material/Stack"
 import { theme } from "../ThemeProvider/ThemeProvider"
@@ -143,15 +143,15 @@ export const LinkStory: Story = {
   decorators: [withRouter],
   render: () => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button as="link" href="" variant="filled">
+      <ButtonLink href="" variant="filled">
         Link
-      </Button>
-      <Button as="link" href="" variant="outlined">
+      </ButtonLink>
+      <ButtonLink href="" variant="outlined">
         Link
-      </Button>
-      <Button as="link" href="" variant="text">
+      </ButtonLink>
+      <ButtonLink href="" variant="text">
         Link
-      </Button>
+      </ButtonLink>
     </Stack>
   ),
 }

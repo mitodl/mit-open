@@ -21,8 +21,8 @@ export type { BadgeProps } from "@mui/material/Badge"
 export { default as AppBar } from "@mui/material/AppBar"
 export type { AppBarProps } from "@mui/material/AppBar"
 
-export { default as Button } from "@mui/material/Button"
-export type { ButtonProps } from "@mui/material/Button"
+export { Button } from "./components/Button/Button"
+export type { ButtonProps } from "./components/Button/Button"
 
 export { default as Card } from "@mui/material/Card"
 export type { CardProps } from "@mui/material/Card"

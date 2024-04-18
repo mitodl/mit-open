@@ -121,7 +121,7 @@ const UserListListingPage: React.FC = () => {
                 alignItems="center"
                 display="flex"
               >
-                <Button variant="contained" onClick={handleCreate}>
+                <Button variant="filled" onClick={handleCreate}>
                   Create new list
                 </Button>
               </Grid>

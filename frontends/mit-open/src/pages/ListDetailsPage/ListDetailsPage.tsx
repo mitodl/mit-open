@@ -61,7 +61,6 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
               >
                 {showSort && (
                   <Button
-                    color="secondary"
                     disabled={count === 0}
                     startIcon={isSorting ? undefined : <SwapVertIcon />}
                     onClick={toggleIsSorting.toggle}
@@ -82,11 +81,7 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
                 display="flex"
               >
                 {canEdit ? (
-                  <Button
-                    color="secondary"
-                    startIcon={<EditIcon />}
-                    onClick={handleEdit}
-                  >
+                  <Button startIcon={<EditIcon />} onClick={handleEdit}>
                     Edit
                   </Button>
                 ) : null}

@@ -1,9 +1,10 @@
 import type { ThemeOptions } from "@mui/material/styles"
 import { pxToRem } from "./typography"
 
-const buttonBaseComponent = {
+const buttonBaseComponent: NonNullable<
+  ThemeOptions["components"]
+>["MuiButtonBase"] = {
   defaultProps: {
-    disableElevation: true,
     disableRipple: true,
   },
   styleOverrides: {

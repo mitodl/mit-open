@@ -147,15 +147,13 @@ const LinkStyled = styled(ButtonStyled.withComponent(Link))({
   },
 })
 
-type ButtonProps = ButtonStyleProps &
-  (
-    | (React.ComponentProps<"button"> & { as?: undefined })
-    | (React.ComponentProps<"a"> & { as: "link"; href: string })
-  )
+type ButtonProps = ButtonStyleProps & React.ComponentProps<"button">
 
-const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
-  const { size = defaultProps.size } = props
-  const content = (
+const ButtonInner: React.FC<
+  ButtonStyleProps & { children?: React.ReactNode }
+> = (props) => {
+  const { children, size = defaultProps.size } = props
+  return (
     <>
       {props.startIcon ? (
         <IconContainer size={size} side="start">
@@ -170,16 +168,26 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
       ) : null}
     </>
   )
-  if (props.as === "link") {
-    const { href, ...others } = props
-    return (
-      <LinkStyled to={href} {...others}>
-        {content}
-      </LinkStyled>
-    )
-  } else {
-    return <ButtonStyled {...props}>{content}</ButtonStyled>
-  }
 }
 
-export { Button }
+const Button: React.FC<ButtonProps> = ({ children, ...props }) => (
+  <ButtonStyled type="button" {...props}>
+    <ButtonInner {...props}>{children}</ButtonInner>
+  </ButtonStyled>
+)
+
+type ButtonLinkProps = ButtonStyleProps &
+  React.ComponentProps<"a"> & { href: string }
+
+const ButtonLink: React.FC<ButtonLinkProps> = ({
+  children,
+  href,
+  ...props
+}) => (
+  <LinkStyled to={href} {...props}>
+    <ButtonInner {...props}>{children}</ButtonInner>
+  </LinkStyled>
+)
+
+export { Button, ButtonLink }
+export type { ButtonProps, ButtonLinkProps }

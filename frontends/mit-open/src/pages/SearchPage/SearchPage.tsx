@@ -331,12 +331,7 @@ const SearchPage: React.FC = () => {
                     Filters
                     <TuneIcon fontSize="inherit" />
                   </FilterTitle>
-                  <Button
-                    variant="text"
-                    onClick={clearAllFacets}
-                    color="secondary"
-                    sx={{ padding: 0, lineHeight: "normal" }}
-                  >
+                  <Button variant="text" onClick={clearAllFacets}>
                     Clear all
                   </Button>
                 </Stack>
