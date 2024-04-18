@@ -56,17 +56,11 @@ docker compose up nginx web db watch
 
 In this mode, the watch container starts Webpack Dev Server and listens for changes, and building the front end to the local filesystem at `./frontends/mit-open/build`. This is mounted to the `nginx` container for it to serve the static bundle, while routing backend paths to the `web` service.
 
-#### Serving on 8063
+The application is served at `http://localhost:8063`.
 
-The application is served at `http://localhost:8063` and changes are reflected on page refresh. Note that there is no [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) on port 8063.
+### Local Frontend Dev Server with Local Backend
 
-#### Serving on 8062
-
-The Webpack Dev Server running in the `watch` container can be reached directly at `http://localhost:8062` to load from its live in-memory bundle and make use of the Hot Module Replacement socket.
-
-### Frontend Dev Server with Local Backend
-
-In this mode we run Wepback Dev Server directly outside of Docker. Dev Server proxies API requests through to a locally running backend stack.
+The `watch` container is slower to respond to changes to the filesystem. If [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) is slow for you, we can run Wepback Dev Server directly outside of Docker. Dev Server proxies API requests through to a locally running backend stack.
 
 Run the front end with:
 
@@ -80,9 +74,9 @@ At minimum we need these containers for the backend:
 docker compose up nginx web db
 ```
 
-The front end is served at `http://localhost:8062` and changes are hot reloaded into the page. Changes are also built to disk and available on 8063 on page refresh (if the backend is running in Docker).
+The application is served at `http://localhost:8062`, using the API hosted on your local Docker.
 
-### Frontend Dev Server proxying to RC or Prod
+### Local Frontend Dev Server proxying to RC or Prod
 
 When working on the front end in isolation or to test changes against APIs already running in RC, the frontend dev server is configured to run against our hosted RC API without running the backend stack locally.
 
@@ -92,4 +86,4 @@ Run the front end with:
 yarn watch:rc
 ```
 
-The front end is served at `http://localhost:8062` and changes are hot reloaded into the page.
+The front end is served at `http://localhost:8062`, using the API hosted on RC.
