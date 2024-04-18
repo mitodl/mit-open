@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.1
+Version 0.9.1 (Released April 18, 2024)
 -------------
 
 - Homepage hero section (#754)
