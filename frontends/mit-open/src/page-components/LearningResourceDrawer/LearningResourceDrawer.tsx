@@ -34,7 +34,6 @@ const useCapturePageView = (resourceId: number) => {
 
 const DrawerContent: React.FC<{
   resourceId: number
-  isOpen: boolean
 }> = ({ resourceId }) => {
   const resource = useLearningResourcesDetail(Number(resourceId))
   useCapturePageView(Number(resourceId))
@@ -61,10 +60,10 @@ const LearningResourceDrawer = () => {
       requiredParams={RESOURCE_DRAWER_PARAMS}
       PaperProps={PAPER_PROPS}
     >
-      {({ params, open }) => {
+      {({ params }) => {
         return (
           <>
-            <DrawerContent resourceId={Number(params.resource)} isOpen={open} />
+            <DrawerContent resourceId={Number(params.resource)} />
           </>
         )
       }}
