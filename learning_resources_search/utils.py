@@ -1,5 +1,7 @@
 from opensearch_dsl import Search
 
+from learning_resources.hooks import get_plugin_manager
+
 
 def remove_child_queries(query):
     """
@@ -61,3 +63,21 @@ def adjust_search_for_percolator(search):
     updated_search = Search(index=search._index)  # noqa: SLF001
     updated_search.update_from_dict(updated_search_dict)
     return updated_search
+
+
+def percolate_query_removed_actions(percolate_query):
+    """
+    Trigger plugins when a LearningResource is created or updated
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.percolate_query_delete(percolate_query=percolate_query)
+
+
+def percolate_query_saved_actions(percolate_query):
+    """
+    Trigger plugins when a LearningResource is created or updated
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.percolate_query_upserted(percolate_query=percolate_query)
