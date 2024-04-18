@@ -6,6 +6,7 @@ import logging
 from collections.abc import Generator
 from datetime import datetime
 from http import HTTPStatus
+from typing import Optional
 from urllib.parse import urljoin
 
 import pytz
@@ -24,23 +25,24 @@ class PostHogEvent:
     Represents the raw event data returned by a HogQL query.
 
     This isn't specific to the lrd_view event. There are some elemnts to this
-    that start with a $, so here they're prefixed with "dollar_".
+    that start with a $, so here they're prefixed with "dollar_". Many of these
+    are optional so we can query just for the most salient columns later.
     """
 
     uuid: str
     event: str
     properties: str
     timestamp: datetime
-    distinct_id: str
-    elements_chain: str
-    created_at: datetime
-    dollar_session_id: str
-    dollar_window_id: str
-    dollar_group_0: str
-    dollar_group_1: str
-    dollar_group_2: str
-    dollar_group_3: str
-    dollar_group_4: str
+    distinct_id: Optional[str] = None
+    elements_chain: Optional[str] = None
+    created_at: Optional[datetime] = None
+    dollar_session_id: Optional[str] = None
+    dollar_window_id: Optional[str] = None
+    dollar_group_0: Optional[str] = None
+    dollar_group_1: Optional[str] = None
+    dollar_group_2: Optional[str] = None
+    dollar_group_3: Optional[str] = None
+    dollar_group_4: Optional[str] = None
 
 
 @dataclasses.dataclass
@@ -138,10 +140,9 @@ def posthog_extract_lrd_view_events() -> Generator[PostHogEvent, None, None]:
     - If there aren't any stored events, no filter is applied and you will get
       all events to date
 
-    Due to limitations on the PostHog API side, this will pass the day of the
-    last event to the query API so you will likely get some overlap if there are
-    existing events recorded. (Specifically, it doesn't seem to like timestamps
-    that involve times.)
+    Due to limitations on the PostHog API side, this converts the last event
+    date explicitly to UTC and then to a naive datetime. The PostHog query
+    processor doesn't like timezone info and expects UTC.
 
     Returns:
     - Generator that yields PostHogEvent
@@ -154,9 +155,12 @@ def posthog_extract_lrd_view_events() -> Generator[PostHogEvent, None, None]:
             last_event.event_date.astimezone(pytz.utc).replace(tzinfo=None).isoformat()
         )
 
-        query = f"select * from events where timestamp > '{last_event_day}'"  # noqa: S608
+        query = (
+            "select uuid, event, properties, timestamp from events where "  # noqa: S608
+            f"timestamp > '{last_event_day}'"
+        )
     else:
-        query = "select * from events"
+        query = "select uuid, event, properties, timestamp from events"
 
     int_query = "{} limit {} offset {}"
 
@@ -165,7 +169,7 @@ def posthog_extract_lrd_view_events() -> Generator[PostHogEvent, None, None]:
     has_next_page = True
 
     def _run_query() -> dict:
-        return posthog_run_query(int_query.format(query, limit, offset), raw=True)
+        return posthog_run_query(int_query.format(query, limit, offset))
 
     results = _run_query()
 
