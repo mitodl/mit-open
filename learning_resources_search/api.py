@@ -23,6 +23,7 @@ from learning_resources_search.constants import (
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
+from learning_resources_search.utils import adjust_search_for_percolator
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
@@ -449,17 +450,19 @@ def generate_aggregation_clauses(search_params, filter_clauses):
     return aggregation_clauses
 
 
+def adjust_query_for_percolator(query_params):
+    search = construct_search(query_params)
+    return adjust_search_for_percolator(search).to_dict()["query"]
+
+
 def adjust_original_query_for_percolate(query):
     """
     Remove keys that are irrelevent when storing original queries
     for percolate uniqueness such as "limit" and "offset"
     """
-    if "limit" in query:
-        del query["limit"]
-    if "offset" in query:
-        del query["offset"]
-    if "sortby" in query:
-        del query["offset"]
+    for key in ["limit", "offset", "sortby"]:
+        if key in query:
+            del query[key]
     return query
 
 
@@ -567,10 +570,12 @@ def subscribe_user_to_search_query(user, search_params):
     Returns:
         dict: The opensearch response dict
     """
+    adjusted_original_query = adjust_original_query_for_percolate(search_params)
 
     percolate_query, _ = PercolateQuery.objects.get_or_create(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
-        original_query=adjust_original_query_for_percolate(search_params),
+        original_query=adjusted_original_query,
+        query=adjusted_original_query,
     )
     if not percolate_query.users.filter(id=user.id).exists():
         percolate_query.users.add(user)

@@ -1,7 +1,5 @@
 from opensearch_dsl import Search
 
-from learning_resources_search.api import construct_search
-
 
 def remove_child_queries(query):
     """
@@ -63,8 +61,3 @@ def adjust_search_for_percolator(search):
     updated_search = Search(index=search._index)  # noqa: SLF001
     updated_search.update_from_dict(updated_search_dict)
     return updated_search
-
-
-def adjust_query_for_percolator(query_params):
-    search = construct_search(query_params)
-    return adjust_search_for_percolator(search).to_dict()["query"]
