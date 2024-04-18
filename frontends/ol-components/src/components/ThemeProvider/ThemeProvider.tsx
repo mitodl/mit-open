@@ -128,6 +128,7 @@ const themeOptions: ThemeOptions = {
   typography: typography.globalSettings,
   breakpoints: BREAKPOINTS,
   components: {
+    MuiButtonBase: buttons.buttonBaseComponent,
     MuiButton: buttons.buttonComponent,
     MuiTypography: typography.component,
     MuiInputBase: inputs.inputBaseComponent,
