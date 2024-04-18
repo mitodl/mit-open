@@ -925,6 +925,9 @@ components:
       - offeror
     PaginatedFeedSourceList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -945,6 +948,9 @@ components:
             $ref: '#/components/schemas/FeedSource'
     PaginatedFieldChannelList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer

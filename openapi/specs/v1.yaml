@@ -9016,6 +9016,9 @@ components:
       - parent
     PaginatedArticleList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9036,6 +9039,9 @@ components:
             $ref: '#/components/schemas/Article'
     PaginatedContentFileList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9056,6 +9062,9 @@ components:
             $ref: '#/components/schemas/ContentFile'
     PaginatedCourseResourceList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9076,6 +9085,9 @@ components:
             $ref: '#/components/schemas/CourseResource'
     PaginatedLearningPathRelationshipList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9096,6 +9108,9 @@ components:
             $ref: '#/components/schemas/LearningPathRelationship'
     PaginatedLearningPathResourceList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9116,6 +9131,9 @@ components:
             $ref: '#/components/schemas/LearningPathResource'
     PaginatedLearningResourceContentTagList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9136,6 +9154,9 @@ components:
             $ref: '#/components/schemas/LearningResourceContentTag'
     PaginatedLearningResourceDepartmentList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9156,6 +9177,9 @@ components:
             $ref: '#/components/schemas/LearningResourceDepartment'
     PaginatedLearningResourceList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9176,6 +9200,9 @@ components:
             $ref: '#/components/schemas/LearningResource'
     PaginatedLearningResourceOfferorList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9196,6 +9223,9 @@ components:
             $ref: '#/components/schemas/LearningResourceOfferor'
     PaginatedLearningResourcePlatformList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9216,6 +9246,9 @@ components:
             $ref: '#/components/schemas/LearningResourcePlatform'
     PaginatedLearningResourceRelationshipList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9236,6 +9269,9 @@ components:
             $ref: '#/components/schemas/LearningResourceRelationship'
     PaginatedLearningResourceTopicList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9256,6 +9292,9 @@ components:
             $ref: '#/components/schemas/LearningResourceTopic'
     PaginatedPodcastEpisodeResourceList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9276,6 +9315,9 @@ components:
             $ref: '#/components/schemas/PodcastEpisodeResource'
     PaginatedPodcastResourceList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9296,6 +9338,9 @@ components:
             $ref: '#/components/schemas/PodcastResource'
     PaginatedProgramResourceList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9316,6 +9361,9 @@ components:
             $ref: '#/components/schemas/ProgramResource'
     PaginatedUserListList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9336,6 +9384,9 @@ components:
             $ref: '#/components/schemas/UserList'
     PaginatedUserListRelationshipList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9356,6 +9407,9 @@ components:
             $ref: '#/components/schemas/UserListRelationship'
     PaginatedVideoPlaylistResourceList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer
@@ -9376,6 +9430,9 @@ components:
             $ref: '#/components/schemas/VideoPlaylistResource'
     PaginatedVideoResourceList:
       type: object
+      required:
+      - count
+      - results
       properties:
         count:
           type: integer

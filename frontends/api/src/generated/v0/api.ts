@@ -756,7 +756,7 @@ export interface PaginatedFeedSourceList {
    * @type {number}
    * @memberof PaginatedFeedSourceList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -774,7 +774,7 @@ export interface PaginatedFeedSourceList {
    * @type {Array<FeedSource>}
    * @memberof PaginatedFeedSourceList
    */
-  results?: Array<FeedSource>
+  results: Array<FeedSource>
 }
 /**
  *
@@ -787,7 +787,7 @@ export interface PaginatedFieldChannelList {
    * @type {number}
    * @memberof PaginatedFieldChannelList
    */
-  count?: number
+  count: number
   /**
    *
    * @type {string}
@@ -805,7 +805,7 @@ export interface PaginatedFieldChannelList {
    * @type {Array<FieldChannel>}
    * @memberof PaginatedFieldChannelList
    */
-  results?: Array<FieldChannel>
+  results: Array<FieldChannel>
 }
 /**
  * Similar to FieldChannelCreateSerializer, with read-only name
