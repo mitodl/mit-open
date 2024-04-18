@@ -76,7 +76,6 @@
     "syncpack": "^11.2.1",
     "ts-node": "^10.9.2",
     "type-fest": "^4.14.0",
-    "typescript": "^5.4.3",
-    "webpack-dev-server": "^5.0.4"
+    "typescript": "^5.4.3"
   }
 }

@@ -195,7 +195,7 @@ module.exports = (env, argv) => {
         publicPath: "/static",
       },
       devMiddleware: {
-        writeToDisk: ENVIRONMENT === "docker",
+        writeToDisk: true,
       },
       host: ENVIRONMENT === "docker" ? "0.0.0.0" : "::",
       proxy: [
