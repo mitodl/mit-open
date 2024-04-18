@@ -10008,6 +10008,15 @@ components:
         program_letter_share_url:
           type: string
           readOnly: true
+        program_title:
+          type: string
+          maxLength: 256
+        user_full_name:
+          type: string
+          maxLength: 256
+        user_email:
+          type: string
+          maxLength: 256
         user_edxorg_id:
           type: integer
           maximum: 2147483647
@@ -10025,45 +10034,47 @@ components:
           nullable: true
         user_edxorg_username:
           type: string
-          maxLength: 256
-        user_email:
-          type: string
-          maxLength: 256
-        program_title:
-          type: string
+          nullable: true
           maxLength: 256
         user_gender:
           type: string
+          nullable: true
           maxLength: 256
         user_address_city:
           type: string
+          nullable: true
           maxLength: 256
         user_first_name:
           type: string
+          nullable: true
           maxLength: 256
         user_last_name:
           type: string
-          maxLength: 256
-        user_full_name:
-          type: string
+          nullable: true
           maxLength: 256
         user_year_of_birth:
           type: string
+          nullable: true
           maxLength: 256
         user_country:
           type: string
+          nullable: true
           maxLength: 256
         user_address_postal_code:
           type: string
+          nullable: true
           maxLength: 256
         user_street_address:
           type: string
+          nullable: true
           maxLength: 256
         user_address_state_or_territory:
           type: string
+          nullable: true
           maxLength: 256
         user_mitxonline_username:
           type: string
+          nullable: true
           maxLength: 256
         program_completion_timestamp:
           type: string
