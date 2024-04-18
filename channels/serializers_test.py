@@ -1,8 +1,10 @@
 """Tests for channels.serializers"""
 
 from types import SimpleNamespace
+from urllib.parse import urljoin
 
 import pytest
+from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from channels.constants import FIELD_ROLE_MODERATORS, ChannelType
@@ -120,6 +122,9 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "updated_on": mocker.ANY,
         "created_on": mocker.ANY,
         "id": channel.id,
+        "channel_url": urljoin(
+            settings.SITE_BASE_URL, f"/c/{channel.channel_type}/{channel.name}/"
+        ),
         "lists": [
             LearningPathPreviewSerializer(field_list.field_list).data
             for field_list in sorted(

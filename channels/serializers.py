@@ -124,6 +124,7 @@ class FieldChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerial
     """Serializer for FieldChannel"""
 
     lists = serializers.SerializerMethodField()
+    channel_url = serializers.SerializerMethodField(read_only=True)
     featured_list = LearningPathPreviewSerializer(
         allow_null=True,
         many=False,
@@ -144,6 +145,10 @@ class FieldChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerial
             .all()
             .order_by("position")
         ]
+
+    def get_channel_url(self, instance):
+        """Get the URL for the channel"""
+        return instance.channel_url
 
     class Meta:
         model = FieldChannel

@@ -69,6 +69,7 @@ const learningResourceDepartment: Factory<LearningResourceDepartment> = (
   return {
     department_id: faker.helpers.unique(faker.lorem.words),
     name: faker.lorem.word(),
+    channel_url: faker.internet.url(),
     ...overrides,
   }
 }
@@ -89,6 +90,7 @@ const learningResourceOfferor: Factory<LearningResourceOfferor> = (
   return {
     code: faker.helpers.unique(faker.lorem.words),
     name: faker.helpers.unique(faker.lorem.words),
+    channel_url: faker.internet.url(),
     ...overrides,
   }
 }
@@ -129,6 +131,7 @@ const learningResourceTopic: Factory<LearningResourceTopic> = (
   const topic: LearningResourceTopic = {
     id: faker.helpers.unique(faker.datatype.number),
     name: faker.helpers.unique(faker.lorem.words),
+    channel_url: faker.internet.url(),
     ...overrides,
   }
   return topic

@@ -1,16 +1,20 @@
 """Tests for learning_resources serializers"""
 
+from urllib.parse import urljoin
+
 import pytest
 
+from channels.factories import (
+    ChannelDepartmentDetailFactory,
+    ChannelOfferorDetailFactory,
+    ChannelTopicDetailFactory,
+)
+from channels.models import FieldChannel
 from learning_resources import factories, serializers, utils
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
     PlatformType,
-)
-from learning_resources.serializers import (
-    LearningPathResourceSerializer,
-    LearningResourceImageSerializer,
 )
 from main.test_utils import assert_json_equal, drf_datetime
 
@@ -203,9 +207,17 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "resource_type": resource.resource_type,
         "url": resource.url,
         "user_list_parents": [],
-        "image": LearningResourceImageSerializer(instance=resource.image).data,
-        "departments": list(resource.departments.values("department_id", "name")),
-        "topics": list(resource.topics.values("id", "name")),
+        "image": serializers.LearningResourceImageSerializer(
+            instance=resource.image
+        ).data,
+        "departments": [
+            serializers.LearningResourceDepartmentSerializer(dept).data
+            for dept in resource.departments.all()
+        ],
+        "topics": [
+            serializers.LearningResourceTopicSerializer(topic).data
+            for topic in resource.topics.all()
+        ],
         "runs": [
             serializers.LearningResourceRunSerializer(instance=run).data
             for run in resource.runs.all()
@@ -317,9 +329,9 @@ def test_serialize_run_related_models():
 @pytest.mark.parametrize(
     ("data", "error"),
     [
-        [9999, "Invalid topic ids: {9999}"],  # noqa: PT007
-        [None, "Invalid topic ids: {None}"],  # noqa: PT007
-        ["a", "Topic ids must be integers"],  # noqa: PT007
+        (9999, "Invalid topic ids: {9999}"),
+        (None, "Invalid topic ids: {None}"),
+        ("a", "Topic ids must be integers"),
     ],
 )
 def test_learningpath_serializer_validation_bad_topic(data, error):
@@ -333,7 +345,7 @@ def test_learningpath_serializer_validation_bad_topic(data, error):
         "topics": [data],
         "resource_type": LearningResourceType.learning_path.name,
     }
-    serializer = LearningPathResourceSerializer(data=serializer_data)
+    serializer = serializers.LearningPathResourceSerializer(data=serializer_data)
     assert serializer.is_valid() is False
     assert serializer.errors["topics"][0] == error
 
@@ -352,7 +364,7 @@ def test_learningpath_serializer_validation():
         "topics": topic_ids,
         "resource_type": LearningResourceType.learning_path.name,
     }
-    serializer = LearningPathResourceSerializer(data=serializer_data)
+    serializer = serializers.LearningPathResourceSerializer(data=serializer_data)
     assert serializer.is_valid(raise_exception=True)
 
 
@@ -385,8 +397,10 @@ def test_learningpathitem_serializer_validation(child_exists):
 @pytest.mark.parametrize(
     "expected_types", [["Assignments", "Tools"], ["Lecture Audio"], [], None]
 )
-def test_content_file_serializer(expected_types):
+@pytest.mark.parametrize("has_channels", [True, False])
+def test_content_file_serializer(settings, expected_types, has_channels):
     """Verify that the ContentFileSerializer has the correct data"""
+    settings.SITE_BASE_URL = "https://test.edu/"
     content_kwargs = {
         "content": "Test content",
         "content_author": "MIT",
@@ -398,6 +412,16 @@ def test_content_file_serializer(expected_types):
     content_file = factories.ContentFileFactory.create(
         run=course.learning_resource.runs.first(), **content_kwargs
     )
+    if has_channels:
+        [
+            ChannelTopicDetailFactory.create(topic=topic)
+            for topic in content_file.run.learning_resource.topics.all()
+        ]
+        [
+            ChannelDepartmentDetailFactory.create(department=department)
+            for department in course.learning_resource.departments.all()
+        ]
+        ChannelOfferorDetailFactory.create(offeror=course.learning_resource.offered_by)
 
     serialized = serializers.ContentFileSerializer(content_file).data
 
@@ -414,17 +438,43 @@ def test_content_file_serializer(expected_types):
             "offered_by": {
                 "name": content_file.run.learning_resource.offered_by.name,
                 "code": content_file.run.learning_resource.offered_by.code,
+                "channel_url": urljoin(
+                    settings.SITE_BASE_URL,
+                    f"/c/offeror/{FieldChannel.objects.get(offeror_detail__offeror=content_file.run.learning_resource.offered_by).name}/",
+                )
+                if has_channels
+                else None,
             },
             "run_title": content_file.run.title,
             "run_slug": content_file.run.slug,
             "departments": [
-                {"name": dept.name, "department_id": dept.department_id}
+                {
+                    "name": dept.name,
+                    "department_id": dept.department_id,
+                    "channel_url": urljoin(
+                        settings.SITE_BASE_URL,
+                        f"/c/department/{FieldChannel.objects.get(department_detail__department=dept).name}/",
+                    )
+                    if has_channels
+                    else None,
+                }
                 for dept in content_file.run.learning_resource.departments.all()
             ],
             "semester": content_file.run.semester,
             "year": int(content_file.run.year),
             "topics": [
-                {"name": topic.name, "id": topic.id}
+                {
+                    "name": topic.name,
+                    "id": topic.id,
+                    "channel_url": urljoin(
+                        settings.SITE_BASE_URL,
+                        f"/c/topic/{FieldChannel.objects.get(topic_detail__topic=topic).name}/"
+                        if has_channels
+                        else None,
+                    )
+                    if has_channels
+                    else None,
+                }
                 for topic in content_file.run.learning_resource.topics.all()
             ],
             "key": content_file.key,

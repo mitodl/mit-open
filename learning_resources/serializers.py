@@ -11,6 +11,7 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from channels.models import FieldChannel
 from learning_resources import constants, models
 from learning_resources.constants import LearningResourceType, LevelType
 from learning_resources.etl.loaders import update_index
@@ -34,9 +35,16 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
     Serializer for LearningResourceTopic model
     """
 
+    channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
+
+    def get_channel_url(self, instance: models.LearningResourceTopic) -> str or None:
+        """Get the channel url for the topic if it exists"""
+        channel = FieldChannel.objects.filter(topic_detail__topic=instance).first()
+        return channel.channel_url if channel else None
+
     class Meta:
         model = models.LearningResourceTopic
-        fields = ["id", "name"]
+        fields = ["id", "name", "channel_url"]
 
 
 class WriteableTopicsMixin(serializers.Serializer):
@@ -80,9 +88,16 @@ class LearningResourceTypeField(serializers.ReadOnlyField):
 class LearningResourceOfferorSerializer(serializers.ModelSerializer):
     """Serializer for LearningResourceOfferor"""
 
+    channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
+
+    def get_channel_url(self, instance: models.LearningResourceOfferor) -> str or None:
+        """Get the channel url for the offeror if it exists"""
+        channel = FieldChannel.objects.filter(offeror_detail__offeror=instance).first()
+        return channel.channel_url if channel else None
+
     class Meta:
         model = models.LearningResourceOfferor
-        fields = ("code", "name")
+        fields = ("code", "name", "channel_url")
 
 
 @extend_schema_field({"type": "array", "items": {"type": "string"}})
@@ -105,9 +120,20 @@ class LearningResourcePlatformSerializer(serializers.ModelSerializer):
 class LearningResourceDepartmentSerializer(serializers.ModelSerializer):
     """Serializer for LearningResourceDepartment"""
 
+    channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
+
+    def get_channel_url(
+        self, instance: models.LearningResourceDepartment
+    ) -> str or None:
+        """Get the channel url for the department if it exists"""
+        channel = FieldChannel.objects.filter(
+            department_detail__department=instance
+        ).first()
+        return channel.channel_url if channel else None
+
     class Meta:
         model = models.LearningResourceDepartment
-        fields = ["department_id", "name"]
+        fields = ["department_id", "name", "channel_url"]
 
 
 class LearningResourceContentTagSerializer(serializers.ModelSerializer):

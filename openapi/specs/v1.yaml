@@ -8478,7 +8478,13 @@ components:
         name:
           type: string
           maxLength: 256
+        channel_url:
+          type: string
+          description: Get the channel url for the department if it exists
+          readOnly: true
+          nullable: true
       required:
+      - channel_url
       - department_id
       - name
     LearningResourceDepartmentRequest:
@@ -8582,7 +8588,13 @@ components:
         name:
           type: string
           maxLength: 256
+        channel_url:
+          type: string
+          description: Get the channel url for the offeror if it exists
+          readOnly: true
+          nullable: true
       required:
+      - channel_url
       - code
       - name
     LearningResourceOfferorRequest:
@@ -8955,7 +8967,13 @@ components:
         name:
           type: string
           maxLength: 128
+        channel_url:
+          type: string
+          description: Get the channel url for the topic if it exists
+          readOnly: true
+          nullable: true
       required:
+      - channel_url
       - id
       - name
     MicroLearningPathRelationship:

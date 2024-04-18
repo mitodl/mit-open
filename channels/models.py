@@ -1,5 +1,8 @@
 """Models for channels"""
 
+from urllib.parse import urljoin
+
+from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
 from django.db import models
@@ -102,6 +105,11 @@ class FieldChannel(BaseChannel, TimestampedModel):
 
     class Meta:
         unique_together = ("name", "channel_type")
+
+    @property
+    def channel_url(self) -> str:
+        """Return the channel url"""
+        return urljoin(settings.SITE_BASE_URL, f"/c/{self.channel_type}/{self.name}/")
 
 
 class ChannelTopicDetail(TimestampedModel):
