@@ -9016,9 +9016,6 @@ components:
       - parent
     PaginatedArticleList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9039,9 +9036,6 @@ components:
             $ref: '#/components/schemas/Article'
     PaginatedContentFileList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9062,9 +9056,6 @@ components:
             $ref: '#/components/schemas/ContentFile'
     PaginatedCourseResourceList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9085,9 +9076,6 @@ components:
             $ref: '#/components/schemas/CourseResource'
     PaginatedLearningPathRelationshipList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9108,9 +9096,6 @@ components:
             $ref: '#/components/schemas/LearningPathRelationship'
     PaginatedLearningPathResourceList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9131,9 +9116,6 @@ components:
             $ref: '#/components/schemas/LearningPathResource'
     PaginatedLearningResourceContentTagList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9154,9 +9136,6 @@ components:
             $ref: '#/components/schemas/LearningResourceContentTag'
     PaginatedLearningResourceDepartmentList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9177,9 +9156,6 @@ components:
             $ref: '#/components/schemas/LearningResourceDepartment'
     PaginatedLearningResourceList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9200,9 +9176,6 @@ components:
             $ref: '#/components/schemas/LearningResource'
     PaginatedLearningResourceOfferorList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9223,9 +9196,6 @@ components:
             $ref: '#/components/schemas/LearningResourceOfferor'
     PaginatedLearningResourcePlatformList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9246,9 +9216,6 @@ components:
             $ref: '#/components/schemas/LearningResourcePlatform'
     PaginatedLearningResourceRelationshipList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9269,9 +9236,6 @@ components:
             $ref: '#/components/schemas/LearningResourceRelationship'
     PaginatedLearningResourceTopicList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9292,9 +9256,6 @@ components:
             $ref: '#/components/schemas/LearningResourceTopic'
     PaginatedPodcastEpisodeResourceList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9315,9 +9276,6 @@ components:
             $ref: '#/components/schemas/PodcastEpisodeResource'
     PaginatedPodcastResourceList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9338,9 +9296,6 @@ components:
             $ref: '#/components/schemas/PodcastResource'
     PaginatedProgramResourceList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9361,9 +9316,6 @@ components:
             $ref: '#/components/schemas/ProgramResource'
     PaginatedUserListList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9384,9 +9336,6 @@ components:
             $ref: '#/components/schemas/UserList'
     PaginatedUserListRelationshipList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9407,9 +9356,6 @@ components:
             $ref: '#/components/schemas/UserListRelationship'
     PaginatedVideoPlaylistResourceList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -9430,9 +9376,6 @@ components:
             $ref: '#/components/schemas/VideoPlaylistResource'
     PaginatedVideoResourceList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -10008,6 +9951,15 @@ components:
         program_letter_share_url:
           type: string
           readOnly: true
+        program_title:
+          type: string
+          maxLength: 256
+        user_full_name:
+          type: string
+          maxLength: 256
+        user_email:
+          type: string
+          maxLength: 256
         user_edxorg_id:
           type: integer
           maximum: 2147483647
@@ -10025,45 +9977,47 @@ components:
           nullable: true
         user_edxorg_username:
           type: string
-          maxLength: 256
-        user_email:
-          type: string
-          maxLength: 256
-        program_title:
-          type: string
+          nullable: true
           maxLength: 256
         user_gender:
           type: string
+          nullable: true
           maxLength: 256
         user_address_city:
           type: string
+          nullable: true
           maxLength: 256
         user_first_name:
           type: string
+          nullable: true
           maxLength: 256
         user_last_name:
           type: string
-          maxLength: 256
-        user_full_name:
-          type: string
+          nullable: true
           maxLength: 256
         user_year_of_birth:
           type: string
+          nullable: true
           maxLength: 256
         user_country:
           type: string
+          nullable: true
           maxLength: 256
         user_address_postal_code:
           type: string
+          nullable: true
           maxLength: 256
         user_street_address:
           type: string
+          nullable: true
           maxLength: 256
         user_address_state_or_territory:
           type: string
+          nullable: true
           maxLength: 256
         user_mitxonline_username:
           type: string
+          nullable: true
           maxLength: 256
         program_completion_timestamp:
           type: string
