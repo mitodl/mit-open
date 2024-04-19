@@ -353,6 +353,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     image = serializers.SerializerMethodField()
     learning_path_parents = serializers.SerializerMethodField()
     user_list_parents = serializers.SerializerMethodField()
+    views = serializers.SerializerMethodField()
 
     @extend_schema_field(LearningResourceImageSerializer(allow_null=True))
     def get_image(self, instance) -> dict:
@@ -416,10 +417,39 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
             ).data
         return []
 
+    @extend_schema_field(int)
+    def get_views(self, instance):
+        """Return the number of views for the resource."""
+
+        return models.LearningResourceViewEvent.objects.filter(
+            learning_resource=instance
+        ).count()
+
     class Meta:
         model = models.LearningResource
-        read_only_fields = ["professional"]
+        read_only_fields = ["professional", "views"]
         exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
+
+
+class LearningResourceBaseSerializerWithViews(LearningResourceBaseSerializer):
+    """Extends the LearningResourceBaseSerializer to add view counts"""
+
+    views = serializers.SerializerMethodField()
+
+    def get_views(self, instance):
+        """Return the number of views for the resource."""
+
+        return models.LearningResourceViewEvent.objects.filter(
+            resource=instance
+        ).count()
+
+    class Meta(LearningResourceBaseSerializer.Meta):
+        """Meta options for LearningResourceBaseSerializerWithViews"""
+
+        read_only_fields = [
+            *LearningResourceBaseSerializer.Meta.read_only_fields,
+            "views",
+        ]
 
 
 class ProgramResourceSerializer(LearningResourceBaseSerializer):

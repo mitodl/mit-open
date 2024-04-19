@@ -511,6 +511,7 @@ class LearningResourceViewEvent(TimestampedModel):
         on_delete=models.DO_NOTHING,
         help_text="The learning resource for this event.",
         editable=False,
+        related_name="views",
     )
     event_date = models.DateTimeField(
         editable=False,
