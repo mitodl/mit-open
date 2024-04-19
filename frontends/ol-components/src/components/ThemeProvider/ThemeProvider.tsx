@@ -9,7 +9,7 @@ import * as typography from "./typography"
 import * as buttons from "./buttons"
 import * as inputs from "./inputs"
 import * as chips from "./chips"
-import { colors } from "./colors"
+import * as colors from "./colors"
 
 const oldColors = {
   colorGray1: "#fff",
@@ -77,7 +77,6 @@ const custom: ThemeOptions["custom"] = {
   fontSm: "0.875rem",
   fontXs: "0.75rem",
   muiAppBarZIndex: "11000",
-  colors,
 }
 
 const BREAKPOINTS = {
@@ -93,14 +92,23 @@ const BREAKPOINTS = {
 const themeOptions: ThemeOptions = {
   custom: custom,
   palette: {
+    action: {
+      disabled: colors.LIGHT_GRAY_2,
+    },
     text: {
       primary: "#000",
     },
     primary: {
-      main: "#750014",
+      main: colors.MIT_RED,
+      light: colors.LIGHT_RED,
+      active: colors.RED,
+      contrastText: colors.MIT_WHITE,
     },
     secondary: {
-      main: "#03152d",
+      light: colors.LIGHT_GRAY_2,
+      active: colors.LIGHT_GRAY_2,
+      main: colors.MIT_BLACK,
+      contrastText: colors.MIT_WHITE,
     },
   },
   shape: {

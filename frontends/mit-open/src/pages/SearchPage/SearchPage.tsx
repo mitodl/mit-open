@@ -68,7 +68,7 @@ const AGGREGATIONS: LRSearchRequest["aggregations"] = [
 ]
 
 const ColoredHeader = styled.div`
-  background-color: ${({ theme }) => theme.palette.secondary.light};
+  background-color: rgb(53 67 87);
   height: 150px;
   display: flex;
   align-items: center;

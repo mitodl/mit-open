@@ -111,8 +111,7 @@ const HeroSearch: React.FC = () => {
           {SEARCH_CHIPS.map(({ label, ...others }, index) => (
             <ChipLink
               key={index}
-              size="small"
-              color="default"
+              size="medium"
               label={<Typography variant="subtitle4">{label}</Typography>}
               {...others}
             />

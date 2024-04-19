@@ -68,13 +68,6 @@ interface CustomTheme {
   fontSm: string
   fontXs: string
   muiAppBarZIndex: string
-
-  colors: {
-    red: ColorGroup
-    dark: ColorGroup
-    light: ColorGroup
-    disabled: ColorGroup
-  }
 }
 
 declare module "@mui/material/styles" {
@@ -84,6 +77,14 @@ declare module "@mui/material/styles" {
 
   interface ThemeOptions {
     custom: CustomTheme
+  }
+
+  interface PaletteColor {
+    active?: string
+  }
+
+  interface SimplePaletteColorOptions {
+    active?: string
   }
 }
 
@@ -96,6 +97,14 @@ declare module "@mui/material/Button" {
 declare module "@mui/material/InputBase" {
   interface InputBasePropsSizeOverrides {
     hero: true
+    small: false
+  }
+}
+
+declare module "@mui/material/Chip" {
+  interface ChipPropsSizeOverrides {
+    large: true
+    medium: true
     small: false
   }
 }

@@ -1,14 +1,13 @@
 import React from "react"
 import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
-import type { Theme } from "@mui/material/styles"
 import tinycolor from "tinycolor2"
 import { Link } from "react-router-dom"
 
 type ButtonVariant = "outlined" | "filled" | "text"
 type ButtonSize = "small" | "medium" | "large"
 type ButtonEdge = "rounded" | "sharp"
-type ButtonColor = keyof Theme["custom"]["colors"]
+type ButtonColor = "primary" | "secondary"
 
 type ButtonStyleProps = {
   variant?: ButtonVariant
@@ -24,7 +23,7 @@ const defaultProps: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
     variant: "filled",
     size: "medium",
     edge: "sharp",
-    color: "red",
+    color: "primary",
   }
 
 const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
@@ -32,7 +31,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     ...defaultProps,
     ...props,
   }
-  const { colors } = theme.custom
+  const { palette } = theme
   return [
     {
       // font
@@ -70,14 +69,14 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     },
     // variant
     variant === "filled" && {
-      backgroundColor: colors[color].main,
-      color: colors[color].contrastText,
+      backgroundColor: palette[color].main,
+      color: palette[color].contrastText,
       border: "none",
       ":hover:not(:disabled)": {
-        backgroundColor: colors[color].highlight,
+        backgroundColor: palette[color].active,
       },
       ":disabled": {
-        background: colors.disabled.main,
+        background: palette.action.disabled,
       },
     },
     (variant === "outlined" || variant === "text") && {
@@ -89,14 +88,14 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
         medium: "1.5px",
         large: "2px",
       }[size],
-      color: colors[color].main,
+      color: palette[color].main,
       ":hover:not(:disabled)": {
-        backgroundColor: tinycolor(colors[color].main)
+        backgroundColor: tinycolor(palette[color].main)
           .setAlpha(0.06)
           .toString(),
       },
       ":disabled": {
-        color: colors.disabled.main,
+        color: palette.action.disabled,
       },
     },
     // edge

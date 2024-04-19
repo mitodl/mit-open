@@ -1,5 +1,3 @@
-import type { Theme } from "@mui/material/styles"
-
 export const MIT_RED = "#750014"
 export const MIT_SILVER_GRAY = "#8B959E"
 export const MIT_BRIGHT_RED = "#FF1423"
@@ -35,26 +33,3 @@ export const LIGHT_RED = "#D02E44"
 
 export const ORANGE = "#FAB005"
 export const YELLOW = "#FFEB00"
-
-export const colors: Theme["custom"]["colors"] = {
-  red: {
-    main: MIT_RED,
-    highlight: RED,
-    contrastText: MIT_WHITE,
-  },
-  light: {
-    main: MIT_WHITE,
-    highlight: LIGHT_GRAY_2,
-    contrastText: MIT_BLACK,
-  },
-  dark: {
-    main: MIT_BLACK,
-    highlight: SILVER_GRAY_2,
-    contrastText: MIT_WHITE,
-  },
-  disabled: {
-    main: MIT_SILVER_GRAY,
-    highlight: MIT_SILVER_GRAY,
-    contrastText: "#fff",
-  },
-}
