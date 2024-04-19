@@ -287,7 +287,10 @@ class LearningResourceViewSet(
     ),
 )
 class CourseViewSet(
-    BaseLearningResourceViewSet, NewResourcesViewSetMixin, UpcomingResourcesViewSetMixin
+    BaseLearningResourceViewSet,
+    NewResourcesViewSetMixin,
+    UpcomingResourcesViewSetMixin,
+    PopularResourcesViewSetMixin,
 ):
     """
     Viewset for Courses
@@ -318,7 +321,10 @@ class CourseViewSet(
     ),
 )
 class ProgramViewSet(
-    BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
+    BaseLearningResourceViewSet,
+    UpcomingResourcesViewSetMixin,
+    NewResourcesViewSetMixin,
+    PopularResourcesViewSetMixin,
 ):
     """
     Viewset for Programs
