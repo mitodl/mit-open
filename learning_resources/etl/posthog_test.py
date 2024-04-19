@@ -1,15 +1,39 @@
 """Tests for the PostHog ETL library."""
 
 import json
+import random
 import uuid
 from datetime import datetime
 
 import pytest
 from django.conf import settings
+from faker import Faker
 
 from learning_resources.etl import posthog
 from learning_resources.models import LearningResourceViewEvent
 from main.test_utils import MockResponse
+
+fake = Faker()
+
+
+def generate_fake_posthog_lr_properties():
+    """
+    Generate a fake set of properties for a PostHog event.
+
+    This is where the data we capture in PostHog is stored. There's a bunch of
+    stuff that gets captured here but this only concerns itself with the data
+    that we capture.
+    """
+
+    return json.dumps(
+        {
+            "resourceType": fake.word(ext_word_list=["course", "program", "video"]),
+            "platformCode": random.randrange(0, 9999),  # noqa: S311
+            "resourceId": random.randrange(0, 9999),  # noqa: S311
+            "readableId": str(uuid.uuid4()),
+            "event_date": fake.date_time().isoformat(),
+        }
+    )
 
 
 def generate_fake_posthog_query_event(**kwargs):
@@ -27,7 +51,7 @@ def generate_fake_posthog_query_event(**kwargs):
     return [
         kwargs.get("uuid", str(uuid.uuid4())),
         kwargs.get("event", ""),
-        kwargs.get("properties", ""),
+        kwargs.get("properties", generate_fake_posthog_lr_properties()),
         kwargs.get("timestamp", datetime.now().isoformat()),  # noqa: DTZ005
         kwargs.get("distinct_id", ""),
         kwargs.get("elements_chain", ""),
@@ -141,7 +165,7 @@ def test_posthog_extract_lrd_view_events(mocker, hogql_query_result):
 
 
 @pytest.mark.django_db()
-def test_posthog_extract_lrd_view_events_pagination(mocker, hogql_query_result):
+def test_posthog_extract_lrd_view_events_pagination(mocker):
     """
     Ensure that the extractor loads additional pages if it has to.
 
@@ -152,27 +176,79 @@ def test_posthog_extract_lrd_view_events_pagination(mocker, hogql_query_result):
 
     LearningResourceViewEvent.objects.all().delete()
 
-    hogql_query_result["results"] = all_results = [
-        generate_fake_posthog_query_event() for _ in range(100)
+    result_1 = generate_hogql_query_result(100)
+    result_2 = generate_hogql_query_result(10)
+
+    api_call_results = [
+        MockResponse(json.dumps(result_1), 200),
+        MockResponse(json.dumps(result_2), 200),
     ]
 
-    mocked_return = MockResponse(json.dumps(hogql_query_result), 200)
-    mocked_patch = mocker.patch("requests.post", return_value=mocked_return)
+    all_events = result_1["results"] + result_2["results"]
+
+    mocked_patch = mocker.patch("requests.post", side_effect=api_call_results)
 
     events = posthog.posthog_extract_lrd_view_events()
     mocked_patch.reset_mock()
 
+    stored_events = []
+
     for idx, event in enumerate(events):
-        if idx == 99:
-            hogql_query_result["results"] = [
-                generate_fake_posthog_query_event() for _ in range(10)
-            ]
-            all_results.extend(hogql_query_result["results"])
-            mocked_return = MockResponse(json.dumps(hogql_query_result), 200)
+        stored_events.append(event)
+        assert event.uuid == all_events[idx][0]
 
-        assert event.uuid == all_results[idx][0]
+    assert len(stored_events) == 110
 
-        if idx == 100:
-            mocked_patch.assert_called_once()
 
-    assert idx == 110
+@pytest.mark.django_db()
+def test_posthog_transform_lrd_view_events(mocker):
+    """Ensure the second stage of the extractor loads properly"""
+
+    LearningResourceViewEvent.objects.all().delete()
+
+    result_1 = generate_hogql_query_result(100)
+    result_2 = generate_hogql_query_result(10)
+
+    api_call_results = [
+        MockResponse(json.dumps(result_1), 200),
+        MockResponse(json.dumps(result_2), 200),
+    ]
+
+    all_events = result_1["results"] + result_2["results"]
+
+    mocker.patch("requests.post", side_effect=api_call_results)
+
+    posthog_events = posthog.posthog_extract_lrd_view_events()
+
+    lr_events = posthog.posthog_transform_lrd_view_events(posthog_events)
+
+    for idx, event in enumerate(lr_events):
+        props = json.loads(all_events[idx][2])
+        assert event.resourceId == props["resourceId"]
+
+    assert len(all_events) == (idx + 1)
+
+
+@pytest.mark.django_db()
+def load_posthog_lrd_view_events(mocker):
+    """Ensure the loader stage of the extractor creates database records"""
+
+    LearningResourceViewEvent.objects.all().delete()
+
+    result_1 = generate_hogql_query_result(100)
+    result_2 = generate_hogql_query_result(10)
+
+    api_call_results = [
+        MockResponse(json.dumps(result_1), 200),
+        MockResponse(json.dumps(result_2), 200),
+    ]
+
+    mocker.patch("requests.post", side_effect=api_call_results)
+
+    posthog_events = posthog.posthog_extract_lrd_view_events()
+
+    lr_events = posthog.posthog_transform_lrd_view_events(posthog_events)
+
+    stored_events = load_posthog_lrd_view_events(lr_events)
+
+    assert LearningResourceViewEvent.objects.count() == len(stored_events)
