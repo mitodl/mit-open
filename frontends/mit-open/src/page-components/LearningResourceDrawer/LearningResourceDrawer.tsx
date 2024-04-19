@@ -17,7 +17,7 @@ const useCapturePageView = (resourceId: number) => {
     if (!APP_SETTINGS.posthog?.enabled) return
     if (!isSuccess) return
     posthog.capture("lrd_view", {
-      resourceId: data?.id || "unknown",
+      resourceId: data?.id,
       readableId: data?.readable_id,
       platformCode: data?.platform?.code,
       resourceType: data?.resource_type,
@@ -61,11 +61,7 @@ const LearningResourceDrawer = () => {
       PaperProps={PAPER_PROPS}
     >
       {({ params }) => {
-        return (
-          <>
-            <DrawerContent resourceId={Number(params.resource)} />
-          </>
-        )
+        return <DrawerContent resourceId={Number(params.resource)} />
       }}
     </RoutedDrawer>
   )
