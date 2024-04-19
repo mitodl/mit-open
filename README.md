@@ -187,6 +187,26 @@ To login via the Keycloak client, open http://od.odl.local:8063/login/ol-oidc in
 
 Additional details can be found at https://docs.google.com/document/d/17tJ-C2EwWoSpJWZKjuhMVgsqGtyPH0IN9KakXvSKU0M/edit
 
+### Configuring PostHog Support
+
+The system can use PostHog to evaluate feature flags and record views for the Learning Resource drawer.
+
+The following environment variables must be set for this support to work:
+
+- `POSTHOG_ENABLED` - boolean, toggles the integration on/off
+- `POSTHOG_PROJECT_ID` - int, the project ID for the app in PostHog
+- `POSTHOG_PROJECT_API_KEY` - string, the project API key for the app in PostHog. This usually starts with `phc_`.
+- `POSTHOG_PERSONAL_API_KEY` - string, your personal API key for PostHog. This usually starts with `phx_`.
+
+The keys and ID can be found in the Settings section of the project in PostHog that you're using for the app. The project key and ID are under "Project", and you can generate a personal API key under "User"->"Personal API Keys".
+
+> [!WARNING]
+> Be careful with the API keys! The project API key is **not secret** and is sent in clear text with the frontend. The personal API key **is** secret. Don't mix them up.
+
+Personal API keys only need read permission to Query. When creating a personal API key, choose "Read" under Query for Scopes. The key needs no other permissions (unless you need them for other things). Additionally, if you select either option besides "All-access" under "Organization & project access", make sure you assign the correct project/org to the API key.
+
+Once these are set (and you've restarted the app), you should see events flowing into the PostHog dashboard.
+
 ## GitHub Pages
 
 A static site for this repo with developer resources publishes to https://mitodl.github.io/mit-open/ during CI runs.
