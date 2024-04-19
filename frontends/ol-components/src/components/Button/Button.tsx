@@ -74,7 +74,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       color: colors[color].contrastText,
       border: "none",
       ":hover:not(:disabled)": {
-        backgroundColor: colors[color].dark,
+        backgroundColor: colors[color].highlight,
       },
       ":disabled": {
         background: colors.disabled.main,
@@ -189,5 +189,37 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
   </LinkStyled>
 )
 
-export { Button, ButtonLink }
+const iconButtonDefaultProps: Required<
+  Omit<ButtonStyleProps, "startIcon" | "endIcon">
+> = {
+  variant: "filled",
+  size: "medium",
+  edge: "sharp",
+  color: "red",
+}
+
+type IconButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
+  React.ComponentProps<"button">
+const IconButton: React.FC<IconButtonProps> = styled(ButtonStyled)((props) => {
+  const { size = iconButtonDefaultProps.size } = props
+  return {
+    padding: 0,
+    width: {
+      small: "32px",
+      medium: "40px",
+      large: "48px",
+    }[size],
+    "& .MuiSvgIcon-root": {
+      fontSize: pxToRem(
+        {
+          small: 16 * 1.41,
+          medium: 20 * 1.41,
+          large: 24 * 1.41,
+        }[size],
+      ),
+    },
+  }
+})
+
+export { Button, ButtonLink, IconButton }
 export type { ButtonProps, ButtonLinkProps }

@@ -1,6 +1,6 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { Button, ButtonLink } from "./Button"
+import { Button, IconButton, ButtonLink } from "./Button"
 import Grid from "@mui/material/Grid"
 import Stack from "@mui/material/Stack"
 import { theme } from "../ThemeProvider/ThemeProvider"
@@ -96,9 +96,9 @@ export const ColorStory: Story = {
       <Button color="red" variant="outlined">
         Red
       </Button>
-      <Button color="blue">Blue</Button>
-      <Button color="blue" variant="outlined">
-        Blue
+      <Button color="dark">Dark</Button>
+      <Button color="dark" variant="outlined">
+        Dark
       </Button>
     </Stack>
   ),
@@ -119,13 +119,32 @@ export const EdgeStory: Story = {
   ),
 }
 
-export const IconStory: Story = {
+export const WithIconStory: Story = {
   render: () => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
       <Button startIcon={<ArrowBackIcon />}>Back</Button>
       <Button startIcon={<DeleteIcon />}>Delete</Button>
       <Button startIcon={<EditIcon />}>Edit</Button>
       <Button endIcon={<ArrowForwardIcon />}>Forward</Button>
+    </Stack>
+  ),
+}
+
+export const IconOnlyStory: Story = {
+  render: () => (
+    <Stack direction="row" gap={2} sx={{ my: 2 }}>
+      <IconButton>
+        <ArrowBackIcon />
+      </IconButton>
+      <IconButton>
+        <ArrowForwardIcon />
+      </IconButton>
+      <IconButton variant="outlined">
+        <DeleteIcon />
+      </IconButton>
+      <IconButton variant="outlined" edge="rounded">
+        <EditIcon />
+      </IconButton>
     </Stack>
   ),
 }
@@ -155,7 +174,7 @@ export const LinkStory: Story = {
     </Stack>
   ),
 }
-export const AllStory: Story = {
+export const ButtonsShowcase: Story = {
   render: () => (
     <Grid container rowGap={2} sx={{ maxWidth: "500px" }}>
       {VARIANTS.flatMap((variant) =>
@@ -183,5 +202,60 @@ export const AllStory: Story = {
         ),
       )}
     </Grid>
+  ),
+}
+
+const COLORS = ["red", "dark"] as const
+const ICONS = [
+  {
+    component: <ArrowBackIcon />,
+    key: "back",
+  },
+  {
+    component: <DeleteIcon />,
+    key: "delete",
+  },
+  {
+    component: <EditIcon />,
+    key: "edit",
+  },
+  {
+    component: <ArrowForwardIcon />,
+    key: "forward",
+  },
+]
+export const IconButtonsShowcase: Story = {
+  render: () => (
+    <>
+      {VARIANTS.flatMap((variant) =>
+        EDGES.flatMap((edge) =>
+          COLORS.flatMap((color) => (
+            <Stack
+              direction="row"
+              gap={2}
+              key={`${variant}-${edge}-${color}`}
+              alignItems="center"
+              sx={{ my: 2 }}
+            >
+              {SIZES.map((size) => (
+                <React.Fragment key={size}>
+                  {ICONS.map((icon) => (
+                    <IconButton
+                      key={icon.key}
+                      variant={variant}
+                      edge={edge}
+                      size={size}
+                      color={color}
+                    >
+                      {icon.component}
+                    </IconButton>
+                  ))}
+                </React.Fragment>
+              ))}
+            </Stack>
+          )),
+        ),
+      )}
+    </>
   ),
 }

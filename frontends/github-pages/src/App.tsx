@@ -16,7 +16,7 @@ const PageTitle = styled.h1`
   margin-top: 6rem;
   margin-bottom: 0.5rem;
   font-size: 50px;
-  color: ${({ theme }) => theme.custom.colorBlue5};
+  color: "#03152d";
 `
 
 const Links = styled.div`

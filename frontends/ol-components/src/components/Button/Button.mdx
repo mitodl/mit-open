@@ -29,13 +29,21 @@ Use `edge="rounded" | "sharp"` to set the button edge:
 Use `startIcon` and `endIcon` to add icons to the button. The icons are expected
 to be from [`@mui/icons-material`](https://mui.com/material-ui/material-icons/):
 
-<Canvas of={ButtonStories.IconStory} />
+<Canvas of={ButtonStories.WithIconStory} />
 
 ## Links
 
 To render a link styled as a Buttons, use `ButtonLink`. The underlying component will be a `react-router` Link.
 <Canvas of={ButtonStories.LinkStory} />
 
+## Icon-Only Buttons
+
+Use `<IconButt />` to render an icon-only button:
+
+<Canvas of={ButtonStories.IconOnlyStory} />
+
 ## More Examples
 
-<Canvas of={ButtonStories.AllStory} />
+<Canvas of={ButtonStories.ButtonsShowcase} />
+
+<Canvas of={ButtonStories.IconButtonsShowcase} />

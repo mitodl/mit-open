@@ -3,10 +3,9 @@ import "@emotion/react"
 import "@emotion/styled"
 import "./typography"
 
-interface Color {
-  light: string
+export interface ColorGroup {
   main: string
-  dark: string
+  highlight: string
   contrastText: string
 }
 
@@ -71,9 +70,10 @@ interface CustomTheme {
   muiAppBarZIndex: string
 
   colors: {
-    red: Color
-    blue: Color
-    disabled: Color
+    red: ColorGroup
+    dark: ColorGroup
+    light: ColorGroup
+    disabled: ColorGroup
   }
 }
 

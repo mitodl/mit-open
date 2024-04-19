@@ -9,8 +9,9 @@ import * as typography from "./typography"
 import * as buttons from "./buttons"
 import * as inputs from "./inputs"
 import * as chips from "./chips"
+import { colors } from "./colors"
 
-const colors = {
+const oldColors = {
   colorGray1: "#fff",
   colorGray2: "#f0f5f7",
   colorGray3: "#b0b0b0",
@@ -36,14 +37,14 @@ const shadow = {
 
 // To replace ../scss/theme.scss for #236 as we refactor it out
 const custom: ThemeOptions["custom"] = {
-  ...colors,
+  ...oldColors,
   ...shadow,
-  colorPrimary: colors.colorRed3,
-  colorSecondaryLight: colors.colorBlue1,
-  colorSecondary: colors.colorBlue5,
-  colorBackground: colors.colorBlue1,
-  colorBackgroundLight: colors.colorGray1,
-  fontColorLight: colors.colorGray3,
+  colorPrimary: oldColors.colorRed3,
+  colorSecondaryLight: oldColors.colorBlue1,
+  colorSecondary: oldColors.colorBlue5,
+  colorBackground: oldColors.colorBlue1,
+  colorBackgroundLight: oldColors.colorGray1,
+  fontColorLight: oldColors.colorGray3,
   fontColorDefault: "#000",
   fontFamilyDefault: "Roboto, helvetica, arial, sans-serif !important",
   fontSizeSmall: 12,
@@ -76,26 +77,7 @@ const custom: ThemeOptions["custom"] = {
   fontSm: "0.875rem",
   fontXs: "0.75rem",
   muiAppBarZIndex: "11000",
-  colors: {
-    red: {
-      light: "#D02E44",
-      main: "#A31F34",
-      dark: "#83192A",
-      contrastText: "#fff",
-    },
-    blue: {
-      light: "#99EBFF",
-      main: "#1966FF",
-      dark: "#002896",
-      contrastText: "#fff",
-    },
-    disabled: {
-      light: "#8B959E",
-      main: "#8B959E",
-      dark: "#8B959E",
-      contrastText: "#fff",
-    },
-  },
+  colors,
 }
 
 const BREAKPOINTS = {
