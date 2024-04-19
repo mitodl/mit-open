@@ -502,6 +502,12 @@ export interface CourseResource {
    */
   user_list_parents: Array<MicroUserListRelationship> | null
   /**
+   * Return the number of views for the resource.
+   * @type {number}
+   * @memberof CourseResource
+   */
+  views: number
+  /**
    *
    * @type {CourseResourceResourceTypeEnum}
    * @memberof CourseResource
@@ -802,6 +808,12 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   user_list_parents: Array<MicroUserListRelationship> | null
+  /**
+   * Return the number of views for the resource.
+   * @type {number}
+   * @memberof LearningPathResource
+   */
+  views: number
   /**
    *
    * @type {LearningPathResourceResourceTypeEnum}
@@ -2611,6 +2623,12 @@ export interface PodcastEpisodeResource {
    */
   user_list_parents: Array<MicroUserListRelationship> | null
   /**
+   * Return the number of views for the resource.
+   * @type {number}
+   * @memberof PodcastEpisodeResource
+   */
+  views: number
+  /**
    *
    * @type {PodcastEpisodeResourceResourceTypeEnum}
    * @memberof PodcastEpisodeResource
@@ -2855,6 +2873,12 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   user_list_parents: Array<MicroUserListRelationship> | null
+  /**
+   * Return the number of views for the resource.
+   * @type {number}
+   * @memberof PodcastResource
+   */
+  views: number
   /**
    *
    * @type {PodcastResourceResourceTypeEnum}
@@ -3327,6 +3351,12 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   user_list_parents: Array<MicroUserListRelationship> | null
+  /**
+   * Return the number of views for the resource.
+   * @type {number}
+   * @memberof ProgramResource
+   */
+  views: number
   /**
    *
    * @type {ProgramResourceResourceTypeEnum}
@@ -3821,6 +3851,12 @@ export interface VideoPlaylistResource {
    */
   user_list_parents: Array<MicroUserListRelationship> | null
   /**
+   * Return the number of views for the resource.
+   * @type {number}
+   * @memberof VideoPlaylistResource
+   */
+  views: number
+  /**
    *
    * @type {VideoPlaylistResourceResourceTypeEnum}
    * @memberof VideoPlaylistResource
@@ -4059,6 +4095,12 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   user_list_parents: Array<MicroUserListRelationship> | null
+  /**
+   * Return the number of views for the resource.
+   * @type {number}
+   * @memberof VideoResource
+   */
+  views: number
   /**
    *
    * @type {VideoResourceResourceTypeEnum}
@@ -6421,7 +6463,7 @@ export const CoursesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get a paginated list of newly released Courses.
+     * Get a paginated list of popular Courses.
      * @summary List New
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<CoursesNewListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -6520,6 +6562,45 @@ export const CoursesApiAxiosParamCreator = function (
       if (topic) {
         localVarQueryParameter["topic"] = topic.join(COLLECTION_FORMATS.csv)
       }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieve a list of popular resources
+     * @summary List Popular
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    coursesPopularRetrieve: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/courses/popular/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -6857,7 +6938,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * Get a paginated list of newly released Courses.
+     * Get a paginated list of popular Courses.
      * @summary List New
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<CoursesNewListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -6912,6 +6993,30 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       const index = configuration?.serverIndex ?? 0
       const operationBasePath =
         operationServerMap["CoursesApi.coursesNewList"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Retrieve a list of popular resources
+     * @summary List Popular
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async coursesPopularRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CourseResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.coursesPopularRetrieve(options)
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["CoursesApi.coursesPopularRetrieve"]?.[index]?.url
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -7101,7 +7206,7 @@ export const CoursesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get a paginated list of newly released Courses.
+     * Get a paginated list of popular Courses.
      * @summary List New
      * @param {CoursesApiCoursesNewListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -7127,6 +7232,19 @@ export const CoursesApiFactory = function (
           requestParameters.topic,
           options,
         )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Retrieve a list of popular resources
+     * @summary List Popular
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    coursesPopularRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<CourseResource> {
+      return localVarFp
+        .coursesPopularRetrieve(options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -7634,7 +7752,7 @@ export class CoursesApi extends BaseAPI {
   }
 
   /**
-   * Get a paginated list of newly released Courses.
+   * Get a paginated list of popular Courses.
    * @summary List New
    * @param {CoursesApiCoursesNewListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -7661,6 +7779,19 @@ export class CoursesApi extends BaseAPI {
         requestParameters.topic,
         options,
       )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a list of popular resources
+   * @summary List Popular
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CoursesApi
+   */
+  public coursesPopularRetrieve(options?: RawAxiosRequestConfig) {
+    return CoursesApiFp(this.configuration)
+      .coursesPopularRetrieve(options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -8868,7 +8999,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get a paginated list of newly released Learning Resources.
+     * Get a paginated list of popular Learning Resources.
      * @summary List New
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesNewListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -8967,6 +9098,45 @@ export const LearningResourcesApiAxiosParamCreator = function (
       if (topic) {
         localVarQueryParameter["topic"] = topic.join(COLLECTION_FORMATS.csv)
       }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieve a list of popular resources
+     * @summary List Popular
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesPopularRetrieve: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/learning_resources/popular/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -9391,7 +9561,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * Get a paginated list of newly released Learning Resources.
+     * Get a paginated list of popular Learning Resources.
      * @summary List New
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesNewListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -9449,6 +9619,37 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         operationServerMap["LearningResourcesApi.learningResourcesNewList"]?.[
           index
         ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Retrieve a list of popular resources
+     * @summary List Popular
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesPopularRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesPopularRetrieve(
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningResourcesApi.learningResourcesPopularRetrieve"
+        ]?.[index]?.url
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -9683,7 +9884,7 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get a paginated list of newly released Learning Resources.
+     * Get a paginated list of popular Learning Resources.
      * @summary List New
      * @param {LearningResourcesApiLearningResourcesNewListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -9709,6 +9910,19 @@ export const LearningResourcesApiFactory = function (
           requestParameters.topic,
           options,
         )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Retrieve a list of popular resources
+     * @summary List Popular
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesPopularRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<LearningResource> {
+      return localVarFp
+        .learningResourcesPopularRetrieve(options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -10316,7 +10530,7 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Get a paginated list of newly released Learning Resources.
+   * Get a paginated list of popular Learning Resources.
    * @summary List New
    * @param {LearningResourcesApiLearningResourcesNewListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -10343,6 +10557,19 @@ export class LearningResourcesApi extends BaseAPI {
         requestParameters.topic,
         options,
       )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a list of popular resources
+   * @summary List Popular
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesPopularRetrieve(options?: RawAxiosRequestConfig) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesPopularRetrieve(options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -15786,7 +16013,7 @@ export const ProgramsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get a paginated list of newly released Programs.
+     * Get a paginated list of popular Programs.
      * @summary List New
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<ProgramsNewListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -15885,6 +16112,45 @@ export const ProgramsApiAxiosParamCreator = function (
       if (topic) {
         localVarQueryParameter["topic"] = topic.join(COLLECTION_FORMATS.csv)
       }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieve a list of popular resources
+     * @summary List Popular
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programsPopularRetrieve: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/programs/popular/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -16136,7 +16402,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * Get a paginated list of newly released Programs.
+     * Get a paginated list of popular Programs.
      * @summary List New
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<ProgramsNewListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -16191,6 +16457,33 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       const index = configuration?.serverIndex ?? 0
       const operationBasePath =
         operationServerMap["ProgramsApi.programsNewList"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Retrieve a list of popular resources
+     * @summary List Popular
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async programsPopularRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ProgramResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.programsPopularRetrieve(options)
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["ProgramsApi.programsPopularRetrieve"]?.[index]?.url
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -16337,7 +16630,7 @@ export const ProgramsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get a paginated list of newly released Programs.
+     * Get a paginated list of popular Programs.
      * @summary List New
      * @param {ProgramsApiProgramsNewListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -16363,6 +16656,19 @@ export const ProgramsApiFactory = function (
           requestParameters.topic,
           options,
         )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Retrieve a list of popular resources
+     * @summary List Popular
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programsPopularRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ProgramResource> {
+      return localVarFp
+        .programsPopularRetrieve(options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -16738,7 +17044,7 @@ export class ProgramsApi extends BaseAPI {
   }
 
   /**
-   * Get a paginated list of newly released Programs.
+   * Get a paginated list of popular Programs.
    * @summary List New
    * @param {ProgramsApiProgramsNewListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -16765,6 +17071,19 @@ export class ProgramsApi extends BaseAPI {
         requestParameters.topic,
         options,
       )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a list of popular resources
+   * @summary List Popular
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProgramsApi
+   */
+  public programsPopularRetrieve(options?: RawAxiosRequestConfig) {
+    return ProgramsApiFp(this.configuration)
+      .programsPopularRetrieve(options)
       .then((request) => request(this.axios, this.basePath))
   }
 

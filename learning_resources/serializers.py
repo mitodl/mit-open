@@ -431,27 +431,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 
-class LearningResourceBaseSerializerWithViews(LearningResourceBaseSerializer):
-    """Extends the LearningResourceBaseSerializer to add view counts"""
-
-    views = serializers.SerializerMethodField()
-
-    def get_views(self, instance):
-        """Return the number of views for the resource."""
-
-        return models.LearningResourceViewEvent.objects.filter(
-            resource=instance
-        ).count()
-
-    class Meta(LearningResourceBaseSerializer.Meta):
-        """Meta options for LearningResourceBaseSerializerWithViews"""
-
-        read_only_fields = [
-            *LearningResourceBaseSerializer.Meta.read_only_fields,
-            "views",
-        ]
-
-
 class ProgramResourceSerializer(LearningResourceBaseSerializer):
     """Serializer for program resources"""
 

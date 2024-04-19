@@ -1018,7 +1018,7 @@ paths:
   /api/v1/courses/new/:
     get:
       operationId: courses_new_list
-      description: Get a paginated list of newly released Courses.
+      description: Get a paginated list of popular Courses.
       summary: List New
       parameters:
       - in: query
@@ -1320,6 +1320,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedCourseResourceList'
+          description: ''
+  /api/v1/courses/popular/:
+    get:
+      operationId: courses_popular_retrieve
+      description: Retrieve a list of popular resources
+      summary: List Popular
+      tags:
+      - courses
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseResource'
           description: ''
   /api/v1/courses/upcoming/:
     get:
@@ -2236,7 +2250,7 @@ paths:
   /api/v1/learning_resources/new/:
     get:
       operationId: learning_resources_new_list
-      description: Get a paginated list of newly released Learning Resources.
+      description: Get a paginated list of popular Learning Resources.
       summary: List New
       parameters:
       - in: query
@@ -2538,6 +2552,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceList'
+          description: ''
+  /api/v1/learning_resources/popular/:
+    get:
+      operationId: learning_resources_popular_retrieve
+      description: Retrieve a list of popular resources
+      summary: List Popular
+      tags:
+      - learning_resources
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResource'
           description: ''
   /api/v1/learning_resources/upcoming/:
     get:
@@ -4924,7 +4952,7 @@ paths:
   /api/v1/programs/new/:
     get:
       operationId: programs_new_list
-      description: Get a paginated list of newly released Programs.
+      description: Get a paginated list of popular Programs.
       summary: List New
       parameters:
       - in: query
@@ -5226,6 +5254,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedProgramResourceList'
+          description: ''
+  /api/v1/programs/popular/:
+    get:
+      operationId: programs_popular_retrieve
+      description: Retrieve a list of popular resources
+      summary: List Popular
+      tags:
+      - programs
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramResource'
           description: ''
   /api/v1/programs/upcoming/:
     get:
@@ -8111,6 +8153,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/CourseResourceResourceTypeEnum'
@@ -8169,6 +8215,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - views
     CourseResourceRequest:
       type: object
       description: Serializer for course resources
@@ -8335,6 +8382,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/LearningPathResourceResourceTypeEnum'
@@ -8391,6 +8442,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - views
     LearningPathResourceRequest:
       type: object
       description: CRUD serializer for LearningPath resources
@@ -9676,6 +9728,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastEpisodeResourceResourceTypeEnum'
@@ -9734,6 +9790,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - views
     PodcastEpisodeResourceRequest:
       type: object
       description: Serializer for podcast episode resources
@@ -9869,6 +9926,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastResourceResourceTypeEnum'
@@ -9927,6 +9988,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - views
     PodcastResourceRequest:
       type: object
       description: Serializer for podcast resources
@@ -10204,6 +10266,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/ProgramResourceResourceTypeEnum'
@@ -10262,6 +10328,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - views
     ProgramResourceRequest:
       type: object
       description: Serializer for program resources
@@ -10561,6 +10628,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoPlaylistResourceResourceTypeEnum'
@@ -10619,6 +10690,7 @@ components:
       - title
       - user_list_parents
       - video_playlist
+      - views
     VideoPlaylistResourceRequest:
       type: object
       description: Serializer for video playlist resources
@@ -10744,6 +10816,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoResourceResourceTypeEnum'
@@ -10802,6 +10878,7 @@ components:
       - title
       - user_list_parents
       - video
+      - views
     VideoResourceRequest:
       type: object
       description: Serializer for video resources
