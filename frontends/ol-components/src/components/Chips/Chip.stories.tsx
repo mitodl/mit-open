@@ -5,6 +5,7 @@ import Stack from "@mui/material/Stack"
 import { fn } from "@storybook/test"
 import { ChipLink } from "./ChipLink"
 import { withRouter } from "storybook-addon-react-router-v6"
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 
 const COLORS = ["default", "primary", "secondary"] as const
 const VARIANTS = [
@@ -78,6 +79,12 @@ export const Disabled: Story = {
   args: {
     onClick: fn(),
     disabled: true,
+  },
+}
+
+export const Icons: Story = {
+  args: {
+    icon: <CalendarTodayIcon />,
   },
 }
 

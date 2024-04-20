@@ -18,6 +18,10 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
       fontSize: "1.25em",
       margin: "0 -2px 0 8px",
     },
+    icon: {
+      fontSize: "1.25em",
+      margin: "0 8px 0 -2px",
+    },
   },
   variants: [
     {
