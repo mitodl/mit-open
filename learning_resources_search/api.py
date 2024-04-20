@@ -620,14 +620,13 @@ def user_subscribed_to_query(user, search_params):
     Returns:
         bool: Whether or not the user has subscribed to the query
     """
-    try:
-        percolate_query = PercolateQuery.objects.get(
-            source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
-            original_query=adjust_original_query_for_percolate(search_params),
-        )
-        return percolate_query.users.filter(id=user.id).exists()
-    except PercolateQuery.DoesNotExist:
-        return False
+    percolate_query = PercolateQuery.objects.filter(
+        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        original_query=adjust_original_query_for_percolate(search_params),
+    ).first()
+    return (
+        percolate_query.users.filter(id=user.id).exists() if percolate_query else False
+    )
 
 
 def get_similar_topics(
