@@ -20,7 +20,7 @@ const VARIANTS = [
 ] as const
 
 const meta: Meta<typeof Chip> = {
-  title: "smoot-design/Chip",
+  title: 'smoot-design/Chip ("Pill")',
   component: Chip,
   render: (args) => {
     return (
