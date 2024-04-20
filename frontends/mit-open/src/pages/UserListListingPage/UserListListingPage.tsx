@@ -9,6 +9,7 @@ import {
   SimpleMenuItem,
   SimpleMenu,
   IconButton,
+  Typography,
 } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
@@ -113,7 +114,9 @@ const UserListListingPage: React.FC = () => {
           <GridColumn variant="single-full">
             <ListHeaderGrid container justifyContent="space-between">
               <Grid item>
-                <h1>User Lists</h1>
+                <Typography variant="h3" component="h1">
+                  User Lists
+                </Typography>
               </Grid>
               <Grid
                 item

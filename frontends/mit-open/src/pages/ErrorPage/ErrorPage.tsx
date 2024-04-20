@@ -5,6 +5,7 @@ import NotFoundPage from "./NotFoundPage"
 import { useRouteError, isRouteErrorResponse } from "react-router"
 import ErrorPageTemplate from "./ErrorPageTemplate"
 import { ForbiddenError as ClientSideForbiddenError } from "@/common/permissions"
+import { Typography } from "ol-components"
 
 const AUTH_STATUS_CODES = [401, 403]
 const NOT_FOUND_STATUS_CODES = [404]
@@ -40,7 +41,9 @@ const ErrorPage = () => {
      * This should not happen, but it's better than the app crashing.
      */
     <ErrorPageTemplate title="Error">
-      <h1>Something went wrong.</h1>
+      <Typography variant="h3" component="h1">
+        Something went wrong.
+      </Typography>
     </ErrorPageTemplate>
   )
 }

@@ -9,6 +9,7 @@ import {
   BannerPage,
   Container,
   styled,
+  Typography,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
@@ -115,7 +116,9 @@ const LearningPathListingPage: React.FC = () => {
           <GridColumn variant="single-full">
             <ListHeaderGrid container justifyContent="space-between">
               <Grid item>
-                <h1>Learning Paths</h1>
+                <Typography variant="h3" component="h1">
+                  Learning Paths
+                </Typography>
               </Grid>
               <Grid
                 item
