@@ -461,8 +461,7 @@ def adjust_original_query_for_percolate(query):
     for percolate uniqueness such as "limit" and "offset"
     """
     for key in ["limit", "offset", "sortby"]:
-        if key in query:
-            del query[key]
+        query.pop(key, None)
     return query
 
 
