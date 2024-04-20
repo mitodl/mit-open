@@ -1,6 +1,6 @@
 import React from "react"
 import type { ThemeOptions } from "@mui/material/styles"
-import * as colors from "./colors"
+import { colors } from "./colors"
 import tinycolor from "tinycolor2"
 import ClearIcon from "@mui/icons-material/Clear"
 
@@ -53,9 +53,9 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
     {
       props: { color: "default" },
       style: {
-        borderColor: colors.LIGHT_GRAY_2,
+        borderColor: colors.lightGray2,
         "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
-          backgroundColor: colors.LIGHT_GRAY_2,
+          backgroundColor: colors.lightGray2,
         },
       },
     },

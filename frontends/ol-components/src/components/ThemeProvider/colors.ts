@@ -1,35 +1,32 @@
-export const MIT_RED = "#750014"
-export const MIT_SILVER_GRAY = "#8B959E"
-export const MIT_BRIGHT_RED = "#FF1423"
-export const MIT_BLACK = "#000000"
-export const MIT_WHITE = "#FFFFFF"
+const colors = {
+  mitRed: "#750014",
+  silverGray: "#8B959E",
+  brightRed: "#FF1423",
+  black: "#000000",
+  white: "#FFFFFF",
+  darkGray2: "#212326",
+  darkGray1: "#40464C",
+  silverGray2: "#626A73",
+  silverGray1: "#B8C2CC",
+  lightGray2: "#DDE1E6",
+  lightGray1: "#F3F4F8",
+  darkPink: "#750062",
+  pink: "#FF14F0",
+  lightPink: "#FFB3FF",
+  darkPurple: "#3E006B",
+  purple: "#93F",
+  lightPurple: "#BFB3FF",
+  darkBlue: "#002896",
+  blue: "#1966FF",
+  lightBlue: "#99EBFF",
+  darkGreen: "#004D1A",
+  green: "#00AD00",
+  lightGreen: "#AF3",
+  darkRed: "#83192A",
+  red: "#A31F34",
+  lightRed: "#D02E44",
+  orange: "#FAB005",
+  yellow: "#FFEB00",
+}
 
-export const DARK_GRAY_2 = "#212326"
-export const DARK_GRAY_1 = "#40464C"
-export const SILVER_GRAY_2 = "#626A73"
-export const SILVER_GRAY_1 = "#B8C2CC"
-export const LIGHT_GRAY_2 = "#DDE1E6"
-export const LIGHT_GRAY_1 = "#F3F4F8"
-
-export const DARK_PINK = "#750062"
-export const PINK = "#FF14F0"
-export const LIGHT_PINK = "#FFB3FF"
-
-export const DARK_PURPLE = "#3E006B"
-export const PURPLE = "#93F"
-export const LIGHT_PURPLE = "#BFB3FF"
-
-export const DARK_BLUE = "#002896"
-export const BLUE = "#1966FF"
-export const LIGHT_BLUE = "#99EBFF"
-
-export const DARK_GREEN = "#004D1A"
-export const GREEN = "#00AD00"
-export const LIGHT_GREEN = "#AF3"
-
-export const DARK_RED = "#83192A"
-export const RED = "#A31F34"
-export const LIGHT_RED = "#D02E44"
-
-export const ORANGE = "#FAB005"
-export const YELLOW = "#FFEB00"
+export { colors }

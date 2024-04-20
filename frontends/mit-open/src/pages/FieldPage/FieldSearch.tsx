@@ -102,7 +102,7 @@ const getFacetManifest = (
 }
 
 const SearchField = styled(SearchInput)`
-  background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
+  background-color: ${({ theme }) => theme.custom.colors.white};
   width: 100%;
   margin-top: 9px;
 `

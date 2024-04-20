@@ -11,13 +11,7 @@ import Chip from "@mui/material/Chip"
 import Link from "@mui/material/Link"
 import { EmbedlyCard } from "../../EmbedlyCard/EmbedlyCard"
 import Skeleton from "@mui/material/Skeleton"
-
-const SectionTitle = styled.div<{ light?: boolean }>`
-  font-size: ${({ theme }) => theme.custom.fontNormal};
-  font-weight: ${({ theme }) => theme.custom.fontWeightBold};
-  margin-bottom: 0.5em;
-  ${({ light, theme }) => light && `color: ${theme.palette.text.secondary};`}
-`
+import Typography from "@mui/material/Typography"
 
 const TopicsList = styled.ul`
   display: flex;
@@ -35,7 +29,7 @@ const TopicsDisplay: React.FC<{ topics: LearningResourceTopic[] }> = ({
 }) => {
   return (
     <div>
-      <SectionTitle>Subjects</SectionTitle>
+      <Typography variant="subtitle1">Subjects</Typography>
       <TopicsList>
         {topics.map((topic) => (
           <Chip
@@ -65,7 +59,7 @@ const ResourceTitle = ({ resource }: { resource?: LearningResource }) => {
     return <Skeleton variant="text" width="66%" />
   }
   return (
-    <h2>
+    <Typography variant="h5" component="h2">
       {resource.url ? (
         <Link href={resource.url} color="text.primary">
           {resource.title}
@@ -73,7 +67,7 @@ const ResourceTitle = ({ resource }: { resource?: LearningResource }) => {
       ) : (
         resource.title
       )}
-    </h2>
+    </Typography>
   )
 }
 
@@ -108,13 +102,13 @@ const DisplayTemplate: React.FC<
     ))
   return (
     <Container>
-      <SectionTitle>
+      <Typography variant="subtitle1">
         {resource ? (
           getReadableResourceType(resource.resource_type)
         ) : (
           <Skeleton variant="text" width="50%" />
         )}
-      </SectionTitle>
+      </Typography>
       {mediaSlot}
       <ResourceTitle resource={resource} />
       {resource ? (

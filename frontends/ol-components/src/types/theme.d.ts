@@ -10,64 +10,39 @@ export interface ColorGroup {
 }
 
 interface CustomTheme {
-  colorGray1: string
-  colorGray2: string
-  colorGray3: string
-  colorGray4: string
-  colorGray5: string
-  colorRed1: string
-  colorRed2: string
-  colorRed3: string
-  colorRed4: string
-  colorRed5: string
-  colorBlue1: string
-  colorBlue3: string
-  colorBlue4: string
-  colorBlue5: string
-
-  shadowOffsetX: number
-  shadowOffsetY: number
-  shadowColor: string
-  shadowBlurRadius: number
-
-  colorPrimary: string
-  colorSecondaryLight: string
-  colorSecondary: string
-  colorBackground: string
-  colorBackgroundLight: string
-  fontColorLight: string
-  fontColorDefault: string
-  fontFamilyDefault: string
-  fontSizeSmall: number
-  fontSizeNormal: number
-  fontSizeH1: string
-  fontSizeH2: string
-  fontSizeH4: string
-  fontWeightBold: string
-  fontWeightSemiBold: string
+  oldBackgroundColor: string
   transitionDuration: string
-  borderRadius: number
   shadow: string
-  shadowOverflowTop: number
-  shadowOverflowBottom: number
-  channelAvatarBg: string
-  fontBlack: string
-  stdBorderRadius: number
-  validationBg: string
-  validationText: string
-  fontGreyLight: string
-  inputBorderGrey: string
-  navy: string
-  linkBlue: string
-  fontXxxl: string
-  fontXxl: string
-  fontXl: string
-  fontLg: string
-  fontMd: string
-  fontNormal: string
-  fontSm: string
-  fontXs: string
-  muiAppBarZIndex: string
+  colors: {
+    mitRed: string
+    silverGray: string
+    brightRed: string
+    black: string
+    white: string
+    darkGray2: string
+    darkGray1: string
+    silverGray2: string
+    silverGray1: string
+    lightGray2: string
+    lightGray1: string
+    darkPink: string
+    pink: string
+    lightPink: string
+    darkPurple: string
+    purple: string
+    lightPurple: string
+    darkBlue: string
+    blue: string
+    lightBlue: string
+    darkGreen: string
+    green: string
+    lightGreen: string
+    darkRed: string
+    red: string
+    lightRed: string
+    orange: string
+    yellow: string
+  }
 }
 
 declare module "@mui/material/styles" {

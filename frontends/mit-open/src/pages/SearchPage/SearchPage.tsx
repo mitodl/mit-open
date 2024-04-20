@@ -9,6 +9,7 @@ import {
   Grid,
   Stack,
   Button,
+  Typography,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
@@ -74,7 +75,7 @@ const ColoredHeader = styled.div`
   align-items: center;
 `
 const SearchField = styled(SearchInput)`
-  background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
+  background-color: ${({ theme }) => theme.custom.colors.white};
   width: 100%;
 `
 
@@ -83,14 +84,14 @@ const FacetStyles = styled.div`
     color: ${({ theme }) => theme.palette.secondary.main};
   }
 
-  margin-top: 24px;
+  margin-top: 8px;
 
   input[type="checkbox"] {
     accent-color: ${({ theme }) => theme.palette.primary.main};
   }
 
   .filter-section-button {
-    font-size: ${({ theme }) => theme.custom.fontLg};
+    font-size: ${({ theme }) => theme.typography.subtitle1.fontSize};
     font-weight: 600;
     padding-left: 0;
     background-color: transparent;
@@ -103,7 +104,7 @@ const FacetStyles = styled.div`
 
   .facets {
     box-sizing: border-box;
-    background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
+    background-color: ${({ theme }) => theme.custom.colors.white};
     border-radius: 4px;
     padding: 1rem;
     margin-top: 0.25rem;
@@ -134,7 +135,7 @@ const FacetStyles = styled.div`
     .facet-more-less {
       cursor: pointer;
       color: ${({ theme }) => theme.palette.secondary.main};
-      font-size: ${({ theme }) => theme.custom.fontSm};
+      font-size: ${({ theme }) => theme.typography.body2.fontSize};
       text-align: right;
     }
   }
@@ -176,7 +177,7 @@ const FacetStyles = styled.div`
   input.facet-filter {
     background-color: initial;
     border-radius: 0;
-    border: 1px solid ${({ theme }) => theme.custom.inputBorderGrey};
+    border: 1px solid ${({ theme }) => theme.custom.colors.silverGray1};
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -185,8 +186,6 @@ const FacetStyles = styled.div`
 `
 
 const FilterTitle = styled.div`
-  font-size: ${({ theme }) => theme.custom.fontLg};
-  font-weight: ${({ theme }) => theme.typography.fontWeightBold};
   margin-right: 1rem;
   display: flex;
   align-items: center;
@@ -328,10 +327,14 @@ const SearchPage: React.FC = () => {
                   justifyContent="space-between"
                 >
                   <FilterTitle>
-                    Filters
+                    <Typography variant="h5">Filters </Typography>
                     <TuneIcon fontSize="inherit" />
                   </FilterTitle>
-                  <Button variant="text" onClick={clearAllFacets}>
+                  <Button
+                    variant="text"
+                    color="secondary"
+                    onClick={clearAllFacets}
+                  >
                     Clear all
                   </Button>
                 </Stack>

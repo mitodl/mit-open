@@ -25,7 +25,7 @@ const setup = (props: Omit<DisplayProps, "imgConfig">) => {
 
 describe("ExpandedLearningResourceDisplay", () => {
   it.each(Object.values(ResourceTypeEnum))(
-    "Renders title and resource type (type=$resourceType)",
+    "Renders title and resource type",
     (resourceType) => {
       const resource = factories.learningResources.resource({
         resource_type: resourceType,
@@ -45,7 +45,6 @@ describe("ExpandedLearningResourceDisplay", () => {
     const resource = factories.learningResources.resource({
       resource_type: resourceType,
     })
-    console.log(resource.image)
 
     setup({ resource })
     const images = screen.getAllByRole("img")

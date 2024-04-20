@@ -3,12 +3,12 @@ import { Global, css, theme } from "ol-components"
 
 const pageCss = css`
   html {
-    font-family: ${theme.custom.fontFamilyDefault};
-    color: ${theme.custom.fontColorDefault};
+    font-family: ${theme.typography.body1.fontFamily};
+    color: ${theme.typography.body1.color};
   }
 
   body {
-    background-color: ${theme.custom.colorBackground};
+    background-color: ${theme.custom.oldBackgroundColor};
     margin: 0;
     padding: 0;
   }
@@ -32,15 +32,15 @@ const pageCss = css`
   }
 
   h1 {
-    font-size: ${theme.custom.fontSizeH1};
+    font-size: ${theme.typography.h1.fontSize};
   }
 
   h2 {
-    font-size: ${theme.custom.fontSizeH2};
+    font-size: ${theme.typography.h2.fontSize};
   }
 
   h4 {
-    font-size: ${theme.custom.fontSizeH4};
+    font-size: ${theme.typography.h4.fontSize};
   }
 `
 
@@ -51,8 +51,7 @@ const formCss = css`
       background: #f8f8f8;
       border: 1px solid #bbb;
       font-size: 15px;
-      color: ${theme.custom.fontColorDefault};
-      border-radius: ${theme.custom.stdBorderRadius};
+      color: ${theme.typography.body1.color};
       height: 39px;
 
       /* If you add too much padding here, the options won't show in IE */
@@ -97,7 +96,6 @@ const muiCss = css`
     }
 
     .MuiCard-root {
-      color: ${theme.custom.fontColorDefault};
       transition-duration: ${theme.custom.transitionDuration};
       transition-property: box-shadow;
 

@@ -35,7 +35,7 @@ const globalSettings: ThemeOptions["typography"] = {
   },
   h5: {
     fontWeight: 500,
-    fontSize: pxToRem(16),
+    fontSize: pxToRem(20),
   },
   subtitle1: {
     fontWeight: 500,
