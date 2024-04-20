@@ -194,7 +194,7 @@ const iconButtonDefaultProps: Required<
   variant: "filled",
   size: "medium",
   edge: "sharp",
-  color: "red",
+  color: "primary",
 }
 
 type IconButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &

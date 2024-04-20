@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { Button, IconButton, ButtonLink } from "./Button"
 import Grid from "@mui/material/Grid"
 import Stack from "@mui/material/Stack"
-import { theme } from "../ThemeProvider/ThemeProvider"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import DeleteIcon from "@mui/icons-material/Delete"
@@ -30,7 +29,7 @@ const meta: Meta<typeof Button> = {
       },
     },
     color: {
-      options: Object.keys(theme.custom.colors),
+      options: ["primary", "secondary"],
       control: {
         type: "select",
       },
@@ -92,13 +91,13 @@ export const DisabledStory: Story = {
 export const ColorStory: Story = {
   render: () => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button color="red">Red</Button>
-      <Button color="red" variant="outlined">
-        Red
+      <Button color="primary">Primary</Button>
+      <Button color="primary" variant="outlined">
+        Primary
       </Button>
-      <Button color="dark">Dark</Button>
-      <Button color="dark" variant="outlined">
-        Dark
+      <Button color="secondary">Secondary</Button>
+      <Button color="secondary" variant="outlined">
+        Secondary
       </Button>
     </Stack>
   ),
@@ -205,7 +204,7 @@ export const ButtonsShowcase: Story = {
   ),
 }
 
-const COLORS = ["red", "dark"] as const
+const COLORS = ["primary", "secondary"] as const
 const ICONS = [
   {
     component: <ArrowBackIcon />,

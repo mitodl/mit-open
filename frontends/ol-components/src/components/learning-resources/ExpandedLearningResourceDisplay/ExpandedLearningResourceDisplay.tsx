@@ -38,7 +38,12 @@ const TopicsDisplay: React.FC<{ topics: LearningResourceTopic[] }> = ({
       <SectionTitle>Subjects</SectionTitle>
       <TopicsList>
         {topics.map((topic) => (
-          <Chip size="small" key={topic.id} component="li" label={topic.name} />
+          <Chip
+            size="medium"
+            key={topic.id}
+            component="li"
+            label={topic.name}
+          />
         ))}
       </TopicsList>
     </div>

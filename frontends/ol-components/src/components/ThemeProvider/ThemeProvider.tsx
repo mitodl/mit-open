@@ -106,7 +106,7 @@ const themeOptions: ThemeOptions = {
     },
     secondary: {
       light: colors.LIGHT_GRAY_2,
-      active: colors.LIGHT_GRAY_2,
+      active: colors.SILVER_GRAY_2,
       main: colors.MIT_BLACK,
       contrastText: colors.MIT_WHITE,
     },
@@ -119,7 +119,6 @@ const themeOptions: ThemeOptions = {
   breakpoints: BREAKPOINTS,
   components: {
     MuiButtonBase: buttons.buttonBaseComponent,
-    MuiButton: buttons.buttonComponent,
     MuiTypography: typography.component,
     MuiInputBase: inputs.inputBaseComponent,
     MuiOutlinedInput: inputs.outlinedInputComponent,
