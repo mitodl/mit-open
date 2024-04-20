@@ -66,6 +66,10 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
           "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
             backgroundColor: theme.palette.primary.active,
           },
+          "&.MuiChip-clickable:focus-visible, &.MuiChip-deletable:focus-visible":
+            {
+              backgroundColor: theme.palette.primary.active,
+            },
         }
       },
     },
@@ -86,6 +90,10 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
           "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
             backgroundColor: theme.palette.secondary.active,
           },
+          "&.MuiChip-clickable:focus-visible, &.MuiChip-deletable:focus-visible":
+            {
+              backgroundColor: theme.palette.secondary.active,
+            },
         }
       },
     },
