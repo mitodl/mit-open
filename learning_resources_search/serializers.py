@@ -429,7 +429,7 @@ class LearningResourceSearchResponseSerializer(SearchResponseSerializer):
         return super().get_results()
 
 
-class ContentFileeSearchResponseSerializer(SearchResponseSerializer):
+class ContentFileSearchResponseSerializer(SearchResponseSerializer):
     """
     SearchResponseSerializer with OpenAPI annotations for Content Files search
     """

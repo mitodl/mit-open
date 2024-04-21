@@ -20,8 +20,8 @@ from learning_resources_search.api import (
 )
 from learning_resources_search.constants import CONTENT_FILE_TYPE, LEARNING_RESOURCE
 from learning_resources_search.serializers import (
-    ContentFileeSearchResponseSerializer,
     ContentFileSearchRequestSerializer,
+    ContentFileSearchResponseSerializer,
     LearningResourceSearchResponseSerializer,
     LearningResourcesSearchRequestSerializer,
     SearchResponseSerializer,
@@ -116,7 +116,7 @@ class SearchSubscriptionView(ESView):
                     errors[key] = list(set(chain(*errors_obj.values())))
             return Response(errors, status=400)
 
-    @extend_schema(summary="Subscribe")
+    @extend_schema(summary="List Subscriptions")
     def get(self, request):
         request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
         if request_data.is_valid():
@@ -155,7 +155,7 @@ class SearchSubscriptionView(ESView):
 @extend_schema_view(
     get=extend_schema(
         parameters=[ContentFileSearchRequestSerializer()],
-        responses=ContentFileeSearchResponseSerializer(),
+        responses=ContentFileSearchResponseSerializer(),
     ),
 )
 @action(methods=["GET"], detail=False, name="Search Content Files")
