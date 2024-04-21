@@ -4,8 +4,10 @@ import logging
 from itertools import chain
 
 from django.utils.decorators import method_decorator
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -16,7 +18,6 @@ from learning_resources_search.api import (
     execute_learn_search,
     subscribe_user_to_search_query,
     unsubscribe_user_to_search_query,
-    user_subscribed_to_query,
 )
 from learning_resources_search.constants import CONTENT_FILE_TYPE, LEARNING_RESOURCE
 from learning_resources_search.serializers import (
@@ -24,7 +25,9 @@ from learning_resources_search.serializers import (
     ContentFileSearchResponseSerializer,
     LearningResourceSearchResponseSerializer,
     LearningResourcesSearchRequestSerializer,
+    PercolateQuerySerializer,
     SearchResponseSerializer,
+    UserPercolateQueryRequestSerializer,
 )
 
 log = logging.getLogger(__name__)
@@ -80,33 +83,28 @@ class LearningResourcesSearchView(ESView):
             return Response(errors, status=400)
 
 
-@method_decorator(blocked_ip_exempt, name="dispatch")
-@extend_schema_view(
-    get=extend_schema(
-        parameters=[LearningResourcesSearchRequestSerializer()],
-        responses=LearningResourceSearchResponseSerializer(),
-    ),
-)
-@action(
-    methods=["POST", "DELETE"],
-    detail=False,
-    name="Subscribe/Unsubscribe User to Search Query",
-)
-class SearchSubscriptionView(ESView):
+class UserSearchSubscriptionViewSet(viewsets.ViewSet):
     """
-    Subscribe a user to a search query
+    View for listing percolate query subscriptions for a user
     """
 
     permission_classes = (IsAuthenticated,)
+    serializer_class = UserPercolateQueryRequestSerializer
+    filter_backends = (DjangoFilterBackend,)
 
-    @extend_schema(summary="Subscribe")
-    def post(self, request):
+    @action(detail=False, methods=["POST"], name="Subscribe user to query")
+    @extend_schema(
+        summary="Subscribe user to query",
+        parameters=[LearningResourcesSearchRequestSerializer()],
+        responses=PercolateQuerySerializer(),
+    )
+    def subscribe(self, request, *args, **kwargs):  # noqa: ARG002
         request_data = LearningResourcesSearchRequestSerializer(data=request.data)
         if request_data.is_valid():
-            response = subscribe_user_to_search_query(
+            percolate_query = subscribe_user_to_search_query(
                 request.user, request_data.data | {"endpoint": LEARNING_RESOURCE}
             )
-            return Response(response)
+            return Response(PercolateQuerySerializer(percolate_query).data)
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():
@@ -116,31 +114,19 @@ class SearchSubscriptionView(ESView):
                     errors[key] = list(set(chain(*errors_obj.values())))
             return Response(errors, status=400)
 
-    @extend_schema(summary="List Subscriptions")
-    def get(self, request):
-        request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
-        if request_data.is_valid():
-            is_subscribed = user_subscribed_to_query(
-                request.user, request_data.data | {"endpoint": LEARNING_RESOURCE}
-            )
-            return Response({"is_subscribed": is_subscribed})
-        else:
-            errors = {}
-            for key, errors_obj in request_data.errors.items():
-                if isinstance(errors_obj, list):
-                    errors[key] = errors_obj
-                else:
-                    errors[key] = list(set(chain(*errors_obj.values())))
-            return Response(errors, status=400)
-
-    @extend_schema(summary="Unsubscribe")
-    def delete(self, request):
+    @action(detail=False, methods=["POST"], name="Unsubscribe user to query")
+    @extend_schema(
+        summary="Unsubscribe user to query",
+        parameters=[LearningResourcesSearchRequestSerializer()],
+        responses=PercolateQuerySerializer(),
+    )
+    def unsubscribe(self, request, *args, **kwargs):  # noqa: ARG002
         request_data = LearningResourcesSearchRequestSerializer(data=request.data)
         if request_data.is_valid():
-            response = unsubscribe_user_to_search_query(
+            percolate_query = unsubscribe_user_to_search_query(
                 request.user, request_data.data | {"endpoint": LEARNING_RESOURCE}
             )
-            return Response(response)
+            return Response(PercolateQuerySerializer(percolate_query).data)
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():
@@ -149,6 +135,18 @@ class SearchSubscriptionView(ESView):
                 else:
                     errors[key] = list(set(chain(*errors_obj.values())))
             return Response(errors, status=400)
+
+    def list(self, request):
+        queryset = request.user.percolate_queries.all()
+        serializer = PercolateQuerySerializer(
+            self.filter_queryset(queryset), many=True, context={"request": request}
+        )
+        return Response(serializer.data)
+
+    def filter_queryset(self, queryset):
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, view=self)
+        return queryset
 
 
 @method_decorator(blocked_ip_exempt, name="dispatch")

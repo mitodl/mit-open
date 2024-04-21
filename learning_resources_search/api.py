@@ -590,7 +590,7 @@ def subscribe_user_to_search_query(user, search_params):
     )
     if not percolate_query.users.filter(id=user.id).exists():
         percolate_query.users.add(user)
-    return percolate_query.query
+    return percolate_query
 
 
 def unsubscribe_user_to_search_query(user, search_params):
@@ -616,7 +616,7 @@ def unsubscribe_user_to_search_query(user, search_params):
     )
     if percolate_query.users.filter(id=user.id).exists():
         percolate_query.users.remove(user)
-    return percolate_query.query
+    return percolate_query
 
 
 def user_subscribed_to_query(user, search_params):
