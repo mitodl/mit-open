@@ -42,14 +42,6 @@ def content_file_search_view():
     return SimpleNamespace(url=reverse("lr_search:v1:content_file_search"))
 
 
-@pytest.fixture()
-def learning_resources_search_subscribe_view():
-    """Fixture with relevant properties for testing the search view"""
-    return SimpleNamespace(
-        url=reverse("lr_search:v1:learning_resources_search_subscribe")
-    )
-
-
 @pytest.mark.parametrize(
     ("status_code", "raise_error"), [(418, False), (503, True), ("N/A", True)]
 )
@@ -274,389 +266,61 @@ def test_content_file_search_with_extra_params(
 
 @pytest.mark.django_db()
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
-def test_user_subscribe_to_search(
-    client, user, learning_resources_search_subscribe_view
-):
+def test_user_subscribe_to_search(client, user):
     """Test subscribing user from search"""
     client.force_login(user)
     params = {"q": "monkey"}
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscribe-subscribe")
     assert user.percolate_queries.count() == 0
-    url = learning_resources_search_subscribe_view.url
-    resp = client.post(url, json.dumps(params), content_type="application/json")
-    assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
-        {
-            "bool": {
-                "must": [
-                    {
-                        "bool": {
-                            "filter": [
-                                {
-                                    "bool": {
-                                        "must": [
-                                            {
-                                                "bool": {
-                                                    "should": [
-                                                        {
-                                                            "multi_match": {
-                                                                "query": "monkey",
-                                                                "fields": [
-                                                                    "title.english^3",
-                                                                    "description.english^2",
-                                                                    "full_description.english",
-                                                                    "topics",
-                                                                    "platform",
-                                                                    "readable_id",
-                                                                    "offered_by",
-                                                                    "course_feature",
-                                                                    "course",
-                                                                    "video.transcript.english",
-                                                                ],
-                                                            }
-                                                        },
-                                                        {
-                                                            "nested": {
-                                                                "path": "topics",
-                                                                "query": {
-                                                                    "multi_match": {
-                                                                        "query": "monkey",
-                                                                        "fields": [
-                                                                            "topics.name"
-                                                                        ],
-                                                                    }
-                                                                },
-                                                            }
-                                                        },
-                                                        {
-                                                            "nested": {
-                                                                "path": "departments",
-                                                                "query": {
-                                                                    "multi_match": {
-                                                                        "query": "monkey",
-                                                                        "fields": [
-                                                                            "departments.department_id"
-                                                                        ],
-                                                                    }
-                                                                },
-                                                            }
-                                                        },
-                                                        {
-                                                            "wildcard": {
-                                                                "readable_id": {
-                                                                    "value": "MONKEY*",
-                                                                    "rewrite": "constant_score",
-                                                                }
-                                                            }
-                                                        },
-                                                        {
-                                                            "nested": {
-                                                                "path": "course.course_numbers",
-                                                                "query": {
-                                                                    "multi_match": {
-                                                                        "query": "monkey",
-                                                                        "fields": [
-                                                                            "course.course_numbers.value"
-                                                                        ],
-                                                                    }
-                                                                },
-                                                            }
-                                                        },
-                                                        {
-                                                            "nested": {
-                                                                "path": "runs",
-                                                                "query": {
-                                                                    "multi_match": {
-                                                                        "query": "monkey",
-                                                                        "fields": [
-                                                                            "runs.year",
-                                                                            "runs.semester",
-                                                                            "runs.level",
-                                                                        ],
-                                                                    }
-                                                                },
-                                                            }
-                                                        },
-                                                        {
-                                                            "nested": {
-                                                                "path": "runs",
-                                                                "query": {
-                                                                    "nested": {
-                                                                        "path": "runs.instructors",
-                                                                        "query": {
-                                                                            "multi_match": {
-                                                                                "query": "monkey",
-                                                                                "fields": [
-                                                                                    "runs.instructors.first_name",
-                                                                                    "runs.instructors.last_name",
-                                                                                    "runs.instructors.full_name",
-                                                                                ],
-                                                                            }
-                                                                        },
-                                                                    }
-                                                                },
-                                                            }
-                                                        },
-                                                        {
-                                                            "has_child": {
-                                                                "type": "content_file",
-                                                                "query": {
-                                                                    "multi_match": {
-                                                                        "query": "monkey",
-                                                                        "fields": [
-                                                                            "content",
-                                                                            "title.english^3",
-                                                                            "short_description.english^2",
-                                                                            "content_feature_type",
-                                                                        ],
-                                                                    }
-                                                                },
-                                                                "score_mode": "avg",
-                                                            }
-                                                        },
-                                                    ]
-                                                }
-                                            }
-                                        ]
-                                    }
-                                }
-                            ],
-                            "should": [
-                                {
-                                    "multi_match": {
-                                        "query": "monkey",
-                                        "fields": [
-                                            "title.english^3",
-                                            "description.english^2",
-                                            "full_description.english",
-                                            "topics",
-                                            "platform",
-                                            "readable_id",
-                                            "offered_by",
-                                            "course_feature",
-                                            "course",
-                                            "video.transcript.english",
-                                        ],
-                                    }
-                                },
-                                {
-                                    "nested": {
-                                        "path": "topics",
-                                        "query": {
-                                            "multi_match": {
-                                                "query": "monkey",
-                                                "fields": ["topics.name"],
-                                            }
-                                        },
-                                    }
-                                },
-                                {
-                                    "nested": {
-                                        "path": "departments",
-                                        "query": {
-                                            "multi_match": {
-                                                "query": "monkey",
-                                                "fields": ["departments.department_id"],
-                                            }
-                                        },
-                                    }
-                                },
-                                {
-                                    "wildcard": {
-                                        "readable_id": {
-                                            "value": "MONKEY*",
-                                            "rewrite": "constant_score",
-                                        }
-                                    }
-                                },
-                                {
-                                    "nested": {
-                                        "path": "course.course_numbers",
-                                        "query": {
-                                            "multi_match": {
-                                                "query": "monkey",
-                                                "fields": [
-                                                    "course.course_numbers.value"
-                                                ],
-                                            }
-                                        },
-                                    }
-                                },
-                                {
-                                    "nested": {
-                                        "path": "runs",
-                                        "query": {
-                                            "multi_match": {
-                                                "query": "monkey",
-                                                "fields": [
-                                                    "runs.year",
-                                                    "runs.semester",
-                                                    "runs.level",
-                                                ],
-                                            }
-                                        },
-                                    }
-                                },
-                                {
-                                    "nested": {
-                                        "path": "runs",
-                                        "query": {
-                                            "nested": {
-                                                "path": "runs.instructors",
-                                                "query": {
-                                                    "multi_match": {
-                                                        "query": "monkey",
-                                                        "fields": [
-                                                            "runs.instructors.first_name",
-                                                            "runs.instructors.last_name",
-                                                            "runs.instructors.full_name",
-                                                        ],
-                                                    }
-                                                },
-                                            }
-                                        },
-                                    }
-                                },
-                                {
-                                    "has_child": {
-                                        "type": "content_file",
-                                        "query": {
-                                            "multi_match": {
-                                                "query": "monkey",
-                                                "fields": [
-                                                    "content",
-                                                    "title.english^3",
-                                                    "short_description.english^2",
-                                                    "content_feature_type",
-                                                ],
-                                            }
-                                        },
-                                        "score_mode": "avg",
-                                    }
-                                },
-                            ],
-                        }
-                    }
-                ],
-                "filter": [
-                    {"exists": {"field": "resource_type"}},
-                    {
-                        "bool": {
-                            "must": [
-                                {
-                                    "bool": {
-                                        "should": [
-                                            {
-                                                "term": {
-                                                    "resource_type": {
-                                                        "value": "course",
-                                                        "case_insensitive": True,
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "term": {
-                                                    "resource_type": {
-                                                        "value": "program",
-                                                        "case_insensitive": True,
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "term": {
-                                                    "resource_type": {
-                                                        "value": "podcast",
-                                                        "case_insensitive": True,
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "term": {
-                                                    "resource_type": {
-                                                        "value": "podcast_episode",
-                                                        "case_insensitive": True,
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "term": {
-                                                    "resource_type": {
-                                                        "value": "learning_path",
-                                                        "case_insensitive": True,
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "term": {
-                                                    "resource_type": {
-                                                        "value": "video",
-                                                        "case_insensitive": True,
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "term": {
-                                                    "resource_type": {
-                                                        "value": "video_playlist",
-                                                        "case_insensitive": True,
-                                                    }
-                                                }
-                                            },
-                                        ]
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                ],
-            }
-        }
-    )
+    resp = client.post(sub_url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 1
+    assert resp.json()["id"] == user.percolate_queries.first().id
 
 
 @pytest.mark.django_db()
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
-def test_user_unsubscribe_to_search(
-    client, user, learning_resources_search_subscribe_view
-):
+def test_user_unsubscribe_to_search(client, user):
     """Test unsubscribing user from search"""
+
+    unsub_url = reverse("lr_search:v1:learning_resources_user_subscribe-unsubscribe")
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscribe-subscribe")
+
     client.force_login(user)
     params = {"q": "monkey"}
     assert user.percolate_queries.count() == 0
-    url = learning_resources_search_subscribe_view.url
-    client.post(url, json.dumps(params), content_type="application/json")
+    client.post(sub_url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 1
-    client.delete(url, json.dumps(params), content_type="application/json")
+    client.post(unsub_url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 0
 
 
 @pytest.mark.django_db()
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
-def test_user_subscribed_to_search(
-    client, user, learning_resources_search_subscribe_view
-):
+def test_user_subscribed_to_search(client, user):
     """Test user subscribed get"""
     client.force_login(user)
     params = {"q": "monkey"}
+    list_url = reverse("lr_search:v1:learning_resources_user_subscribe-list")
+    unsub_url = reverse("lr_search:v1:learning_resources_user_subscribe-unsubscribe")
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscribe-subscribe")
     assert user.percolate_queries.count() == 0
-    url = learning_resources_search_subscribe_view.url
-    client.post(url, json.dumps(params), content_type="application/json")
+    client.post(sub_url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 1
-    response = client.get(url, params).json()
-    assert response["is_subscribed"]
-    client.delete(url, json.dumps(params), content_type="application/json")
+    response = client.get(list_url, params).json()
+    assert len(response) > 0
+    client.post(unsub_url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 0
-    response = client.get(url, params).json()
-    assert not response["is_subscribed"]
+    response = client.get(list_url, params).json()
+    assert len(response) == 0
 
 
 @pytest.mark.django_db()
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
-def test_user_sort_limit_ordering_params_generate_same_query(
-    client, user, learning_resources_search_subscribe_view
-):
+def test_user_sort_limit_ordering_params_generate_same_query(client, user):
     """Test that the sortby, limit, and offset params lead to the same percolate query"""
     client.force_login(user)
-    url = learning_resources_search_subscribe_view.url
+
+    url = reverse("lr_search:v1:learning_resources_user_subscribe-subscribe")
     assert user.percolate_queries.count() == 0
     params = {"q": "monkey", "offset": 100, "limit": 1}
     client.post(url, json.dumps(params), content_type="application/json")
