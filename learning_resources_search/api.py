@@ -450,6 +450,18 @@ def generate_aggregation_clauses(search_params, filter_clauses):
     return aggregation_clauses
 
 
+def order_params(params):
+    """
+    Order params dict by keys and sorts all contained lists.
+    """
+    if isinstance(params, dict):
+        return {k: order_params(v) for k, v in sorted(params.items())}
+    elif isinstance(params, list):
+        return sorted(order_params(item) for item in params)
+    else:
+        return params
+
+
 def adjust_query_for_percolator(query_params):
     search = construct_search(query_params)
     return adjust_search_for_percolator(search).to_dict()["query"]
@@ -462,7 +474,7 @@ def adjust_original_query_for_percolate(query):
     """
     for key in ["limit", "offset", "sortby"]:
         query.pop(key, None)
-    return query
+    return order_params(query)
 
 
 def construct_search(search_params):
@@ -574,7 +586,7 @@ def subscribe_user_to_search_query(user, search_params):
     percolate_query, _ = PercolateQuery.objects.get_or_create(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
         original_query=adjusted_original_query,
-        query=adjusted_original_query,
+        query=adjust_query_for_percolator(adjusted_original_query),
     )
     if not percolate_query.users.filter(id=user.id).exists():
         percolate_query.users.add(user)
@@ -596,9 +608,11 @@ def unsubscribe_user_to_search_query(user, search_params):
     Returns:
         dict: The opensearch response dict
     """
+    adjusted_original_query = adjust_original_query_for_percolate(search_params)
     percolate_query, _ = PercolateQuery.objects.get_or_create(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
-        original_query=adjust_original_query_for_percolate(search_params),
+        original_query=adjusted_original_query,
+        query=adjust_query_for_percolator(adjusted_original_query),
     )
     if percolate_query.users.filter(id=user.id).exists():
         percolate_query.users.remove(user)
