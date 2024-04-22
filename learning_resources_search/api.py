@@ -593,7 +593,7 @@ def subscribe_user_to_search_query(user, search_params):
     return percolate_query
 
 
-def unsubscribe_user_to_search_query(user, search_params):
+def unsubscribe_user_from_search_query(user, search_params):
     from learning_resources_search.models import PercolateQuery
 
     """
@@ -614,6 +614,20 @@ def unsubscribe_user_to_search_query(user, search_params):
         original_query=adjusted_original_query,
         query=adjust_query_for_percolator(adjusted_original_query),
     ).first()
+    return unsubscribe_user_from_percolate_query(user, percolate_query)
+
+
+def unsubscribe_user_from_percolate_query(user, percolate_query):
+    """
+    Unsubscribe a user to a search percolate query
+
+
+    Args:
+        user: The User to unsubscribe
+        percolate_query: The PercolateQuery object to unsub from
+    Returns:
+        dict: The percolate query
+    """
     if percolate_query.users.filter(id=user.id).exists():
         percolate_query.users.remove(user)
     return percolate_query
