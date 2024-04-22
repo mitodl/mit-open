@@ -3218,8 +3218,8 @@ paths:
                   $ref: '#/components/schemas/UserPercolateQueryRequest'
           description: ''
   /api/v1/learning_resources_user_subscription/{id}/unsubscribe/:
-    delete:
-      operationId: learning_resources_user_subscription_unsubscribe_destroy
+    post:
+      operationId: learning_resources_user_subscription_unsubscribe_create_2
       description: View for listing percolate query subscriptions for a user
       parameters:
       - in: path
@@ -3230,8 +3230,12 @@ paths:
       tags:
       - learning_resources_user_subscription
       responses:
-        '204':
-          description: No response body
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPercolateQueryRequest'
+          description: ''
   /api/v1/learning_resources_user_subscription/subscribe/:
     post:
       operationId: learning_resources_user_subscription_subscribe_create

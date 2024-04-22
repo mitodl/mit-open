@@ -11627,13 +11627,13 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    learningResourcesUserSubscriptionUnsubscribeDestroy: async (
+    learningResourcesUserSubscriptionUnsubscribeCreate2: async (
       id: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists(
-        "learningResourcesUserSubscriptionUnsubscribeDestroy",
+        "learningResourcesUserSubscriptionUnsubscribeCreate2",
         "id",
         id,
       )
@@ -11650,7 +11650,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       }
 
       const localVarRequestOptions = {
-        method: "DELETE",
+        method: "POST",
         ...baseOptions,
         ...options,
       }
@@ -11780,21 +11780,24 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async learningResourcesUserSubscriptionUnsubscribeDestroy(
+    async learningResourcesUserSubscriptionUnsubscribeCreate2(
       id: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserPercolateQueryRequest>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningResourcesUserSubscriptionUnsubscribeDestroy(
+        await localVarAxiosParamCreator.learningResourcesUserSubscriptionUnsubscribeCreate2(
           id,
           options,
         )
       const index = configuration?.serverIndex ?? 0
       const operationBasePath =
         operationServerMap[
-          "LearningResourcesUserSubscriptionApi.learningResourcesUserSubscriptionUnsubscribeDestroy"
+          "LearningResourcesUserSubscriptionApi.learningResourcesUserSubscriptionUnsubscribeCreate2"
         ]?.[index]?.url
       return (axios, basePath) =>
         createRequestFunction(
@@ -11856,16 +11859,16 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
     },
     /**
      * View for listing percolate query subscriptions for a user
-     * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest} requestParameters Request parameters.
+     * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeCreate2Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    learningResourcesUserSubscriptionUnsubscribeDestroy(
-      requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest,
+    learningResourcesUserSubscriptionUnsubscribeCreate2(
+      requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeCreate2Request,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<UserPercolateQueryRequest> {
       return localVarFp
-        .learningResourcesUserSubscriptionUnsubscribeDestroy(
+        .learningResourcesUserSubscriptionUnsubscribeCreate2(
           requestParameters.id,
           options,
         )
@@ -11875,15 +11878,15 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
 }
 
 /**
- * Request parameters for learningResourcesUserSubscriptionUnsubscribeDestroy operation in LearningResourcesUserSubscriptionApi.
+ * Request parameters for learningResourcesUserSubscriptionUnsubscribeCreate2 operation in LearningResourcesUserSubscriptionApi.
  * @export
- * @interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest
+ * @interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeCreate2Request
  */
-export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest {
+export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeCreate2Request {
   /**
    *
    * @type {string}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroy
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeCreate2
    */
   readonly id: string
 }
@@ -11939,17 +11942,17 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
 
   /**
    * View for listing percolate query subscriptions for a user
-   * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest} requestParameters Request parameters.
+   * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeCreate2Request} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LearningResourcesUserSubscriptionApi
    */
-  public learningResourcesUserSubscriptionUnsubscribeDestroy(
-    requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest,
+  public learningResourcesUserSubscriptionUnsubscribeCreate2(
+    requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeCreate2Request,
     options?: RawAxiosRequestConfig,
   ) {
     return LearningResourcesUserSubscriptionApiFp(this.configuration)
-      .learningResourcesUserSubscriptionUnsubscribeDestroy(
+      .learningResourcesUserSubscriptionUnsubscribeCreate2(
         requestParameters.id,
         options,
       )
