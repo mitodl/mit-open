@@ -211,9 +211,9 @@ const IconButton: React.FC<IconButtonProps> = styled(ButtonStyled)((props) => {
     "& .MuiSvgIcon-root": {
       fontSize: pxToRem(
         {
-          small: 16 * 1.41,
-          medium: 20 * 1.41,
-          large: 24 * 1.41,
+          small: 16,
+          medium: 20,
+          large: 24,
         }[size],
       ),
     },
