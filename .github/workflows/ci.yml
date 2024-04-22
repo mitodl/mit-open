@@ -140,6 +140,12 @@ jobs:
           CODECOV: true
           NODE_ENV: test
 
+      - name: Upload frontend build
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: build
+
       - name: Upload coverage to CodeCov
         uses: codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed # v4.3.0
         with:
