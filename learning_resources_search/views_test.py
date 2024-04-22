@@ -313,7 +313,7 @@ def test_user_unsubscribe_to_search_by_id(client, user):
         "lr_search:v1:learning_resources_user_subscription-unsubscribe",
         args=[user.percolate_queries.first().id],
     )
-    client.delete(unsub_url, json.dumps(params), content_type="application/json")
+    client.post(unsub_url, content_type="application/json")
     assert user.percolate_queries.count() == 0
 
 

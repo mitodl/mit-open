@@ -119,7 +119,7 @@ class UserSearchSubscriptionViewSet(viewsets.ViewSet):
 
     @action(
         detail=True,
-        methods=["DELETE"],
+        methods=["POST"],
         name="Unsubscribe user from query by id",
     )
     @extend_schema(
