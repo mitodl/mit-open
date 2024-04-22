@@ -958,6 +958,75 @@ export type LearningResource =
   | ({ resource_type: "video_playlist" } & VideoPlaylistResource)
 
 /**
+ * Serializer for LearningResourceDepartment, minus school
+ * @export
+ * @interface LearningResourceBaseDepartment
+ */
+export interface LearningResourceBaseDepartment {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBaseDepartment
+   */
+  department_id: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBaseDepartment
+   */
+  name: string
+  /**
+   * Get the channel url for the department if it exists
+   * @type {string}
+   * @memberof LearningResourceBaseDepartment
+   */
+  channel_url: string | null
+}
+/**
+ * Base serializer for LearningResourceSchool model, minus departments list
+ * @export
+ * @interface LearningResourceBaseSchool
+ */
+export interface LearningResourceBaseSchool {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceBaseSchool
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBaseSchool
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBaseSchool
+   */
+  url: string
+}
+/**
+ * Base serializer for LearningResourceSchool model, minus departments list
+ * @export
+ * @interface LearningResourceBaseSchoolRequest
+ */
+export interface LearningResourceBaseSchoolRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBaseSchoolRequest
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceBaseSchoolRequest
+   */
+  url: string
+}
+/**
  * Serializer for LearningResourceContentTag
  * @export
  * @interface LearningResourceContentTag
@@ -977,7 +1046,7 @@ export interface LearningResourceContentTag {
   name: string
 }
 /**
- * Serializer for LearningResourceDepartment
+ * Full serializer for LearningResourceDepartment, including school
  * @export
  * @interface LearningResourceDepartment
  */
@@ -1000,9 +1069,15 @@ export interface LearningResourceDepartment {
    * @memberof LearningResourceDepartment
    */
   channel_url: string | null
+  /**
+   *
+   * @type {LearningResourceBaseSchool}
+   * @memberof LearningResourceDepartment
+   */
+  school: LearningResourceBaseSchool | null
 }
 /**
- * Serializer for LearningResourceDepartment
+ * Full serializer for LearningResourceDepartment, including school
  * @export
  * @interface LearningResourceDepartmentRequest
  */
@@ -1565,6 +1640,37 @@ export interface LearningResourceRunRequest {
   checksum?: string | null
 }
 /**
+ * Serializer for LearningResourceSchool model, including list of departments
+ * @export
+ * @interface LearningResourceSchool
+ */
+export interface LearningResourceSchool {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceSchool
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceSchool
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceSchool
+   */
+  url: string
+  /**
+   *
+   * @type {Array<LearningResourceBaseDepartment>}
+   * @memberof LearningResourceSchool
+   */
+  departments: Array<LearningResourceBaseDepartment>
+}
+/**
  * SearchResponseSerializer with OpenAPI annotations for Learning Resources search
  * @export
  * @interface LearningResourceSearchResponse
@@ -2016,6 +2122,37 @@ export interface PaginatedLearningResourceRelationshipList {
    * @memberof PaginatedLearningResourceRelationshipList
    */
   results: Array<LearningResourceRelationship>
+}
+/**
+ *
+ * @export
+ * @interface PaginatedLearningResourceSchoolList
+ */
+export interface PaginatedLearningResourceSchoolList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedLearningResourceSchoolList
+   */
+  count: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceSchoolList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedLearningResourceSchoolList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<LearningResourceSchool>}
+   * @memberof PaginatedLearningResourceSchoolList
+   */
+  results: Array<LearningResourceSchool>
 }
 /**
  *
@@ -17213,6 +17350,310 @@ export const ProgramsUpcomingListSortbyEnum = {
 } as const
 export type ProgramsUpcomingListSortbyEnum =
   (typeof ProgramsUpcomingListSortbyEnum)[keyof typeof ProgramsUpcomingListSortbyEnum]
+
+/**
+ * SchoolsApi - axios parameter creator
+ * @export
+ */
+export const SchoolsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * MIT schools
+     * @summary List
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    schoolsList: async (
+      limit?: number,
+      offset?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/schools/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * MIT schools
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource school.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    schoolsRetrieve: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("schoolsRetrieve", "id", id)
+      const localVarPath = `/api/v1/schools/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * SchoolsApi - functional programming interface
+ * @export
+ */
+export const SchoolsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = SchoolsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * MIT schools
+     * @summary List
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async schoolsList(
+      limit?: number,
+      offset?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceSchoolList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.schoolsList(
+        limit,
+        offset,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["SchoolsApi.schoolsList"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * MIT schools
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource school.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async schoolsRetrieve(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResourceSchool>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.schoolsRetrieve(
+        id,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["SchoolsApi.schoolsRetrieve"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * SchoolsApi - factory interface
+ * @export
+ */
+export const SchoolsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = SchoolsApiFp(configuration)
+  return {
+    /**
+     * MIT schools
+     * @summary List
+     * @param {SchoolsApiSchoolsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    schoolsList(
+      requestParameters: SchoolsApiSchoolsListRequest = {},
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceSchoolList> {
+      return localVarFp
+        .schoolsList(requestParameters.limit, requestParameters.offset, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * MIT schools
+     * @summary Retrieve
+     * @param {SchoolsApiSchoolsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    schoolsRetrieve(
+      requestParameters: SchoolsApiSchoolsRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<LearningResourceSchool> {
+      return localVarFp
+        .schoolsRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for schoolsList operation in SchoolsApi.
+ * @export
+ * @interface SchoolsApiSchoolsListRequest
+ */
+export interface SchoolsApiSchoolsListRequest {
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof SchoolsApiSchoolsList
+   */
+  readonly limit?: number
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof SchoolsApiSchoolsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for schoolsRetrieve operation in SchoolsApi.
+ * @export
+ * @interface SchoolsApiSchoolsRetrieveRequest
+ */
+export interface SchoolsApiSchoolsRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource school.
+   * @type {number}
+   * @memberof SchoolsApiSchoolsRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * SchoolsApi - object-oriented interface
+ * @export
+ * @class SchoolsApi
+ * @extends {BaseAPI}
+ */
+export class SchoolsApi extends BaseAPI {
+  /**
+   * MIT schools
+   * @summary List
+   * @param {SchoolsApiSchoolsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SchoolsApi
+   */
+  public schoolsList(
+    requestParameters: SchoolsApiSchoolsListRequest = {},
+    options?: RawAxiosRequestConfig,
+  ) {
+    return SchoolsApiFp(this.configuration)
+      .schoolsList(requestParameters.limit, requestParameters.offset, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * MIT schools
+   * @summary Retrieve
+   * @param {SchoolsApiSchoolsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SchoolsApi
+   */
+  public schoolsRetrieve(
+    requestParameters: SchoolsApiSchoolsRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return SchoolsApiFp(this.configuration)
+      .schoolsRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
 
 /**
  * TopicsApi - axios parameter creator

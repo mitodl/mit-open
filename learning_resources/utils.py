@@ -26,6 +26,7 @@ from learning_resources.models import (
     LearningResourceOfferor,
     LearningResourcePlatform,
     LearningResourceRun,
+    LearningResourceSchool,
     LearningResourceTopic,
 )
 from main.utils import generate_filepath
@@ -277,46 +278,87 @@ def get_ocw_topics(topics_collection):
     return list(set(topics))
 
 
+@transaction.atomic()
 def upsert_offered_by_data():
     """
     Upsert LearningResourceOfferor data
     """
+    offerors = []
     with Path.open(Path(__file__).parent / "fixtures" / "offered_by.json") as inf:
         offered_by_json = json.load(inf)
-        offerors = []
-        with transaction.atomic():
-            for offeror in offered_by_json:
-                offeror_fields = offeror["fields"]
-                offered_by, _ = LearningResourceOfferor.objects.update_or_create(
-                    name=offeror_fields["name"],
-                    defaults=offeror_fields,
-                )
-                offeror_upserted_actions(offered_by)
-                offerors.append(offeror_fields["name"])
-            invalid_offerors = LearningResourceOfferor.objects.exclude(
-                name__in=offerors
+        for offeror in offered_by_json:
+            offeror_fields = offeror["fields"]
+            offered_by, _ = LearningResourceOfferor.objects.update_or_create(
+                name=offeror_fields["name"],
+                defaults=offeror_fields,
             )
-            for offeror in invalid_offerors:
-                offeror_delete_actions(offeror)
+            offeror_upserted_actions(offered_by)
+            offerors.append(offeror_fields["name"])
+        invalid_offerors = LearningResourceOfferor.objects.exclude(name__in=offerors)
+        for offeror in invalid_offerors:
+            offeror_delete_actions(offeror)
+    return offerors
 
 
+@transaction.atomic()
+def upsert_department_data():
+    """
+    Upsert LearningResourceDepartment data
+    """
+    departments = []
+    with Path.open(Path(__file__).parent / "fixtures" / "departments.json") as inf:
+        departments_json = json.load(inf)
+        for dept in departments_json:
+            department_fields = dept["fields"]
+            LearningResourceDepartment.objects.update_or_create(
+                name=department_fields["name"],
+                defaults=department_fields,
+            )
+            departments.append(department_fields["name"])
+        invalid_departments = LearningResourceDepartment.objects.exclude(
+            name__in=departments
+        ).all()
+        for invalid_department in invalid_departments:
+            department_delete_actions(invalid_department)
+    return departments
+
+
+@transaction.atomic()
+def upsert_school_data():
+    """
+    Upsert LearningResourceSchool data
+    """
+    schools = []
+    with Path.open(Path(__file__).parent / "fixtures" / "schools.json") as inf:
+        schools_json = json.load(inf)
+        for school in schools_json:
+            school_fields = school["fields"]
+            LearningResourceSchool.objects.update_or_create(
+                name=school_fields["name"],
+                defaults=school_fields,
+            )
+            schools.append(school_fields["name"])
+        LearningResourceSchool.objects.exclude(name__in=schools).delete()
+    return schools
+
+
+@transaction.atomic()
 def upsert_platform_data():
     """
     Upsert LearningResourcePlatform data
     """
+    platforms = []
     with Path.open(Path(__file__).parent / "fixtures" / "platforms.json") as inf:
         platform_json = json.load(inf)
-        platforms = []
-        with transaction.atomic():
-            for platform in platform_json:
-                platform_fields = platform["fields"]
-                LearningResourcePlatform.objects.update_or_create(
-                    code=platform_fields["code"],
-                    defaults=platform_fields,
-                )
-                platforms.append(platform_fields["code"])
-            LearningResourcePlatform.objects.exclude(code__in=platforms).delete()
-        return platforms
+        for platform in platform_json:
+            platform_fields = platform["fields"]
+            LearningResourcePlatform.objects.update_or_create(
+                code=platform_fields["code"],
+                defaults=platform_fields,
+            )
+            platforms.append(platform_fields["code"])
+        LearningResourcePlatform.objects.exclude(code__in=platforms).delete()
+    return platforms
 
 
 def resource_upserted_actions(resource: LearningResource):

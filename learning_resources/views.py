@@ -44,6 +44,7 @@ from learning_resources.models import (
     LearningResourcePlatform,
     LearningResourceRelationship,
     LearningResourceRun,
+    LearningResourceSchool,
     LearningResourceTopic,
     UserList,
     UserListRelationship,
@@ -63,6 +64,7 @@ from learning_resources.serializers import (
     LearningResourceOfferorSerializer,
     LearningResourcePlatformSerializer,
     LearningResourceRelationshipSerializer,
+    LearningResourceSchoolSerializer,
     LearningResourceSerializer,
     LearningResourceTopicSerializer,
     PodcastEpisodeResourceSerializer,
@@ -773,6 +775,21 @@ class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (AnonymousAccessReadonlyPermission,)
     lookup_url_kwarg = "department_id"
     lookup_field = "department_id__iexact"
+
+
+@extend_schema_view(
+    list=extend_schema(summary="List"),
+    retrieve=extend_schema(summary="Retrieve", parameters=[]),
+)
+class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    MIT schools
+    """
+
+    queryset = LearningResourceSchool.objects.all().order_by("id")
+    serializer_class = LearningResourceSchoolSerializer
+    pagination_class = LargePagination
+    permission_classes = (AnonymousAccessReadonlyPermission,)
 
 
 @extend_schema_view(
