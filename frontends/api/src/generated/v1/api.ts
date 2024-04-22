@@ -11621,6 +11621,56 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserSubscriptionUnsubscribeDestroy: async (
+      id: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists(
+        "learningResourcesUserSubscriptionUnsubscribeDestroy",
+        "id",
+        id,
+      )
+      const localVarPath =
+        `/api/v1/learning_resources_user_subscription/{id}/unsubscribe/`.replace(
+          `{${"id"}}`,
+          encodeURIComponent(String(id)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
   }
 }
 
@@ -11724,6 +11774,36 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           configuration,
         )(axios, operationBasePath || basePath)
     },
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesUserSubscriptionUnsubscribeDestroy(
+      id: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesUserSubscriptionUnsubscribeDestroy(
+          id,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningResourcesUserSubscriptionApi.learningResourcesUserSubscriptionUnsubscribeDestroy"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
   }
 }
 
@@ -11774,7 +11854,38 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
         .learningResourcesUserSubscriptionUnsubscribeCreate(options)
         .then((request) => request(axios, basePath))
     },
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserSubscriptionUnsubscribeDestroy(
+      requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .learningResourcesUserSubscriptionUnsubscribeDestroy(
+          requestParameters.id,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
   }
+}
+
+/**
+ * Request parameters for learningResourcesUserSubscriptionUnsubscribeDestroy operation in LearningResourcesUserSubscriptionApi.
+ * @export
+ * @interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest
+ */
+export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroy
+   */
+  readonly id: string
 }
 
 /**
@@ -11823,6 +11934,25 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
   ) {
     return LearningResourcesUserSubscriptionApiFp(this.configuration)
       .learningResourcesUserSubscriptionUnsubscribeCreate(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for listing percolate query subscriptions for a user
+   * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesUserSubscriptionApi
+   */
+  public learningResourcesUserSubscriptionUnsubscribeDestroy(
+    requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningResourcesUserSubscriptionApiFp(this.configuration)
+      .learningResourcesUserSubscriptionUnsubscribeDestroy(
+        requestParameters.id,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 }
