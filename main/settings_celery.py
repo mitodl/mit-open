@@ -99,6 +99,12 @@ CELERY_BEAT_SCHEDULE = {
             "NEWS_EVENTS_OL_EVENTS_SCHEDULE_SECONDS", 60 * 60 * 3
         ),  # default is every 3 hours
     },
+    "update_posthog_events": {
+        "task": "learning_resources.tasks.get_learning_resource_views",
+        "schedule": get_int(
+            "NEWS_EVENTS_OL_EVENTS_SCHEDULE_SECONDS", 60 * 60 * 3
+        ),  # default is every 3 hours
+    },
 }
 
 CELERY_TASK_SERIALIZER = "json"

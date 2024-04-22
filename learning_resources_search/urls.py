@@ -1,6 +1,6 @@
 """URLs for search"""
 
-from django.urls import include, re_path
+from django.urls import include, path, re_path
 
 from learning_resources_search.views import (
     ContentFileSearchView,
@@ -8,7 +8,7 @@ from learning_resources_search.views import (
 )
 
 v1_urls = [
-    re_path(
+    path(
         r"learning_resources_search/",
         LearningResourcesSearchView.as_view(),
         name="learning_resources_search",
