@@ -790,12 +790,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -811,6 +813,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -1282,12 +1286,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -1303,6 +1309,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -1602,12 +1610,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -1623,6 +1633,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -1956,12 +1968,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -1977,6 +1991,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -2514,12 +2530,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -2535,6 +2553,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -2834,12 +2854,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -2855,6 +2877,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -3196,6 +3220,8 @@ paths:
           - -start_date
           - mitcoursenumber
           - -mitcoursenumber
+          - views
+          - -views
           type: string
           minLength: 1
         description: |-
@@ -3213,6 +3239,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -3497,12 +3525,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -3518,6 +3548,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -4149,12 +4181,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -4170,6 +4204,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -4476,12 +4512,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -4497,6 +4535,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -4889,12 +4929,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -4910,6 +4952,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -5216,12 +5260,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -5237,6 +5283,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -5536,12 +5584,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -5557,6 +5607,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -6161,12 +6213,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -6182,6 +6236,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -6554,12 +6610,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -6575,6 +6633,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -6860,12 +6920,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -6881,6 +6943,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -7166,12 +7230,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -7187,6 +7253,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -7493,12 +7561,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -7514,6 +7584,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -7799,12 +7871,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -7820,6 +7894,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
