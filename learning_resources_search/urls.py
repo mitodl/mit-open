@@ -1,6 +1,6 @@
 """URLs for search"""
 
-from django.urls import include, re_path, path
+from django.urls import include, path, re_path
 from rest_framework.routers import SimpleRouter
 
 from learning_resources_search.views import (
