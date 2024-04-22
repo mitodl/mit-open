@@ -235,6 +235,14 @@ LEARNING_RESOURCE_SORTBY_OPTIONS = {
         "title": "MIT course number descending",
         "sort": "-course__course_numbers__0__sort_coursenum",
     },
+    "views": {
+        "title": "Popularity ascending",
+        "sort": "views",
+    },
+    "-views": {
+        "title": "Popularity descending",
+        "sort": "-views",
+    },
 }
 
 

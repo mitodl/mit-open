@@ -501,3 +501,29 @@ class VideoPlaylist(TimestampedModel):
             f"Video Playlist: "
             f"{self.learning_resource.title} - {self.learning_resource.readable_id}"
         )
+
+
+class LearningResourceViewEvent(TimestampedModel):
+    """Stores lrd_view events, with an FK to the resource the event is for."""
+
+    learning_resource = models.ForeignKey(
+        LearningResource,
+        on_delete=models.DO_NOTHING,
+        help_text="The learning resource for this event.",
+        editable=False,
+        related_name="views",
+    )
+    event_date = models.DateTimeField(
+        editable=False,
+        help_text="The date of the lrd_view event, as collected by PostHog.",
+    )
+
+    def __str__(self):
+        """Return a string representation of the event."""
+
+        return (
+            f"View of Learning Resource {self.learning_resource}"
+            f" ({self.learning_resource.platform} -"
+            f" {self.learning_resource.readable_id})"
+            f" on {self.event_date}"
+        )

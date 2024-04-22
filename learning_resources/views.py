@@ -227,6 +227,35 @@ class UpcomingResourcesViewSetMixin(GenericAPIView):
         return self.get_paginated_response(serializer.data)
 
 
+class PopularResourcesViewSetMixin(GenericAPIView):
+    """ViewSet mixin for adding popular resource functionality."""
+
+    resource_type_name_plural: str
+
+    def __init_subclass__(cls) -> None:
+        """Initialize subclasses by updating the view with the correct serializer."""
+        name = cls.resource_type_name_plural
+        # this decorator mutates the view in place so the return value is safely ignored
+        extend_schema_view(
+            new=extend_schema(
+                description=f"Get a paginated list of popular {name}.",
+                responses=cls.serializer_class(many=True),
+            ),
+        )(cls)
+        super().__init_subclass__()
+
+    @extend_schema(summary="List Popular")
+    @action(methods=["GET"], detail=False, name="Popular Resources")
+    def popular(self, request: Request) -> QuerySet:  # noqa: ARG002
+        """Retrieve a list of popular resources"""
+
+        queryset = self.get_queryset().annotate(num_hits=Count("views"))
+        filtered_queryset = self.filter_queryset(queryset)
+        page = self.paginate_queryset(filtered_queryset.order_by("-num_hits"))
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+
+
 @extend_schema_view(
     list=extend_schema(
         description="Get a paginated list of learning resources.",
@@ -236,7 +265,10 @@ class UpcomingResourcesViewSetMixin(GenericAPIView):
     ),
 )
 class LearningResourceViewSet(
-    BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
+    BaseLearningResourceViewSet,
+    UpcomingResourcesViewSetMixin,
+    NewResourcesViewSetMixin,
+    PopularResourcesViewSetMixin,
 ):
     """
     Viewset for LearningResources
@@ -255,7 +287,10 @@ class LearningResourceViewSet(
     ),
 )
 class CourseViewSet(
-    BaseLearningResourceViewSet, NewResourcesViewSetMixin, UpcomingResourcesViewSetMixin
+    BaseLearningResourceViewSet,
+    NewResourcesViewSetMixin,
+    UpcomingResourcesViewSetMixin,
+    PopularResourcesViewSetMixin,
 ):
     """
     Viewset for Courses
@@ -286,7 +321,10 @@ class CourseViewSet(
     ),
 )
 class ProgramViewSet(
-    BaseLearningResourceViewSet, UpcomingResourcesViewSetMixin, NewResourcesViewSetMixin
+    BaseLearningResourceViewSet,
+    UpcomingResourcesViewSetMixin,
+    NewResourcesViewSetMixin,
+    PopularResourcesViewSetMixin,
 ):
     """
     Viewset for Programs

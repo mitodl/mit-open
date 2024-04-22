@@ -694,6 +694,10 @@ POSTHOG_PROJECT_API_KEY = get_string(
     name="POSTHOG_PROJECT_API_KEY",
     default="",
 )
+POSTHOG_PERSONAL_API_KEY = get_string(
+    name="POSTHOG_PERSONAL_API_KEY",
+    default=None,
+)
 POSTHOG_API_HOST = get_string(
     name="POSTHOG_API_HOST",
     default="https://us.posthog.com",
@@ -701,4 +705,8 @@ POSTHOG_API_HOST = get_string(
 POSTHOG_TIMEOUT_MS = get_int(
     name="POSTHOG_TIMEOUT_MS",
     default=3000,
+)
+POSTHOG_PROJECT_ID = get_int(
+    name="POSTHOG_PROJECT_ID",
+    default=None,
 )

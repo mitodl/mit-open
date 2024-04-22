@@ -1,5 +1,7 @@
 """Test for learning_resources views"""
 
+import random
+
 import pytest
 from rest_framework.reverse import reverse
 
@@ -19,6 +21,7 @@ from learning_resources.factories import (
     LearningResourcePlatformFactory,
     LearningResourceRunFactory,
     LearningResourceTopicFactory,
+    LearningResourceViewEventFactory,
     PodcastEpisodeFactory,
     PodcastFactory,
     ProgramFactory,
@@ -26,6 +29,7 @@ from learning_resources.factories import (
     VideoPlaylistFactory,
 )
 from learning_resources.models import (
+    LearningResource,
     LearningResourceRelationship,
 )
 from learning_resources.serializers import (
@@ -838,3 +842,34 @@ def test_get_video_detail_endpoint(client, url):
 
     assert resp.data.get("readable_id") == video.learning_resource.readable_id
     assert resp.data.get("video") == VideoSerializer(instance=video).data
+
+
+@pytest.mark.parametrize("resource_type", ["course", "program"])
+def test_popular_endpoints(client, resource_type):
+    """Test the popular endpoints to ensure they return data correctly."""
+
+    resources = LearningResourceFactory.create_batch(5, resource_type=resource_type)
+
+    for resource in resources:
+        LearningResourceViewEventFactory.create_batch(
+            random.randrange(0, 30),  # noqa: S311
+            learning_resource=resource,
+        )
+
+    url = reverse("lr:v1:learning_resources_api-popular")
+    params = f"resource_type={resource_type}" if resource_type else ""
+
+    resp = client.get(f"{url}?{params}")
+
+    lr_queryset = LearningResource.objects.filter(published=True)
+
+    if resource_type:
+        lr_queryset = lr_queryset.filter(resource_type=resource_type)
+
+    assert len(resp.data.get("results")) == lr_queryset.count()
+
+    for i in range(1, 5):
+        assert (
+            resp.data.get("results")[i - 1]["views"]
+            >= resp.data.get("results")[i]["views"]
+        )

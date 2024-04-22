@@ -223,6 +223,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
             for run in resource.runs.all()
         ],
         detail_key: detail_serializer_cls(instance=getattr(resource, detail_key)).data,
+        "views": resource.views.count(),
     }
 
 
