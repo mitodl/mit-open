@@ -609,11 +609,11 @@ def unsubscribe_user_to_search_query(user, search_params):
         dict: The opensearch response dict
     """
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
-    percolate_query, _ = PercolateQuery.objects.get_or_create(
+    percolate_query = PercolateQuery.objects.filter(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
         original_query=adjusted_original_query,
         query=adjust_query_for_percolator(adjusted_original_query),
-    )
+    ).first()
     if percolate_query.users.filter(id=user.id).exists():
         percolate_query.users.remove(user)
     return percolate_query

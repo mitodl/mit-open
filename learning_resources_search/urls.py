@@ -11,9 +11,9 @@ from learning_resources_search.views import (
 
 router = SimpleRouter()
 router.register(
-    r"learning_resources_user_subscribe",
+    r"learning_resources_user_subscription",
     UserSearchSubscriptionViewSet,
-    basename="learning_resources_user_subscribe",
+    basename="learning_resources_user_subscription",
 )
 
 v1_urls = [

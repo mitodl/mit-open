@@ -3202,12 +3202,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/LearningResourceSearchResponse'
           description: ''
-  /api/v1/learning_resources_user_subscribe/:
+  /api/v1/learning_resources_user_subscription/:
     get:
-      operationId: learning_resources_user_subscribe_list
+      operationId: learning_resources_user_subscription_list
       description: View for listing percolate query subscriptions for a user
       tags:
-      - learning_resources_user_subscribe
+      - learning_resources_user_subscription
       responses:
         '200':
           content:
@@ -3217,12 +3217,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/UserPercolateQueryRequest'
           description: ''
-  /api/v1/learning_resources_user_subscribe/subscribe/:
+  /api/v1/learning_resources_user_subscription/subscribe/:
     post:
-      operationId: learning_resources_user_subscribe_subscribe_create
+      operationId: learning_resources_user_subscription_subscribe_create
       description: View for listing percolate query subscriptions for a user
       tags:
-      - learning_resources_user_subscribe
+      - learning_resources_user_subscription
       responses:
         '200':
           content:
@@ -3230,12 +3230,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserPercolateQueryRequest'
           description: ''
-  /api/v1/learning_resources_user_subscribe/unsubscribe/:
+  /api/v1/learning_resources_user_subscription/unsubscribe/:
     post:
-      operationId: learning_resources_user_subscribe_unsubscribe_create
+      operationId: learning_resources_user_subscription_unsubscribe_create
       description: View for listing percolate query subscriptions for a user
       tags:
-      - learning_resources_user_subscribe
+      - learning_resources_user_subscription
       responses:
         '200':
           content:

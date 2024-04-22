@@ -271,7 +271,7 @@ def test_user_subscribe_to_search(client, user):
     """Test subscribing user from search"""
     client.force_login(user)
     params = {"q": "monkey"}
-    sub_url = reverse("lr_search:v1:learning_resources_user_subscribe-subscribe")
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
     assert user.percolate_queries.count() == 0
     resp = client.post(sub_url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 1
@@ -283,8 +283,8 @@ def test_user_subscribe_to_search(client, user):
 def test_user_unsubscribe_to_search(client, user):
     """Test unsubscribing user from search"""
 
-    unsub_url = reverse("lr_search:v1:learning_resources_user_subscribe-unsubscribe")
-    sub_url = reverse("lr_search:v1:learning_resources_user_subscribe-subscribe")
+    unsub_url = reverse("lr_search:v1:learning_resources_user_subscription-unsubscribe")
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
 
     client.force_login(user)
     params = {"q": "monkey"}
@@ -301,9 +301,9 @@ def test_user_subscribed_to_search(client, user):
     """Test user subscribed get"""
     client.force_login(user)
     params = {"q": "monkey"}
-    list_url = reverse("lr_search:v1:learning_resources_user_subscribe-list")
-    unsub_url = reverse("lr_search:v1:learning_resources_user_subscribe-unsubscribe")
-    sub_url = reverse("lr_search:v1:learning_resources_user_subscribe-subscribe")
+    list_url = reverse("lr_search:v1:learning_resources_user_subscription-list")
+    unsub_url = reverse("lr_search:v1:learning_resources_user_subscription-unsubscribe")
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
     assert user.percolate_queries.count() == 0
     client.post(sub_url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 1
@@ -321,7 +321,7 @@ def test_user_sort_limit_ordering_params_generate_same_query(client, user):
     """Test that the sortby, limit, and offset params lead to the same percolate query"""
     client.force_login(user)
 
-    url = reverse("lr_search:v1:learning_resources_user_subscribe-subscribe")
+    url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
     assert user.percolate_queries.count() == 0
     params = {"q": "monkey", "offset": 100, "limit": 1}
     client.post(url, json.dumps(params), content_type="application/json")
@@ -341,7 +341,7 @@ def test_param_reordering_generates_same_query(client, user):
     """Test that the ordering does not matter in creating the percolate query"""
     client.force_login(user)
 
-    url = reverse("lr_search:v1:learning_resources_user_subscribe-subscribe")
+    url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
     assert user.percolate_queries.count() == 0
     params = {
         "q": "monkey",
