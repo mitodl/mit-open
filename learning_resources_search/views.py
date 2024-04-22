@@ -4,7 +4,6 @@ import logging
 from itertools import chain
 
 from django.utils.decorators import method_decorator
-from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
 from rest_framework import viewsets
@@ -30,7 +29,6 @@ from learning_resources_search.serializers import (
     LearningResourcesSearchRequestSerializer,
     PercolateQuerySerializer,
     SearchResponseSerializer,
-    UserPercolateQueryRequestSerializer,
 )
 
 log = logging.getLogger(__name__)
@@ -86,16 +84,27 @@ class LearningResourcesSearchView(ESView):
             return Response(errors, status=400)
 
 
-class UserSearchSubscriptionViewSet(viewsets.ViewSet):
+class UserSearchSubscriptionViewSet(viewsets.ModelViewSet):
     """
     View for listing percolate query subscriptions for a user
     """
 
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserPercolateQueryRequestSerializer
-    filter_backends = (DjangoFilterBackend,)
+    serializer_class = PercolateQuerySerializer
 
-    @action(detail=False, methods=["POST"], name="Subscribe user to query")
+    def get_queryset(self):
+        """
+        Generate a QuerySet for fetching valid PercolateQueries for this user
+
+        Returns:
+            QuerySet of PercolateQuery objects subscribed to by request user
+        """
+        queryset = self.request.user.percolate_queries.all()
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, view=self)
+        return queryset
+
+    @action(detail=False, methods=["post"], name="Subscribe user to query")
     @extend_schema(
         summary="Subscribe user to query",
         parameters=[LearningResourcesSearchRequestSerializer()],
@@ -120,6 +129,7 @@ class UserSearchSubscriptionViewSet(viewsets.ViewSet):
     @action(
         detail=True,
         methods=["POST"],
+        url_path="unsubscribe",
         name="Unsubscribe user from query by id",
     )
     @extend_schema(
@@ -158,18 +168,6 @@ class UserSearchSubscriptionViewSet(viewsets.ViewSet):
                 else:
                     errors[key] = list(set(chain(*errors_obj.values())))
         return Response(errors, status=400)
-
-    def list(self, request):
-        queryset = request.user.percolate_queries.all()
-        serializer = PercolateQuerySerializer(
-            self.filter_queryset(queryset), many=True, context={"request": request}
-        )
-        return Response(serializer.data)
-
-    def filter_queryset(self, queryset):
-        for backend in list(self.filter_backends):
-            queryset = backend().filter_queryset(self.request, queryset, view=self)
-        return queryset
 
 
 @method_decorator(blocked_ip_exempt, name="dispatch")
