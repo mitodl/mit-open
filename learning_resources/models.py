@@ -523,5 +523,7 @@ class LearningResourceViewEvent(TimestampedModel):
 
         return (
             f"View of Learning Resource {self.learning_resource}"
+            f" ({self.learning_resource.platform} -"
+            f" {self.learning_resource.readable_id})"
             f" on {self.event_date}"
         )

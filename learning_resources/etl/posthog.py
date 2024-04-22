@@ -120,6 +120,8 @@ def posthog_run_query(query: str) -> dict:
     )
 
     if query_result.status_code >= HTTPStatus.BAD_REQUEST.value:
+        log.error("PostHog query API returned an error: %s", query_result.status_code)
+
         error_result = query_result.json()
 
         if "type" in error_result and error_result["type"] == "authentication_error":
