@@ -665,6 +665,44 @@ def test_departments_detail_endpoint(client):
         )
 
 
+def test_schools_list_endpoint(client):
+    """Test schools list endpoint"""
+    schools = sorted(
+        [dept.school for dept in LearningResourceDepartmentFactory.create_batch(3)],
+        key=lambda school: school.id,
+    )
+
+    resp = client.get(reverse("lr:v1:schools_api-list"))
+    assert resp.data.get("count") == 3
+    for i in range(3):
+        assert resp.data.get("results")[i] == {
+            "id": schools[i].id,
+            "name": schools[i].name,
+            "url": schools[i].url,
+            "departments": [
+                {
+                    "department_id": dept.department_id,
+                    "name": dept.name,
+                    "channel_url": None,
+                }
+                for dept in schools[i].departments.all().order_by("department_id")
+            ],
+        }
+
+
+def test_schools_detail_endpoint(client):
+    """Test schools detail endpoint"""
+    department = LearningResourceDepartmentFactory.create(
+        department_id="ABC", name="Alpha Beta Charlie"
+    )
+
+    for dept_id in ("abc", "aBc", "ABC"):
+        resp = client.get(reverse("lr:v1:departments_api-detail", args=[dept_id]))
+        assert (
+            resp.data == LearningResourceDepartmentSerializer(instance=department).data
+        )
+
+
 def test_platforms_list_endpoint(client):
     """Test platforms list endpoint"""
     platforms = sorted(

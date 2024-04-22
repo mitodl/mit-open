@@ -63,11 +63,33 @@ class LearningResourceImage(TimestampedModel):
         return self.url
 
 
+class LearningResourceSchool(TimestampedModel):
+    """School data for a learning resource"""
+
+    name = models.CharField(max_length=256, null=False, blank=False)
+    url = models.URLField()
+
+    class Meta:
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.name
+
+
 class LearningResourceDepartment(TimestampedModel):
     """Department data for a learning resource"""
 
     department_id = models.CharField(max_length=6, primary_key=True)
     name = models.CharField(max_length=256, null=False, blank=False)
+    school = models.ForeignKey(
+        LearningResourceSchool,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="departments",
+    )
+
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self):
         return self.name

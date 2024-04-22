@@ -117,8 +117,8 @@ class LearningResourcePlatformSerializer(serializers.ModelSerializer):
         fields = ("code", "name")
 
 
-class LearningResourceDepartmentSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResourceDepartment"""
+class LearningResourceBaseDepartmentSerializer(serializers.ModelSerializer):
+    """Serializer for LearningResourceDepartment, minus school"""
 
     channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
 
@@ -134,6 +134,38 @@ class LearningResourceDepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LearningResourceDepartment
         fields = ["department_id", "name", "channel_url"]
+
+
+class LearningResourceBaseSchoolSerializer(serializers.ModelSerializer):
+    """
+    Base serializer for LearningResourceSchool model, minus departments list
+    """
+
+    class Meta:
+        model = models.LearningResourceSchool
+        fields = ["id", "name", "url"]
+
+
+class LearningResourceDepartmentSerializer(LearningResourceBaseDepartmentSerializer):
+    """Full serializer for LearningResourceDepartment, including school"""
+
+    school = LearningResourceBaseSchoolSerializer(read_only=True, allow_null=True)
+
+    class Meta:
+        model = models.LearningResourceDepartment
+        fields = [*LearningResourceBaseDepartmentSerializer.Meta.fields, "school"]
+
+
+class LearningResourceSchoolSerializer(LearningResourceBaseSchoolSerializer):
+    """
+    Serializer for LearningResourceSchool model, including list of departments
+    """
+
+    departments = LearningResourceBaseDepartmentSerializer(many=True)
+
+    class Meta:
+        model = models.LearningResourceSchool
+        fields = [*LearningResourceBaseSchoolSerializer.Meta.fields, "departments"]
 
 
 class LearningResourceContentTagSerializer(serializers.ModelSerializer):

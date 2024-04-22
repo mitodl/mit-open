@@ -3,6 +3,7 @@
 from urllib.parse import urljoin
 
 import pytest
+from django.conf import settings
 
 from channels.factories import (
     ChannelDepartmentDetailFactory,
@@ -176,6 +177,8 @@ def test_learning_resource_serializer(  # noqa: PLR0913
     context = {"request": request} if has_context else {}
 
     resource = factories.LearningResourceFactory.create(**params)
+    for department in resource.departments.all():
+        ChannelDepartmentDetailFactory.create(department=department)
 
     result = serializers.LearningResourceSerializer(
         instance=resource, context=context
@@ -211,7 +214,19 @@ def test_learning_resource_serializer(  # noqa: PLR0913
             instance=resource.image
         ).data,
         "departments": [
-            serializers.LearningResourceDepartmentSerializer(dept).data
+            {
+                "department_id": dept.department_id,
+                "name": dept.name,
+                "channel_url": urljoin(
+                    settings.SITE_BASE_URL,
+                    f"/c/department/{FieldChannel.objects.get(department_detail__department=dept).name}/",
+                ),
+                "school": {
+                    "id": dept.school.id,
+                    "name": dept.school.name,
+                    "url": dept.school.url,
+                },
+            }
             for dept in resource.departments.all()
         ],
         "topics": [
@@ -457,6 +472,13 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                         f"/c/department/{FieldChannel.objects.get(department_detail__department=dept).name}/",
                     )
                     if has_channels
+                    else None,
+                    "school": {
+                        "id": dept.school.id,
+                        "name": dept.school.name,
+                        "url": dept.school.url,
+                    }
+                    if dept.school
                     else None,
                 }
                 for dept in content_file.run.learning_resource.departments.all()

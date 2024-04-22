@@ -111,11 +111,24 @@ class LearningResourcePlatformFactory(DjangoModelFactory):
         django_get_or_create = ("code",)
 
 
+class LearningResourceSchoolFactory(DjangoModelFactory):
+    """Factory for LearningResourceDepartment"""
+
+    name = factory.Sequence(lambda n: "%03d name" % n)
+    url = factory.Faker("url")
+
+    class Meta:
+        model = models.LearningResourceSchool
+
+
 class LearningResourceDepartmentFactory(DjangoModelFactory):
     """Factory for LearningResourceDepartment"""
 
     department_id = factory.Sequence(lambda n: "%03d" % n)
     name = factory.Sequence(lambda n: "%03d name" % n)
+    school = factory.SubFactory(
+        "learning_resources.factories.LearningResourceSchoolFactory"
+    )
 
     class Meta:
         model = models.LearningResourceDepartment

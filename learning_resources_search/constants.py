@@ -127,6 +127,14 @@ LEARNING_RESOURCE_MAP = {
             "department_id": {"type": "keyword"},
             "name": {"type": "keyword"},
             "channel_url": {"type": "keyword"},
+            "school": {
+                "type": "nested",
+                "properties": {
+                    "id": {"type": "long"},
+                    "name": "keyword",
+                    "url": "keyword",
+                },
+            },
         },
     },
     "professional": {"type": "boolean"},
@@ -160,6 +168,14 @@ LEARNING_RESOURCE_MAP = {
                             "department_id": {"type": "keyword"},
                             "name": {"type": "keyword"},
                             "channel_url": {"type": "keyword"},
+                            "school": {
+                                "type": "nested",
+                                "properties": {
+                                    "id": {"type": "long"},
+                                    "name": "keyword",
+                                    "url": "keyword",
+                                },
+                            },
                         }
                     },
                     "primary": {"type": "boolean"},
@@ -224,6 +240,15 @@ CONTENT_FILE_MAP = {
         "properties": {
             "department_id": {"type": "keyword"},
             "name": {"type": "keyword"},
+            "channel_url": {"type": "keyword"},
+            "school": {
+                "type": "nested",
+                "properties": {
+                    "id": {"type": "long"},
+                    "name": "keyword",
+                    "url": "keyword",
+                },
+            },
         },
     },
     "semester": {"type": "keyword"},

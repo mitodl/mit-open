@@ -91,6 +91,7 @@ nested_userlist_router.register(
 
 router.register(r"topics", views.TopicViewSet, basename="topics_api")
 router.register(r"departments", views.DepartmentViewSet, basename="departments_api")
+router.register(r"schools", views.SchoolViewSet, basename="schools_api")
 router.register(r"course_features", views.ContentTagViewSet, basename="contenttags_api")
 
 router.register(r"platforms", views.PlatformViewSet, basename="platforms_api")
