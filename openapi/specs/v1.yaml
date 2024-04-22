@@ -309,7 +309,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContentFileeSearchResponse'
+                $ref: '#/components/schemas/ContentFileSearchResponse'
           description: ''
   /api/v1/contentfiles/:
     get:
@@ -3201,6 +3201,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LearningResourceSearchResponse'
+          description: ''
+  /api/v1/learning_resources_user_subscribe/:
+    get:
+      operationId: learning_resources_user_subscribe_list
+      description: View for listing percolate query subscriptions for a user
+      tags:
+      - learning_resources_user_subscribe
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserPercolateQueryRequest'
+          description: ''
+  /api/v1/learning_resources_user_subscribe/subscribe/:
+    post:
+      operationId: learning_resources_user_subscribe_subscribe_create
+      description: View for listing percolate query subscriptions for a user
+      tags:
+      - learning_resources_user_subscribe
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPercolateQueryRequest'
+          description: ''
+  /api/v1/learning_resources_user_subscribe/unsubscribe/:
+    post:
+      operationId: learning_resources_user_subscribe_unsubscribe_create
+      description: View for listing percolate query subscriptions for a user
+      tags:
+      - learning_resources_user_subscribe
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPercolateQueryRequest'
           description: ''
   /api/v1/learningpaths/:
     get:
@@ -7932,7 +7973,7 @@ components:
       - semester
       - topics
       - year
-    ContentFileeSearchResponse:
+    ContentFileSearchResponse:
       type: object
       description: SearchResponseSerializer with OpenAPI annotations for Content Files
         search
@@ -9540,6 +9581,26 @@ components:
           type: string
         privacy_level:
           $ref: '#/components/schemas/PrivacyLevelEnum'
+    PercolateQuery:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        original_query: {}
+        query: {}
+        source_type:
+          $ref: '#/components/schemas/SourceTypeEnum'
+        users:
+          type: array
+          items:
+            type: integer
+      required:
+      - id
+      - original_query
+      - query
+      - source_type
+      - users
     Podcast:
       type: object
       description: Serializer for Podcasts
@@ -10340,6 +10401,11 @@ components:
         * `podcast_episode` - podcast_episode
         * `video` - video
         * `video_playlist` - video_playlist
+    SourceTypeEnum:
+      enum:
+      - search_subscription_type
+      type: string
+      description: '* `search_subscription_type` - search_subscription_type'
     UserList:
       type: object
       description: Simplified serializer for UserList model.
@@ -10433,6 +10499,58 @@ components:
           $ref: '#/components/schemas/PrivacyLevelEnum'
       required:
       - title
+    UserPercolateQueryRequest:
+      type: object
+      description: SearchResponseSerializer with OpenAPI annotations for Content Files
+        search
+      properties:
+        count:
+          type: integer
+          readOnly: true
+        next:
+          type: string
+          nullable: true
+          readOnly: true
+        previous:
+          type: string
+          nullable: true
+          readOnly: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PercolateQuery'
+          readOnly: true
+        metadata:
+          type: object
+          properties:
+            aggregations:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                    doc_count:
+                      type: integer
+                  required:
+                  - doc_count
+                  - key
+            suggestions:
+              type: array
+              items:
+                type: string
+          required:
+          - aggregations
+          - suggestions
+          readOnly: true
+      required:
+      - count
+      - metadata
+      - next
+      - previous
+      - results
     Video:
       type: object
       description: Serializer for the Video model

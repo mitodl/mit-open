@@ -256,79 +256,79 @@ export interface ContentFile {
 /**
  * SearchResponseSerializer with OpenAPI annotations for Content Files search
  * @export
- * @interface ContentFileeSearchResponse
+ * @interface ContentFileSearchResponse
  */
-export interface ContentFileeSearchResponse {
+export interface ContentFileSearchResponse {
   /**
    *
    * @type {number}
-   * @memberof ContentFileeSearchResponse
+   * @memberof ContentFileSearchResponse
    */
   count: number
   /**
    *
    * @type {string}
-   * @memberof ContentFileeSearchResponse
+   * @memberof ContentFileSearchResponse
    */
   next: string | null
   /**
    *
    * @type {string}
-   * @memberof ContentFileeSearchResponse
+   * @memberof ContentFileSearchResponse
    */
   previous: string | null
   /**
    *
    * @type {Array<ContentFile>}
-   * @memberof ContentFileeSearchResponse
+   * @memberof ContentFileSearchResponse
    */
   results: Array<ContentFile>
   /**
    *
-   * @type {ContentFileeSearchResponseMetadata}
-   * @memberof ContentFileeSearchResponse
+   * @type {ContentFileSearchResponseMetadata}
+   * @memberof ContentFileSearchResponse
    */
-  metadata: ContentFileeSearchResponseMetadata
+  metadata: ContentFileSearchResponseMetadata
 }
 /**
  *
  * @export
- * @interface ContentFileeSearchResponseMetadata
+ * @interface ContentFileSearchResponseMetadata
  */
-export interface ContentFileeSearchResponseMetadata {
+export interface ContentFileSearchResponseMetadata {
   /**
    *
-   * @type {{ [key: string]: Array<ContentFileeSearchResponseMetadataAggregationsValueInner>; }}
-   * @memberof ContentFileeSearchResponseMetadata
+   * @type {{ [key: string]: Array<ContentFileSearchResponseMetadataAggregationsValueInner>; }}
+   * @memberof ContentFileSearchResponseMetadata
    */
   aggregations: {
     [
       key: string
-    ]: Array<ContentFileeSearchResponseMetadataAggregationsValueInner>
+    ]: Array<ContentFileSearchResponseMetadataAggregationsValueInner>
   }
   /**
    *
    * @type {Array<string>}
-   * @memberof ContentFileeSearchResponseMetadata
+   * @memberof ContentFileSearchResponseMetadata
    */
   suggestions: Array<string>
 }
 /**
  *
  * @export
- * @interface ContentFileeSearchResponseMetadataAggregationsValueInner
+ * @interface ContentFileSearchResponseMetadataAggregationsValueInner
  */
-export interface ContentFileeSearchResponseMetadataAggregationsValueInner {
+export interface ContentFileSearchResponseMetadataAggregationsValueInner {
   /**
    *
    * @type {string}
-   * @memberof ContentFileeSearchResponseMetadataAggregationsValueInner
+   * @memberof ContentFileSearchResponseMetadataAggregationsValueInner
    */
   key: string
   /**
    *
    * @type {number}
-   * @memberof ContentFileeSearchResponseMetadataAggregationsValueInner
+   * @memberof ContentFileSearchResponseMetadataAggregationsValueInner
    */
   doc_count: number
 }
@@ -1596,10 +1596,10 @@ export interface LearningResourceSearchResponse {
   results: Array<LearningResource>
   /**
    *
-   * @type {ContentFileeSearchResponseMetadata}
+   * @type {ContentFileSearchResponseMetadata}
    * @memberof LearningResourceSearchResponse
    */
-  metadata: ContentFileeSearchResponseMetadata
+  metadata: ContentFileSearchResponseMetadata
 }
 /**
  * Serializer for LearningResourceTopic model
@@ -2425,6 +2425,44 @@ export interface PatchedUserListRequest {
    * @memberof PatchedUserListRequest
    */
   privacy_level?: PrivacyLevelEnum
+}
+
+/**
+ *
+ * @export
+ * @interface PercolateQuery
+ */
+export interface PercolateQuery {
+  /**
+   *
+   * @type {number}
+   * @memberof PercolateQuery
+   */
+  id: number
+  /**
+   *
+   * @type {any}
+   * @memberof PercolateQuery
+   */
+  original_query: any
+  /**
+   *
+   * @type {any}
+   * @memberof PercolateQuery
+   */
+  query: any
+  /**
+   *
+   * @type {SourceTypeEnum}
+   * @memberof PercolateQuery
+   */
+  source_type: SourceTypeEnum
+  /**
+   *
+   * @type {Array<number>}
+   * @memberof PercolateQuery
+   */
+  users: Array<number>
 }
 
 /**
@@ -3505,6 +3543,19 @@ export type ResourceTypeEnum =
   (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
 
 /**
+ * * `search_subscription_type` - search_subscription_type
+ * @export
+ * @enum {string}
+ */
+
+export const SourceTypeEnum = {
+  SearchSubscriptionType: "search_subscription_type",
+} as const
+
+export type SourceTypeEnum =
+  (typeof SourceTypeEnum)[keyof typeof SourceTypeEnum]
+
+/**
  * Simplified serializer for UserList model.
  * @export
  * @interface UserList
@@ -3654,6 +3705,43 @@ export interface UserListRequest {
   privacy_level?: PrivacyLevelEnum
 }
 
+/**
+ * SearchResponseSerializer with OpenAPI annotations for Content Files search
+ * @export
+ * @interface UserPercolateQueryRequest
+ */
+export interface UserPercolateQueryRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof UserPercolateQueryRequest
+   */
+  count: number
+  /**
+   *
+   * @type {string}
+   * @memberof UserPercolateQueryRequest
+   */
+  next: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof UserPercolateQueryRequest
+   */
+  previous: string | null
+  /**
+   *
+   * @type {Array<PercolateQuery>}
+   * @memberof UserPercolateQueryRequest
+   */
+  results: Array<PercolateQuery>
+  /**
+   *
+   * @type {ContentFileSearchResponseMetadata}
+   * @memberof UserPercolateQueryRequest
+   */
+  metadata: ContentFileSearchResponseMetadata
+}
 /**
  * Serializer for the Video model
  * @export
@@ -5062,7 +5150,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<ContentFileeSearchResponse>
+      ) => AxiosPromise<ContentFileSearchResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.contentFileSearchRetrieve(
@@ -5117,7 +5205,7 @@ export const ContentFileSearchApiFactory = function (
     contentFileSearchRetrieve(
       requestParameters: ContentFileSearchApiContentFileSearchRetrieveRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ContentFileeSearchResponse> {
+    ): AxiosPromise<ContentFileSearchResponse> {
       return localVarFp
         .contentFileSearchRetrieve(
           requestParameters.aggregations,
@@ -11410,6 +11498,332 @@ export const LearningResourcesSearchRetrieveSortbyEnum = {
 } as const
 export type LearningResourcesSearchRetrieveSortbyEnum =
   (typeof LearningResourcesSearchRetrieveSortbyEnum)[keyof typeof LearningResourcesSearchRetrieveSortbyEnum]
+
+/**
+ * LearningResourcesUserSubscribeApi - axios parameter creator
+ * @export
+ */
+export const LearningResourcesUserSubscribeApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserSubscribeList: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/learning_resources_user_subscribe/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserSubscribeSubscribeCreate: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/learning_resources_user_subscribe/subscribe/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserSubscribeUnsubscribeCreate: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/learning_resources_user_subscribe/unsubscribe/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * LearningResourcesUserSubscribeApi - functional programming interface
+ * @export
+ */
+export const LearningResourcesUserSubscribeApiFp = function (
+  configuration?: Configuration,
+) {
+  const localVarAxiosParamCreator =
+    LearningResourcesUserSubscribeApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesUserSubscribeList(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<UserPercolateQueryRequest>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesUserSubscribeList(
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningResourcesUserSubscribeApi.learningResourcesUserSubscribeList"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesUserSubscribeSubscribeCreate(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserPercolateQueryRequest>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesUserSubscribeSubscribeCreate(
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningResourcesUserSubscribeApi.learningResourcesUserSubscribeSubscribeCreate"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesUserSubscribeUnsubscribeCreate(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserPercolateQueryRequest>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesUserSubscribeUnsubscribeCreate(
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningResourcesUserSubscribeApi.learningResourcesUserSubscribeUnsubscribeCreate"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * LearningResourcesUserSubscribeApi - factory interface
+ * @export
+ */
+export const LearningResourcesUserSubscribeApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = LearningResourcesUserSubscribeApiFp(configuration)
+  return {
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserSubscribeList(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<UserPercolateQueryRequest>> {
+      return localVarFp
+        .learningResourcesUserSubscribeList(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserSubscribeSubscribeCreate(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<UserPercolateQueryRequest> {
+      return localVarFp
+        .learningResourcesUserSubscribeSubscribeCreate(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserSubscribeUnsubscribeCreate(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<UserPercolateQueryRequest> {
+      return localVarFp
+        .learningResourcesUserSubscribeUnsubscribeCreate(options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * LearningResourcesUserSubscribeApi - object-oriented interface
+ * @export
+ * @class LearningResourcesUserSubscribeApi
+ * @extends {BaseAPI}
+ */
+export class LearningResourcesUserSubscribeApi extends BaseAPI {
+  /**
+   * View for listing percolate query subscriptions for a user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesUserSubscribeApi
+   */
+  public learningResourcesUserSubscribeList(options?: RawAxiosRequestConfig) {
+    return LearningResourcesUserSubscribeApiFp(this.configuration)
+      .learningResourcesUserSubscribeList(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for listing percolate query subscriptions for a user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesUserSubscribeApi
+   */
+  public learningResourcesUserSubscribeSubscribeCreate(
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningResourcesUserSubscribeApiFp(this.configuration)
+      .learningResourcesUserSubscribeSubscribeCreate(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for listing percolate query subscriptions for a user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesUserSubscribeApi
+   */
+  public learningResourcesUserSubscribeUnsubscribeCreate(
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningResourcesUserSubscribeApiFp(this.configuration)
+      .learningResourcesUserSubscribeUnsubscribeCreate(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
 
 /**
  * LearningpathsApi - axios parameter creator
