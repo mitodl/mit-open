@@ -12,6 +12,20 @@ paths:
         or organizations at MIT and are a high-level categorization of content.
       summary: List
       parameters:
+      - in: query
+        name: channel_type
+        schema:
+          type: string
+          enum:
+          - department
+          - offeror
+          - pathway
+          - topic
+        description: |-
+          * `topic` - Topic
+          * `department` - Department
+          * `offeror` - Offeror
+          * `pathway` - Pathway
       - name: limit
         required: false
         in: query
@@ -215,6 +229,7 @@ paths:
     get:
       operationId: channels_type_retrieve
       description: View for retrieving an individual field channel by type and name
+      summary: FieldChannel Detail Lookup by channel type and name
       parameters:
       - in: path
         name: channel_type
@@ -559,6 +574,9 @@ components:
           items:
             $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
+        channel_url:
+          type: string
+          readOnly: true
         featured_list:
           allOf:
           - $ref: '#/components/schemas/LearningPathPreview'
@@ -611,6 +629,7 @@ components:
       - avatar_medium
       - avatar_small
       - channel_type
+      - channel_url
       - created_on
       - department_detail
       - featured_list
@@ -834,6 +853,9 @@ components:
           items:
             $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
+        channel_url:
+          type: string
+          readOnly: true
         featured_list:
           allOf:
           - $ref: '#/components/schemas/LearningPathPreview'
@@ -886,6 +908,7 @@ components:
       - avatar_medium
       - avatar_small
       - channel_type
+      - channel_url
       - created_on
       - featured_list
       - id
@@ -1050,6 +1073,9 @@ components:
           items:
             $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
+        channel_url:
+          type: string
+          readOnly: true
         featured_list:
           allOf:
           - $ref: '#/components/schemas/LearningPathPreview'
@@ -1100,6 +1126,7 @@ components:
       - avatar_medium
       - avatar_small
       - channel_type
+      - channel_url
       - created_on
       - featured_list
       - id
@@ -1219,6 +1246,9 @@ components:
           items:
             $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
+        channel_url:
+          type: string
+          readOnly: true
         featured_list:
           allOf:
           - $ref: '#/components/schemas/LearningPathPreview'
@@ -1271,6 +1301,7 @@ components:
       - avatar_medium
       - avatar_small
       - channel_type
+      - channel_url
       - created_on
       - featured_list
       - id

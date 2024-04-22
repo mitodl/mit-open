@@ -29,7 +29,7 @@ services:
       - "6379"
 
   opensearch-node-mitopen:
-    image: opensearchproject/opensearch:2.12.0
+    image: opensearchproject/opensearch:2.13.0
     container_name: opensearch-node-mitopen
     environment:
       - cluster.name=opensearch-cluster
@@ -52,7 +52,7 @@ services:
       - 9100:9200
 
   nginx:
-    image: nginx:1.25.4
+    image: nginx:1.25.5
     ports:
       - "8063:8063"
     links:

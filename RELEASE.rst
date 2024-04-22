@@ -1,6 +1,19 @@
 Release Notes
 =============
 
+Version 0.9.2 (Released April 22, 2024)
+-------------
+
+- adding manual migration to fix foreign key type (#752)
+- Add channel url to topic, department, and offeror serializers (#778)
+- Filter channels api by channel_type (#779)
+
+Version 0.9.1 (Released April 18, 2024)
+-------------
+
+- Homepage hero section (#754)
+- Add necessary celery client configurables for celery monitoring (#780)
+
 Version 0.9.0 (Released April 16, 2024)
 -------------
 

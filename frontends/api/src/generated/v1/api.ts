@@ -994,6 +994,12 @@ export interface LearningResourceDepartment {
    * @memberof LearningResourceDepartment
    */
   name: string
+  /**
+   * Get the channel url for the department if it exists
+   * @type {string}
+   * @memberof LearningResourceDepartment
+   */
+  channel_url: string | null
 }
 /**
  * Serializer for LearningResourceDepartment
@@ -1144,6 +1150,12 @@ export interface LearningResourceOfferor {
    * @memberof LearningResourceOfferor
    */
   name: string
+  /**
+   * Get the channel url for the offeror if it exists
+   * @type {string}
+   * @memberof LearningResourceOfferor
+   */
+  channel_url: string | null
 }
 /**
  * Serializer for LearningResourceOfferor
@@ -1607,6 +1619,12 @@ export interface LearningResourceTopic {
    * @memberof LearningResourceTopic
    */
   name: string
+  /**
+   * Get the channel url for the topic if it exists
+   * @type {string}
+   * @memberof LearningResourceTopic
+   */
+  channel_url: string | null
 }
 /**
  * Serializer containing only parent and child ids for a learning path relationship
@@ -3032,6 +3050,24 @@ export interface ProgramCertificate {
   program_letter_share_url: string
   /**
    *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_title: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_full_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_email: string
+  /**
+   *
    * @type {number}
    * @memberof ProgramCertificate
    */
@@ -3053,85 +3089,67 @@ export interface ProgramCertificate {
    * @type {string}
    * @memberof ProgramCertificate
    */
-  user_edxorg_username?: string
+  user_edxorg_username?: string | null
   /**
    *
    * @type {string}
    * @memberof ProgramCertificate
    */
-  user_email: string
+  user_gender?: string | null
   /**
    *
    * @type {string}
    * @memberof ProgramCertificate
    */
-  program_title: string
+  user_address_city?: string | null
   /**
    *
    * @type {string}
    * @memberof ProgramCertificate
    */
-  user_gender?: string
+  user_first_name?: string | null
   /**
    *
    * @type {string}
    * @memberof ProgramCertificate
    */
-  user_address_city?: string
+  user_last_name?: string | null
   /**
    *
    * @type {string}
    * @memberof ProgramCertificate
    */
-  user_first_name?: string
+  user_year_of_birth?: string | null
   /**
    *
    * @type {string}
    * @memberof ProgramCertificate
    */
-  user_last_name?: string
+  user_country?: string | null
   /**
    *
    * @type {string}
    * @memberof ProgramCertificate
    */
-  user_full_name?: string
+  user_address_postal_code?: string | null
   /**
    *
    * @type {string}
    * @memberof ProgramCertificate
    */
-  user_year_of_birth?: string
+  user_street_address?: string | null
   /**
    *
    * @type {string}
    * @memberof ProgramCertificate
    */
-  user_country?: string
+  user_address_state_or_territory?: string | null
   /**
    *
    * @type {string}
    * @memberof ProgramCertificate
    */
-  user_address_postal_code?: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_street_address?: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_address_state_or_territory?: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_mitxonline_username?: string
+  user_mitxonline_username?: string | null
   /**
    *
    * @type {string}

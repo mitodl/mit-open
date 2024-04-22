@@ -126,6 +126,7 @@ LEARNING_RESOURCE_MAP = {
         "properties": {
             "department_id": {"type": "keyword"},
             "name": {"type": "keyword"},
+            "channel_url": {"type": "keyword"},
         },
     },
     "professional": {"type": "boolean"},
@@ -135,6 +136,7 @@ LEARNING_RESOURCE_MAP = {
         "properties": {
             "id": {"type": "long"},
             "name": {"type": "keyword"},
+            "channel_url": {"type": "keyword"},
         },
     },
     "offered_by": {
@@ -142,6 +144,7 @@ LEARNING_RESOURCE_MAP = {
         "properties": {
             "code": {"type": "keyword"},
             "name": {"type": "keyword"},
+            "channel_url": {"type": "keyword"},
         },
     },
     "course_feature": {"type": "keyword"},
@@ -156,6 +159,7 @@ LEARNING_RESOURCE_MAP = {
                         "properties": {
                             "department_id": {"type": "keyword"},
                             "name": {"type": "keyword"},
+                            "channel_url": {"type": "keyword"},
                         }
                     },
                     "primary": {"type": "boolean"},

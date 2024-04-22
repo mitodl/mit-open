@@ -144,7 +144,11 @@ class UserWebsite(models.Model):
 class ProgramCertificate(models.Model):
     """An external model that syncs with data from our data platform"""
 
-    # an external hash that hightouch uses for the sync
+    """
+    NON-NULLABLE FIELDS
+    """
+
+    # external hash that hightouch uses for the sync
     record_hash = models.CharField(
         unique=True,
         primary_key=True,
@@ -154,6 +158,13 @@ class ProgramCertificate(models.Model):
         null=False,
         editable=False,
     )
+    program_title = models.CharField(max_length=256, blank=False)
+
+    user_full_name = models.CharField(max_length=256, blank=True)
+
+    user_email = models.CharField(max_length=256, blank=False)
+
+    # NULLABLE FIELDS
 
     user_edxorg_id = models.IntegerField(null=True, blank=True)
 
@@ -161,35 +172,32 @@ class ProgramCertificate(models.Model):
 
     mitxonline_program_id = models.IntegerField(null=True, blank=True)
 
-    user_edxorg_username = models.CharField(max_length=256, blank=True)
+    user_edxorg_username = models.CharField(null=True, max_length=256, blank=True)  # noqa: DJ001
 
-    user_email = models.CharField(max_length=256, blank=False)
+    user_gender = models.CharField(null=True, max_length=256, blank=True)  # noqa: DJ001
 
-    program_title = models.CharField(max_length=256, blank=False)
+    user_address_city = models.CharField(  # noqa: DJ001
+        null=True, max_length=256, blank=True
+    )
 
-    user_gender = models.CharField(max_length=256, blank=True)
+    user_first_name = models.CharField(null=True, max_length=256, blank=True)  # noqa: DJ001
 
-    user_address_city = models.CharField(max_length=256, blank=True)
+    user_last_name = models.CharField(null=True, max_length=256, blank=True)  # noqa: DJ001
 
-    user_first_name = models.CharField(max_length=256, blank=True)
+    user_year_of_birth = models.CharField(null=True, max_length=256, blank=True)  # noqa: DJ001
 
-    user_last_name = models.CharField(max_length=256, blank=True)
+    user_country = models.CharField(null=True, max_length=256, blank=True)  # noqa: DJ001
 
-    user_full_name = models.CharField(max_length=256, blank=True)
+    user_address_postal_code = models.CharField(null=True, max_length=256, blank=True)  # noqa: DJ001
 
-    user_year_of_birth = models.CharField(max_length=256, blank=True)
+    user_street_address = models.CharField(null=True, max_length=256, blank=True)  # noqa: DJ001
 
-    user_country = models.CharField(max_length=256, blank=True)
+    user_address_state_or_territory = models.CharField(  # noqa: DJ001
+        null=True, max_length=256, blank=True
+    )
 
-    user_address_postal_code = models.CharField(max_length=256, blank=True)
+    user_mitxonline_username = models.CharField(null=True, max_length=256, blank=True)  # noqa: DJ001
 
-    user_street_address = models.CharField(max_length=256, blank=True)
-
-    user_address_state_or_territory = models.CharField(max_length=256, blank=True)
-
-    user_mitxonline_username = models.CharField(max_length=256, blank=True)
-
-    # Timestamp of the course certificate that completed the program
     program_completion_timestamp = models.DateTimeField(null=True, blank=True)
 
     class Meta:

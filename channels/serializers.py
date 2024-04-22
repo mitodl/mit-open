@@ -124,6 +124,7 @@ class FieldChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerial
     """Serializer for FieldChannel"""
 
     lists = serializers.SerializerMethodField()
+    channel_url = serializers.SerializerMethodField(read_only=True)
     featured_list = LearningPathPreviewSerializer(
         allow_null=True,
         many=False,
@@ -137,10 +138,17 @@ class FieldChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerial
         """Return the field's list of LearningPaths"""
         return [
             LearningPathPreviewSerializer(field_list.field_list).data
-            for field_list in instance.lists.all()
-            .prefetch_related("field_list")
+            for field_list in FieldList.objects.filter(field_channel=instance)
+            .prefetch_related(
+                "field_list", "field_channel__lists", "field_channel__featured_list"
+            )
+            .all()
             .order_by("position")
         ]
+
+    def get_channel_url(self, instance):
+        """Get the URL for the channel"""
+        return instance.channel_url
 
     class Meta:
         model = FieldChannel

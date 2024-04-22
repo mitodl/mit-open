@@ -25,6 +25,7 @@ export declare global {
    */
   interface SETTINGS {
     user: User
+    posthog?: PostHogSettings
   }
   const APP_SETTINGS: {
     search_page_size: number
