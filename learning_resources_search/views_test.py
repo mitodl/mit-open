@@ -1,6 +1,7 @@
 """Tests for search views"""
 
 import json
+import random
 from types import SimpleNamespace
 
 import factory
@@ -329,6 +330,38 @@ def test_user_sort_limit_ordering_params_generate_same_query(client, user):
     client.post(url, json.dumps(params), content_type="application/json")
 
     params = {"q": "monkey", "offset": 0}
+    client.post(url, json.dumps(params), content_type="application/json")
+
+    assert user.percolate_queries.count() == 1
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_param_reordering_generates_same_query(client, user):
+    """Test that the ordering does not matter in creating the percolate query"""
+    client.force_login(user)
+
+    url = reverse("lr_search:v1:learning_resources_user_subscribe-subscribe")
+    assert user.percolate_queries.count() == 0
+    params = {
+        "q": "monkey",
+        "offered_by": ["mitpe", "mitx", "see"],
+        "resource_type": [
+            "podcast",
+            "video_playlist",
+            "learning_path",
+            "video",
+            "course",
+            "program",
+            "podcast_episode",
+        ],
+    }
+    client.post(url, json.dumps(params), content_type="application/json")
+    random.shuffle(params["offered_by"])
+    random.shuffle(params["resource_type"])
+    client.post(url, json.dumps(params), content_type="application/json")
+    random.shuffle(params["offered_by"])
+    random.shuffle(params["resource_type"])
     client.post(url, json.dumps(params), content_type="application/json")
 
     assert user.percolate_queries.count() == 1
