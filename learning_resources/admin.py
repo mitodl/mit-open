@@ -76,6 +76,36 @@ class LearningResourceRunInline(TabularInline):
     )
 
 
+class LearningResourceViewEventAdmin(admin.ModelAdmin):
+    """LearningResourceViewEvent admin"""
+
+    @admin.display(
+        description="Platform", ordering="learning_resource__platform__platform_code"
+    )
+    def event_platform(self, event):
+        """Display the event's platform"""
+
+        return event.learning_resource.platform
+
+    @admin.display(description="Readable ID", ordering="learning_resource__readable_id")
+    def event_readable_id(self, event):
+        """Display the event's readable ID"""
+
+        return event.learning_resource.readable_id
+
+    model = models.LearningResourceViewEvent
+    list_display = (
+        "event_platform",
+        "event_readable_id",
+        "event_date",
+    )
+    readonly_fields = (
+        "learning_resource",
+        "event_date",
+    )
+    sortable_by = ("event_date", "event_platform", "event_readable_id")
+
+
 class CourseInline(TabularInline):
     """Inline list items for Courses"""
 
@@ -182,5 +212,6 @@ admin.site.register(models.LearningResourceRun, LearningResourceRunAdmin)
 admin.site.register(models.LearningResourceDepartment, LearningResourceDepartmentAdmin)
 admin.site.register(models.LearningResourcePlatform, LearningResourcePlatformAdmin)
 admin.site.register(models.LearningResourceOfferor, LearningResourceOfferorAdmin)
+admin.site.register(models.LearningResourceViewEvent, LearningResourceViewEventAdmin)
 admin.site.register(models.UserList, UserListAdmin)
 admin.site.register(models.VideoChannel, VideoChannelAdmin)

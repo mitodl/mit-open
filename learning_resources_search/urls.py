@@ -1,6 +1,6 @@
 """URLs for search"""
 
-from django.urls import include, re_path
+from django.urls import include, re_path, path
 from rest_framework.routers import SimpleRouter
 
 from learning_resources_search.views import (
@@ -18,7 +18,7 @@ router.register(
 
 v1_urls = [
     *router.urls,
-    re_path(
+    path(
         r"learning_resources_search/",
         LearningResourcesSearchView.as_view(),
         name="learning_resources_search",

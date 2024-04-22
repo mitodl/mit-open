@@ -297,3 +297,10 @@ def get_youtube_transcripts(
 
     log.info("Updating transcripts for %i videos", videos.count())
     youtube.get_youtube_transcripts(videos)
+
+
+@app.task
+def get_learning_resource_views():
+    """Load learning resource views from the PostHog ETL."""
+
+    pipelines.posthog_etl()

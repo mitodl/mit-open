@@ -22,6 +22,7 @@ import type {
   PaginatedLearningPathRelationshipList,
   VideoResource,
   VideoPlaylistResource,
+  LearningResourceBaseSchool,
 } from "api"
 import { ResourceTypeEnum, LearningResourceRunLevelInnerCodeEnum } from "api"
 import { mergeOverrides } from "./index"
@@ -63,6 +64,17 @@ const learningResourceInstructor: Factory<LearningResourceInstructor> = (
   return instructor
 }
 
+const learningResourceBaseSchool: Factory<LearningResourceBaseSchool> = (
+  overrides = {},
+) => {
+  return {
+    id: faker.helpers.unique(faker.datatype.number),
+    name: faker.lorem.word(),
+    url: faker.internet.url(),
+    ...overrides,
+  }
+}
+
 const learningResourceDepartment: Factory<LearningResourceDepartment> = (
   overrides = {},
 ) => {
@@ -70,6 +82,7 @@ const learningResourceDepartment: Factory<LearningResourceDepartment> = (
     department_id: faker.helpers.unique(faker.lorem.words),
     name: faker.lorem.word(),
     channel_url: faker.internet.url(),
+    school: maybe(learningResourceBaseSchool) ?? null,
     ...overrides,
   }
 }

@@ -3,12 +3,13 @@
 import pytest
 
 from channels.constants import ChannelType
-from channels.factories import FieldChannelFactory
+from channels.factories import ChannelDepartmentDetailFactory, FieldChannelFactory
 from channels.models import FieldChannel
 from channels.plugins import ChannelPlugin
 from learning_resources.factories import (
     LearningResourceDepartmentFactory,
     LearningResourceOfferorFactory,
+    LearningResourceSchoolFactory,
     LearningResourceTopicFactory,
 )
 from learning_resources.models import (
@@ -47,17 +48,39 @@ def test_search_index_plugin_topic_delete():
 
 @pytest.mark.django_db()
 @pytest.mark.parametrize("overwrite", [True, False])
-def test_search_index_plugin_department_upserted(overwrite):
-    """The plugin function should create a department channel"""
-    department = LearningResourceDepartmentFactory.create()
+@pytest.mark.parametrize("has_school", [True, False])
+def test_search_index_plugin_department_upserted(overwrite, has_school):
+    """The plugin function should create a department channel if it has a school"""
+    department = LearningResourceDepartmentFactory.create(
+        school=LearningResourceSchoolFactory.create() if has_school else None
+    )
     channel, created = ChannelPlugin().department_upserted(department, overwrite)
-    assert channel.department_detail.department == department
-    assert channel.title == department.name
-    assert channel.channel_type == ChannelType.department.name
-    assert channel.search_filter == f"department={department.department_id}"
+    assert (channel is not None) is has_school
+    assert created is has_school
+    if has_school:
+        assert channel.department_detail.department == department
+        assert channel.title == department.name
+        assert channel.channel_type == ChannelType.department.name
+        assert channel.search_filter == f"department={department.department_id}"
     same_channel, upserted = ChannelPlugin().department_upserted(department, overwrite)
     assert channel == same_channel
-    assert upserted is overwrite
+    assert upserted is (overwrite and has_school)
+
+
+@pytest.mark.django_db()
+def test_search_index_plugin_department_channel_deleted():
+    """The plugin function should delete an existing department channel without a school"""
+    department = LearningResourceDepartmentFactory.create(school=None)
+    ChannelDepartmentDetailFactory.create(department=department)
+    assert FieldChannel.objects.filter(
+        department_detail__department=department
+    ).exists()
+    channel, upserted = ChannelPlugin().department_upserted(department, overwrite=False)
+    assert channel is None
+    assert upserted is False
+    assert not FieldChannel.objects.filter(
+        department_detail__department=department
+    ).exists()
 
 
 @pytest.mark.django_db()
