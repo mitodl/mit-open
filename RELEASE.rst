@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.2
+Version 0.9.2 (Released April 22, 2024)
 -------------
 
 - adding manual migration to fix foreign key type (#752)
