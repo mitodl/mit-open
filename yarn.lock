@@ -17495,7 +17495,7 @@ __metadata:
     ol-test-utilities: "workspace:*"
     ol-utilities: "workspace:*"
     ol-widgets: "workspace:*"
-    posthog-js: ^1.116.6
+    posthog-js: ^1.128.2
     react: ^18.2.0
     react-dom: ^18.2.0
     react-dotdotdot: ^1.3.1
@@ -19816,13 +19816,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.116.6":
-  version: 1.121.2
-  resolution: "posthog-js@npm:1.121.2"
+"posthog-js@npm:^1.128.2":
+  version: 1.128.3
+  resolution: "posthog-js@npm:1.128.3"
   dependencies:
     fflate: ^0.4.8
     preact: ^10.19.3
-  checksum: 1d1f4511190c4e6019ba67e141591f5e98046c1e8c03fb6e18f6f5b07d56d61b85dce50ed420404122566e1d9fbfdf32516445cae604cc3767238b8453c6ce92
+  checksum: 4b6007d63816d978ef7a200555b6873d66553386fcf7f5dfd8d1d5df3221ed4837952757bd461569816fc8877c386044d1b124cdf0d9ba07036630de088ed92a
   languageName: node
   linkType: hard
 
