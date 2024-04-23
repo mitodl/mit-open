@@ -1,0 +1,134 @@
+{
+  "jsonapi": {
+    "version": "1.0",
+    "meta": {
+      "links": {
+        "self": {
+          "href": "http://jsonapi.org/format/1.0/"
+        }
+      }
+    }
+  },
+  "data": {
+    "type": "media--event_image",
+    "id": "20f69b29-2264-49da-b96b-ee77d1b37480",
+    "links": {
+      "self": {
+        "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480?resourceVersion=id%3A3490"
+      }
+    },
+    "attributes": {
+      "drupal_internal__mid": 3479,
+      "drupal_internal__vid": 3490,
+      "langcode": "en",
+      "revision_created": "2024-03-19T14:10:24+00:00",
+      "revision_log_message": null,
+      "status": true,
+      "name": "dedp webinar april 2024",
+      "created": "2024-03-19T14:09:44+00:00",
+      "changed": "2024-03-19T14:10:24+00:00",
+      "default_langcode": true,
+      "revision_translation_affected": true,
+      "metatag": null,
+      "path": {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    },
+    "relationships": {
+      "bundle": {
+        "data": {
+          "type": "media_type--media_type",
+          "id": "0afa6143-a6bf-47c1-840d-ec3679c97703",
+          "meta": {
+            "drupal_internal__target_id": "event_image"
+          }
+        },
+        "links": {
+          "related": {
+            "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/bundle?resourceVersion=id%3A3490"
+          },
+          "self": {
+            "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/relationships/bundle?resourceVersion=id%3A3490"
+          }
+        }
+      },
+      "revision_user": {
+        "data": null,
+        "links": {
+          "related": {
+            "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/revision_user?resourceVersion=id%3A3490"
+          },
+          "self": {
+            "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/relationships/revision_user?resourceVersion=id%3A3490"
+          }
+        }
+      },
+      "uid": {
+        "data": {
+          "type": "user--user",
+          "id": "5f1eaa3d-abfa-4f8c-a5ed-ebe582e99f61",
+          "meta": {
+            "drupal_internal__target_id": 7
+          }
+        },
+        "links": {
+          "related": {
+            "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/uid?resourceVersion=id%3A3490"
+          },
+          "self": {
+            "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/relationships/uid?resourceVersion=id%3A3490"
+          }
+        }
+      },
+      "thumbnail": {
+        "data": {
+          "type": "file--file",
+          "id": "2f88a245-fc9f-42df-8062-2049d176fbdc",
+          "meta": {
+            "alt": "students raising their hands",
+            "title": null,
+            "width": 655,
+            "height": 306,
+            "drupal_internal__target_id": 165614
+          }
+        },
+        "links": {
+          "related": {
+            "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/thumbnail?resourceVersion=id%3A3490"
+          },
+          "self": {
+            "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/relationships/thumbnail?resourceVersion=id%3A3490"
+          }
+        }
+      },
+      "field_media_image": {
+        "data": {
+          "type": "file--file",
+          "id": "2f88a245-fc9f-42df-8062-2049d176fbdc",
+          "meta": {
+            "alt": "students raising their hands",
+            "title": "Students Raising Their Hands",
+            "width": 655,
+            "height": 306,
+            "drupal_internal__target_id": 165614
+          }
+        },
+        "links": {
+          "related": {
+            "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/field_media_image?resourceVersion=id%3A3490"
+          },
+          "self": {
+            "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/relationships/field_media_image?resourceVersion=id%3A3490"
+          }
+        }
+      }
+    }
+  },
+  "links": {
+    "self": {
+      "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/field_event_image?resourceVersion=id%3A16698"
+    }
+  }
+}

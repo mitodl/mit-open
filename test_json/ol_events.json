@@ -1,0 +1,221 @@
+{
+  "jsonapi": {
+    "version": "1.0",
+    "meta": {
+      "links": {
+        "self": {
+          "href": "http://jsonapi.org/format/1.0/"
+        }
+      }
+    }
+  },
+  "data": [
+    {
+      "type": "node--event",
+      "id": "81c5d37d-004b-4a55-91da-7dc467f3bf01",
+      "links": {
+        "self": {
+          "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01?resourceVersion=id%3A16698"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 7100,
+        "drupal_internal__vid": 16698,
+        "langcode": "en",
+        "revision_timestamp": "2124-03-19T14:10:59+00:00",
+        "revision_log": null,
+        "status": true,
+        "title": "Inside the MITx MicroMasters® Program in Data, Economics, and Design of Policy (DEDP)",
+        "created": "2124-03-19T14:06:41+00:00",
+        "changed": "2124-03-19T14:10:59+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/events/inside-mitx-micromastersr-program-data-economics-and-design-policy-dedp",
+          "pid": 3145,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "<p>The MicroMasters® program in Data, Economics, and Design of Policy (DEDP) equips learners with the practical skills and theoretical knowledge to tackle some of the most pressing challenges around the world.&nbsp;</p><p>Through eight courses taught by MIT faculty, learners will gain a strong foundation in microeconomics, development economics, probability, and statistics, and engage with cutting-edge research in the field. The program is unique in its focus on running randomized evaluations to assess the effectiveness of social programs and its emphasis on hands-on skills in data analysis.&nbsp;</p><p>All course content is available online for free. Learners who wish to earn certificates in the courses can pay a fee to take proctored exams. Learners who complete three core and two elective courses will earn a DEDP MicroMasters program credential in their respective track and become eligible to apply to the on-campus master’s in DEDP at MIT and other graduate programs at participating global pathway schools.&nbsp;</p><p>Attend our 60-minute webinar to learn more and to have your questions answered live by the DEDP program team!&nbsp;</p><p>Can't attend the live webinar? <a href=\"https://mit.zoom.us/webinar/register/8517108519839/WN_J5Mb7Kg7QVC5A8BNN0Di3w#/registration\">Register </a>anyway! A recording will be sent to all registrants.</p><p><a href=\"https://mit.zoom.us/webinar/register/8517108519839/WN_J5Mb7Kg7QVC5A8BNN0Di3w#/registration\"><strong>Register &gt;&gt;</strong></a></p>",
+          "format": "full_html",
+          "processed": "<p>The MicroMasters® program in Data, Economics, and Design of Policy (DEDP) equips learners with the practical skills and theoretical knowledge to tackle some of the most pressing challenges around the world. </p><p>Through eight courses taught by MIT faculty, learners will gain a strong foundation in microeconomics, development economics, probability, and statistics, and engage with cutting-edge research in the field. The program is unique in its focus on running randomized evaluations to assess the effectiveness of social programs and its emphasis on hands-on skills in data analysis. </p><p>All course content is available online for free. Learners who wish to earn certificates in the courses can pay a fee to take proctored exams. Learners who complete three core and two elective courses will earn a DEDP MicroMasters program credential in their respective track and become eligible to apply to the on-campus master’s in DEDP at MIT and other graduate programs at participating global pathway schools. </p><p>Attend our 60-minute webinar to learn more and to have your questions answered live by the DEDP program team! </p><p>Can't attend the live webinar? <a href=\"https://mit.zoom.us/webinar/register/8517108519839/WN_J5Mb7Kg7QVC5A8BNN0Di3w#/registration\">Register </a>anyway! A recording will be sent to all registrants.</p><p><a href=\"https://mit.zoom.us/webinar/register/8517108519839/WN_J5Mb7Kg7QVC5A8BNN0Di3w#/registration\"><strong>Register &gt;&gt;</strong></a></p>",
+          "summary": ""
+        },
+        "field_custom_date_display": null,
+        "field_event_audio_url": null,
+        "field_event_date": {
+          "value": "2124-04-30T11:00:00-04:00",
+          "end_value": "2124-04-30T12:00:00-04:00"
+        },
+        "field_event_location": {
+          "uri": "https://mit.zoom.us/webinar/register/8517108519839/WN_J5Mb7Kg7QVC5A8BNN0Di3w#/registration",
+          "title": "Register >>",
+          "options": []
+        },
+        "field_event_slides_url": null,
+        "field_event_video_url": null,
+        "field_location_address": null,
+        "field_meta_tags": null
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "a017a6e5-d3ce-4ba7-8234-6ced0b6e8d69",
+            "meta": {
+              "drupal_internal__target_id": "event"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/node_type?resourceVersion=id%3A16698"
+            },
+            "self": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/relationships/node_type?resourceVersion=id%3A16698"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "5f1eaa3d-abfa-4f8c-a5ed-ebe582e99f61",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/revision_uid?resourceVersion=id%3A16698"
+            },
+            "self": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/relationships/revision_uid?resourceVersion=id%3A16698"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "5f1eaa3d-abfa-4f8c-a5ed-ebe582e99f61",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/uid?resourceVersion=id%3A16698"
+            },
+            "self": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/relationships/uid?resourceVersion=id%3A16698"
+            }
+          }
+        },
+        "field_event_audience": {
+          "data": [
+            {
+              "type": "taxonomy_term--event_audience",
+              "id": "4d556645-2004-4a8d-ab14-01cf825bbc03",
+              "meta": {
+                "drupal_internal__target_id": 92
+              }
+            },
+            {
+              "type": "taxonomy_term--event_audience",
+              "id": "319c3101-b45e-4395-b679-5db629f8b507",
+              "meta": {
+                "drupal_internal__target_id": 89
+              }
+            },
+            {
+              "type": "taxonomy_term--event_audience",
+              "id": "a595f309-48d4-49ea-9cd6-3eaf1b2dcafa",
+              "meta": {
+                "drupal_internal__target_id": 90
+              }
+            },
+            {
+              "type": "taxonomy_term--event_audience",
+              "id": "c24ea535-4d1d-44cd-91d2-ee8781a26809",
+              "meta": {
+                "drupal_internal__target_id": 91
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/field_event_audience?resourceVersion=id%3A16698"
+            },
+            "self": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/relationships/field_event_audience?resourceVersion=id%3A16698"
+            }
+          }
+        },
+        "field_event_category": {
+          "data": [
+            {
+              "type": "taxonomy_term--event_type",
+              "id": "353c75ed-3217-45ab-840b-c0e365db86f3",
+              "meta": {
+                "drupal_internal__target_id": 94
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/field_event_category?resourceVersion=id%3A16698"
+            },
+            "self": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/relationships/field_event_category?resourceVersion=id%3A16698"
+            }
+          }
+        },
+        "field_event_image": {
+          "data": {
+            "type": "media--event_image",
+            "id": "20f69b29-2264-49da-b96b-ee77d1b37480",
+            "meta": {
+              "drupal_internal__target_id": 3479
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/field_event_image?resourceVersion=id%3A16698"
+            },
+            "self": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/relationships/field_event_image?resourceVersion=id%3A16698"
+            }
+          }
+        },
+        "field_location_tag": {
+          "data": [
+            {
+              "type": "taxonomy_term--event_location",
+              "id": "748fd634-4757-4117-8ff4-5c677d747e35",
+              "meta": {
+                "drupal_internal__target_id": 99
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/field_location_tag?resourceVersion=id%3A16698"
+            },
+            "self": {
+              "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/relationships/field_location_tag?resourceVersion=id%3A16698"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "links": {
+    "next": {
+      "href": "https://openlearning.mit.edu/jsonapi/node/event?sort=-field_event_date.value&page%5Boffset%5D=50&page%5Blimit%5D=50"
+    },
+    "self": {
+      "href": "https://openlearning.mit.edu/jsonapi/node/event?sort=-field_event_date.value"
+    }
+  }
+}
