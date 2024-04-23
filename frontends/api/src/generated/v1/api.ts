@@ -12216,14 +12216,12 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
     /**
      * Unsubscribe a user from a query  Args: pk (integer): The id of the query  Returns: PercolateQuerySerializer: The percolate query
      * @summary Unsubscribe user from query
-     * @param {string} id
-     * @param {number} pk
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesUserSubscriptionUnsubscribeDestroy: async (
-      id: string,
-      pk: number,
+      id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -12232,16 +12230,11 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         "id",
         id,
       )
-      // verify required parameter 'pk' is not null or undefined
-      assertParamExists(
-        "learningResourcesUserSubscriptionUnsubscribeDestroy",
-        "pk",
-        pk,
-      )
       const localVarPath =
-        `/api/v1/learning_resources_user_subscription/{id}/unsubscribe/`
-          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-          .replace(`{${"pk"}}`, encodeURIComponent(String(pk)))
+        `/api/v1/learning_resources_user_subscription/{id}/unsubscribe/`.replace(
+          `{${"id"}}`,
+          encodeURIComponent(String(id)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -12348,14 +12341,12 @@ export const LearningResourcesUserSubscriptionApiFp = function (
     /**
      * Unsubscribe a user from a query  Args: pk (integer): The id of the query  Returns: PercolateQuerySerializer: The percolate query
      * @summary Unsubscribe user from query
-     * @param {string} id
-     * @param {number} pk
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesUserSubscriptionUnsubscribeDestroy(
-      id: string,
-      pk: number,
+      id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
@@ -12363,7 +12354,6 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesUserSubscriptionUnsubscribeDestroy(
           id,
-          pk,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -12437,7 +12427,6 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
       return localVarFp
         .learningResourcesUserSubscriptionUnsubscribeDestroy(
           requestParameters.id,
-          requestParameters.pk,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -12467,17 +12456,10 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
 export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest {
   /**
    *
-   * @type {string}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroy
-   */
-  readonly id: string
-
-  /**
-   *
    * @type {number}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroy
    */
-  readonly pk: number
+  readonly id: number
 }
 
 /**
@@ -12536,7 +12518,6 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
     return LearningResourcesUserSubscriptionApiFp(this.configuration)
       .learningResourcesUserSubscriptionUnsubscribeDestroy(
         requestParameters.id,
-        requestParameters.pk,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

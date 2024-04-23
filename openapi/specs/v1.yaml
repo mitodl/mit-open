@@ -3289,11 +3289,6 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
-        required: true
-      - in: path
-        name: pk
-        schema:
           type: integer
         required: true
       tags:

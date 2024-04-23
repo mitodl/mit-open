@@ -132,14 +132,13 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
     @extend_schema(
         summary="Unsubscribe user from query",
         parameters=[
-            OpenApiParameter(name="pk", type=int, location=OpenApiParameter.PATH),
+            OpenApiParameter(name="id", type=int, location=OpenApiParameter.PATH),
         ],
         responses=PercolateQuerySerializer(),
     )
     @action(
         detail=True,
         methods=["DELETE"],
-        url_path="unsubscribe",
         name="Unsubscribe user from query by id",
     )
     def unsubscribe(self, request, pk: int):
@@ -152,6 +151,7 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
         Returns:
         PercolateQuerySerializer: The percolate query
         """
+
         percolate_query = get_object_or_404(PercolateQuery, id=pk)
         unsubscribe_user_from_percolate_query(request.user, percolate_query)
         return Response(PercolateQuerySerializer(percolate_query).data)
