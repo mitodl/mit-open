@@ -102,13 +102,16 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
             queryset = backend().filter_queryset(self.request, queryset, view=self)
         return queryset
 
-    @action(detail=False, methods=["post"], name="Subscribe user to query")
     @extend_schema(
         summary="Subscribe user to query",
         request=[LearningResourcesSearchRequestSerializer()],
         responses=PercolateQuerySerializer(),
     )
+    @action(detail=False, methods=["post"], name="Subscribe user to query")
     def subscribe(self, request, *args, **kwargs):  # noqa: ARG002
+        """
+        Subscribe a user to query
+        """
         request_data = LearningResourcesSearchRequestSerializer(data=request.data)
         if request_data.is_valid():
             percolate_query = subscribe_user_to_search_query(
@@ -124,18 +127,21 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
                     errors[key] = list(set(chain(*errors_obj.values())))
             return Response(errors, status=400)
 
+    @extend_schema(
+        summary="Unsubscribe user from query",
+        request=LearningResourcesSearchRequestSerializer(),
+        responses=PercolateQuerySerializer(),
+    )
     @action(
         detail=False,
         methods=["POST"],
         url_path="unsubscribe",
         name="Unsubscribe user from query",
     )
-    @extend_schema(
-        summary="Unsubscribe user to query",
-        request=LearningResourcesSearchRequestSerializer(),
-        responses=PercolateQuerySerializer(),
-    )
     def unsubscribe_user(self, request):
+        """
+        Unsubscribe a user from query
+        """
         request_data = LearningResourcesSearchRequestSerializer(data=request.data)
         if request_data.is_valid():
             percolate_query = unsubscribe_user_from_search_query(
