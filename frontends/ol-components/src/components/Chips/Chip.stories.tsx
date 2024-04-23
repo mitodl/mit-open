@@ -1,14 +1,31 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import Chip from "@mui/material/Chip"
+import type { ChipProps } from "@mui/material/Chip"
 import Stack from "@mui/material/Stack"
 import { fn } from "@storybook/test"
 import { ChipLink } from "./ChipLink"
 import { withRouter } from "storybook-addon-react-router-v6"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
+import DeleteIcon from "@mui/icons-material/Delete"
+import EditIcon from "@mui/icons-material/Edit"
 
-const COLORS = ["default", "primary", "secondary"] as const
-const VARIANTS = [
+const icons = {
+  None: undefined,
+  CalendarTodayIcon: <CalendarTodayIcon />,
+  DeleteIcon: <DeleteIcon />,
+  EditIcon: <EditIcon />,
+}
+
+const COLORS: ChipProps["color"][] = [
+  "default",
+  "primary",
+  "secondary",
+] as const
+const VARIANTS: {
+  variant: ChipProps["variant"]
+  label: string
+}[] = [
   {
     variant: "filled",
     label: "Filled",
@@ -21,7 +38,26 @@ const VARIANTS = [
 
 const meta: Meta<typeof Chip> = {
   title: 'smoot-design/Chip ("Pill")',
-  component: Chip,
+  argTypes: {
+    icon: {
+      control: { type: "select" },
+      options: Object.keys(icons),
+      mapping: icons,
+    },
+    onClick: {
+      control: { type: "select" },
+      options: ["None", "handler"],
+      mapping: { None: undefined, handler: fn() },
+    },
+    onDelete: {
+      control: { type: "select" },
+      options: ["None", "handler"],
+      mapping: { handler: fn() },
+    },
+    disabled: {
+      control: { type: "boolean" },
+    },
+  },
   render: (args) => {
     return (
       <Stack gap={1}>
@@ -29,11 +65,11 @@ const meta: Meta<typeof Chip> = {
           <Stack key={variant} direction="row" gap={2}>
             {COLORS.map((color) => (
               <Chip
+                {...args}
                 key={color}
                 variant={variant}
                 color={color}
                 label={label}
-                {...args}
               />
             ))}
           </Stack>
@@ -42,12 +78,12 @@ const meta: Meta<typeof Chip> = {
           <Stack key={variant} direction="row" gap={2}>
             {COLORS.map((color) => (
               <Chip
+                {...args}
                 size="large"
                 variant={variant}
                 key={color}
                 color={color}
                 label={label}
-                {...args}
               />
             ))}
           </Stack>
@@ -88,13 +124,14 @@ export const Icons: Story = {
   },
 }
 
-export const Links: Story = {
-  render: () => {
+type StoryChipLink = StoryObj<typeof ChipLink>
+export const Links: StoryChipLink = {
+  render: (args) => {
     return (
       <Stack direction="row" gap={2}>
-        <ChipLink label="Link" href="" />
-        <ChipLink label="Link" color="primary" href="" />
-        <ChipLink label="Link" color="secondary" href="" />
+        <ChipLink {...args} label="Link" href="" />
+        <ChipLink {...args} label="Link" color="primary" href="" />
+        <ChipLink {...args} label="Link" color="secondary" href="" />
       </Stack>
     )
   },

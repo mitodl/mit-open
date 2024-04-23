@@ -8,35 +8,31 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import { withRouter } from "storybook-addon-react-router-v6"
+import { fn } from "@storybook/test"
+
+const icons = {
+  None: undefined,
+  ArrowForwardIcon: <ArrowForwardIcon />,
+  ArrowBackIcon: <ArrowBackIcon />,
+  DeleteIcon: <DeleteIcon />,
+  EditIcon: <EditIcon />,
+}
 
 const meta: Meta<typeof Button> = {
   title: "smoot-design/Button",
   component: Button,
   argTypes: {
-    children: {
-      control: "text",
+    startIcon: {
+      options: Object.keys(icons),
+      mapping: icons,
     },
-    variant: {
-      options: ["filled", "outlined"],
-      control: {
-        type: "select",
-      },
+    endIcon: {
+      options: Object.keys(icons),
+      mapping: icons,
     },
-    size: {
-      options: ["small", "medium", "large"],
-      control: {
-        type: "select",
-      },
-    },
-    color: {
-      options: ["primary", "secondary"],
-      control: {
-        type: "select",
-      },
-    },
-    disabled: {
-      control: "boolean",
-    },
+  },
+  args: {
+    onClick: fn(),
   },
 }
 
@@ -44,44 +40,57 @@ export default meta
 
 type Story = StoryObj<typeof Button>
 
-export const Plain: Story = {
-  args: {
-    children: "Hello world",
-    variant: "filled",
-    size: "large",
-  },
-}
-
 export const VariantStory: Story = {
-  render: () => (
+  argTypes: {
+    variant: { table: { disable: true } },
+  },
+  render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button variant="filled">Filled</Button>
-      <Button variant="outlined">Outlined</Button>
-      <Button variant="text">Text</Button>
+      <Button {...args} variant="filled">
+        Filled
+      </Button>
+      <Button {...args} variant="outlined">
+        Outlined
+      </Button>
+      <Button {...args} variant="text">
+        Text
+      </Button>
     </Stack>
   ),
 }
 
 export const SizeStory: Story = {
-  render: () => (
+  argTypes: {
+    size: { table: { disable: true } },
+  },
+  render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }} alignItems="center">
-      <Button size="small">Small</Button>
-      <Button size="medium">Medium</Button>
-      <Button size="large">Large</Button>
+      <Button {...args} size="small">
+        Small
+      </Button>
+      <Button {...args} size="medium">
+        Medium
+      </Button>
+      <Button {...args} size="large">
+        Large
+      </Button>
     </Stack>
   ),
 }
 
 export const DisabledStory: Story = {
-  render: () => (
+  argTypes: {
+    disabled: { table: { disable: true } },
+  },
+  render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button disabled variant="filled">
+      <Button {...args} disabled variant="filled">
         Filled
       </Button>
-      <Button disabled variant="outlined">
+      <Button {...args} disabled variant="outlined">
         Outlined
       </Button>
-      <Button disabled variant="text">
+      <Button {...args} disabled variant="text">
         Text
       </Button>
     </Stack>
@@ -89,14 +98,21 @@ export const DisabledStory: Story = {
 }
 
 export const ColorStory: Story = {
-  render: () => (
+  argTypes: {
+    color: { table: { disable: true } },
+  },
+  render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button color="primary">Primary</Button>
-      <Button color="primary" variant="outlined">
+      <Button {...args} color="primary">
         Primary
       </Button>
-      <Button color="secondary">Secondary</Button>
-      <Button color="secondary" variant="outlined">
+      <Button {...args} color="primary" variant="outlined">
+        Primary
+      </Button>
+      <Button {...args} color="secondary">
+        Secondary
+      </Button>
+      <Button {...args} color="secondary" variant="outlined">
         Secondary
       </Button>
     </Stack>
@@ -104,14 +120,21 @@ export const ColorStory: Story = {
 }
 
 export const EdgeStory: Story = {
-  render: () => (
+  argTypes: {
+    edge: { table: { disable: true } },
+  },
+  render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button edge="sharp">Sharp</Button>
-      <Button edge="rounded">Rounded</Button>
-      <Button variant="outlined" edge="sharp">
+      <Button {...args} edge="sharp">
         Sharp
       </Button>
-      <Button variant="outlined" edge="rounded">
+      <Button {...args} edge="rounded">
+        Rounded
+      </Button>
+      <Button {...args} variant="outlined" edge="sharp">
+        Sharp
+      </Button>
+      <Button {...args} variant="outlined" edge="rounded">
         Rounded
       </Button>
     </Stack>
@@ -119,29 +142,37 @@ export const EdgeStory: Story = {
 }
 
 export const WithIconStory: Story = {
-  render: () => (
+  render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button startIcon={<ArrowBackIcon />}>Back</Button>
-      <Button startIcon={<DeleteIcon />}>Delete</Button>
-      <Button startIcon={<EditIcon />}>Edit</Button>
-      <Button endIcon={<ArrowForwardIcon />}>Forward</Button>
+      <Button {...args} startIcon={<ArrowBackIcon />}>
+        Back
+      </Button>
+      <Button {...args} startIcon={<DeleteIcon />}>
+        Delete
+      </Button>
+      <Button {...args} startIcon={<EditIcon />}>
+        Edit
+      </Button>
+      <Button {...args} endIcon={<ArrowForwardIcon />}>
+        Forward
+      </Button>
     </Stack>
   ),
 }
 
 export const IconOnlyStory: Story = {
-  render: () => (
+  render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <IconButton>
+      <IconButton {...args}>
         <ArrowBackIcon />
       </IconButton>
-      <IconButton>
+      <IconButton {...args}>
         <ArrowForwardIcon />
       </IconButton>
-      <IconButton variant="outlined">
+      <IconButton {...args} variant="outlined">
         <DeleteIcon />
       </IconButton>
-      <IconButton variant="outlined" edge="rounded">
+      <IconButton {...args} variant="outlined" edge="rounded">
         <EditIcon />
       </IconButton>
     </Stack>
@@ -174,7 +205,7 @@ export const LinkStory: Story = {
   ),
 }
 export const ButtonsShowcase: Story = {
-  render: () => (
+  render: (args) => (
     <Grid container rowGap={2} sx={{ maxWidth: "500px" }}>
       {VARIANTS.flatMap((variant) =>
         EDGES.flatMap((edge) =>
@@ -188,6 +219,7 @@ export const ButtonsShowcase: Story = {
                 key={`${variant}-${edge}-${size}-${i}`}
               >
                 <Button
+                  {...args}
                   variant={variant}
                   edge={edge}
                   size={size}
