@@ -131,8 +131,8 @@ LEARNING_RESOURCE_MAP = {
                 "type": "nested",
                 "properties": {
                     "id": {"type": "long"},
-                    "name": "keyword",
-                    "url": "keyword",
+                    "name": {"type": "keyword"},
+                    "url": {"type": "keyword"},
                 },
             },
         },
@@ -172,8 +172,8 @@ LEARNING_RESOURCE_MAP = {
                                 "type": "nested",
                                 "properties": {
                                     "id": {"type": "long"},
-                                    "name": "keyword",
-                                    "url": "keyword",
+                                    "name": {"type": "keyword"},
+                                    "url": {"type": "keyword"},
                                 },
                             },
                         }
@@ -245,8 +245,8 @@ CONTENT_FILE_MAP = {
                 "type": "nested",
                 "properties": {
                     "id": {"type": "long"},
-                    "name": "keyword",
-                    "url": "keyword",
+                    "name": {"type": "keyword"},
+                    "url": {"type": "keyword"},
                 },
             },
         },
