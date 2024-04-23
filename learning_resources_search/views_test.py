@@ -299,26 +299,6 @@ def test_user_unsubscribe_to_search(client, user):
 
 @pytest.mark.django_db()
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
-def test_user_unsubscribe_to_search_by_id(client, user):
-    """Test unsubscribing user from search"""
-
-    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
-
-    client.force_login(user)
-    params = {"q": "monkey"}
-    assert user.percolate_queries.count() == 0
-    client.post(sub_url, json.dumps(params), content_type="application/json")
-    assert user.percolate_queries.count() == 1
-    unsub_url = reverse(
-        "lr_search:v1:learning_resources_user_subscription-unsubscribe",
-        args=[user.percolate_queries.first().id],
-    )
-    client.post(unsub_url, content_type="application/json")
-    assert user.percolate_queries.count() == 0
-
-
-@pytest.mark.django_db()
-@factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_user_subscribed_to_search(client, user):
     """Test user subscribed get"""
     client.force_login(user)

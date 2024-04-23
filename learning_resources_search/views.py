@@ -8,7 +8,6 @@ from drf_spectacular.utils import extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -17,11 +16,9 @@ from authentication.decorators import blocked_ip_exempt
 from learning_resources_search.api import (
     execute_learn_search,
     subscribe_user_to_search_query,
-    unsubscribe_user_from_percolate_query,
     unsubscribe_user_from_search_query,
 )
 from learning_resources_search.constants import CONTENT_FILE_TYPE, LEARNING_RESOURCE
-from learning_resources_search.models import PercolateQuery
 from learning_resources_search.serializers import (
     ContentFileSearchRequestSerializer,
     ContentFileSearchResponseSerializer,
@@ -107,7 +104,7 @@ class UserSearchSubscriptionViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["post"], name="Subscribe user to query")
     @extend_schema(
         summary="Subscribe user to query",
-        parameters=[LearningResourcesSearchRequestSerializer()],
+        request=[LearningResourcesSearchRequestSerializer()],
         responses=PercolateQuerySerializer(),
     )
     def subscribe(self, request, *args, **kwargs):  # noqa: ARG002
@@ -127,22 +124,6 @@ class UserSearchSubscriptionViewSet(viewsets.ModelViewSet):
             return Response(errors, status=400)
 
     @action(
-        detail=True,
-        methods=["POST"],
-        url_path="unsubscribe",
-        name="Unsubscribe user from query by id",
-    )
-    @extend_schema(
-        summary="Unsubscribe user to query",
-        parameters=[LearningResourcesSearchRequestSerializer()],
-        responses=PercolateQuerySerializer(),
-    )
-    def unsubscribe(self, request, pk=None):
-        percolate_query = get_object_or_404(PercolateQuery, id=pk)
-        unsubscribe_user_from_percolate_query(request.user, percolate_query)
-        return Response(PercolateQuerySerializer(percolate_query).data)
-
-    @action(
         detail=False,
         methods=["POST"],
         url_path="unsubscribe",
@@ -150,7 +131,7 @@ class UserSearchSubscriptionViewSet(viewsets.ModelViewSet):
     )
     @extend_schema(
         summary="Unsubscribe user to query",
-        parameters=[LearningResourcesSearchRequestSerializer()],
+        request=LearningResourcesSearchRequestSerializer(),
         responses=PercolateQuerySerializer(),
     )
     def unsubscribe_user(self, request):

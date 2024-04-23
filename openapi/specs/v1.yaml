@@ -3271,11 +3271,35 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/UserPercolateQueryRequest'
+                  $ref: '#/components/schemas/PercolateQuery'
           description: ''
-  /api/v1/learning_resources_user_subscription/{id}/unsubscribe/:
     post:
-      operationId: learning_resources_user_subscription_unsubscribe_create_2
+      operationId: learning_resources_user_subscription_create
+      description: View for listing percolate query subscriptions for a user
+      tags:
+      - learning_resources_user_subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PercolateQuery'
+          description: ''
+  /api/v1/learning_resources_user_subscription/{id}/:
+    get:
+      operationId: learning_resources_user_subscription_retrieve
       description: View for listing percolate query subscriptions for a user
       parameters:
       - in: path
@@ -3290,20 +3314,105 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserPercolateQueryRequest'
+                $ref: '#/components/schemas/PercolateQuery'
           description: ''
+    put:
+      operationId: learning_resources_user_subscription_update
+      description: View for listing percolate query subscriptions for a user
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - learning_resources_user_subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PercolateQuery'
+          description: ''
+    patch:
+      operationId: learning_resources_user_subscription_partial_update
+      description: View for listing percolate query subscriptions for a user
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - learning_resources_user_subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPercolateQueryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPercolateQueryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPercolateQueryRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PercolateQuery'
+          description: ''
+    delete:
+      operationId: learning_resources_user_subscription_destroy
+      description: View for listing percolate query subscriptions for a user
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - learning_resources_user_subscription
+      responses:
+        '204':
+          description: No response body
   /api/v1/learning_resources_user_subscription/subscribe/:
     post:
       operationId: learning_resources_user_subscription_subscribe_create
       description: View for listing percolate query subscriptions for a user
       tags:
       - learning_resources_user_subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+        required: true
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserPercolateQueryRequest'
+                $ref: '#/components/schemas/PercolateQuery'
           description: ''
   /api/v1/learning_resources_user_subscription/unsubscribe/:
     post:
@@ -3311,12 +3420,24 @@ paths:
       description: View for listing percolate query subscriptions for a user
       tags:
       - learning_resources_user_subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PercolateQueryRequest'
+        required: true
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserPercolateQueryRequest'
+                $ref: '#/components/schemas/PercolateQuery'
           description: ''
   /api/v1/learningpaths/:
     get:
@@ -9856,6 +9977,17 @@ components:
           maxLength: 2048
         professional:
           type: boolean
+    PatchedPercolateQueryRequest:
+      type: object
+      properties:
+        original_query: {}
+        query: {}
+        source_type:
+          $ref: '#/components/schemas/SourceTypeEnum'
+        users:
+          type: array
+          items:
+            type: integer
     PatchedUserListRelationshipRequest:
       type: object
       description: Serializer for UserListRelationship model
@@ -9900,6 +10032,22 @@ components:
             type: integer
       required:
       - id
+      - original_query
+      - query
+      - source_type
+      - users
+    PercolateQueryRequest:
+      type: object
+      properties:
+        original_query: {}
+        query: {}
+        source_type:
+          $ref: '#/components/schemas/SourceTypeEnum'
+        users:
+          type: array
+          items:
+            type: integer
+      required:
       - original_query
       - query
       - source_type
@@ -10817,58 +10965,6 @@ components:
           $ref: '#/components/schemas/PrivacyLevelEnum'
       required:
       - title
-    UserPercolateQueryRequest:
-      type: object
-      description: SearchResponseSerializer with OpenAPI annotations for Content Files
-        search
-      properties:
-        count:
-          type: integer
-          readOnly: true
-        next:
-          type: string
-          nullable: true
-          readOnly: true
-        previous:
-          type: string
-          nullable: true
-          readOnly: true
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/PercolateQuery'
-          readOnly: true
-        metadata:
-          type: object
-          properties:
-            aggregations:
-              type: object
-              additionalProperties:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    key:
-                      type: string
-                    doc_count:
-                      type: integer
-                  required:
-                  - doc_count
-                  - key
-            suggestions:
-              type: array
-              items:
-                type: string
-          required:
-          - aggregations
-          - suggestions
-          readOnly: true
-      required:
-      - count
-      - metadata
-      - next
-      - previous
-      - results
     Video:
       type: object
       description: Serializer for the Video model
