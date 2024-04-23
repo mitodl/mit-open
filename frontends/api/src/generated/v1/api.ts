@@ -2520,38 +2520,6 @@ export interface PatchedLearningPathResourceRequest {
   professional?: boolean
 }
 /**
- *
- * @export
- * @interface PatchedPercolateQueryRequest
- */
-export interface PatchedPercolateQueryRequest {
-  /**
-   *
-   * @type {any}
-   * @memberof PatchedPercolateQueryRequest
-   */
-  original_query?: any
-  /**
-   *
-   * @type {any}
-   * @memberof PatchedPercolateQueryRequest
-   */
-  query?: any
-  /**
-   *
-   * @type {SourceTypeEnum}
-   * @memberof PatchedPercolateQueryRequest
-   */
-  source_type?: SourceTypeEnum
-  /**
-   *
-   * @type {Array<number>}
-   * @memberof PatchedPercolateQueryRequest
-   */
-  users?: Array<number>
-}
-
-/**
  * Serializer for UserListRelationship model
  * @export
  * @interface PatchedUserListRelationshipRequest
@@ -11914,105 +11882,6 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
   return {
     /**
      * View for listing percolate query subscriptions for a user
-     * @param {PercolateQueryRequest} PercolateQueryRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningResourcesUserSubscriptionCreate: async (
-      PercolateQueryRequest: PercolateQueryRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'PercolateQueryRequest' is not null or undefined
-      assertParamExists(
-        "learningResourcesUserSubscriptionCreate",
-        "PercolateQueryRequest",
-        PercolateQueryRequest,
-      )
-      const localVarPath = `/api/v1/learning_resources_user_subscription/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "POST",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        PercolateQueryRequest,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningResourcesUserSubscriptionDestroy: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("learningResourcesUserSubscriptionDestroy", "id", id)
-      const localVarPath =
-        `/api/v1/learning_resources_user_subscription/{id}/`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(id)),
-        )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "DELETE",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12020,111 +11889,6 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources_user_subscription/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {string} id
-     * @param {PatchedPercolateQueryRequest} [PatchedPercolateQueryRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningResourcesUserSubscriptionPartialUpdate: async (
-      id: string,
-      PatchedPercolateQueryRequest?: PatchedPercolateQueryRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists(
-        "learningResourcesUserSubscriptionPartialUpdate",
-        "id",
-        id,
-      )
-      const localVarPath =
-        `/api/v1/learning_resources_user_subscription/{id}/`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(id)),
-        )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "PATCH",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        PatchedPercolateQueryRequest,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningResourcesUserSubscriptionRetrieve: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("learningResourcesUserSubscriptionRetrieve", "id", id)
-      const localVarPath =
-        `/api/v1/learning_resources_user_subscription/{id}/`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(id)),
-        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -12260,67 +12024,6 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {string} id
-     * @param {PercolateQueryRequest} PercolateQueryRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningResourcesUserSubscriptionUpdate: async (
-      id: string,
-      PercolateQueryRequest: PercolateQueryRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("learningResourcesUserSubscriptionUpdate", "id", id)
-      // verify required parameter 'PercolateQueryRequest' is not null or undefined
-      assertParamExists(
-        "learningResourcesUserSubscriptionUpdate",
-        "PercolateQueryRequest",
-        PercolateQueryRequest,
-      )
-      const localVarPath =
-        `/api/v1/learning_resources_user_subscription/{id}/`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(id)),
-        )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "PUT",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      localVarHeaderParameter["Content-Type"] = "application/json"
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        PercolateQueryRequest,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
   }
 }
 
@@ -12334,66 +12037,6 @@ export const LearningResourcesUserSubscriptionApiFp = function (
   const localVarAxiosParamCreator =
     LearningResourcesUserSubscriptionApiAxiosParamCreator(configuration)
   return {
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {PercolateQueryRequest} PercolateQueryRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningResourcesUserSubscriptionCreate(
-      PercolateQueryRequest: PercolateQueryRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PercolateQuery>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningResourcesUserSubscriptionCreate(
-          PercolateQueryRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap[
-          "LearningResourcesUserSubscriptionApi.learningResourcesUserSubscriptionCreate"
-        ]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningResourcesUserSubscriptionDestroy(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningResourcesUserSubscriptionDestroy(
-          id,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap[
-          "LearningResourcesUserSubscriptionApi.learningResourcesUserSubscriptionDestroy"
-        ]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
     /**
      * View for listing percolate query subscriptions for a user
      * @param {*} [options] Override http request option.
@@ -12415,69 +12058,6 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       const operationBasePath =
         operationServerMap[
           "LearningResourcesUserSubscriptionApi.learningResourcesUserSubscriptionList"
-        ]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {string} id
-     * @param {PatchedPercolateQueryRequest} [PatchedPercolateQueryRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningResourcesUserSubscriptionPartialUpdate(
-      id: string,
-      PatchedPercolateQueryRequest?: PatchedPercolateQueryRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PercolateQuery>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningResourcesUserSubscriptionPartialUpdate(
-          id,
-          PatchedPercolateQueryRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap[
-          "LearningResourcesUserSubscriptionApi.learningResourcesUserSubscriptionPartialUpdate"
-        ]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningResourcesUserSubscriptionRetrieve(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PercolateQuery>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningResourcesUserSubscriptionRetrieve(
-          id,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap[
-          "LearningResourcesUserSubscriptionApi.learningResourcesUserSubscriptionRetrieve"
         ]?.[index]?.url
       return (axios, basePath) =>
         createRequestFunction(
@@ -12547,39 +12127,6 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           configuration,
         )(axios, operationBasePath || basePath)
     },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {string} id
-     * @param {PercolateQueryRequest} PercolateQueryRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async learningResourcesUserSubscriptionUpdate(
-      id: string,
-      PercolateQueryRequest: PercolateQueryRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PercolateQuery>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.learningResourcesUserSubscriptionUpdate(
-          id,
-          PercolateQueryRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap[
-          "LearningResourcesUserSubscriptionApi.learningResourcesUserSubscriptionUpdate"
-        ]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
   }
 }
 
@@ -12596,37 +12143,6 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
   return {
     /**
      * View for listing percolate query subscriptions for a user
-     * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningResourcesUserSubscriptionCreate(
-      requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCreateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PercolateQuery> {
-      return localVarFp
-        .learningResourcesUserSubscriptionCreate(
-          requestParameters.PercolateQueryRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionDestroyRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningResourcesUserSubscriptionDestroy(
-      requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionDestroyRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .learningResourcesUserSubscriptionDestroy(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12635,41 +12151,6 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
     ): AxiosPromise<Array<PercolateQuery>> {
       return localVarFp
         .learningResourcesUserSubscriptionList(options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningResourcesUserSubscriptionPartialUpdate(
-      requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionPartialUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PercolateQuery> {
-      return localVarFp
-        .learningResourcesUserSubscriptionPartialUpdate(
-          requestParameters.id,
-          requestParameters.PatchedPercolateQueryRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningResourcesUserSubscriptionRetrieve(
-      requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PercolateQuery> {
-      return localVarFp
-        .learningResourcesUserSubscriptionRetrieve(
-          requestParameters.id,
-          options,
-        )
         .then((request) => request(axios, basePath))
     },
     /**
@@ -12706,88 +12187,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
         )
         .then((request) => request(axios, basePath))
     },
-    /**
-     * View for listing percolate query subscriptions for a user
-     * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    learningResourcesUserSubscriptionUpdate(
-      requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PercolateQuery> {
-      return localVarFp
-        .learningResourcesUserSubscriptionUpdate(
-          requestParameters.id,
-          requestParameters.PercolateQueryRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
   }
-}
-
-/**
- * Request parameters for learningResourcesUserSubscriptionCreate operation in LearningResourcesUserSubscriptionApi.
- * @export
- * @interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCreateRequest
- */
-export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCreateRequest {
-  /**
-   *
-   * @type {PercolateQueryRequest}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCreate
-   */
-  readonly PercolateQueryRequest: PercolateQueryRequest
-}
-
-/**
- * Request parameters for learningResourcesUserSubscriptionDestroy operation in LearningResourcesUserSubscriptionApi.
- * @export
- * @interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionDestroyRequest
- */
-export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionDestroyRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionDestroy
-   */
-  readonly id: string
-}
-
-/**
- * Request parameters for learningResourcesUserSubscriptionPartialUpdate operation in LearningResourcesUserSubscriptionApi.
- * @export
- * @interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionPartialUpdateRequest
- */
-export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionPartialUpdateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionPartialUpdate
-   */
-  readonly id: string
-
-  /**
-   *
-   * @type {PatchedPercolateQueryRequest}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionPartialUpdate
-   */
-  readonly PatchedPercolateQueryRequest?: PatchedPercolateQueryRequest
-}
-
-/**
- * Request parameters for learningResourcesUserSubscriptionRetrieve operation in LearningResourcesUserSubscriptionApi.
- * @export
- * @interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionRetrieveRequest
- */
-export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionRetrieveRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionRetrieve
-   */
-  readonly id: string
 }
 
 /**
@@ -12819,68 +12219,12 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
 }
 
 /**
- * Request parameters for learningResourcesUserSubscriptionUpdate operation in LearningResourcesUserSubscriptionApi.
- * @export
- * @interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUpdateRequest
- */
-export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUpdateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUpdate
-   */
-  readonly id: string
-
-  /**
-   *
-   * @type {PercolateQueryRequest}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUpdate
-   */
-  readonly PercolateQueryRequest: PercolateQueryRequest
-}
-
-/**
  * LearningResourcesUserSubscriptionApi - object-oriented interface
  * @export
  * @class LearningResourcesUserSubscriptionApi
  * @extends {BaseAPI}
  */
 export class LearningResourcesUserSubscriptionApi extends BaseAPI {
-  /**
-   * View for listing percolate query subscriptions for a user
-   * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCreateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningResourcesUserSubscriptionApi
-   */
-  public learningResourcesUserSubscriptionCreate(
-    requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCreateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return LearningResourcesUserSubscriptionApiFp(this.configuration)
-      .learningResourcesUserSubscriptionCreate(
-        requestParameters.PercolateQueryRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * View for listing percolate query subscriptions for a user
-   * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionDestroyRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningResourcesUserSubscriptionApi
-   */
-  public learningResourcesUserSubscriptionDestroy(
-    requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionDestroyRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return LearningResourcesUserSubscriptionApiFp(this.configuration)
-      .learningResourcesUserSubscriptionDestroy(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
   /**
    * View for listing percolate query subscriptions for a user
    * @param {*} [options] Override http request option.
@@ -12892,42 +12236,6 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
   ) {
     return LearningResourcesUserSubscriptionApiFp(this.configuration)
       .learningResourcesUserSubscriptionList(options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * View for listing percolate query subscriptions for a user
-   * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionPartialUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningResourcesUserSubscriptionApi
-   */
-  public learningResourcesUserSubscriptionPartialUpdate(
-    requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionPartialUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return LearningResourcesUserSubscriptionApiFp(this.configuration)
-      .learningResourcesUserSubscriptionPartialUpdate(
-        requestParameters.id,
-        requestParameters.PatchedPercolateQueryRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * View for listing percolate query subscriptions for a user
-   * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningResourcesUserSubscriptionApi
-   */
-  public learningResourcesUserSubscriptionRetrieve(
-    requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return LearningResourcesUserSubscriptionApiFp(this.configuration)
-      .learningResourcesUserSubscriptionRetrieve(requestParameters.id, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -12963,26 +12271,6 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
   ) {
     return LearningResourcesUserSubscriptionApiFp(this.configuration)
       .learningResourcesUserSubscriptionUnsubscribeCreate(
-        requestParameters.PercolateQueryRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * View for listing percolate query subscriptions for a user
-   * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LearningResourcesUserSubscriptionApi
-   */
-  public learningResourcesUserSubscriptionUpdate(
-    requestParameters: LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return LearningResourcesUserSubscriptionApiFp(this.configuration)
-      .learningResourcesUserSubscriptionUpdate(
-        requestParameters.id,
         requestParameters.PercolateQueryRequest,
         options,
       )

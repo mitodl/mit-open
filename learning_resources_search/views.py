@@ -6,7 +6,7 @@ from itertools import chain
 from django.utils.decorators import method_decorator
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
-from rest_framework import viewsets
+from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -81,13 +81,14 @@ class LearningResourcesSearchView(ESView):
             return Response(errors, status=400)
 
 
-class UserSearchSubscriptionViewSet(viewsets.ModelViewSet):
+class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
     View for listing percolate query subscriptions for a user
     """
 
     permission_classes = (IsAuthenticated,)
     serializer_class = PercolateQuerySerializer
+    http_method_names = ["get", "post"]
 
     def get_queryset(self):
         """
