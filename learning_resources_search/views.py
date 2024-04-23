@@ -4,7 +4,7 @@ import logging
 from itertools import chain
 
 from django.utils.decorators import method_decorator
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
@@ -106,7 +106,7 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
 
     @extend_schema(
         summary="Subscribe user to query",
-        request=[LearningResourcesSearchRequestSerializer()],
+        request=LearningResourcesSearchRequestSerializer(),
         responses=PercolateQuerySerializer(),
     )
     @action(detail=False, methods=["post"], name="Subscribe user to query")
@@ -129,16 +129,18 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
                     errors[key] = list(set(chain(*errors_obj.values())))
             return Response(errors, status=400)
 
+    @extend_schema(
+        summary="Unsubscribe user from query",
+        parameters=[
+            OpenApiParameter(name="pk", type=int, location=OpenApiParameter.PATH),
+        ],
+        responses=PercolateQuerySerializer(),
+    )
     @action(
         detail=True,
         methods=["DELETE"],
         url_path="unsubscribe",
         name="Unsubscribe user from query by id",
-    )
-    @extend_schema(
-        summary="Unsubscribe user from query",
-        parameters=[LearningResourcesSearchRequestSerializer()],
-        responses=PercolateQuerySerializer(),
     )
     def unsubscribe(self, request, pk: int):
         """

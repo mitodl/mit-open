@@ -40,6 +40,27 @@ import {
 } from "./base"
 
 /**
+ * * `resource_type` - resource_type * `certification` - certification * `offered_by` - offered_by * `platform` - platform * `topic` - topic * `department` - department * `level` - level * `course_feature` - course_feature * `professional` - professional
+ * @export
+ * @enum {string}
+ */
+
+export const AggregationsEnum = {
+  ResourceType: "resource_type",
+  Certification: "certification",
+  OfferedBy: "offered_by",
+  Platform: "platform",
+  Topic: "topic",
+  Department: "department",
+  Level: "level",
+  CourseFeature: "course_feature",
+  Professional: "professional",
+} as const
+
+export type AggregationsEnum =
+  (typeof AggregationsEnum)[keyof typeof AggregationsEnum]
+
+/**
  * Serializer for LearningResourceInstructor model
  * @export
  * @interface Article
@@ -648,6 +669,55 @@ export const CourseResourceResourceTypeEnum = {
 
 export type CourseResourceResourceTypeEnum =
   (typeof CourseResourceResourceTypeEnum)[keyof typeof CourseResourceResourceTypeEnum]
+
+/**
+ * * `1` - Civil and Environmental Engineering * `2` - Mechanical Engineering * `3` - Materials Science and Engineering * `4` - Architecture * `5` - Chemistry * `6` - Electrical Engineering and Computer Science * `7` - Biology * `8` - Physics * `9` - Brain and Cognitive Sciences * `10` - Chemical Engineering * `11` - Urban Studies and Planning * `12` - Earth, Atmospheric, and Planetary Sciences * `14` - Economics * `15` - Sloan School of Management * `16` - Aeronautics and Astronautics * `17` - Political Science * `18` - Mathematics * `20` - Biological Engineering * `21A` - Anthropology * `21G` - Global Studies and Languages * `21H` - History * `21L` - Literature * `21M` - Music and Theater Arts * `22` - Nuclear Science and Engineering * `24` - Linguistics and Philosophy * `CC` - Concourse * `CMS-W` - Comparative Media Studies/Writing * `EC` - Edgerton Center * `ES` - Experimental Study Group * `ESD` - Engineering Systems Division * `HST` - Health Sciences and Technology * `IDS` - Institute for Data, Systems, and Society * `MAS` - Media Arts and Sciences * `PE` - Athletics, Physical Education and Recreation * `RES` - Supplemental Resources * `STS` - Science, Technology, and Society * `WGS` - Women\'s and Gender Studies
+ * @export
+ * @enum {string}
+ */
+
+export const DepartmentEnum = {
+  _1: "1",
+  _2: "2",
+  _3: "3",
+  _4: "4",
+  _5: "5",
+  _6: "6",
+  _7: "7",
+  _8: "8",
+  _9: "9",
+  _10: "10",
+  _11: "11",
+  _12: "12",
+  _14: "14",
+  _15: "15",
+  _16: "16",
+  _17: "17",
+  _18: "18",
+  _20: "20",
+  _21A: "21A",
+  _21G: "21G",
+  _21H: "21H",
+  _21L: "21L",
+  _21M: "21M",
+  _22: "22",
+  _24: "24",
+  Cc: "CC",
+  CmsW: "CMS-W",
+  Ec: "EC",
+  Es: "ES",
+  Esd: "ESD",
+  Hst: "HST",
+  Ids: "IDS",
+  Mas: "MAS",
+  Pe: "PE",
+  Res: "RES",
+  Sts: "STS",
+  Wgs: "WGS",
+} as const
+
+export type DepartmentEnum =
+  (typeof DepartmentEnum)[keyof typeof DepartmentEnum]
 
 /**
  * Serializer for the LearningPath model
@@ -1745,6 +1815,141 @@ export interface LearningResourceTopic {
   channel_url: string | null
 }
 /**
+ *
+ * @export
+ * @interface LearningResourcesSearchRequestRequest
+ */
+export interface LearningResourcesSearchRequestRequest {
+  /**
+   * The search text
+   * @type {string}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  q?: string
+  /**
+   * The initial index from which to return the results
+   * @type {number}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  offset?: number
+  /**
+   * Number of results to return per page
+   * @type {number}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  limit?: number
+  /**
+   * The organization that offers the learning resource               * `mitx` - MITx * `ocw` - OCW * `bootcamps` - Bootcamps * `xpro` - xPRO * `csail` - CSAIL * `mitpe` - Professional Education * `see` - Sloan Executive Education * `scc` - Schwarzman College of Computing * `ctl` - Center for Transportation & Logistics
+   * @type {Array<OfferedByEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  offered_by?: Array<OfferedByEnum>
+  /**
+   * The platform on which the learning resource id offered               * `edx` - edX * `ocw` - OCW * `oll` - Open Learning Library * `mitxonline` - MITx Online * `bootcamps` - Bootcamps * `xpro` - xPRO * `csail` - CSAIL * `mitpe` - Professional Education * `see` - Sloan Executive Education * `scc` - Schwarzman College of Computing * `ctl` - Center for Transportation & Logistics * `whu` - WHU * `susskind` - Susskind * `globalalumni` - Global Alumni * `simplilearn` - Simplilearn * `emeritus` - Emeritus * `podcast` - Podcast * `youtube` - YouTube
+   * @type {Array<PlatformEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  platform?: Array<PlatformEnum>
+  /**
+   * The topic name. To see a list of options go to api/v1/topics/
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  topic?: Array<string>
+  /**
+   * The id value for the learning resource
+   * @type {Array<number>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  id?: Array<number>
+  /**
+   *
+   * @type {SortbyEnum}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  sortby?: SortbyEnum
+  /**
+   * The type of learning resource               * `course` - course * `program` - program * `learning_path` - learning path * `podcast` - podcast * `podcast_episode` - podcast episode * `video` - video * `video_playlist` - video playlist
+   * @type {Array<LearningResourcesSearchRequestResourceTypeEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  resource_type?: Array<LearningResourcesSearchRequestResourceTypeEnum>
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  professional?: boolean | null
+  /**
+   * True if the learning resource offers a certificate
+   * @type {boolean}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  certification?: boolean | null
+  /**
+   * The department that offers the learning resource               * `1` - Civil and Environmental Engineering * `2` - Mechanical Engineering * `3` - Materials Science and Engineering * `4` - Architecture * `5` - Chemistry * `6` - Electrical Engineering and Computer Science * `7` - Biology * `8` - Physics * `9` - Brain and Cognitive Sciences * `10` - Chemical Engineering * `11` - Urban Studies and Planning * `12` - Earth, Atmospheric, and Planetary Sciences * `14` - Economics * `15` - Sloan School of Management * `16` - Aeronautics and Astronautics * `17` - Political Science * `18` - Mathematics * `20` - Biological Engineering * `21A` - Anthropology * `21G` - Global Studies and Languages * `21H` - History * `21L` - Literature * `21M` - Music and Theater Arts * `22` - Nuclear Science and Engineering * `24` - Linguistics and Philosophy * `CC` - Concourse * `CMS-W` - Comparative Media Studies/Writing * `EC` - Edgerton Center * `ES` - Experimental Study Group * `ESD` - Engineering Systems Division * `HST` - Health Sciences and Technology * `IDS` - Institute for Data, Systems, and Society * `MAS` - Media Arts and Sciences * `PE` - Athletics, Physical Education and Recreation * `RES` - Supplemental Resources * `STS` - Science, Technology, and Society * `WGS` - Women\'s and Gender Studies
+   * @type {Array<DepartmentEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  department?: Array<DepartmentEnum>
+  /**
+   *
+   * @type {Array<LevelEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  level?: Array<LevelEnum>
+  /**
+   * The course feature. Possible options are at api/v1/course_features/
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  course_feature?: Array<string>
+  /**
+   * Show resource counts by category
+   * @type {Array<AggregationsEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  aggregations?: Array<AggregationsEnum>
+}
+
+/**
+ * * `course` - course * `program` - program * `learning_path` - learning path * `podcast` - podcast * `podcast_episode` - podcast episode * `video` - video * `video_playlist` - video playlist
+ * @export
+ * @enum {string}
+ */
+
+export const LearningResourcesSearchRequestResourceTypeEnum = {
+  Course: "course",
+  Program: "program",
+  LearningPath: "learning_path",
+  Podcast: "podcast",
+  PodcastEpisode: "podcast_episode",
+  Video: "video",
+  VideoPlaylist: "video_playlist",
+} as const
+
+export type LearningResourcesSearchRequestResourceTypeEnum =
+  (typeof LearningResourcesSearchRequestResourceTypeEnum)[keyof typeof LearningResourcesSearchRequestResourceTypeEnum]
+
+/**
+ * * `undergraduate` - Undergraduate * `graduate` - Graduate * `high_school` - High School * `noncredit` - Non-Credit * `advanced` - Advanced * `intermediate` - Intermediate * `introductory` - Introductory
+ * @export
+ * @enum {string}
+ */
+
+export const LevelEnum = {
+  Undergraduate: "undergraduate",
+  Graduate: "graduate",
+  HighSchool: "high_school",
+  Noncredit: "noncredit",
+  Advanced: "advanced",
+  Intermediate: "intermediate",
+  Introductory: "introductory",
+} as const
+
+export type LevelEnum = (typeof LevelEnum)[keyof typeof LevelEnum]
+
+/**
  * Serializer containing only parent and child ids for a learning path relationship
  * @export
  * @interface MicroLearningPathRelationship
@@ -1794,6 +1999,26 @@ export interface MicroUserListRelationship {
    */
   child: number
 }
+/**
+ * * `mitx` - MITx * `ocw` - OCW * `bootcamps` - Bootcamps * `xpro` - xPRO * `csail` - CSAIL * `mitpe` - Professional Education * `see` - Sloan Executive Education * `scc` - Schwarzman College of Computing * `ctl` - Center for Transportation & Logistics
+ * @export
+ * @enum {string}
+ */
+
+export const OfferedByEnum = {
+  Mitx: "mitx",
+  Ocw: "ocw",
+  Bootcamps: "bootcamps",
+  Xpro: "xpro",
+  Csail: "csail",
+  Mitpe: "mitpe",
+  See: "see",
+  Scc: "scc",
+  Ctl: "ctl",
+} as const
+
+export type OfferedByEnum = (typeof OfferedByEnum)[keyof typeof OfferedByEnum]
+
 /**
  *
  * @export
@@ -2613,6 +2838,35 @@ export interface PercolateQuery {
    */
   users: Array<number>
 }
+
+/**
+ * * `edx` - edX * `ocw` - OCW * `oll` - Open Learning Library * `mitxonline` - MITx Online * `bootcamps` - Bootcamps * `xpro` - xPRO * `csail` - CSAIL * `mitpe` - Professional Education * `see` - Sloan Executive Education * `scc` - Schwarzman College of Computing * `ctl` - Center for Transportation & Logistics * `whu` - WHU * `susskind` - Susskind * `globalalumni` - Global Alumni * `simplilearn` - Simplilearn * `emeritus` - Emeritus * `podcast` - Podcast * `youtube` - YouTube
+ * @export
+ * @enum {string}
+ */
+
+export const PlatformEnum = {
+  Edx: "edx",
+  Ocw: "ocw",
+  Oll: "oll",
+  Mitxonline: "mitxonline",
+  Bootcamps: "bootcamps",
+  Xpro: "xpro",
+  Csail: "csail",
+  Mitpe: "mitpe",
+  See: "see",
+  Scc: "scc",
+  Ctl: "ctl",
+  Whu: "whu",
+  Susskind: "susskind",
+  Globalalumni: "globalalumni",
+  Simplilearn: "simplilearn",
+  Emeritus: "emeritus",
+  Podcast: "podcast",
+  Youtube: "youtube",
+} as const
+
+export type PlatformEnum = (typeof PlatformEnum)[keyof typeof PlatformEnum]
 
 /**
  * Serializer for Podcasts
@@ -3708,6 +3962,31 @@ export const ResourceTypeEnum = {
 
 export type ResourceTypeEnum =
   (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
+
+/**
+ * * `id` - Object ID ascending * `-id` - Object ID descending * `readable_id` - Readable ID ascending * `-readable_id` - Readable ID descending * `last_modified` - Last Modified Date ascending * `-last_modified` - Last Modified Date descending * `created_on` - Creation Date ascending * `-created_on` - CreationDate descending * `start_date` - Start Date ascending * `-start_date` - Start Date descending * `mitcoursenumber` - MIT course number ascending * `-mitcoursenumber` - MIT course number descending * `views` - Popularity ascending * `-views` - Popularity descending
+ * @export
+ * @enum {string}
+ */
+
+export const SortbyEnum = {
+  Id: "id",
+  Id2: "-id",
+  ReadableId: "readable_id",
+  ReadableId2: "-readable_id",
+  LastModified: "last_modified",
+  LastModified2: "-last_modified",
+  CreatedOn: "created_on",
+  CreatedOn2: "-created_on",
+  StartDate: "start_date",
+  StartDate2: "-start_date",
+  Mitcoursenumber: "mitcoursenumber",
+  Mitcoursenumber2: "-mitcoursenumber",
+  Views: "views",
+  Views2: "-views",
+} as const
+
+export type SortbyEnum = (typeof SortbyEnum)[keyof typeof SortbyEnum]
 
 /**
  * * `search_subscription_type` - search_subscription_type
@@ -11889,12 +12168,12 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
     /**
      * Subscribe a user to query
      * @summary Subscribe user to query
-     * @param {{ [key: string]: any; }} [request_body]
+     * @param {LearningResourcesSearchRequestRequest} [LearningResourcesSearchRequestRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesUserSubscriptionSubscribeCreate: async (
-      request_body?: { [key: string]: any },
+      LearningResourcesSearchRequestRequest?: LearningResourcesSearchRequestRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources_user_subscription/subscribe/`
@@ -11924,7 +12203,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        request_body,
+        LearningResourcesSearchRequestRequest,
         localVarRequestOptions,
         configuration,
       )
@@ -11936,12 +12215,15 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
     },
     /**
      * Unsubscribe a user from a query  Args: pk (integer): The id of the query  Returns: PercolateQuerySerializer: The percolate query
+     * @summary Unsubscribe user from query
      * @param {string} id
+     * @param {number} pk
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesUserSubscriptionUnsubscribeDestroy: async (
       id: string,
+      pk: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -11950,11 +12232,16 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         "id",
         id,
       )
+      // verify required parameter 'pk' is not null or undefined
+      assertParamExists(
+        "learningResourcesUserSubscriptionUnsubscribeDestroy",
+        "pk",
+        pk,
+      )
       const localVarPath =
-        `/api/v1/learning_resources_user_subscription/{id}/unsubscribe/`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(id)),
-        )
+        `/api/v1/learning_resources_user_subscription/{id}/unsubscribe/`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+          .replace(`{${"pk"}}`, encodeURIComponent(String(pk)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -12030,19 +12317,19 @@ export const LearningResourcesUserSubscriptionApiFp = function (
     /**
      * Subscribe a user to query
      * @summary Subscribe user to query
-     * @param {{ [key: string]: any; }} [request_body]
+     * @param {LearningResourcesSearchRequestRequest} [LearningResourcesSearchRequestRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesUserSubscriptionSubscribeCreate(
-      request_body?: { [key: string]: any },
+      LearningResourcesSearchRequestRequest?: LearningResourcesSearchRequestRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PercolateQuery>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesUserSubscriptionSubscribeCreate(
-          request_body,
+          LearningResourcesSearchRequestRequest,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -12060,12 +12347,15 @@ export const LearningResourcesUserSubscriptionApiFp = function (
     },
     /**
      * Unsubscribe a user from a query  Args: pk (integer): The id of the query  Returns: PercolateQuerySerializer: The percolate query
+     * @summary Unsubscribe user from query
      * @param {string} id
+     * @param {number} pk
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesUserSubscriptionUnsubscribeDestroy(
       id: string,
+      pk: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
@@ -12073,6 +12363,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesUserSubscriptionUnsubscribeDestroy(
           id,
+          pk,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -12127,13 +12418,14 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
     ): AxiosPromise<PercolateQuery> {
       return localVarFp
         .learningResourcesUserSubscriptionSubscribeCreate(
-          requestParameters.request_body,
+          requestParameters.LearningResourcesSearchRequestRequest,
           options,
         )
         .then((request) => request(axios, basePath))
     },
     /**
      * Unsubscribe a user from a query  Args: pk (integer): The id of the query  Returns: PercolateQuerySerializer: The percolate query
+     * @summary Unsubscribe user from query
      * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12145,6 +12437,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
       return localVarFp
         .learningResourcesUserSubscriptionUnsubscribeDestroy(
           requestParameters.id,
+          requestParameters.pk,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -12160,10 +12453,10 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
 export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreateRequest {
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {LearningResourcesSearchRequestRequest}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
-  readonly request_body?: { [key: string]: any }
+  readonly LearningResourcesSearchRequestRequest?: LearningResourcesSearchRequestRequest
 }
 
 /**
@@ -12178,6 +12471,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroy
    */
   readonly id: string
+
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroy
+   */
+  readonly pk: number
 }
 
 /**
@@ -12215,7 +12515,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
   ) {
     return LearningResourcesUserSubscriptionApiFp(this.configuration)
       .learningResourcesUserSubscriptionSubscribeCreate(
-        requestParameters.request_body,
+        requestParameters.LearningResourcesSearchRequestRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -12223,6 +12523,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
 
   /**
    * Unsubscribe a user from a query  Args: pk (integer): The id of the query  Returns: PercolateQuerySerializer: The percolate query
+   * @summary Unsubscribe user from query
    * @param {LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionUnsubscribeDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -12235,6 +12536,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
     return LearningResourcesUserSubscriptionApiFp(this.configuration)
       .learningResourcesUserSubscriptionUnsubscribeDestroy(
         requestParameters.id,
+        requestParameters.pk,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
