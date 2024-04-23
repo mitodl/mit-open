@@ -1,7 +1,8 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { Input, AdornmentButton } from "./Input"
-import type { InputProps } from "./Input"
+import { TextField } from "./TextField"
+import type { TextFieldProps } from "./TextField"
+import { AdornmentButton } from "../Input/Input"
 import { Stack } from "@mui/system"
 import Grid from "@mui/material/Grid"
 import SearchIcon from "@mui/icons-material/Search"
@@ -9,7 +10,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 import CloseIcon from "@mui/icons-material/Close"
 import { fn } from "@storybook/test"
 
-const SIZES = ["medium", "hero"] satisfies InputProps["size"][]
+const SIZES = ["medium", "hero"] satisfies TextFieldProps["size"][]
 const ADORNMENTS = {
   None: undefined,
   SearchIcon: (
@@ -39,8 +40,8 @@ const ADORNMENTS = {
   ),
 }
 
-const meta: Meta<typeof Input> = {
-  title: "smoot-design/Input",
+const meta: Meta<typeof TextField> = {
+  title: "smoot-design/TextField",
   argTypes: {
     size: {
       control: {
@@ -62,33 +63,26 @@ const meta: Meta<typeof Input> = {
         type: "select",
       },
     },
-    error: {
-      control: {
-        type: "boolean",
-      },
-    },
-    disabled: {
-      control: {
-        type: "boolean",
-      },
-    },
   },
   args: {
     onChange: fn(),
     value: "some value",
     placeholder: "placeholder",
+    label: "Label",
+    helpText: "Help text the quick brown fox jumps over the lazy dog",
+    errorText: "Error text the quick brown fox jumps over the lazy dog",
   },
 }
 export default meta
 
-type Story = StoryObj<typeof Input>
+type Story = StoryObj<typeof TextField>
 
 export const Sizes: Story = {
   render: (args) => {
     return (
       <Stack direction="row" gap={1}>
-        <Input {...args} />
-        <Input {...args} size="hero" />
+        <TextField {...args} />
+        <TextField {...args} size="hero" />
       </Stack>
     )
   },
@@ -111,7 +105,7 @@ export const Adornments: Story = {
           SIZES.map((size) => {
             return (
               <Grid item xs={6} key={`${i}-${size}`}>
-                <Input {...args} size={size} {...props} />
+                <TextField {...args} size={size} {...props} />
               </Grid>
             )
           }),
@@ -128,36 +122,36 @@ export const Adornments: Story = {
 export const States: Story = {
   render: (args) => {
     return (
-      <Grid container spacing={2} alignItems="center" maxWidth="400px">
+      <Grid container spacing={2} alignItems="top" maxWidth="400px">
         <Grid item xs={4}>
           Placeholder
         </Grid>
         <Grid item xs={8}>
-          <Input {...args} value="" />
+          <TextField {...args} value="" />
         </Grid>
         <Grid item xs={4}>
           Default
         </Grid>
         <Grid item xs={8}>
-          <Input {...args} />
+          <TextField {...args} />
         </Grid>
         <Grid item xs={4}>
-          Initially Focused
+          Required
         </Grid>
         <Grid item xs={8}>
-          <Input autoFocus {...args} />
+          <TextField required {...args} />
         </Grid>
         <Grid item xs={4}>
           Error
         </Grid>
         <Grid item xs={8}>
-          <Input {...args} error />
+          <TextField {...args} error />
         </Grid>
         <Grid item xs={4}>
           Disabled
         </Grid>
         <Grid item xs={8}>
-          <Input {...args} disabled />
+          <TextField {...args} disabled />
         </Grid>
       </Grid>
     )

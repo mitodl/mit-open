@@ -35,7 +35,6 @@ const Input = styled(InputBase)(({
         borderColor: "currentcolor",
       },
       "&.Mui-error": {
-        borderWidth: "2px",
         borderColor: theme.custom.colors.red,
       },
       "& input::placeholder": {
@@ -79,7 +78,7 @@ const Input = styled(InputBase)(({
   ]
 })
 
-const AdornmentButton = styled("button")(({ theme }) => ({
+const AdornmentButtonStyled = styled("button")(({ theme }) => ({
   // font
   lineHeight: 1,
   fontFamily: theme.typography.fontFamily,
@@ -119,9 +118,36 @@ const AdornmentButton = styled("button")(({ theme }) => ({
   },
 }))
 
-type InputProps = Omit<InputBaseProps, "color">
-type AdornmentButtonProps = React.ComponentProps<typeof AdornmentButton>
+const noFocus: React.MouseEventHandler = (e) => e.preventDefault()
 
-export { AdornmentButton }
-export default Input
+/**
+ * Button to be used with `startAdornment` and `endAdornment` props on Input and
+ * TextField components. AdornmentButton takes care of positioning and other
+ * styling concerns.
+ *
+ * NOTES:
+ *  - It is generally expected that the content of the AdornmentButton is an
+ *    Mui Icon component. https://mui.com/material-ui/material-icons/
+ *  - By defualt, the AdornmentButton calls `preventDefault` on `mouseDown`
+ *    events. This prevents the button from stealing focus from the input on
+ *    click. The button is still focusable via keyboard events. You can override
+ *    this behavior by passing your own `onMouseDown` handler.
+ */
+const AdornmentButton: React.FC<AdornmentButtonProps> = (props) => {
+  return (
+    <AdornmentButtonStyled
+      /**
+       * If the input is focused and user clicks the AdornmentButton, we don't
+       * want to steal focus from the input.
+       */
+      onMouseDown={noFocus}
+      {...props}
+    />
+  )
+}
+
+type InputProps = Omit<InputBaseProps, "color">
+type AdornmentButtonProps = React.ComponentProps<typeof AdornmentButtonStyled>
+
+export { AdornmentButton, Input }
 export type { InputProps, AdornmentButtonProps }
