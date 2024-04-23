@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.3
+Version 0.9.3 (Released April 23, 2024)
 -------------
 
 - Fix index schema (#807)
