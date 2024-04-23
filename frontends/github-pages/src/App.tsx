@@ -1,6 +1,6 @@
 import React from "react"
 import Header from "./Header"
-import { Grid, ThemeProvider, styled } from "ol-components"
+import { Grid, ThemeProvider, styled, Typography } from "ol-components"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { RouteObject, Outlet } from "react-router"
 import "./style.css"
@@ -10,13 +10,6 @@ const PUBLIC_URL = process.env.PUBLIC_URL || ""
 const Page = styled.div`
   margin: auto;
   max-width: 1200px;
-`
-
-const PageTitle = styled.h1`
-  margin-top: 6rem;
-  margin-bottom: 0.5rem;
-  font-size: 50px;
-  color: "#03152d";
 `
 
 const Links = styled.div`
@@ -45,7 +38,7 @@ const routes: RouteObject[] = [
         element: (
           <Page>
             <Grid item xs={12} md={7}>
-              <PageTitle>Developer Materials</PageTitle>
+              <Typography variant="h1">Developer Materials</Typography>
               <h2>
                 Libraries and tools for application development for use in your
                 projects
