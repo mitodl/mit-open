@@ -1,0 +1,20 @@
+import { Canvas, Meta } from "@storybook/blocks";
+
+import * as InputStories from "./Input.stories";
+
+<Meta of={InputStories} />
+
+# Inputs
+
+Inputs allow users to enter data:
+
+<Canvas of={InputStories.States} />
+
+Inputs come in two sizes, `size="medium" | "hero"`:
+
+<Canvas of={InputStories.Sizes} />
+
+Inputs can have "start" and "end" adornments. If the adornment is a button, be
+sure to use the `AdornmentButton` component.
+
+<Canvas of={InputStories.Adornments} />

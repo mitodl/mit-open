@@ -5,15 +5,12 @@ const inputBaseComponent: NonNullable<
   ThemeOptions["components"]
 >["MuiInputBase"] = {
   defaultProps: { size: "medium" },
-}
-
-const outlinedInputComponent: NonNullable<
-  ThemeOptions["components"]
->["MuiOutlinedInput"] = {
   styleOverrides: {
-    root: {
+    root: ({ theme }) => ({
       backgroundColor: "white",
-    },
+      color: theme.palette.text.secondary,
+      borderColor: "currentcolor",
+    }),
   },
   variants: [
     {
@@ -61,4 +58,4 @@ const outlinedInputComponent: NonNullable<
   ],
 }
 
-export { inputBaseComponent, outlinedInputComponent }
+export { inputBaseComponent }

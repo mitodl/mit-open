@@ -44,6 +44,7 @@ const themeOptions: ThemeOptions = {
     },
     text: {
       primary: "#000",
+      secondary: colors.silverGray2,
     },
     primary: {
       main: colors.mitRed,
@@ -68,7 +69,6 @@ const themeOptions: ThemeOptions = {
     MuiButtonBase: buttons.buttonBaseComponent,
     MuiTypography: typography.component,
     MuiInputBase: inputs.inputBaseComponent,
-    MuiOutlinedInput: inputs.outlinedInputComponent,
     MuiTabPanel: {
       styleOverrides: {
         root: {
