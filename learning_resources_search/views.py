@@ -8,6 +8,7 @@ from drf_spectacular.utils import extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -16,9 +17,10 @@ from authentication.decorators import blocked_ip_exempt
 from learning_resources_search.api import (
     execute_learn_search,
     subscribe_user_to_search_query,
-    unsubscribe_user_from_search_query,
+    unsubscribe_user_from_percolate_query,
 )
 from learning_resources_search.constants import CONTENT_FILE_TYPE, LEARNING_RESOURCE
+from learning_resources_search.models import PercolateQuery
 from learning_resources_search.serializers import (
     ContentFileSearchRequestSerializer,
     ContentFileSearchResponseSerializer,
@@ -88,7 +90,7 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
 
     permission_classes = (IsAuthenticated,)
     serializer_class = PercolateQuerySerializer
-    http_method_names = ["get", "post"]
+    http_method_names = ["get", "post", "delete"]
 
     def get_queryset(self):
         """
@@ -127,35 +129,30 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
                     errors[key] = list(set(chain(*errors_obj.values())))
             return Response(errors, status=400)
 
+    @action(
+        detail=True,
+        methods=["DELETE"],
+        url_path="unsubscribe",
+        name="Unsubscribe user from query by id",
+    )
     @extend_schema(
         summary="Unsubscribe user from query",
-        request=LearningResourcesSearchRequestSerializer(),
+        parameters=[LearningResourcesSearchRequestSerializer()],
         responses=PercolateQuerySerializer(),
     )
-    @action(
-        detail=False,
-        methods=["POST"],
-        url_path="unsubscribe",
-        name="Unsubscribe user from query",
-    )
-    def unsubscribe_user(self, request):
+    def unsubscribe(self, request, pk: int):
         """
-        Unsubscribe a user from query
+        Unsubscribe a user from a query
+
+        Args:
+        pk (integer): The id of the query
+
+        Returns:
+        PercolateQuerySerializer: The percolate query
         """
-        request_data = LearningResourcesSearchRequestSerializer(data=request.data)
-        if request_data.is_valid():
-            percolate_query = unsubscribe_user_from_search_query(
-                request.user, request_data.data | {"endpoint": LEARNING_RESOURCE}
-            )
-            return Response(PercolateQuerySerializer(percolate_query).data)
-        else:
-            errors = {}
-            for key, errors_obj in request_data.errors.items():
-                if isinstance(errors_obj, list):
-                    errors[key] = errors_obj
-                else:
-                    errors[key] = list(set(chain(*errors_obj.values())))
-        return Response(errors, status=400)
+        percolate_query = get_object_or_404(PercolateQuery, id=pk)
+        unsubscribe_user_from_percolate_query(request.user, percolate_query)
+        return Response(PercolateQuerySerializer(percolate_query).data)
 
 
 @method_decorator(blocked_ip_exempt, name="dispatch")

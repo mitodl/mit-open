@@ -283,9 +283,6 @@ def test_user_subscribe_to_search(client, user):
 def test_user_unsubscribe_to_search(client, user):
     """Test unsubscribing user from search"""
 
-    unsub_url = reverse(
-        "lr_search:v1:learning_resources_user_subscription-unsubscribe-user"
-    )
     sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
 
     client.force_login(user)
@@ -293,7 +290,31 @@ def test_user_unsubscribe_to_search(client, user):
     assert user.percolate_queries.count() == 0
     client.post(sub_url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 1
-    client.post(unsub_url, json.dumps(params), content_type="application/json")
+    unsub_url = reverse(
+        "lr_search:v1:learning_resources_user_subscription-unsubscribe",
+        args=[user.percolate_queries.first().id],
+    )
+    client.delete(unsub_url)
+    assert user.percolate_queries.count() == 0
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_user_unsubscribe_to_search_by_id(client, user):
+    """Test unsubscribing user from search"""
+
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
+
+    client.force_login(user)
+    params = {"q": "monkey"}
+    assert user.percolate_queries.count() == 0
+    client.post(sub_url, json.dumps(params), content_type="application/json")
+    assert user.percolate_queries.count() == 1
+    unsub_url = reverse(
+        "lr_search:v1:learning_resources_user_subscription-unsubscribe",
+        args=[user.percolate_queries.first().id],
+    )
+    client.delete(unsub_url)
     assert user.percolate_queries.count() == 0
 
 
@@ -304,16 +325,17 @@ def test_user_subscribed_to_search(client, user):
     client.force_login(user)
     params = {"q": "monkey"}
     list_url = reverse("lr_search:v1:learning_resources_user_subscription-list")
-    unsub_url = reverse(
-        "lr_search:v1:learning_resources_user_subscription-unsubscribe-user"
-    )
     sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
     assert user.percolate_queries.count() == 0
     client.post(sub_url, json.dumps(params), content_type="application/json")
     assert user.percolate_queries.count() == 1
     response = client.get(list_url, params).json()
     assert len(response) > 0
-    client.post(unsub_url, json.dumps(params), content_type="application/json")
+    unsub_url = reverse(
+        "lr_search:v1:learning_resources_user_subscription-unsubscribe",
+        args=[user.percolate_queries.first().id],
+    )
+    client.delete(unsub_url)
     assert user.percolate_queries.count() == 0
     response = client.get(list_url, params).json()
     assert len(response) == 0
