@@ -5,171 +5,192 @@ from datetime import UTC
 from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
-from bs4 import BeautifulSoup as Soup
 from dateutil import parser
-from requests import HTTPError
+from django.utils.html import strip_tags
 
-from main.constants import ISOFORMAT
+from main.utils import now_in_utc
 from news_events.constants import FeedType
-from news_events.etl.utils import get_soup, safe_html, tag_text
+from news_events.etl.utils import get_request_json
 
 log = logging.getLogger(__name__)
-
 OL_EVENTS_BASE_URL = "https://openlearning.mit.edu/"
+OL_EVENTS_SOURCE_URL = urljoin(OL_EVENTS_BASE_URL, "/events/")
+OL_EVENTS_TITLE = "Open Learning Events"
+# Copied from OL_EVENTS_BASE_URL html page
+OL_EVENTS_DESCRIPTION = """
+Open Learning hosts a wide range of events for learners, educators, researchers,
+nd practitioners around the world.
+Regular event series include Open Learning Talks, which bring together leaders
+to discuss research-based ideas, technologies, and efforts in education; and xTalks,
+which provide MIT faculty, researchers, staff, and students an opportunity to share
+their experiences developing and using digital technologies in the classroom.
+Explore upcoming events below, including webinars, workshops, and more.
+"""
 
 # One URL for now, might switch to a list of audience/type-specific URLs later
-OL_EVENTS_URLS = ["/events"]
+OL_EVENTS_API_URL = (
+    "https://openlearning.mit.edu/jsonapi/node/event?sort=-field_event_date.value"
+)
 
 
-def extract() -> list[tuple[Soup, str]]:
+def extract() -> dict:
     """
-    Extract data from the Open Learning Events pages.
+    Extract data from the Open Learning Events API.
 
     Returns:
-        list[tuple[Soup, str]]: List of source data and the source url tuples.
+        dict: Source data in JSON format.
     """
-    sources = []
-    for url in OL_EVENTS_URLS:
-        try:
-            soup = get_soup(urljoin(OL_EVENTS_BASE_URL, url))
-        except HTTPError:
-            log.exception("Error fetching source url %s", url)
-            continue
-        sources.append((soup, url))
-    return sources
+    return get_request_json(OL_EVENTS_API_URL)
 
 
-def parse_event_date(event_data: Soup, event_page_data: Soup) -> str:
+def extract_relationship(event_data: dict, relation: str) -> dict:
     """
-    Parse the event date from the Open Learning Event data.
+    Extract data from the specified Open Learning Event relationship.
 
     Args:
-        event_data (Soup): The event data BeautifulSoup object
-        event_page_data (Soup): The event page data BeautifulSoup object
+        event_data (dict): The event data
+        relation (str): The relationship to extract
 
     Returns:
-        str: The event date in ISO format
+        list[dict]: List of extracted relationship data
     """
-    item_date = tag_text(event_data.find("div", class_="event-start"))
-    page_date = tag_text(event_page_data.find("span", class_="date-display-range"))
-    if not item_date and not page_date:
-        return None
-    dt = (
-        parser.parse(page_date or item_date)
-        .replace(tzinfo=ZoneInfo("US/Eastern"))
-        .astimezone(UTC)
+    relation_url = (
+        event_data.get("relationships", {})
+        .get(relation, {})
+        .get("links", {})
+        .get("related", {})
+        .get("href")
     )
-    return dt.strftime(ISOFORMAT)
+    return get_request_json(relation_url) if relation_url else {}
 
 
-def transform_items(page_data: Soup, class_name: str) -> list[str]:
+def transform_relationship(relation_data: dict) -> list[str]:
     """
-    Extract text from the Open Learning Events page for a given HTML page div"
+    Transform the Open Learning Event relationship data.
 
     Args:
-        page_data (Soup): The page data BeautifulSoup object
-        class_name (str): The class name of the div to extract
+        relation_data (dict): The relationship data
 
     Returns:
-        list[str]: List of extracted element text
+        list[str]: List of relationship values
+
     """
-    items_div = page_data.find("div", class_=class_name)
-    item_values = [
-        tag_text(item)
-        for item in items_div.find_all("div", class_="field__item")
-        if (items_div and item)
+    return [
+        relation.get("attributes", {}).get("name")
+        for relation in relation_data.get("data", [])
     ]
-    return [item_value for item_value in item_values if item_value]
 
 
-def extract_event(event_data: Soup) -> Soup:
+def extract_event_image(image_data: dict) -> tuple[dict, dict]:
     """
-    Extract data from the linked event url.
+    Extract the image data from the Open Learning Event.
 
     Args:
-        event_data (Soup): The event data BeautifulSoup object
-
-    Returns
-        Soup: The event BeautifulSoup object from the event url
-    """
-    url = urljoin(OL_EVENTS_BASE_URL, event_data.find("a").attrs["href"])
-    return get_soup(url) if url else None
-
-
-def transform_event_content(event_page_data: Soup) -> str:
-    """
-    Get the text for the Open Learning Event element.
-
-    Args:
-        event_page_data (Soup): The event element BeautifulSoup object
+        image_data (dict): The image data
 
     Returns:
-        str: The event element text
+        tuple[dict, dict]: The image text metadata and image source metadata
 
     """
-    return tag_text(event_page_data.find("div", class_="field--name-body"))
+    img_text_url = image_data.get("links", {}).get("related", {}).get("href")
+    if not img_text_url:
+        return {}, {}
+    img_text_metadata = get_request_json(img_text_url)
+    next_url = (
+        img_text_metadata.get("data", {})
+        .get("relationships", {})
+        .get("field_media_image", {})
+        .get("links", {})
+        .get("related", {})
+        .get("href")
+    )
+    if not next_url:
+        return img_text_metadata, {}
+    img_src_metadata = get_request_json(next_url) if next_url else {}
+    return img_text_metadata, img_src_metadata
 
 
-def transform_event_image(event_data: Soup) -> dict:
+def transform_event_image(image_text_metadata: dict, image_src_metadata: dict) -> dict:
     """
-    Get the image url for the Open Learning Event.
+    Get the image url for the Open Learning Event image.
 
     Args:
-        event_data (Soup): The event data BeautifulSoup object
+        image_text_metadata (dict): The image metadata containing alt/title info
+        image_src_metadata(dict): The image metadata containing the image url
 
     Returns:
-        dict: The event image url
+        dict: The transformed event image info
     """
-    image_div = event_data.find("div", class_="field--name-field-event-image")
-    if image_div:
-        img = image_div.find("img")
-        if img:
-            return {
-                "url": urljoin(OL_EVENTS_BASE_URL, img.attrs["src"]),
-                "alt": img.attrs["alt"],
-                "description": img.attrs["alt"],
-            }
+    image_src = (
+        image_src_metadata.get("data", {})
+        .get("attributes", {})
+        .get("uri", {})
+        .get("url")
+    )
+    attrs = (
+        image_text_metadata.get("data", {})
+        .get("relationships", {})
+        .get("field_media_image", {})
+        .get("data", {})
+        .get("meta", {})
+    )
+    if image_src:
+        return {
+            "url": urljoin(OL_EVENTS_BASE_URL, image_src),
+            "alt": attrs.get("alt"),
+            "description": attrs.get("title"),
+        }
     return None
 
 
-def transform_event(event_data: Soup, event_page_data: Soup) -> dict:
+def transform_event(event_data: dict) -> dict or None:
     """
     Transform the Open Learning Event data.
 
     Args:
-        event_data (Soup): The event item data BeautifulSoup object
-        event_page_data (Soup): The event page data BeautifulSoup object
+        event_data (dict): The event item data
 
     Returns:
         dict: The transformed event data
     """
+    attributes = event_data.get("attributes", {})
+    event_path = attributes.get("path", {}).get("alias", "")
+    dt = attributes.get("field_event_date", {}).get("value")
+    dt_utc = (
+        parser.parse(dt).replace(tzinfo=ZoneInfo("US/Eastern")).astimezone(UTC)
+        if dt
+        else None
+    )
+    if dt_utc < now_in_utc():
+        return None
+
     return {
-        "guid": event_data.find("a").attrs["href"],
-        "url": urljoin(OL_EVENTS_BASE_URL, event_data.find("a").attrs["href"]),
-        "title": tag_text(event_data.find("h4")),
-        "image": transform_event_image(event_data),
-        "summary": tag_text(
-            event_page_data.find("div", class_="field--type-text-with-summary")
+        "guid": event_data["id"],
+        "url": urljoin(OL_EVENTS_BASE_URL, event_path) if event_path else None,
+        "title": attributes.get("title"),
+        "image": transform_event_image(
+            *extract_event_image(
+                event_data.get("relationships", {}).get("field_event_image", {})
+            )
         ),
-        "content": safe_html(
-            event_page_data.find("div", class_="field--type-text-with-summary")
-        ),
+        "summary": strip_tags(attributes.get("body", {}).get("value") or ""),
+        "content": strip_tags(attributes.get("body", {}).get("value") or ""),
         "detail": {
-            "location": transform_items(
-                event_page_data, "field--name-field-location-tag"
+            "location": transform_relationship(
+                extract_relationship(event_data, "field_location_tag")
             ),
-            "audience": transform_items(
-                event_page_data, "field--name-field-event-audience"
+            "audience": transform_relationship(
+                extract_relationship(event_data, "field_event_audience")
             ),
-            "event_type": transform_items(
-                event_page_data, "field--name-field-event-category"
+            "event_type": transform_relationship(
+                extract_relationship(event_data, "field_event_category")
             ),
-            "event_datetime": parse_event_date(event_data, event_page_data),
+            "event_datetime": dt_utc,
         },
     }
 
 
-def transform_events(events_data: list[Soup]) -> list[dict]:
+def transform_events(events_data: list[dict]) -> list[dict]:
     """
     Transform the Open Learning Events items data.
 
@@ -180,35 +201,33 @@ def transform_events(events_data: list[Soup]) -> list[dict]:
         list of dict: List of transformed events data
     """
     return [
-        transform_event(event, extract_event(event))
-        for event in events_data
-        if events_data
+        event
+        for event in [transform_event(event) for event in events_data if events_data]
+        if event
     ]
 
 
-def transform(sources_data: list[tuple[Soup, str]]) -> list[dict]:
+def transform(source_data: dict) -> list[dict]:
     """
     Transform the Open Learning Events source data.
 
     Args:
-        sources_data (list): List of source data BeautifulSoup object and url tuples
+        source_data (dict): Data from the Open Learning Events API
 
     Returns:
-        list of dict: List of transformed sources data
+        list of dict: List of transformed source data
 
     """
-    return [
-        {
-            "title": tag_text(source_data.title),
-            "url": urljoin(OL_EVENTS_BASE_URL, url),
-            "feed_type": FeedType.events.name,
-            "description": source_data.find(
-                "meta", attrs={"name": "description"}
-            ).attrs.get("content", ""),
-            "items": transform_events(
-                source_data.find("div", class_="item-list").find_all("article")
-            ),
-        }
-        for source_data, url in sources_data
-        if sources_data
-    ]
+    return (
+        [
+            {
+                "title": OL_EVENTS_TITLE,
+                "url": OL_EVENTS_SOURCE_URL,
+                "feed_type": FeedType.events.name,
+                "description": OL_EVENTS_DESCRIPTION,
+                "items": transform_events(source_data["data"]),
+            }
+        ]
+        if source_data
+        else []
+    )

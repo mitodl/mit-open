@@ -1,5 +1,6 @@
 """Utility functions for news/events ETL pipelines"""
 
+import logging
 from datetime import UTC, datetime
 from time import mktime, struct_time
 
@@ -9,6 +10,8 @@ from bs4 import Tag
 from django.conf import settings
 
 from main.constants import ISOFORMAT
+
+log = logging.getLogger(__name__)
 
 
 def get_soup(url: str) -> Soup:
@@ -82,3 +85,24 @@ def stringify_time_struct(time_struct: struct_time) -> str:
         dt_utc = dt.astimezone(UTC)
         return dt_utc.strftime(ISOFORMAT)
     return None
+
+
+def get_request_json(url: str, *, raise_on_error: bool = False) -> dict:
+    """
+    Get JSON data from a URL.
+
+    Args:
+        url (str): The URL to get JSON data from
+        raise_on_error (bool): Whether to raise an exception on error or just log it
+
+    Returns:
+        dict: The JSON data
+    """
+    response = requests.get(url, timeout=settings.REQUESTS_TIMEOUT)
+    if not response.ok:
+        if raise_on_error:
+            response.raise_for_status()
+        else:
+            log.error("Failed to get data from %s: %s", url, response.reason)
+        return {}
+    return response.json()
