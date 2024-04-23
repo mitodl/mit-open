@@ -31,6 +31,9 @@ from learning_resources_search.constants import (
 )
 from learning_resources_search.models import PercolateQuery
 from learning_resources_search.utils import remove_child_queries
+from main.serializers import (
+    COMMON_IGNORED_FIELDS,
+)
 
 log = logging.getLogger()
 
@@ -418,6 +421,12 @@ class SearchResponseSerializer(serializers.Serializer):
         }
 
 
+class PercolateQuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PercolateQuery
+        exclude = COMMON_IGNORED_FIELDS
+
+
 class LearningResourceSearchResponseSerializer(SearchResponseSerializer):
     """
     SearchResponseSerializer with OpenAPI annotations for Learning Resources
@@ -429,12 +438,22 @@ class LearningResourceSearchResponseSerializer(SearchResponseSerializer):
         return super().get_results()
 
 
-class ContentFileeSearchResponseSerializer(SearchResponseSerializer):
+class ContentFileSearchResponseSerializer(SearchResponseSerializer):
     """
     SearchResponseSerializer with OpenAPI annotations for Content Files search
     """
 
     @extend_schema_field(ContentFileSerializer(many=True))
+    def get_results():
+        return super().get_results()
+
+
+class UserPercolateQueryRequestSerializer(SearchResponseSerializer):
+    """
+    SearchResponseSerializer with OpenAPI annotations for Content Files search
+    """
+
+    @extend_schema_field(PercolateQuerySerializer(many=True))
     def get_results():
         return super().get_results()
 

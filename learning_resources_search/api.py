@@ -23,6 +23,7 @@ from learning_resources_search.constants import (
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
+from learning_resources_search.utils import adjust_search_for_percolator
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
@@ -449,9 +450,36 @@ def generate_aggregation_clauses(search_params, filter_clauses):
     return aggregation_clauses
 
 
-def execute_learn_search(search_params):
+def order_params(params):
     """
-    Execute a learning resources search based on the query
+    Order params dict by keys and sorts all contained lists.
+    """
+    if isinstance(params, dict):
+        return {k: order_params(v) for k, v in sorted(params.items())}
+    elif isinstance(params, list):
+        return sorted(order_params(item) for item in params)
+    else:
+        return params
+
+
+def adjust_query_for_percolator(query_params):
+    search = construct_search(query_params)
+    return adjust_search_for_percolator(search).to_dict()["query"]
+
+
+def adjust_original_query_for_percolate(query):
+    """
+    Remove keys that are irrelevent when storing original queries
+    for percolate uniqueness such as "limit" and "offset"
+    """
+    for key in ["limit", "offset", "sortby"]:
+        query.pop(key, None)
+    return order_params(query)
+
+
+def construct_search(search_params):
+    """
+    Construct a learning resources search based on the query
 
 
     Args:
@@ -459,7 +487,7 @@ def execute_learn_search(search_params):
         LearningResourcesSearchRequestSerializer
 
     Returns:
-        dict: The opensearch response dict
+        opensearch_dsl.Search: an opensearch search instance
     """
 
     if (
@@ -517,7 +545,116 @@ def execute_learn_search(search_params):
         )
         search = search.extra(aggs=aggregation_clauses)
 
+    return search
+
+
+def execute_learn_search(search_params):
+    """
+    Execute a learning resources search based on the query
+
+
+    Args:
+        search_params (dict): The opensearch query params returned from
+        LearningResourcesSearchRequestSerializer
+
+    Returns:
+        dict: The opensearch response dict
+    """
+
+    search = construct_search(search_params)
+
     return search.execute().to_dict()
+
+
+def subscribe_user_to_search_query(user, search_params):
+    from learning_resources_search.models import PercolateQuery
+
+    """
+    Subscribe a user to a search query
+
+
+    Args:
+        user: The User to subscribe
+        search_params (dict): The opensearch query params returned from
+        LearningResourcesSearchRequestSerializer
+
+    Returns:
+        dict: The opensearch response dict
+    """
+    adjusted_original_query = adjust_original_query_for_percolate(search_params)
+
+    percolate_query, _ = PercolateQuery.objects.get_or_create(
+        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        original_query=adjusted_original_query,
+        query=adjust_query_for_percolator(adjusted_original_query),
+    )
+    if not percolate_query.users.filter(id=user.id).exists():
+        percolate_query.users.add(user)
+    return percolate_query
+
+
+def unsubscribe_user_from_search_query(user, search_params):
+    from learning_resources_search.models import PercolateQuery
+
+    """
+    Unsubscribe a user to a search query
+
+
+    Args:
+        user: The User to unsubscribe
+        search_params (dict): The opensearch query params returned from
+        LearningResourcesSearchRequestSerializer
+
+    Returns:
+        dict: The opensearch response dict
+    """
+    adjusted_original_query = adjust_original_query_for_percolate(search_params)
+    percolate_query = PercolateQuery.objects.filter(
+        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        original_query=adjusted_original_query,
+        query=adjust_query_for_percolator(adjusted_original_query),
+    ).first()
+    return unsubscribe_user_from_percolate_query(user, percolate_query)
+
+
+def unsubscribe_user_from_percolate_query(user, percolate_query):
+    """
+    Unsubscribe a user to a search percolate query
+
+
+    Args:
+        user: The User to unsubscribe
+        percolate_query: The PercolateQuery object to unsub from
+    Returns:
+        dict: The percolate query
+    """
+    if percolate_query.users.filter(id=user.id).exists():
+        percolate_query.users.remove(user)
+    return percolate_query
+
+
+def user_subscribed_to_query(user, search_params):
+    from learning_resources_search.models import PercolateQuery
+
+    """
+    Check if a user is subscribed to a search query
+
+
+    Args:
+        user: The User to check
+        search_params (dict): The opensearch query params returned from
+        LearningResourcesSearchRequestSerializer
+
+    Returns:
+        bool: Whether or not the user has subscribed to the query
+    """
+    percolate_query = PercolateQuery.objects.filter(
+        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        original_query=adjust_original_query_for_percolate(search_params),
+    ).first()
+    return (
+        percolate_query.users.filter(id=user.id).exists() if percolate_query else False
+    )
 
 
 def get_similar_topics(

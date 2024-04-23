@@ -1,13 +1,23 @@
 """URLs for search"""
 
 from django.urls import include, path, re_path
+from rest_framework.routers import SimpleRouter
 
 from learning_resources_search.views import (
     ContentFileSearchView,
     LearningResourcesSearchView,
+    UserSearchSubscriptionViewSet,
+)
+
+router = SimpleRouter()
+router.register(
+    r"learning_resources_user_subscription",
+    UserSearchSubscriptionViewSet,
+    basename="learning_resources_user_subscription",
 )
 
 v1_urls = [
+    *router.urls,
     path(
         r"learning_resources_search/",
         LearningResourcesSearchView.as_view(),

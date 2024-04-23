@@ -27,4 +27,4 @@ class PercolateQuery(TimestampedModel):
         return f"Percolate query {self.id}: {self.query}"
 
     class Meta:
-        unique_together = (("source_type", "query"),)
+        unique_together = (("source_type", "original_query"),)
