@@ -1,7 +1,6 @@
 {
   "name": "api",
   "version": "workspace:*",
-  "packageManager": "yarn@4.1.1",
   "private": true,
   "sideEffects": false,
   "exports": {
