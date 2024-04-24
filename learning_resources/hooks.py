@@ -25,7 +25,7 @@ class LearningResourceHooks:
         """Trigger actions after a percolate query is deleted"""
 
     @hookspec
-    def resource_upserted(self, resource):
+    def resource_upserted(self, resource, percolate):
         """Trigger actions after a learning resource is created or updated"""
 
     @hookspec
