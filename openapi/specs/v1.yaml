@@ -309,7 +309,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContentFileeSearchResponse'
+                $ref: '#/components/schemas/ContentFileSearchResponse'
           description: ''
   /api/v1/contentfiles/:
     get:
@@ -790,12 +790,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -811,6 +813,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -1018,7 +1022,7 @@ paths:
   /api/v1/courses/new/:
     get:
       operationId: courses_new_list
-      description: Get a paginated list of newly released Courses.
+      description: Get a paginated list of popular Courses.
       summary: List New
       parameters:
       - in: query
@@ -1282,12 +1286,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -1303,6 +1309,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -1320,6 +1328,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedCourseResourceList'
+          description: ''
+  /api/v1/courses/popular/:
+    get:
+      operationId: courses_popular_retrieve
+      description: Retrieve a list of popular resources
+      summary: List Popular
+      tags:
+      - courses
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseResource'
           description: ''
   /api/v1/courses/upcoming/:
     get:
@@ -1588,12 +1610,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -1609,6 +1633,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -1942,12 +1968,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -1963,6 +1991,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -2236,7 +2266,7 @@ paths:
   /api/v1/learning_resources/new/:
     get:
       operationId: learning_resources_new_list
-      description: Get a paginated list of newly released Learning Resources.
+      description: Get a paginated list of popular Learning Resources.
       summary: List New
       parameters:
       - in: query
@@ -2500,12 +2530,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -2521,6 +2553,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -2538,6 +2572,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedLearningResourceList'
+          description: ''
+  /api/v1/learning_resources/popular/:
+    get:
+      operationId: learning_resources_popular_retrieve
+      description: Retrieve a list of popular resources
+      summary: List Popular
+      tags:
+      - learning_resources
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResource'
           description: ''
   /api/v1/learning_resources/upcoming/:
     get:
@@ -2806,12 +2854,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -2827,6 +2877,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -3168,6 +3220,8 @@ paths:
           - -start_date
           - mitcoursenumber
           - -mitcoursenumber
+          - views
+          - -views
           type: string
           minLength: 1
         description: |-
@@ -3185,6 +3239,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -3201,6 +3257,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LearningResourceSearchResponse'
+          description: ''
+  /api/v1/learning_resources_user_subscription/:
+    get:
+      operationId: learning_resources_user_subscription_list
+      description: View for listing percolate query subscriptions for a user
+      tags:
+      - learning_resources_user_subscription
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PercolateQuery'
+          description: ''
+  /api/v1/learning_resources_user_subscription/{id}/unsubscribe/:
+    delete:
+      operationId: learning_resources_user_subscription_unsubscribe_destroy
+      description: |-
+        Unsubscribe a user from a query
+
+        Args:
+        pk (integer): The id of the query
+
+        Returns:
+        PercolateQuerySerializer: The percolate query
+      summary: Unsubscribe user from query
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - learning_resources_user_subscription
+      responses:
+        '204':
+          description: No response body
+  /api/v1/learning_resources_user_subscription/subscribe/:
+    post:
+      operationId: learning_resources_user_subscription_subscribe_create
+      description: Subscribe a user to query
+      summary: Subscribe user to query
+      tags:
+      - learning_resources_user_subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningResourcesSearchRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LearningResourcesSearchRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LearningResourcesSearchRequestRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PercolateQuery'
           description: ''
   /api/v1/learningpaths/:
     get:
@@ -3469,12 +3588,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -3490,6 +3611,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -4121,12 +4244,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -4142,6 +4267,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -4448,12 +4575,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -4469,6 +4598,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -4861,12 +4992,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -4882,6 +5015,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -4924,7 +5059,7 @@ paths:
   /api/v1/programs/new/:
     get:
       operationId: programs_new_list
-      description: Get a paginated list of newly released Programs.
+      description: Get a paginated list of popular Programs.
       summary: List New
       parameters:
       - in: query
@@ -5188,12 +5323,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -5209,6 +5346,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -5226,6 +5365,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedProgramResourceList'
+          description: ''
+  /api/v1/programs/popular/:
+    get:
+      operationId: programs_popular_retrieve
+      description: Retrieve a list of popular resources
+      summary: List Popular
+      tags:
+      - programs
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramResource'
           description: ''
   /api/v1/programs/upcoming/:
     get:
@@ -5494,12 +5647,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -5515,6 +5670,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -5532,6 +5689,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedProgramResourceList'
+          description: ''
+  /api/v1/schools/:
+    get:
+      operationId: schools_list
+      description: MIT schools
+      summary: List
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - schools
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceSchoolList'
+          description: ''
+  /api/v1/schools/{id}/:
+    get:
+      operationId: schools_retrieve
+      description: MIT schools
+      summary: Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource school.
+        required: true
+      tags:
+      - schools
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResourceSchool'
           description: ''
   /api/v1/topics/:
     get:
@@ -6119,12 +6324,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -6140,6 +6347,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -6512,12 +6721,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -6533,6 +6744,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -6818,12 +7031,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -6839,6 +7054,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -7124,12 +7341,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -7145,6 +7364,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -7451,12 +7672,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -7472,6 +7695,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -7757,12 +7982,14 @@ paths:
           - -mitcoursenumber
           - -readable_id
           - -start_date
+          - -views
           - created_on
           - id
           - last_modified
           - mitcoursenumber
           - readable_id
           - start_date
+          - views
         description: |-
           Sort By
 
@@ -7778,6 +8005,8 @@ paths:
           * `-start_date` - Start Date descending
           * `mitcoursenumber` - MIT course number ascending
           * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
       - in: query
         name: topic
         schema:
@@ -7798,6 +8027,28 @@ paths:
           description: ''
 components:
   schemas:
+    AggregationsEnum:
+      enum:
+      - resource_type
+      - certification
+      - offered_by
+      - platform
+      - topic
+      - department
+      - level
+      - course_feature
+      - professional
+      type: string
+      description: |-
+        * `resource_type` - resource_type
+        * `certification` - certification
+        * `offered_by` - offered_by
+        * `platform` - platform
+        * `topic` - topic
+        * `department` - department
+        * `level` - level
+        * `course_feature` - course_feature
+        * `professional` - professional
     Article:
       type: object
       description: Serializer for LearningResourceInstructor model
@@ -7932,7 +8183,7 @@ components:
       - semester
       - topics
       - year
-    ContentFileeSearchResponse:
+    ContentFileSearchResponse:
       type: object
       description: SearchResponseSerializer with OpenAPI annotations for Content Files
         search
@@ -8111,6 +8362,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/CourseResourceResourceTypeEnum'
@@ -8169,6 +8424,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - views
     CourseResourceRequest:
       type: object
       description: Serializer for course resources
@@ -8217,6 +8473,84 @@ components:
       type: string
       enum:
       - course
+    DepartmentEnum:
+      enum:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      - '10'
+      - '11'
+      - '12'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '20'
+      - 21A
+      - 21G
+      - 21H
+      - 21L
+      - 21M
+      - '22'
+      - '24'
+      - CC
+      - CMS-W
+      - EC
+      - ES
+      - ESD
+      - HST
+      - IDS
+      - MAS
+      - PE
+      - RES
+      - STS
+      - WGS
+      type: string
+      description: |-
+        * `1` - Civil and Environmental Engineering
+        * `2` - Mechanical Engineering
+        * `3` - Materials Science and Engineering
+        * `4` - Architecture
+        * `5` - Chemistry
+        * `6` - Electrical Engineering and Computer Science
+        * `7` - Biology
+        * `8` - Physics
+        * `9` - Brain and Cognitive Sciences
+        * `10` - Chemical Engineering
+        * `11` - Urban Studies and Planning
+        * `12` - Earth, Atmospheric, and Planetary Sciences
+        * `14` - Economics
+        * `15` - Sloan School of Management
+        * `16` - Aeronautics and Astronautics
+        * `17` - Political Science
+        * `18` - Mathematics
+        * `20` - Biological Engineering
+        * `21A` - Anthropology
+        * `21G` - Global Studies and Languages
+        * `21H` - History
+        * `21L` - Literature
+        * `21M` - Music and Theater Arts
+        * `22` - Nuclear Science and Engineering
+        * `24` - Linguistics and Philosophy
+        * `CC` - Concourse
+        * `CMS-W` - Comparative Media Studies/Writing
+        * `EC` - Edgerton Center
+        * `ES` - Experimental Study Group
+        * `ESD` - Engineering Systems Division
+        * `HST` - Health Sciences and Technology
+        * `IDS` - Institute for Data, Systems, and Society
+        * `MAS` - Media Arts and Sciences
+        * `PE` - Athletics, Physical Education and Recreation
+        * `RES` - Supplemental Resources
+        * `STS` - Science, Technology, and Society
+        * `WGS` - Women's and Gender Studies
     LearningPath:
       type: object
       description: Serializer for the LearningPath model
@@ -8335,6 +8669,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/LearningPathResourceResourceTypeEnum'
@@ -8391,6 +8729,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - views
     LearningPathResourceRequest:
       type: object
       description: CRUD serializer for LearningPath resources
@@ -8455,22 +8794,9 @@ components:
           podcast_episode: '#/components/schemas/PodcastEpisodeResource'
           video: '#/components/schemas/VideoResource'
           video_playlist: '#/components/schemas/VideoPlaylistResource'
-    LearningResourceContentTag:
+    LearningResourceBaseDepartment:
       type: object
-      description: Serializer for LearningResourceContentTag
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          maxLength: 128
-      required:
-      - id
-      - name
-    LearningResourceDepartment:
-      type: object
-      description: Serializer for LearningResourceDepartment
+      description: Serializer for LearningResourceDepartment, minus school
       properties:
         department_id:
           type: string
@@ -8487,9 +8813,83 @@ components:
       - channel_url
       - department_id
       - name
+    LearningResourceBaseSchool:
+      type: object
+      description: Base serializer for LearningResourceSchool model, minus departments
+        list
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 256
+        url:
+          type: string
+          format: uri
+          maxLength: 200
+      required:
+      - id
+      - name
+      - url
+    LearningResourceBaseSchoolRequest:
+      type: object
+      description: Base serializer for LearningResourceSchool model, minus departments
+        list
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 256
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 200
+      required:
+      - name
+      - url
+    LearningResourceContentTag:
+      type: object
+      description: Serializer for LearningResourceContentTag
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+      required:
+      - id
+      - name
+    LearningResourceDepartment:
+      type: object
+      description: Full serializer for LearningResourceDepartment, including school
+      properties:
+        department_id:
+          type: string
+          maxLength: 6
+        name:
+          type: string
+          maxLength: 256
+        channel_url:
+          type: string
+          description: Get the channel url for the department if it exists
+          readOnly: true
+          nullable: true
+        school:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceBaseSchool'
+          readOnly: true
+          nullable: true
+      required:
+      - channel_url
+      - department_id
+      - name
+      - school
     LearningResourceDepartmentRequest:
       type: object
-      description: Serializer for LearningResourceDepartment
+      description: Full serializer for LearningResourceDepartment, including school
       properties:
         department_id:
           type: string
@@ -8904,6 +9304,30 @@ components:
       - level
       - run_id
       - title
+    LearningResourceSchool:
+      type: object
+      description: Serializer for LearningResourceSchool model, including list of
+        departments
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 256
+        url:
+          type: string
+          format: uri
+          maxLength: 200
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceBaseDepartment'
+      required:
+      - departments
+      - id
+      - name
+      - url
     LearningResourceSearchResponse:
       type: object
       description: |-
@@ -8976,6 +9400,160 @@ components:
       - channel_url
       - id
       - name
+    LearningResourcesSearchRequestRequest:
+      type: object
+      properties:
+        q:
+          type: string
+          minLength: 1
+          description: The search text
+        offset:
+          type: integer
+          description: The initial index from which to return the results
+        limit:
+          type: integer
+          description: Number of results to return per page
+        offered_by:
+          type: array
+          items:
+            $ref: '#/components/schemas/OfferedByEnum'
+          description: "The organization that offers the learning resource       \
+            \      \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n\
+            * `xpro` - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n\
+            * `see` - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
+            * `ctl` - Center for Transportation & Logistics"
+        platform:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlatformEnum'
+          description: "The platform on which the learning resource id offered   \
+            \          \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
+            * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
+            * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan\
+            \ Executive Education\n* `scc` - Schwarzman College of Computing\n* `ctl`\
+            \ - Center for Transportation & Logistics\n* `whu` - WHU\n* `susskind`\
+            \ - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n\
+            * `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+        topic:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          description: The topic name. To see a list of options go to api/v1/topics/
+        id:
+          type: array
+          items:
+            type: integer
+          description: The id value for the learning resource
+        sortby:
+          allOf:
+          - $ref: '#/components/schemas/SortbyEnum'
+          description: |-
+            If the parameter starts with '-' the sort is in descending order
+
+            * `id` - Object ID ascending
+            * `-id` - Object ID descending
+            * `readable_id` - Readable ID ascending
+            * `-readable_id` - Readable ID descending
+            * `last_modified` - Last Modified Date ascending
+            * `-last_modified` - Last Modified Date descending
+            * `created_on` - Creation Date ascending
+            * `-created_on` - CreationDate descending
+            * `start_date` - Start Date ascending
+            * `-start_date` - Start Date descending
+            * `mitcoursenumber` - MIT course number ascending
+            * `-mitcoursenumber` - MIT course number descending
+            * `views` - Popularity ascending
+            * `-views` - Popularity descending
+        resource_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourcesSearchRequestResourceTypeEnum'
+          description: "The type of learning resource             \n\n* `course` -\
+            \ course\n* `program` - program\n* `learning_path` - learning path\n*\
+            \ `podcast` - podcast\n* `podcast_episode` - podcast episode\n* `video`\
+            \ - video\n* `video_playlist` - video playlist"
+        professional:
+          type: boolean
+          nullable: true
+        certification:
+          type: boolean
+          nullable: true
+          description: True if the learning resource offers a certificate
+        department:
+          type: array
+          items:
+            $ref: '#/components/schemas/DepartmentEnum'
+          description: "The department that offers the learning resource         \
+            \    \n\n* `1` - Civil and Environmental Engineering\n* `2` - Mechanical\
+            \ Engineering\n* `3` - Materials Science and Engineering\n* `4` - Architecture\n\
+            * `5` - Chemistry\n* `6` - Electrical Engineering and Computer Science\n\
+            * `7` - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n\
+            * `10` - Chemical Engineering\n* `11` - Urban Studies and Planning\n*\
+            \ `12` - Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n\
+            * `15` - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
+            * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological\
+            \ Engineering\n* `21A` - Anthropology\n* `21G` - Global Studies and Languages\n\
+            * `21H` - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n\
+            * `22` - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
+            * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
+            \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
+            \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS`\
+            \ - Institute for Data, Systems, and Society\n* `MAS` - Media Arts and\
+            \ Sciences\n* `PE` - Athletics, Physical Education and Recreation\n* `RES`\
+            \ - Supplemental Resources\n* `STS` - Science, Technology, and Society\n\
+            * `WGS` - Women's and Gender Studies"
+        level:
+          type: array
+          items:
+            $ref: '#/components/schemas/LevelEnum'
+        course_feature:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          description: The course feature. Possible options are at api/v1/course_features/
+        aggregations:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregationsEnum'
+          description: Show resource counts by category
+    LearningResourcesSearchRequestResourceTypeEnum:
+      enum:
+      - course
+      - program
+      - learning_path
+      - podcast
+      - podcast_episode
+      - video
+      - video_playlist
+      type: string
+      description: |-
+        * `course` - course
+        * `program` - program
+        * `learning_path` - learning path
+        * `podcast` - podcast
+        * `podcast_episode` - podcast episode
+        * `video` - video
+        * `video_playlist` - video playlist
+    LevelEnum:
+      enum:
+      - undergraduate
+      - graduate
+      - high_school
+      - noncredit
+      - advanced
+      - intermediate
+      - introductory
+      type: string
+      description: |-
+        * `undergraduate` - Undergraduate
+        * `graduate` - Graduate
+        * `high_school` - High School
+        * `noncredit` - Non-Credit
+        * `advanced` - Advanced
+        * `intermediate` - Intermediate
+        * `introductory` - Introductory
     MicroLearningPathRelationship:
       type: object
       description: Serializer containing only parent and child ids for a learning
@@ -9014,6 +9592,28 @@ components:
       - child
       - id
       - parent
+    OfferedByEnum:
+      enum:
+      - mitx
+      - ocw
+      - bootcamps
+      - xpro
+      - csail
+      - mitpe
+      - see
+      - scc
+      - ctl
+      type: string
+      description: |-
+        * `mitx` - MITx
+        * `ocw` - OCW
+        * `bootcamps` - Bootcamps
+        * `xpro` - xPRO
+        * `csail` - CSAIL
+        * `mitpe` - Professional Education
+        * `see` - Sloan Executive Education
+        * `scc` - Schwarzman College of Computing
+        * `ctl` - Center for Transportation & Logistics
     PaginatedArticleList:
       type: object
       required:
@@ -9267,6 +9867,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceRelationship'
+    PaginatedLearningResourceSchoolList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningResourceSchool'
     PaginatedLearningResourceTopicList:
       type: object
       required:
@@ -9540,6 +10163,66 @@ components:
           type: string
         privacy_level:
           $ref: '#/components/schemas/PrivacyLevelEnum'
+    PercolateQuery:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        original_query: {}
+        query: {}
+        source_type:
+          $ref: '#/components/schemas/SourceTypeEnum'
+        users:
+          type: array
+          items:
+            type: integer
+      required:
+      - id
+      - original_query
+      - query
+      - source_type
+      - users
+    PlatformEnum:
+      enum:
+      - edx
+      - ocw
+      - oll
+      - mitxonline
+      - bootcamps
+      - xpro
+      - csail
+      - mitpe
+      - see
+      - scc
+      - ctl
+      - whu
+      - susskind
+      - globalalumni
+      - simplilearn
+      - emeritus
+      - podcast
+      - youtube
+      type: string
+      description: |-
+        * `edx` - edX
+        * `ocw` - OCW
+        * `oll` - Open Learning Library
+        * `mitxonline` - MITx Online
+        * `bootcamps` - Bootcamps
+        * `xpro` - xPRO
+        * `csail` - CSAIL
+        * `mitpe` - Professional Education
+        * `see` - Sloan Executive Education
+        * `scc` - Schwarzman College of Computing
+        * `ctl` - Center for Transportation & Logistics
+        * `whu` - WHU
+        * `susskind` - Susskind
+        * `globalalumni` - Global Alumni
+        * `simplilearn` - Simplilearn
+        * `emeritus` - Emeritus
+        * `podcast` - Podcast
+        * `youtube` - YouTube
     Podcast:
       type: object
       description: Serializer for Podcasts
@@ -9676,6 +10359,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastEpisodeResourceResourceTypeEnum'
@@ -9734,6 +10421,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - views
     PodcastEpisodeResourceRequest:
       type: object
       description: Serializer for podcast episode resources
@@ -9869,6 +10557,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastResourceResourceTypeEnum'
@@ -9927,6 +10619,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - views
     PodcastResourceRequest:
       type: object
       description: Serializer for podcast resources
@@ -10204,6 +10897,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/ProgramResourceResourceTypeEnum'
@@ -10262,6 +10959,7 @@ components:
       - runs
       - title
       - user_list_parents
+      - views
     ProgramResourceRequest:
       type: object
       description: Serializer for program resources
@@ -10340,6 +11038,43 @@ components:
         * `podcast_episode` - podcast_episode
         * `video` - video
         * `video_playlist` - video_playlist
+    SortbyEnum:
+      enum:
+      - id
+      - -id
+      - readable_id
+      - -readable_id
+      - last_modified
+      - -last_modified
+      - created_on
+      - -created_on
+      - start_date
+      - -start_date
+      - mitcoursenumber
+      - -mitcoursenumber
+      - views
+      - -views
+      type: string
+      description: |-
+        * `id` - Object ID ascending
+        * `-id` - Object ID descending
+        * `readable_id` - Readable ID ascending
+        * `-readable_id` - Readable ID descending
+        * `last_modified` - Last Modified Date ascending
+        * `-last_modified` - Last Modified Date descending
+        * `created_on` - Creation Date ascending
+        * `-created_on` - CreationDate descending
+        * `start_date` - Start Date ascending
+        * `-start_date` - Start Date descending
+        * `mitcoursenumber` - MIT course number ascending
+        * `-mitcoursenumber` - MIT course number descending
+        * `views` - Popularity ascending
+        * `-views` - Popularity descending
+    SourceTypeEnum:
+      enum:
+      - search_subscription_type
+      type: string
+      description: '* `search_subscription_type` - search_subscription_type'
     UserList:
       type: object
       description: Simplified serializer for UserList model.
@@ -10561,6 +11296,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoPlaylistResourceResourceTypeEnum'
@@ -10619,6 +11358,7 @@ components:
       - title
       - user_list_parents
       - video_playlist
+      - views
     VideoPlaylistResourceRequest:
       type: object
       description: Serializer for video playlist resources
@@ -10744,6 +11484,10 @@ components:
             $ref: '#/components/schemas/MicroUserListRelationship'
           nullable: true
           readOnly: true
+        views:
+          type: integer
+          description: Return the number of views for the resource.
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoResourceResourceTypeEnum'
@@ -10802,6 +11546,7 @@ components:
       - title
       - user_list_parents
       - video
+      - views
     VideoResourceRequest:
       type: object
       description: Serializer for video resources

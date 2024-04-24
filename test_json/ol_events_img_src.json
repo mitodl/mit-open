@@ -1,0 +1,59 @@
+{
+  "jsonapi": {
+    "version": "1.0",
+    "meta": {
+      "links": {
+        "self": {
+          "href": "http://jsonapi.org/format/1.0/"
+        }
+      }
+    }
+  },
+  "data": {
+    "type": "file--file",
+    "id": "2f88a245-fc9f-42df-8062-2049d176fbdc",
+    "links": {
+      "self": {
+        "href": "https://openlearning.mit.edu/jsonapi/file/file/2f88a245-fc9f-42df-8062-2049d176fbdc"
+      }
+    },
+    "attributes": {
+      "drupal_internal__fid": 165614,
+      "langcode": "en",
+      "filename": "DEDP-Banner-webinar-2024.jpg",
+      "uri": {
+        "value": "public://event-images/DEDP-Banner-webinar-2024.jpg",
+        "url": "/sites/default/files/event-images/DEDP-Banner-webinar-2024.jpg"
+      },
+      "filemime": "image/jpeg",
+      "filesize": 84609,
+      "status": true,
+      "created": "2024-03-19T14:09:53+00:00",
+      "changed": "2024-03-19T14:10:24+00:00"
+    },
+    "relationships": {
+      "uid": {
+        "data": {
+          "type": "user--user",
+          "id": "5f1eaa3d-abfa-4f8c-a5ed-ebe582e99f61",
+          "meta": {
+            "drupal_internal__target_id": 7
+          }
+        },
+        "links": {
+          "related": {
+            "href": "https://openlearning.mit.edu/jsonapi/file/file/2f88a245-fc9f-42df-8062-2049d176fbdc/uid"
+          },
+          "self": {
+            "href": "https://openlearning.mit.edu/jsonapi/file/file/2f88a245-fc9f-42df-8062-2049d176fbdc/relationships/uid"
+          }
+        }
+      }
+    }
+  },
+  "links": {
+    "self": {
+      "href": "https://openlearning.mit.edu/jsonapi/media/event_image/20f69b29-2264-49da-b96b-ee77d1b37480/field_media_image?resourceVersion=id%3A3490"
+    }
+  }
+}

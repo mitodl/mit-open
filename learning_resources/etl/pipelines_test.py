@@ -334,3 +334,29 @@ def test_prolearn_courses_etl():
     )
 
     assert result == mock_load_courses.return_value
+
+
+def test_posthog_etl():
+    """Verify that posthog etl pipeline executes correctly"""
+
+    with reload_mocked_pipeline(
+        patch(
+            "learning_resources.etl.posthog.posthog_extract_lrd_view_events",
+            autospec=True,
+        ),
+        patch(
+            "learning_resources.etl.posthog.posthog_transform_lrd_view_events",
+            autospec=True,
+        ),
+        patch(
+            "learning_resources.etl.posthog.load_posthog_lrd_view_events", autospec=True
+        ),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_events = patches
+        result = pipelines.posthog_etl()
+
+    mock_extract.assert_called_once_with()
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+    mock_load_events.assert_called_once_with(mock_transform.return_value)
+
+    assert result == mock_load_events.return_value

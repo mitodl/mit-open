@@ -18902,7 +18902,7 @@ __metadata:
     ol-test-utilities: "npm:0.0.0"
     ol-utilities: "npm:0.0.0"
     ol-widgets: "npm:0.0.0"
-    posthog-js: "npm:^1.116.6"
+    posthog-js: "npm:^1.128.2"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-dotdotdot: "npm:^1.3.1"
@@ -21309,13 +21309,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.116.6":
-  version: 1.120.0
-  resolution: "posthog-js@npm:1.120.0"
+"posthog-js@npm:^1.128.2":
+  version: 1.128.5
+  resolution: "posthog-js@npm:1.128.5"
   dependencies:
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
-  checksum: 10c0/aa4b35b739791fa74a4c7b087b4aa774b31f5460213c36b78ee8346bfa1caf8e616e101f28188b75602176ce086af9976f5497374e04204c782e79d9da9ebf75
+  checksum: 10c0/2473f62fbf6e9a3c3c78b1882d59d49e888f0ab9122eac46b47a90fef6daf5a2fd011269222ced1d327f1088f76a97263fa6a2f9b667bce3fc1ec05c48b319e6
   languageName: node
   linkType: hard
 

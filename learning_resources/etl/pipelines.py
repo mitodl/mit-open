@@ -15,6 +15,7 @@ from learning_resources.etl import (
     ocw,
     oll,
     podcast,
+    posthog,
     prolearn,
     xpro,
     youtube,
@@ -148,3 +149,9 @@ def ocw_courses_etl(
 
 
 youtube_etl = compose(loaders.load_video_channels, youtube.transform, youtube.extract)
+
+posthog_etl = compose(
+    posthog.load_posthog_lrd_view_events,
+    posthog.posthog_transform_lrd_view_events,
+    posthog.posthog_extract_lrd_view_events,
+)

@@ -65,10 +65,13 @@ class ChannelPlugin:
         Returns:
             tuple(FieldChannel, bool): Channel and "upserted" boolean
         """
-        dept_detail = ChannelDepartmentDetail.objects.filter(
-            department=department
+        channel = FieldChannel.objects.filter(
+            department_detail__department=department
         ).first()
-        if overwrite or not dept_detail:
+        if channel and not department.school:
+            channel.delete()
+            channel = None
+        elif department.school and (overwrite or not channel):
             channel, _ = FieldChannel.objects.update_or_create(
                 name=slugify(department.name),
                 channel_type=ChannelType.department.name,
@@ -81,7 +84,7 @@ class ChannelPlugin:
                 channel=channel, department=department
             )
             return channel, True
-        return dept_detail.channel, False
+        return channel, False
 
     @hookimpl
     def department_delete(self, department):

@@ -1,94 +1,90 @@
 """Tests for ol_events"""
 
+import datetime
+import json
+from pathlib import Path
+
 import pytest
-from bs4 import BeautifulSoup as Soup
-from requests import HTTPError
 
-from news_events.constants import FeedType
 from news_events.etl import ol_events
-from news_events.etl.ol_events import OL_EVENTS_URLS
 
 
-@pytest.fixture(autouse=True)
-def mock_get_index_soup(mocker, ol_events_html_data):
+@pytest.fixture()
+def mock_get_json_data(mocker, ol_events_json_data):
+    """Mock requests.get to return json data"""
     return mocker.patch(
-        "news_events.etl.ol_events.get_soup",
-        side_effect=[Soup(html, "lxml") for html in ol_events_html_data],
+        "news_events.etl.utils.requests.get",
+        side_effect=[
+            mocker.Mock(json=mocker.Mock(return_value=json_data))
+            for json_data in ol_events_json_data
+        ],
     )
 
 
-def test_extract():
-    """Extract should return a list of expected BeautifulSoup objects with urls"""
-    extracted = ol_events.extract()
-    assert extracted[0][1] == ol_events.OL_EVENTS_URLS[0]
-    index_soup = extracted[0][0]
-    assert (
-        index_soup.title.text
-        == "Attend an event hosted by MIT Open Learning | Open Learning"
-    )
+@pytest.fixture()
+def expected_event():
+    """Return the expected event data"""
+    with Path.open(Path("test_json/ol_events_output.json")) as in_file:
+        return json.load(in_file)
 
 
-def test_extract_bad_data(mocker):
-    """HTTP errors during processing should be logged"""
-    mock_log = mocker.patch("news_events.etl.ol_events.log.exception")
-    mocker.patch(
-        "news_events.etl.ol_events.get_soup",
-        side_effect=[HTTPError("HTTP Error 404: Not Found")],
-    )
-    extracted = ol_events.extract()
-    assert len(extracted) == 0
-    mock_log.assert_called_once_with("Error fetching source url %s", OL_EVENTS_URLS[0])
+def test_extract(ol_events_json_data, mock_get_json_data):
+    """Extract should return an expected dict object"""
+    assert ol_events.extract() == ol_events_json_data[0]
 
 
-def test_transform():
+def test_transform(mock_get_json_data, ol_events_json_data, expected_event):
     """Transform should return expected JSON"""
+    expected_event["detail"]["event_datetime"] = datetime.datetime.strptime(
+        expected_event["detail"]["event_datetime"], "%Y-%m-%dT%H:%M:%SZ"
+    ).replace(tzinfo=datetime.UTC)
     extracted = ol_events.extract()
+    assert extracted == ol_events_json_data[0]
     sources = ol_events.transform(extracted)
     assert len(sources) == 1
     source = sources[0]
-    assert source["url"] == "https://openlearning.mit.edu/events"
-    assert (
-        source["title"] == "Attend an event hosted by MIT Open Learning | Open Learning"
+    assert source["items"] == [expected_event]
+
+
+def transform_event_expired(ol_events_json_data):
+    """Transform should not return old events"""
+    item_data = ol_events_json_data[0]
+    item_data["attributes"]["field_event_date"]["value"] = "1999-12-31T23:59:59Z"
+    assert ol_events.transform_event(item_data) is None
+
+
+def test_extract_image_data_missing_text_url(ol_events_json_data):
+    """extract_event_image should return expected result when missing image text metadata url"""
+    image_data = ol_events_json_data[0]["data"][0]["relationships"]["field_event_image"]
+    image_data["links"]["related"]["href"] = None
+    assert ol_events.extract_event_image(image_data) == ({}, {})
+
+
+def test_extract_image_data_missing_src_url(mocker, ol_events_json_data):
+    """extract_event_image should return expected result when missing image src metadata url"""
+    image_data = ol_events_json_data[0]["data"][0]["relationships"]["field_event_image"]
+    image_text_metadata = ol_events_json_data[1]
+    image_text_metadata["data"]["relationships"]["field_media_image"]["links"][
+        "related"
+    ]["href"] = None
+    mocker.patch(
+        "news_events.etl.utils.requests.get",
+        side_effect=[mocker.Mock(json=mocker.Mock(return_value=image_text_metadata))],
     )
-    assert source["feed_type"] == FeedType.events.name
-    assert source["description"].startswith(
-        "MIT Open Learning hosts a variety of events"
-    )
-    assert len(source["items"]) == 2
-    assert source["items"][0]["detail"]["event_datetime"] == "2024-03-19T04:00:00Z"
+    assert ol_events.extract_event_image(image_data) == (ol_events_json_data[1], {})
 
 
-@pytest.mark.parametrize(
-    ("item_html", "page_html", "expected"),
-    [
-        (
-            "<div class='event-start'>March 15, 2024 9:00 AM</div>",
-            "<span class='date-display-range'>April 15 2025 10 AM</span>",
-            "2025-04-15T14:00:00Z",
-        ),
-        (
-            "<div class='event-start'>March 15, 2024 9:00 AM</div>",
-            "<span class>2025-04-15 12 PM</span>",
-            "2024-03-15T13:00:00Z",
-        ),
-        ("<div>2024-03-15</div>", "<span>2025-04-15</span>", None),
-    ],
-)
-def test_parse_event_date(item_html, page_html, expected):
-    """parse_event_date should return the expected date"""
-    item_data = Soup(item_html, "lxml") if item_html else None
-    page_data = Soup(page_html, "lxml") if page_html else None
-    assert ol_events.parse_event_date(item_data, page_data) == expected
-
-
-@pytest.mark.parametrize(
-    ("html", "expected"),
-    [
-        ('<div class="field--name-body">Faculty</div>', "Faculty"),
-        ('<div class="field--name-header">MIT Community</div>', None),
-    ],
-)
-def test_transform_event_content(html, expected):
-    """transform_content should return the expected content"""
-    content_soup = Soup(html, "lxml")
-    assert ol_events.transform_event_content(content_soup) == expected
+@pytest.mark.parametrize("null_src_meta", [True, False])
+def test_transform_event_image_missing_data(null_src_meta, ol_events_json_data):
+    """transform_event_image should return expected result when missing metadata"""
+    image_text_metadata = {}
+    image_src_metadata = {} if null_src_meta else ol_events_json_data[2]
+    image = ol_events.transform_event_image(image_text_metadata, image_src_metadata)
+    if null_src_meta:
+        assert image is None
+    else:
+        assert image == {
+            "url": "https://openlearning.mit.edu/sites/default/files/event-images/DEDP-Banner-webinar-2024.jpg",
+            "description": None,
+            "alt": None,
+        }

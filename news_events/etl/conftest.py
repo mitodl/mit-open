@@ -1,5 +1,6 @@
 """Common fixtures for news_events tests"""
 
+import json
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -9,18 +10,21 @@ from news_events.constants import FeedType
 
 
 @pytest.fixture()
-def ol_events_html_data():
+def ol_events_json_data():
     """Catalog data fixture"""
-    html_files = [
-        "test_html/test_ol_events_index_page.html",
-        "test_html/test_ol_events_item_1.html",
-        "test_html/test_ol_events_item_2.html",
+    json_files = [
+        "test_json/ol_events.json",
+        "test_json/ol_events_img_text.json",
+        "test_json/ol_events_img_src.json",
+        "test_json/ol_events_location.json",
+        "test_json/ol_events_audience.json",
+        "test_json/ol_events_topics.json",
     ]
-    pages_content = []
-    for html_file in html_files:
-        with Path.open(Path(html_file)) as in_file:
-            pages_content.append(in_file.read())
-    return pages_content
+    json_data = []
+    for json_file in json_files:
+        with Path.open(Path(json_file)) as in_file:
+            json_data.append(json.load(in_file))
+    return json_data
 
 
 @pytest.fixture()

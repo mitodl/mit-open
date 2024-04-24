@@ -5,6 +5,7 @@ import random
 from datetime import UTC, timedelta
 
 import factory
+import pytz
 from factory import Faker
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyText
@@ -110,11 +111,24 @@ class LearningResourcePlatformFactory(DjangoModelFactory):
         django_get_or_create = ("code",)
 
 
+class LearningResourceSchoolFactory(DjangoModelFactory):
+    """Factory for LearningResourceDepartment"""
+
+    name = factory.Sequence(lambda n: "%03d name" % n)
+    url = factory.Faker("url")
+
+    class Meta:
+        model = models.LearningResourceSchool
+
+
 class LearningResourceDepartmentFactory(DjangoModelFactory):
     """Factory for LearningResourceDepartment"""
 
     department_id = factory.Sequence(lambda n: "%03d" % n)
     name = factory.Sequence(lambda n: "%03d name" % n)
+    school = factory.SubFactory(
+        "learning_resources.factories.LearningResourceSchoolFactory"
+    )
 
     class Meta:
         model = models.LearningResourceDepartment
@@ -306,6 +320,22 @@ class LearningResourceFactory(DjangoModelFactory):
                 constants.LearningResourceType.course.name,
             )
         )
+
+
+class LearningResourceViewEventFactory(DjangoModelFactory):
+    """Factory for Learning Resource view events"""
+
+    learning_resource = factory.SubFactory(
+        LearningResourceFactory,
+        is_course=True,
+        create_course=False,
+    )
+    event_date = factory.Faker("date_time_this_year", tzinfo=pytz.utc)
+
+    class Meta:
+        """Meta options for the factory"""
+
+        model = models.LearningResourceViewEvent
 
 
 class CourseFactory(DjangoModelFactory):

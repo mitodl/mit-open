@@ -16,6 +16,8 @@ class Command(BaseCommand):
 
         self.stdout.write("Updating offered_by data")
         start = now_in_utc()
-        upsert_offered_by_data()
+        offerors = upsert_offered_by_data()
         total_seconds = (now_in_utc() - start).total_seconds()
-        self.stdout.write(f"Update of offerors finished, took {total_seconds} seconds")
+        self.stdout.write(
+            f"Update of {len(offerors)} offerors finished, took {total_seconds} seconds"
+        )

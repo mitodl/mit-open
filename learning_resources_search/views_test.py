@@ -1,8 +1,12 @@
 """Tests for search views"""
 
+import json
+import random
 from types import SimpleNamespace
 
+import factory
 import pytest
+from django.db.models import signals
 from django.urls import reverse
 from opensearchpy.exceptions import TransportError
 from rest_framework.renderers import JSONRenderer
@@ -259,3 +263,131 @@ def test_content_file_search_with_extra_params(
     assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
         {"non_field_errors": ["Unknown field(s): monkey"]}
     )
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_user_subscribe_to_search(client, user):
+    """Test subscribing user from search"""
+    client.force_login(user)
+    params = {"q": "monkey"}
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
+    assert user.percolate_queries.count() == 0
+    resp = client.post(sub_url, json.dumps(params), content_type="application/json")
+    assert user.percolate_queries.count() == 1
+    assert resp.json()["id"] == user.percolate_queries.first().id
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_user_unsubscribe_to_search(client, user):
+    """Test unsubscribing user from search"""
+
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
+
+    client.force_login(user)
+    params = {"q": "monkey"}
+    assert user.percolate_queries.count() == 0
+    client.post(sub_url, json.dumps(params), content_type="application/json")
+    assert user.percolate_queries.count() == 1
+    unsub_url = reverse(
+        "lr_search:v1:learning_resources_user_subscription-unsubscribe",
+        args=[user.percolate_queries.first().id],
+    )
+    client.delete(unsub_url)
+    assert user.percolate_queries.count() == 0
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_user_unsubscribe_to_search_by_id(client, user):
+    """Test unsubscribing user from search"""
+
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
+
+    client.force_login(user)
+    params = {"q": "monkey"}
+    assert user.percolate_queries.count() == 0
+    client.post(sub_url, json.dumps(params), content_type="application/json")
+    assert user.percolate_queries.count() == 1
+    unsub_url = reverse(
+        "lr_search:v1:learning_resources_user_subscription-unsubscribe",
+        args=[user.percolate_queries.first().id],
+    )
+    client.delete(unsub_url)
+    assert user.percolate_queries.count() == 0
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_user_subscribed_to_search(client, user):
+    """Test user subscribed get"""
+    client.force_login(user)
+    params = {"q": "monkey"}
+    list_url = reverse("lr_search:v1:learning_resources_user_subscription-list")
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
+    assert user.percolate_queries.count() == 0
+    client.post(sub_url, json.dumps(params), content_type="application/json")
+    assert user.percolate_queries.count() == 1
+    response = client.get(list_url, params).json()
+    assert len(response) > 0
+    unsub_url = reverse(
+        "lr_search:v1:learning_resources_user_subscription-unsubscribe",
+        args=[user.percolate_queries.first().id],
+    )
+    client.delete(unsub_url)
+    assert user.percolate_queries.count() == 0
+    response = client.get(list_url, params).json()
+    assert len(response) == 0
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_user_sort_limit_ordering_params_generate_same_query(client, user):
+    """Test that the sortby, limit, and offset params lead to the same percolate query"""
+    client.force_login(user)
+
+    url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
+    assert user.percolate_queries.count() == 0
+    params = {"q": "monkey", "offset": 100, "limit": 1}
+    client.post(url, json.dumps(params), content_type="application/json")
+
+    params = {"q": "monkey", "sortby": "title"}
+    client.post(url, json.dumps(params), content_type="application/json")
+
+    params = {"q": "monkey", "offset": 0}
+    client.post(url, json.dumps(params), content_type="application/json")
+
+    assert user.percolate_queries.count() == 1
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_param_reordering_generates_same_query(client, user):
+    """Test that the ordering does not matter in creating the percolate query"""
+    client.force_login(user)
+
+    url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
+    assert user.percolate_queries.count() == 0
+    params = {
+        "q": "monkey",
+        "offered_by": ["mitpe", "mitx", "see"],
+        "resource_type": [
+            "podcast",
+            "video_playlist",
+            "learning_path",
+            "video",
+            "course",
+            "program",
+            "podcast_episode",
+        ],
+    }
+    client.post(url, json.dumps(params), content_type="application/json")
+    random.shuffle(params["offered_by"])
+    random.shuffle(params["resource_type"])
+    client.post(url, json.dumps(params), content_type="application/json")
+    random.shuffle(params["offered_by"])
+    random.shuffle(params["resource_type"])
+    client.post(url, json.dumps(params), content_type="application/json")
+
+    assert user.percolate_queries.count() == 1

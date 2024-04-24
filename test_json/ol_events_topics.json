@@ -1,0 +1,104 @@
+{
+  "jsonapi": {
+    "version": "1.0",
+    "meta": {
+      "links": {
+        "self": {
+          "href": "http://jsonapi.org/format/1.0/"
+        }
+      }
+    }
+  },
+  "data": [
+    {
+      "type": "taxonomy_term--event_type",
+      "id": "353c75ed-3217-45ab-840b-c0e365db86f3",
+      "links": {
+        "self": {
+          "href": "https://openlearning.mit.edu/jsonapi/taxonomy_term/event_type/353c75ed-3217-45ab-840b-c0e365db86f3?resourceVersion=id%3A94"
+        }
+      },
+      "attributes": {
+        "drupal_internal__tid": 94,
+        "drupal_internal__revision_id": 94,
+        "langcode": "en",
+        "revision_created": null,
+        "revision_log_message": null,
+        "status": true,
+        "name": "Webinar",
+        "description": null,
+        "weight": 3,
+        "changed": "2019-06-20T12:02:02+00:00",
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": null,
+          "pid": null,
+          "langcode": "en"
+        }
+      },
+      "relationships": {
+        "vid": {
+          "data": {
+            "type": "taxonomy_vocabulary--taxonomy_vocabulary",
+            "id": "95c30222-0fa3-4377-bc7e-221fce200ff4",
+            "meta": {
+              "drupal_internal__target_id": "event_type"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://openlearning.mit.edu/jsonapi/taxonomy_term/event_type/353c75ed-3217-45ab-840b-c0e365db86f3/vid?resourceVersion=id%3A94"
+            },
+            "self": {
+              "href": "https://openlearning.mit.edu/jsonapi/taxonomy_term/event_type/353c75ed-3217-45ab-840b-c0e365db86f3/relationships/vid?resourceVersion=id%3A94"
+            }
+          }
+        },
+        "revision_user": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://openlearning.mit.edu/jsonapi/taxonomy_term/event_type/353c75ed-3217-45ab-840b-c0e365db86f3/revision_user?resourceVersion=id%3A94"
+            },
+            "self": {
+              "href": "https://openlearning.mit.edu/jsonapi/taxonomy_term/event_type/353c75ed-3217-45ab-840b-c0e365db86f3/relationships/revision_user?resourceVersion=id%3A94"
+            }
+          }
+        },
+        "parent": {
+          "data": [
+            {
+              "type": "taxonomy_term--event_type",
+              "id": "virtual",
+              "meta": {
+                "links": {
+                  "help": {
+                    "href": "https://www.drupal.org/docs/8/modules/json-api/core-concepts#virtual",
+                    "meta": {
+                      "about": "Usage and meaning of the 'virtual' resource identifier."
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://openlearning.mit.edu/jsonapi/taxonomy_term/event_type/353c75ed-3217-45ab-840b-c0e365db86f3/parent?resourceVersion=id%3A94"
+            },
+            "self": {
+              "href": "https://openlearning.mit.edu/jsonapi/taxonomy_term/event_type/353c75ed-3217-45ab-840b-c0e365db86f3/relationships/parent?resourceVersion=id%3A94"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "links": {
+    "self": {
+      "href": "https://openlearning.mit.edu/jsonapi/node/event/81c5d37d-004b-4a55-91da-7dc467f3bf01/field_event_category?resourceVersion=id%3A16698"
+    }
+  }
+}

@@ -1,6 +1,21 @@
 Release Notes
 =============
 
+Version 0.9.3 (Released April 23, 2024)
+-------------
+
+- Fix index schema (#807)
+- Merge the lrd_view migration and the schools migration (#804)
+- School model and api (#788)
+- Adds ETL to pull PostHog view events into the database; adds popular resource APIs (#789)
+- Update dependency @typescript-eslint/eslint-plugin to v7 (#801)
+- Update opensearchproject/opensearch Docker tag to v2.13.0 (#794)
+- Update mcr.microsoft.com/playwright Docker tag to v1.43.1 (#793)
+- Update dependency ruff to v0.4.1 (#792)
+- Update nginx Docker tag to v1.25.5 (#791)
+- Update dependency @types/react to v18.2.79 (#790)
+- Capture page views with more information (#746)
+
 Version 0.9.2 (Released April 22, 2024)
 -------------
 
